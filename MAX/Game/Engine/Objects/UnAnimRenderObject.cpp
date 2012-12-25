@@ -1,0 +1,27 @@
+//
+//  UnAnimRenderObject.cpp
+//  TerminalExtraction
+//
+//  Created by Yarik Smirnov on 11/3/12.
+//
+//
+
+#include "UnAnimRenderObject.h"
+#include "EngineMesh.h"
+#include "Material.h"
+#include "MAXEngine.h"
+
+UnAnimRenderObject::UnAnimRenderObject(const EngineMesh *mesh):RenderObject() {
+    _mesh = mesh;
+}
+
+void UnAnimRenderObject::Render(int lod, Material *material) {
+    material->ApplyLod(lod, engine->GetShader());
+    _mesh->Bind();
+    _mesh->Render();
+    _mesh->Unbind();
+}
+
+UnAnimRenderObject::~UnAnimRenderObject() {
+    delete _mesh;
+}
