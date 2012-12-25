@@ -42,6 +42,7 @@ public:
     
     static const EngineMesh * CreateCube(void);
     static const EngineMesh * CreateFullscreenQuad(void);
+    static const EngineMesh * CreateUnitQuad(void);
     
 };
 

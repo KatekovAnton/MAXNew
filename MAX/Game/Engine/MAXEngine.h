@@ -19,6 +19,9 @@ using namespace cocos2d;
 class RenderSystem;
 class Shader;
 class SceneSystem;
+class MAXCamera;
+
+class LevelObject;
 
 class MAXEngine  {
     
@@ -34,6 +37,10 @@ class MAXEngine  {
     float             _color;
     
 public:
+    
+    std::shared_ptr<LevelObject>         _cube;
+    
+    MAXCamera              *_camera;
     
     CCDirector          *_director;
     

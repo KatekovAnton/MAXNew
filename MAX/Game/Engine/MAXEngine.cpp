@@ -20,6 +20,9 @@
 #include "Geometry.h"
 #include "SceneSystem.h"
 #include "MAXGame.h"
+#include "MAXCamera.h"
+#include "LevelObject.h"
+#include "RenderObject.h"
 
 using namespace cocos2d;
 using namespace Kompex;
@@ -39,11 +42,11 @@ void MAXEngine::Init() {
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
-//    GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth(), _renderSystem->GetDisplay()->GetDisplayHeight());
-    //_camera = new Camera(GLKVector3Make(3, 1.5, 3), GLKVector3Make(0, 0, 0), _screenRect);
+    GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth(), _renderSystem->GetDisplay()->GetDisplayHeight());
+    _camera = new MAXCamera(_screenRect);
     
     
-   // _cube = shared_ptr<LevelObject>(LevelObject::CreateCube());
+    _cube = shared_ptr<LevelObject>(LevelObject::CreateUnitQuad());
     
     
     _shader = new Shader("ShaderBackground.vsh", "ShaderBackground.fsh");
@@ -113,8 +116,7 @@ void MAXEngine::Update() {
     
     _scene->Frame(_elapsedTime);
     
-    
-    //End updating world objects
+
     _scene->EndFrame();
     _scene->UpdateScene();
 }
@@ -126,35 +128,35 @@ void MAXEngine::Draw() {
     glDisable(GL_CULL_FACE);
     
     
-//    glUseProgram(_shader->GetProgram());
-//    _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
+    glUseProgram(_shader->GetProgram());
+    _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     {
         GLenum err = glGetError();
         if (err != GL_NO_ERROR)
             printf(" glError: 0x%04X", err);
     }
-//
-//    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-//    {
-//        GLenum err = glGetError();
-//        if (err != GL_NO_ERROR)
-//            printf(" glError: 0x%04X", err);
-//    }
-//    GLKMatrix4 m1 = _cube->GetTransformMatrix();
-//    //printf("x: %f y: %f z: %f\n", m1.m30, m1.m31, m1.m32);
-//    _shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
-//    {
-//        GLenum err = glGetError();
-//        if (err != GL_NO_ERROR)
-//            printf(" glError: 0x%04X", err);
-//    }
-//    
-//    _cube->GetRenderAspect()->Render(0, _cube->GetMaterial());
-//    {
-//        GLenum err = glGetError();
-//        if (err != GL_NO_ERROR)
-//            printf(" glError: 0x%04X", err);
-//    }
+
+    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+    {
+        GLenum err = glGetError();
+        if (err != GL_NO_ERROR)
+            printf(" glError: 0x%04X", err);
+    }
+    GLKMatrix4 m1 = _cube->GetTransformMatrix();
+    //printf("x: %f y: %f z: %f\n", m1.m30, m1.m31, m1.m32);
+    _shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
+    {
+        GLenum err = glGetError();
+        if (err != GL_NO_ERROR)
+            printf(" glError: 0x%04X", err);
+    }
+    
+    _cube->GetRenderAspect()->Render(0, _cube->GetMaterial());
+    {
+        GLenum err = glGetError();
+        if (err != GL_NO_ERROR)
+            printf(" glError: 0x%04X", err);
+    }
 }
 
 float MAXEngine::ElapsedTime() {

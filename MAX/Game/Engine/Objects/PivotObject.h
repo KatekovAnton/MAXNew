@@ -38,7 +38,7 @@ public:
     bool        moved;
     
     
-    PivotObject(ObjectBehaviourModel *behaviourModel);
+    PivotObject();
     virtual ~PivotObject();
 
     GLKMatrix4 GetRenderMatrix();

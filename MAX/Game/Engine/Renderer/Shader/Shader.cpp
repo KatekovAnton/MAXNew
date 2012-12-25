@@ -16,11 +16,12 @@ Shader::Shader(string vertexName, string fragmentName) {
     
     _shaderUniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_program, "modelMatrix");
     _shaderUniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_program, "viewMatrix");
+    
+    GLuint pm = glGetUniformLocation(_program, "projectionMatrix");
     _shaderUniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_program, "projectionMatrix");
     _shaderUniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
     _shaderUniforms[UNIFORM_COLOR_TEXTURE] = glGetUniformLocation(_program, "colorTexture");
     _shaderUniforms[UNIFORM_ALPHA] = glGetUniformLocation(_program, "alpha");
-    
     
     _shaderUniforms[UNIFORM_VECTOR1] = glGetUniformLocation(_program, "vector1");
     _shaderUniforms[UNIFORM_VECTOR2] = glGetUniformLocation(_program, "vector2");

@@ -11,7 +11,7 @@
 #include "Material.h"
 #include "Geometry.h"
 
-PivotObject::PivotObject(ObjectBehaviourModel *behaviourModel) {
+PivotObject::PivotObject() {
 
     _transformMatrix = GLKMatrix4Identity;
     _renderMatrix = GLKMatrix4Identity;

@@ -100,6 +100,18 @@ GLfloat screenQuadVertexData[48] =
     1.0f, 1.0f, 0.0f,         0.0f, 0.0f, 1.0f,   1.0f, 0.0f
 };
 
+GLfloat squareVertexData[48] =
+{
+    // Data layout for each line below is:
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ,   tccordX, tcoordY
+    -0.5f, -0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
+    0.5f, 0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   1.0f, 0.0f,
+    0.5f, -0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
+    -0.5f, -0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
+    -0.5f, 0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
+    0.5f, 0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   1.0f, 0.0f
+};
+
 GLushort planeIndexData[6] =
 {0,1,2,3,4,5};
 
@@ -169,6 +181,10 @@ const EngineMesh * EngineMesh::CreateCube() {
 
 const EngineMesh * EngineMesh::CreateFullscreenQuad() {
     return const_cast<const EngineMesh *>(new EngineMesh(screenQuadVertexData, sizeof(screenQuadVertexData), planeIndexData, sizeof(planeIndexData)));
+}
+
+const EngineMesh * EngineMesh::CreateUnitQuad() {
+    return const_cast<const EngineMesh *>(new EngineMesh(squareVertexData, sizeof(squareVertexData), planeIndexData, sizeof(planeIndexData)));
 }
 
 void EngineMesh::LoadFromBuffer(char *buffer, unsigned int bufferLength)
