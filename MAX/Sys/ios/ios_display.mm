@@ -46,7 +46,6 @@ void iosDisplay::InitGLSurface(unsigned int depthFormat, unsigned int pixelForma
     
     window.rootViewController = [ViewController instance];
     [window makeKeyAndVisible];
-    
 }
 
 GLfloat iosDisplay::GetDisplayHeight() {
@@ -88,5 +87,9 @@ void iosDisplay::setIMEKeyboardState(bool bOpen) {
         [[ViewController instance].view becomeFirstResponder];
     } else
         [[ViewController instance].view resignFirstResponder];
+}
+
+void iosDisplay::SetPinchDelegate(DisplayPinchDelegate* delegate) {
+    [[ViewController instance] setPinchDelegate:delegate];
 }
 

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #include "MAXEngine.h"
+#include "MAXGame.h"
 #include "Utils.h"
 #include "PivotObject.h"
 #include "cocos2d.h"
@@ -48,7 +49,7 @@ MyClass::~MyClass()
     [link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     
     engine->Init();
-    
+    game->Init();
 }
 
 - (void)frameCallback:(CADisplayLink *)link {

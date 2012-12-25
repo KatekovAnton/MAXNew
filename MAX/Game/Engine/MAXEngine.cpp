@@ -19,6 +19,7 @@
 #include "Display.h"
 #include "Geometry.h"
 #include "SceneSystem.h"
+#include "MAXGame.h"
 
 using namespace cocos2d;
 using namespace Kompex;
@@ -37,7 +38,6 @@ void MAXEngine::Init() {
     
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
-    
     
 //    GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth(), _renderSystem->GetDisplay()->GetDisplayHeight());
     //_camera = new Camera(GLKVector3Make(3, 1.5, 3), GLKVector3Make(0, 0, 0), _screenRect);

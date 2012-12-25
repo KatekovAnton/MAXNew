@@ -10,6 +10,7 @@
 #define __TerminalExtraction__Display__
 #include "GlobalConstants.h"
 #include "platform/CCEGLViewProtocol.h"
+#include "DisplayPinchDelegate.h"
 #include <iostream>
 #include GLES2
 
@@ -28,9 +29,10 @@ public:
     
     virtual void SwapBuffers();
     
-    void setViewPortInPoints(float x , float y , float w , float h);
-    void setScissorInPoints(float x , float y , float w , float h);
+    void SetViewPortInPoints(float x , float y , float w , float h);
+    void SetScissorInPoints(float x , float y , float w , float h);
 
+    virtual void SetPinchDelegate(DisplayPinchDelegate* delegate);
 };
 
 #endif /* defined(__TerminalExtraction__Display__) */

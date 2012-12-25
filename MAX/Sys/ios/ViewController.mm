@@ -31,10 +31,50 @@ static int const _kTEiOSMaxTouchesCount = 10;
     
     self.view = [[GLSurface alloc] initWithFrame:screen.bounds andDepthFormat:_depthFormat andPixelFormat:_pixelFormat];
     _glView = (GLSurface *)self.view;
+    
+    UIPinchGestureRecognizer* vc = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(onPinch:)];
+    vc.delegate = self;
+    [self.view addGestureRecognizer:vc];
+    
+    UIPanGestureRecognizer* vc1 = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+    vc1.delegate = self;
+    [self.view addGestureRecognizer:vc1];
+    
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if(!_pinchDelegate)
+        return NO;
+    return _pinchDelegate->CanStartPinch();
+}
+
+- (void)onPinch:(UIPinchGestureRecognizer*)gestureRecognizer
+{
+    if (!_pinchDelegate)
+        return;
+    
+    _pinchDelegate->ProceedPinch(gestureRecognizer.scale);
+    gestureRecognizer.scale = 1;
+}
+
+- (void)onPan:(UIPanGestureRecognizer*)gestureRecognizer
+{
+    if (!_pinchDelegate)
+        return;
+    
+    CGPoint translation = [gestureRecognizer translationInView:self.view];
+    [gestureRecognizer setTranslation:CGPointMake(0, 0) inView:self.view];
+    _pinchDelegate->ProceedPan(translation.x, translation.y);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)setPinchDelegate:(DisplayPinchDelegate*)delegate
+{
+    _pinchDelegate = delegate;
 }
 
 - (void)setTouchDelegate:(TouchDelagteAdapter)delegate {

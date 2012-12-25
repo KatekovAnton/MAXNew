@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B8EAA14168A17F30097CA74 /* MAXGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA12168A17F30097CA74 /* MAXGame.cpp */; };
+		8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */; };
 		D18EDBD01689770C00EE3B4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBCF1689770C00EE3B4E /* UIKit.framework */; };
 		D18EDBD21689770C00EE3B4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD11689770C00EE3B4E /* Foundation.framework */; };
 		D18EDBD41689770C00EE3B4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD31689770C00EE3B4E /* CoreGraphics.framework */; };
@@ -74,6 +76,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B8EAA12168A17F30097CA74 /* MAXGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGame.cpp; sourceTree = "<group>"; };
+		8B8EAA13168A17F30097CA74 /* MAXGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGame.h; sourceTree = "<group>"; };
+		8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisplayPinchDelegate.cpp; sourceTree = "<group>"; };
+		8B8EAA1C168A22B00097CA74 /* DisplayPinchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayPinchDelegate.h; sourceTree = "<group>"; };
 		D18EDBCB1689770C00EE3B4E /* MAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D18EDBCF1689770C00EE3B4E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D18EDBD11689770C00EE3B4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -189,6 +195,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B8EAA11168A17D70097CA74 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				8B8EAA12168A17F30097CA74 /* MAXGame.cpp */,
+				8B8EAA13168A17F30097CA74 /* MAXGame.h */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
 		D18EDBC01689770C00EE3B4E = {
 			isa = PBXGroup;
 			children = (
@@ -253,6 +268,8 @@
 				D18EDBEF1689777100EE3B4E /* Display.cpp */,
 				D18EDBF01689777100EE3B4E /* FileManger.cpp */,
 				D18EDBF11689777100EE3B4E /* FileManger.h */,
+				8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */,
+				8B8EAA1C168A22B00097CA74 /* DisplayPinchDelegate.h */,
 			);
 			path = Sys;
 			sourceTree = "<group>";
@@ -288,6 +305,7 @@
 		D18EDC0B168978C000EE3B4E /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				8B8EAA11168A17D70097CA74 /* Game */,
 				D18EDC6F168982CA00EE3B4E /* Engine */,
 				D18EDC0A168978B000EE3B4E /* Vendors */,
 			);
@@ -590,6 +608,8 @@
 				D18EDCA11689880900EE3B4E /* TextureMaterial.cpp in Sources */,
 				D18EDCA51689895B00EE3B4E /* EngineMesh.cpp in Sources */,
 				D18EDCAA168989FD00EE3B4E /* Texture.cpp in Sources */,
+				8B8EAA14168A17F30097CA74 /* MAXGame.cpp in Sources */,
+				8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

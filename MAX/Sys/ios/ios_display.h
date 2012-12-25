@@ -33,6 +33,7 @@ public:
     virtual void    swapBuffers();
     
     virtual void setIMEKeyboardState(bool bOpen);
+    virtual void SetPinchDelegate(DisplayPinchDelegate* delegate);
 };
 
 #endif /* defined(__TerminalExtraction__ios_display__) */
