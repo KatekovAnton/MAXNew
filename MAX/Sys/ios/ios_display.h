@@ -22,6 +22,7 @@ public:
     
     virtual GLfloat GetDisplayHeight();
     virtual GLfloat GetDisplayWidth();
+    virtual GLfloat GetDisplayScale();
     
     virtual void    SwapBuffers();
     

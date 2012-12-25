@@ -35,6 +35,10 @@ GLfloat Display::GetDisplayWidth() {
     throw "Virtual method";
 }
 
+GLfloat Display::GetDisplayScale() {
+    throw "Virtual method";
+}
+
 void Display::SwapBuffers() {
     throw "Virtual method";
 }

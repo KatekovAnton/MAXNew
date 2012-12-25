@@ -27,6 +27,8 @@ public:
     virtual GLfloat GetDisplayHeight();
     virtual GLfloat GetDisplayWidth();
     
+    virtual GLfloat GetDisplayScale();
+    
     virtual void SwapBuffers();
     
     void SetViewPortInPoints(float x , float y , float w , float h);

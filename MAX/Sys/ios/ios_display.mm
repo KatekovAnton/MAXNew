@@ -58,6 +58,11 @@ GLfloat iosDisplay::GetDisplayWidth() {
     return result;
 }
 
+GLfloat iosDisplay::GetDisplayScale()
+{
+    return [UIScreen mainScreen].scale;
+}
+
 void iosDisplay::SwapBuffers() {
     EAGLContext* context = [EAGLContext currentContext];
     
