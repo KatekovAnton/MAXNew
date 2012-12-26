@@ -27,7 +27,7 @@ public:
     char* groundType;//0-ground 1-water 2-coast 3-unpassable
     
     //пиксели тайлов
-    char** mapElements;
+    char* mapElements;
     char* minimap;
     char* palette;
     

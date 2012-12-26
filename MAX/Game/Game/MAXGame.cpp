@@ -47,7 +47,11 @@ bool MAXGame::CanStartPinch()
 }
 
 void MAXGame::ProceedPinch(float scale)
-{}
+{
+    engine->ScaleCamera(scale);
+}
 
 void MAXGame::ProceedPan(float speedx, float speedy)
-{}
+{
+    engine->MoveCamera(speedx, speedy);
+}

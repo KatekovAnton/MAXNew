@@ -10,6 +10,7 @@
 #define __MAX__MAXContetnLoader__
 
 #include <iostream>
+#include "MAXContetnConstants.h"
 
 #define MAXSCL MAXContentLoader::SharedLoader()
 

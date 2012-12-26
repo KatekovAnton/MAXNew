@@ -71,6 +71,8 @@ public:
     
     void switchLight();
     
+    void ScaleCamera(float deltaScale);
+    void MoveCamera(float deltax, float deltay);
 };
 
 

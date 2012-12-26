@@ -119,6 +119,7 @@ void MAXEngine::Update() {
 
     _scene->EndFrame();
     _scene->UpdateScene();
+    _camera->Update();
 }
 
 void MAXEngine::Draw() {
@@ -178,4 +179,14 @@ void MAXEngine::applicationWillEnterForeground() {
 MAXEngine::~MAXEngine() {
     delete _renderSystem;
     delete _shader;
+}
+
+void MAXEngine::ScaleCamera(float deltaScale)
+{
+    _camera->Scale(deltaScale);
+}
+
+void MAXEngine::MoveCamera(float deltax, float deltay)
+{
+    _camera->Move(deltax, deltay);
 }

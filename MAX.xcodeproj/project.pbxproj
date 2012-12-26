@@ -151,6 +151,7 @@
 		D16D48F6168B381D0055F35D /* Snow_4.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_4.wrl; sourceTree = "<group>"; };
 		D16D48F7168B381D0055F35D /* Snow_5.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_5.wrl; sourceTree = "<group>"; };
 		D16D48F8168B381D0055F35D /* Snow_6.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_6.wrl; sourceTree = "<group>"; };
+		D16D491C168B456D0055F35D /* MAXContetnConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXContetnConstants.h; sourceTree = "<group>"; };
 		D18EDBCB1689770C00EE3B4E /* MAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D18EDBCF1689770C00EE3B4E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D18EDBD11689770C00EE3B4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -290,6 +291,7 @@
 				D16D48CD168B30A00055F35D /* MAXContentObjects */,
 				D16D48CE168B30E50055F35D /* MAXContetnLoader.cpp */,
 				D16D48CF168B30E50055F35D /* MAXContetnLoader.h */,
+				D16D491C168B456D0055F35D /* MAXContetnConstants.h */,
 			);
 			path = MAXContetnLoader;
 			sourceTree = "<group>";

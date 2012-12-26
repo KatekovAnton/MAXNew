@@ -78,6 +78,20 @@ int BinaryReader::ReadInt()
     return retVal;
 }
 
+short BinaryReader::ReadInt16()
+{
+    if (_file)
+    {
+        short retVal;
+        fread(&retVal, sizeof(short), 1, _file);
+        return retVal;
+    }
+    short retVal = *(short*)_currentBuffer;
+    _currentBuffer += sizeof(short);
+    _position += sizeof(short);
+    return retVal;
+}
+
 float BinaryReader::ReadSingle()
 {
     if (_file)

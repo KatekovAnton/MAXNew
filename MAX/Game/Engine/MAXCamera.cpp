@@ -11,7 +11,6 @@
 
 MAXCamera::MAXCamera(GRect2D bounds)
 {
-    this->view = GLKMatrix4Identity;
     
     _aspectRatio = fabsf(bounds.size.width / bounds.size.height);
     _far = 100.0f;
@@ -19,14 +18,42 @@ MAXCamera::MAXCamera(GRect2D bounds)
 //                                           _aspectRatio,
 //                                           0.1f,
 //                                           _far);
+    position = GLKVector3Make(0, 0, 0);
+    _displayScale = Display::currentDisplay()->GetDisplayScale();
+    _scalex = _displayScale*64.0/bounds.size.width;
+    _scaley = _displayScale*64.0/bounds.size.height;
     
-    float scalex = Display::currentDisplay()->GetDisplayScale()*64.0/bounds.size.width;
-    float scaley = Display::currentDisplay()->GetDisplayScale()*64.0/bounds.size.height;
+    scale = 1.0;
     
+    this->view = GLKMatrix4Identity;
     
-    
-    projection = GLKMatrix4MakeScale(scalex, scaley, 1);
+    projection = GLKMatrix4MakeScale(_scalex, _scaley, 1);
     minDepth = 0.1;
     maxDepth = 100.0;
     screenSize = bounds.size;
+}
+
+void MAXCamera::Scale(float deltaScale)
+{
+    scale/=deltaScale;
+    if (scale<0.5)
+        scale = 0.5;
+    if (scale>20) 
+        scale = 20;
+}
+
+void MAXCamera::Move(float deltax, float deltay)
+{
+    position.x += deltax * _scalex/( _displayScale * 2.0);
+    position.y -= deltay * _scalex/( _displayScale * 2.0);
+}
+
+void MAXCamera::Update()
+{
+    RecalculateViewMatrix();
+}
+
+void MAXCamera::RecalculateViewMatrix()
+{
+    this->view = GLKMatrix4Multiply(GLKMatrix4MakeTranslationV(position), GLKMatrix4MakeScale(1.0/scale, 1.0/scale, 1));
 }

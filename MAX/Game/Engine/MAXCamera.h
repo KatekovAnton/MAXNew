@@ -12,7 +12,13 @@
 #include <iostream>
 #include "Geometry.h"
 
-class MAXCamera {    
+class MAXCamera {
+    void RecalculateViewMatrix();
+    
+    GLfloat _scalex;
+    GLfloat _scaley;
+    GLfloat _displayScale;
+    
 public:
     
     GLfloat             maxDepth;
@@ -24,7 +30,16 @@ public:
     GLKMatrix4          projection;
     GLKMatrix4          view;
     
+    GLfloat             scale;
+    GLKVector3          position;
+    
     MAXCamera(GRect2D bounds);
+    
+    void Scale(float deltaScale);
+    void Move(float deltax, float deltay);
+    
+    void Update();
+    
 };
 
 #endif /* defined(__MAX__MAXCamera__) */
