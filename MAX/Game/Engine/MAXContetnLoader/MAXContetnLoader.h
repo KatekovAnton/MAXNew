@@ -17,9 +17,13 @@
 using namespace std;
 
 class MAXContentMap;
+class Texture;
 
 class MAXContentLoader {
     
+    void palshiftu(Color* pal, int s, int e);
+    void palshiftd(Color* pal, int s, int e);
+    void animatePalette(Color* thepal);
 public:
     MAXContentLoader();
     
@@ -27,6 +31,8 @@ public:
     
     
     static MAXContentLoader* SharedLoader();
+    
+    Texture* CreatePalletes(Color* palette);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */

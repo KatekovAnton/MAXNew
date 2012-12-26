@@ -58,8 +58,14 @@ void MAXContentMap::LoadFromStream(BinaryReader *br)
     }
     
     {//palette
-        palette = new char[pal_size];
-        br->ReadBuffer(pal_size, palette);
+        palette = new Color[pal_size/3];
+        for (int i = 0; i < pal_size/3; i++) {
+            palette[i].r = br->ReadChar();
+            palette[i].g = br->ReadChar();
+            palette[i].b = br->ReadChar();
+            palette[i].a = 1.0;
+        }
+        //br->ReadBuffer(pal_size, palette);
     }
     
     {//ground types

@@ -44,6 +44,8 @@ public:
     static const EngineMesh * CreateFullscreenQuad(void);
     static const EngineMesh * CreateUnitQuad(void);
     
+    static const EngineMesh * CreateUnitQuad(float side);
+    
 };
 
 #endif /* defined(__TerminalExtraction__EngineMesh__) */

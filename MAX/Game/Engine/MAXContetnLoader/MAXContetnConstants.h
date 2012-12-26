@@ -9,7 +9,15 @@
 #ifndef MAX_MAXContetnConstants_h
 #define MAX_MAXContetnConstants_h
 
-unsigned char default_palette[256][4] =
+struct
+{
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+    unsigned char a;
+} typedef Color;
+
+Color default_palette[256] =
 {
     {0x00, 0x00, 0x00, 0x00}, //0
     {0xff, 0x00, 0x00, 0x00}, //1

@@ -12,10 +12,15 @@
 #include <iostream>
 #include "Material.h"
 
-class MAXMapMaterial : public Material {
-    
+class Texture;
+
+class MAXMapMaterial : public Material
+{
 public:
+    Texture* mapElementsSingle;
+    Texture* palettes;
     
+    Texture* fullMapTexture;
 };
 
 #endif /* defined(__MAX__MAXMapMaterial__) */

@@ -187,6 +187,18 @@ const EngineMesh * EngineMesh::CreateUnitQuad() {
     return const_cast<const EngineMesh *>(new EngineMesh(squareVertexData, sizeof(squareVertexData), planeIndexData, sizeof(planeIndexData)));
 }
 
+static const EngineMesh * CreateUnitQuad(float side)
+{
+    GLfloat* scaledVertexData = new GLfloat[48];
+    memcpy(scaledVertexData, &squareVertexData, sizeof(squareVertexData));
+    for (int i = 0; i < 6; i++) {
+        scaledVertexData[i * 8] *= side;
+        scaledVertexData[i * 8 + 1] *= side;
+        scaledVertexData[i * 8 + 2] *= side;
+    }
+    return const_cast<const EngineMesh *>(new EngineMesh(scaledVertexData, 48 * sizeof(GLfloat), planeIndexData, sizeof(planeIndexData)));
+}
+
 void EngineMesh::LoadFromBuffer(char *buffer, unsigned int bufferLength)
 {
     BinaryReader br(buffer, bufferLength);

@@ -39,6 +39,7 @@
 		D16D4910168B381D0055F35D /* Snow_4.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F6168B381D0055F35D /* Snow_4.wrl */; };
 		D16D4911168B381D0055F35D /* Snow_5.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F7168B381D0055F35D /* Snow_5.wrl */; };
 		D16D4912168B381D0055F35D /* Snow_6.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F8168B381D0055F35D /* Snow_6.wrl */; };
+		D16D4950168B5F2D0055F35D /* MAXMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D494E168B5F2D0055F35D /* MAXMap.cpp */; };
 		D18EDBD01689770C00EE3B4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBCF1689770C00EE3B4E /* UIKit.framework */; };
 		D18EDBD21689770C00EE3B4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD11689770C00EE3B4E /* Foundation.framework */; };
 		D18EDBD41689770C00EE3B4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD31689770C00EE3B4E /* CoreGraphics.framework */; };
@@ -152,6 +153,8 @@
 		D16D48F7168B381D0055F35D /* Snow_5.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_5.wrl; sourceTree = "<group>"; };
 		D16D48F8168B381D0055F35D /* Snow_6.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_6.wrl; sourceTree = "<group>"; };
 		D16D491C168B456D0055F35D /* MAXContetnConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXContetnConstants.h; sourceTree = "<group>"; };
+		D16D494E168B5F2D0055F35D /* MAXMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXMap.cpp; sourceTree = "<group>"; };
+		D16D494F168B5F2D0055F35D /* MAXMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXMap.h; sourceTree = "<group>"; };
 		D18EDBCB1689770C00EE3B4E /* MAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D18EDBCF1689770C00EE3B4E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D18EDBD11689770C00EE3B4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -278,6 +281,7 @@
 		8B8EAA11168A17D70097CA74 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				D16D494D168B5F0D0055F35D /* Map */,
 				D16D48DD168B37F20055F35D /* Resources */,
 				8B8EAA12168A17F30097CA74 /* MAXGame.cpp */,
 				8B8EAA13168A17F30097CA74 /* MAXGame.h */,
@@ -344,6 +348,15 @@
 				D16D48F8168B381D0055F35D /* Snow_6.wrl */,
 			);
 			path = Maps;
+			sourceTree = "<group>";
+		};
+		D16D494D168B5F0D0055F35D /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				D16D494E168B5F2D0055F35D /* MAXMap.cpp */,
+				D16D494F168B5F2D0055F35D /* MAXMap.h */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		D18EDBC01689770C00EE3B4E = {
@@ -556,8 +569,8 @@
 			isa = PBXGroup;
 			children = (
 				D18EDC7D1689844600EE3B4E /* Shader */,
-				D18EDC7A1689843600EE3B4E /* RenderSystem.h */,
 				D18EDC7B1689843600EE3B4E /* RenderSystem.cpp */,
+				D18EDC7A1689843600EE3B4E /* RenderSystem.h */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -588,18 +601,18 @@
 		D18EDC8E1689862A00EE3B4E /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				8B8EAA27168A27900097CA74 /* LevelObject.h */,
 				8B8EAA28168A27900097CA74 /* LevelObject.cpp */,
-				D18EDC921689865A00EE3B4E /* PivotObject.h */,
+				8B8EAA27168A27900097CA74 /* LevelObject.h */,
 				D18EDC931689865A00EE3B4E /* PivotObject.cpp */,
-				D18EDC95168987E600EE3B4E /* RenderObject.h */,
+				D18EDC921689865A00EE3B4E /* PivotObject.h */,
 				D18EDC96168987E600EE3B4E /* RenderObject.cpp */,
-				D18EDC97168987E600EE3B4E /* UnAnimRenderObject.h */,
+				D18EDC95168987E600EE3B4E /* RenderObject.h */,
 				D18EDC98168987E700EE3B4E /* UnAnimRenderObject.cpp */,
-				D18EDCE0168B2C4A00EE3B4E /* MapObject.h */,
+				D18EDC97168987E600EE3B4E /* UnAnimRenderObject.h */,
 				D18EDCDF168B2C4A00EE3B4E /* MapObject.cpp */,
-				D18EDCE3168B2C5800EE3B4E /* MapRenderObject.h */,
+				D18EDCE0168B2C4A00EE3B4E /* MapObject.h */,
 				D18EDCE2168B2C5800EE3B4E /* MapRenderObject.cpp */,
+				D18EDCE3168B2C5800EE3B4E /* MapRenderObject.h */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -800,6 +813,7 @@
 				D18EDCED168B2FBF00EE3B4E /* MAXMapMaterial.cpp in Sources */,
 				D16D48D0168B30E50055F35D /* MAXContetnLoader.cpp in Sources */,
 				D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */,
+				D16D4950168B5F2D0055F35D /* MAXMap.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

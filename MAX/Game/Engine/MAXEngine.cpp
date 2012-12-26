@@ -124,7 +124,7 @@ void MAXEngine::Update() {
 
 void MAXEngine::Draw() {
     
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glDisable(GL_CULL_FACE);
     
@@ -158,6 +158,7 @@ void MAXEngine::Draw() {
         if (err != GL_NO_ERROR)
             printf(" glError: 0x%04X", err);
     }
+    glEnable(GL_DEPTH_TEST);
 }
 
 float MAXEngine::ElapsedTime() {

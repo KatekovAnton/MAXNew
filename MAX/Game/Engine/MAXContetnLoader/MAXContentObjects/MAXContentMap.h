@@ -10,6 +10,7 @@
 #define __MAX__MAXContentMap__
 
 #include <iostream>
+#include "MAXContetnConstants.h"
 
 using namespace std;
 
@@ -29,7 +30,7 @@ public:
     //пиксели тайлов
     char* mapElements;
     char* minimap;
-    char* palette;
+    Color* palette;
     
     MAXContentMap();
     ~MAXContentMap();

@@ -26,6 +26,7 @@ public:
     
     Display * GetDisplay();
     
+    
     void Init();
     void InitOpenGL();
     void InitCocos2Dx();
