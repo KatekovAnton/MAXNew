@@ -29,6 +29,10 @@ public:
     ~MAXMapMaterial();
     
     void DoFrame(double elapsedTime);
+    
+    virtual void ApplyLod(int lod, Shader *shader);
+    virtual void SetFrame(int frame);
+    virtual void StopBackgroundLoading();
 };
 
 #endif /* defined(__MAX__MAXMapMaterial__) */

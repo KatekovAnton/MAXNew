@@ -11,7 +11,7 @@
 #include "Material.h"
 #include "MAXEngine.h"
 
-UnAnimRenderObject::UnAnimRenderObject(const EngineMesh *mesh):RenderObject() {
+UnAnimRenderObject::UnAnimRenderObject(shared_ptr<EngineMesh> mesh):RenderObject() {
     _mesh = mesh;
 }
 
@@ -23,5 +23,6 @@ void UnAnimRenderObject::Render(int lod, Material *material) {
 }
 
 UnAnimRenderObject::~UnAnimRenderObject() {
-    delete _mesh;
+
+    
 }

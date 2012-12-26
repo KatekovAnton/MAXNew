@@ -12,11 +12,17 @@
 #include "MapRenderObject.h"
 #include "MAXMapMaterial.h"
 
-MapObject::MapObject(shared_ptr<MAXContentMap> map)
-{}
+MapObject::MapObject(shared_ptr<MAXContentMap> map):PivotObject()
+{
+    _renderObject = new MapRenderObject(map);
+    _material = new MAXMapMaterial(map);
+}
 
 MapObject::~MapObject()
-{}
+{
+    delete _renderObject;
+    delete _material;
+}
 
 RenderObject * MapObject::GetRenderAspect()
 {

@@ -26,7 +26,7 @@ public:
     TextureMaterial(string name);
     ~TextureMaterial();
     
-    void ApplyLod(int lod, Shader *shader);
+    virtual void ApplyLod(int lod, Shader *shader);
     
     void SetTexture(Texture* texture);
     Texture *GetTexture() const { return _texture; };

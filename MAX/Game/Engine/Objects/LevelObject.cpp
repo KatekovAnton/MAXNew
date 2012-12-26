@@ -18,7 +18,7 @@ LevelObject::LevelObject(RenderObject *renderObject, Material *material):PivotOb
 }
 
 LevelObject * LevelObject::CreateUnitQuad() {
-    const EngineMesh * mesh = EngineMesh::CreateUnitQuad();
+    shared_ptr<EngineMesh> mesh = EngineMesh::CreateUnitQuad();
     Material *material = nullptr;
     
     RenderObject *renderObject = new UnAnimRenderObject(mesh);

@@ -10,7 +10,9 @@
 #include "MAXContentMap.h"
 
 MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
-{}
+{
+    
+}
 
 MAXMapMaterial::~MAXMapMaterial()
 {}
@@ -19,3 +21,12 @@ void MAXMapMaterial::DoFrame(double elapsedTime)
 {
     
 }
+
+void MAXMapMaterial::ApplyLod(int lod, Shader *shader)
+{}
+
+void MAXMapMaterial::SetFrame(int frame)
+{}
+
+void MAXMapMaterial::StopBackgroundLoading()
+{}

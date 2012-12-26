@@ -51,7 +51,8 @@ void MAXEngine::Init() {
     _cube = shared_ptr<LevelObject>(LevelObject::CreateUnitQuad());
     
     
-    _shader = new Shader("ShaderBackground.vsh", "ShaderBackground.fsh");
+    _unitShader = new Shader("ShaderBackground.vsh", "ShaderBackground.fsh");
+    _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
   //  _shader1 = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
     
     _director = CCDirector::sharedDirector();
@@ -130,7 +131,25 @@ void MAXEngine::Draw() {
     glDisable(GL_BLEND);
     glDisable(GL_CULL_FACE);
     
+    _shader = _mapShader;
+    glUseProgram(_shader->GetProgram());
+    _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
+    {
+        GLenum err = glGetError();
+        if (err != GL_NO_ERROR)
+            printf(" glError: 0x%04X", err);
+    }
     
+    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+    {
+        GLenum err = glGetError();
+        if (err != GL_NO_ERROR)
+            printf(" glError: 0x%04X", err);
+    }
+    DrawObject(_map.get());
+
+    
+    _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     {
@@ -145,22 +164,30 @@ void MAXEngine::Draw() {
         if (err != GL_NO_ERROR)
             printf(" glError: 0x%04X", err);
     }
-    GLKMatrix4 m1 = _cube->GetTransformMatrix();
+    DrawObject(_cube.get());
+    
+    
+        
+    glEnable(GL_DEPTH_TEST);
+}
+
+void MAXEngine::DrawObject(PivotObject* object)
+{
+    GLKMatrix4 m1 = object->GetTransformMatrix();
     //printf("x: %f y: %f z: %f\n", m1.m30, m1.m31, m1.m32);
-    _shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
+    GetShader()->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
     {
         GLenum err = glGetError();
         if (err != GL_NO_ERROR)
             printf(" glError: 0x%04X", err);
     }
     
-    _cube->GetRenderAspect()->Render(0, _cube->GetMaterial());
+    object->GetRenderAspect()->Render(0, object->GetMaterial());
     {
         GLenum err = glGetError();
         if (err != GL_NO_ERROR)
             printf(" glError: 0x%04X", err);
     }
-    glEnable(GL_DEPTH_TEST);
 }
 
 float MAXEngine::ElapsedTime() {

@@ -175,28 +175,27 @@ void EngineMesh::Render() const {
   //  glDrawArrays(GL_TRIANGLES, 0, 4);
 }
 
-const EngineMesh * EngineMesh::CreateCube() {
-    return const_cast<const EngineMesh *>(new  EngineMesh(cubeVertexData, sizeof(cubeVertexData), cubeIndexData, sizeof(cubeIndexData)));
+shared_ptr<EngineMesh> EngineMesh::CreateCube() {
+    return shared_ptr<EngineMesh>(new  EngineMesh(cubeVertexData, sizeof(cubeVertexData), cubeIndexData, sizeof(cubeIndexData)));
 }
 
-const EngineMesh * EngineMesh::CreateFullscreenQuad() {
-    return const_cast<const EngineMesh *>(new EngineMesh(screenQuadVertexData, sizeof(screenQuadVertexData), planeIndexData, sizeof(planeIndexData)));
+shared_ptr<EngineMesh> EngineMesh::CreateFullscreenQuad() {
+    return shared_ptr<EngineMesh>(new EngineMesh(screenQuadVertexData, sizeof(screenQuadVertexData), planeIndexData, sizeof(planeIndexData)));
 }
 
-const EngineMesh * EngineMesh::CreateUnitQuad() {
-    return const_cast<const EngineMesh *>(new EngineMesh(squareVertexData, sizeof(squareVertexData), planeIndexData, sizeof(planeIndexData)));
+shared_ptr<EngineMesh> EngineMesh::CreateUnitQuad() {
+    return shared_ptr<EngineMesh>(new EngineMesh(squareVertexData, sizeof(squareVertexData), planeIndexData, sizeof(planeIndexData)));
 }
 
-static const EngineMesh * CreateUnitQuad(float side)
+shared_ptr<EngineMesh> EngineMesh::CreateScaledQuad(float sidex, float sidey)
 {
     GLfloat* scaledVertexData = new GLfloat[48];
     memcpy(scaledVertexData, &squareVertexData, sizeof(squareVertexData));
     for (int i = 0; i < 6; i++) {
-        scaledVertexData[i * 8] *= side;
-        scaledVertexData[i * 8 + 1] *= side;
-        scaledVertexData[i * 8 + 2] *= side;
+        scaledVertexData[i * 8] *= sidex;
+        scaledVertexData[i * 8 + 1] *= sidey;
     }
-    return const_cast<const EngineMesh *>(new EngineMesh(scaledVertexData, 48 * sizeof(GLfloat), planeIndexData, sizeof(planeIndexData)));
+    return shared_ptr<EngineMesh>(new EngineMesh(scaledVertexData, 48 * sizeof(GLfloat), planeIndexData, sizeof(planeIndexData)));
 }
 
 void EngineMesh::LoadFromBuffer(char *buffer, unsigned int bufferLength)

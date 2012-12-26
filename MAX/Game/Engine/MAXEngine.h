@@ -17,6 +17,7 @@
 using namespace cocos2d;
 using namespace std;
 
+class PivotObject;
 class RenderSystem;
 class Shader;
 class SceneSystem;
@@ -37,6 +38,8 @@ class MAXEngine  {
     SceneSystem         *_scene;
     
     Shader              *_shader;
+    Shader              *_unitShader;
+    Shader              *_mapShader;
     float             _color;
     
 public:
@@ -62,6 +65,8 @@ public:
     void Draw();
     void DrawInterface();
     void EndFrame();
+    
+    void DrawObject(PivotObject* object);
     
     
     Shader * GetShader();

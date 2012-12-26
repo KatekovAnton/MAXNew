@@ -12,6 +12,8 @@
 #include <iostream>
 #include "Geometry.h"
 
+using namespace std;
+
 class EngineMesh {
     
     bool _disposed;
@@ -40,11 +42,11 @@ public:
     virtual void LoadFromBuffer(char *buffer, unsigned int bufferLength);
     
     
-    static const EngineMesh * CreateCube(void);
-    static const EngineMesh * CreateFullscreenQuad(void);
-    static const EngineMesh * CreateUnitQuad(void);
+    static shared_ptr<EngineMesh> CreateCube(void);
+    static shared_ptr<EngineMesh> CreateFullscreenQuad(void);
+    static shared_ptr<EngineMesh> CreateUnitQuad(void);
     
-    static const EngineMesh * CreateUnitQuad(float side);
+    static shared_ptr<EngineMesh> CreateScaledQuad(float sidex, float sidey);
     
 };
 

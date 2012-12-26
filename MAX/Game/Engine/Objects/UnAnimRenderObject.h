@@ -16,11 +16,11 @@ class EngineMesh;
 
 class UnAnimRenderObject : public RenderObject {
     
-    const EngineMesh          *_mesh;
+    shared_ptr<EngineMesh>          _mesh;
     
 public:
     
-    UnAnimRenderObject(const EngineMesh *mesh);
+    UnAnimRenderObject(shared_ptr<EngineMesh> mesh);
     ~UnAnimRenderObject();
     
     virtual void Render(int lod, Material *material);
