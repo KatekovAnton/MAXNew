@@ -16,6 +16,8 @@ using namespace std;
 
 class Texture {
     
+    GLuint _filrer;
+    
     GLuint          _name;
     bool            _fromFile;
     
@@ -31,6 +33,7 @@ class Texture {
 public:
     
     Texture();
+    Texture(GLuint filter);
     Texture(string filename);
     
     GLuint GetTextureName();

@@ -58,6 +58,10 @@
 		D18EDCA51689895B00EE3B4E /* EngineMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCA31689895B00EE3B4E /* EngineMesh.cpp */; };
 		D18EDCAA168989FD00EE3B4E /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCA8168989FD00EE3B4E /* Texture.cpp */; };
 		D18EDCAC168999A400EE3B4E /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDC63168980E700EE3B4E /* libcocos2dx.a */; };
+		D18EDCDB168B2AF600EE3B4E /* ShaderMap.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */; };
+		D18EDCDC168B2AF600EE3B4E /* ShaderMap.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */; };
+		D18EDCDD168B2B1200EE3B4E /* ShaderMap.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */; };
+		D18EDCDE168B2B1200EE3B4E /* ShaderMap.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +183,8 @@
 		D18EDCA41689895B00EE3B4E /* EngineMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineMesh.h; sourceTree = "<group>"; };
 		D18EDCA8168989FD00EE3B4E /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		D18EDCA9168989FD00EE3B4E /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderMap.fsh; sourceTree = "<group>"; };
+		D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderMap.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,6 +444,8 @@
 		D18EDC811689846B00EE3B4E /* ShaderSources */ = {
 			isa = PBXGroup;
 			children = (
+				D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */,
+				D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */,
 				D18EDC821689847B00EE3B4E /* ShaderBackground.vsh */,
 				D18EDC831689847B00EE3B4E /* ShaderBackground.fsh */,
 				D18EDC841689847B00EE3B4E /* ShaderPostQuad.vsh */,
@@ -570,6 +578,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D18EDCDD168B2B1200EE3B4E /* ShaderMap.fsh in Resources */,
+				D18EDCDE168B2B1200EE3B4E /* ShaderMap.vsh in Resources */,
 				D18EDC8A168984AE00EE3B4E /* ShaderBackground.vsh in Resources */,
 				D18EDC8B168984AE00EE3B4E /* ShaderBackground.fsh in Resources */,
 				D18EDC8C168984AE00EE3B4E /* ShaderPostQuad.vsh in Resources */,
@@ -622,6 +632,8 @@
 				8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */,
 				8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */,
 				8B8EAA2C168A28620097CA74 /* MAXCamera.cpp in Sources */,
+				D18EDCDB168B2AF600EE3B4E /* ShaderMap.fsh in Sources */,
+				D18EDCDC168B2AF600EE3B4E /* ShaderMap.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
