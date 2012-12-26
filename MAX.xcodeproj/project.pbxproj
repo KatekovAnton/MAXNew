@@ -62,6 +62,9 @@
 		D18EDCDC168B2AF600EE3B4E /* ShaderMap.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */; };
 		D18EDCDD168B2B1200EE3B4E /* ShaderMap.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */; };
 		D18EDCDE168B2B1200EE3B4E /* ShaderMap.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */; };
+		D18EDCE1168B2C4A00EE3B4E /* MapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCDF168B2C4A00EE3B4E /* MapObject.cpp */; };
+		D18EDCE4168B2C5800EE3B4E /* MapRenderObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCE2168B2C5800EE3B4E /* MapRenderObject.cpp */; };
+		D18EDCED168B2FBF00EE3B4E /* MAXMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +188,12 @@
 		D18EDCA9168989FD00EE3B4E /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderMap.fsh; sourceTree = "<group>"; };
 		D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderMap.vsh; sourceTree = "<group>"; };
+		D18EDCDF168B2C4A00EE3B4E /* MapObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapObject.cpp; sourceTree = "<group>"; };
+		D18EDCE0168B2C4A00EE3B4E /* MapObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapObject.h; sourceTree = "<group>"; };
+		D18EDCE2168B2C5800EE3B4E /* MapRenderObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapRenderObject.cpp; sourceTree = "<group>"; };
+		D18EDCE3168B2C5800EE3B4E /* MapRenderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapRenderObject.h; sourceTree = "<group>"; };
+		D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXMapMaterial.cpp; sourceTree = "<group>"; };
+		D18EDCEC168B2FBF00EE3B4E /* MAXMapMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXMapMaterial.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,6 +474,10 @@
 				D18EDC96168987E600EE3B4E /* RenderObject.cpp */,
 				D18EDC97168987E600EE3B4E /* UnAnimRenderObject.h */,
 				D18EDC98168987E700EE3B4E /* UnAnimRenderObject.cpp */,
+				D18EDCE0168B2C4A00EE3B4E /* MapObject.h */,
+				D18EDCDF168B2C4A00EE3B4E /* MapObject.cpp */,
+				D18EDCE3168B2C5800EE3B4E /* MapRenderObject.h */,
+				D18EDCE2168B2C5800EE3B4E /* MapRenderObject.cpp */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -476,9 +489,10 @@
 				D18EDC9D1689880900EE3B4E /* Material.h */,
 				D18EDC9E1689880900EE3B4E /* TextureMaterial.cpp */,
 				D18EDC9F1689880900EE3B4E /* TextureMaterial.h */,
+				D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */,
+				D18EDCEC168B2FBF00EE3B4E /* MAXMapMaterial.h */,
 			);
-			name = Material;
-			path = ..;
+			path = Material;
 			sourceTree = "<group>";
 		};
 		D18EDCA21689892500EE3B4E /* Meshes */ = {
@@ -487,8 +501,7 @@
 				D18EDCA31689895B00EE3B4E /* EngineMesh.cpp */,
 				D18EDCA41689895B00EE3B4E /* EngineMesh.h */,
 			);
-			name = Meshes;
-			path = ../Meshes;
+			path = Meshes;
 			sourceTree = "<group>";
 		};
 		D18EDCA6168989A700EE3B4E /* ObjectComponents */ = {
@@ -634,6 +647,9 @@
 				8B8EAA2C168A28620097CA74 /* MAXCamera.cpp in Sources */,
 				D18EDCDB168B2AF600EE3B4E /* ShaderMap.fsh in Sources */,
 				D18EDCDC168B2AF600EE3B4E /* ShaderMap.vsh in Sources */,
+				D18EDCE1168B2C4A00EE3B4E /* MapObject.cpp in Sources */,
+				D18EDCE4168B2C5800EE3B4E /* MapRenderObject.cpp in Sources */,
+				D18EDCED168B2FBF00EE3B4E /* MAXMapMaterial.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
