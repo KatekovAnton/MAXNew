@@ -19,10 +19,12 @@
 #include "Display.h"
 #include "Geometry.h"
 #include "SceneSystem.h"
-#include "MAXGame.h"
 #include "MAXCamera.h"
+#include "MAXContetnLoader.h"
 #include "LevelObject.h"
 #include "RenderObject.h"
+
+#include "MapObject.h"
 
 using namespace cocos2d;
 using namespace Kompex;
@@ -190,4 +192,9 @@ void MAXEngine::ScaleCamera(float deltaScale)
 void MAXEngine::MoveCamera(float deltax, float deltay)
 {
     _camera->Move(deltax, deltay);
+}
+
+void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
+{
+    _map = shared_ptr<MapObject>(new MapObject(map));
 }

@@ -36,7 +36,7 @@ void MAXGame::Init()
 
 void MAXGame::SetMap(string mapName)
 {
-    MAXSCL->LoadMapWithName(mapName);
+    engine->SetMap(MAXSCL->LoadMapWithName(mapName));
 }
 
 #pragma mark - DisplayPinchDelegate

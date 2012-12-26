@@ -12,10 +12,14 @@
 #include <iostream>
 #include "RenderObject.h"
 
+class MAXContentMap;
+
 class MapRenderObject : public RenderObject {
     
 public:
     
+    MapRenderObject(shared_ptr<MAXContentMap> map);
+    ~MapRenderObject();
 };
 
 #endif /* defined(__MAX__MapRenderObject__) */

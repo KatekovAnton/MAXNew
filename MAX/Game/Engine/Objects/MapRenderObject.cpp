@@ -7,3 +7,10 @@
 //
 
 #include "MapRenderObject.h"
+#include "MAXContentMap.h"
+
+MapRenderObject::MapRenderObject(shared_ptr<MAXContentMap> map)
+{}
+
+MapRenderObject::~MapRenderObject()
+{}

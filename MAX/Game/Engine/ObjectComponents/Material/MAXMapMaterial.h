@@ -13,6 +13,9 @@
 #include "Material.h"
 
 class Texture;
+class MAXContentMap;
+
+using namespace std;
 
 class MAXMapMaterial : public Material
 {
@@ -21,6 +24,11 @@ public:
     Texture* palettes;
     
     Texture* fullMapTexture;
+    
+    MAXMapMaterial(shared_ptr<MAXContentMap> map);
+    ~MAXMapMaterial();
+    
+    void DoFrame(double elapsedTime);
 };
 
 #endif /* defined(__MAX__MAXMapMaterial__) */

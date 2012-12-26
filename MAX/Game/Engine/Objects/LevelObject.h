@@ -23,12 +23,12 @@ public:
     LevelObject(RenderObject *renderObject, Material *material);
     ~LevelObject();
     
-    RenderObject * GetRenderAspect();
-    Material * GetMaterial();
+    virtual RenderObject * GetRenderAspect();
+    virtual Material * GetMaterial();
     
     static LevelObject * CreateUnitQuad();
     
-    void Frame(double time);
+    virtual void Frame(double time);
     
 };
 

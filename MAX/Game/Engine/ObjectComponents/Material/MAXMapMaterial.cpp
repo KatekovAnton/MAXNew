@@ -7,3 +7,15 @@
 //
 
 #include "MAXMapMaterial.h"
+#include "MAXContentMap.h"
+
+MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
+{}
+
+MAXMapMaterial::~MAXMapMaterial()
+{}
+
+void MAXMapMaterial::DoFrame(double elapsedTime)
+{
+    
+}

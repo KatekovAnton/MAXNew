@@ -15,6 +15,7 @@
 #include "cocos2d.h"
 
 using namespace cocos2d;
+using namespace std;
 
 class RenderSystem;
 class Shader;
@@ -22,6 +23,8 @@ class SceneSystem;
 class MAXCamera;
 
 class LevelObject;
+class MapObject;
+class MAXContentMap;
 
 class MAXEngine  {
     
@@ -39,6 +42,7 @@ class MAXEngine  {
 public:
     
     std::shared_ptr<LevelObject>         _cube;
+    std::shared_ptr<MapObject>           _map;
     
     MAXCamera              *_camera;
     
@@ -73,6 +77,8 @@ public:
     
     void ScaleCamera(float deltaScale);
     void MoveCamera(float deltax, float deltay);
+    
+    void SetMap(shared_ptr<MAXContentMap> map);
 };
 
 
