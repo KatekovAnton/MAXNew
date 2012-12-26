@@ -11,6 +11,34 @@
 		8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */; };
 		8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA28168A27900097CA74 /* LevelObject.cpp */; };
 		8B8EAA2C168A28620097CA74 /* MAXCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */; };
+		D16D48D0168B30E50055F35D /* MAXContetnLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48CE168B30E50055F35D /* MAXContetnLoader.cpp */; };
+		D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48D1168B31030055F35D /* MAXContentMap.cpp */; };
+		D16D48F9168B381D0055F35D /* 112x112.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48DF168B381D0055F35D /* 112x112.wrl */; };
+		D16D48FA168B381D0055F35D /* Crater_1.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E0168B381D0055F35D /* Crater_1.wrl */; };
+		D16D48FB168B381D0055F35D /* Crater_2.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E1168B381D0055F35D /* Crater_2.wrl */; };
+		D16D48FC168B381D0055F35D /* Crater_3.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E2168B381D0055F35D /* Crater_3.wrl */; };
+		D16D48FD168B381D0055F35D /* Crater_4.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E3168B381D0055F35D /* Crater_4.wrl */; };
+		D16D48FE168B381D0055F35D /* Crater_5.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E4168B381D0055F35D /* Crater_5.wrl */; };
+		D16D48FF168B381D0055F35D /* Crater_6.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E5168B381D0055F35D /* Crater_6.wrl */; };
+		D16D4900168B381D0055F35D /* demomap0.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E6168B381D0055F35D /* demomap0.wrl */; };
+		D16D4901168B381D0055F35D /* Desert_1.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E7168B381D0055F35D /* Desert_1.wrl */; };
+		D16D4902168B381D0055F35D /* Desert_2.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E8168B381D0055F35D /* Desert_2.wrl */; };
+		D16D4903168B381D0055F35D /* Desert_3.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E9168B381D0055F35D /* Desert_3.wrl */; };
+		D16D4904168B381D0055F35D /* Desert_4.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48EA168B381D0055F35D /* Desert_4.wrl */; };
+		D16D4905168B381D0055F35D /* Desert_5.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48EB168B381D0055F35D /* Desert_5.wrl */; };
+		D16D4906168B381D0055F35D /* Desert_6.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48EC168B381D0055F35D /* Desert_6.wrl */; };
+		D16D4907168B381D0055F35D /* Green_1.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48ED168B381D0055F35D /* Green_1.wrl */; };
+		D16D4908168B381D0055F35D /* Green_2.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48EE168B381D0055F35D /* Green_2.wrl */; };
+		D16D4909168B381D0055F35D /* Green_3.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48EF168B381D0055F35D /* Green_3.wrl */; };
+		D16D490A168B381D0055F35D /* Green_4.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F0168B381D0055F35D /* Green_4.wrl */; };
+		D16D490B168B381D0055F35D /* Green_5.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F1168B381D0055F35D /* Green_5.wrl */; };
+		D16D490C168B381D0055F35D /* Green_6.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F2168B381D0055F35D /* Green_6.wrl */; };
+		D16D490D168B381D0055F35D /* Snow_1.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F3168B381D0055F35D /* Snow_1.wrl */; };
+		D16D490E168B381D0055F35D /* Snow_2.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F4168B381D0055F35D /* Snow_2.wrl */; };
+		D16D490F168B381D0055F35D /* Snow_3.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F5168B381D0055F35D /* Snow_3.wrl */; };
+		D16D4910168B381D0055F35D /* Snow_4.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F6168B381D0055F35D /* Snow_4.wrl */; };
+		D16D4911168B381D0055F35D /* Snow_5.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F7168B381D0055F35D /* Snow_5.wrl */; };
+		D16D4912168B381D0055F35D /* Snow_6.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F8168B381D0055F35D /* Snow_6.wrl */; };
 		D18EDBD01689770C00EE3B4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBCF1689770C00EE3B4E /* UIKit.framework */; };
 		D18EDBD21689770C00EE3B4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD11689770C00EE3B4E /* Foundation.framework */; };
 		D18EDBD41689770C00EE3B4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD31689770C00EE3B4E /* CoreGraphics.framework */; };
@@ -93,6 +121,36 @@
 		8B8EAA28168A27900097CA74 /* LevelObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelObject.cpp; sourceTree = "<group>"; };
 		8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXCamera.cpp; sourceTree = "<group>"; };
 		8B8EAA2B168A28620097CA74 /* MAXCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXCamera.h; sourceTree = "<group>"; };
+		D16D48CE168B30E50055F35D /* MAXContetnLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContetnLoader.cpp; sourceTree = "<group>"; };
+		D16D48CF168B30E50055F35D /* MAXContetnLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContetnLoader.h; sourceTree = "<group>"; };
+		D16D48D1168B31030055F35D /* MAXContentMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentMap.cpp; sourceTree = "<group>"; };
+		D16D48D2168B31030055F35D /* MAXContentMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContentMap.h; sourceTree = "<group>"; };
+		D16D48DF168B381D0055F35D /* 112x112.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = 112x112.wrl; sourceTree = "<group>"; };
+		D16D48E0168B381D0055F35D /* Crater_1.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_1.wrl; sourceTree = "<group>"; };
+		D16D48E1168B381D0055F35D /* Crater_2.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_2.wrl; sourceTree = "<group>"; };
+		D16D48E2168B381D0055F35D /* Crater_3.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_3.wrl; sourceTree = "<group>"; };
+		D16D48E3168B381D0055F35D /* Crater_4.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_4.wrl; sourceTree = "<group>"; };
+		D16D48E4168B381D0055F35D /* Crater_5.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_5.wrl; sourceTree = "<group>"; };
+		D16D48E5168B381D0055F35D /* Crater_6.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_6.wrl; sourceTree = "<group>"; };
+		D16D48E6168B381D0055F35D /* demomap0.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = demomap0.wrl; sourceTree = "<group>"; };
+		D16D48E7168B381D0055F35D /* Desert_1.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Desert_1.wrl; sourceTree = "<group>"; };
+		D16D48E8168B381D0055F35D /* Desert_2.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Desert_2.wrl; sourceTree = "<group>"; };
+		D16D48E9168B381D0055F35D /* Desert_3.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Desert_3.wrl; sourceTree = "<group>"; };
+		D16D48EA168B381D0055F35D /* Desert_4.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Desert_4.wrl; sourceTree = "<group>"; };
+		D16D48EB168B381D0055F35D /* Desert_5.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Desert_5.wrl; sourceTree = "<group>"; };
+		D16D48EC168B381D0055F35D /* Desert_6.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Desert_6.wrl; sourceTree = "<group>"; };
+		D16D48ED168B381D0055F35D /* Green_1.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_1.wrl; sourceTree = "<group>"; };
+		D16D48EE168B381D0055F35D /* Green_2.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_2.wrl; sourceTree = "<group>"; };
+		D16D48EF168B381D0055F35D /* Green_3.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_3.wrl; sourceTree = "<group>"; };
+		D16D48F0168B381D0055F35D /* Green_4.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_4.wrl; sourceTree = "<group>"; };
+		D16D48F1168B381D0055F35D /* Green_5.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_5.wrl; sourceTree = "<group>"; };
+		D16D48F2168B381D0055F35D /* Green_6.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_6.wrl; sourceTree = "<group>"; };
+		D16D48F3168B381D0055F35D /* Snow_1.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_1.wrl; sourceTree = "<group>"; };
+		D16D48F4168B381D0055F35D /* Snow_2.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_2.wrl; sourceTree = "<group>"; };
+		D16D48F5168B381D0055F35D /* Snow_3.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_3.wrl; sourceTree = "<group>"; };
+		D16D48F6168B381D0055F35D /* Snow_4.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_4.wrl; sourceTree = "<group>"; };
+		D16D48F7168B381D0055F35D /* Snow_5.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_5.wrl; sourceTree = "<group>"; };
+		D16D48F8168B381D0055F35D /* Snow_6.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_6.wrl; sourceTree = "<group>"; };
 		D18EDBCB1689770C00EE3B4E /* MAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D18EDBCF1689770C00EE3B4E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D18EDBD11689770C00EE3B4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -219,10 +277,71 @@
 		8B8EAA11168A17D70097CA74 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				D16D48DD168B37F20055F35D /* Resources */,
 				8B8EAA12168A17F30097CA74 /* MAXGame.cpp */,
 				8B8EAA13168A17F30097CA74 /* MAXGame.h */,
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		D16D48C9168B306C0055F35D /* MAXContetnLoader */ = {
+			isa = PBXGroup;
+			children = (
+				D16D48CD168B30A00055F35D /* MAXContentObjects */,
+				D16D48CE168B30E50055F35D /* MAXContetnLoader.cpp */,
+				D16D48CF168B30E50055F35D /* MAXContetnLoader.h */,
+			);
+			path = MAXContetnLoader;
+			sourceTree = "<group>";
+		};
+		D16D48CD168B30A00055F35D /* MAXContentObjects */ = {
+			isa = PBXGroup;
+			children = (
+				D16D48D1168B31030055F35D /* MAXContentMap.cpp */,
+				D16D48D2168B31030055F35D /* MAXContentMap.h */,
+			);
+			path = MAXContentObjects;
+			sourceTree = "<group>";
+		};
+		D16D48DD168B37F20055F35D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D16D48DE168B38080055F35D /* Maps */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D16D48DE168B38080055F35D /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				D16D48DF168B381D0055F35D /* 112x112.wrl */,
+				D16D48E0168B381D0055F35D /* Crater_1.wrl */,
+				D16D48E1168B381D0055F35D /* Crater_2.wrl */,
+				D16D48E2168B381D0055F35D /* Crater_3.wrl */,
+				D16D48E3168B381D0055F35D /* Crater_4.wrl */,
+				D16D48E4168B381D0055F35D /* Crater_5.wrl */,
+				D16D48E5168B381D0055F35D /* Crater_6.wrl */,
+				D16D48E6168B381D0055F35D /* demomap0.wrl */,
+				D16D48E7168B381D0055F35D /* Desert_1.wrl */,
+				D16D48E8168B381D0055F35D /* Desert_2.wrl */,
+				D16D48E9168B381D0055F35D /* Desert_3.wrl */,
+				D16D48EA168B381D0055F35D /* Desert_4.wrl */,
+				D16D48EB168B381D0055F35D /* Desert_5.wrl */,
+				D16D48EC168B381D0055F35D /* Desert_6.wrl */,
+				D16D48ED168B381D0055F35D /* Green_1.wrl */,
+				D16D48EE168B381D0055F35D /* Green_2.wrl */,
+				D16D48EF168B381D0055F35D /* Green_3.wrl */,
+				D16D48F0168B381D0055F35D /* Green_4.wrl */,
+				D16D48F1168B381D0055F35D /* Green_5.wrl */,
+				D16D48F2168B381D0055F35D /* Green_6.wrl */,
+				D16D48F3168B381D0055F35D /* Snow_1.wrl */,
+				D16D48F4168B381D0055F35D /* Snow_2.wrl */,
+				D16D48F5168B381D0055F35D /* Snow_3.wrl */,
+				D16D48F6168B381D0055F35D /* Snow_4.wrl */,
+				D16D48F7168B381D0055F35D /* Snow_5.wrl */,
+				D16D48F8168B381D0055F35D /* Snow_6.wrl */,
+			);
+			path = Maps;
 			sourceTree = "<group>";
 		};
 		D18EDBC01689770C00EE3B4E = {
@@ -415,6 +534,7 @@
 		D18EDC6F168982CA00EE3B4E /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				D16D48C9168B306C0055F35D /* MAXContetnLoader */,
 				D18EDCA6168989A700EE3B4E /* ObjectComponents */,
 				D18EDC8E1689862A00EE3B4E /* Objects */,
 				D18EDC791689842100EE3B4E /* Renderer */,
@@ -601,6 +721,32 @@
 				D18EDBE21689770C00EE3B4E /* Default.png in Resources */,
 				D18EDBE41689770C00EE3B4E /* Default@2x.png in Resources */,
 				D18EDBE61689770C00EE3B4E /* Default-568h@2x.png in Resources */,
+				D16D48F9168B381D0055F35D /* 112x112.wrl in Resources */,
+				D16D48FA168B381D0055F35D /* Crater_1.wrl in Resources */,
+				D16D48FB168B381D0055F35D /* Crater_2.wrl in Resources */,
+				D16D48FC168B381D0055F35D /* Crater_3.wrl in Resources */,
+				D16D48FD168B381D0055F35D /* Crater_4.wrl in Resources */,
+				D16D48FE168B381D0055F35D /* Crater_5.wrl in Resources */,
+				D16D48FF168B381D0055F35D /* Crater_6.wrl in Resources */,
+				D16D4900168B381D0055F35D /* demomap0.wrl in Resources */,
+				D16D4901168B381D0055F35D /* Desert_1.wrl in Resources */,
+				D16D4902168B381D0055F35D /* Desert_2.wrl in Resources */,
+				D16D4903168B381D0055F35D /* Desert_3.wrl in Resources */,
+				D16D4904168B381D0055F35D /* Desert_4.wrl in Resources */,
+				D16D4905168B381D0055F35D /* Desert_5.wrl in Resources */,
+				D16D4906168B381D0055F35D /* Desert_6.wrl in Resources */,
+				D16D4907168B381D0055F35D /* Green_1.wrl in Resources */,
+				D16D4908168B381D0055F35D /* Green_2.wrl in Resources */,
+				D16D4909168B381D0055F35D /* Green_3.wrl in Resources */,
+				D16D490A168B381D0055F35D /* Green_4.wrl in Resources */,
+				D16D490B168B381D0055F35D /* Green_5.wrl in Resources */,
+				D16D490C168B381D0055F35D /* Green_6.wrl in Resources */,
+				D16D490D168B381D0055F35D /* Snow_1.wrl in Resources */,
+				D16D490E168B381D0055F35D /* Snow_2.wrl in Resources */,
+				D16D490F168B381D0055F35D /* Snow_3.wrl in Resources */,
+				D16D4910168B381D0055F35D /* Snow_4.wrl in Resources */,
+				D16D4911168B381D0055F35D /* Snow_5.wrl in Resources */,
+				D16D4912168B381D0055F35D /* Snow_6.wrl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,6 +796,8 @@
 				D18EDCE1168B2C4A00EE3B4E /* MapObject.cpp in Sources */,
 				D18EDCE4168B2C5800EE3B4E /* MapRenderObject.cpp in Sources */,
 				D18EDCED168B2FBF00EE3B4E /* MAXMapMaterial.cpp in Sources */,
+				D16D48D0168B30E50055F35D /* MAXContetnLoader.cpp in Sources */,
+				D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

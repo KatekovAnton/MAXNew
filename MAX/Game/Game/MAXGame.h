@@ -12,6 +12,8 @@
 #include <iostream>
 #include "DisplayPinchDelegate.h"
 
+using namespace std;
+
 enum MAXGAMESTATE
 {
     MAXGAMESTATE_LOADINGSTART,
@@ -19,7 +21,6 @@ enum MAXGAMESTATE
     MAXGAMESTATE_LOADINGGAME,
     MAXGAMESTATE_GAME
 };
-
 
 class MAXEngine;
 
@@ -32,6 +33,8 @@ public:
     
     MAXGame();
     ~MAXGame();
+    
+    void SetMap(string mapName);
     
     void Init();
     

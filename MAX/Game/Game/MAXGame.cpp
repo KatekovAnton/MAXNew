@@ -12,6 +12,8 @@
 #include "Display.h"
 #include "UserInterface.h"
 
+#include "MAXContetnLoader.h"
+
 
 MAXGame globalGame;
 MAXGame * game = &globalGame;
@@ -28,6 +30,13 @@ MAXGame::~MAXGame()
 void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
+    
+    this->SetMap("Crater_1.wrl");
+}
+
+void MAXGame::SetMap(string mapName)
+{
+    MAXSCL->LoadMapWithName(mapName);
 }
 
 #pragma mark - DisplayPinchDelegate
