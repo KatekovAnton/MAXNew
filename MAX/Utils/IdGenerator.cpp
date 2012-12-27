@@ -8,6 +8,7 @@
 
 #include "IdGenerator.h"
 
+static IdGenerator *_instance;
 
 IdGenerator * IdGenerator::DefaultGenerator() {
     if (!_instance) {

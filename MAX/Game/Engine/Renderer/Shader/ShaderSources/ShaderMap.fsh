@@ -25,7 +25,8 @@ uniform highp float floatParam4;// = 112.0;
 
 void main()
 {
-    mediump vec4 color = texture2D(colorTexture, tcoordVarying);
+    highp vec2 tcoordProcessed = tcoordVarying;// + vec2(0.125/(64.0 * floatParam3), 0.125/(64.0 * floatParam4));
+    mediump vec4 color = texture2D(colorTexture, tcoordProcessed);
     mediump float index = color.r * 255.0 * 255.0 + color.g * 255.0;
 
     

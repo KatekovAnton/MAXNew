@@ -12,7 +12,6 @@
 #include <iostream>
 
 class IdGenerator {
-    static IdGenerator *_instance;
     
     unsigned int        _idPointer;
     
