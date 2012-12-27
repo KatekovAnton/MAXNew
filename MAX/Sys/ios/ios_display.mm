@@ -15,7 +15,7 @@ iosDisplay::iosDisplay() {
     if(![[UIApplication sharedApplication] isStatusBarHidden])
     {
         m_obScreenSize.width = m_obDesignResolutionSize.width = [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale;
-        m_obScreenSize.height = m_obDesignResolutionSize.height = ([UIScreen mainScreen].bounds.size.width - 20) * [UIScreen mainScreen].scale;
+        m_obScreenSize.height = m_obDesignResolutionSize.height = ([UIScreen mainScreen].bounds.size.width) * [UIScreen mainScreen].scale;
     }
     else
     {

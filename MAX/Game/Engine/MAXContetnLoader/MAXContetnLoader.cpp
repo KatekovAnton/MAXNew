@@ -79,15 +79,15 @@ MAXContentLoader* MAXContentLoader::SharedLoader()
 
 vector<Texture*> MAXContentLoader::CreatePalletes(Color* palette)
 {
-    Color* colors = new Color[pal_size];
-    memcpy(colors, palette, 4 * pal_size);
+    Color* colors = new Color[pal_size/3];
+    memcpy(colors, palette, 4 * pal_size/3);
     
     vector<Texture*> result;
     for(int i = 0;i<30;i++)
     {
-        Color* currentPalette = (Color*)malloc(4 * pal_size);
-        memcpy(currentPalette, colors, 4 * pal_size);
-        result.push_back(new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size, 1));
+        GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
+        memcpy(currentPalette, colors, 4 * pal_size/3);
+        result.push_back(new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1));
         if (i != 29)
             animatePalette(colors);
     }

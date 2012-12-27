@@ -14,14 +14,13 @@
 #include "MAXContetnLoader.h"
 #include "Sys.h"
 
-const double frameTime = 1.0/20.0;
+const double frameTime = 1.0/10.0;
 
 MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
 {
     int w = map->w;
     index = 0;
     GLubyte* colors = (GLubyte*)malloc(map->w * map->h * 4);
-    int a = 0;
     for (int i = 0; i < map->h; i++)
     {
         for (int j = 0; j < w; j++)
@@ -29,15 +28,8 @@ MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
             short value = map->map[i*w + j];
             GLubyte starshi = (GLubyte)((float)value/255.0);
             GLubyte mladshi = (GLubyte)(value - (short)starshi * 255.0);
-            colors[(i*w + j)*4] = starshi;
-            colors[(i*w + j)*4 + 1] = mladshi;
-            
-            int valuenew = colors[(i*w + j)*4] * 255 + colors[(i*w + j)*4 + 1];
-            
-            if (valuenew != value) {
-                a++;
-            }
-        
+            colors[(i * w + j) * 4] = starshi;
+            colors[(i * w + j) * 4 + 1] = mladshi;
         }
     }
     
@@ -102,19 +94,17 @@ void MAXMapMaterial::DoFrame(double elapsedTime)
 void MAXMapMaterial::ApplyLod(int lod, Shader *shader)
 {
     
-    glActiveTexture(GL_TEXTURE4);
-    glBindTexture(GL_TEXTURE_2D, mapElementsSingle->GetTextureName());
-    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE1], 4);
-    
-    
-    glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, currentPalette->GetTextureName());
-    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE3], 2);
-    
-    
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, fullMapTexture->GetTextureName());
     glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, currentPalette->GetTextureName());
+    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE3], 1);
+    
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, mapElementsSingle->GetTextureName());
+    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE1], 2);
     
 }
 
