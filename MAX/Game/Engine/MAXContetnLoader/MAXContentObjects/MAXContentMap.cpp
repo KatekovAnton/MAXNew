@@ -38,7 +38,6 @@ void MAXContentMap::LoadFromStream(BinaryReader *br)
     {//size
         w = br->ReadInt16();
         h = br->ReadInt16();
-        SysLogInfo("map size w: %d  h: %d", w, h);
     }
     
     {//minimap
@@ -72,4 +71,31 @@ void MAXContentMap::LoadFromStream(BinaryReader *br)
         groundType = new char[elementCount];
         br->ReadBuffer(elementCount, groundType);
     }
+    
+//    {
+//        int oldw = w;
+//        int oldh = h;
+//        
+//        w*=4;
+//        h*=4;
+//        
+//        short* newmap = new short[w*h];
+//       // memcpy(newmap, map, w*h/4);
+//        //h
+////        for (int i = 0; i < 1; i ++)
+////        {
+////            //w
+////            for (int j = 0; j < 1; j++)
+////            {
+//                for (int str = 0; str<oldh; str++)
+//                {
+//                    memcpy(((char*)newmap) +  (w * str) * sizeof(short), ((char*)map) + str * oldw * sizeof(short), oldw * sizeof(short));
+//                }
+//       //     }
+////        }
+//        short* tmp = map;
+//        map = newmap;
+//        delete []tmp;
+//    }
+    SysLogInfo("map size w: %d  h: %d", w, h);
 }
