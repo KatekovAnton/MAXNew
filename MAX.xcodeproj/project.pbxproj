@@ -897,7 +897,7 @@
 		D18EDBEA1689770C00EE3B4E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (V3WU9M6ZF5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAX/MAX-Prefix.pch";
@@ -917,7 +917,7 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "154F3442-46DC-4355-B1FE-89AAA7526BAF";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -925,7 +925,7 @@
 		D18EDBEB1689770C00EE3B4E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (V3WU9M6ZF5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAX/MAX-Prefix.pch";
@@ -945,7 +945,7 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "154F3442-46DC-4355-B1FE-89AAA7526BAF";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

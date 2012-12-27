@@ -56,10 +56,11 @@ void MAXEngine::Init() {
   //  _shader1 = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
     
     _director = CCDirector::sharedDirector();
+    _director->setContentScaleFactor(_renderSystem->GetDisplay()->GetDisplayScale());
     _director->setOpenGLView((CCEGLView *)(_renderSystem->GetDisplay()));
     
-    _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth(), _renderSystem->GetDisplay()->GetDisplayHeight(), kResolutionNoBorder);
-    _director->setContentScaleFactor(2.0f);
+    float scale = _renderSystem->GetDisplay()->GetDisplayScale();
+    _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth()/scale, _renderSystem->GetDisplay()->GetDisplayHeight()/scale, kResolutionNoBorder);
     
     
     _scene = new SceneSystem();

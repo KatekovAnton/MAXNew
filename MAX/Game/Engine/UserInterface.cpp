@@ -44,7 +44,7 @@ void UserInterface::Prepare() {
     labelItem->setPosition(CCPointZero);
     labelItem->setAnchorPoint(CCPointZero);
     CCMenu *menu = CCMenu::create(labelItem, nullptr);
-    menu->setPosition(CCPoint(00, 560));
+    menu->setPosition(CCPoint(00, 280));
     menu->setTouchEnabled(true);
     _guiNodes->addObject(menu);
     
