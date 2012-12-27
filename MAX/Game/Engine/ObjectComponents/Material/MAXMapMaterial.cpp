@@ -113,3 +113,6 @@ void MAXMapMaterial::SetFrame(int frame)
 
 void MAXMapMaterial::StopBackgroundLoading()
 {}
+
+
+

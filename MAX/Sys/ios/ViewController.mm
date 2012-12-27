@@ -102,6 +102,11 @@ static int const _kTEiOSMaxTouchesCount = 10;
     return UIInterfaceOrientationMaskLandscape;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     int ids[_kTEiOSMaxTouchesCount] = {0};
     float xs[_kTEiOSMaxTouchesCount] = {0.0f};
