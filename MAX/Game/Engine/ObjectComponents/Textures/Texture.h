@@ -33,7 +33,7 @@ class Texture {
 public:
     
     Texture();
-    Texture(GLuint filter);
+    Texture(GLuint filter, GLubyte *spriteData, int texWidth, int texHeight);
     Texture(string filename);
     
     GLuint GetTextureName();

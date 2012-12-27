@@ -31,7 +31,7 @@ void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
     
-    this->SetMap("Crater_1.wrl");
+    this->SetMap("Desert_3.wrl");
 }
 
 void MAXGame::SetMap(string mapName)

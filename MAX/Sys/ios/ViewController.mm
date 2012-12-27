@@ -49,6 +49,11 @@ static int const _kTEiOSMaxTouchesCount = 10;
     return _pinchDelegate->CanStartPinch();
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
 - (void)onPinch:(UIPinchGestureRecognizer*)gestureRecognizer
 {
     if (!_pinchDelegate)

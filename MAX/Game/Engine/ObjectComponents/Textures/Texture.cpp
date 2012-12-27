@@ -15,9 +15,12 @@ Texture::Texture()
 }
 
 
-Texture::Texture(GLuint filter)
+Texture::Texture(GLuint filter, GLubyte *spriteData, int texWidth, int texHeight)
 {
     _filrer = filter;
+    _texHeight = texHeight;
+    _texWidth = texWidth;
+    _name = SetupTexture(spriteData);
 }
 
 Texture::Texture(string filename)
@@ -67,6 +70,7 @@ void Texture::Dispose()
     
     
    glDeleteTextures(1, &_name);
+
     _disposed = true;
 }
 

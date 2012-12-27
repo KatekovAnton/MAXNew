@@ -16,6 +16,11 @@ MapObject::MapObject(shared_ptr<MAXContentMap> map):PivotObject()
 {
     _renderObject = new MapRenderObject(map);
     _material = new MAXMapMaterial(map);
+    
+    mapH = map->h;
+    mapW = map->w;
+    mapTexH = _material->texH;
+    mapTexW = _material->texW;
 }
 
 MapObject::~MapObject()
@@ -35,4 +40,6 @@ Material * MapObject::GetMaterial()
 }
 
 void MapObject::Frame(double time)
-{}
+{
+    _material->DoFrame(time);
+}

@@ -11,8 +11,13 @@
 #include "BinaryReader.h"
 #include "FileManger.h"
 #include <string>
+#include "Texture.h"
 
 using namespace std;
+
+const int pal_size = 0x300;
+const int max_width = 640;
+const int max_height = 480;
 
 MAXContentLoader* _sharedContentLoader = nullptr;
 
@@ -72,9 +77,23 @@ MAXContentLoader* MAXContentLoader::SharedLoader()
     return _sharedContentLoader;
 }
 
-Texture* MAXContentLoader::CreatePalletes(Color* palette)
+vector<Texture*> MAXContentLoader::CreatePalletes(Color* palette)
 {
+    Color* colors = new Color[pal_size];
+    memcpy(colors, palette, 4 * pal_size);
     
+    vector<Texture*> result;
+    for(int i = 0;i<30;i++)
+    {
+        Color* currentPalette = (Color*)malloc(4 * pal_size);
+        memcpy(currentPalette, colors, 4 * pal_size);
+        result.push_back(new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size, 1));
+        if (i != 29)
+            animatePalette(colors);
+    }
+    
+    delete colors;
+    return result;
 }
 
 

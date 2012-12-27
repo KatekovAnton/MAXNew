@@ -44,8 +44,8 @@ void MAXCamera::Scale(float deltaScale)
 
 void MAXCamera::Move(float deltax, float deltay)
 {
-    position.x += deltax * _scalex/( _displayScale * 2.0);
-    position.y -= deltay * _scalex/( _displayScale * 2.0);
+    position.x += deltax * _scalex * scale/( _displayScale * 2.0);
+    position.y -= deltay * _scalex * scale/( _displayScale * 2.0);
 }
 
 void MAXCamera::Update()
@@ -55,5 +55,5 @@ void MAXCamera::Update()
 
 void MAXCamera::RecalculateViewMatrix()
 {
-    this->view = GLKMatrix4Multiply(GLKMatrix4MakeTranslationV(position), GLKMatrix4MakeScale(1.0/scale, 1.0/scale, 1));
+    this->view = GLKMatrix4Multiply(GLKMatrix4MakeScale(1.0/scale, 1.0/scale, 1), GLKMatrix4MakeTranslationV(position));
 }

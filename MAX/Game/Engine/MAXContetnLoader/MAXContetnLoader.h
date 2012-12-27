@@ -10,6 +10,7 @@
 #define __MAX__MAXContetnLoader__
 
 #include <iostream>
+#include <vector>
 #include "MAXContetnConstants.h"
 
 #define MAXSCL MAXContentLoader::SharedLoader()
@@ -32,7 +33,7 @@ public:
     
     static MAXContentLoader* SharedLoader();
     
-    Texture* CreatePalletes(Color* palette);
+    vector<Texture*> CreatePalletes(Color* palette);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */

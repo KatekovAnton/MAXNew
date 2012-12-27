@@ -276,7 +276,7 @@ void CCGLProgram::setUniformLocationWith1i(unsigned int location, GLint i1)
 {
     bool updated =  updateUniformLocation(location, &i1, sizeof(i1)*1);
 
-    if( updated ) 
+    if( updated )
     {
         glUniform1i( (GLint)location, i1);
     }

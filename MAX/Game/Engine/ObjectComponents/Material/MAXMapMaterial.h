@@ -10,6 +10,7 @@
 #define __MAX__MAXMapMaterial__
 
 #include <iostream>
+#include <vector>
 #include "Material.h"
 
 class Texture;
@@ -20,10 +21,17 @@ using namespace std;
 class MAXMapMaterial : public Material
 {
 public:
-    Texture* mapElementsSingle;
-    Texture* palettes;
+    vector<Texture*> palettes;
     
+    float texW;
+    float texH;
+    
+    int index;
+    double time;
+    
+    Texture* mapElementsSingle;
     Texture* fullMapTexture;
+    Texture* currentPalette;
     
     MAXMapMaterial(shared_ptr<MAXContentMap> map);
     ~MAXMapMaterial();

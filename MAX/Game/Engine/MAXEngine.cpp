@@ -118,7 +118,7 @@ void MAXEngine::Update() {
     
     
     _scene->Frame(_elapsedTime);
-    
+    _map->Frame(_elapsedTime);
 
     _scene->EndFrame();
     _scene->UpdateScene();
@@ -146,6 +146,23 @@ void MAXEngine::Draw() {
         if (err != GL_NO_ERROR)
             printf(" glError: 0x%04X", err);
     }
+    
+    /*
+     //texture tiles size w
+     uniform mediump float floatParam1;// = 1.0/20.0;
+     //texture tiles size h
+     uniform mediump float floatParam2;// = 1.0/14.0;
+     
+     //mapw
+     uniform mediump float floatParam3;// = 112.0;
+     //maph
+     uniform mediump float floatParam4;// = 112.0;
+     */
+    
+    _shader->SetFloatValue(UNIFORM_FLOATPARAM2, 1.0/_map->mapTexH);
+    _shader->SetFloatValue(UNIFORM_FLOATPARAM1, 1.0/_map->mapTexW);
+    _shader->SetFloatValue(UNIFORM_FLOATPARAM3, _map->mapW);
+    _shader->SetFloatValue(UNIFORM_FLOATPARAM4, _map->mapH);
     DrawObject(_map.get());
 
     
@@ -169,6 +186,7 @@ void MAXEngine::Draw() {
     
         
     glEnable(GL_DEPTH_TEST);
+    glActiveTexture(GL_TEXTURE0);
 }
 
 void MAXEngine::DrawObject(PivotObject* object)

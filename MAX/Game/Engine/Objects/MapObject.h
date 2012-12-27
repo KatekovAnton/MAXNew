@@ -19,6 +19,13 @@ class MAXMapMaterial;
 class MapObject : public PivotObject {
     
 public:
+    
+    float mapW;
+    float mapH;
+    float mapTexW;
+    float mapTexH;
+    
+    
     MapRenderObject* _renderObject;
     MAXMapMaterial* _material;
     
