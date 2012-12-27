@@ -40,6 +40,8 @@
 		D16D4911168B381D0055F35D /* Snow_5.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F7168B381D0055F35D /* Snow_5.wrl */; };
 		D16D4912168B381D0055F35D /* Snow_6.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48F8168B381D0055F35D /* Snow_6.wrl */; };
 		D16D4950168B5F2D0055F35D /* MAXMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D494E168B5F2D0055F35D /* MAXMap.cpp */; };
+		D188A463168C550600E259B1 /* Crater_7.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D188A462168C550600E259B1 /* Crater_7.wrl */; };
+		D188A465168C557300E259B1 /* Green_7.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D188A464168C557300E259B1 /* Green_7.wrl */; };
 		D18EDBD01689770C00EE3B4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBCF1689770C00EE3B4E /* UIKit.framework */; };
 		D18EDBD21689770C00EE3B4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD11689770C00EE3B4E /* Foundation.framework */; };
 		D18EDBD41689770C00EE3B4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD31689770C00EE3B4E /* CoreGraphics.framework */; };
@@ -155,6 +157,8 @@
 		D16D491C168B456D0055F35D /* MAXContetnConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXContetnConstants.h; sourceTree = "<group>"; };
 		D16D494E168B5F2D0055F35D /* MAXMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXMap.cpp; sourceTree = "<group>"; };
 		D16D494F168B5F2D0055F35D /* MAXMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXMap.h; sourceTree = "<group>"; };
+		D188A462168C550600E259B1 /* Crater_7.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_7.wrl; sourceTree = "<group>"; };
+		D188A464168C557300E259B1 /* Green_7.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_7.wrl; sourceTree = "<group>"; };
 		D18EDBCB1689770C00EE3B4E /* MAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D18EDBCF1689770C00EE3B4E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D18EDBD11689770C00EE3B4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -327,6 +331,7 @@
 				D16D48E3168B381D0055F35D /* Crater_4.wrl */,
 				D16D48E4168B381D0055F35D /* Crater_5.wrl */,
 				D16D48E5168B381D0055F35D /* Crater_6.wrl */,
+				D188A462168C550600E259B1 /* Crater_7.wrl */,
 				D16D48E6168B381D0055F35D /* demomap0.wrl */,
 				D16D48E7168B381D0055F35D /* Desert_1.wrl */,
 				D16D48E8168B381D0055F35D /* Desert_2.wrl */,
@@ -340,6 +345,7 @@
 				D16D48F0168B381D0055F35D /* Green_4.wrl */,
 				D16D48F1168B381D0055F35D /* Green_5.wrl */,
 				D16D48F2168B381D0055F35D /* Green_6.wrl */,
+				D188A464168C557300E259B1 /* Green_7.wrl */,
 				D16D48F3168B381D0055F35D /* Snow_1.wrl */,
 				D16D48F4168B381D0055F35D /* Snow_2.wrl */,
 				D16D48F5168B381D0055F35D /* Snow_3.wrl */,
@@ -762,6 +768,8 @@
 				D16D4910168B381D0055F35D /* Snow_4.wrl in Resources */,
 				D16D4911168B381D0055F35D /* Snow_5.wrl in Resources */,
 				D16D4912168B381D0055F35D /* Snow_6.wrl in Resources */,
+				D188A463168C550600E259B1 /* Crater_7.wrl in Resources */,
+				D188A465168C557300E259B1 /* Green_7.wrl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

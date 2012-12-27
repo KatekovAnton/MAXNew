@@ -36,8 +36,8 @@ MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
     fullMapTexture = new Texture(GL_NEAREST, colors, map->w, map->h);
     
     {
-        int w = 20;
-        texW = 20;
+        int w = 32;
+        texW = w;
         int h = map->elementCount / w;
         if (w * h < map->elementCount)
             h++;
