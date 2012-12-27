@@ -42,6 +42,7 @@
 		D16D4950168B5F2D0055F35D /* MAXMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D494E168B5F2D0055F35D /* MAXMap.cpp */; };
 		D188A463168C550600E259B1 /* Crater_7.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D188A462168C550600E259B1 /* Crater_7.wrl */; };
 		D188A465168C557300E259B1 /* Green_7.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D188A464168C557300E259B1 /* Green_7.wrl */; };
+		D188A467168C565400E259B1 /* Demo_1.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D188A466168C565400E259B1 /* Demo_1.wrl */; };
 		D18EDBD01689770C00EE3B4E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBCF1689770C00EE3B4E /* UIKit.framework */; };
 		D18EDBD21689770C00EE3B4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD11689770C00EE3B4E /* Foundation.framework */; };
 		D18EDBD41689770C00EE3B4E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D18EDBD31689770C00EE3B4E /* CoreGraphics.framework */; };
@@ -159,6 +160,7 @@
 		D16D494F168B5F2D0055F35D /* MAXMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXMap.h; sourceTree = "<group>"; };
 		D188A462168C550600E259B1 /* Crater_7.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_7.wrl; sourceTree = "<group>"; };
 		D188A464168C557300E259B1 /* Green_7.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_7.wrl; sourceTree = "<group>"; };
+		D188A466168C565400E259B1 /* Demo_1.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Demo_1.wrl; sourceTree = "<group>"; };
 		D18EDBCB1689770C00EE3B4E /* MAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MAX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D18EDBCF1689770C00EE3B4E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D18EDBD11689770C00EE3B4E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -324,6 +326,7 @@
 		D16D48DE168B38080055F35D /* Maps */ = {
 			isa = PBXGroup;
 			children = (
+				D188A466168C565400E259B1 /* Demo_1.wrl */,
 				D16D48DF168B381D0055F35D /* 112x112.wrl */,
 				D16D48E0168B381D0055F35D /* Crater_1.wrl */,
 				D16D48E1168B381D0055F35D /* Crater_2.wrl */,
@@ -770,6 +773,7 @@
 				D16D4912168B381D0055F35D /* Snow_6.wrl in Resources */,
 				D188A463168C550600E259B1 /* Crater_7.wrl in Resources */,
 				D188A465168C557300E259B1 /* Green_7.wrl in Resources */,
+				D188A467168C565400E259B1 /* Demo_1.wrl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
