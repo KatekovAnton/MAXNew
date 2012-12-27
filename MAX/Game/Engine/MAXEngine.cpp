@@ -27,7 +27,7 @@
 #include "MapObject.h"
 
 using namespace cocos2d;
-using namespace Kompex;
+//using namespace Kompex;
 
 MAXEngine globalEngine;
 MAXEngine * engine = &globalEngine;

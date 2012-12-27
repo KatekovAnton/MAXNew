@@ -61,8 +61,6 @@
 		D18EDC081689789C00EE3B4E /* IdGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC031689789C00EE3B4E /* IdGenerator.cpp */; };
 		D18EDC091689789C00EE3B4E /* BinaryReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC051689789C00EE3B4E /* BinaryReader.cpp */; };
 		D18EDC0F1689791C00EE3B4E /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC0D1689791C00EE3B4E /* sqlite3.c */; };
-		D18EDC171689793F00EE3B4E /* KompexSQLiteDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC141689793F00EE3B4E /* KompexSQLiteDatabase.cpp */; };
-		D18EDC181689794000EE3B4E /* KompexSQLiteStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC161689793F00EE3B4E /* KompexSQLiteStatement.cpp */; };
 		D18EDC2D1689799F00EE3B4E /* lcl.c in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC291689799F00EE3B4E /* lcl.c */; };
 		D18EDC5416897B1E00EE3B4E /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC4B16897B1E00EE3B4E /* AppDelegate.mm */; };
 		D18EDC5516897B1E00EE3B4E /* ios_display.mm in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC4D16897B1E00EE3B4E /* ios_display.mm */; };
@@ -191,12 +189,6 @@
 		D18EDC061689789C00EE3B4E /* BinaryReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BinaryReader.h; sourceTree = "<group>"; };
 		D18EDC0D1689791C00EE3B4E /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		D18EDC0E1689791C00EE3B4E /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
-		D18EDC111689793F00EE3B4E /* KompexSQLitePrerequisites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KompexSQLitePrerequisites.h; sourceTree = "<group>"; };
-		D18EDC121689793F00EE3B4E /* KompexSQLiteException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KompexSQLiteException.h; sourceTree = "<group>"; };
-		D18EDC131689793F00EE3B4E /* KompexSQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KompexSQLiteDatabase.h; sourceTree = "<group>"; };
-		D18EDC141689793F00EE3B4E /* KompexSQLiteDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KompexSQLiteDatabase.cpp; sourceTree = "<group>"; };
-		D18EDC151689793F00EE3B4E /* KompexSQLiteStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KompexSQLiteStatement.h; sourceTree = "<group>"; };
-		D18EDC161689793F00EE3B4E /* KompexSQLiteStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KompexSQLiteStatement.cpp; sourceTree = "<group>"; };
 		D18EDC1A1689795E00EE3B4E /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
 		D18EDC1B1689795E00EE3B4E /* MyMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMath.h; sourceTree = "<group>"; };
 		D18EDC1C1689795E00EE3B4E /* GLKMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLKMath.h; sourceTree = "<group>"; };
@@ -488,12 +480,6 @@
 		D18EDC101689792C00EE3B4E /* KompexSQLite */ = {
 			isa = PBXGroup;
 			children = (
-				D18EDC111689793F00EE3B4E /* KompexSQLitePrerequisites.h */,
-				D18EDC121689793F00EE3B4E /* KompexSQLiteException.h */,
-				D18EDC131689793F00EE3B4E /* KompexSQLiteDatabase.h */,
-				D18EDC141689793F00EE3B4E /* KompexSQLiteDatabase.cpp */,
-				D18EDC151689793F00EE3B4E /* KompexSQLiteStatement.h */,
-				D18EDC161689793F00EE3B4E /* KompexSQLiteStatement.cpp */,
 			);
 			path = KompexSQLite;
 			sourceTree = "<group>";
@@ -790,8 +776,6 @@
 				D18EDC081689789C00EE3B4E /* IdGenerator.cpp in Sources */,
 				D18EDC091689789C00EE3B4E /* BinaryReader.cpp in Sources */,
 				D18EDC0F1689791C00EE3B4E /* sqlite3.c in Sources */,
-				D18EDC171689793F00EE3B4E /* KompexSQLiteDatabase.cpp in Sources */,
-				D18EDC181689794000EE3B4E /* KompexSQLiteStatement.cpp in Sources */,
 				D18EDC2D1689799F00EE3B4E /* lcl.c in Sources */,
 				D18EDC5416897B1E00EE3B4E /* AppDelegate.mm in Sources */,
 				D18EDC5516897B1E00EE3B4E /* ios_display.mm in Sources */,
