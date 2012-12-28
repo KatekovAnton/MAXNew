@@ -48,8 +48,7 @@ void MAXEngine::Init() {
     _camera = new MAXCamera(_screenRect);
     
     
-    _cube = shared_ptr<LevelObject>(LevelObject::CreateUnitQuad());
-    
+   
     
     _unitShader = new Shader("ShaderBackground.vsh", "ShaderBackground.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
@@ -64,6 +63,7 @@ void MAXEngine::Init() {
     
     
     _scene = new SceneSystem();
+    _scene->AddObject(shared_ptr<LevelObject>(LevelObject::CreateUnitQuad()), true);
     
     _scene->GetInterfaceManager()->Prepare();
     _director->pushScene(_scene->GetInterfaceManager()->GetGUISession());
@@ -129,6 +129,7 @@ void MAXEngine::Update() {
     _scene->EndFrame();
     _scene->UpdateScene();
     _camera->Update();
+    _scene->CalculateVisbleObject();
 }
 
 void MAXEngine::Draw() {
@@ -187,7 +188,10 @@ void MAXEngine::Draw() {
         if (err != GL_NO_ERROR)
             printf(" glError: 0x%04X", err);
     }
-    DrawObject(_cube.get());
+    const UContainer<PivotObject>* objects = _scene->GetVisibleObjects();
+    for (int i = 0; i < objects->GetCount(); i++) {
+        DrawObject(objects->objectAtIndex(i).get());
+    }
     
     
         
@@ -302,6 +306,35 @@ CCPoint MAXEngine::WorldCoordinatesToScreen(CCPoint world)
     CCPoint result;
     result.x = 0.5 * displayw * (world.x - camcenterCoords.x + screenSize.x)/screenSize.x;
     result.y = 0.5 * displayh * (world.y - camcenterCoords.y + screenSize.y)/screenSize.y;
+    
+    return result;
+}
+
+CCRect MAXEngine::ScreenToWorldRect()
+{
+    CCPoint camcentercell;
+    camcentercell.x = _map->mapW/2.0 - _camera->position.x;
+    camcentercell.y = _camera->position.y + _map->mapH/2.0;
+    
+    CCPoint camcenterCoords;
+    camcenterCoords.x = camcentercell.x * 64.0;
+    camcenterCoords.y = camcentercell.y * 64.0;
+    
+    float displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
+    float displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
+    
+    CCPoint screenSize;
+    screenSize.x = displayw * _camera->scale;
+    screenSize.y = displayh * _camera->scale;
+    
+    CCPoint ltp;
+    ltp.x = camcenterCoords.x - screenSize.x;
+    ltp.y = camcenterCoords.y - screenSize.y;
+    
+    CCRect result;
+    result.origin = ltp;
+    result.size.width = screenSize.x;
+    result.size.height = screenSize.y;
     
     return result;
 }

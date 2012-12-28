@@ -104,10 +104,9 @@ namespace Utils {
     void UContainer<T>::addObject(const shared_ptr<T>& object) {
         if (_count == _currentSize) {
             shared_ptr<T> *tmp = _array;
-            
-            _array = new shared_ptr<T>[_currentSize + _baseSize];// (shared_ptr<T>*)malloc(ELEMENT_SIZE*(_currentSize + _baseSize));
-
-            memcpy(_array, tmp, ELEMENT_SIZE*_currentSize);
+            _array = new shared_ptr<T>[_currentSize + _baseSize];
+            for (int i = 0; i < _count; i++)
+                _array[i] = tmp[i];
             _currentSize += _baseSize;
             delete [] tmp;
         }
@@ -132,14 +131,17 @@ namespace Utils {
         if (_currentSize < objects->GetCount() + _count)
         {
             shared_ptr<T> *tmp = _array;
-            _array = new shared_ptr<T>[_count + _baseSize];// (shared_ptr<T>*)malloc(ELEMENT_SIZE*(objects.GetCount() + _count + _baseSize));
-            memcpy(_array, tmp, ELEMENT_SIZE*_count);
+            _array = new shared_ptr<T>[_count + _baseSize];
+            for (int i = 0; i < _count; i++)
+                _array[i] = tmp[i];
+            
             _currentSize = objects->GetCount() + _count + _baseSize;
             delete [] tmp;
-           // free(tmp);
         }
-        memcpy(_array + ELEMENT_SIZE * _count, &objects, ELEMENT_SIZE * objects->GetCount());
-        _currentSize += objects->GetCount();
+        for (int i = 0; i < objects->GetCount(); i++)
+            _array[_count + i] = objects->objectAtIndex(i);
+        
+        _count += objects->GetCount();
     }
 }
 

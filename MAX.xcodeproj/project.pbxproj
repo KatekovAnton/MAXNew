@@ -575,10 +575,10 @@
 				D18EDC711689831800EE3B4E /* MAXEngine.h */,
 				8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */,
 				8B8EAA2B168A28620097CA74 /* MAXCamera.h */,
-				D18EDC73168983F700EE3B4E /* UserInterface.cpp */,
-				D18EDC74168983F700EE3B4E /* UserInterface.h */,
 				D18EDC75168983F700EE3B4E /* SceneSystem.cpp */,
 				D18EDC76168983F700EE3B4E /* SceneSystem.h */,
+				D18EDC73168983F700EE3B4E /* UserInterface.cpp */,
+				D18EDC74168983F700EE3B4E /* UserInterface.h */,
 			);
 			path = Engine;
 			sourceTree = "<group>";

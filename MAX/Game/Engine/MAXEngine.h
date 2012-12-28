@@ -44,7 +44,6 @@ class MAXEngine  {
     
 public:
     
-    std::shared_ptr<LevelObject>         _cube;
     std::shared_ptr<MapObject>           _map;
     
     MAXCamera              *_camera;
@@ -88,6 +87,7 @@ public:
     CCPoint ScreenToWorldCoordinates(CCPoint screen);
     CCPoint ScreenToWorldCell(CCPoint screen);
     CCPoint WorldCoordinatesToScreen(CCPoint screen);
+    CCRect ScreenToWorldRect();
 };
 
 

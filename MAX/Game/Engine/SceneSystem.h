@@ -33,6 +33,7 @@ public:
     
     
     UContainer<PivotObject>* GetVisibleObjects() const { return _visibleObjects; };
+    UContainer<PivotObject>* GetObjects() const { return _objects; };
     
     void Clear();
     
