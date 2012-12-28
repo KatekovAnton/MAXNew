@@ -25,28 +25,28 @@ uniform highp float floatParam4;// = 112.0;
 
 void main()
 {
-    highp vec2 tcoordProcessed = tcoordVarying;// + vec2(0.125/(64.0 * floatParam3), 0.125/(64.0 * floatParam4));
+    highp vec2 tcoordProcessed = tcoordVarying;
     mediump vec4 color = texture2D(colorTexture, tcoordProcessed);
     mediump float index = color.r * 255.0 * 255.0 + color.g * 255.0;
 
-    
+
     mediump float _y = floor(index * floatParam1);
     mediump float _x = index - _y / floatParam1;
     
     
-    //fractional part is coordinates in single quad
     highp float ccx = fract(tcoordVarying.x * floatParam3);
     highp float ccy = fract(tcoordVarying.y * floatParam4);
     
-    highp vec2 coords = vec2(1.0, 1.0);
     
+    highp vec2 coords = vec2(1.0, 1.0);
     coords.x = (_x + ccx) * floatParam1;
     coords.y = (_y + ccy) * floatParam2;
     
+    
     mediump vec4 color1 = texture2D(colorTexture1, coords);
-    
-    
+
     mediump vec2 finalCoords = vec2(color1.r, 0);
+    
     mediump vec4 finalColor = texture2D(colorTexture3, finalCoords);
     gl_FragColor = finalColor;
 }

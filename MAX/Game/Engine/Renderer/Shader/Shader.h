@@ -13,6 +13,46 @@
 
 #include "Geometry.h"
 
+/*
+ void main()
+ {
+ //координаты по colorTexture дают нам индекс блока(тайла)
+ highp vec2 tcoordProcessed = tcoordVarying;
+ mediump vec4 color = texture2D(colorTexture, tcoordProcessed);
+ mediump float index = color.r * 255.0 * 255.0 + color.g * 255.0;
+ 
+ 
+ //имея индекс надо получить его положение в тайловой текстуре
+ mediump float _y = floor(index * floatParam1);
+ mediump float _x = index - _y / floatParam1;
+ 
+ 
+ //помимо положения в тайловой текстуре необходимо знать
+ //точные координаты внутри тайлового блока
+ highp float ccx = fract(tcoordVarying.x * floatParam3);
+ highp float ccy = fract(tcoordVarying.y * floatParam4);
+ 
+ 
+ //вычисляем текстурные координвты внутри тайловой текструы
+ //имея координаты тайла и координвты внтури тайла, а также
+ //зная размер всей тайловой карты
+ highp vec2 coords = vec2(1.0, 1.0);
+ coords.x = (_x + ccx) * floatParam1;
+ coords.y = (_y + ccy) * floatParam2;
+ 
+ 
+ //цвет в тайловой карте дает нам индекс цвета из палитры
+ mediump vec4 color1 = texture2D(colorTexture1, coords);
+ 
+ //по индексу расчитываем координаты в текстуре-палитре
+ mediump vec2 finalCoords = vec2(color1.r, 0);
+ 
+ //теперь берем этот цвет из палитры
+ mediump vec4 finalColor = texture2D(colorTexture3, finalCoords);
+ gl_FragColor = finalColor;
+ }
+ */
+
 using namespace std;
 
 class Shader {

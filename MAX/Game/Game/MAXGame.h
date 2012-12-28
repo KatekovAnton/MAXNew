@@ -23,11 +23,14 @@ enum MAXGAMESTATE
 };
 
 class MAXEngine;
+class MAXMap;
 
 class MAXGame : public DisplayPinchDelegate {
     
     MAXGAMESTATE _curretnState;
 public:
+    
+    MAXMap * map;
     
     MAXGAMESTATE GetCurretnState() const {return _curretnState;}
     
