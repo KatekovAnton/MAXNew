@@ -14,12 +14,13 @@
 #include "MAXContetnLoader.h"
 #include "Sys.h"
 
-const double frameTime = 1.0/10.0;
+const double frameTime = 0.03;
 
 MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
 {
     int w = map->w;
     index = 0;
+    time = 0;
     GLubyte* colors = (GLubyte*)malloc(map->w * map->h * 4);
     for (int i = 0; i < map->h; i++)
     {
@@ -79,15 +80,12 @@ MAXMapMaterial::~MAXMapMaterial()
 
 void MAXMapMaterial::DoFrame(double elapsedTime)
 {
-    time += elapsedTime;
-    if (time > frameTime)
-    {
-        time -= frameTime;
-        index++;
-        if(index == palettes.size())
-            index = 0;
-    }
+    time = time + elapsedTime;
+    int f = (time/frameTime);
+    index = f%palettes.size();
+
     currentPalette = palettes[index];
+    
     
 }
 

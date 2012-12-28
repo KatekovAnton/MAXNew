@@ -84,6 +84,10 @@ public:
     void MoveCamera(float deltax, float deltay);
     
     void SetMap(shared_ptr<MAXContentMap> map);
+    
+    CCPoint ScreenToWorldCoordinates(CCPoint screen);
+    CCPoint ScreenToWorldCell(CCPoint screen);
+    CCPoint WorldCoordinatesToScreen(CCPoint screen);
 };
 
 

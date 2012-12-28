@@ -71,6 +71,11 @@ void MAXEngine::Init() {
     _director->setDisplayStats(true);
 }
 
+MAXEngine::~MAXEngine() {
+    delete _renderSystem;
+    delete _shader;
+}
+
 Shader * MAXEngine::GetShader() {
     return _shader;
 }
@@ -225,11 +230,6 @@ void MAXEngine::applicationWillEnterForeground() {
     
 }
 
-MAXEngine::~MAXEngine() {
-    delete _renderSystem;
-    delete _shader;
-}
-
 void MAXEngine::ScaleCamera(float deltaScale)
 {
     _camera->Scale(deltaScale);
@@ -243,4 +243,23 @@ void MAXEngine::MoveCamera(float deltax, float deltay)
 void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 {
     _map = shared_ptr<MapObject>(new MapObject(map));
+}
+
+CCPoint MAXEngine::ScreenToWorldCoordinates(CCPoint screen)
+{
+    CCPoint camcentercell = CCPoint(_map->mapW/2.0 - _camera->position.x, _camera->position.y + _map->mapH/2.0);
+    CCPoint camcenterCoords = CCPoint(camcentercell.x * 64.0, camcentercell.y * 64.0);
+    
+    
+    return camcentercell;
+}
+
+CCPoint MAXEngine::ScreenToWorldCell(CCPoint screen)
+{
+    return CCPoint(0, 0);
+}
+
+CCPoint MAXEngine::WorldCoordinatesToScreen(CCPoint screen)
+{
+    return CCPoint(0, 0);
 }

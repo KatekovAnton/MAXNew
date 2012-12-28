@@ -18,3 +18,9 @@ void DisplayPinchDelegate::ProceedPinch(float scale)
 
 void DisplayPinchDelegate::ProceedPan(float speedx, float speedy)
 {}
+
+void DisplayPinchDelegate::ProceedTap(float tapx, float tapy)
+{}
+
+void DisplayPinchDelegate::ProceedLongTap(float tapx, float tapy)
+{}

@@ -40,6 +40,18 @@ static int const _kTEiOSMaxTouchesCount = 10;
     vc1.delegate = self;
     [self.view addGestureRecognizer:vc1];
     
+    UITapGestureRecognizer* vc2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+    vc2.delegate = self;
+    vc2.numberOfTouchesRequired = 1;
+    vc2.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:vc2];
+
+    UILongPressGestureRecognizer* vc3 = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongTap:)];
+    vc3.delegate = self;
+    vc3.minimumPressDuration = 1.0;
+    [self.view addGestureRecognizer:vc3];
+    
+    
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -71,6 +83,24 @@ static int const _kTEiOSMaxTouchesCount = 10;
     CGPoint translation = [gestureRecognizer translationInView:self.view];
     [gestureRecognizer setTranslation:CGPointMake(0, 0) inView:self.view];
     _pinchDelegate->ProceedPan(translation.x, translation.y);
+}
+
+- (void)onTap:(UIPanGestureRecognizer*)gestureRecognizer
+{
+    if (!_pinchDelegate)
+        return;
+    
+    CGPoint translation = [gestureRecognizer locationInView:self.view];
+    _pinchDelegate->ProceedTap(translation.x, translation.y);
+}
+
+- (void)onLongTap:(UIPanGestureRecognizer*)gestureRecognizer
+{
+    if (!_pinchDelegate)
+        return;
+    
+    CGPoint translation = [gestureRecognizer locationInView:self.view];
+    _pinchDelegate->ProceedLongTap(translation.x, translation.y);
 }
 
 - (void)viewDidLoad {

@@ -17,6 +17,8 @@ public:
     virtual bool CanStartPinch();
     virtual void ProceedPinch(float scale);
     virtual void ProceedPan(float speedx, float speedy);
+    virtual void ProceedTap(float tapx, float tapy);
+    virtual void ProceedLongTap(float tapx, float tapy);
 };
 
 #endif /* defined(__MAX__DisplayPinchDelegate__) */
