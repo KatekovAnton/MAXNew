@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
+{
+    NSTimeInterval lastTime;
+}
 - (void)initEnviroment;
 
 @end

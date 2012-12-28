@@ -48,12 +48,16 @@ MyClass::~MyClass()
     CADisplayLink *link = [CADisplayLink displayLinkWithTarget:self selector:@selector(frameCallback:)];
     [link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     
+    lastTime = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
     engine->Init();
     game->Init();
 }
 
 - (void)frameCallback:(CADisplayLink *)link {
-    engine->RunLoop(link.duration);
+    NSTimeInterval time = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
+    NSTimeInterval delta = time - lastTime;
+    lastTime = time;
+    engine->RunLoop(delta);
 }
 
 

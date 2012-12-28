@@ -247,19 +247,61 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 
 CCPoint MAXEngine::ScreenToWorldCoordinates(CCPoint screen)
 {
-    CCPoint camcentercell = CCPoint(_map->mapW/2.0 - _camera->position.x, _camera->position.y + _map->mapH/2.0);
-    CCPoint camcenterCoords = CCPoint(camcentercell.x * 64.0, camcentercell.y * 64.0);
+    CCPoint camcentercell;
+    camcentercell.x = _map->mapW/2.0 - _camera->position.x;
+    camcentercell.y = _camera->position.y + _map->mapH/2.0;
     
+    CCPoint camcenterCoords;
+    camcenterCoords.x = camcentercell.x * 64.0;
+    camcenterCoords.y = camcentercell.y * 64.0;
     
-    return camcentercell;
+    float displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
+    float displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
+    
+    CCPoint screenSize;
+    screenSize.x = displayw * _camera->scale;
+    screenSize.y = displayh * _camera->scale;
+    
+    CCPoint ltp;
+    ltp.x = camcenterCoords.x - screenSize.x;
+    ltp.y = camcenterCoords.y - screenSize.y;
+    
+    float dx = screen.x/displayw;
+    float dy = screen.y/displayh;
+    
+    CCPoint result;
+    result.x = ltp.x + screenSize.x * dx * 2;
+    result.y = ltp.y + screenSize.y * dy * 2;
+    
+    return result;
 }
 
 CCPoint MAXEngine::ScreenToWorldCell(CCPoint screen)
 {
-    return CCPoint(0, 0);
+    CCPoint coords = ScreenToWorldCoordinates(screen);
+    return CCPoint(coords.x/64.0, coords.y/64.0);
 }
 
-CCPoint MAXEngine::WorldCoordinatesToScreen(CCPoint screen)
+CCPoint MAXEngine::WorldCoordinatesToScreen(CCPoint world)
 {
-    return CCPoint(0, 0);
+    CCPoint camcentercell;
+    camcentercell.x = _map->mapW/2.0 - _camera->position.x;
+    camcentercell.y = _camera->position.y + _map->mapH/2.0;
+    
+    CCPoint camcenterCoords;
+    camcenterCoords.x = camcentercell.x * 64.0;
+    camcenterCoords.y = camcentercell.y * 64.0;
+    
+    float displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
+    float displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
+    
+    CCPoint screenSize;
+    screenSize.x = displayw * _camera->scale;
+    screenSize.y = displayh * _camera->scale;
+    
+    CCPoint result;
+    result.x = 0.5 * displayw * (world.x - camcenterCoords.x + screenSize.x)/screenSize.x;
+    result.y = 0.5 * displayh * (world.y - camcenterCoords.y + screenSize.y)/screenSize.y;
+    
+    return result;
 }

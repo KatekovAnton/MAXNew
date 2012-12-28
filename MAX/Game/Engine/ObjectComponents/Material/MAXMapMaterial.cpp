@@ -14,7 +14,7 @@
 #include "MAXContetnLoader.h"
 #include "Sys.h"
 
-const double frameTime = 0.03;
+const double frameTime = 1.0/10.0;
 
 MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
 {
