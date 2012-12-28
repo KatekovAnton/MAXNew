@@ -8,7 +8,7 @@
 
 #include "MAXUnitRenderObject.h"
 #include "EngineMesh.h"
-#include "MAXUnitMaterial.h"
+#include "Material.h"
 #include "MAXEngine.h"
 
 MAXUnitRenderObject::MAXUnitRenderObject()

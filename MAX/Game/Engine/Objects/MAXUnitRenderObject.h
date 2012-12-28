@@ -12,7 +12,6 @@
 #include <iostream>
 #include "RenderObject.h"
 
-class MAXUnitMaterial;
 class Material;
 class EngineMesh;
 
@@ -20,7 +19,6 @@ class MAXUnitRenderObject : public RenderObject {
     //not own
     EngineMesh* _mesh;
 public:
-    MAXUnitMaterial* material;
     
     MAXUnitRenderObject();
     ~MAXUnitRenderObject();

@@ -108,6 +108,7 @@
 		D1992274168E1DE40067D6CF /* ShaderUnit.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D1992272168E1DE40067D6CF /* ShaderUnit.vsh */; };
 		D1992275168E1DFD0067D6CF /* ShaderUnit.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992271168E1DE40067D6CF /* ShaderUnit.fsh */; };
 		D1992276168E1DFD0067D6CF /* ShaderUnit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992272168E1DE40067D6CF /* ShaderUnit.vsh */; };
+		D1992279168E309F0067D6CF /* MAXUnitObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1992277168E309E0067D6CF /* MAXUnitObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -286,6 +287,8 @@
 		D199226F168E1C7D0067D6CF /* MAXUnitRenderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitRenderObject.h; sourceTree = "<group>"; };
 		D1992271168E1DE40067D6CF /* ShaderUnit.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnit.fsh; sourceTree = "<group>"; };
 		D1992272168E1DE40067D6CF /* ShaderUnit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnit.vsh; sourceTree = "<group>"; };
+		D1992277168E309E0067D6CF /* MAXUnitObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitObject.cpp; sourceTree = "<group>"; };
+		D1992278168E309F0067D6CF /* MAXUnitObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -673,6 +676,8 @@
 				D18EDCE3168B2C5800EE3B4E /* MapRenderObject.h */,
 				D199226E168E1C7D0067D6CF /* MAXUnitRenderObject.cpp */,
 				D199226F168E1C7D0067D6CF /* MAXUnitRenderObject.h */,
+				D1992277168E309E0067D6CF /* MAXUnitObject.cpp */,
+				D1992278168E309F0067D6CF /* MAXUnitObject.h */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -890,6 +895,7 @@
 				D1992270168E1C7D0067D6CF /* MAXUnitRenderObject.cpp in Sources */,
 				D1992273168E1DE40067D6CF /* ShaderUnit.fsh in Sources */,
 				D1992274168E1DE40067D6CF /* ShaderUnit.vsh in Sources */,
+				D1992279168E309F0067D6CF /* MAXUnitObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
