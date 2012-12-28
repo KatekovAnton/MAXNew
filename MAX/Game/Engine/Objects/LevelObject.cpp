@@ -11,6 +11,8 @@
 #include "UnAnimRenderObject.h"
 #include "TextureMaterial.h"
 #include "Texture.h"
+#include "MAXUnitMaterial.h"
+#include "MAXContetnLoader.h"
 
 LevelObject::LevelObject(RenderObject *renderObject, Material *material):PivotObject() {
     _renderAspect = renderObject;
@@ -19,8 +21,9 @@ LevelObject::LevelObject(RenderObject *renderObject, Material *material):PivotOb
 
 LevelObject * LevelObject::CreateUnitQuad() {
     shared_ptr<EngineMesh> mesh = EngineMesh::CreateUnitQuad();
-    Material *material = nullptr;
+    Material *material = MAXSCL->LoadUnitMaterial("ALNTANK");
     
+
     RenderObject *renderObject = new UnAnimRenderObject(mesh);
     
     return new LevelObject(renderObject, material);

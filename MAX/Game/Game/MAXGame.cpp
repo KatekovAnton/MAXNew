@@ -37,8 +37,6 @@ void MAXGame::Init()
 void MAXGame::SetMap(string mapName)
 {
     engine->SetMap(MAXSCL->LoadMapWithName(mapName));
-    int tt = MAXSCL->FindImage("AIREXPLD");
-    tt = tt;
 }
 
 #pragma mark - DisplayPinchDelegate

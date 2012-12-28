@@ -16,7 +16,7 @@ UnAnimRenderObject::UnAnimRenderObject(shared_ptr<EngineMesh> mesh):RenderObject
 }
 
 void UnAnimRenderObject::Render(int lod, Material *material) {
-  //  material->ApplyLod(lod, engine->GetShader());
+    material->ApplyLod(lod, engine->GetShader());
     _mesh->Bind();
     _mesh->Render();
     _mesh->Unbind();

@@ -17,7 +17,7 @@ class EngineMesh;
 class UnAnimRenderObject : public RenderObject {
     
     shared_ptr<EngineMesh>          _mesh;
-    
+    Material* _material;
 public:
     
     UnAnimRenderObject(shared_ptr<EngineMesh> mesh);

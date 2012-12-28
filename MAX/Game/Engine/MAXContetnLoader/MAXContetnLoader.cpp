@@ -314,7 +314,6 @@ MAXContentLoader::MAXContentLoader()
     defaultPalette = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     unitMesh = EngineMesh::CreateUnitQuad();
     
-    MAXUnitMaterial* v= LoadUnitMaterial("ALNTANK");
 }
 
 MAXContentLoader::~MAXContentLoader()
@@ -448,9 +447,7 @@ int MAXContentLoader::FindImage(string name)
 }
 
 void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset)
-{
-    unsigned char* pixels;
-    
+{    
     ushort width = source->ReadUInt16();
     ushort height = source->ReadUInt16();
     short center_x = source->ReadInt16();
@@ -464,41 +461,38 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     if (size == 0)
         return;
     
-    pixels = (unsigned char*)malloc(size);
+    unsigned char* pixels = (unsigned char*)malloc(size);
     
     // Rows offsets.
     unsigned int* rows = new unsigned int[height];
-    
-    char* rowbytes = new char[height*4];
-    source->ReadBuffer(height * 4, rowbytes);
-    memcpy(rows, rowbytes, height*4);
+    source->ReadBuffer(height * 4, (char *)rows);
     
     //BinaryReader* dest = new BinaryReader(pixels);
-    int destOffset;
+    int destOffset = 0;
     
     
     unsigned char buf;
-    
+    char tmpbuffer[256];
     for (int i = 0; i < height; i++)
     {
         source->SetPosition(rows[i] + baseOffset);
         buf = source->ReadChar();
-        
+        int a = 0;
         while (buf != 0xff)
         {
 //            dest.Seek(buf, SeekOrigin.Current);
 //            buf = source.ReadByte();
 //            dest.Write(source.ReadBytes(buf), 0, buf);
 //            buf = source.ReadByte();
-            
+            SysLogInfo("i = %d, a = %d", i, a);
             destOffset += buf;
             buf = source->ReadUChar();
-            char *tmpbuffer = (char*)malloc(buf);
             source->ReadBuffer(buf, tmpbuffer);
             memcpy(pixels + destOffset, tmpbuffer, buf);
-            free(tmpbuffer);
             
-            buf = source->ReadChar();
+            buf = source->ReadUChar();
+            
+            a++;
         }
         
         int new_pos = (i + 1) * width;
@@ -509,7 +503,6 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     Texture* result = TextureFromIndexAndDefaultPalette((int)width, (int)height, pixels);
     target->textures[index] = result;
     delete [] rows;
-    delete [] rowbytes;
 }
 
 MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
@@ -518,23 +511,26 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
     void* cashed = loadedData[index];
     if(cashed)
         return (MAXUnitMaterial*)cashed;
-    int length = dir[index].size;
+//    int length = dir[index].size;
     inf->SetPosition(dir[index].offset);
 
     
     long baseOffset = inf->GetPosition();
-    char* buf = new char[length];
-    inf->ReadBuffer(length, buf);
-    short picCount = (short)(buf[0] + 256 * buf[1]);
+//    char* buf = new char[length];
+//    inf->ReadBuffer(length, buf);
+    short picCount = inf->ReadInt16();// (short)(buf[0] + 256 * buf[1]);
     
     int* picbounds = new int[picCount];
+    inf->ReadBuffer(picCount*4, (char*) picbounds);
     
-    for (int picIndex = 0; picIndex < picCount; picIndex++)
+  for (int picIndex = 0; picIndex < picCount; picIndex++)
     {
-        picbounds[picIndex] =
-        buf[2 + picIndex * 4] +
-        256 * buf[3 + picIndex * 4] +
-        65536 * (buf[4 + picIndex * 4] + 256 * buf[5 + picIndex * 4]);
+//        picbounds[picIndex] =
+//        buf[2 + picIndex * 4] +
+//        256 * buf[3 + picIndex * 4] +
+//        65536 * (buf[4 + picIndex * 4] + 256 * buf[5 + picIndex * 4]);
+        int index = picbounds[picIndex];
+        index = index;
     }
     
     
@@ -543,11 +539,12 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
     {
         inf->SetPosition(picbounds[picIndex] + baseOffset);
         LoadFrame(inf, picIndex, result, baseOffset);
+ 
     }
     
     loadedData[index] = (void*)result;
     
-    delete []buf;
+//    delete []buf;
     delete []picbounds;
     return result;
 }
