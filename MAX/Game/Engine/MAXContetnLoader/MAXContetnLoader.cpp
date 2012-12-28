@@ -14,6 +14,7 @@
 #include "Texture.h"
 #include "MAXUnitMaterial.h"
 #include "Sys.h"
+#include "EngineMesh.h"
 
 using namespace std;
 
@@ -287,7 +288,6 @@ Color default_palette[256] =
     {0xff, 0xff, 0xff, 0xff}, //255
 };
 
-
 MAXContentLoader* _sharedContentLoader = nullptr;
 
 MAXContentLoader::MAXContentLoader()
@@ -305,7 +305,16 @@ MAXContentLoader::MAXContentLoader()
         
         SysLogInfo("%s", dir[f].name);
     }
-    loadedData = new size_t[hdr.dirlength / 16];
+    loadedData = new void*[hdr.dirlength / 16];
+    memset(loadedData, 0, hdr.dirlength / 4);
+    
+    
+    GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
+    memcpy(currentPalette, &defaultPalette, 4 * pal_size/3);
+    defaultPalette = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
+    unitMesh = EngineMesh::CreateUnitQuad();
+    
+    MAXUnitMaterial* v= LoadUnitMaterial("ALNTANK");
 }
 
 MAXContentLoader::~MAXContentLoader()
@@ -501,9 +510,12 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
 MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
 {
     int index = FindImage(name);
+    void* cashed = loadedData[index];
+    if(cashed)
+        return (MAXUnitMaterial*)cashed;
     int length = dir[index].size;
     inf->SetPosition(dir[index].offset);
-    index = index;
+
     
     long baseOffset = inf->GetPosition();
     char* buf = new char[length];
@@ -528,6 +540,7 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
         LoadFrame(inf, picIndex, result, baseOffset);
     }
     
+    loadedData[index] = (void*)result;
     
     delete []buf;
     delete []picbounds;

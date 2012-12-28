@@ -103,6 +103,11 @@
 		D18EDCED168B2FBF00EE3B4E /* MAXMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */; };
 		D199226A168DF4540067D6CF /* Max.res in Resources */ = {isa = PBXBuildFile; fileRef = D1992269168DF4540067D6CF /* Max.res */; };
 		D199226D168DF75C0067D6CF /* MAXContetnLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */; };
+		D1992270168E1C7D0067D6CF /* MAXUnitRenderObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D199226E168E1C7D0067D6CF /* MAXUnitRenderObject.cpp */; };
+		D1992273168E1DE40067D6CF /* ShaderUnit.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D1992271168E1DE40067D6CF /* ShaderUnit.fsh */; };
+		D1992274168E1DE40067D6CF /* ShaderUnit.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D1992272168E1DE40067D6CF /* ShaderUnit.vsh */; };
+		D1992275168E1DFD0067D6CF /* ShaderUnit.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992271168E1DE40067D6CF /* ShaderUnit.fsh */; };
+		D1992276168E1DFD0067D6CF /* ShaderUnit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992272168E1DE40067D6CF /* ShaderUnit.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,6 +282,10 @@
 		D1992269168DF4540067D6CF /* Max.res */ = {isa = PBXFileReference; lastKnownFileType = file; path = Max.res; sourceTree = "<group>"; };
 		D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContetnLoader.cpp; sourceTree = "<group>"; };
 		D199226C168DF75C0067D6CF /* MAXContetnLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContetnLoader.h; sourceTree = "<group>"; };
+		D199226E168E1C7D0067D6CF /* MAXUnitRenderObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitRenderObject.cpp; sourceTree = "<group>"; };
+		D199226F168E1C7D0067D6CF /* MAXUnitRenderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitRenderObject.h; sourceTree = "<group>"; };
+		D1992271168E1DE40067D6CF /* ShaderUnit.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnit.fsh; sourceTree = "<group>"; };
+		D1992272168E1DE40067D6CF /* ShaderUnit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnit.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -635,6 +644,8 @@
 		D18EDC811689846B00EE3B4E /* ShaderSources */ = {
 			isa = PBXGroup;
 			children = (
+				D1992271168E1DE40067D6CF /* ShaderUnit.fsh */,
+				D1992272168E1DE40067D6CF /* ShaderUnit.vsh */,
 				D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */,
 				D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */,
 				D18EDC821689847B00EE3B4E /* ShaderBackground.vsh */,
@@ -660,6 +671,8 @@
 				D18EDCE0168B2C4A00EE3B4E /* MapObject.h */,
 				D18EDCE2168B2C5800EE3B4E /* MapRenderObject.cpp */,
 				D18EDCE3168B2C5800EE3B4E /* MapRenderObject.h */,
+				D199226E168E1C7D0067D6CF /* MAXUnitRenderObject.cpp */,
+				D199226F168E1C7D0067D6CF /* MAXUnitRenderObject.h */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -775,6 +788,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1992275168E1DFD0067D6CF /* ShaderUnit.fsh in Resources */,
+				D1992276168E1DFD0067D6CF /* ShaderUnit.vsh in Resources */,
 				D18EDCDD168B2B1200EE3B4E /* ShaderMap.fsh in Resources */,
 				D18EDCDE168B2B1200EE3B4E /* ShaderMap.vsh in Resources */,
 				D18EDC8A168984AE00EE3B4E /* ShaderBackground.vsh in Resources */,
@@ -872,6 +887,9 @@
 				D11ABAC3168DEBE100CD29EA /* GameEffectRocket.cpp in Sources */,
 				D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */,
 				D199226D168DF75C0067D6CF /* MAXContetnLoader.cpp in Sources */,
+				D1992270168E1C7D0067D6CF /* MAXUnitRenderObject.cpp in Sources */,
+				D1992273168E1DE40067D6CF /* ShaderUnit.fsh in Sources */,
+				D1992274168E1DE40067D6CF /* ShaderUnit.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

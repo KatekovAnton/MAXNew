@@ -50,7 +50,7 @@ void MAXEngine::Init() {
     
    
     
-    _unitShader = new Shader("ShaderBackground.vsh", "ShaderBackground.fsh");
+    _unitShader = new Shader("ShaderUnit.vsh", "ShaderUnit.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
   //  _shader1 = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
     

@@ -21,7 +21,7 @@ class MAXContentMap;
 class MAXUnitMaterial;
 class BinaryReader;
 class Texture;
-
+class EngineMesh;
 
 struct typhdr
 {
@@ -47,9 +47,12 @@ class MAXContentLoader {
     typdiritem *dir;
     typhdr hdr;
     BinaryReader* inf;
-    size_t* loadedData;
+    void** loadedData;
     
 public:
+    
+    shared_ptr<EngineMesh> unitMesh;
+    Texture* defaultPalette;
     
     static MAXContentLoader* SharedLoader();
     
