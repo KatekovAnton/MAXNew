@@ -50,7 +50,7 @@ namespace Utils {
     template<class T>
     UContainer<T>::UContainer(int baseSize):_count(0) {
         _baseSize = baseSize;
-        _array = new shared_ptr<T>[baseSize];//(shared_ptr<T>*)malloc(ELEMENT_SIZE*_baseSize);
+        _array = new shared_ptr<T>[baseSize];
         _currentSize = _baseSize;
     }
     

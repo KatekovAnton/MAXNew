@@ -14,7 +14,10 @@
 		D11ABAA4168DDB0A00CD29EA /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */; };
 		D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */; };
 		D11ABAAA168DDB3400CD29EA /* GameBuilding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA8168DDB3400CD29EA /* GameBuilding.cpp */; };
-		D16D48D0168B30E50055F35D /* MAXContetnLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48CE168B30E50055F35D /* MAXContetnLoader.cpp */; };
+		D11ABABD168DEBBC00CD29EA /* GameEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABABB168DEBBB00CD29EA /* GameEffect.cpp */; };
+		D11ABAC0168DEBD700CD29EA /* GameEffectBlast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABABE168DEBD700CD29EA /* GameEffectBlast.cpp */; };
+		D11ABAC3168DEBE100CD29EA /* GameEffectRocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAC1168DEBE100CD29EA /* GameEffectRocket.cpp */; };
+		D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */; };
 		D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48D1168B31030055F35D /* MAXContentMap.cpp */; };
 		D16D48F9168B381D0055F35D /* 112x112.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48DF168B381D0055F35D /* 112x112.wrl */; };
 		D16D48FA168B381D0055F35D /* Crater_1.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E0168B381D0055F35D /* Crater_1.wrl */; };
@@ -98,6 +101,8 @@
 		D18EDCE1168B2C4A00EE3B4E /* MapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCDF168B2C4A00EE3B4E /* MapObject.cpp */; };
 		D18EDCE4168B2C5800EE3B4E /* MapRenderObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCE2168B2C5800EE3B4E /* MapRenderObject.cpp */; };
 		D18EDCED168B2FBF00EE3B4E /* MAXMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */; };
+		D199226A168DF4540067D6CF /* Max.res in Resources */ = {isa = PBXBuildFile; fileRef = D1992269168DF4540067D6CF /* Max.res */; };
+		D199226D168DF75C0067D6CF /* MAXContetnLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,8 +137,14 @@
 		D11ABAA6168DDB2A00CD29EA /* GameUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnit.h; sourceTree = "<group>"; };
 		D11ABAA8168DDB3400CD29EA /* GameBuilding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameBuilding.cpp; sourceTree = "<group>"; };
 		D11ABAA9168DDB3400CD29EA /* GameBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameBuilding.h; sourceTree = "<group>"; };
-		D16D48CE168B30E50055F35D /* MAXContetnLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContetnLoader.cpp; sourceTree = "<group>"; };
-		D16D48CF168B30E50055F35D /* MAXContetnLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContetnLoader.h; sourceTree = "<group>"; };
+		D11ABABB168DEBBB00CD29EA /* GameEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffect.cpp; sourceTree = "<group>"; };
+		D11ABABC168DEBBC00CD29EA /* GameEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffect.h; sourceTree = "<group>"; };
+		D11ABABE168DEBD700CD29EA /* GameEffectBlast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffectBlast.cpp; sourceTree = "<group>"; };
+		D11ABABF168DEBD700CD29EA /* GameEffectBlast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectBlast.h; sourceTree = "<group>"; };
+		D11ABAC1168DEBE100CD29EA /* GameEffectRocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffectRocket.cpp; sourceTree = "<group>"; };
+		D11ABAC2168DEBE100CD29EA /* GameEffectRocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectRocket.h; sourceTree = "<group>"; };
+		D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitMaterial.cpp; sourceTree = "<group>"; };
+		D11ABAC5168DEC3000CD29EA /* MAXUnitMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitMaterial.h; sourceTree = "<group>"; };
 		D16D48D1168B31030055F35D /* MAXContentMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentMap.cpp; sourceTree = "<group>"; };
 		D16D48D2168B31030055F35D /* MAXContentMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContentMap.h; sourceTree = "<group>"; };
 		D16D48DF168B381D0055F35D /* 112x112.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = 112x112.wrl; sourceTree = "<group>"; };
@@ -263,6 +274,9 @@
 		D18EDCE3168B2C5800EE3B4E /* MapRenderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapRenderObject.h; sourceTree = "<group>"; };
 		D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXMapMaterial.cpp; sourceTree = "<group>"; };
 		D18EDCEC168B2FBF00EE3B4E /* MAXMapMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXMapMaterial.h; sourceTree = "<group>"; };
+		D1992269168DF4540067D6CF /* Max.res */ = {isa = PBXFileReference; lastKnownFileType = file; path = Max.res; sourceTree = "<group>"; };
+		D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContetnLoader.cpp; sourceTree = "<group>"; };
+		D199226C168DF75C0067D6CF /* MAXContetnLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContetnLoader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +302,7 @@
 		8B8EAA11168A17D70097CA74 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				D11ABABA168DEB5500CD29EA /* Effects */,
 				D11ABAA1168DDA7800CD29EA /* Objects */,
 				D16D494D168B5F0D0055F35D /* Map */,
 				D16D48DD168B37F20055F35D /* Resources */,
@@ -310,12 +325,25 @@
 			path = Objects;
 			sourceTree = "<group>";
 		};
+		D11ABABA168DEB5500CD29EA /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				D11ABABB168DEBBB00CD29EA /* GameEffect.cpp */,
+				D11ABABC168DEBBC00CD29EA /* GameEffect.h */,
+				D11ABABE168DEBD700CD29EA /* GameEffectBlast.cpp */,
+				D11ABABF168DEBD700CD29EA /* GameEffectBlast.h */,
+				D11ABAC1168DEBE100CD29EA /* GameEffectRocket.cpp */,
+				D11ABAC2168DEBE100CD29EA /* GameEffectRocket.h */,
+			);
+			path = Effects;
+			sourceTree = "<group>";
+		};
 		D16D48C9168B306C0055F35D /* MAXContetnLoader */ = {
 			isa = PBXGroup;
 			children = (
 				D16D48CD168B30A00055F35D /* MAXContentObjects */,
-				D16D48CE168B30E50055F35D /* MAXContetnLoader.cpp */,
-				D16D48CF168B30E50055F35D /* MAXContetnLoader.h */,
+				D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */,
+				D199226C168DF75C0067D6CF /* MAXContetnLoader.h */,
 				D16D491C168B456D0055F35D /* MAXContetnConstants.h */,
 			);
 			path = MAXContetnLoader;
@@ -333,6 +361,7 @@
 		D16D48DD168B37F20055F35D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D1992269168DF4540067D6CF /* Max.res */,
 				D16D48DE168B38080055F35D /* Maps */,
 			);
 			path = Resources;
@@ -644,6 +673,8 @@
 				D18EDC9F1689880900EE3B4E /* TextureMaterial.h */,
 				D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */,
 				D18EDCEC168B2FBF00EE3B4E /* MAXMapMaterial.h */,
+				D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */,
+				D11ABAC5168DEC3000CD29EA /* MAXUnitMaterial.h */,
 			);
 			path = Material;
 			sourceTree = "<group>";
@@ -783,6 +814,7 @@
 				D188A463168C550600E259B1 /* Crater_7.wrl in Resources */,
 				D188A465168C557300E259B1 /* Green_7.wrl in Resources */,
 				D188A467168C565400E259B1 /* Demo_1.wrl in Resources */,
+				D199226A168DF4540067D6CF /* Max.res in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -830,12 +862,16 @@
 				D18EDCE1168B2C4A00EE3B4E /* MapObject.cpp in Sources */,
 				D18EDCE4168B2C5800EE3B4E /* MapRenderObject.cpp in Sources */,
 				D18EDCED168B2FBF00EE3B4E /* MAXMapMaterial.cpp in Sources */,
-				D16D48D0168B30E50055F35D /* MAXContetnLoader.cpp in Sources */,
 				D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */,
 				D16D4950168B5F2D0055F35D /* MAXMap.cpp in Sources */,
 				D11ABAA4168DDB0A00CD29EA /* GameObject.cpp in Sources */,
 				D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */,
 				D11ABAAA168DDB3400CD29EA /* GameBuilding.cpp in Sources */,
+				D11ABABD168DEBBC00CD29EA /* GameEffect.cpp in Sources */,
+				D11ABAC0168DEBD700CD29EA /* GameEffectBlast.cpp in Sources */,
+				D11ABAC3168DEBE100CD29EA /* GameEffectRocket.cpp in Sources */,
+				D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */,
+				D199226D168DF75C0067D6CF /* MAXContetnLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

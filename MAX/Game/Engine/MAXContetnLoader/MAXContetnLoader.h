@@ -18,15 +18,38 @@
 using namespace std;
 
 class MAXContentMap;
+class BinaryReader;
 class Texture;
+
+
+struct typhdr
+{
+    char _id[4];
+    int diroffset;
+    int dirlength;
+};
+
+struct typdiritem
+{
+    char name[8];
+    int offset;
+    int size;
+};
 
 class MAXContentLoader {
     
     void palshiftu(Color* pal, int s, int e);
     void palshiftd(Color* pal, int s, int e);
     void animatePalette(Color* thepal);
+    
+    
+    typdiritem *dir;
+    typhdr hdr;
+    BinaryReader* inf;
+    
 public:
     MAXContentLoader();
+    ~MAXContentLoader();
     
     shared_ptr<MAXContentMap> LoadMapWithName(string name);
     
@@ -34,6 +57,8 @@ public:
     static MAXContentLoader* SharedLoader();
     
     vector<Texture*> CreatePalletes(Color* palette);
+    shared_ptr<Texture> TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
+    shared_ptr<Texture> TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */
