@@ -121,6 +121,20 @@ float BinaryReader::ReadSingle()
     return retVal;
 }
 
+unsigned char BinaryReader::ReadUChar()
+{
+    if (_file)
+    {
+        unsigned char retVal;
+        fread(&retVal, sizeof(unsigned char), 1, _file);
+        return retVal;
+    }
+    unsigned char retVal = *_currentBuffer;
+    _currentBuffer += 1;
+    _position += 1;
+    return retVal;
+}
+
 char BinaryReader::ReadChar()
 {
     if (_file)

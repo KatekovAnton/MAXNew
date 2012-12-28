@@ -477,7 +477,7 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     int destOffset;
     
     
-    char buf;
+    unsigned char buf;
     
     for (int i = 0; i < height; i++)
     {
@@ -486,12 +486,17 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
         
         while (buf != 0xff)
         {
+//            dest.Seek(buf, SeekOrigin.Current);
+//            buf = source.ReadByte();
+//            dest.Write(source.ReadBytes(buf), 0, buf);
+//            buf = source.ReadByte();
+            
             destOffset += buf;
-            buf = source->ReadChar();
-            char *tmpbuffer = new char[buf];
+            buf = source->ReadUChar();
+            char *tmpbuffer = (char*)malloc(buf);
             source->ReadBuffer(buf, tmpbuffer);
-            memcpy(pixels, tmpbuffer, buf);
-            delete [] tmpbuffer;
+            memcpy(pixels + destOffset, tmpbuffer, buf);
+            free(tmpbuffer);
             
             buf = source->ReadChar();
         }

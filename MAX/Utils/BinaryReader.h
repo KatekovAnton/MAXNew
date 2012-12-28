@@ -36,6 +36,7 @@ public:
     unsigned short ReadUInt16();
     float ReadSingle();
     char ReadChar();
+    unsigned char ReadUChar();
     std::string ReadBadString();
     std::string ReadString();
 	void ReadBuffer(int length, char *buf);
