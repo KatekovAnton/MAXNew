@@ -36,7 +36,7 @@ public:
     void SetObjectId(unsigned newValue) { _objectId = newValue; };
     
     bool        moved;
-    
+    bool        forceHidden;
     
     PivotObject();
     virtual ~PivotObject();

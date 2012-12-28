@@ -11,11 +11,37 @@
 
 #include <iostream>
 #include "Material.h"
+#include "Geometry.h"
+
+struct FrameInfo
+{
+    GLKVector3 centerDelta;
+    GRect2D rect;
+};
+
+class Texture;
 
 class MAXUnitMaterial : public Material {
-    
+
 public:
+
+    int frameCount;
     
+    int index;
+    double time;
+    
+    
+    FrameInfo* frames;
+    Texture** textures;
+    
+    MAXUnitMaterial(int frameCount);
+    ~MAXUnitMaterial();
+    
+    void DoFrame(double elapsedTime);
+    
+    virtual void ApplyLod(int lod, Shader *shader);
+    virtual void SetFrame(int frame);
+    virtual void StopBackgroundLoading();
 };
 
 #endif /* defined(__MAX__MAXUnitMaterial__) */

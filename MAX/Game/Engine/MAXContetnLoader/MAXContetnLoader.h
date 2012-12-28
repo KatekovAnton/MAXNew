@@ -18,6 +18,7 @@
 using namespace std;
 
 class MAXContentMap;
+class MAXUnitMaterial;
 class BinaryReader;
 class Texture;
 
@@ -46,19 +47,22 @@ class MAXContentLoader {
     typdiritem *dir;
     typhdr hdr;
     BinaryReader* inf;
+    size_t* loadedData;
     
 public:
+    
+    static MAXContentLoader* SharedLoader();
+    
     MAXContentLoader();
     ~MAXContentLoader();
     
     shared_ptr<MAXContentMap> LoadMapWithName(string name);
-    
-    
-    static MAXContentLoader* SharedLoader();
-    
     vector<Texture*> CreatePalletes(Color* palette);
-    shared_ptr<Texture> TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
-    shared_ptr<Texture> TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
+    Texture* TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
+    Texture* TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
+    int FindImage(string name);
+    void LoadFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
+    MAXUnitMaterial* LoadUnitMaterial(string name);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */

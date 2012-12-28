@@ -33,6 +33,7 @@ public:
     long GetPosition();
     int ReadInt();
     short ReadInt16();
+    unsigned short ReadUInt16();
     float ReadSingle();
     char ReadChar();
     std::string ReadBadString();

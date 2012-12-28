@@ -18,6 +18,7 @@ PivotObject::PivotObject() {
     _needMouseCast = false;
     _isOnScreen = false;
     moved = false;
+    forceHidden = false;
 }
 
 void PivotObject::Update() {
