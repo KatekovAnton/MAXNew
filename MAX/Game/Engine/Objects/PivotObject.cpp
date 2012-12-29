@@ -10,6 +10,7 @@
 #include "RenderObject.h"
 #include "Material.h"
 #include "Geometry.h"
+#include "Shader.h"
 
 PivotObject::PivotObject() {
 
@@ -63,7 +64,7 @@ void PivotObject::SetIsOnScreen(bool isOnScreen) {
 void PivotObject::BeginFrame() {
     moved = false;
     //_objectBehaviourModel->BeginFrame();
-    SetIsOnScreen(false);
+   // SetIsOnScreen(false);
 }
 
 void PivotObject::Frame(double time) {
@@ -74,6 +75,13 @@ void PivotObject::EndFrame() {
    // _objectBehaviourModel->EndFrame();
    // moved = _objectBehaviourModel->moved;
    // _transformMatrix = _objectBehaviourModel->GetGlobalPosition();
+}
+
+void PivotObject::Draw(Shader *shader)
+{
+    GLKMatrix4 m1 = GetRenderMatrix();
+    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
+    GetRenderAspect()->Render(0, GetMaterial());
 }
 
 RenderObject * PivotObject::GetRenderAspect() {

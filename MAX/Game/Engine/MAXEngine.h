@@ -68,7 +68,6 @@ public:
     void DrawInterface();
     void EndFrame();
     
-    void DrawObject(PivotObject* object);
     
     
     Shader * GetShader();

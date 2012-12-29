@@ -15,10 +15,23 @@
 class MAXUnitRenderObject;
 class MAXUnitMaterial;
 
+enum
+{
+    MAXUnitObjectTypeSingle,
+    MAXUnitObjectTypeTurreted
+} typedef MAXUnitObjectType;
+
 class MAXUnitObject : public PivotObject {
     
     MAXUnitRenderObject        *_renderAspect;//own
     MAXUnitMaterial            *_material;//own
+    
+    int bodyIndex;
+    int headIndex;
+    
+    GLKMatrix4 bodyRenderMatrix;
+    GLKMatrix4 headRenderMatrix;
+    
 public:
     
     float scalex;
@@ -33,12 +46,17 @@ public:
     virtual RenderObject * GetRenderAspect();
     virtual Material * GetMaterial();
     
-    
-    virtual GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
+    virtual void Draw(Shader *shader);
     virtual void Frame(double time);
+    virtual void AfterUpdate();
+    
+    
+    GLKMatrix4 CalculateBodyRenderMatrix();
+    GLKMatrix4 CalculateHeadRenderMatrix();
     
     void SetBodyDirection(float azimut);
     void SetHeadDirection(float azimut);
+    void SetIsFireing(bool fire);
     
 };
 

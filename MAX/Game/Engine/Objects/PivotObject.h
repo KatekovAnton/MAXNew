@@ -19,6 +19,7 @@ class ObjectBehaviourModel;
 class RenderMatrixController;
 class RenderObject;
 class Material;
+class Shader;
 
 class PivotObject {
 protected:
@@ -45,11 +46,13 @@ public:
     GLKMatrix4 GetTransformMatrix();
     
     void Update();
-    void AfterUpdate();
-    virtual GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
+    virtual void AfterUpdate();
+    GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
     virtual void Frame(double time);
     void BeginFrame();
     void EndFrame();
+    
+    virtual void Draw(Shader* shader);
     
     void SetIsOnScreen(bool isOnScreen);
     

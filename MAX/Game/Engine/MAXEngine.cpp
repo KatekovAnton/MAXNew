@@ -149,6 +149,8 @@ void MAXEngine::Update() {
     _scene->CalculateVisbleObject();
     if(updategrid)
         _grid->UpdateInfo(false);
+    
+    _scene->AfterUpdate();
 }
 
 void MAXEngine::Draw() {
@@ -165,9 +167,9 @@ void MAXEngine::Draw() {
     _shader->SetFloatValue(UNIFORM_FLOATPARAM1, 1.0/_map->mapTexW);
     _shader->SetFloatValue(UNIFORM_FLOATPARAM3, _map->mapW);
     _shader->SetFloatValue(UNIFORM_FLOATPARAM4, _map->mapH);
-    DrawObject(_map.get());
+    _map.get()->Draw(_shader);
 
-    
+    glEnable(GL_BLEND);
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
@@ -175,20 +177,12 @@ void MAXEngine::Draw() {
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
     const UContainer<PivotObject>* objects = _scene->GetVisibleObjects();
     for (int i = 0; i < objects->GetCount(); i++) 
-        DrawObject(objects->objectAtIndex(i).get());
-    
-    
+        objects->objectAtIndex(i)->Draw(_shader);
+    glDisable(GL_BLEND);
     
         
     glEnable(GL_DEPTH_TEST);
     glActiveTexture(GL_TEXTURE0);
-}
-
-void MAXEngine::DrawObject(PivotObject* object)
-{
-    GLKMatrix4 m1 = object->GetRenderMatrix();
-    GetShader()->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
-    object->GetRenderAspect()->Render(0, object->GetMaterial());
 }
 
 float MAXEngine::ElapsedTime() {

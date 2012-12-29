@@ -10,6 +10,8 @@
 #include "Shader.h"
 #include "Texture.h"
 
+const double MAXUnitMaterialframeTime = 1.0;
+
 MAXUnitMaterial::MAXUnitMaterial(int _frameCount)
 {
     frameCount = _frameCount;
@@ -32,12 +34,16 @@ MAXUnitMaterial::~MAXUnitMaterial()
 void MAXUnitMaterial::DoFrame(double elapsedTime)
 {
     time = time + elapsedTime;
+    
+    int f = (time/MAXUnitMaterialframeTime);
+    index = f%frameCount;
+    
 }
 
 void MAXUnitMaterial::ApplyLod(int lod, Shader *shader)
 {
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textures[0]->GetTextureName());
+    glBindTexture(GL_TEXTURE_2D, textures[index]->GetTextureName());
     glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
 }
 
