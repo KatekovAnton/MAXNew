@@ -26,8 +26,6 @@ public:
     virtual RenderObject * GetRenderAspect();
     virtual Material * GetMaterial();
     
-    static LevelObject * CreateUnitQuad();
-    
     virtual void Frame(double time);
     
 };

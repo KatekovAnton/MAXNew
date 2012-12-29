@@ -38,9 +38,6 @@ class MAXUnitObject : public PivotObject {
     
 public:
     
-    float scalex;
-    float scaley;
-    
     float deltax;
     float deltay;
     

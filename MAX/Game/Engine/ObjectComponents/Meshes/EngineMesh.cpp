@@ -112,6 +112,18 @@ GLfloat squareVertexData[48] =
     0.5f, 0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   1.0f, 0.0f
 };
 
+GLfloat squareVertexData1[48] =
+{
+    // Data layout for each line below is:
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ,   tccordX, tcoordY
+    -0.5f, -0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
+    0.5f, 0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
+    0.5f, -0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   1.0f, 0.0f,
+    -0.5f, -0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
+    -0.5f, 0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   0.0f, 1.0f,
+    0.5f, 0.5f, 0.0f,         0.0f, 0.0f, 1.0f,   1.0f, 1.0f
+};
+
 GLushort planeIndexData[6] =
 {0,1,2,3,4,5};
 
@@ -184,7 +196,7 @@ shared_ptr<EngineMesh> EngineMesh::CreateFullscreenQuad() {
 }
 
 shared_ptr<EngineMesh> EngineMesh::CreateUnitQuad() {
-    return shared_ptr<EngineMesh>(new EngineMesh(squareVertexData, sizeof(squareVertexData), planeIndexData, sizeof(planeIndexData)));
+    return shared_ptr<EngineMesh>(new EngineMesh(squareVertexData1, sizeof(squareVertexData1), planeIndexData, sizeof(planeIndexData)));
 }
 
 shared_ptr<EngineMesh> EngineMesh::CreateScaledQuad(float sidex, float sidey)

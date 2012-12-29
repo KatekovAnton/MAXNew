@@ -15,7 +15,7 @@ const double MAXUnitMaterialframeTime = 1.0;
 MAXUnitMaterial::MAXUnitMaterial(int _frameCount)
 {
     frameCount = _frameCount;
-    frames = new GRect2D[frameCount];
+    frames = new MAXUnitMaterialFrame[frameCount];
     textures = new Texture*[frameCount];
     
     

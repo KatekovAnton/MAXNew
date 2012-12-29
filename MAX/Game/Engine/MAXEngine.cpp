@@ -64,8 +64,7 @@ void MAXEngine::Init() {
     
     
     _scene = new SceneSystem();
-    //_scene->AddObject(shared_ptr<LevelObject>(LevelObject::CreateUnitQuad()), true);
-    _unit = MAXSCL->CreateUnit("ALNTANK");
+    _unit = MAXSCL->CreateUnit("TANK");
     _scene->AddObject(_unit, true);
     
     _scene->GetInterfaceManager()->Prepare();

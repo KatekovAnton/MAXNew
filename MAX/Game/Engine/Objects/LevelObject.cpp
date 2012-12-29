@@ -20,17 +20,6 @@ LevelObject::LevelObject(RenderObject *renderObject, Material *material):PivotOb
     _material = material;
 }
 
-LevelObject * LevelObject::CreateUnitQuad()
-{
-    shared_ptr<EngineMesh> mesh = EngineMesh::CreateUnitQuad();
-    Material *material = MAXSCL->LoadUnitMaterial("ALNTANK");
-    
-
-    RenderObject *renderObject = new UnAnimRenderObject(mesh);
-    
-    return new LevelObject(renderObject, material);
-}
-
 RenderObject * LevelObject::GetRenderAspect()
 {
     return _renderAspect;

@@ -15,6 +15,12 @@
 
 class Texture;
 
+class MAXUnitMaterialFrame {
+public:
+    GLKVector2 center;
+    GLKVector2 size;
+};
+
 class MAXUnitMaterial : public Material {
 
 public:
@@ -25,7 +31,7 @@ public:
     double time;
     
     
-    GRect2D* frames;
+    MAXUnitMaterialFrame* frames;
     Texture** textures;
     
     MAXUnitMaterial(int frameCount);

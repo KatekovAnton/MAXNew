@@ -454,12 +454,17 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     short center_x = source->ReadInt16();
     short center_y = source->ReadInt16();
     
-    target->frames[index].origin.x = center_x;
-    target->frames[index].origin.y = center_y;
-    target->frames[index].size.width = width;
-    target->frames[index].size.height = height;
+    if (index == 14 + 8) {
+        SysLogInfo("width = %d, height=%d, center_x=%d, center_y=%d", (int)width, (int)height, (int)center_x, (int)center_y);
+    }
+  //  
     
+    target->frames[index].center.x = center_x;
+    target->frames[index].center.y = center_y;
+    target->frames[index].size.x = width;
+    target->frames[index].size.y = height;
     
+    //MAXUnitMaterialFrame frame = target->frames[index];
     int size = width * height;
     if (size == 0)
         return;
@@ -476,15 +481,17 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     
     unsigned char buf;
     char tmpbuffer[256];
+    memset(tmpbuffer, 0, 256);
     for (int i = 0; i < height; i++)
     {
-        source->SetPosition(rows[i] + baseOffset);
+        unsigned int rowi = rows[i];
+        source->SetPosition(rowi + baseOffset);
         buf = source->ReadChar();
         while (buf != 0xff)
         {
             destOffset += buf;
             buf = source->ReadUChar();
-            source->ReadBuffer(buf, tmpbuffer);
+            source->ReadBuffer((int)buf, tmpbuffer);
             memcpy(pixels + destOffset, tmpbuffer, buf);
             
             buf = source->ReadUChar();

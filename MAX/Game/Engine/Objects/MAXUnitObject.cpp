@@ -23,14 +23,14 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     _renderAspect = renderObject;
     _material = material;
     bodyIndex = 2;
-    headIndex = 9;
+    headIndex = 12;
     fireing = false;
     fireStartTime = 0;
     changed = true;
     
     float cellx = 56;
     float celly = 56;
-    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cellx - 112/2) + 0.5, ((-1*celly - 1) + 112/2) + 0.5, 0);
+    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cellx - 112/2) + 1, ((-1*celly - 1) + 112/2) + 1, 0);
     SetGlobalPosition(rt, nullptr, nullptr, false);
 }
 
@@ -53,13 +53,13 @@ GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
 //    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cellx - 112/2) + 0.5, ((-1*celly - 1) + 112/2) + 0.5, 0);
     GLKMatrix4 transform = GetTransformMatrix();
     
-    GRect2D bodyframe = _material->frames[bodyIndex];
-    scalex = bodyframe.size.width/64.0;
-    scaley = bodyframe.size.height/64.0;
+    MAXUnitMaterialFrame bodyframe = _material->frames[bodyIndex];
+    float scalex = bodyframe.size.x/64.0;
+    float scaley = bodyframe.size.y/64.0;
     
     
-    deltax = 0;//((32.0-bodyframe.origin.x))/64.0;
-    deltay = 0;//((32.0-bodyframe.origin.y))/64.0;
+    deltax = -(64.0 - bodyframe.size.x)/128.0 - (bodyframe.center.x/64.0);
+    deltay = (64.0-bodyframe.size.y)/128.0 + (bodyframe.center.y/64.0);
     
     
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
@@ -76,14 +76,13 @@ GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
     
     
     
-    GRect2D headFrame = _material->frames[headIndex];
-    scalex = headFrame.size.width/64.0;
-    scaley = headFrame.size.height/64.0;
+    MAXUnitMaterialFrame headFrame = _material->frames[headIndex];
+    float scalex = headFrame.size.x/64.0;
+    float scaley = headFrame.size.y/64.0;
     
-    if(fireing)
-        headFrame = _material->frames[headIndex - 8];
-    deltax = ((32.0-headFrame.origin.x)/64.0) * scalex;
-    deltay = ((32.0-headFrame.origin.y)/64.0) * scaley;
+    
+    deltax = -(64.0 - headFrame.size.x)/128.0 - (headFrame.center.x/64.0);
+    deltay = (64.0-headFrame.size.y)/128.0 + (headFrame.center.y/64.0);
     
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate = GLKMatrix4MakeTranslation(deltax, deltay, 0);
@@ -143,12 +142,12 @@ void MAXUnitObject::SetIsFireing(bool fire)
         return;
     if(fire)
     {
-        int newstate = (bodyIndex) + 1;
-        newstate = newstate % 8;
-        SetBodyDirection(newstate);
-//        int newstate = (headIndex - 8) + 1;
+//        int newstate = (bodyIndex) + 1;
 //        newstate = newstate % 8;
-//        SetHeadDirection(newstate);
+//        SetBodyDirection(newstate);
+        int newstate = (headIndex - 8) + 1;
+        newstate = newstate % 8;
+        SetHeadDirection(newstate);
     }
     int state = headIndex - (fireing?headFireOffset:headOffset);
     fireing = fire;

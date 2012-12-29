@@ -9,6 +9,9 @@
 #include "MAXCamera.h"
 #include "Display.h"
 
+#define MINSCALE 0.25
+#define MAXSCALE 20
+
 MAXCamera::MAXCamera(GRect2D bounds)
 {
     
@@ -23,7 +26,7 @@ MAXCamera::MAXCamera(GRect2D bounds)
     _scalex = _displayScale*64.0/bounds.size.width;
     _scaley = _displayScale*64.0/bounds.size.height;
     
-    scale = 0.25;
+    scale = 0.5;
     
     this->view = GLKMatrix4Identity;
     
@@ -38,10 +41,10 @@ MAXCamera::MAXCamera(GRect2D bounds)
 void MAXCamera::Scale(float deltaScale)
 {
     scale/=deltaScale;
-    if (scale<0.25)
-        scale = 0.25;
-    if (scale>20) 
-        scale = 20;
+    if (scale<MINSCALE)
+        scale = MINSCALE;
+    if (scale>MAXSCALE) 
+        scale = MAXSCALE;
     changed = true;
 }
 
