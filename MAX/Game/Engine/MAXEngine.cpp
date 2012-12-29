@@ -40,7 +40,7 @@ MAXEngine::MAXEngine() {
 void MAXEngine::Init() {
     
     SysInit();
-    drawGrid = false;
+    drawGrid = true;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
@@ -65,7 +65,7 @@ void MAXEngine::Init() {
     
     _scene = new SceneSystem();
     //_scene->AddObject(shared_ptr<LevelObject>(LevelObject::CreateUnitQuad()), true);
-    _unit = MAXSCL->CreateUnit("TANK");
+    _unit = MAXSCL->CreateUnit("ALNTANK");
     _scene->AddObject(_unit, true);
     
     _scene->GetInterfaceManager()->Prepare();

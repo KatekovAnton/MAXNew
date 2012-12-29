@@ -13,7 +13,7 @@
 #include "MAXEngine.h"
 #include "Geometry.h"
 
-const double fireTIme = 0.15;
+const double fireTIme = 00.15;
 const int bodyOffset = 0;
 const int headOffset = 8;
 const int headFireOffset = 16;
@@ -80,7 +80,8 @@ GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
     scalex = headFrame.size.width/64.0;
     scaley = headFrame.size.height/64.0;
     
-    
+    if(fireing)
+        headFrame = _material->frames[headIndex - 8];
     deltax = ((32.0-headFrame.origin.x)/64.0) * scalex;
     deltay = ((32.0-headFrame.origin.y)/64.0) * scaley;
     
