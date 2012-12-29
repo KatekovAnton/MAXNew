@@ -46,7 +46,8 @@ public:
     
     void Update();
     void AfterUpdate();
-    void Frame(double time);
+    virtual GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
+    virtual void Frame(double time);
     void BeginFrame();
     void EndFrame();
     

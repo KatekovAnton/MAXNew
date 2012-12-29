@@ -14,12 +14,14 @@
 #include "MAXUnitMaterial.h"
 #include "MAXContetnLoader.h"
 
-LevelObject::LevelObject(RenderObject *renderObject, Material *material):PivotObject() {
+LevelObject::LevelObject(RenderObject *renderObject, Material *material):PivotObject()
+{
     _renderAspect = renderObject;
     _material = material;
 }
 
-LevelObject * LevelObject::CreateUnitQuad() {
+LevelObject * LevelObject::CreateUnitQuad()
+{
     shared_ptr<EngineMesh> mesh = EngineMesh::CreateUnitQuad();
     Material *material = MAXSCL->LoadUnitMaterial("ALNTANK");
     

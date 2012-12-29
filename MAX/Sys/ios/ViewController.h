@@ -25,6 +25,9 @@ typedef struct __TouchDelegateAdapter TouchDelagteAdapter;
     TouchDelagteAdapter     _touchApdater;
 
     DisplayPinchDelegate* _pinchDelegate;
+    
+    NSSet* _touches;
+    UIEvent* _event;
 }
 @property (nonatomic, assign) GLuint depthFormat;
 @property (nonatomic, assign) GLuint pixelFormat;

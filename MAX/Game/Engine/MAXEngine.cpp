@@ -23,7 +23,8 @@
 #include "MAXContetnLoader.h"
 #include "LevelObject.h"
 #include "RenderObject.h"
-
+#include "MAXUnitObject.h"
+#include "MAXGrid.h"
 #include "MapObject.h"
 
 using namespace cocos2d;
@@ -39,10 +40,10 @@ MAXEngine::MAXEngine() {
 void MAXEngine::Init() {
     
     SysInit();
-    
-    
+    drawGrid = false;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
+    
     
     GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth(), _renderSystem->GetDisplay()->GetDisplayHeight());
     _camera = new MAXCamera(_screenRect);
@@ -63,12 +64,14 @@ void MAXEngine::Init() {
     
     
     _scene = new SceneSystem();
-    _scene->AddObject(shared_ptr<LevelObject>(LevelObject::CreateUnitQuad()), true);
+    //_scene->AddObject(shared_ptr<LevelObject>(LevelObject::CreateUnitQuad()), true);
+    _scene->AddObject(MAXSCL->CreateUnit("ALNTANK"), true);
     
     _scene->GetInterfaceManager()->Prepare();
     _director->pushScene(_scene->GetInterfaceManager()->GetGUISession());
     
     _director->setDisplayStats(true);
+    _grid = new MAXGrid();
 }
 
 MAXEngine::~MAXEngine() {
@@ -81,6 +84,10 @@ Shader * MAXEngine::GetShader() {
 }
 
 void MAXEngine::RunLoop(double delta) {
+    
+    displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
+    displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
+    
     _elapsedTime = delta;
     _fullTime += _elapsedTime;
     
@@ -88,22 +95,26 @@ void MAXEngine::RunLoop(double delta) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     this->Update();
+    GLint prog;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
     this->Draw();
+    glUseProgram(prog);
     
     this->DrawInterface();
     this->EndFrame();
 }
 
 void MAXEngine::switchLight() {
-    float abs = _color - 0.6;
-    if(abs < 0)
-        abs = -abs;
-    
-    if (abs<0.1 ) {
-        _color = 0;
-    } else {
-        _color = 0.6;
-    }
+//    float abs = _color - 0.6;
+//    if(abs < 0)
+//        abs = -abs;
+//    
+//    if (abs<0.1 ) {
+//        _color = 0;
+//    } else {
+//        _color = 0.6;
+//    }
+    drawGrid = !drawGrid;
 }
 
 void MAXEngine::EndFrame() {
@@ -113,9 +124,14 @@ void MAXEngine::EndFrame() {
 void MAXEngine::DrawInterface() {
     glEnable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
+    if(drawGrid)
+        _grid->DrawGrid();
     _director->mainLoop();
+    ccDrawCircle(CCPoint(100,100), 10,  1, 10, false);
+   
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
+    
 }
 
 void MAXEngine::Update() {
@@ -128,8 +144,11 @@ void MAXEngine::Update() {
 
     _scene->EndFrame();
     _scene->UpdateScene();
+    bool updategrid = _camera->changed;
     _camera->Update();
     _scene->CalculateVisbleObject();
+    if(updategrid)
+        _grid->UpdateInfo(false);
 }
 
 void MAXEngine::Draw() {
@@ -141,31 +160,7 @@ void MAXEngine::Draw() {
     _shader = _mapShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
-    {
-        GLenum err = glGetError();
-        if (err != GL_NO_ERROR)
-            printf(" glError: 0x%04X", err);
-    }
-    
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-    {
-        GLenum err = glGetError();
-        if (err != GL_NO_ERROR)
-            printf(" glError: 0x%04X", err);
-    }
-    
-    /*
-     //texture tiles size w
-     uniform mediump float floatParam1;// = 1.0/20.0;
-     //texture tiles size h
-     uniform mediump float floatParam2;// = 1.0/14.0;
-     
-     //mapw
-     uniform mediump float floatParam3;// = 112.0;
-     //maph
-     uniform mediump float floatParam4;// = 112.0;
-     */
-    
     _shader->SetFloatValue(UNIFORM_FLOATPARAM2, 1.0/_map->mapTexH);
     _shader->SetFloatValue(UNIFORM_FLOATPARAM1, 1.0/_map->mapTexW);
     _shader->SetFloatValue(UNIFORM_FLOATPARAM3, _map->mapW);
@@ -176,22 +171,12 @@ void MAXEngine::Draw() {
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
-    {
-        GLenum err = glGetError();
-        if (err != GL_NO_ERROR)
-            printf(" glError: 0x%04X", err);
-    }
 
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-    {
-        GLenum err = glGetError();
-        if (err != GL_NO_ERROR)
-            printf(" glError: 0x%04X", err);
-    }
     const UContainer<PivotObject>* objects = _scene->GetVisibleObjects();
-    for (int i = 0; i < objects->GetCount(); i++) {
+    for (int i = 0; i < objects->GetCount(); i++) 
         DrawObject(objects->objectAtIndex(i).get());
-    }
+    
     
     
         
@@ -201,21 +186,9 @@ void MAXEngine::Draw() {
 
 void MAXEngine::DrawObject(PivotObject* object)
 {
-    GLKMatrix4 m1 = object->GetTransformMatrix();
-    //printf("x: %f y: %f z: %f\n", m1.m30, m1.m31, m1.m32);
+    GLKMatrix4 m1 = object->GetRenderMatrix();
     GetShader()->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
-    {
-        GLenum err = glGetError();
-        if (err != GL_NO_ERROR)
-            printf(" glError: 0x%04X", err);
-    }
-    
     object->GetRenderAspect()->Render(0, object->GetMaterial());
-    {
-        GLenum err = glGetError();
-        if (err != GL_NO_ERROR)
-            printf(" glError: 0x%04X", err);
-    }
 }
 
 float MAXEngine::ElapsedTime() {
@@ -247,6 +220,7 @@ void MAXEngine::MoveCamera(float deltax, float deltay)
 void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 {
     _map = shared_ptr<MapObject>(new MapObject(map));
+    _grid->SetMapSize(_map->mapW, _map->mapH);
 }
 
 CCPoint MAXEngine::ScreenToWorldCoordinates(CCPoint screen)
@@ -258,9 +232,6 @@ CCPoint MAXEngine::ScreenToWorldCoordinates(CCPoint screen)
     CCPoint camcenterCoords;
     camcenterCoords.x = camcentercell.x * 64.0;
     camcenterCoords.y = camcentercell.y * 64.0;
-    
-    float displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
-    float displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
     
     CCPoint screenSize;
     screenSize.x = displayw * _camera->scale;
@@ -296,9 +267,6 @@ CCPoint MAXEngine::WorldCoordinatesToScreen(CCPoint world)
     camcenterCoords.x = camcentercell.x * 64.0;
     camcenterCoords.y = camcentercell.y * 64.0;
     
-    float displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
-    float displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
-    
     CCPoint screenSize;
     screenSize.x = displayw * _camera->scale;
     screenSize.y = displayh * _camera->scale;
@@ -306,6 +274,27 @@ CCPoint MAXEngine::WorldCoordinatesToScreen(CCPoint world)
     CCPoint result;
     result.x = 0.5 * displayw * (world.x - camcenterCoords.x + screenSize.x)/screenSize.x;
     result.y = 0.5 * displayh * (world.y - camcenterCoords.y + screenSize.y)/screenSize.y;
+    
+    return result;
+}
+
+CCPoint MAXEngine::WorldCoordinatesToScreenCocos(const CCPoint &world)
+{
+    CCPoint camcentercell;
+    camcentercell.x = _map->mapW/2.0 - _camera->position.x;
+    camcentercell.y = _camera->position.y + _map->mapH/2.0;
+    
+    CCPoint camcenterCoords;
+    camcenterCoords.x = camcentercell.x * 64.0;
+    camcenterCoords.y = camcentercell.y * 64.0;
+    
+    CCPoint screenSize;
+    screenSize.x = displayw * _camera->scale;
+    screenSize.y = displayh * _camera->scale;
+    
+    CCPoint result;
+    result.x = 0.5 * displayw * (world.x - camcenterCoords.x + screenSize.x)/screenSize.x;
+    result.y = displayh - 0.5 * displayh * (world.y - camcenterCoords.y + screenSize.y)/screenSize.y;
     
     return result;
 }
@@ -319,9 +308,6 @@ CCRect MAXEngine::ScreenToWorldRect()
     CCPoint camcenterCoords;
     camcenterCoords.x = camcentercell.x * 64.0;
     camcenterCoords.y = camcentercell.y * 64.0;
-    
-    float displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
-    float displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
     
     CCPoint screenSize;
     screenSize.x = displayw * _camera->scale;

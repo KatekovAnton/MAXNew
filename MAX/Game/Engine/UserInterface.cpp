@@ -37,7 +37,7 @@ CCScene * UserInterface::GetGUISession() {
 }
 
 void UserInterface::Prepare() {
-    CCLabelTTF *label = CCLabelTTF::create("Light ON/OFF", "HelveticaNeue-Bold", 25);
+    CCLabelTTF *label = CCLabelTTF::create("Grid ON/OFF", "HelveticaNeue-Bold", 20);
     CCMenuItemLabel *labelItem = CCMenuItemLabel::create(label, (CCObject *)engine, menu_selector(MAXEngine::switchLight));
     ccColor3B color = {255, 255, 255};
     labelItem->setColor(color);

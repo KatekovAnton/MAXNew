@@ -12,15 +12,17 @@
 #include <iostream>
 #include "RenderObject.h"
 
+using namespace std;
+
 class Material;
 class EngineMesh;
 
 class MAXUnitRenderObject : public RenderObject {
     //not own
-    EngineMesh* _mesh;
+    shared_ptr<EngineMesh> _mesh;
 public:
     
-    MAXUnitRenderObject();
+    MAXUnitRenderObject(shared_ptr<EngineMesh> mesh);
     ~MAXUnitRenderObject();
 
 

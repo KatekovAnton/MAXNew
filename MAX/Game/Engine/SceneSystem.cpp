@@ -30,8 +30,7 @@ SceneSystem::~SceneSystem() {
 
 void SceneSystem::UpdateScene() {
     for (int i = 0; i < _objects->GetCount(); i++) {
-        shared_ptr<PivotObject> obj = _objects->objectAtIndex(i);
-        obj->Update();
+        _objects->objectAtIndex(i)->Update();
     }
     //_sceneGraph.NewFrame();
     _visibleObjects->clear();
@@ -40,7 +39,7 @@ void SceneSystem::UpdateScene() {
 
 void SceneSystem::AfterUpdate() {
     for (int i = 0; i < _objects->GetCount(); i++) {
-        _objects->objectAtIndex(i)->Update();
+        _objects->objectAtIndex(i)->AfterUpdate();
     }
 }
 

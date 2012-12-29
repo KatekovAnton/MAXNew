@@ -21,6 +21,8 @@ class MAXCamera {
     
 public:
     
+    bool changed;
+    
     GLfloat             maxDepth;
     GLfloat             minDepth;
     GLfloat             _far;

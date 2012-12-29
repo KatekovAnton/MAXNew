@@ -8,7 +8,7 @@
 
 #include "DisplayPinchDelegate.h"
 
-bool DisplayPinchDelegate::CanStartPinch()
+bool DisplayPinchDelegate::CanStartPinch(float x, float y)
 {
     return false;
 }

@@ -11,6 +11,7 @@
 		8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */; };
 		8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA28168A27900097CA74 /* LevelObject.cpp */; };
 		8B8EAA2C168A28620097CA74 /* MAXCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */; };
+		8B8EAA41168E5AA30097CA74 /* MAXGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */; };
 		D11ABAA4168DDB0A00CD29EA /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */; };
 		D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */; };
 		D11ABAAA168DDB3400CD29EA /* GameBuilding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA8168DDB3400CD29EA /* GameBuilding.cpp */; };
@@ -137,6 +138,8 @@
 		8B8EAA28168A27900097CA74 /* LevelObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelObject.cpp; sourceTree = "<group>"; };
 		8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXCamera.cpp; sourceTree = "<group>"; };
 		8B8EAA2B168A28620097CA74 /* MAXCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXCamera.h; sourceTree = "<group>"; };
+		8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGrid.cpp; sourceTree = "<group>"; };
+		8B8EAA40168E5AA30097CA74 /* MAXGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGrid.h; sourceTree = "<group>"; };
 		D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
 		D11ABAA3168DDB0A00CD29EA /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnit.cpp; sourceTree = "<group>"; };
@@ -630,6 +633,8 @@
 				D18EDC7D1689844600EE3B4E /* Shader */,
 				D18EDC7B1689843600EE3B4E /* RenderSystem.cpp */,
 				D18EDC7A1689843600EE3B4E /* RenderSystem.h */,
+				8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */,
+				8B8EAA40168E5AA30097CA74 /* MAXGrid.h */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -896,6 +901,7 @@
 				D1992273168E1DE40067D6CF /* ShaderUnit.fsh in Sources */,
 				D1992274168E1DE40067D6CF /* ShaderUnit.vsh in Sources */,
 				D1992279168E309F0067D6CF /* MAXUnitObject.cpp in Sources */,
+				8B8EAA41168E5AA30097CA74 /* MAXGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -983,7 +989,7 @@
 		D18EDBEA1689770C00EE3B4E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (6SZY642AA7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (V3WU9M6ZF5)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAX/MAX-Prefix.pch";
@@ -1003,7 +1009,7 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9FACF4E7-17FF-43E1-84A6-F7A1E7B26778";
+				PROVISIONING_PROFILE = "2335F6E0-076A-4FFA-9410-EE6D4A0F3943";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1011,7 +1017,7 @@
 		D18EDBEB1689770C00EE3B4E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (6SZY642AA7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (V3WU9M6ZF5)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAX/MAX-Prefix.pch";
@@ -1031,7 +1037,7 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9FACF4E7-17FF-43E1-84A6-F7A1E7B26778";
+				PROVISIONING_PROFILE = "2335F6E0-076A-4FFA-9410-EE6D4A0F3943";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

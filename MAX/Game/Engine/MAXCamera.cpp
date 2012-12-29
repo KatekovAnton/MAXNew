@@ -31,6 +31,8 @@ MAXCamera::MAXCamera(GRect2D bounds)
     minDepth = 0.1;
     maxDepth = 100.0;
     screenSize = bounds.size;
+    
+    changed = true;
 }
 
 void MAXCamera::Scale(float deltaScale)
@@ -40,16 +42,21 @@ void MAXCamera::Scale(float deltaScale)
         scale = 0.5;
     if (scale>20) 
         scale = 20;
+    changed = true;
 }
 
 void MAXCamera::Move(float deltax, float deltay)
 {
     position.x += deltax * _scalex * scale/( _displayScale * 2.0);
     position.y -= deltay * _scalex * scale/( _displayScale * 2.0);
+    changed = true;
 }
 
 void MAXCamera::Update()
 {
+    if (!changed)
+        return;
+    changed = false;
     RecalculateViewMatrix();
 }
 

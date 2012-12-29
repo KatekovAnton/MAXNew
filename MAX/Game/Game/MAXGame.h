@@ -42,7 +42,7 @@ public:
     void Init();
     
 #pragma mark - DisplayPinchDelegate
-    virtual bool CanStartPinch();
+    virtual bool CanStartPinch(float x, float y);
     virtual void ProceedPinch(float scale);
     virtual void ProceedPan(float speedx, float speedy);
     virtual void ProceedTap(float tapx, float tapy);

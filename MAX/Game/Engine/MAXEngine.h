@@ -26,6 +26,7 @@ class MAXCamera;
 class LevelObject;
 class MapObject;
 class MAXContentMap;
+class MAXGrid;
 
 class MAXEngine  {
     
@@ -43,11 +44,13 @@ class MAXEngine  {
     float             _color;
     
 public:
+    float displayw,displayh;
+    bool drawGrid;
     
     std::shared_ptr<MapObject>           _map;
     
     MAXCamera              *_camera;
-    
+    MAXGrid                *_grid;
     CCDirector          *_director;
     
     MAXEngine();
@@ -87,6 +90,7 @@ public:
     CCPoint ScreenToWorldCoordinates(CCPoint screen);
     CCPoint ScreenToWorldCell(CCPoint screen);
     CCPoint WorldCoordinatesToScreen(CCPoint screen);
+    CCPoint WorldCoordinatesToScreenCocos(const CCPoint &world);
     CCRect ScreenToWorldRect();
 };
 

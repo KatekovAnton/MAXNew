@@ -23,6 +23,8 @@ class BinaryReader;
 class Texture;
 class EngineMesh;
 
+class MAXUnitObject;
+
 struct typhdr
 {
     char _id[4];
@@ -66,6 +68,9 @@ public:
     int FindImage(string name);
     void LoadFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
     MAXUnitMaterial* LoadUnitMaterial(string name);
+    
+#pragma mark - fabric
+    shared_ptr<MAXUnitObject> CreateUnit(string bodyName);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */

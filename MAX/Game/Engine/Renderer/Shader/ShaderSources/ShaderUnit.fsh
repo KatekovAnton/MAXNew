@@ -16,8 +16,8 @@ void main()
 {
     //mediump vec4 color = vec4(1.0, 1.0, 1.0, 1.0);//texture2D(colorTexture, tcoordVarying);
     mediump vec4 color = texture2D(colorTexture, tcoordVarying);
-//    if(color.r + color.g + color.b < 0.1)
-//        discard;
+    if(color.a > 0.5)
+        discard;
 
     gl_FragColor = color;//color*alpha + color1*(1.0 - alpha);
 }

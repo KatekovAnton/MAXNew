@@ -11,9 +11,11 @@
 #include "Material.h"
 #include "MAXEngine.h"
 
-MAXUnitRenderObject::MAXUnitRenderObject()
+using namespace std;
+
+MAXUnitRenderObject::MAXUnitRenderObject(shared_ptr<EngineMesh> mesh)
 {
-    
+    _mesh = mesh;
 }
 
 MAXUnitRenderObject::~MAXUnitRenderObject()

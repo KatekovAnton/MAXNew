@@ -54,11 +54,18 @@ static int const _kTEiOSMaxTouchesCount = 10;
     
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if(!_pinchDelegate)
+        return NO;
+    return _pinchDelegate->CanStartPinch([touch locationInView:self.view].x, [touch locationInView:self.view].y);
+}
+
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if(!_pinchDelegate)
         return NO;
-    return _pinchDelegate->CanStartPinch();
+    return _pinchDelegate->CanStartPinch([gestureRecognizer locationInView:self.view].x, [gestureRecognizer locationInView:self.view].y);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -85,13 +92,14 @@ static int const _kTEiOSMaxTouchesCount = 10;
     _pinchDelegate->ProceedPan(translation.x, translation.y);
 }
 
-- (void)onTap:(UIPanGestureRecognizer*)gestureRecognizer
+- (void)onTap:(UITapGestureRecognizer*)gestureRecognizer
 {
     if (!_pinchDelegate)
         return;
     
     CGPoint translation = [gestureRecognizer locationInView:self.view];
     _pinchDelegate->ProceedTap(translation.x, translation.y);
+  //  [self touchesEnded:_touches withEvent:_event];
 }
 
 - (void)onLongTap:(UIPanGestureRecognizer*)gestureRecognizer
@@ -138,6 +146,9 @@ static int const _kTEiOSMaxTouchesCount = 10;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    _touches = touches;
+    _event = event;
+    
     int ids[_kTEiOSMaxTouchesCount] = {0};
     float xs[_kTEiOSMaxTouchesCount] = {0.0f};
     float ys[_kTEiOSMaxTouchesCount] = {0.0f};

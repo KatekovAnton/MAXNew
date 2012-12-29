@@ -41,9 +41,13 @@ void MAXGame::SetMap(string mapName)
 
 #pragma mark - DisplayPinchDelegate
 
-bool MAXGame::CanStartPinch()
+bool MAXGame::CanStartPinch(float x, float y)
 {
-    return _curretnState == MAXGAMESTATE_GAME;
+    float _y = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale() - y;
+    
+    CCRect r = CCRect(0, 280, 130, 30);
+    return !r.containsPoint(CCPoint(x,_y));
+   // return _curretnState == MAXGAMESTATE_GAME;
 }
 
 void MAXGame::ProceedPinch(float scale)

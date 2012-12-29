@@ -17,9 +17,15 @@ class MAXUnitMaterial;
 
 class MAXUnitObject : public PivotObject {
     
-    MAXUnitRenderObject        *_renderAspect;
-    MAXUnitMaterial            *_material;
+    MAXUnitRenderObject        *_renderAspect;//own
+    MAXUnitMaterial            *_material;//own
 public:
+    
+    float scalex;
+    float scaley;
+    
+    float deltax;
+    float deltay;
     
     MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material);
     ~MAXUnitObject();
@@ -28,7 +34,12 @@ public:
     virtual Material * GetMaterial();
     
     
+    virtual GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
     virtual void Frame(double time);
+    
+    void SetBodyDirection(float azimut);
+    void SetHeadDirection(float azimut);
+    
 };
 
 #endif /* defined(__MAX__MAXUnitObject__) */

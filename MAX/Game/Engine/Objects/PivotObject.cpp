@@ -16,7 +16,7 @@ PivotObject::PivotObject() {
     _transformMatrix = GLKMatrix4Identity;
     _renderMatrix = GLKMatrix4Identity;
     _needMouseCast = false;
-    _isOnScreen = false;
+    _isOnScreen = true;
     moved = false;
     forceHidden = false;
 }
@@ -25,6 +25,8 @@ void PivotObject::Update() {
  //   _transformMatrix = _objectBehaviourModel->GetGlobalPosition();
 //    if (moved)
 //        raycastaspect.boundingShape.Update(transform);
+    if (_isOnScreen)
+        _renderMatrix = CalculateRenderMatrix(_transformMatrix);
 }
 
 void PivotObject::SetGlobalPosition(GLKMatrix4 globalPosition, void *aditionalData, PivotObject *parent, bool afterUpdate)
@@ -45,9 +47,13 @@ void PivotObject::SetGlobalPosition(GLKMatrix4 globalPosition, void *aditionalDa
 void PivotObject::AfterUpdate()
 {
     if (_isOnScreen)
-    {
-        _renderMatrix = _transformMatrix;
-    }
+        _renderMatrix = CalculateRenderMatrix(_transformMatrix);
+    
+}
+
+GLKMatrix4 PivotObject::CalculateRenderMatrix(GLKMatrix4 transform)
+{
+    return transform;
 }
 
 void PivotObject::SetIsOnScreen(bool isOnScreen) {
