@@ -13,12 +13,6 @@
 #include "Material.h"
 #include "Geometry.h"
 
-struct FrameInfo
-{
-    GLKVector3 centerDelta;
-    GRect2D rect;
-};
-
 class Texture;
 
 class MAXUnitMaterial : public Material {
@@ -31,7 +25,7 @@ public:
     double time;
     
     
-    FrameInfo* frames;
+    GRect2D* frames;
     Texture** textures;
     
     MAXUnitMaterial(int frameCount);

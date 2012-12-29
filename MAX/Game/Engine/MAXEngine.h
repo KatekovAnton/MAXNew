@@ -27,13 +27,14 @@ class LevelObject;
 class MapObject;
 class MAXContentMap;
 class MAXGrid;
+class MAXUnitObject;
 
 class MAXEngine  {
     
     
     RenderSystem        *_renderSystem;
-    float                _elapsedTime;
-    float                _fullTime;
+    double                _elapsedTime;
+    double                _fullTime;
     
     
     SceneSystem         *_scene;
@@ -44,10 +45,14 @@ class MAXEngine  {
     float             _color;
     
 public:
+    
+    
+    
     float displayw,displayh;
     bool drawGrid;
     
-    std::shared_ptr<MapObject>           _map;
+    shared_ptr<MAXUnitObject>           _unit;
+    shared_ptr<MapObject>               _map;
     
     MAXCamera              *_camera;
     MAXGrid                *_grid;
@@ -61,7 +66,8 @@ public:
     
     void RunLoop(double delta);
     
-    float ElapsedTime();
+    double ElapsedTime() const {return _elapsedTime;};
+    double FullTime() const {return _fullTime;};
     
     void Update();
     void Draw();
@@ -86,11 +92,14 @@ public:
     
     void SetMap(shared_ptr<MAXContentMap> map);
     
-    CCPoint ScreenToWorldCoordinates(CCPoint screen);
-    CCPoint ScreenToWorldCell(CCPoint screen);
-    CCPoint WorldCoordinatesToScreen(CCPoint screen);
+    CCPoint ScreenToWorldCoordinates(const CCPoint &screen);
+    CCPoint ScreenToWorldCell(const CCPoint &screen);
+    CCPoint WorldCoordinatesToScreen(const CCPoint &screen);
     CCPoint WorldCoordinatesToScreenCocos(const CCPoint &world);
     CCRect ScreenToWorldRect();
+    
+    
+    void TestFire();
 };
 
 

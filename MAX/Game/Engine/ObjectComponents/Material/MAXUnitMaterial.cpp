@@ -15,7 +15,7 @@ const double MAXUnitMaterialframeTime = 1.0;
 MAXUnitMaterial::MAXUnitMaterial(int _frameCount)
 {
     frameCount = _frameCount;
-    frames = new FrameInfo[frameCount];
+    frames = new GRect2D[frameCount];
     textures = new Texture*[frameCount];
     
     
@@ -33,11 +33,10 @@ MAXUnitMaterial::~MAXUnitMaterial()
 
 void MAXUnitMaterial::DoFrame(double elapsedTime)
 {
-    time = time + elapsedTime;
-    
-    int f = (time/MAXUnitMaterialframeTime);
-    index = f%frameCount;
-    
+//    time = time + elapsedTime;
+//    
+//    int f = (time/MAXUnitMaterialframeTime);
+//    index = f%frameCount;    
 }
 
 void MAXUnitMaterial::ApplyLod(int lod, Shader *shader)

@@ -34,6 +34,7 @@ void PivotObject::SetGlobalPosition(GLKMatrix4 globalPosition, void *aditionalDa
 {
    // _objectBehaviourModel->SetGlobalPosition(globalPosition, aditionalData, parent, afterUpdate);
     moved = true;
+    _transformMatrix = globalPosition;
     if (afterUpdate)
     {
        // _objectBehaviourModel->EndFrame();

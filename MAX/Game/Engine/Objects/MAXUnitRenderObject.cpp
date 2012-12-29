@@ -23,9 +23,18 @@ MAXUnitRenderObject::~MAXUnitRenderObject()
     //dont delete material!
 }
 
-void MAXUnitRenderObject::Render(int lod, Material *material) {
-    material->ApplyLod(lod, engine->GetShader());
+void MAXUnitRenderObject::Bind()
+{
     _mesh->Bind();
-    _mesh->Render();
+}
+
+void MAXUnitRenderObject::UnBind()
+{
     _mesh->Unbind();
+}
+
+void MAXUnitRenderObject::Render(int lod, Material *material)
+{
+    material->ApplyLod(lod, engine->GetShader());    
+    _mesh->Render();
 }

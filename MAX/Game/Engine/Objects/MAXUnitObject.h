@@ -28,6 +28,10 @@ class MAXUnitObject : public PivotObject {
     
     int bodyIndex;
     int headIndex;
+    bool fireing;
+    double fireStartTime;
+    
+    bool changed;
     
     GLKMatrix4 bodyRenderMatrix;
     GLKMatrix4 headRenderMatrix;
@@ -54,8 +58,8 @@ public:
     GLKMatrix4 CalculateBodyRenderMatrix();
     GLKMatrix4 CalculateHeadRenderMatrix();
     
-    void SetBodyDirection(float azimut);
-    void SetHeadDirection(float azimut);
+    void SetBodyDirection(int state);
+    void SetHeadDirection(int state);
     void SetIsFireing(bool fire);
     
 };

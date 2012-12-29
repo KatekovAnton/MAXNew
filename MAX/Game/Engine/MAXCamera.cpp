@@ -23,7 +23,7 @@ MAXCamera::MAXCamera(GRect2D bounds)
     _scalex = _displayScale*64.0/bounds.size.width;
     _scaley = _displayScale*64.0/bounds.size.height;
     
-    scale = 1.0;
+    scale = 0.25;
     
     this->view = GLKMatrix4Identity;
     
@@ -38,8 +38,8 @@ MAXCamera::MAXCamera(GRect2D bounds)
 void MAXCamera::Scale(float deltaScale)
 {
     scale/=deltaScale;
-    if (scale<0.5)
-        scale = 0.5;
+    if (scale<0.25)
+        scale = 0.25;
     if (scale>20) 
         scale = 20;
     changed = true;

@@ -64,6 +64,8 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 {
     CCPoint p = engine->ScreenToWorldCoordinates(CCPoint(tapx, tapy));
     SysLogInfo("Tap coordinates: x=%f y=%f", p.x, p.y);
+    
+    engine->TestFire();
 }
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)

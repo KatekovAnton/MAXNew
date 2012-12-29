@@ -65,7 +65,8 @@ void MAXEngine::Init() {
     
     _scene = new SceneSystem();
     //_scene->AddObject(shared_ptr<LevelObject>(LevelObject::CreateUnitQuad()), true);
-    _scene->AddObject(MAXSCL->CreateUnit("ALNTANK"), true);
+    _unit = MAXSCL->CreateUnit("TANK");
+    _scene->AddObject(_unit, true);
     
     _scene->GetInterfaceManager()->Prepare();
     _director->pushScene(_scene->GetInterfaceManager()->GetGUISession());
@@ -185,10 +186,6 @@ void MAXEngine::Draw() {
     glActiveTexture(GL_TEXTURE0);
 }
 
-float MAXEngine::ElapsedTime() {
-    return _elapsedTime;
-}
-
 void MAXEngine::applicationDidEnterBackground() {
     
 }
@@ -217,7 +214,7 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
     _grid->SetMapSize(_map->mapW, _map->mapH);
 }
 
-CCPoint MAXEngine::ScreenToWorldCoordinates(CCPoint screen)
+CCPoint MAXEngine::ScreenToWorldCoordinates(const CCPoint &screen)
 {
     CCPoint camcentercell;
     camcentercell.x = _map->mapW/2.0 - _camera->position.x;
@@ -245,13 +242,13 @@ CCPoint MAXEngine::ScreenToWorldCoordinates(CCPoint screen)
     return result;
 }
 
-CCPoint MAXEngine::ScreenToWorldCell(CCPoint screen)
+CCPoint MAXEngine::ScreenToWorldCell(const CCPoint &screen)
 {
     CCPoint coords = ScreenToWorldCoordinates(screen);
     return CCPoint(coords.x/64.0, coords.y/64.0);
 }
 
-CCPoint MAXEngine::WorldCoordinatesToScreen(CCPoint world)
+CCPoint MAXEngine::WorldCoordinatesToScreen(const CCPoint &world)
 {
     CCPoint camcentercell;
     camcentercell.x = _map->mapW/2.0 - _camera->position.x;
@@ -317,4 +314,9 @@ CCRect MAXEngine::ScreenToWorldRect()
     result.size.height = screenSize.y;
     
     return result;
+}
+
+void MAXEngine::TestFire()
+{
+    _unit->SetIsFireing(true);
 }

@@ -304,6 +304,7 @@ MAXContentLoader::MAXContentLoader()
         inf->ReadBuffer(8, dir[f].name);
         dir[f].offset = inf->ReadInt();
         dir[f].size = inf->ReadInt();
+        SysLogInfo("%s", dir[f].name);
     }
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
@@ -453,10 +454,10 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     short center_x = source->ReadInt16();
     short center_y = source->ReadInt16();
     
-    target->frames[index].centerDelta.x = center_x;
-    target->frames[index].centerDelta.y = center_y;
-    target->frames[index].rect.size.width = width;
-    target->frames[index].rect.size.height = height;
+    target->frames[index].origin.x = center_x;
+    target->frames[index].origin.y = center_y;
+    target->frames[index].size.width = width;
+    target->frames[index].size.height = height;
     
     
     int size = width * height;

@@ -27,6 +27,9 @@ public:
 
 
     virtual void Render(int lod, Material *material);
+    
+    void Bind();
+    void UnBind();
 };
 
 #endif /* defined(__MAX__MAXUnitRenderObject__) */

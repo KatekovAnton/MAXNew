@@ -82,10 +82,10 @@ void SceneSystem::Clear() {
 }
 
 void SceneSystem::AddObject(const shared_ptr<PivotObject> newObject, bool needUpdate) {
-    newObject->AfterUpdate();
+    
     //newObject->_objectBehaviourModel->Enable();
     _objects->addObject(newObject);
-    
+    newObject->AfterUpdate();
     //_sceneGraph.AddObject(newObject);
 }
 
