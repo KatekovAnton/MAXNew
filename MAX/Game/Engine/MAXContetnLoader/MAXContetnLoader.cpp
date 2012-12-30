@@ -304,7 +304,7 @@ MAXContentLoader::MAXContentLoader()
         inf->ReadBuffer(8, dir[f].name);
         dir[f].offset = inf->ReadInt();
         dir[f].size = inf->ReadInt();
-        SysLogInfo("%s", dir[f].name);
+    //    SysLogInfo("%s", dir[f].name);
     }
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
@@ -454,7 +454,7 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     short center_x = source->ReadInt16();
     short center_y = source->ReadInt16();
     
-    if (index == 14 + 8) {
+    if (index == 15 + 8) {
         SysLogInfo("width = %d, height=%d, center_x=%d, center_y=%d", (int)width, (int)height, (int)center_x, (int)center_y);
     }
   //  
@@ -475,7 +475,6 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     unsigned int* rows = new unsigned int[height];
     source->ReadBuffer(height * 4, (char *)rows);
     
-    //BinaryReader* dest = new BinaryReader(pixels);
     int destOffset = 0;
     
     
@@ -493,7 +492,7 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
             buf = source->ReadUChar();
             source->ReadBuffer((int)buf, tmpbuffer);
             memcpy(pixels + destOffset, tmpbuffer, buf);
-            
+            memset(tmpbuffer, 0, 256);
             buf = source->ReadUChar();
         }
         
