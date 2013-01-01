@@ -899,8 +899,8 @@
 			isa = PBXGroup;
 			children = (
 				8B8A43EA16935851005C4ADA /* Units */,
-				D1992269168DF4540067D6CF /* Max.res */,
 				D16D48DE168B38080055F35D /* Maps */,
+				D1992269168DF4540067D6CF /* Max.res */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
