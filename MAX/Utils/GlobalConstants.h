@@ -9,10 +9,10 @@
 #ifndef TerminalExtraction_GlobalConstants_h
 #define TerminalExtraction_GlobalConstants_h
 
-//#if  TARGET_OS_IPHONE
+#if  TARGET_OS_IPHONE
     #define GLES2    <OpenGLES/ES2/gl.h>
     #define Glext    <OpenGLES/ES2/glext.h>
-//#endif
+#endif
 
 #include GLES2
 #include "wchar.h"
