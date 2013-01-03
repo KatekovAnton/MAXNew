@@ -142,7 +142,7 @@ void MAXEngine::Update() {
     
     
     _scene->Frame(_elapsedTime);
-//    _map->Frame(_elapsedTime);
+    _map->Frame(_elapsedTime);
 
     _scene->EndFrame();
     _scene->UpdateScene();
