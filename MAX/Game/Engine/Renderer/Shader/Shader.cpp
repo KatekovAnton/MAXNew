@@ -61,7 +61,7 @@ GLuint * Shader::GetShaderUniforms() {
     return _shaderUniforms;
 }
 
-GLcharARB* Shader::LoadShaderSource(const char *filename)
+GLchar* Shader::LoadShaderSource(const char *filename)
 {
 #ifdef TARGET_OS_WIN
 	FILE *file;

@@ -15,6 +15,7 @@ RenderSystem::RenderSystem() {
 
 void RenderSystem::Init() {
 #ifdef TARGET_OS_IPHONE
+    _deviceDisplay = Display::currentDisplay();
     _deviceDisplay->InitGLSurface(GL_DEPTH_COMPONENT24_OES, GL_RGB565);
 #endif
 }

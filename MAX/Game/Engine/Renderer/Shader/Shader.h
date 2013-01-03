@@ -61,7 +61,7 @@ class Shader {
     bool LoadShader(string vertexName, string fragmentName);
 	bool LoadShaderWin(string vertexName, string fragmentName);
 
-	GLcharARB* LoadShaderSource(const char *filename);
+	GLchar* LoadShaderSource(const char *filename);
 
     bool CompileShader(GLuint *shader, GLenum type, string file);
     bool LinkProgram(GLuint program);

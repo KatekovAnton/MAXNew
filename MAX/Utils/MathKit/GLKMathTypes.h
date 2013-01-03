@@ -142,6 +142,7 @@ union _GLKVector4
 #endif
 #ifdef TARGET_OS_IPHONE
 __attribute__((aligned(16)));
+typedef union _GLKVector4 GLKVector4;
 #endif
 #ifdef TARGET_OS_WIN
 ;
@@ -171,6 +172,7 @@ union _GLKQuaternion
 #endif
 #ifdef TARGET_OS_IPHONE
 __attribute__((aligned(16)));
+typedef union _GLKQuaternion GLKQuaternion;
 #endif
 #ifdef TARGET_OS_WIN
 ;

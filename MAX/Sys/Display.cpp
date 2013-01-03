@@ -31,7 +31,9 @@ Display * Display::currentDisplay() {
         _display = new iosDisplay();
     return _display;
 #endif
+#ifdef TARGET_OS_WIN
 	return windows_display::GetSharedDisplay();
+#endif
 }
 
 

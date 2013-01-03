@@ -8,14 +8,14 @@
 
 #include "ios_fileManager.h"
 
-const char * iosFileManager::GetFilePath(string filename) {
+string iosFileManager::GetFilePath(string filename) {
     size_t dotPosition = filename.find(".");
     string extension = filename.substr(dotPosition + 1);
     NSString* pureName = [[NSString stringWithUTF8String:filename.c_str()] substringToIndex:dotPosition];
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:pureName ofType:[NSString stringWithUTF8String:extension.c_str()]];
     
-    return [filePath UTF8String];
+    return string([filePath UTF8String]);
 }
 
 
@@ -38,7 +38,7 @@ string* iosFileManager::GetContent(string filename) {
 
 GLubyte * iosFileManager::CreateBitmapData(string filename, GLfloat *width, GLfloat *heigth) {
     
-    CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename(GetFilePath(filename));
+    CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename(GetFilePath(filename).c_str());
     
     CGImageRef image = CGImageCreateWithJPEGDataProvider(dataProvider, NULL, false, kCGRenderingIntentDefault);
     
