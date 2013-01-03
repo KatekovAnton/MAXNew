@@ -23,7 +23,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     _renderAspect = renderObject;
     _material = material;
     bodyIndex = 2;
-    headIndex = 12;
+    headIndex = 15;
     fireing = false;
     fireStartTime = 0;
     changed = true;

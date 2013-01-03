@@ -7,6 +7,167 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B8A443D169358BE005C4ADA /* grp_aa_rocket.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */; };
+		8B8A443E169358BE005C4ADA /* grp_aa_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */; };
+		8B8A443F169358BE005C4ADA /* grp_aainfantry.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */; };
+		8B8A4440169358BE005C4ADA /* grp_air_plant.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EF169358BE005C4ADA /* grp_air_plant.cfg */; };
+		8B8A4441169358BE005C4ADA /* grp_air_tanker.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F0169358BE005C4ADA /* grp_air_tanker.cfg */; };
+		8B8A4442169358BE005C4ADA /* grp_air_transport.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F1169358BE005C4ADA /* grp_air_transport.cfg */; };
+		8B8A4443169358BE005C4ADA /* grp_alien_assault_gun.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F2169358BE005C4ADA /* grp_alien_assault_gun.cfg */; };
+		8B8A4444169358BE005C4ADA /* grp_alien_plane.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F3169358BE005C4ADA /* grp_alien_plane.cfg */; };
+		8B8A4445169358BE005C4ADA /* grp_alien_tank.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F4169358BE005C4ADA /* grp_alien_tank.cfg */; };
+		8B8A4446169358BE005C4ADA /* grp_artillery_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F5169358BE005C4ADA /* grp_artillery_turret.cfg */; };
+		8B8A4447169358BE005C4ADA /* grp_assault_gun.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F6169358BE005C4ADA /* grp_assault_gun.cfg */; };
+		8B8A4448169358BE005C4ADA /* grp_awac.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F7169358BE005C4ADA /* grp_awac.cfg */; };
+		8B8A4449169358BE005C4ADA /* grp_barracks.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F8169358BE005C4ADA /* grp_barracks.cfg */; };
+		8B8A444A169358BE005C4ADA /* grp_block.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43F9169358BE005C4ADA /* grp_block.cfg */; };
+		8B8A444B169358BE005C4ADA /* grp_bomber.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43FA169358BE005C4ADA /* grp_bomber.cfg */; };
+		8B8A444C169358BE005C4ADA /* grp_bridge.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43FB169358BE005C4ADA /* grp_bridge.cfg */; };
+		8B8A444D169358BE005C4ADA /* grp_bulldozer.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43FC169358BE005C4ADA /* grp_bulldozer.cfg */; };
+		8B8A444E169358BE005C4ADA /* grp_cargo_ship.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43FD169358BE005C4ADA /* grp_cargo_ship.cfg */; };
+		8B8A444F169358BE005C4ADA /* grp_connector.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43FE169358BE005C4ADA /* grp_connector.cfg */; };
+		8B8A4450169358BE005C4ADA /* grp_constructor.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43FF169358BE005C4ADA /* grp_constructor.cfg */; };
+		8B8A4451169358BE005C4ADA /* grp_corvette.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4400169358BE005C4ADA /* grp_corvette.cfg */; };
+		8B8A4452169358BE005C4ADA /* grp_crawler.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4401169358BE005C4ADA /* grp_crawler.cfg */; };
+		8B8A4453169358BE005C4ADA /* grp_depot.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4402169358BE005C4ADA /* grp_depot.cfg */; };
+		8B8A4454169358BE005C4ADA /* grp_dock.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4403169358BE005C4ADA /* grp_dock.cfg */; };
+		8B8A4455169358BE005C4ADA /* grp_ecosphere.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4404169358BE005C4ADA /* grp_ecosphere.cfg */; };
+		8B8A4456169358BE005C4ADA /* grp_engineer.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4405169358BE005C4ADA /* grp_engineer.cfg */; };
+		8B8A4457169358BE005C4ADA /* grp_escort.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4406169358BE005C4ADA /* grp_escort.cfg */; };
+		8B8A4458169358BE005C4ADA /* grp_fuel_ship.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4407169358BE005C4ADA /* grp_fuel_ship.cfg */; };
+		8B8A4459169358BE005C4ADA /* grp_fuel_store.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4408169358BE005C4ADA /* grp_fuel_store.cfg */; };
+		8B8A445A169358BE005C4ADA /* grp_fuel_truck.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4409169358BE005C4ADA /* grp_fuel_truck.cfg */; };
+		8B8A445B169358BE005C4ADA /* grp_gold_refinery.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A440A169358BE005C4ADA /* grp_gold_refinery.cfg */; };
+		8B8A445C169358BE005C4ADA /* grp_gold_store.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A440B169358BE005C4ADA /* grp_gold_store.cfg */; };
+		8B8A445D169358BE005C4ADA /* grp_gold_truck.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A440C169358BE005C4ADA /* grp_gold_truck.cfg */; };
+		8B8A445E169358BE005C4ADA /* grp_gun_boat.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A440D169358BE005C4ADA /* grp_gun_boat.cfg */; };
+		8B8A445F169358BE005C4ADA /* grp_gun_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A440E169358BE005C4ADA /* grp_gun_turret.cfg */; };
+		8B8A4460169358BE005C4ADA /* grp_habitat.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A440F169358BE005C4ADA /* grp_habitat.cfg */; };
+		8B8A4461169358BE005C4ADA /* grp_hangar.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4410169358BE005C4ADA /* grp_hangar.cfg */; };
+		8B8A4462169358BE005C4ADA /* grp_heavy_plant.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4411169358BE005C4ADA /* grp_heavy_plant.cfg */; };
+		8B8A4463169358BE005C4ADA /* grp_infantry.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4412169358BE005C4ADA /* grp_infantry.cfg */; };
+		8B8A4464169358BE005C4ADA /* grp_infiltrator.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4413169358BE005C4ADA /* grp_infiltrator.cfg */; };
+		8B8A4465169358BE005C4ADA /* grp_interceptor.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4414169358BE005C4ADA /* grp_interceptor.cfg */; };
+		8B8A4466169358BE005C4ADA /* grp_juggernaut.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4415169358BE005C4ADA /* grp_juggernaut.cfg */; };
+		8B8A4467169358BE005C4ADA /* grp_land_mine.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4416169358BE005C4ADA /* grp_land_mine.cfg */; };
+		8B8A4468169358BE005C4ADA /* grp_landing_pad.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4417169358BE005C4ADA /* grp_landing_pad.cfg */; };
+		8B8A4469169358BE005C4ADA /* grp_light_plant.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4418169358BE005C4ADA /* grp_light_plant.cfg */; };
+		8B8A446A169358BE005C4ADA /* grp_material_store.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4419169358BE005C4ADA /* grp_material_store.cfg */; };
+		8B8A446B169358BE005C4ADA /* grp_material_truck.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A441A169358BE005C4ADA /* grp_material_truck.cfg */; };
+		8B8A446C169358BE005C4ADA /* grp_minelayer.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A441B169358BE005C4ADA /* grp_minelayer.cfg */; };
+		8B8A446D169358BE005C4ADA /* grp_mining_station.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A441C169358BE005C4ADA /* grp_mining_station.cfg */; };
+		8B8A446E169358BE005C4ADA /* grp_missile_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A441D169358BE005C4ADA /* grp_missile_turret.cfg */; };
+		8B8A446F169358BE005C4ADA /* grp_mobile_aa_gun.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A441E169358BE005C4ADA /* grp_mobile_aa_gun.cfg */; };
+		8B8A4470169358BE005C4ADA /* grp_personnel_carrier.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A441F169358BE005C4ADA /* grp_personnel_carrier.cfg */; };
+		8B8A4471169358BE005C4ADA /* grp_power_generator.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4420169358BE005C4ADA /* grp_power_generator.cfg */; };
+		8B8A4472169358BE005C4ADA /* grp_power_plant.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4421169358BE005C4ADA /* grp_power_plant.cfg */; };
+		8B8A4473169358BE005C4ADA /* grp_radar.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4422169358BE005C4ADA /* grp_radar.cfg */; };
+		8B8A4474169358BE005C4ADA /* grp_repair_unit.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4423169358BE005C4ADA /* grp_repair_unit.cfg */; };
+		8B8A4475169358BE005C4ADA /* grp_research_lab.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4424169358BE005C4ADA /* grp_research_lab.cfg */; };
+		8B8A4476169358BE005C4ADA /* grp_road.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4425169358BE005C4ADA /* grp_road.cfg */; };
+		8B8A4477169358BE005C4ADA /* grp_rocket_boat.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4426169358BE005C4ADA /* grp_rocket_boat.cfg */; };
+		8B8A4478169358BE005C4ADA /* grp_rocketter.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4427169358BE005C4ADA /* grp_rocketter.cfg */; };
+		8B8A4479169358BE005C4ADA /* grp_scanner.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4428169358BE005C4ADA /* grp_scanner.cfg */; };
+		8B8A447A169358BE005C4ADA /* grp_scout.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4429169358BE005C4ADA /* grp_scout.cfg */; };
+		8B8A447B169358BE005C4ADA /* grp_sea_mine.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A442A169358BE005C4ADA /* grp_sea_mine.cfg */; };
+		8B8A447C169358BE005C4ADA /* grp_sea_minelayer.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A442B169358BE005C4ADA /* grp_sea_minelayer.cfg */; };
+		8B8A447D169358BE005C4ADA /* grp_sea_platform.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A442C169358BE005C4ADA /* grp_sea_platform.cfg */; };
+		8B8A447E169358BE005C4ADA /* grp_sea_transport.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A442D169358BE005C4ADA /* grp_sea_transport.cfg */; };
+		8B8A447F169358BE005C4ADA /* grp_shipyard.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A442E169358BE005C4ADA /* grp_shipyard.cfg */; };
+		8B8A4480169358BE005C4ADA /* grp_submarine.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A442F169358BE005C4ADA /* grp_submarine.cfg */; };
+		8B8A4481169358BE005C4ADA /* grp_surveyor.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4430169358BE005C4ADA /* grp_surveyor.cfg */; };
+		8B8A4482169358BE005C4ADA /* grp_tank.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4431169358BE005C4ADA /* grp_tank.cfg */; };
+		8B8A4483169358BE005C4ADA /* grp_torp_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4432169358BE005C4ADA /* grp_torp_turret.cfg */; };
+		8B8A4484169358BE005C4ADA /* grp_training_hall.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4433169358BE005C4ADA /* grp_training_hall.cfg */; };
+		8B8A4485169358BE005C4ADA /* grp_util_bpl.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4434169358BE005C4ADA /* grp_util_bpl.cfg */; };
+		8B8A4486169358BE005C4ADA /* grp_util_brb.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4435169358BE005C4ADA /* grp_util_brb.cfg */; };
+		8B8A4487169358BE005C4ADA /* grp_util_brope.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4436169358BE005C4ADA /* grp_util_brope.cfg */; };
+		8B8A4488169358BE005C4ADA /* grp_util_byo.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4437169358BE005C4ADA /* grp_util_byo.cfg */; };
+		8B8A4489169358BE005C4ADA /* grp_util_hit.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4438169358BE005C4ADA /* grp_util_hit.cfg */; };
+		8B8A448A169358BE005C4ADA /* grp_util_spl.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A4439169358BE005C4ADA /* grp_util_spl.cfg */; };
+		8B8A448B169358BE005C4ADA /* grp_util_srb.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A443A169358BE005C4ADA /* grp_util_srb.cfg */; };
+		8B8A448C169358BE005C4ADA /* grp_util_srope.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A443B169358BE005C4ADA /* grp_util_srope.cfg */; };
+		8B8A448D169358BE005C4ADA /* grp_util_syo.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A443C169358BE005C4ADA /* grp_util_syo.cfg */; };
+		8B8A449216935923005C4ADA /* clansOriginal.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449016935923005C4ADA /* clansOriginal.cfg */; };
+		8B8A449316935923005C4ADA /* unisetOriginal.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449116935923005C4ADA /* unisetOriginal.cfg */; };
+		8B8A44E316935951005C4ADA /* aa_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449516935951005C4ADA /* aa_turret.cfg */; };
+		8B8A44E416935951005C4ADA /* air_plant.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449616935951005C4ADA /* air_plant.cfg */; };
+		8B8A44E516935951005C4ADA /* air_tanker.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449716935951005C4ADA /* air_tanker.cfg */; };
+		8B8A44E616935951005C4ADA /* air_transport.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449816935951005C4ADA /* air_transport.cfg */; };
+		8B8A44E716935951005C4ADA /* alien_assault_gun.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449916935951005C4ADA /* alien_assault_gun.cfg */; };
+		8B8A44E816935951005C4ADA /* alien_plane.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449A16935951005C4ADA /* alien_plane.cfg */; };
+		8B8A44E916935951005C4ADA /* alien_tank.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449B16935951005C4ADA /* alien_tank.cfg */; };
+		8B8A44EA16935951005C4ADA /* artillery_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449C16935951005C4ADA /* artillery_turret.cfg */; };
+		8B8A44EB16935951005C4ADA /* assault_gun.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449D16935951005C4ADA /* assault_gun.cfg */; };
+		8B8A44EC16935951005C4ADA /* awac.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449E16935951005C4ADA /* awac.cfg */; };
+		8B8A44ED16935951005C4ADA /* barracks.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A449F16935951005C4ADA /* barracks.cfg */; };
+		8B8A44EE16935951005C4ADA /* block.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A016935951005C4ADA /* block.cfg */; };
+		8B8A44EF16935951005C4ADA /* bomber.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A116935951005C4ADA /* bomber.cfg */; };
+		8B8A44F016935951005C4ADA /* bridge.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A216935951005C4ADA /* bridge.cfg */; };
+		8B8A44F116935951005C4ADA /* bulldozer.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A316935951005C4ADA /* bulldozer.cfg */; };
+		8B8A44F216935951005C4ADA /* cargo_ship.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A416935951005C4ADA /* cargo_ship.cfg */; };
+		8B8A44F316935951005C4ADA /* connector.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A516935951005C4ADA /* connector.cfg */; };
+		8B8A44F416935951005C4ADA /* constructor.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A616935951005C4ADA /* constructor.cfg */; };
+		8B8A44F516935951005C4ADA /* corvette.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A716935951005C4ADA /* corvette.cfg */; };
+		8B8A44F616935951005C4ADA /* crawler.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A816935951005C4ADA /* crawler.cfg */; };
+		8B8A44F716935951005C4ADA /* depot.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44A916935951005C4ADA /* depot.cfg */; };
+		8B8A44F816935951005C4ADA /* dock.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44AA16935951005C4ADA /* dock.cfg */; };
+		8B8A44F916935951005C4ADA /* ecosphere.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44AB16935951005C4ADA /* ecosphere.cfg */; };
+		8B8A44FA16935951005C4ADA /* engineer.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44AC16935951005C4ADA /* engineer.cfg */; };
+		8B8A44FB16935951005C4ADA /* escort.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44AD16935951005C4ADA /* escort.cfg */; };
+		8B8A44FC16935951005C4ADA /* fuel_ship.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44AE16935951005C4ADA /* fuel_ship.cfg */; };
+		8B8A44FD16935951005C4ADA /* fuel_store.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44AF16935951005C4ADA /* fuel_store.cfg */; };
+		8B8A44FE16935951005C4ADA /* fuel_truck.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B016935951005C4ADA /* fuel_truck.cfg */; };
+		8B8A44FF16935951005C4ADA /* gold_refinery.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B116935951005C4ADA /* gold_refinery.cfg */; };
+		8B8A450016935951005C4ADA /* gold_store.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B216935951005C4ADA /* gold_store.cfg */; };
+		8B8A450116935951005C4ADA /* gold_truck.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B316935951005C4ADA /* gold_truck.cfg */; };
+		8B8A450216935951005C4ADA /* gun_boat.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B416935951005C4ADA /* gun_boat.cfg */; };
+		8B8A450316935951005C4ADA /* gun_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B516935951005C4ADA /* gun_turret.cfg */; };
+		8B8A450416935951005C4ADA /* habitat.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B616935951005C4ADA /* habitat.cfg */; };
+		8B8A450516935951005C4ADA /* hangar.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B716935951005C4ADA /* hangar.cfg */; };
+		8B8A450616935951005C4ADA /* heavy_plant.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B816935951005C4ADA /* heavy_plant.cfg */; };
+		8B8A450716935951005C4ADA /* infantry.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44B916935951005C4ADA /* infantry.cfg */; };
+		8B8A450816935951005C4ADA /* infiltrator.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44BA16935951005C4ADA /* infiltrator.cfg */; };
+		8B8A450916935951005C4ADA /* interceptor.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44BB16935951005C4ADA /* interceptor.cfg */; };
+		8B8A450A16935951005C4ADA /* juggernaut.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44BC16935951005C4ADA /* juggernaut.cfg */; };
+		8B8A450B16935951005C4ADA /* land_mine.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44BD16935951005C4ADA /* land_mine.cfg */; };
+		8B8A450C16935951005C4ADA /* landing_pad.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44BE16935951005C4ADA /* landing_pad.cfg */; };
+		8B8A450D16935951005C4ADA /* light_plant.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44BF16935951005C4ADA /* light_plant.cfg */; };
+		8B8A450E16935951005C4ADA /* material_store.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C016935951005C4ADA /* material_store.cfg */; };
+		8B8A450F16935951005C4ADA /* material_truck.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C116935951005C4ADA /* material_truck.cfg */; };
+		8B8A451016935951005C4ADA /* minelayer.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C216935951005C4ADA /* minelayer.cfg */; };
+		8B8A451116935951005C4ADA /* mining_station.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C316935951005C4ADA /* mining_station.cfg */; };
+		8B8A451216935951005C4ADA /* missile_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C416935951005C4ADA /* missile_turret.cfg */; };
+		8B8A451316935951005C4ADA /* mobile_aa_gun.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C516935951005C4ADA /* mobile_aa_gun.cfg */; };
+		8B8A451416935951005C4ADA /* personnel_carrier.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C616935951005C4ADA /* personnel_carrier.cfg */; };
+		8B8A451516935951005C4ADA /* power_generator.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C716935951005C4ADA /* power_generator.cfg */; };
+		8B8A451616935951005C4ADA /* power_plant.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C816935951005C4ADA /* power_plant.cfg */; };
+		8B8A451716935951005C4ADA /* radar.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44C916935951005C4ADA /* radar.cfg */; };
+		8B8A451816935951005C4ADA /* repair_unit.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44CA16935951005C4ADA /* repair_unit.cfg */; };
+		8B8A451916935951005C4ADA /* research_lab.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44CB16935951005C4ADA /* research_lab.cfg */; };
+		8B8A451A16935951005C4ADA /* road.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44CC16935951005C4ADA /* road.cfg */; };
+		8B8A451B16935951005C4ADA /* rocket_boat.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44CD16935951005C4ADA /* rocket_boat.cfg */; };
+		8B8A451C16935951005C4ADA /* rocketter.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44CE16935951005C4ADA /* rocketter.cfg */; };
+		8B8A451D16935951005C4ADA /* scanner.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44CF16935951005C4ADA /* scanner.cfg */; };
+		8B8A451E16935951005C4ADA /* scout.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D016935951005C4ADA /* scout.cfg */; };
+		8B8A451F16935951005C4ADA /* sea_mine.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D116935951005C4ADA /* sea_mine.cfg */; };
+		8B8A452016935951005C4ADA /* sea_minelayer.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D216935951005C4ADA /* sea_minelayer.cfg */; };
+		8B8A452116935951005C4ADA /* sea_platform.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D316935951005C4ADA /* sea_platform.cfg */; };
+		8B8A452216935951005C4ADA /* sea_transport.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D416935951005C4ADA /* sea_transport.cfg */; };
+		8B8A452316935951005C4ADA /* shipyard.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D516935951005C4ADA /* shipyard.cfg */; };
+		8B8A452416935951005C4ADA /* submarine.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D616935951005C4ADA /* submarine.cfg */; };
+		8B8A452516935951005C4ADA /* surveyor.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D716935951005C4ADA /* surveyor.cfg */; };
+		8B8A452616935951005C4ADA /* tank.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D816935951005C4ADA /* tank.cfg */; };
+		8B8A452716935951005C4ADA /* training_hall.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44D916935951005C4ADA /* training_hall.cfg */; };
+		8B8A452816935951005C4ADA /* util_bpl.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44DA16935951005C4ADA /* util_bpl.cfg */; };
+		8B8A452916935951005C4ADA /* util_brb.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44DB16935951005C4ADA /* util_brb.cfg */; };
+		8B8A452A16935951005C4ADA /* util_brope.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44DC16935951005C4ADA /* util_brope.cfg */; };
+		8B8A452B16935951005C4ADA /* util_byo.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44DD16935951005C4ADA /* util_byo.cfg */; };
+		8B8A452C16935951005C4ADA /* util_hit.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44DE16935951005C4ADA /* util_hit.cfg */; };
+		8B8A452D16935951005C4ADA /* util_spl.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44DF16935951005C4ADA /* util_spl.cfg */; };
+		8B8A452E16935951005C4ADA /* util_srb.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44E016935951005C4ADA /* util_srb.cfg */; };
+		8B8A452F16935951005C4ADA /* util_srope.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44E116935951005C4ADA /* util_srope.cfg */; };
+		8B8A453016935951005C4ADA /* util_syo.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44E216935951005C4ADA /* util_syo.cfg */; };
 		8B8EAA14168A17F30097CA74 /* MAXGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA12168A17F30097CA74 /* MAXGame.cpp */; };
 		8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */; };
 		8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA28168A27900097CA74 /* LevelObject.cpp */; };
@@ -130,6 +291,167 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aa_rocket.cfg; sourceTree = "<group>"; };
+		8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aa_turret.cfg; sourceTree = "<group>"; };
+		8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aainfantry.cfg; sourceTree = "<group>"; };
+		8B8A43EF169358BE005C4ADA /* grp_air_plant.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_air_plant.cfg; sourceTree = "<group>"; };
+		8B8A43F0169358BE005C4ADA /* grp_air_tanker.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_air_tanker.cfg; sourceTree = "<group>"; };
+		8B8A43F1169358BE005C4ADA /* grp_air_transport.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_air_transport.cfg; sourceTree = "<group>"; };
+		8B8A43F2169358BE005C4ADA /* grp_alien_assault_gun.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_alien_assault_gun.cfg; sourceTree = "<group>"; };
+		8B8A43F3169358BE005C4ADA /* grp_alien_plane.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_alien_plane.cfg; sourceTree = "<group>"; };
+		8B8A43F4169358BE005C4ADA /* grp_alien_tank.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_alien_tank.cfg; sourceTree = "<group>"; };
+		8B8A43F5169358BE005C4ADA /* grp_artillery_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_artillery_turret.cfg; sourceTree = "<group>"; };
+		8B8A43F6169358BE005C4ADA /* grp_assault_gun.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_assault_gun.cfg; sourceTree = "<group>"; };
+		8B8A43F7169358BE005C4ADA /* grp_awac.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_awac.cfg; sourceTree = "<group>"; };
+		8B8A43F8169358BE005C4ADA /* grp_barracks.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_barracks.cfg; sourceTree = "<group>"; };
+		8B8A43F9169358BE005C4ADA /* grp_block.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_block.cfg; sourceTree = "<group>"; };
+		8B8A43FA169358BE005C4ADA /* grp_bomber.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_bomber.cfg; sourceTree = "<group>"; };
+		8B8A43FB169358BE005C4ADA /* grp_bridge.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_bridge.cfg; sourceTree = "<group>"; };
+		8B8A43FC169358BE005C4ADA /* grp_bulldozer.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_bulldozer.cfg; sourceTree = "<group>"; };
+		8B8A43FD169358BE005C4ADA /* grp_cargo_ship.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_cargo_ship.cfg; sourceTree = "<group>"; };
+		8B8A43FE169358BE005C4ADA /* grp_connector.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_connector.cfg; sourceTree = "<group>"; };
+		8B8A43FF169358BE005C4ADA /* grp_constructor.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_constructor.cfg; sourceTree = "<group>"; };
+		8B8A4400169358BE005C4ADA /* grp_corvette.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_corvette.cfg; sourceTree = "<group>"; };
+		8B8A4401169358BE005C4ADA /* grp_crawler.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_crawler.cfg; sourceTree = "<group>"; };
+		8B8A4402169358BE005C4ADA /* grp_depot.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_depot.cfg; sourceTree = "<group>"; };
+		8B8A4403169358BE005C4ADA /* grp_dock.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_dock.cfg; sourceTree = "<group>"; };
+		8B8A4404169358BE005C4ADA /* grp_ecosphere.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_ecosphere.cfg; sourceTree = "<group>"; };
+		8B8A4405169358BE005C4ADA /* grp_engineer.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_engineer.cfg; sourceTree = "<group>"; };
+		8B8A4406169358BE005C4ADA /* grp_escort.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_escort.cfg; sourceTree = "<group>"; };
+		8B8A4407169358BE005C4ADA /* grp_fuel_ship.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_fuel_ship.cfg; sourceTree = "<group>"; };
+		8B8A4408169358BE005C4ADA /* grp_fuel_store.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_fuel_store.cfg; sourceTree = "<group>"; };
+		8B8A4409169358BE005C4ADA /* grp_fuel_truck.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_fuel_truck.cfg; sourceTree = "<group>"; };
+		8B8A440A169358BE005C4ADA /* grp_gold_refinery.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_gold_refinery.cfg; sourceTree = "<group>"; };
+		8B8A440B169358BE005C4ADA /* grp_gold_store.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_gold_store.cfg; sourceTree = "<group>"; };
+		8B8A440C169358BE005C4ADA /* grp_gold_truck.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_gold_truck.cfg; sourceTree = "<group>"; };
+		8B8A440D169358BE005C4ADA /* grp_gun_boat.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_gun_boat.cfg; sourceTree = "<group>"; };
+		8B8A440E169358BE005C4ADA /* grp_gun_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_gun_turret.cfg; sourceTree = "<group>"; };
+		8B8A440F169358BE005C4ADA /* grp_habitat.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_habitat.cfg; sourceTree = "<group>"; };
+		8B8A4410169358BE005C4ADA /* grp_hangar.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_hangar.cfg; sourceTree = "<group>"; };
+		8B8A4411169358BE005C4ADA /* grp_heavy_plant.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_heavy_plant.cfg; sourceTree = "<group>"; };
+		8B8A4412169358BE005C4ADA /* grp_infantry.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_infantry.cfg; sourceTree = "<group>"; };
+		8B8A4413169358BE005C4ADA /* grp_infiltrator.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_infiltrator.cfg; sourceTree = "<group>"; };
+		8B8A4414169358BE005C4ADA /* grp_interceptor.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_interceptor.cfg; sourceTree = "<group>"; };
+		8B8A4415169358BE005C4ADA /* grp_juggernaut.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_juggernaut.cfg; sourceTree = "<group>"; };
+		8B8A4416169358BE005C4ADA /* grp_land_mine.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_land_mine.cfg; sourceTree = "<group>"; };
+		8B8A4417169358BE005C4ADA /* grp_landing_pad.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_landing_pad.cfg; sourceTree = "<group>"; };
+		8B8A4418169358BE005C4ADA /* grp_light_plant.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_light_plant.cfg; sourceTree = "<group>"; };
+		8B8A4419169358BE005C4ADA /* grp_material_store.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_material_store.cfg; sourceTree = "<group>"; };
+		8B8A441A169358BE005C4ADA /* grp_material_truck.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_material_truck.cfg; sourceTree = "<group>"; };
+		8B8A441B169358BE005C4ADA /* grp_minelayer.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_minelayer.cfg; sourceTree = "<group>"; };
+		8B8A441C169358BE005C4ADA /* grp_mining_station.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_mining_station.cfg; sourceTree = "<group>"; };
+		8B8A441D169358BE005C4ADA /* grp_missile_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_missile_turret.cfg; sourceTree = "<group>"; };
+		8B8A441E169358BE005C4ADA /* grp_mobile_aa_gun.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_mobile_aa_gun.cfg; sourceTree = "<group>"; };
+		8B8A441F169358BE005C4ADA /* grp_personnel_carrier.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_personnel_carrier.cfg; sourceTree = "<group>"; };
+		8B8A4420169358BE005C4ADA /* grp_power_generator.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_power_generator.cfg; sourceTree = "<group>"; };
+		8B8A4421169358BE005C4ADA /* grp_power_plant.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_power_plant.cfg; sourceTree = "<group>"; };
+		8B8A4422169358BE005C4ADA /* grp_radar.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_radar.cfg; sourceTree = "<group>"; };
+		8B8A4423169358BE005C4ADA /* grp_repair_unit.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_repair_unit.cfg; sourceTree = "<group>"; };
+		8B8A4424169358BE005C4ADA /* grp_research_lab.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_research_lab.cfg; sourceTree = "<group>"; };
+		8B8A4425169358BE005C4ADA /* grp_road.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_road.cfg; sourceTree = "<group>"; };
+		8B8A4426169358BE005C4ADA /* grp_rocket_boat.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_rocket_boat.cfg; sourceTree = "<group>"; };
+		8B8A4427169358BE005C4ADA /* grp_rocketter.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_rocketter.cfg; sourceTree = "<group>"; };
+		8B8A4428169358BE005C4ADA /* grp_scanner.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_scanner.cfg; sourceTree = "<group>"; };
+		8B8A4429169358BE005C4ADA /* grp_scout.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_scout.cfg; sourceTree = "<group>"; };
+		8B8A442A169358BE005C4ADA /* grp_sea_mine.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_sea_mine.cfg; sourceTree = "<group>"; };
+		8B8A442B169358BE005C4ADA /* grp_sea_minelayer.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_sea_minelayer.cfg; sourceTree = "<group>"; };
+		8B8A442C169358BE005C4ADA /* grp_sea_platform.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_sea_platform.cfg; sourceTree = "<group>"; };
+		8B8A442D169358BE005C4ADA /* grp_sea_transport.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_sea_transport.cfg; sourceTree = "<group>"; };
+		8B8A442E169358BE005C4ADA /* grp_shipyard.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_shipyard.cfg; sourceTree = "<group>"; };
+		8B8A442F169358BE005C4ADA /* grp_submarine.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_submarine.cfg; sourceTree = "<group>"; };
+		8B8A4430169358BE005C4ADA /* grp_surveyor.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_surveyor.cfg; sourceTree = "<group>"; };
+		8B8A4431169358BE005C4ADA /* grp_tank.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_tank.cfg; sourceTree = "<group>"; };
+		8B8A4432169358BE005C4ADA /* grp_torp_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_torp_turret.cfg; sourceTree = "<group>"; };
+		8B8A4433169358BE005C4ADA /* grp_training_hall.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_training_hall.cfg; sourceTree = "<group>"; };
+		8B8A4434169358BE005C4ADA /* grp_util_bpl.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_bpl.cfg; sourceTree = "<group>"; };
+		8B8A4435169358BE005C4ADA /* grp_util_brb.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_brb.cfg; sourceTree = "<group>"; };
+		8B8A4436169358BE005C4ADA /* grp_util_brope.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_brope.cfg; sourceTree = "<group>"; };
+		8B8A4437169358BE005C4ADA /* grp_util_byo.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_byo.cfg; sourceTree = "<group>"; };
+		8B8A4438169358BE005C4ADA /* grp_util_hit.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_hit.cfg; sourceTree = "<group>"; };
+		8B8A4439169358BE005C4ADA /* grp_util_spl.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_spl.cfg; sourceTree = "<group>"; };
+		8B8A443A169358BE005C4ADA /* grp_util_srb.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_srb.cfg; sourceTree = "<group>"; };
+		8B8A443B169358BE005C4ADA /* grp_util_srope.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_srope.cfg; sourceTree = "<group>"; };
+		8B8A443C169358BE005C4ADA /* grp_util_syo.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_util_syo.cfg; sourceTree = "<group>"; };
+		8B8A449016935923005C4ADA /* clansOriginal.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = clansOriginal.cfg; sourceTree = "<group>"; };
+		8B8A449116935923005C4ADA /* unisetOriginal.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = unisetOriginal.cfg; sourceTree = "<group>"; };
+		8B8A449516935951005C4ADA /* aa_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aa_turret.cfg; sourceTree = "<group>"; };
+		8B8A449616935951005C4ADA /* air_plant.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = air_plant.cfg; sourceTree = "<group>"; };
+		8B8A449716935951005C4ADA /* air_tanker.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = air_tanker.cfg; sourceTree = "<group>"; };
+		8B8A449816935951005C4ADA /* air_transport.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = air_transport.cfg; sourceTree = "<group>"; };
+		8B8A449916935951005C4ADA /* alien_assault_gun.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alien_assault_gun.cfg; sourceTree = "<group>"; };
+		8B8A449A16935951005C4ADA /* alien_plane.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alien_plane.cfg; sourceTree = "<group>"; };
+		8B8A449B16935951005C4ADA /* alien_tank.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = alien_tank.cfg; sourceTree = "<group>"; };
+		8B8A449C16935951005C4ADA /* artillery_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = artillery_turret.cfg; sourceTree = "<group>"; };
+		8B8A449D16935951005C4ADA /* assault_gun.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = assault_gun.cfg; sourceTree = "<group>"; };
+		8B8A449E16935951005C4ADA /* awac.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = awac.cfg; sourceTree = "<group>"; };
+		8B8A449F16935951005C4ADA /* barracks.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = barracks.cfg; sourceTree = "<group>"; };
+		8B8A44A016935951005C4ADA /* block.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = block.cfg; sourceTree = "<group>"; };
+		8B8A44A116935951005C4ADA /* bomber.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bomber.cfg; sourceTree = "<group>"; };
+		8B8A44A216935951005C4ADA /* bridge.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bridge.cfg; sourceTree = "<group>"; };
+		8B8A44A316935951005C4ADA /* bulldozer.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bulldozer.cfg; sourceTree = "<group>"; };
+		8B8A44A416935951005C4ADA /* cargo_ship.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cargo_ship.cfg; sourceTree = "<group>"; };
+		8B8A44A516935951005C4ADA /* connector.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = connector.cfg; sourceTree = "<group>"; };
+		8B8A44A616935951005C4ADA /* constructor.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constructor.cfg; sourceTree = "<group>"; };
+		8B8A44A716935951005C4ADA /* corvette.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = corvette.cfg; sourceTree = "<group>"; };
+		8B8A44A816935951005C4ADA /* crawler.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = crawler.cfg; sourceTree = "<group>"; };
+		8B8A44A916935951005C4ADA /* depot.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = depot.cfg; sourceTree = "<group>"; };
+		8B8A44AA16935951005C4ADA /* dock.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dock.cfg; sourceTree = "<group>"; };
+		8B8A44AB16935951005C4ADA /* ecosphere.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ecosphere.cfg; sourceTree = "<group>"; };
+		8B8A44AC16935951005C4ADA /* engineer.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = engineer.cfg; sourceTree = "<group>"; };
+		8B8A44AD16935951005C4ADA /* escort.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = escort.cfg; sourceTree = "<group>"; };
+		8B8A44AE16935951005C4ADA /* fuel_ship.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fuel_ship.cfg; sourceTree = "<group>"; };
+		8B8A44AF16935951005C4ADA /* fuel_store.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fuel_store.cfg; sourceTree = "<group>"; };
+		8B8A44B016935951005C4ADA /* fuel_truck.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fuel_truck.cfg; sourceTree = "<group>"; };
+		8B8A44B116935951005C4ADA /* gold_refinery.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gold_refinery.cfg; sourceTree = "<group>"; };
+		8B8A44B216935951005C4ADA /* gold_store.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gold_store.cfg; sourceTree = "<group>"; };
+		8B8A44B316935951005C4ADA /* gold_truck.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gold_truck.cfg; sourceTree = "<group>"; };
+		8B8A44B416935951005C4ADA /* gun_boat.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gun_boat.cfg; sourceTree = "<group>"; };
+		8B8A44B516935951005C4ADA /* gun_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gun_turret.cfg; sourceTree = "<group>"; };
+		8B8A44B616935951005C4ADA /* habitat.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = habitat.cfg; sourceTree = "<group>"; };
+		8B8A44B716935951005C4ADA /* hangar.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hangar.cfg; sourceTree = "<group>"; };
+		8B8A44B816935951005C4ADA /* heavy_plant.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = heavy_plant.cfg; sourceTree = "<group>"; };
+		8B8A44B916935951005C4ADA /* infantry.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = infantry.cfg; sourceTree = "<group>"; };
+		8B8A44BA16935951005C4ADA /* infiltrator.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = infiltrator.cfg; sourceTree = "<group>"; };
+		8B8A44BB16935951005C4ADA /* interceptor.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = interceptor.cfg; sourceTree = "<group>"; };
+		8B8A44BC16935951005C4ADA /* juggernaut.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = juggernaut.cfg; sourceTree = "<group>"; };
+		8B8A44BD16935951005C4ADA /* land_mine.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = land_mine.cfg; sourceTree = "<group>"; };
+		8B8A44BE16935951005C4ADA /* landing_pad.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = landing_pad.cfg; sourceTree = "<group>"; };
+		8B8A44BF16935951005C4ADA /* light_plant.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = light_plant.cfg; sourceTree = "<group>"; };
+		8B8A44C016935951005C4ADA /* material_store.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = material_store.cfg; sourceTree = "<group>"; };
+		8B8A44C116935951005C4ADA /* material_truck.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = material_truck.cfg; sourceTree = "<group>"; };
+		8B8A44C216935951005C4ADA /* minelayer.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = minelayer.cfg; sourceTree = "<group>"; };
+		8B8A44C316935951005C4ADA /* mining_station.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mining_station.cfg; sourceTree = "<group>"; };
+		8B8A44C416935951005C4ADA /* missile_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = missile_turret.cfg; sourceTree = "<group>"; };
+		8B8A44C516935951005C4ADA /* mobile_aa_gun.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mobile_aa_gun.cfg; sourceTree = "<group>"; };
+		8B8A44C616935951005C4ADA /* personnel_carrier.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = personnel_carrier.cfg; sourceTree = "<group>"; };
+		8B8A44C716935951005C4ADA /* power_generator.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = power_generator.cfg; sourceTree = "<group>"; };
+		8B8A44C816935951005C4ADA /* power_plant.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = power_plant.cfg; sourceTree = "<group>"; };
+		8B8A44C916935951005C4ADA /* radar.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = radar.cfg; sourceTree = "<group>"; };
+		8B8A44CA16935951005C4ADA /* repair_unit.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = repair_unit.cfg; sourceTree = "<group>"; };
+		8B8A44CB16935951005C4ADA /* research_lab.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = research_lab.cfg; sourceTree = "<group>"; };
+		8B8A44CC16935951005C4ADA /* road.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = road.cfg; sourceTree = "<group>"; };
+		8B8A44CD16935951005C4ADA /* rocket_boat.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rocket_boat.cfg; sourceTree = "<group>"; };
+		8B8A44CE16935951005C4ADA /* rocketter.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rocketter.cfg; sourceTree = "<group>"; };
+		8B8A44CF16935951005C4ADA /* scanner.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scanner.cfg; sourceTree = "<group>"; };
+		8B8A44D016935951005C4ADA /* scout.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scout.cfg; sourceTree = "<group>"; };
+		8B8A44D116935951005C4ADA /* sea_mine.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea_mine.cfg; sourceTree = "<group>"; };
+		8B8A44D216935951005C4ADA /* sea_minelayer.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea_minelayer.cfg; sourceTree = "<group>"; };
+		8B8A44D316935951005C4ADA /* sea_platform.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea_platform.cfg; sourceTree = "<group>"; };
+		8B8A44D416935951005C4ADA /* sea_transport.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sea_transport.cfg; sourceTree = "<group>"; };
+		8B8A44D516935951005C4ADA /* shipyard.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = shipyard.cfg; sourceTree = "<group>"; };
+		8B8A44D616935951005C4ADA /* submarine.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = submarine.cfg; sourceTree = "<group>"; };
+		8B8A44D716935951005C4ADA /* surveyor.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = surveyor.cfg; sourceTree = "<group>"; };
+		8B8A44D816935951005C4ADA /* tank.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tank.cfg; sourceTree = "<group>"; };
+		8B8A44D916935951005C4ADA /* training_hall.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = training_hall.cfg; sourceTree = "<group>"; };
+		8B8A44DA16935951005C4ADA /* util_bpl.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_bpl.cfg; sourceTree = "<group>"; };
+		8B8A44DB16935951005C4ADA /* util_brb.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_brb.cfg; sourceTree = "<group>"; };
+		8B8A44DC16935951005C4ADA /* util_brope.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_brope.cfg; sourceTree = "<group>"; };
+		8B8A44DD16935951005C4ADA /* util_byo.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_byo.cfg; sourceTree = "<group>"; };
+		8B8A44DE16935951005C4ADA /* util_hit.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_hit.cfg; sourceTree = "<group>"; };
+		8B8A44DF16935951005C4ADA /* util_spl.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_spl.cfg; sourceTree = "<group>"; };
+		8B8A44E016935951005C4ADA /* util_srb.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_srb.cfg; sourceTree = "<group>"; };
+		8B8A44E116935951005C4ADA /* util_srope.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_srope.cfg; sourceTree = "<group>"; };
+		8B8A44E216935951005C4ADA /* util_syo.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_syo.cfg; sourceTree = "<group>"; };
 		8B8EAA12168A17F30097CA74 /* MAXGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGame.cpp; sourceTree = "<group>"; };
 		8B8EAA13168A17F30097CA74 /* MAXGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGame.h; sourceTree = "<group>"; };
 		8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisplayPinchDelegate.cpp; sourceTree = "<group>"; };
@@ -314,6 +636,206 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B8A43EA16935851005C4ADA /* Units */ = {
+			isa = PBXGroup;
+			children = (
+				8B8A448E169358C3005C4ADA /* ConfigBalance */,
+				8B8A43EB16935872005C4ADA /* ConfigGraphic */,
+			);
+			path = Units;
+			sourceTree = "<group>";
+		};
+		8B8A43EB16935872005C4ADA /* ConfigGraphic */ = {
+			isa = PBXGroup;
+			children = (
+				8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */,
+				8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */,
+				8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */,
+				8B8A43EF169358BE005C4ADA /* grp_air_plant.cfg */,
+				8B8A43F0169358BE005C4ADA /* grp_air_tanker.cfg */,
+				8B8A43F1169358BE005C4ADA /* grp_air_transport.cfg */,
+				8B8A43F2169358BE005C4ADA /* grp_alien_assault_gun.cfg */,
+				8B8A43F3169358BE005C4ADA /* grp_alien_plane.cfg */,
+				8B8A43F4169358BE005C4ADA /* grp_alien_tank.cfg */,
+				8B8A43F5169358BE005C4ADA /* grp_artillery_turret.cfg */,
+				8B8A43F6169358BE005C4ADA /* grp_assault_gun.cfg */,
+				8B8A43F7169358BE005C4ADA /* grp_awac.cfg */,
+				8B8A43F8169358BE005C4ADA /* grp_barracks.cfg */,
+				8B8A43F9169358BE005C4ADA /* grp_block.cfg */,
+				8B8A43FA169358BE005C4ADA /* grp_bomber.cfg */,
+				8B8A43FB169358BE005C4ADA /* grp_bridge.cfg */,
+				8B8A43FC169358BE005C4ADA /* grp_bulldozer.cfg */,
+				8B8A43FD169358BE005C4ADA /* grp_cargo_ship.cfg */,
+				8B8A43FE169358BE005C4ADA /* grp_connector.cfg */,
+				8B8A43FF169358BE005C4ADA /* grp_constructor.cfg */,
+				8B8A4400169358BE005C4ADA /* grp_corvette.cfg */,
+				8B8A4401169358BE005C4ADA /* grp_crawler.cfg */,
+				8B8A4402169358BE005C4ADA /* grp_depot.cfg */,
+				8B8A4403169358BE005C4ADA /* grp_dock.cfg */,
+				8B8A4404169358BE005C4ADA /* grp_ecosphere.cfg */,
+				8B8A4405169358BE005C4ADA /* grp_engineer.cfg */,
+				8B8A4406169358BE005C4ADA /* grp_escort.cfg */,
+				8B8A4407169358BE005C4ADA /* grp_fuel_ship.cfg */,
+				8B8A4408169358BE005C4ADA /* grp_fuel_store.cfg */,
+				8B8A4409169358BE005C4ADA /* grp_fuel_truck.cfg */,
+				8B8A440A169358BE005C4ADA /* grp_gold_refinery.cfg */,
+				8B8A440B169358BE005C4ADA /* grp_gold_store.cfg */,
+				8B8A440C169358BE005C4ADA /* grp_gold_truck.cfg */,
+				8B8A440D169358BE005C4ADA /* grp_gun_boat.cfg */,
+				8B8A440E169358BE005C4ADA /* grp_gun_turret.cfg */,
+				8B8A440F169358BE005C4ADA /* grp_habitat.cfg */,
+				8B8A4410169358BE005C4ADA /* grp_hangar.cfg */,
+				8B8A4411169358BE005C4ADA /* grp_heavy_plant.cfg */,
+				8B8A4412169358BE005C4ADA /* grp_infantry.cfg */,
+				8B8A4413169358BE005C4ADA /* grp_infiltrator.cfg */,
+				8B8A4414169358BE005C4ADA /* grp_interceptor.cfg */,
+				8B8A4415169358BE005C4ADA /* grp_juggernaut.cfg */,
+				8B8A4416169358BE005C4ADA /* grp_land_mine.cfg */,
+				8B8A4417169358BE005C4ADA /* grp_landing_pad.cfg */,
+				8B8A4418169358BE005C4ADA /* grp_light_plant.cfg */,
+				8B8A4419169358BE005C4ADA /* grp_material_store.cfg */,
+				8B8A441A169358BE005C4ADA /* grp_material_truck.cfg */,
+				8B8A441B169358BE005C4ADA /* grp_minelayer.cfg */,
+				8B8A441C169358BE005C4ADA /* grp_mining_station.cfg */,
+				8B8A441D169358BE005C4ADA /* grp_missile_turret.cfg */,
+				8B8A441E169358BE005C4ADA /* grp_mobile_aa_gun.cfg */,
+				8B8A441F169358BE005C4ADA /* grp_personnel_carrier.cfg */,
+				8B8A4420169358BE005C4ADA /* grp_power_generator.cfg */,
+				8B8A4421169358BE005C4ADA /* grp_power_plant.cfg */,
+				8B8A4422169358BE005C4ADA /* grp_radar.cfg */,
+				8B8A4423169358BE005C4ADA /* grp_repair_unit.cfg */,
+				8B8A4424169358BE005C4ADA /* grp_research_lab.cfg */,
+				8B8A4425169358BE005C4ADA /* grp_road.cfg */,
+				8B8A4426169358BE005C4ADA /* grp_rocket_boat.cfg */,
+				8B8A4427169358BE005C4ADA /* grp_rocketter.cfg */,
+				8B8A4428169358BE005C4ADA /* grp_scanner.cfg */,
+				8B8A4429169358BE005C4ADA /* grp_scout.cfg */,
+				8B8A442A169358BE005C4ADA /* grp_sea_mine.cfg */,
+				8B8A442B169358BE005C4ADA /* grp_sea_minelayer.cfg */,
+				8B8A442C169358BE005C4ADA /* grp_sea_platform.cfg */,
+				8B8A442D169358BE005C4ADA /* grp_sea_transport.cfg */,
+				8B8A442E169358BE005C4ADA /* grp_shipyard.cfg */,
+				8B8A442F169358BE005C4ADA /* grp_submarine.cfg */,
+				8B8A4430169358BE005C4ADA /* grp_surveyor.cfg */,
+				8B8A4431169358BE005C4ADA /* grp_tank.cfg */,
+				8B8A4432169358BE005C4ADA /* grp_torp_turret.cfg */,
+				8B8A4433169358BE005C4ADA /* grp_training_hall.cfg */,
+				8B8A4434169358BE005C4ADA /* grp_util_bpl.cfg */,
+				8B8A4435169358BE005C4ADA /* grp_util_brb.cfg */,
+				8B8A4436169358BE005C4ADA /* grp_util_brope.cfg */,
+				8B8A4437169358BE005C4ADA /* grp_util_byo.cfg */,
+				8B8A4438169358BE005C4ADA /* grp_util_hit.cfg */,
+				8B8A4439169358BE005C4ADA /* grp_util_spl.cfg */,
+				8B8A443A169358BE005C4ADA /* grp_util_srb.cfg */,
+				8B8A443B169358BE005C4ADA /* grp_util_srope.cfg */,
+				8B8A443C169358BE005C4ADA /* grp_util_syo.cfg */,
+			);
+			path = ConfigGraphic;
+			sourceTree = "<group>";
+		};
+		8B8A448E169358C3005C4ADA /* ConfigBalance */ = {
+			isa = PBXGroup;
+			children = (
+				8B8A448F16935901005C4ADA /* Original */,
+			);
+			path = ConfigBalance;
+			sourceTree = "<group>";
+		};
+		8B8A448F16935901005C4ADA /* Original */ = {
+			isa = PBXGroup;
+			children = (
+				8B8A44941693593D005C4ADA /* Units */,
+				8B8A449016935923005C4ADA /* clansOriginal.cfg */,
+				8B8A449116935923005C4ADA /* unisetOriginal.cfg */,
+			);
+			path = Original;
+			sourceTree = "<group>";
+		};
+		8B8A44941693593D005C4ADA /* Units */ = {
+			isa = PBXGroup;
+			children = (
+				8B8A449516935951005C4ADA /* aa_turret.cfg */,
+				8B8A449616935951005C4ADA /* air_plant.cfg */,
+				8B8A449716935951005C4ADA /* air_tanker.cfg */,
+				8B8A449816935951005C4ADA /* air_transport.cfg */,
+				8B8A449916935951005C4ADA /* alien_assault_gun.cfg */,
+				8B8A449A16935951005C4ADA /* alien_plane.cfg */,
+				8B8A449B16935951005C4ADA /* alien_tank.cfg */,
+				8B8A449C16935951005C4ADA /* artillery_turret.cfg */,
+				8B8A449D16935951005C4ADA /* assault_gun.cfg */,
+				8B8A449E16935951005C4ADA /* awac.cfg */,
+				8B8A449F16935951005C4ADA /* barracks.cfg */,
+				8B8A44A016935951005C4ADA /* block.cfg */,
+				8B8A44A116935951005C4ADA /* bomber.cfg */,
+				8B8A44A216935951005C4ADA /* bridge.cfg */,
+				8B8A44A316935951005C4ADA /* bulldozer.cfg */,
+				8B8A44A416935951005C4ADA /* cargo_ship.cfg */,
+				8B8A44A516935951005C4ADA /* connector.cfg */,
+				8B8A44A616935951005C4ADA /* constructor.cfg */,
+				8B8A44A716935951005C4ADA /* corvette.cfg */,
+				8B8A44A816935951005C4ADA /* crawler.cfg */,
+				8B8A44A916935951005C4ADA /* depot.cfg */,
+				8B8A44AA16935951005C4ADA /* dock.cfg */,
+				8B8A44AB16935951005C4ADA /* ecosphere.cfg */,
+				8B8A44AC16935951005C4ADA /* engineer.cfg */,
+				8B8A44AD16935951005C4ADA /* escort.cfg */,
+				8B8A44AE16935951005C4ADA /* fuel_ship.cfg */,
+				8B8A44AF16935951005C4ADA /* fuel_store.cfg */,
+				8B8A44B016935951005C4ADA /* fuel_truck.cfg */,
+				8B8A44B116935951005C4ADA /* gold_refinery.cfg */,
+				8B8A44B216935951005C4ADA /* gold_store.cfg */,
+				8B8A44B316935951005C4ADA /* gold_truck.cfg */,
+				8B8A44B416935951005C4ADA /* gun_boat.cfg */,
+				8B8A44B516935951005C4ADA /* gun_turret.cfg */,
+				8B8A44B616935951005C4ADA /* habitat.cfg */,
+				8B8A44B716935951005C4ADA /* hangar.cfg */,
+				8B8A44B816935951005C4ADA /* heavy_plant.cfg */,
+				8B8A44B916935951005C4ADA /* infantry.cfg */,
+				8B8A44BA16935951005C4ADA /* infiltrator.cfg */,
+				8B8A44BB16935951005C4ADA /* interceptor.cfg */,
+				8B8A44BC16935951005C4ADA /* juggernaut.cfg */,
+				8B8A44BD16935951005C4ADA /* land_mine.cfg */,
+				8B8A44BE16935951005C4ADA /* landing_pad.cfg */,
+				8B8A44BF16935951005C4ADA /* light_plant.cfg */,
+				8B8A44C016935951005C4ADA /* material_store.cfg */,
+				8B8A44C116935951005C4ADA /* material_truck.cfg */,
+				8B8A44C216935951005C4ADA /* minelayer.cfg */,
+				8B8A44C316935951005C4ADA /* mining_station.cfg */,
+				8B8A44C416935951005C4ADA /* missile_turret.cfg */,
+				8B8A44C516935951005C4ADA /* mobile_aa_gun.cfg */,
+				8B8A44C616935951005C4ADA /* personnel_carrier.cfg */,
+				8B8A44C716935951005C4ADA /* power_generator.cfg */,
+				8B8A44C816935951005C4ADA /* power_plant.cfg */,
+				8B8A44C916935951005C4ADA /* radar.cfg */,
+				8B8A44CA16935951005C4ADA /* repair_unit.cfg */,
+				8B8A44CB16935951005C4ADA /* research_lab.cfg */,
+				8B8A44CC16935951005C4ADA /* road.cfg */,
+				8B8A44CD16935951005C4ADA /* rocket_boat.cfg */,
+				8B8A44CE16935951005C4ADA /* rocketter.cfg */,
+				8B8A44CF16935951005C4ADA /* scanner.cfg */,
+				8B8A44D016935951005C4ADA /* scout.cfg */,
+				8B8A44D116935951005C4ADA /* sea_mine.cfg */,
+				8B8A44D216935951005C4ADA /* sea_minelayer.cfg */,
+				8B8A44D316935951005C4ADA /* sea_platform.cfg */,
+				8B8A44D416935951005C4ADA /* sea_transport.cfg */,
+				8B8A44D516935951005C4ADA /* shipyard.cfg */,
+				8B8A44D616935951005C4ADA /* submarine.cfg */,
+				8B8A44D716935951005C4ADA /* surveyor.cfg */,
+				8B8A44D816935951005C4ADA /* tank.cfg */,
+				8B8A44D916935951005C4ADA /* training_hall.cfg */,
+				8B8A44DA16935951005C4ADA /* util_bpl.cfg */,
+				8B8A44DB16935951005C4ADA /* util_brb.cfg */,
+				8B8A44DC16935951005C4ADA /* util_brope.cfg */,
+				8B8A44DD16935951005C4ADA /* util_byo.cfg */,
+				8B8A44DE16935951005C4ADA /* util_hit.cfg */,
+				8B8A44DF16935951005C4ADA /* util_spl.cfg */,
+				8B8A44E016935951005C4ADA /* util_srb.cfg */,
+				8B8A44E116935951005C4ADA /* util_srope.cfg */,
+				8B8A44E216935951005C4ADA /* util_syo.cfg */,
+			);
+			name = Units;
+			sourceTree = "<group>";
+		};
 		8B8EAA11168A17D70097CA74 /* Game */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,8 +898,9 @@
 		D16D48DD168B37F20055F35D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D1992269168DF4540067D6CF /* Max.res */,
+				8B8A43EA16935851005C4ADA /* Units */,
 				D16D48DE168B38080055F35D /* Maps */,
+				D1992269168DF4540067D6CF /* Max.res */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -840,6 +1363,167 @@
 				D188A465168C557300E259B1 /* Green_7.wrl in Resources */,
 				D188A467168C565400E259B1 /* Demo_1.wrl in Resources */,
 				D199226A168DF4540067D6CF /* Max.res in Resources */,
+				8B8A443D169358BE005C4ADA /* grp_aa_rocket.cfg in Resources */,
+				8B8A443E169358BE005C4ADA /* grp_aa_turret.cfg in Resources */,
+				8B8A443F169358BE005C4ADA /* grp_aainfantry.cfg in Resources */,
+				8B8A4440169358BE005C4ADA /* grp_air_plant.cfg in Resources */,
+				8B8A4441169358BE005C4ADA /* grp_air_tanker.cfg in Resources */,
+				8B8A4442169358BE005C4ADA /* grp_air_transport.cfg in Resources */,
+				8B8A4443169358BE005C4ADA /* grp_alien_assault_gun.cfg in Resources */,
+				8B8A4444169358BE005C4ADA /* grp_alien_plane.cfg in Resources */,
+				8B8A4445169358BE005C4ADA /* grp_alien_tank.cfg in Resources */,
+				8B8A4446169358BE005C4ADA /* grp_artillery_turret.cfg in Resources */,
+				8B8A4447169358BE005C4ADA /* grp_assault_gun.cfg in Resources */,
+				8B8A4448169358BE005C4ADA /* grp_awac.cfg in Resources */,
+				8B8A4449169358BE005C4ADA /* grp_barracks.cfg in Resources */,
+				8B8A444A169358BE005C4ADA /* grp_block.cfg in Resources */,
+				8B8A444B169358BE005C4ADA /* grp_bomber.cfg in Resources */,
+				8B8A444C169358BE005C4ADA /* grp_bridge.cfg in Resources */,
+				8B8A444D169358BE005C4ADA /* grp_bulldozer.cfg in Resources */,
+				8B8A444E169358BE005C4ADA /* grp_cargo_ship.cfg in Resources */,
+				8B8A444F169358BE005C4ADA /* grp_connector.cfg in Resources */,
+				8B8A4450169358BE005C4ADA /* grp_constructor.cfg in Resources */,
+				8B8A4451169358BE005C4ADA /* grp_corvette.cfg in Resources */,
+				8B8A4452169358BE005C4ADA /* grp_crawler.cfg in Resources */,
+				8B8A4453169358BE005C4ADA /* grp_depot.cfg in Resources */,
+				8B8A4454169358BE005C4ADA /* grp_dock.cfg in Resources */,
+				8B8A4455169358BE005C4ADA /* grp_ecosphere.cfg in Resources */,
+				8B8A4456169358BE005C4ADA /* grp_engineer.cfg in Resources */,
+				8B8A4457169358BE005C4ADA /* grp_escort.cfg in Resources */,
+				8B8A4458169358BE005C4ADA /* grp_fuel_ship.cfg in Resources */,
+				8B8A4459169358BE005C4ADA /* grp_fuel_store.cfg in Resources */,
+				8B8A445A169358BE005C4ADA /* grp_fuel_truck.cfg in Resources */,
+				8B8A445B169358BE005C4ADA /* grp_gold_refinery.cfg in Resources */,
+				8B8A445C169358BE005C4ADA /* grp_gold_store.cfg in Resources */,
+				8B8A445D169358BE005C4ADA /* grp_gold_truck.cfg in Resources */,
+				8B8A445E169358BE005C4ADA /* grp_gun_boat.cfg in Resources */,
+				8B8A445F169358BE005C4ADA /* grp_gun_turret.cfg in Resources */,
+				8B8A4460169358BE005C4ADA /* grp_habitat.cfg in Resources */,
+				8B8A4461169358BE005C4ADA /* grp_hangar.cfg in Resources */,
+				8B8A4462169358BE005C4ADA /* grp_heavy_plant.cfg in Resources */,
+				8B8A4463169358BE005C4ADA /* grp_infantry.cfg in Resources */,
+				8B8A4464169358BE005C4ADA /* grp_infiltrator.cfg in Resources */,
+				8B8A4465169358BE005C4ADA /* grp_interceptor.cfg in Resources */,
+				8B8A4466169358BE005C4ADA /* grp_juggernaut.cfg in Resources */,
+				8B8A4467169358BE005C4ADA /* grp_land_mine.cfg in Resources */,
+				8B8A4468169358BE005C4ADA /* grp_landing_pad.cfg in Resources */,
+				8B8A4469169358BE005C4ADA /* grp_light_plant.cfg in Resources */,
+				8B8A446A169358BE005C4ADA /* grp_material_store.cfg in Resources */,
+				8B8A446B169358BE005C4ADA /* grp_material_truck.cfg in Resources */,
+				8B8A446C169358BE005C4ADA /* grp_minelayer.cfg in Resources */,
+				8B8A446D169358BE005C4ADA /* grp_mining_station.cfg in Resources */,
+				8B8A446E169358BE005C4ADA /* grp_missile_turret.cfg in Resources */,
+				8B8A446F169358BE005C4ADA /* grp_mobile_aa_gun.cfg in Resources */,
+				8B8A4470169358BE005C4ADA /* grp_personnel_carrier.cfg in Resources */,
+				8B8A4471169358BE005C4ADA /* grp_power_generator.cfg in Resources */,
+				8B8A4472169358BE005C4ADA /* grp_power_plant.cfg in Resources */,
+				8B8A4473169358BE005C4ADA /* grp_radar.cfg in Resources */,
+				8B8A4474169358BE005C4ADA /* grp_repair_unit.cfg in Resources */,
+				8B8A4475169358BE005C4ADA /* grp_research_lab.cfg in Resources */,
+				8B8A4476169358BE005C4ADA /* grp_road.cfg in Resources */,
+				8B8A4477169358BE005C4ADA /* grp_rocket_boat.cfg in Resources */,
+				8B8A4478169358BE005C4ADA /* grp_rocketter.cfg in Resources */,
+				8B8A4479169358BE005C4ADA /* grp_scanner.cfg in Resources */,
+				8B8A447A169358BE005C4ADA /* grp_scout.cfg in Resources */,
+				8B8A447B169358BE005C4ADA /* grp_sea_mine.cfg in Resources */,
+				8B8A447C169358BE005C4ADA /* grp_sea_minelayer.cfg in Resources */,
+				8B8A447D169358BE005C4ADA /* grp_sea_platform.cfg in Resources */,
+				8B8A447E169358BE005C4ADA /* grp_sea_transport.cfg in Resources */,
+				8B8A447F169358BE005C4ADA /* grp_shipyard.cfg in Resources */,
+				8B8A4480169358BE005C4ADA /* grp_submarine.cfg in Resources */,
+				8B8A4481169358BE005C4ADA /* grp_surveyor.cfg in Resources */,
+				8B8A4482169358BE005C4ADA /* grp_tank.cfg in Resources */,
+				8B8A4483169358BE005C4ADA /* grp_torp_turret.cfg in Resources */,
+				8B8A4484169358BE005C4ADA /* grp_training_hall.cfg in Resources */,
+				8B8A4485169358BE005C4ADA /* grp_util_bpl.cfg in Resources */,
+				8B8A4486169358BE005C4ADA /* grp_util_brb.cfg in Resources */,
+				8B8A4487169358BE005C4ADA /* grp_util_brope.cfg in Resources */,
+				8B8A4488169358BE005C4ADA /* grp_util_byo.cfg in Resources */,
+				8B8A4489169358BE005C4ADA /* grp_util_hit.cfg in Resources */,
+				8B8A448A169358BE005C4ADA /* grp_util_spl.cfg in Resources */,
+				8B8A448B169358BE005C4ADA /* grp_util_srb.cfg in Resources */,
+				8B8A448C169358BE005C4ADA /* grp_util_srope.cfg in Resources */,
+				8B8A448D169358BE005C4ADA /* grp_util_syo.cfg in Resources */,
+				8B8A449216935923005C4ADA /* clansOriginal.cfg in Resources */,
+				8B8A449316935923005C4ADA /* unisetOriginal.cfg in Resources */,
+				8B8A44E316935951005C4ADA /* aa_turret.cfg in Resources */,
+				8B8A44E416935951005C4ADA /* air_plant.cfg in Resources */,
+				8B8A44E516935951005C4ADA /* air_tanker.cfg in Resources */,
+				8B8A44E616935951005C4ADA /* air_transport.cfg in Resources */,
+				8B8A44E716935951005C4ADA /* alien_assault_gun.cfg in Resources */,
+				8B8A44E816935951005C4ADA /* alien_plane.cfg in Resources */,
+				8B8A44E916935951005C4ADA /* alien_tank.cfg in Resources */,
+				8B8A44EA16935951005C4ADA /* artillery_turret.cfg in Resources */,
+				8B8A44EB16935951005C4ADA /* assault_gun.cfg in Resources */,
+				8B8A44EC16935951005C4ADA /* awac.cfg in Resources */,
+				8B8A44ED16935951005C4ADA /* barracks.cfg in Resources */,
+				8B8A44EE16935951005C4ADA /* block.cfg in Resources */,
+				8B8A44EF16935951005C4ADA /* bomber.cfg in Resources */,
+				8B8A44F016935951005C4ADA /* bridge.cfg in Resources */,
+				8B8A44F116935951005C4ADA /* bulldozer.cfg in Resources */,
+				8B8A44F216935951005C4ADA /* cargo_ship.cfg in Resources */,
+				8B8A44F316935951005C4ADA /* connector.cfg in Resources */,
+				8B8A44F416935951005C4ADA /* constructor.cfg in Resources */,
+				8B8A44F516935951005C4ADA /* corvette.cfg in Resources */,
+				8B8A44F616935951005C4ADA /* crawler.cfg in Resources */,
+				8B8A44F716935951005C4ADA /* depot.cfg in Resources */,
+				8B8A44F816935951005C4ADA /* dock.cfg in Resources */,
+				8B8A44F916935951005C4ADA /* ecosphere.cfg in Resources */,
+				8B8A44FA16935951005C4ADA /* engineer.cfg in Resources */,
+				8B8A44FB16935951005C4ADA /* escort.cfg in Resources */,
+				8B8A44FC16935951005C4ADA /* fuel_ship.cfg in Resources */,
+				8B8A44FD16935951005C4ADA /* fuel_store.cfg in Resources */,
+				8B8A44FE16935951005C4ADA /* fuel_truck.cfg in Resources */,
+				8B8A44FF16935951005C4ADA /* gold_refinery.cfg in Resources */,
+				8B8A450016935951005C4ADA /* gold_store.cfg in Resources */,
+				8B8A450116935951005C4ADA /* gold_truck.cfg in Resources */,
+				8B8A450216935951005C4ADA /* gun_boat.cfg in Resources */,
+				8B8A450316935951005C4ADA /* gun_turret.cfg in Resources */,
+				8B8A450416935951005C4ADA /* habitat.cfg in Resources */,
+				8B8A450516935951005C4ADA /* hangar.cfg in Resources */,
+				8B8A450616935951005C4ADA /* heavy_plant.cfg in Resources */,
+				8B8A450716935951005C4ADA /* infantry.cfg in Resources */,
+				8B8A450816935951005C4ADA /* infiltrator.cfg in Resources */,
+				8B8A450916935951005C4ADA /* interceptor.cfg in Resources */,
+				8B8A450A16935951005C4ADA /* juggernaut.cfg in Resources */,
+				8B8A450B16935951005C4ADA /* land_mine.cfg in Resources */,
+				8B8A450C16935951005C4ADA /* landing_pad.cfg in Resources */,
+				8B8A450D16935951005C4ADA /* light_plant.cfg in Resources */,
+				8B8A450E16935951005C4ADA /* material_store.cfg in Resources */,
+				8B8A450F16935951005C4ADA /* material_truck.cfg in Resources */,
+				8B8A451016935951005C4ADA /* minelayer.cfg in Resources */,
+				8B8A451116935951005C4ADA /* mining_station.cfg in Resources */,
+				8B8A451216935951005C4ADA /* missile_turret.cfg in Resources */,
+				8B8A451316935951005C4ADA /* mobile_aa_gun.cfg in Resources */,
+				8B8A451416935951005C4ADA /* personnel_carrier.cfg in Resources */,
+				8B8A451516935951005C4ADA /* power_generator.cfg in Resources */,
+				8B8A451616935951005C4ADA /* power_plant.cfg in Resources */,
+				8B8A451716935951005C4ADA /* radar.cfg in Resources */,
+				8B8A451816935951005C4ADA /* repair_unit.cfg in Resources */,
+				8B8A451916935951005C4ADA /* research_lab.cfg in Resources */,
+				8B8A451A16935951005C4ADA /* road.cfg in Resources */,
+				8B8A451B16935951005C4ADA /* rocket_boat.cfg in Resources */,
+				8B8A451C16935951005C4ADA /* rocketter.cfg in Resources */,
+				8B8A451D16935951005C4ADA /* scanner.cfg in Resources */,
+				8B8A451E16935951005C4ADA /* scout.cfg in Resources */,
+				8B8A451F16935951005C4ADA /* sea_mine.cfg in Resources */,
+				8B8A452016935951005C4ADA /* sea_minelayer.cfg in Resources */,
+				8B8A452116935951005C4ADA /* sea_platform.cfg in Resources */,
+				8B8A452216935951005C4ADA /* sea_transport.cfg in Resources */,
+				8B8A452316935951005C4ADA /* shipyard.cfg in Resources */,
+				8B8A452416935951005C4ADA /* submarine.cfg in Resources */,
+				8B8A452516935951005C4ADA /* surveyor.cfg in Resources */,
+				8B8A452616935951005C4ADA /* tank.cfg in Resources */,
+				8B8A452716935951005C4ADA /* training_hall.cfg in Resources */,
+				8B8A452816935951005C4ADA /* util_bpl.cfg in Resources */,
+				8B8A452916935951005C4ADA /* util_brb.cfg in Resources */,
+				8B8A452A16935951005C4ADA /* util_brope.cfg in Resources */,
+				8B8A452B16935951005C4ADA /* util_byo.cfg in Resources */,
+				8B8A452C16935951005C4ADA /* util_hit.cfg in Resources */,
+				8B8A452D16935951005C4ADA /* util_spl.cfg in Resources */,
+				8B8A452E16935951005C4ADA /* util_srb.cfg in Resources */,
+				8B8A452F16935951005C4ADA /* util_srope.cfg in Resources */,
+				8B8A453016935951005C4ADA /* util_syo.cfg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
