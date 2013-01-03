@@ -8,10 +8,17 @@
 
 #include "Shader.h"
 #include "FileManger.h"
+#include <stdio.h>
 
+using namespace std;
 Shader::Shader(string vertexName, string fragmentName) {
-    LoadShader(vertexName, fragmentName);
-    
+//#ifdef TARGET_OS_IPHONE
+//    LoadShader(vertexName, fragmentName);
+//#endif
+//#ifdef TARGET_OS_WIN
+//	LoadShaderWin(vertexName, fragmentName);
+//#endif
+	LoadShader(vertexName, fragmentName);
     _shaderUniforms = new GLuint[MAX_UNIFORMS];
     
     _shaderUniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_program, "modelMatrix");
@@ -54,23 +61,132 @@ GLuint * Shader::GetShaderUniforms() {
     return _shaderUniforms;
 }
 
+GLcharARB* Shader::LoadShaderSource(const char *filename)
+{
+#ifdef TARGET_OS_WIN
+	FILE *file;
+	if (fopen_s(&file, filename, "r") != 0)
+	{
+		std::cout << "Error." << std::endl;
+		std::cout << std::endl;
+		return NULL;
+	}
+	struct _stat filestats;
+	filestats.st_size = ftell(file);
+	GLcharARB *shaderSource = new char[filestats.st_size + 1];
+	int bytes = (int)fread(shaderSource, 1, filestats.st_size, file);
+	shaderSource[bytes] = 0;
+	fclose(file);
+	return shaderSource;
+#endif
+	return NULL;
+}
+
+bool Shader::LoadShaderWin(string vertexName, string fragmentName)
+{
+#ifdef TARGET_OS_WIN
+	GLhandleARB objShader;
+	GLint result;
+	GLsizei len;
+	GLcharARB *infoLog;
+	GLhandleARB shaderProgram = glCreateProgramObjectARB();
+
+	GLcharARB* source = LoadShaderSource(vertexName.c_str());
+
+	if (source == NULL)
+	{
+		glDeleteObjectARB(shaderProgram);
+		return 0;
+	}
+	objShader = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
+	glShaderSourceARB(objShader, 1, (const GLcharARB **)&source, NULL);
+	delete[] source;
+	glCompileShaderARB(objShader);
+	result = GL_FALSE;
+	glGetObjectParameterivARB(objShader, GL_OBJECT_COMPILE_STATUS_ARB, &result);
+	glGetObjectParameterivARB(objShader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &len);
+	if (len > 1)
+	{
+		infoLog = (GLcharARB *)malloc(len * sizeof(GLcharARB));
+		glGetInfoLogARB(objShader, len, NULL, infoLog);
+		std::cout << "Vertex shader log '" << vertexName.c_str() << "':" << std::endl << infoLog << std::endl;
+		free((void *)infoLog);
+	}
+	if (result != GL_TRUE)
+	{
+		std::cout << "Vertex shader compile error '" << vertexName.c_str() << "'!" << std::endl;
+		std::cout << std::endl;
+		glDeleteObjectARB(shaderProgram);
+		return 0;
+	}
+	glAttachObjectARB(shaderProgram, objShader);
+	glDeleteObjectARB(objShader);
+	source = LoadShaderSource(fragmentName.c_str());
+	if (source == NULL)
+	{
+		glDeleteObjectARB(shaderProgram);
+		return 0;
+	}
+	objShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
+	glShaderSourceARB(objShader, 1, (const GLcharARB **)&source, NULL);
+	delete[] source;
+	glCompileShaderARB(objShader);
+	result = GL_FALSE;
+	glGetObjectParameterivARB(objShader, GL_OBJECT_COMPILE_STATUS_ARB, &result);
+	glGetObjectParameterivARB(objShader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &len);
+	if (len > 1)
+	{
+		infoLog = (GLcharARB *)malloc(len * sizeof(GLcharARB));
+		glGetInfoLogARB(objShader, len, NULL, infoLog);
+		std::cout << "Fragment shader log '" << fragmentName.c_str() << "':" << std::endl << infoLog << std::endl;
+		free((void *)infoLog);
+	}
+	if (result != GL_TRUE)
+	{
+		std::cout << "Frament shader compile error '" << fragmentName.c_str() << "'!" << std::endl;
+		std::cout << std::endl;
+		glDeleteObjectARB(shaderProgram);
+		return 0;
+	}
+	glAttachObjectARB(shaderProgram, objShader);
+	glDeleteObjectARB(objShader);
+	result = GL_FALSE;
+	glLinkProgramARB(shaderProgram);
+	glGetObjectParameterivARB(shaderProgram, GL_OBJECT_LINK_STATUS_ARB, &result);
+	glGetObjectParameterivARB(shaderProgram, GL_OBJECT_INFO_LOG_LENGTH_ARB, &len);
+	if (len > 1)
+	{
+		infoLog = (GLcharARB *)malloc(len * sizeof(GLcharARB));
+		glGetInfoLogARB(shaderProgram, len, NULL, infoLog);
+		std::cout << "Лог шейдерной программы:" << std::endl << infoLog << std::endl;
+		free((void *)infoLog);
+	}
+	if (result != GL_TRUE)
+	{
+		std::cout << "Ошибка линковки шейдерной программы '" << vertexName.c_str() << "', '" << fragmentName.c_str() << "'!" << std::endl;
+		std::cout << std::endl;
+		glDeleteObjectARB(shaderProgram);
+		return 0;
+	}
+	_program = shaderProgram;
+#endif
+}
+
 bool Shader::LoadShader(string vertexName, string fragmentName) {
     GLuint vertShader, fragShader;
     
     // Create shader program.
     _program = glCreateProgram();
-    
     // Create and compile vertex shader.
     if (!CompileShader(&vertShader, GL_VERTEX_SHADER, vertexName))
     {
-        cout << "Failed to compile vertex shader "<<vertexName<<endl;
+		cout << "Failed to compile vertex shader "<<vertexName.c_str()<<endl;
         return false;
     }
-    
     // Create and compile fragment shader.
     if (!CompileShader(&fragShader, GL_FRAGMENT_SHADER, fragmentName))
     {
-        cout << "Failed to compile fragment shader " << fragmentName << endl;
+        cout << "Failed to compile fragment shader " << fragmentName.c_str() << endl;
         return false;
     }
     
@@ -145,9 +261,14 @@ bool Shader::CompileShader(GLuint *shader, GLenum type, string file) {
     glShaderSource(*shader, 1, &source, NULL);
     glCompileShader(*shader);
     
-#if defined(DEBUG)
-    GLint logLength;
+    GLint logLength = 0;
+#ifdef TARGET_OS_IPHONE
     glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
+#endif
+#ifdef TARGET_OS_WIN
+    glGetProgramiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
+#endif
+
     if (logLength > 0)
     {
         GLchar *log = (GLchar *)malloc(logLength);
@@ -155,7 +276,6 @@ bool Shader::CompileShader(GLuint *shader, GLenum type, string file) {
         cout << "Shader compile log: \n " << log << endl;
         free(log);
     }
-#endif
     
     delete manager;
     delete source_str;

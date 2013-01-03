@@ -323,9 +323,12 @@ enum {
 
 
 // Include logging back-end and definition of _lcl_logger.
+#ifdef TARGET_OS_IPHONE
 #import "lcl_config_logger.h"
-
-
+#endif
+#ifdef TARGET_OS_WIN
+#include <lcl_config_logger.h>
+#endif 
 // For simple configurations where 'lcl_config_logger.h' is empty, define a
 // default NSLog()-based _lcl_logger here.
 #ifndef _lcl_logger
@@ -381,8 +384,9 @@ enum {
 
 
 // Include extensions.
+#ifdef TARGET_OS_IPHONE
 #import "lcl_config_extensions.h"
-
+#endif
 
 #endif // __LCL_H__
 

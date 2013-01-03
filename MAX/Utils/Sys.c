@@ -8,7 +8,9 @@
 
 #include <stdio.h>
 #include "stdarg.h"
+#ifdef TARGET_OS_IPHONE
 #include <strings.h>
+#endif
 #include "Sys.h"
 #include "GlobalConstants.h"
 
@@ -17,6 +19,7 @@
 
 
 void SysInit(void) {
+#ifdef TARGET_OS_IPHONE
     lcl_configure_by_name("Sys_*", SysLogLevelDebug);
     
     SysLogInfo("ENGINE_VERSION: terminal-extraction-%f", TE_VERSION);
@@ -25,5 +28,6 @@ void SysInit(void) {
     SysLogInfo("GL_VERSION:    %s", glGetString(GL_VERSION));
     
     SysLogInfo("Engine initialized ...");
+#endif
 }
 

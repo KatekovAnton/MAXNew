@@ -14,7 +14,7 @@ extern "C" {
 #endif
 
 #ifndef __clang__
-static __inline__ GLKMatrix4 GLKMatrix4MakeBillboard(GLKMatrix4 view, GLKVector3 objectPositon)
+static __inline__ GLKMatrix4 GLKMatrix4MakeBillboardEasy(GLKMatrix4 view, GLKVector3 objectPositon)
 #else
 static GLKMatrix4 GLKMatrix4MakeBillboard(GLKMatrix4 view, GLKVector3 objectPositon)
 #endif

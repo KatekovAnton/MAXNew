@@ -11,15 +11,16 @@
 #include "CCDirector.h"
 
 RenderSystem::RenderSystem() {
-    _deviceDisplay = Display::currentDisplay();
 }
 
 void RenderSystem::Init() {
+#ifdef TARGET_OS_IPHONE
     _deviceDisplay->InitGLSurface(GL_DEPTH_COMPONENT24_OES, GL_RGB565);
+#endif
 }
 
 void RenderSystem::InitOpenGL() {
-    
+    _deviceDisplay = Display::currentDisplay();
     glViewport(0, 0, _deviceDisplay->GetDisplayWidth(), _deviceDisplay->GetDisplayHeight());
 
 //    glClearColor(1,1,1,1);
@@ -42,7 +43,7 @@ void RenderSystem::Draw(){
 }
 
 void RenderSystem::EndFrame() {
-    _deviceDisplay->SwapBuffers();
+    _deviceDisplay->SwapOGLBuffers();
 }
 
 Display * RenderSystem::GetDisplay() {

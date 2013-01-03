@@ -11,7 +11,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+///////////////////////GLKMatrix2//////////////////////////////////////////////
 #if defined(__STRICT_ANSI__)
 struct _GLKMatrix2
 {
@@ -31,7 +31,7 @@ union _GLKMatrix2
 };
 typedef union _GLKMatrix2 GLKMatrix2;
 #endif
-    
+///////////////////////GLKMatrix3//////////////////////////////////////////////
 #if defined(__STRICT_ANSI__)
 struct _GLKMatrix3
 {
@@ -51,7 +51,9 @@ union _GLKMatrix3
 };
 typedef union _GLKMatrix3 GLKMatrix3;
 #endif
-    
+///////////////////////
+///////////////////////GLKMatrix4//////////////////////////////////////////////
+///////////////////////
 /*
  m30, m31, and m32 correspond to the translation values tx, ty, and tz, respectively.
  m[12], m[13], and m[14] correspond to the translation values tx, ty, and tz, respectively.
@@ -73,10 +75,19 @@ union _GLKMatrix4
         float m30, m31, m32, m33;
     };
     float m[16];
-} __attribute__((aligned(16)));
+} 
+#endif
+#ifdef TARGET_OS_IPHONE
+__attribute__((aligned(16)));
 typedef union _GLKMatrix4 GLKMatrix4;
 #endif
-    
+#ifdef TARGET_OS_WIN
+;
+typedef union _GLKMatrix4 GLKMatrix4;
+#endif
+///////////////////////
+///////////////////////GLKVector2//////////////////////////////////////////////
+///////////////////////
 #if defined(__STRICT_ANSI__)
 struct _GLKVector2
 {
@@ -92,7 +103,9 @@ union _GLKVector2
 };
 typedef union _GLKVector2 GLKVector2;
 #endif
-    
+///////////////////////
+///////////////////////GLKVector3//////////////////////////////////////////////
+///////////////////////
 #if defined(__STRICT_ANSI__)
 struct _GLKVector3
 {
@@ -109,7 +122,9 @@ union _GLKVector3
 };
 typedef union _GLKVector3 GLKVector3;
 #endif
-    
+///////////////////////
+///////////////////////GLKVector4//////////////////////////////////////////////
+///////////////////////
 #if defined(__STRICT_ANSI__)
 struct _GLKVector4
 {
@@ -123,10 +138,18 @@ union _GLKVector4
     struct { float r, g, b, a; };
     struct { float s, t, p, q; };
     float v[4];
-} __attribute__((aligned(16)));
+}
+#endif
+#ifdef TARGET_OS_IPHONE
+__attribute__((aligned(16)));
+#endif
+#ifdef TARGET_OS_WIN
+;
 typedef union _GLKVector4 GLKVector4;
 #endif
-    
+///////////////////////
+///////////////////////GLKQuaternion//////////////////////////////////////////////
+///////////////////////
 /*
  x, y, and z represent the imaginary values.
  Vector v represents the imaginary values.
@@ -144,8 +167,14 @@ union _GLKQuaternion
     struct { GLKVector3 v; float s; };
     struct { float x, y, z, w; };
     float q[4];
-} __attribute__((aligned(16)));
-typedef union _GLKQuaternion GLKQuaternion;    
+}
+#endif
+#ifdef TARGET_OS_IPHONE
+__attribute__((aligned(16)));
+#endif
+#ifdef TARGET_OS_WIN
+;
+typedef union _GLKQuaternion GLKQuaternion;
 #endif
     
 #ifdef __cplusplus

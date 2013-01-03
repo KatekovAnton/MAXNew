@@ -16,3 +16,13 @@ profile
 *xcuserdata*
 *xcworkspace*
 *.DS_Store*
+
+# vs
+MAX.vcproject/ipch/*
+MAX.vcproject/Debug.win32/*
+MAX.vcproject/MAXNewWindows/Debug/*
+MAX.vcproject/MAXNewWindows/Debug.win32/*
+MAX.vcproject/MAXNewWindows/Max.res
+MAX.vcproject/MAXNewWindows.sdf
+MAX.vcproject/MAXNewWindows.suo
+MAX.vcproject/MAXNewWindows/Resources/*

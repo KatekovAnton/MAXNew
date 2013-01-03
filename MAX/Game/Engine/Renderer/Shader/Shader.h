@@ -10,7 +10,6 @@
 #define __TerminalExtraction__Shader__
 
 #include <iostream>
-
 #include "Geometry.h"
 
 /*
@@ -60,6 +59,10 @@ class Shader {
     GLuint      *_shaderUniforms;
     
     bool LoadShader(string vertexName, string fragmentName);
+	bool LoadShaderWin(string vertexName, string fragmentName);
+
+	GLcharARB* LoadShaderSource(const char *filename);
+
     bool CompileShader(GLuint *shader, GLenum type, string file);
     bool LinkProgram(GLuint program);
     bool ValidateProgram(GLuint program);

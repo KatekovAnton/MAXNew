@@ -10,6 +10,8 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+
+
 #include <math.h>
 
 #if defined(__ARM_NEON__)
@@ -123,8 +125,11 @@ static __inline__ GLKMatrix3 GLKMatrix4GetMatrix3(GLKMatrix4 matrix);
 /*
  Returns the upper left 2x2 portion of the 4x4 matrix.
  */
+#ifdef WIN
+inline GLKMatrix2 GLKMatrix4GetMatrix2(GLKMatrix4 matrix);
+#else
 static __inline__ GLKMatrix2 GLKMatrix4GetMatrix2(GLKMatrix4 matrix);
-	
+#endif
 /*
  GLKMatrix4GetRow returns vectors for rows 0, 1, and 2 whose last component will be the translation value tx, ty, and tz, respectively.
  Valid row values range from 0 to 3, inclusive.

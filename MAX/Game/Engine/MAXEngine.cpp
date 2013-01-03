@@ -50,15 +50,17 @@ void MAXEngine::Init() {
     
     
    
-    
     _unitShader = new Shader("ShaderUnit.vsh", "ShaderUnit.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
+
   //  _shader1 = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
-    
+    GCCHECK_GL_ERROR_DEBUG(); 
+
+        
     _director = CCDirector::sharedDirector();
     _director->setContentScaleFactor(_renderSystem->GetDisplay()->GetDisplayScale());
     _director->setOpenGLView((CCEGLView *)(_renderSystem->GetDisplay()));
-    
+      
     float scale = _renderSystem->GetDisplay()->GetDisplayScale();
     _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth()/scale, _renderSystem->GetDisplay()->GetDisplayHeight()/scale, kResolutionNoBorder);
     
@@ -140,7 +142,7 @@ void MAXEngine::Update() {
     
     
     _scene->Frame(_elapsedTime);
-    _map->Frame(_elapsedTime);
+//    _map->Frame(_elapsedTime);
 
     _scene->EndFrame();
     _scene->UpdateScene();

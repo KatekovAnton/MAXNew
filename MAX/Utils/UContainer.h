@@ -21,7 +21,7 @@ namespace Utils {
     class UContainer {
         //#pragma DATA_ALIGN ( 16 );
 //        __attribute__((packed))
-        shared_ptr<T> *_array __attribute__ ((aligned (8)));
+        shared_ptr<T> *_array;
         int         _baseSize;
         int         _count;
         int         _currentSize;
@@ -40,7 +40,7 @@ namespace Utils {
         void clear();
         shared_ptr<T> objectAtIndex(int index) const;
         void sort(int (* pointer)(const void *, const void *), size_t size);
-        int GetCount() const { return _count; }
+        int GetCount() const { return _count; };
     };
 
     template <class T>

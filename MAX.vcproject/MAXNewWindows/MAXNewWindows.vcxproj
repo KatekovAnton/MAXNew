@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{86ED5521-FEC2-421F-8849-23F51E315EDA}</ProjectGuid>
+    <RootNamespace>MAXNewWindows</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\lc.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Game;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\Renderer\Shader;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\Renderer;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\ObjectComponents\Textures;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\ObjectComponents\Meshes;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\ObjectComponents\Material;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\MAXContetnLoader;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\Objects;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\kazmath\include;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\effects;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32\compat;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\include;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\shaders;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx;C:\Users\Admin\Desktop\Projects\MAXNew\MAX.vcproject\MAXNewWindows\Sys\Windows;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Utils;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\aharren-LibComponentLogging-Core-17e2940;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Sys;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Utils\MathKit;C:\Users\Admin\Desktop\Projects\MAXNew\MAX.vcproject\MAXNewWindows;$(IncludePath)</IncludePath>
+    <SourcePath>C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\Renderer;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\Renderer\Shader;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\Objects;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\ObjectComponents\Textures;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\ObjectComponents\Meshes;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\ObjectComponents\Material;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine\MAXContetnLoader;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Engine;C:\Users\Admin\Desktop\Projects\MAXNew\MAX.vcproject\MAXNewWindows\Sys\Windows;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Game;$(SourcePath)</SourcePath>
+    <LibraryPath>C:\Users\Admin\Desktop\Projects\MAXNew\MAX.vcproject\Debug.win32;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
+    <IntDir>$(Configuration).win32\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <ForcedIncludeFiles>header.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;libcocos2d.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXCamera.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXContentMap.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnLoader.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXEngine.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\Material.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXMapMaterial.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXUnitMaterial.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\TextureMaterial.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Meshes\EngineMesh.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\LevelObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXUnitObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXUnitRenderObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\PivotObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\RenderObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\UnAnimRenderObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\MAXGrid.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\RenderSystem.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\Shader\Shader.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\SceneSystem.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\UserInterface.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\MAXGame.cpp" />
+    <ClCompile Include="..\..\MAX\Sys\Display.cpp" />
+    <ClCompile Include="..\..\MAX\Sys\DisplayPinchDelegate.cpp" />
+    <ClCompile Include="..\..\MAX\Sys\FileManger.cpp" />
+    <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp" />
+    <ClCompile Include="..\..\MAX\Utils\IdGenerator.cpp" />
+    <ClCompile Include="..\..\MAX\Utils\Sys.c" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Sys\Windows\windows_display.cpp" />
+    <ClCompile Include="Sys\Windows\windows_fileManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXCamera.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXContentMap.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnConstants.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnLoader.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXEngine.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\Material.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXMapMaterial.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXUnitMaterial.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\TextureMaterial.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Meshes\EngineMesh.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\LevelObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MapObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXUnitObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXUnitRenderObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\PivotObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\RenderObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\UnAnimRenderObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\MAXGrid.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\RenderSystem.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\Shader\Shader.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\SceneSystem.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\UserInterface.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\MAXGame.h" />
+    <ClInclude Include="..\..\MAX\Sys\Display.h" />
+    <ClInclude Include="..\..\MAX\Sys\DisplayPinchDelegate.h" />
+    <ClInclude Include="..\..\MAX\Sys\FileManger.h" />
+    <ClInclude Include="..\..\MAX\Utils\BinaryReader.h" />
+    <ClInclude Include="..\..\MAX\Utils\GlobalConstants.h" />
+    <ClInclude Include="..\..\MAX\Utils\IdGenerator.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\Geometry.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMath.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMathTypes.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMathUtils.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMatrix3.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMatrix4.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMatrixStack.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKQuaternion.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKVector2.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKVector3.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKVector4.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\Matrix.h" />
+    <ClInclude Include="..\..\MAX\Utils\MathKit\MyMath.h" />
+    <ClInclude Include="..\..\MAX\Utils\Sys.h" />
+    <ClInclude Include="..\..\MAX\Utils\UContainer.h" />
+    <ClInclude Include="..\..\MAX\Utils\Utils.h" />
+    <ClInclude Include="glew.h" />
+    <ClInclude Include="glext.h" />
+    <ClInclude Include="header.h" />
+    <ClInclude Include="stdbool.h" />
+    <ClInclude Include="Sys\Windows\windows_display.h" />
+    <ClInclude Include="Sys\Windows\windows_fileManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="glew32.dll" />
+    <None Include="iconv.dll" />
+    <None Include="libcocos2d.dll" />
+    <None Include="libcurl.dll" />
+    <None Include="libtiff.dll" />
+    <None Include="libxml2.dll" />
+    <None Include="pthreadVCE2.dll" />
+    <None Include="zlib1.dll" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\lc.targets" />
+  </ImportGroup>
+</Project>

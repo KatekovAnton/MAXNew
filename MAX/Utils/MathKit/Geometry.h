@@ -11,8 +11,20 @@
 
 #include "GlobalConstants.h"
 
+#ifdef  TARGET_OS_IPHONE
+    #define GLES2    <OpenGLES/ES2/gl.h>
+    #define Glext    <OpenGLES/ES2/glext.h>
 #include GLES2
 #include Glext
+#endif 
+#ifdef TARGET_OS_WIN
+#include <windows.h>
+#include "glew.h"
+#include "glext.h"
+#include "wchar.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif
 
 struct __GPoint2D {
     GLfloat x;

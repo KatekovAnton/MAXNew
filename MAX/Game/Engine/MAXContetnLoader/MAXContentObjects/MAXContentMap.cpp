@@ -32,7 +32,7 @@ void MAXContentMap::LoadFromStream(BinaryReader *br)
         char namebuffer[5]; 
         br->ReadBuffer(5, namebuffer);
         name = string(namebuffer);
-        SysLogInfo("Map internal format:       %s", name.c_str());
+       // SysLogInfo("Map internal format:       %s", name.c_str());
     }
     
     {//size
@@ -97,5 +97,5 @@ void MAXContentMap::LoadFromStream(BinaryReader *br)
 //        map = newmap;
 //        delete []tmp;
 //    }
-    SysLogInfo("map size w: %d  h: %d", w, h);
+   // SysLogInfo("map size w: %d  h: %d", w, h);
 }

@@ -7,14 +7,18 @@
 //
 
 #include "FileManger.h"
+#ifdef TARGET_OS_IPHONE
 #include "ios_fileManager.h"
-
+#endif
+#ifdef TARGET_OS_WIN
+#include "windows_fileManager.h"
+#endif
 FileManager * FileManager::CreateManager()
 {
-    return new iosFileManager();
+    return new windows_fileManager();
 }
 
-const char * FileManager::GetFilePath(string filename)
+string FileManager::GetFilePath(string filename)
 {
     return NULL;
 }

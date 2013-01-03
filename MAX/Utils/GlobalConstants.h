@@ -9,13 +9,26 @@
 #ifndef TerminalExtraction_GlobalConstants_h
 #define TerminalExtraction_GlobalConstants_h
 
-//#if  TARGET_OS_IPHONE
+#ifdef  TARGET_OS_IPHONE
     #define GLES2    <OpenGLES/ES2/gl.h>
     #define Glext    <OpenGLES/ES2/glext.h>
-//#endif
+	#include GLES2
+#endif
+#ifdef TARGET_OS_WIN
+	#include <windows.h>
+	#include "glew.h"
+	#include "glext.h"
+	#include "wchar.h"
+	#include <GL/gl.h>
+	#include <GL/glu.h>
 
-#include GLES2
-#include "wchar.h"
+	#define __inline__ inline
+#endif
+
+#define GCCHECK_GL_ERROR_DEBUG() \
+        GLenum __error = glGetError(); \
+        if(__error)  \
+            printf("OpenGL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); 
 
 typedef struct _vertexStruct
 {

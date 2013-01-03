@@ -9,10 +9,21 @@
 #ifndef __TerminalExtraction__Display__
 #define __TerminalExtraction__Display__
 #include "GlobalConstants.h"
-#include "platform/CCEGLViewProtocol.h"
+#ifdef TARGET_OS_IPHONE
+#include GLES2
+#endif
+
+#ifdef TARGET_OS_WIN
+#include <windows.h>
+#include "glew.h"
+#include "glext.h"
+#include "wchar.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif
 #include "DisplayPinchDelegate.h"
 #include <iostream>
-#include GLES2
+#include "platform/CCEGLViewProtocol.h"
 
 using namespace cocos2d;
 
@@ -29,7 +40,7 @@ public:
     
     virtual GLfloat GetDisplayScale();
     
-    virtual void SwapBuffers();
+    virtual void SwapOGLBuffers();
     
     void SetViewPortInPoints(float x , float y , float w , float h);
     void SetScissorInPoints(float x , float y , float w , float h);

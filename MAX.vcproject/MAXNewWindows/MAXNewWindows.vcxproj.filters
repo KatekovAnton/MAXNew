@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{07f91bab-c601-4984-8c6a-a3aedad21bf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\MathKit">
+      <UniqueIdentifier>{c6162100-0962-4c66-9095-5302bc738565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sys">
+      <UniqueIdentifier>{2c415938-c133-4329-bd7b-65e323818888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sys\Windows">
+      <UniqueIdentifier>{4f5dd0d0-7f9e-462d-99af-8fc37d97c866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{b1c71f3e-c326-4285-81e5-4877ccdd7df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game">
+      <UniqueIdentifier>{bf3b9345-8789-44af-bc24-7f7bf6de627f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine">
+      <UniqueIdentifier>{cca9d21c-5eae-4da5-92cd-53f3b818079d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\MAXContetnLoader">
+      <UniqueIdentifier>{5704d44c-2654-4dfb-867f-18ada6a14391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\MAXContetnLoader\MAXContentObjects">
+      <UniqueIdentifier>{3b0de025-eac2-4208-b714-52feec61314c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\ObjectComponents">
+      <UniqueIdentifier>{e4183f97-f05f-485d-be40-936183cbdcac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\ObjectComponents\Textures">
+      <UniqueIdentifier>{d4dc020b-e87c-4ab7-a0cd-72a0d86e21cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\ObjectComponents\Materials">
+      <UniqueIdentifier>{73a785ec-da25-460c-bd6f-08d6f80bb14a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\ObjectComponents\Meshes">
+      <UniqueIdentifier>{3474b74f-663e-40a4-a221-d095ce1376bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\Objects">
+      <UniqueIdentifier>{c9ddbfc9-b430-4910-9a9a-9f1ea74afc32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\Renderer">
+      <UniqueIdentifier>{0bf39f95-14d4-4484-bad4-64aa5a583f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\Renderer\Shader">
+      <UniqueIdentifier>{e66f2a03-d456-404e-9d19-d88e244e18e5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Utils\IdGenerator.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Utils\Sys.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Sys\Display.cpp">
+      <Filter>Sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Sys\DisplayPinchDelegate.cpp">
+      <Filter>Sys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Sys\FileManger.cpp">
+      <Filter>Sys</Filter>
+    </ClCompile>
+    <ClCompile Include="Sys\Windows\windows_display.cpp">
+      <Filter>Sys\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Sys\Windows\windows_fileManager.cpp">
+      <Filter>Sys\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXEngine.cpp">
+      <Filter>Game\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\SceneSystem.cpp">
+      <Filter>Game\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\UserInterface.cpp">
+      <Filter>Game\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXCamera.cpp">
+      <Filter>Game\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXContentMap.cpp">
+      <Filter>Game\Engine\MAXContetnLoader\MAXContentObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnLoader.cpp">
+      <Filter>Game\Engine\MAXContetnLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\Material.cpp">
+      <Filter>Game\Engine\ObjectComponents\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXMapMaterial.cpp">
+      <Filter>Game\Engine\ObjectComponents\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXUnitMaterial.cpp">
+      <Filter>Game\Engine\ObjectComponents\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\TextureMaterial.cpp">
+      <Filter>Game\Engine\ObjectComponents\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Meshes\EngineMesh.cpp">
+      <Filter>Game\Engine\ObjectComponents\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.cpp">
+      <Filter>Game\Engine\ObjectComponents\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXUnitObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXUnitRenderObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\PivotObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\RenderObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\UnAnimRenderObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\LevelObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\MAXGrid.cpp">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\RenderSystem.cpp">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\Shader\Shader.cpp">
+      <Filter>Game\Engine\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MAXGame.cpp">
+      <Filter>Game\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\MAX\Utils\BinaryReader.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\GlobalConstants.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\IdGenerator.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\Sys.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\UContainer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\Utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\Geometry.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMath.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMathTypes.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMathUtils.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMatrix3.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMatrix4.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKMatrixStack.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKQuaternion.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKVector2.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKVector3.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\GLKVector4.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\Matrix.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\MathKit\MyMath.h">
+      <Filter>Utils\MathKit</Filter>
+    </ClInclude>
+    <ClInclude Include="glext.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="glew.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="stdbool.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="header.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Sys\FileManger.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Sys\Display.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Sys\DisplayPinchDelegate.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="Sys\Windows\windows_display.h">
+      <Filter>Sys\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Sys\Windows\windows_fileManager.h">
+      <Filter>Sys\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXCamera.h">
+      <Filter>Game\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXEngine.h">
+      <Filter>Game\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\SceneSystem.h">
+      <Filter>Game\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\UserInterface.h">
+      <Filter>Game\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXContentMap.h">
+      <Filter>Game\Engine\MAXContetnLoader\MAXContentObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnConstants.h">
+      <Filter>Game\Engine\MAXContetnLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnLoader.h">
+      <Filter>Game\Engine\MAXContetnLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\Material.h">
+      <Filter>Game\Engine\ObjectComponents\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXMapMaterial.h">
+      <Filter>Game\Engine\ObjectComponents\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXUnitMaterial.h">
+      <Filter>Game\Engine\ObjectComponents\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\TextureMaterial.h">
+      <Filter>Game\Engine\ObjectComponents\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Meshes\EngineMesh.h">
+      <Filter>Game\Engine\ObjectComponents\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.h">
+      <Filter>Game\Engine\ObjectComponents\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MapObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXUnitObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXUnitRenderObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\PivotObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\RenderObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\UnAnimRenderObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\LevelObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\MAXGrid.h">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\RenderSystem.h">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\Shader\Shader.h">
+      <Filter>Game\Engine\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MAXGame.h">
+      <Filter>Game\Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="iconv.dll">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="libcocos2d.dll">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="libcurl.dll">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="libtiff.dll">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="libxml2.dll">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="glew32.dll">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="pthreadVCE2.dll">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="zlib1.dll">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+</Project>

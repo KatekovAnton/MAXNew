@@ -7,7 +7,12 @@
 //
 
 #include "Display.h"
+#ifdef TARGET_OS_IPHONE
 #include "ios_display.h"
+#endif
+#ifdef TARGET_OS_WIN
+#include "windows_display.h"
+#endif
 
 Display * _display = nullptr;
 
@@ -21,9 +26,12 @@ Display * Display::currentDisplay() {
 //    }
     
     //
+#ifdef TARGET_OS_IPHONE
     if(!_display)
         _display = new iosDisplay();
     return _display;
+#endif
+	return windows_display::GetSharedDisplay();
 }
 
 
@@ -39,7 +47,7 @@ GLfloat Display::GetDisplayScale() {
     throw "Virtual method";
 }
 
-void Display::SwapBuffers() {
+void Display::SwapOGLBuffers() {
     throw "Virtual method";
 }
 

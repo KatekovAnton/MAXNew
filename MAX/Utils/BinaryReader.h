@@ -29,7 +29,7 @@ public:
     BinaryReader(std::string filename);
     BinaryReader(char *buffer, unsigned int length);
     ~ BinaryReader();
-    
+	bool isValid() const { return !(!_file); };
     long GetPosition();
     int ReadInt();
     short ReadInt16();

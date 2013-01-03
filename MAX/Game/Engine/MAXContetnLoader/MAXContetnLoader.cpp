@@ -367,7 +367,8 @@ void MAXContentLoader::animatePalette(Color* thepal)
 shared_ptr<MAXContentMap> MAXContentLoader::LoadMapWithName(string name)
 {
     BinaryReader* br = new BinaryReader(name);
-    
+    if(!br->isValid())
+		return nullptr;
     shared_ptr<MAXContentMap> result = shared_ptr<MAXContentMap>(new MAXContentMap());
     result->LoadFromStream(br);
     
@@ -455,7 +456,7 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     short center_y = source->ReadInt16();
     
     if (index == 15 + 8) {
-        SysLogInfo("width = %d, height=%d, center_x=%d, center_y=%d", (int)width, (int)height, (int)center_x, (int)center_y);
+//        SysLogInfo("width = %d, height=%d, center_x=%d, center_y=%d", (int)width, (int)height, (int)center_x, (int)center_y);
     }
   //  
     

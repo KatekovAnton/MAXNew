@@ -7,15 +7,16 @@
 
 #ifndef __GLK_MATRIX_STACK_H
 #define __GLK_MATRIX_STACK_H
-
+#ifdef TARGET_OS_IPHONE
 #include <CoreFoundation/CoreFoundation.h>
-
+#endif
 #include "GLKMathTypes.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#ifdef TARGET_OS_IPHONE
 /*
  GLKMatrixStack is a CFType that allows for the creation of a 4x4 matrix stack similar to OpenGL's matrix
  stack. Any number of matrix stacks can be created and operated on with functions similar to those found
@@ -122,6 +123,7 @@ void GLKMatrixStackRotateWithVector4(GLKMatrixStackRef stack, float radians, GLK
 void GLKMatrixStackRotateX(GLKMatrixStackRef stack, float radians);
 void GLKMatrixStackRotateY(GLKMatrixStackRef stack, float radians);
 void GLKMatrixStackRotateZ(GLKMatrixStackRef stack, float radians);
+#endif
 
 #ifdef __cplusplus
 }

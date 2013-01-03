@@ -23,7 +23,7 @@ public:
     
     static FileManager *CreateManager();
     
-    virtual const char *  GetFilePath(string filename);
+    virtual string  GetFilePath(string filename);
     virtual string * GetContent(string filename);
     virtual GLubyte * CreateBitmapData(string filename, GLfloat *width, GLfloat *heigth);
     virtual GLubyte * CreateBitmapData(char* data, size_t size, GLfloat *width, GLfloat *heigth);

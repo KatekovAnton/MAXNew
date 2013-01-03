@@ -9,6 +9,7 @@
 #ifndef TerminalExtraction_Sys_h
 #define TerminalExtraction_Sys_h
 
+#ifdef TARGET_OS_IPHONE
 #include <lcl.h>
 
 #undef lcl_log
@@ -33,6 +34,7 @@ lcl_log(SysLogComponent, lcl_vDebug, __VA_ARGS__)
 
 #define SysLogTrace(...)                                                                 \
 lcl_log(SysLogComponent, lcl_vTrace, __VA_ARGS__)
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,6 +47,7 @@ void SysInit();
 }
 #endif
 
+#ifdef TARGET_OS_IPHONE
 #define SysLogLevelOff       lcl_vOff
 #define SysLogLevelCritical  lcl_vCritical
 #define SysLogLevelError     lcl_vError
@@ -55,5 +58,6 @@ void SysInit();
 
 #define SysLogConfigureByName(name, level)                                               \
 lcl_configure_by_name(name, level);
+#endif
 
 #endif
