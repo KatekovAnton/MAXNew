@@ -431,7 +431,32 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 	{
 		return 0;									// Quit If Window Was Not Created
 	}
-	glewInit();
+	{
+		GLenum GlewInitResult = glewInit();
+		if (GLEW_OK != GlewInitResult)
+		{
+			cout<<"Start: OpenGL error:" <<glewGetErrorString(GlewInitResult)<<endl;
+			return false;
+		}
+
+		if (GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
+		{
+			cout<<"Start: Ready for GLSL"<<endl;
+		}
+		else
+		{
+			cout<<"Start: Not totally ready :("<<endl;
+		}
+
+		if (glewIsSupported("GL_VERSION_2_0"))
+		{
+			cout<<"Start: Ready for OpenGL 2.0"<<endl;
+		}
+		else
+		{
+			cout<<"Start: OpenGL 2.0 not supported"<<endl;
+		}
+	}
 	windows_display *display = new windows_display(1024, 768, hDC);
 	windows_display::SetSharedDisplay(display);
 	engine->Init();
