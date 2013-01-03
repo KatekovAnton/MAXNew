@@ -43,7 +43,7 @@ void RenderSystem::Draw(){
 }
 
 void RenderSystem::EndFrame() {
-    _deviceDisplay->SwapOGLBuffers();
+    _deviceDisplay->SwapBuffers();
 }
 
 Display * RenderSystem::GetDisplay() {

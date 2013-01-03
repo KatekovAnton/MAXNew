@@ -40,7 +40,7 @@ public:
     
     virtual GLfloat GetDisplayScale();
     
-    virtual void SwapOGLBuffers();
+    virtual void SwapBuffers();
     
     void SetViewPortInPoints(float x , float y , float w , float h);
     void SetScissorInPoints(float x , float y , float w , float h);

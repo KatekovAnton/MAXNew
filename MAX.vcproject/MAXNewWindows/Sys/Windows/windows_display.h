@@ -23,7 +23,7 @@ public:
     virtual GLfloat GetDisplayWidth();
     virtual GLfloat GetDisplayScale();
     
-    virtual void    SwapOGLBuffers();
+    virtual void    SwapBuffers();
     
     virtual bool    isOpenGLReady();
     virtual bool    setContentScaleFactor(float contentScaleFactor);

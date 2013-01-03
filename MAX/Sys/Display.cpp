@@ -47,7 +47,7 @@ GLfloat Display::GetDisplayScale() {
     throw "Virtual method";
 }
 
-void Display::SwapOGLBuffers() {
+void Display::SwapBuffers() {
     throw "Virtual method";
 }
 

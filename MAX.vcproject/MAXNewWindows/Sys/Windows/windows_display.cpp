@@ -65,9 +65,13 @@ GLfloat windows_display::GetDisplayScale()
     return 1.0;
 }
 
-void windows_display::SwapOGLBuffers() {
-	//glSwapBuffers();
-	SwapBuffers(hDC);
+void swapOglBuffers(HDC _p)
+{
+	SwapBuffers(_p);
+}
+
+void windows_display::SwapBuffers() {
+	swapOglBuffers(hDC);
 }
 
 void windows_display::swapBuffers() {
