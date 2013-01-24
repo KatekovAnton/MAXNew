@@ -13,7 +13,7 @@
 #include "MAXEngine.h"
 #include "Geometry.h"
 
-const double fireTIme = 00.15;
+const double fireTIme = 2;
 const int bodyOffset = 0;
 const int headOffset = 8;
 const int headFireOffset = 16;
@@ -23,7 +23,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     _renderAspect = renderObject;
     _material = material;
     bodyIndex = 2;
-    headIndex = 15;
+    headIndex = 9;
     fireing = false;
     fireStartTime = 0;
     changed = true;
