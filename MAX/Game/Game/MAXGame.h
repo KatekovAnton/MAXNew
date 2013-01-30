@@ -24,6 +24,7 @@ enum MAXGAMESTATE
 
 class MAXEngine;
 class MAXMap;
+class GameUnit;
 
 class MAXGame : public DisplayPinchDelegate {
     
@@ -36,6 +37,8 @@ public:
     
     MAXGame();
     ~MAXGame();
+    
+    shared_ptr<GameUnit> _testUnit;
     
     void SetMap(string mapName);
     

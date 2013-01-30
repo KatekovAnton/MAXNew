@@ -29,8 +29,7 @@ void main()
     mediump vec4 color = texture2D(colorTexture, tcoordProcessed);
     mediump float index = color.r * 255.0 * 255.0 + color.g * 255.0;
 
-
-    mediump float _y = floor(index * floatParam1);
+    mediump float _y = floor(index * floatParam1);  
     mediump float _x = index - _y / floatParam1;
     
     

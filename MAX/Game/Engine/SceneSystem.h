@@ -38,10 +38,10 @@ public:
     void Clear();
     
     shared_ptr<PivotObject> GetObject(unsigned int objId);
-    void AddObject(const shared_ptr<PivotObject> newObject, bool needUpdate);
+    void AddObject(const shared_ptr<PivotObject>& newObject, bool needUpdate);
     //not imlemented
     void DeleteObjects(UContainer<PivotObject> *objects);
-    void RemoveObject(const shared_ptr<PivotObject> object);
+    void RemoveObject(const shared_ptr<PivotObject>& object);
     void AddObject(UContainer<PivotObject> *newObjects);
     
     void UpdateScene();

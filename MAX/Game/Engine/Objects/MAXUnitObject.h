@@ -11,9 +11,12 @@
 
 #include <iostream>
 #include "PivotObject.h"
+#include "cocos2d.h"
 
 class MAXUnitRenderObject;
 class MAXUnitMaterial;
+
+using namespace cocos2d;
 
 enum
 {
@@ -38,6 +41,8 @@ class MAXUnitObject : public PivotObject {
     
 public:
     
+    bool GetFireing() const {return fireing;};
+    
     float deltax;
     float deltay;
     
@@ -58,6 +63,9 @@ public:
     void SetBodyDirection(int state);
     void SetHeadDirection(int state);
     void SetIsFireing(bool fire);
+    
+    static GLKMatrix4 MatrixForCell(const CCPoint& cell);
+    static int CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget);
     
 };
 

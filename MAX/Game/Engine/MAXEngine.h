@@ -22,9 +22,10 @@ class RenderSystem;
 class Shader;
 class SceneSystem;
 class MAXCamera;
+class MAXAnimationManager;
 
 class LevelObject;
-class MapObject;
+class MAXMapObject;
 class MAXContentMap;
 class MAXGrid;
 class MAXUnitObject;
@@ -36,7 +37,7 @@ class MAXEngine  {
     double                _elapsedTime;
     double                _fullTime;
     
-    
+    MAXAnimationManager *_animationManager;
     SceneSystem         *_scene;
     
     Shader              *_shader;
@@ -45,24 +46,27 @@ class MAXEngine  {
     float             _color;
     
 public:
-    
+    MAXAnimationManager* GetAnimationManager () const { return _animationManager; };
     
     
     float displayw,displayh;
     bool drawGrid;
     
-    shared_ptr<MAXUnitObject>           _unit;
-    shared_ptr<MapObject>               _map;
+//    shared_ptr<MAXUnitObject>           _unit;
+    shared_ptr<MAXMapObject>            _map;
     
-    MAXCamera              *_camera;
-    MAXGrid                *_grid;
-    CCDirector          *_director;
+    MAXCamera               *_camera;
+    MAXGrid                 *_grid;
+    CCDirector              *_director;
     
     MAXEngine();
     ~MAXEngine();
     
     void Init();
     void EngineMain();
+    
+    void AddUnit(const shared_ptr<MAXUnitObject>& newUnit);
+    void RemoveUnit(const shared_ptr<MAXUnitObject>& newUnit);
     
     void RunLoop(double delta);
     
@@ -99,7 +103,6 @@ public:
     CCRect ScreenToWorldRect();
     
     
-    void TestFire();
 };
 
 

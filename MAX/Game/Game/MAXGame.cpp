@@ -13,7 +13,9 @@
 #include "UserInterface.h"
 
 #include "MAXContetnLoader.h"
+#include "MAXUnitObject.h"
 
+#include "GameUnit.h"
 
 MAXGame globalGame;
 MAXGame * game = &globalGame;
@@ -32,11 +34,15 @@ void MAXGame::Init()
     Display::currentDisplay()->SetPinchDelegate(this);
     
     this->SetMap("Green_6.wrl");
+    _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit("TANK")));
+    _testUnit->SetUnitLocation(CCPoint(56, 56), false);
+    engine->AddUnit(_testUnit->GetUnitObject());
 }
 
 void MAXGame::SetMap(string mapName)
 {
-    engine->SetMap(MAXSCL->LoadMapWithName(mapName));
+    shared_ptr<MAXContentMap> map = MAXSCL->LoadMapWithName(mapName);
+    engine->SetMap(map);
 }
 
 #pragma mark - DisplayPinchDelegate
@@ -66,7 +72,8 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 //    SysLogInfo("Tap coordinates: x=%f y=%f", p.x, p.y);
     p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
 //    SysLogInfo("Tap cell: x=%f y=%f", p.x, p.y);
-    engine->TestFire();
+  //  engine->TestFire(CCPoint(56, 57), p);
+    _testUnit->Fire(p);
 }
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)

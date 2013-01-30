@@ -1,18 +1,18 @@
 //
-//  MapObject.cpp
+//  MAXMapObject.cpp
 //  MAX
 //
 //  Created by Anton Katekov on 26.12.12.
 //  Copyright (c) 2012 AntonKatekov. All rights reserved.
 //
 
-#include "MapObject.h"
+#include "MAXMapObject.h"
 #include "MAXContentMap.h"
 #include "MAXContetnLoader.h"
 #include "MapRenderObject.h"
 #include "MAXMapMaterial.h"
 
-MapObject::MapObject(shared_ptr<MAXContentMap> map):PivotObject()
+MAXMapObject::MAXMapObject(shared_ptr<MAXContentMap> map):PivotObject()
 {
     _renderObject = new MapRenderObject(map);
     _material = new MAXMapMaterial(map);
@@ -23,23 +23,23 @@ MapObject::MapObject(shared_ptr<MAXContentMap> map):PivotObject()
     mapTexW = _material->texW;
 }
 
-MapObject::~MapObject()
+MAXMapObject::~MAXMapObject()
 {
     delete _renderObject;
     delete _material;
 }
 
-RenderObject * MapObject::GetRenderAspect()
+RenderObject * MAXMapObject::GetRenderAspect()
 {
     return _renderObject;
 }
 
-Material * MapObject::GetMaterial()
+Material * MAXMapObject::GetMaterial()
 {
     return _material;
 }
 
-void MapObject::Frame(double time)
+void MAXMapObject::Frame(double time)
 {
     _material->DoFrame(time);
 }

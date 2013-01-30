@@ -1,5 +1,5 @@
 //
-//  MapObject.h
+//  MAXMapObject.h
 //  MAX
 //
 //  Created by Anton Katekov on 26.12.12.
@@ -16,7 +16,7 @@ class MAXContentMap;
 class MapRenderObject;
 class MAXMapMaterial;
 
-class MapObject : public PivotObject {
+class MAXMapObject : public PivotObject {
     
 public:
     
@@ -29,8 +29,8 @@ public:
     MapRenderObject* _renderObject;
     MAXMapMaterial* _material;
     
-    MapObject(shared_ptr<MAXContentMap> map);
-    ~MapObject();
+    MAXMapObject(shared_ptr<MAXContentMap> map);
+    ~MAXMapObject();
     
     virtual RenderObject * GetRenderAspect();
     virtual Material * GetMaterial();

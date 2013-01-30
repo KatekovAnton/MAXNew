@@ -10,6 +10,7 @@
 #include <time.h>
 #include <math.h>
 #include "FileManger.h"
+#include "MAXAnimationManager.h"
 #include "Utils.h"
 
 #include "cocos2d.h"
@@ -25,7 +26,7 @@
 #include "RenderObject.h"
 #include "MAXUnitObject.h"
 #include "MAXGrid.h"
-#include "MapObject.h"
+#include "MAXMapObject.h"
 
 using namespace cocos2d;
 //using namespace Kompex;
@@ -63,11 +64,11 @@ void MAXEngine::Init() {
       
     float scale = _renderSystem->GetDisplay()->GetDisplayScale();
     _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth()/scale, _renderSystem->GetDisplay()->GetDisplayHeight()/scale, kResolutionNoBorder);
-    
+    _animationManager = new MAXAnimationManager();
     
     _scene = new SceneSystem();
-    _unit = MAXSCL->CreateUnit("TANK");
-    _scene->AddObject(_unit, true);
+//    _unit = MAXSCL->CreateUnit("TANK");
+//    _scene->AddObject(_unit, true);
     
     _scene->GetInterfaceManager()->Prepare();
     _director->pushScene(_scene->GetInterfaceManager()->GetGUISession());
@@ -76,9 +77,23 @@ void MAXEngine::Init() {
     _grid = new MAXGrid();
 }
 
+void MAXEngine::AddUnit(const shared_ptr<MAXUnitObject>& newUnit)
+{
+    _scene->AddObject(newUnit, true);
+}
+
+void MAXEngine::RemoveUnit(const shared_ptr<MAXUnitObject>& newUnit)
+{
+    _scene->RemoveObject(newUnit);
+}
+
 MAXEngine::~MAXEngine() {
+    delete _animationManager;
     delete _renderSystem;
     delete _shader;
+    delete _mapShader;
+    delete _grid;
+    delete _scene;
 }
 
 Shader * MAXEngine::GetShader() {
@@ -211,7 +226,7 @@ void MAXEngine::MoveCamera(float deltax, float deltay)
 
 void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 {
-    _map = shared_ptr<MapObject>(new MapObject(map));
+    _map = shared_ptr<MAXMapObject>(new MAXMapObject(map));
     _grid->SetMapSize(_map->mapW, _map->mapH);
 }
 
@@ -317,7 +332,8 @@ CCRect MAXEngine::ScreenToWorldRect()
     return result;
 }
 
-void MAXEngine::TestFire()
-{
-    _unit->SetIsFireing(true);
-}
+//void MAXEngine::TestFire(CCPoint unitLocation, CCPoint targetLocation)
+//{
+//    _unit->SetHeadDirection(MAXUnitObject::CalculateHeadIndex(unitLocation, targetLocation));
+//    _unit->SetIsFireing(true);
+//}

@@ -13,7 +13,7 @@
 #include "MAXEngine.h"
 #include "Geometry.h"
 
-const double fireTIme = 2;
+const double fireTIme = 0.15;
 const int bodyOffset = 0;
 const int headOffset = 8;
 const int headFireOffset = 16;
@@ -27,11 +27,6 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     fireing = false;
     fireStartTime = 0;
     changed = true;
-    
-    float cellx = 56;
-    float celly = 56;
-    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cellx - 112/2) + 1, ((-1*celly - 1) + 112/2) + 1, 0);
-    SetGlobalPosition(rt, nullptr, nullptr, false);
 }
 
 MAXUnitObject::~MAXUnitObject()
@@ -140,15 +135,15 @@ void MAXUnitObject::SetIsFireing(bool fire)
 {
     if(fire == fireing)
         return;
-    if(fire)
-    {
-//        int newstate = (bodyIndex) + 1;
+//    if(fire)
+//    {
+////        int newstate = (bodyIndex) + 1;
+////        newstate = newstate % 8;
+////        SetBodyDirection(newstate);
+//        int newstate = (headIndex - 8) + 1;
 //        newstate = newstate % 8;
-//        SetBodyDirection(newstate);
-        int newstate = (headIndex - 8) + 1;
-        newstate = newstate % 8;
-        SetHeadDirection(newstate);
-    }
+//        SetHeadDirection(newstate);
+//    }
     int state = headIndex - (fireing?headFireOffset:headOffset);
     fireing = fire;
     headIndex = state + (fireing?headFireOffset:headOffset);
@@ -158,5 +153,35 @@ void MAXUnitObject::SetIsFireing(bool fire)
     }
 }
 
+GLKMatrix4 MAXUnitObject::MatrixForCell(const CCPoint& cell)
+{
+    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cell.x - 112/2) + 1, ((-1*cell.y - 1) + 112/2), 0);
+    return rt;
+}
+
+int MAXUnitObject::CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget)
+{
+    CCPoint delta = CCPoint(floorf(cellTarget.x) - floorf(cellLocation.x), floorf(cellTarget.y) - floorf(cellLocation.y));
+    float l = sqrtf(delta.x * delta.x + delta.y * delta.y);
+    delta.x = delta.x/l;//cos
+    delta.y = delta.y/l;//sin
+    
+    int result = 0;
+    
+    if (delta.y > 0.9238795) 
+        result = 4;
+    else if(delta.y <= 0.923879 && delta.y > 0.3826834)
+        result = delta.x > 0?3:5;
+    else if(delta.y <= 0.3826834 && delta.y > -0.3826834)
+        result = delta.x > 0?2:6;
+    else if(delta.y <= -0.3826834 && delta.y > -0.923879)
+        result = delta.x > 0?1:7;
+    else if(delta.y < -0.923879)
+        result = 0;
+    
+ 
+    
+    return result;
+}
 
 
