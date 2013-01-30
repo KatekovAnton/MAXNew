@@ -1,17 +1,17 @@
 //
-//  MAXAnimationObjectBase.h
+//  MAXAnimationBase.h
 //  MAX
 //
 //  Created by Anton Katekov on 30.01.13.
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
-#ifndef __MAX__MAXAnimationObjectBase__
-#define __MAX__MAXAnimationObjectBase__
+#ifndef __MAX__MAXAnimationBase__
+#define __MAX__MAXAnimationBase__
 
 #include <iostream>
 
-class MAXAnimationObjectBase {
+class MAXAnimationBase {
     
 public:
     

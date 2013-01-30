@@ -18,15 +18,10 @@ const int bodyOffset = 0;
 const int headOffset = 8;
 const int headFireOffset = 16;
 
-MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material)
+MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material):_renderAspect(renderObject),_material(material), fireStartTime(0), changed(true), fireing(false)
 {
-    _renderAspect = renderObject;
-    _material = material;
     bodyIndex = 2;
     headIndex = 9;
-    fireing = false;
-    fireStartTime = 0;
-    changed = true;
 }
 
 MAXUnitObject::~MAXUnitObject()

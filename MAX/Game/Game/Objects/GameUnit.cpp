@@ -12,9 +12,8 @@
 
 using namespace cocos2d;
 
-GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject)
+GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject):_unitObject(unitObject)
 {
-    _unitObject = unitObject;
 }
 
 GameUnit::~GameUnit()
@@ -30,7 +29,7 @@ void GameUnit::SetUnitLocation(const CCPoint& cell, bool animated)
     }
     else
     {
-        
+        _unitObject->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_unitCell, cell));
     }
 }
 

@@ -175,7 +175,7 @@
 		8B8EAA41168E5AA30097CA74 /* MAXGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */; };
 		D11591C416B821B200C1E1C2 /* MAXUnitConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11591C216B821B200C1E1C2 /* MAXUnitConfig.cpp */; };
 		D115921E16B8ED5600C1E1C2 /* MAXAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */; };
-		D115922416B8F4C100C1E1C2 /* MAXAnimationObjectBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922216B8F4C100C1E1C2 /* MAXAnimationObjectBase.cpp */; };
+		D115922416B8F4C100C1E1C2 /* MAXAnimationBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */; };
 		D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */; };
 		D11ABAA4168DDB0A00CD29EA /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */; };
 		D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */; };
@@ -275,6 +275,7 @@
 		D1992275168E1DFD0067D6CF /* ShaderUnit.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992271168E1DE40067D6CF /* ShaderUnit.fsh */; };
 		D1992276168E1DFD0067D6CF /* ShaderUnit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992272168E1DE40067D6CF /* ShaderUnit.vsh */; };
 		D1992279168E309F0067D6CF /* MAXUnitObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1992277168E309E0067D6CF /* MAXUnitObject.cpp */; };
+		D1AB732516B93C16004D28F2 /* MAXAnimationSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -470,8 +471,8 @@
 		D11591C316B821B200C1E1C2 /* MAXUnitConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitConfig.h; sourceTree = "<group>"; };
 		D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationManager.cpp; sourceTree = "<group>"; };
 		D115921D16B8ED5600C1E1C2 /* MAXAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationManager.h; sourceTree = "<group>"; };
-		D115922216B8F4C100C1E1C2 /* MAXAnimationObjectBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObjectBase.cpp; sourceTree = "<group>"; };
-		D115922316B8F4C100C1E1C2 /* MAXAnimationObjectBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationObjectBase.h; sourceTree = "<group>"; };
+		D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationBase.cpp; sourceTree = "<group>"; };
+		D115922316B8F4C100C1E1C2 /* MAXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationBase.h; sourceTree = "<group>"; };
 		D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObjectUnit.cpp; sourceTree = "<group>"; };
 		D115922616B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationObjectUnit.h; sourceTree = "<group>"; };
 		D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
@@ -626,6 +627,9 @@
 		D1992272168E1DE40067D6CF /* ShaderUnit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnit.vsh; sourceTree = "<group>"; };
 		D1992277168E309E0067D6CF /* MAXUnitObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitObject.cpp; sourceTree = "<group>"; };
 		D1992278168E309F0067D6CF /* MAXUnitObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitObject.h; sourceTree = "<group>"; };
+		D1AB732216B93467004D28F2 /* miniPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniPrefix.h; sourceTree = "<group>"; };
+		D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationSequence.cpp; sourceTree = "<group>"; };
+		D1AB732416B93C15004D28F2 /* MAXAnimationSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationSequence.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -852,7 +856,6 @@
 			isa = PBXGroup;
 			children = (
 				D11591C116B8214600C1E1C2 /* LoadedResources */,
-				D11ABABA168DEB5500CD29EA /* Effects */,
 				D11ABAA1168DDA7800CD29EA /* Objects */,
 				D16D494D168B5F0D0055F35D /* Map */,
 				D16D48DD168B37F20055F35D /* Resources */,
@@ -876,10 +879,12 @@
 			children = (
 				D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */,
 				D115921D16B8ED5600C1E1C2 /* MAXAnimationManager.h */,
-				D115922216B8F4C100C1E1C2 /* MAXAnimationObjectBase.cpp */,
-				D115922316B8F4C100C1E1C2 /* MAXAnimationObjectBase.h */,
+				D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */,
+				D115922316B8F4C100C1E1C2 /* MAXAnimationBase.h */,
 				D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */,
 				D115922616B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.h */,
+				D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */,
+				D1AB732416B93C15004D28F2 /* MAXAnimationSequence.h */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -887,6 +892,7 @@
 		D11ABAA1168DDA7800CD29EA /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				D11ABABA168DEB5500CD29EA /* Effects */,
 				D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */,
 				D11ABAA3168DDB0A00CD29EA /* GameObject.h */,
 				D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */,
@@ -1037,6 +1043,7 @@
 				D18EDBE11689770C00EE3B4E /* Default.png */,
 				D18EDBE31689770C00EE3B4E /* Default@2x.png */,
 				D18EDBE51689770C00EE3B4E /* Default-568h@2x.png */,
+				D1AB732216B93467004D28F2 /* miniPrefix.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1624,8 +1631,9 @@
 				8B8EAA41168E5AA30097CA74 /* MAXGrid.cpp in Sources */,
 				D11591C416B821B200C1E1C2 /* MAXUnitConfig.cpp in Sources */,
 				D115921E16B8ED5600C1E1C2 /* MAXAnimationManager.cpp in Sources */,
-				D115922416B8F4C100C1E1C2 /* MAXAnimationObjectBase.cpp in Sources */,
+				D115922416B8F4C100C1E1C2 /* MAXAnimationBase.cpp in Sources */,
 				D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */,
+				D1AB732516B93C16004D28F2 /* MAXAnimationSequence.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

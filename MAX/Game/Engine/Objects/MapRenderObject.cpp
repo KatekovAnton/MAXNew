@@ -12,9 +12,9 @@
 #include "Material.h"
 #include "MAXEngine.h"
 
-MapRenderObject::MapRenderObject(shared_ptr<MAXContentMap> map):RenderObject()
+MapRenderObject::MapRenderObject(shared_ptr<MAXContentMap> map):RenderObject(),_mesh(EngineMesh::CreateScaledQuad(map->w, map->h))
 {
-    _mesh = EngineMesh::CreateScaledQuad(map->w, map->h);
+  //  _mesh = EngineMesh::CreateScaledQuad(map->w, map->h);
 }
 
 MapRenderObject::~MapRenderObject()

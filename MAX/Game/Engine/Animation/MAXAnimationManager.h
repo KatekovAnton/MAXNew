@@ -11,20 +11,20 @@
 
 #include <iostream>
 #include "Utils.h"
-#include "MAXAnimationObjectBase.h"
+#include "MAXAnimationBase.h"
 
 using namespace Utils;
 
 class MAXAnimationManager {
     
-    UContainer<MAXAnimationObjectBase> *_objects;
+    UContainer<MAXAnimationBase> *_objects;
     
 public:
     MAXAnimationManager();
     ~MAXAnimationManager();
     
-    void AddAnimatedObject(shared_ptr<MAXAnimationObjectBase>& object);
-    void RemoveAnimatedObject(shared_ptr<MAXAnimationObjectBase>& object);
+    void AddAnimatedObject(shared_ptr<MAXAnimationBase>& object);
+    void RemoveAnimatedObject(shared_ptr<MAXAnimationBase>& object);
     
     void Update();
 };

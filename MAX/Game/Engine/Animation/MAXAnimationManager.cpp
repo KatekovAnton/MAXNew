@@ -11,7 +11,7 @@
 
 MAXAnimationManager::MAXAnimationManager()
 {
-    _objects = new UContainer<MAXAnimationObjectBase>();
+    _objects = new UContainer<MAXAnimationBase>();
 }
 
 MAXAnimationManager::~MAXAnimationManager()
@@ -19,10 +19,10 @@ MAXAnimationManager::~MAXAnimationManager()
     delete _objects;
 }
 
-void MAXAnimationManager::AddAnimatedObject(shared_ptr<MAXAnimationObjectBase>& object)
+void MAXAnimationManager::AddAnimatedObject(shared_ptr<MAXAnimationBase>& object)
 {}
 
-void MAXAnimationManager::RemoveAnimatedObject(shared_ptr<MAXAnimationObjectBase>& object)
+void MAXAnimationManager::RemoveAnimatedObject(shared_ptr<MAXAnimationBase>& object)
 {}
 
 void MAXAnimationManager::Update()

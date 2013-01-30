@@ -10,11 +10,28 @@
 #define __MAX__MAXAnimationObjectUnit__
 
 #include <iostream>
-#include "MAXAnimationObjectBase.h"
+#include "MAXAnimationBase.h"
+#include "miniPrefix.h"
 
-class MAXAnimationObjectUnit:MAXAnimationObjectBase {
+class MAXUnitObject;
+
+enum MAXGAMESTATE
+{
+    MAXANIMATION_UNITMOVE,
+    MAXANIMATION_UNITROTATE,
+    MAXANIMATION_UNITFIRE
+};
+
+class MAXAnimationObjectUnit:MAXAnimationBase {
+    
+    shared_ptr<MAXUnitObject> _unit;
     
 public:
+    
+    MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, const shared_ptr<MAXUnitObject>& object);      //creates move action
+    MAXAnimationObjectUnit(int bodyIndex, int headIndex, const shared_ptr<MAXUnitObject>& object);                                  //creates rotate action
+    MAXAnimationObjectUnit(double firetime, const shared_ptr<MAXUnitObject>& object);                                               //creates fire action
+    
     
     virtual bool IsFinished();
     virtual void Update(double time);

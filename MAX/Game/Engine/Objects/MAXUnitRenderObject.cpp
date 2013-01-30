@@ -13,9 +13,9 @@
 
 using namespace std;
 
-MAXUnitRenderObject::MAXUnitRenderObject(shared_ptr<EngineMesh> mesh)
+MAXUnitRenderObject::MAXUnitRenderObject(shared_ptr<EngineMesh> mesh):_mesh(mesh)
 {
-    _mesh = mesh;
+//    _mesh = mesh;
 }
 
 MAXUnitRenderObject::~MAXUnitRenderObject()

@@ -68,16 +68,22 @@ void MAXGame::ProceedPan(float speedx, float speedy)
 
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
-    CCPoint p = engine->ScreenToWorldCoordinates(CCPoint(tapx, tapy));
-//    SysLogInfo("Tap coordinates: x=%f y=%f", p.x, p.y);
-    p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-//    SysLogInfo("Tap cell: x=%f y=%f", p.x, p.y);
-  //  engine->TestFire(CCPoint(56, 57), p);
-    _testUnit->Fire(p);
+    CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
+    p.x = floorf(p.x);
+    p.y = floorf(p.y);
+    CCPoint location = _testUnit->GetUnitCell();
+    if ((!(p.x == location.x && p.y == location.y)) &&                          //not same
+        (fabsf(p.x - location.x) <= 1 || fabsf(p.y - location.y) <= 1) &&       //only near
+        (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
+    {
+        _testUnit->SetUnitLocation(p, true);
+    }
 }
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
+    CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
+    _testUnit->Fire(p);
 }
 
 

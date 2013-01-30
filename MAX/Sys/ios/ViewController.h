@@ -28,6 +28,9 @@ typedef struct __TouchDelegateAdapter TouchDelagteAdapter;
     
     NSSet* _touches;
     UIEvent* _event;
+    
+    
+    NSTimeInterval lastTapTime;
 }
 @property (nonatomic, assign) GLuint depthFormat;
 @property (nonatomic, assign) GLuint pixelFormat;

@@ -51,7 +51,7 @@ static int const _kTEiOSMaxTouchesCount = 10;
     vc3.minimumPressDuration = 1.0;
     [self.view addGestureRecognizer:vc3];
     
-    
+    lastTapTime = 0;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
@@ -96,6 +96,11 @@ static int const _kTEiOSMaxTouchesCount = 10;
 {
     if (!_pinchDelegate)
         return;
+    NSTimeInterval now = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
+    if (now == lastTapTime)
+        return;
+    
+    lastTapTime = now;
     
     CGPoint translation = [gestureRecognizer locationInView:self.view];
     _pinchDelegate->ProceedTap(translation.x, translation.y);
