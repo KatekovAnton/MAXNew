@@ -9,6 +9,8 @@
 #ifndef MAX_miniPrefix_h
 #define MAX_miniPrefix_h
 
+#include <vector>
+
 #include "Geometry.h"
 #include "cocos2d.h"
 

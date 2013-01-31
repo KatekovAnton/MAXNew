@@ -13,3 +13,6 @@ MAXAnimationBase::MAXAnimationBase()
 :_animStartTime(engine->FullTime())
 {
 }
+
+MAXAnimationBase::~MAXAnimationBase()
+{}

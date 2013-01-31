@@ -11,11 +11,26 @@
 
 #include <iostream>
 #include "MAXAnimationBase.h"
+#include "miniPrefix.h"
 
-class MAXAnimationSequence : MAXAnimationBase {
+
+
+class MAXAnimationSequence : public MAXAnimationBase {
+    
+    vector<MAXAnimationBase*> _animations;
+    int _lastCompletlyFinishAnimation;
+    MAXAnimationBase* CurrentAnimaton();
     
 public:
     
+    MAXAnimationSequence();
+    ~MAXAnimationSequence();
+    
+    void AddAnimation(MAXAnimationBase* baseAnim);
+
+    virtual bool IsFinished();
+    virtual void Update(double time);
+    virtual void CompletlyFinish();
 };
 
 #endif /* defined(__MAX__MAXAnimationSequence__) */

@@ -630,6 +630,7 @@
 		D1AB732216B93467004D28F2 /* miniPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniPrefix.h; sourceTree = "<group>"; };
 		D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationSequence.cpp; sourceTree = "<group>"; };
 		D1AB732416B93C15004D28F2 /* MAXAnimationSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationSequence.h; sourceTree = "<group>"; };
+		D1AB732816BACECB004D28F2 /* MAXAnimationPrefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXAnimationPrefix.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -877,6 +878,7 @@
 		D115921B16B8ED2B00C1E1C2 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
+				D1AB732816BACECB004D28F2 /* MAXAnimationPrefix.h */,
 				D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */,
 				D115921D16B8ED5600C1E1C2 /* MAXAnimationManager.h */,
 				D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */,

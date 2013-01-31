@@ -7,6 +7,7 @@
 //
 
 #include "MAXAnimationObjectUnit.h"
+#include "MAXUnitObject.h"
 
 const float fireTime = 0.15;
 const float rotateRime = 0.1;
@@ -31,5 +32,51 @@ bool MAXAnimationObjectUnit::IsFinished()
 }
 
 void MAXAnimationObjectUnit::Update(double time)
-{}
+{
+    switch (_type)
+    {
+        case MAXANIMATION_UNITFIRE:
+        {
+            
+        }   break;
+            
+        case MAXANIMATION_UNITMOVE:
+        {
+           
+        }   break;
+            
+        case MAXANIMATION_UNITROTATE:
+        {
+            
+        }   break;
+        default:
+            break;
+    }
+}
+
+void MAXAnimationObjectUnit::CompletlyFinish()
+{
+    switch (_type)
+    {
+        case MAXANIMATION_UNITFIRE:
+        {
+            _unit->SetIsFireing(false);
+        }   break;
+    
+        case MAXANIMATION_UNITMOVE:
+        {
+            _unit->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_startLocation, _endLocation));
+            GLKMatrix4 rt = MAXUnitObject::MatrixForCell(_endLocation);
+            _unit->SetGlobalPosition(rt, nullptr, nullptr, false);
+        }   break;
+            
+        case MAXANIMATION_UNITROTATE:
+        {
+            _unit->SetBodyDirection(_bodyIndex);
+            _unit->SetHeadDirection(_headIndex);
+        }   break;
+        default:
+            break;
+    }
+}
 

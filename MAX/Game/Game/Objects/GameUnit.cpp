@@ -9,6 +9,7 @@
 #include "GameUnit.h"
 #include "Geometry.h"
 #include "MAXUnitObject.h"
+#include "MAXAnimationPrefix.h"
 
 using namespace cocos2d;
 
@@ -19,18 +20,25 @@ GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject):_unitObject(unitObject)
 GameUnit::~GameUnit()
 {}
 
-void GameUnit::SetUnitLocation(const CCPoint& cell, bool animated)
+void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
 {
     if(!animated)
     {
-        _unitObject->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_unitCell, cell));
-        _unitCell = cell;
-        GLKMatrix4 rt = MAXUnitObject::MatrixForCell(cell);
+        _unitObject->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_unitCell, destination));
+        _unitCell = destination;
+        GLKMatrix4 rt = MAXUnitObject::MatrixForCell(destination);
         _unitObject->SetGlobalPosition(rt, nullptr, nullptr, false);
     }
     else
     {
-        _unitObject->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_unitCell, cell));
+        int neededBodyIndex = MAXUnitObject::CalculateImageIndex(_unitCell, destination);
+        MAXAnimationSequence* sequence = new MAXAnimationSequence();
+        if (neededBodyIndex != _unitObject->GetBodyIndex())
+        {
+            MAXAnimationObjectUnit* step = new MAXAnimationObjectUnit(neededBodyIndex, _unitObject->GetHeadIndex(), _unitObject);
+            sequence->AddAnimation(step);
+        }
+        //this->SetBodyDirection(MAXUnitObject::CalculateImageIndex(currentPosition, destination));
     }
 }
 

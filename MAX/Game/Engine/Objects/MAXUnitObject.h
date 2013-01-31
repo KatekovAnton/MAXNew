@@ -42,6 +42,9 @@ class MAXUnitObject : public PivotObject {
 public:
     
     bool GetFireing() const {return fireing;};
+    int GetBodyIndex() const {return bodyIndex;};
+    int GetHeadIndex() const {return headIndex;};
+
     
     float deltax;
     float deltay;
@@ -59,6 +62,7 @@ public:
     
     GLKMatrix4 CalculateBodyRenderMatrix();
     GLKMatrix4 CalculateHeadRenderMatrix();
+    
     
     void SetBodyDirection(int state);
     void SetHeadDirection(int state);

@@ -22,7 +22,7 @@ enum MAXGAMESTATE
     MAXANIMATION_UNITFIRE
 };
 
-class MAXAnimationObjectUnit : MAXAnimationBase {
+class MAXAnimationObjectUnit : public MAXAnimationBase {
     
     shared_ptr<MAXUnitObject> _unit;
     int _bodyIndex;
@@ -30,6 +30,9 @@ class MAXAnimationObjectUnit : MAXAnimationBase {
     float _firetime;
     CCPoint _startLocation;
     CCPoint _endLocation;
+    
+    int _type;
+    
 public:
     
     MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, const shared_ptr<MAXUnitObject>& object);      //creates move action
@@ -39,6 +42,7 @@ public:
     
     virtual bool IsFinished();
     virtual void Update(double time);
+    virtual void CompletlyFinish();
     
 };
 

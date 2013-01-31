@@ -12,6 +12,7 @@
 #include "Shader.h"
 #include "MAXEngine.h"
 #include "Geometry.h"
+#include "MAXAnimationPrefix.h"
 
 const double fireTIme = 0.15;
 const int bodyOffset = 0;
