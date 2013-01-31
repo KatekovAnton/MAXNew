@@ -23,6 +23,7 @@ void GameUnit::SetUnitLocation(const CCPoint& cell, bool animated)
 {
     if(!animated)
     {
+        _unitObject->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_unitCell, cell));
         _unitCell = cell;
         GLKMatrix4 rt = MAXUnitObject::MatrixForCell(cell);
         _unitObject->SetGlobalPosition(rt, nullptr, nullptr, false);

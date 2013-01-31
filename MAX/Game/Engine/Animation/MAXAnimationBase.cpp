@@ -7,3 +7,9 @@
 //
 
 #include "MAXAnimationBase.h"
+#include "MAXEngine.h"
+
+MAXAnimationBase::MAXAnimationBase()
+:_animStartTime(engine->FullTime())
+{
+}

@@ -13,7 +13,11 @@
 
 class MAXAnimationBase {
     
+protected:
+    float _animStartTime;
 public:
+    MAXAnimationBase();
+    
     
     virtual bool IsFinished() = 0;
     virtual void Update(double time) = 0;

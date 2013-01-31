@@ -14,7 +14,7 @@
 
 #include "MAXContetnLoader.h"
 #include "MAXUnitObject.h"
-
+#include "MAXMap.h"
 #include "GameUnit.h"
 
 MAXGame globalGame;
@@ -41,8 +41,9 @@ void MAXGame::Init()
 
 void MAXGame::SetMap(string mapName)
 {
-    shared_ptr<MAXContentMap> map = MAXSCL->LoadMapWithName(mapName);
-    engine->SetMap(map);
+    shared_ptr<MAXContentMap> map1 = MAXSCL->LoadMapWithName(mapName);
+    map = shared_ptr<MAXMap>(new MAXMap(map1));
+    engine->SetMap(map1);
 }
 
 #pragma mark - DisplayPinchDelegate
@@ -72,11 +73,15 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.x = floorf(p.x);
     p.y = floorf(p.y);
     CCPoint location = _testUnit->GetUnitCell();
+    if (p.x < 0 || p.x>= map->GetMapWidth() || p.y < 0 || p.y >= map->GetMapHeight())
+        return;
     if ((!(p.x == location.x && p.y == location.y)) &&                          //not same
         (fabsf(p.x - location.x) <= 1 || fabsf(p.y - location.y) <= 1) &&       //only near
         (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
     {
-        _testUnit->SetUnitLocation(p, true);
+        char groundType = map->GroundTypeAtPoint(p);
+        if (groundType == MAXMAPGROUNDTYPE_GROUND) 
+            _testUnit->SetUnitLocation(p, false);
     }
 }
 
