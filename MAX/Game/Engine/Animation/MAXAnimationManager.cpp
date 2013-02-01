@@ -51,8 +51,10 @@ void MAXAnimationManager::Update()
     {
         toRemove = false;
     
+        int count = 0;
         for (iterator = _objects.begin(); iterator != _objects.end(); ++iterator)
         {
+            count ++;
             MAXAnimationBase* item = *iterator;
             if (item->IsFinished())
             {
@@ -62,6 +64,15 @@ void MAXAnimationManager::Update()
             }
         }
         if(toRemove)
+        {
+            count --;
             _objects.remove(*iterator);
+            //SysLogInfo("removing animation, cout = %d", 0);
+        }
     }
+}
+
+MAXAnimationManager* MAXAnimationManager::SharedAnimationManager()
+{
+    return engine->GetAnimationManager();
 }

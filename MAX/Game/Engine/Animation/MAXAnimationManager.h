@@ -25,6 +25,8 @@ public:
     void RemoveAnimatedObject(MAXAnimationBase* object);
     
     void Update();
+    
+    static MAXAnimationManager* SharedAnimationManager();
 };
 
 #endif /* defined(__MAX__AnimationManager__) */

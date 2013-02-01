@@ -164,6 +164,7 @@ void MAXEngine::Update() {
     bool updategrid = _camera->changed;
     _camera->Update();
     _scene->CalculateVisbleObject();
+    _animationManager->Update();
     if(updategrid)
         _grid->UpdateInfo(false);
     

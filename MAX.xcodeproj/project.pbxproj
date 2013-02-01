@@ -273,9 +273,6 @@
 		D1992276168E1DFD0067D6CF /* ShaderUnit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992272168E1DE40067D6CF /* ShaderUnit.vsh */; };
 		D1992279168E309F0067D6CF /* MAXUnitObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1992277168E309E0067D6CF /* MAXUnitObject.cpp */; };
 		D1AB732516B93C16004D28F2 /* MAXAnimationSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */; };
-		D1AB732F16BBC2B2004D28F2 /* GameEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB732916BBC2B2004D28F2 /* GameEffect.cpp */; };
-		D1AB733016BBC2B2004D28F2 /* GameEffectBlast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB732B16BBC2B2004D28F2 /* GameEffectBlast.cpp */; };
-		D1AB733116BBC2B2004D28F2 /* GameEffectRocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB732D16BBC2B2004D28F2 /* GameEffectRocket.cpp */; };
 		D1AB733416BBCAEF004D28F2 /* MAXAnimationRepeat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733216BBCAEC004D28F2 /* MAXAnimationRepeat.cpp */; };
 /* End PBXBuildFile section */
 
@@ -626,12 +623,6 @@
 		D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationSequence.cpp; sourceTree = "<group>"; };
 		D1AB732416B93C15004D28F2 /* MAXAnimationSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationSequence.h; sourceTree = "<group>"; };
 		D1AB732816BACECB004D28F2 /* MAXAnimationPrefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXAnimationPrefix.h; sourceTree = "<group>"; };
-		D1AB732916BBC2B2004D28F2 /* GameEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffect.cpp; sourceTree = "<group>"; };
-		D1AB732A16BBC2B2004D28F2 /* GameEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffect.h; sourceTree = "<group>"; };
-		D1AB732B16BBC2B2004D28F2 /* GameEffectBlast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffectBlast.cpp; sourceTree = "<group>"; };
-		D1AB732C16BBC2B2004D28F2 /* GameEffectBlast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectBlast.h; sourceTree = "<group>"; };
-		D1AB732D16BBC2B2004D28F2 /* GameEffectRocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffectRocket.cpp; sourceTree = "<group>"; };
-		D1AB732E16BBC2B2004D28F2 /* GameEffectRocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectRocket.h; sourceTree = "<group>"; };
 		D1AB733216BBCAEC004D28F2 /* MAXAnimationRepeat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationRepeat.cpp; sourceTree = "<group>"; };
 		D1AB733316BBCAED004D28F2 /* MAXAnimationRepeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationRepeat.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -899,7 +890,6 @@
 		D11ABAA1168DDA7800CD29EA /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				D11ABABA168DEB5500CD29EA /* Effects */,
 				D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */,
 				D11ABAA3168DDB0A00CD29EA /* GameObject.h */,
 				D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */,
@@ -908,19 +898,6 @@
 				D11ABAA9168DDB3400CD29EA /* GameBuilding.h */,
 			);
 			path = Objects;
-			sourceTree = "<group>";
-		};
-		D11ABABA168DEB5500CD29EA /* Effects */ = {
-			isa = PBXGroup;
-			children = (
-				D1AB732916BBC2B2004D28F2 /* GameEffect.cpp */,
-				D1AB732A16BBC2B2004D28F2 /* GameEffect.h */,
-				D1AB732B16BBC2B2004D28F2 /* GameEffectBlast.cpp */,
-				D1AB732C16BBC2B2004D28F2 /* GameEffectBlast.h */,
-				D1AB732D16BBC2B2004D28F2 /* GameEffectRocket.cpp */,
-				D1AB732E16BBC2B2004D28F2 /* GameEffectRocket.h */,
-			);
-			path = Effects;
 			sourceTree = "<group>";
 		};
 		D16D48C9168B306C0055F35D /* MAXContetnLoader */ = {
@@ -1638,9 +1615,6 @@
 				D115922416B8F4C100C1E1C2 /* MAXAnimationBase.cpp in Sources */,
 				D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */,
 				D1AB732516B93C16004D28F2 /* MAXAnimationSequence.cpp in Sources */,
-				D1AB732F16BBC2B2004D28F2 /* GameEffect.cpp in Sources */,
-				D1AB733016BBC2B2004D28F2 /* GameEffectBlast.cpp in Sources */,
-				D1AB733116BBC2B2004D28F2 /* GameEffectRocket.cpp in Sources */,
 				D1AB733416BBCAEF004D28F2 /* MAXAnimationRepeat.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

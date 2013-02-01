@@ -10,6 +10,7 @@
 #include "Geometry.h"
 #include "MAXUnitObject.h"
 #include "MAXAnimationPrefix.h"
+#include "MAXEngine.h"
 
 using namespace cocos2d;
 
@@ -47,5 +48,6 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     if(_unitObject->GetFireing())
         return;
     _unitObject->SetHeadDirection(MAXUnitObject::CalculateImageIndex(_unitCell, target));
-    _unitObject->SetIsFireing(true);
+    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(0.15, _unitObject);
+    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
 }
