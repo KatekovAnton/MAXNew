@@ -88,7 +88,7 @@ void MAXAnimationObjectUnit::CompletlyFinish()
     
         case MAXANIMATION_UNITMOVE:
         {
-            _unit->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_startLocation, _endLocation));
+            //_unit->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_startLocation, _endLocation));
             GLKMatrix4 rt = MAXUnitObject::MatrixForCell(_endLocation);
             _unit->SetGlobalPosition(rt, nullptr, nullptr, false);
         }   break;

@@ -14,7 +14,8 @@
 
 using namespace cocos2d;
 
-GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject):_unitObject(unitObject)
+GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject)
+:_unitObject(unitObject), _currentTopAnimation(NULL)
 {
 }
 
@@ -48,6 +49,7 @@ void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
         MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _unitObject);
         step2->_delegate = this;
         sequence->AddAnimation(step2);
+        _moveAnimation = step2;
     
         MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
         _currentTopAnimation = sequence;

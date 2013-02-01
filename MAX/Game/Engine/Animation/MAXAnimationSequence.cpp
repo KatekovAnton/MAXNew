@@ -32,7 +32,7 @@ MAXAnimationBase* MAXAnimationSequence::CurrentAnimaton()
             return anim;
         else if (_lastCompletlyFinishAnimation < i)
         {
-            anim->CompletlyFinish();
+            anim->BaseCompletlyFinish();
             _lastCompletlyFinishAnimation++;
         }
     }
@@ -48,7 +48,7 @@ bool MAXAnimationSequence::IsFinished()
 {
     if (_animations.size() == 0)
         return true;
-    MAXAnimationBase* anim = _animations.at(_animations.size());
+    MAXAnimationBase* anim = _animations.at(_animations.size() - 1);
     return anim->IsFinished();
 }
 
@@ -56,12 +56,15 @@ void MAXAnimationSequence::Update(double time)
 {
     MAXAnimationBase* anim = this->CurrentAnimaton();
     if (anim)
-        anim->Update(time);
+        anim->BaseUpdate(time);
 }
 
 void MAXAnimationSequence::CompletlyFinish()
 {
-    
+    if (_animations.size() == 0)
+        return;
+    MAXAnimationBase* anim = _animations.at(_animations.size() - 1);
+    return anim->BaseCompletlyFinish();
 }
 
 void MAXAnimationSequence::StartAnimation()
