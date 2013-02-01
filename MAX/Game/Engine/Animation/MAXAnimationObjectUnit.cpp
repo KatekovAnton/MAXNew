@@ -10,7 +10,8 @@
 #include "MAXUnitObject.h"
 #include "MAXEngine.h"
 
-const float rotateRime = 0.1;
+const float rotateTime = 0.1;
+const float moveTime = 0.2;
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, const shared_ptr<MAXUnitObject>& object)      //creates move action
 :_unit(object), _startLocation(startLocation), _endLocation(endLocation), _type(MAXANIMATION_UNITMOVE)
@@ -41,7 +42,7 @@ bool MAXAnimationObjectUnit::IsFinished()
             
         case MAXANIMATION_UNITMOVE:
         {
-            return true;
+            return (engine->FullTime()-GetStartTime()) > moveTime;
         }   break;
             
         case MAXANIMATION_UNITROTATE:
@@ -65,7 +66,12 @@ void MAXAnimationObjectUnit::Update(double time)
             
         case MAXANIMATION_UNITMOVE:
         {
-           
+            double elapsed = (engine->FullTime()-GetStartTime());
+            float deltaTime = elapsed/moveTime;
+            CCPoint delta = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
+            CCPoint result = CCPoint(_startLocation.x + delta.x * deltaTime, _startLocation.y + delta.y * deltaTime);
+            GLKMatrix4 rt = MAXUnitObject::MatrixForCell(result);
+            _unit->SetGlobalPosition(rt, nullptr, nullptr, false);
         }   break;
             
         case MAXANIMATION_UNITROTATE:

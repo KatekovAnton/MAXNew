@@ -34,6 +34,10 @@ MAXAnimationBase* MAXAnimationSequence::CurrentAnimaton()
         {
             anim->BaseCompletlyFinish();
             _lastCompletlyFinishAnimation++;
+            if (i<_animations.size()-2) {
+                MAXAnimationBase* anim1 = _animations.at(i+1);
+                anim1->BaseStart();
+            }
         }
     }
     return nil;
@@ -71,5 +75,5 @@ void MAXAnimationSequence::StartAnimation()
 {
     if (_animations.size() == 0)
         return;
-    _animations.at(0)->StartAnimation();
+    _animations.at(0)->BaseStart();
 }
