@@ -67,7 +67,7 @@ void MAXAnimationObjectUnit::Update(double time)
         case MAXANIMATION_UNITMOVE:
         {
             double elapsed = (engine->FullTime()-GetStartTime());
-            float deltaTime = elapsed/moveTime;
+            float deltaTime = sinf(elapsed/moveTime * M_PI_2);
             CCPoint delta = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
             CCPoint result = CCPoint(_startLocation.x + delta.x * deltaTime, _startLocation.y + delta.y * deltaTime);
             GLKMatrix4 rt = MAXUnitObject::MatrixForCell(result);
