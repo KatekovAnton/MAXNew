@@ -97,6 +97,9 @@ static int const _kTEiOSMaxTouchesCount = 10;
 {
     if (!_pinchDelegate)
         return;
+    if (!_canhandleTap)
+        return;
+    _canhandleTap = NO;
     NSTimeInterval now = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
     if (now == lastTapTime)
         return;
@@ -112,7 +115,9 @@ static int const _kTEiOSMaxTouchesCount = 10;
 {
     if (!_pinchDelegate)
         return;
-    
+    if (!_canhandleTap) 
+        return;
+    _canhandleTap = NO;
     CGPoint translation = [gestureRecognizer locationInView:self.view];
     _pinchDelegate->ProceedLongTap(translation.x, translation.y);
 }
@@ -154,7 +159,7 @@ static int const _kTEiOSMaxTouchesCount = 10;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     _touches = touches;
     _event = event;
-    
+    _canhandleTap = YES;
     int ids[_kTEiOSMaxTouchesCount] = {0};
     float xs[_kTEiOSMaxTouchesCount] = {0.0f};
     float ys[_kTEiOSMaxTouchesCount] = {0.0f};

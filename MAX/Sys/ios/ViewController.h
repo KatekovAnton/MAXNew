@@ -29,6 +29,7 @@ typedef struct __TouchDelegateAdapter TouchDelagteAdapter;
     NSSet* _touches;
     UIEvent* _event;
     
+    BOOL _canhandleTap;
     
     NSTimeInterval lastTapTime;
 }
