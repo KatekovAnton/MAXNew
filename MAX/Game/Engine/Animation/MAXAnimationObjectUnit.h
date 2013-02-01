@@ -40,6 +40,9 @@ class MAXAnimationObjectUnit : public MAXAnimationBase {
     
 public:
     
+    CCPoint GetStartLocation () const { return _startLocation; };
+    CCPoint GetEendLocation () const { return _endLocation; };
+    
     MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, const shared_ptr<MAXUnitObject>& object);      //creates move action
     MAXAnimationObjectUnit(int bodyIndex, int headIndex, const shared_ptr<MAXUnitObject>& object);                                  //creates rotate action
     MAXAnimationObjectUnit(double firetime, const shared_ptr<MAXUnitObject>& object);                                               //creates fire action

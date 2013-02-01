@@ -27,13 +27,13 @@ MAXAnimationManager::~MAXAnimationManager()
 void MAXAnimationManager::AddAnimatedObject(MAXAnimationBase* object)
 {
     _objects.push_back(object);
-    object->Start();
+    object->BaseStart();
 }
 
 void MAXAnimationManager::RemoveAnimatedObject(MAXAnimationBase* object)
 {
     _objects.remove(object);
-    object->CompletlyFinish();
+    object->BaseCompletlyFinish();
 }
 
 void MAXAnimationManager::Update()
@@ -43,7 +43,7 @@ void MAXAnimationManager::Update()
     for (iterator = _objects.begin(); iterator != _objects.end(); ++iterator)
     {
         MAXAnimationBase* item = *iterator;
-        item->Update(time);
+        item->BaseUpdate(time);
     }
     
     bool toRemove = true;
@@ -59,7 +59,7 @@ void MAXAnimationManager::Update()
             if (item->IsFinished())
             {
                 toRemove = true;
-                item->CompletlyFinish();
+                item->BaseCompletlyFinish();
                 break;
             }
         }

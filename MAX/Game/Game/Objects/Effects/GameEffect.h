@@ -11,4 +11,10 @@
 
 #include <iostream>
 
+class GameEffect {
+    
+public:
+    
+};
+
 #endif /* defined(__MAX__GameEffect__) */

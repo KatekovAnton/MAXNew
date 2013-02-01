@@ -11,11 +11,14 @@
 
 #include <iostream>
 
+class MAXAnimationDelegate;
+
 class MAXAnimationBase {
     
     double _animStartTime;
-    
 public:
+    
+    MAXAnimationDelegate* _delegate;
     
     double GetStartTime() const {return _animStartTime;};
     
@@ -23,7 +26,9 @@ public:
     virtual ~MAXAnimationBase();
     
     
-    void Start();
+    void BaseStart();
+    void BaseCompletlyFinish();
+    void BaseUpdate(double time);
     
     virtual bool IsFinished() = 0;
     virtual void Update(double time) = 0;

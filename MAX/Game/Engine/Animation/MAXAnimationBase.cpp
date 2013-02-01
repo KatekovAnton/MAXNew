@@ -8,17 +8,37 @@
 
 #include "MAXAnimationBase.h"
 #include "MAXEngine.h"
+#include "MAXAnimationDelegate.h"
 
 MAXAnimationBase::MAXAnimationBase()
+:_delegate(NULL)
 {
 }
 
 MAXAnimationBase::~MAXAnimationBase()
 {}
 
+void MAXAnimationBase::BaseUpdate(double time)
+{
+    this->Update(time);
+    if (_delegate)
+        _delegate->OnAnimationUpdate(this);
+    
+}
 
-void MAXAnimationBase::Start()
+void MAXAnimationBase::BaseStart()
 {
     _animStartTime = engine->FullTime();
     this->StartAnimation();
+    if (_delegate) 
+        _delegate->OnAnimationStart(this);
+    
+}
+
+void MAXAnimationBase::BaseCompletlyFinish()
+{
+    this->CompletlyFinish();
+    if (_delegate) 
+        _delegate->OnAnimationFinish(this);
+    
 }

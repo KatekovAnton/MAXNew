@@ -634,6 +634,7 @@
 		D1AB733916BBD381004D28F2 /* GameEffectBlast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectBlast.h; sourceTree = "<group>"; };
 		D1AB733A16BBD381004D28F2 /* GameEffectRocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffectRocket.cpp; sourceTree = "<group>"; };
 		D1AB733B16BBD381004D28F2 /* GameEffectRocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectRocket.h; sourceTree = "<group>"; };
+		D1AB734216BBD9E7004D28F2 /* MAXAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -882,6 +883,7 @@
 			isa = PBXGroup;
 			children = (
 				D1AB732816BACECB004D28F2 /* MAXAnimationPrefix.h */,
+				D1AB734216BBD9E7004D28F2 /* MAXAnimationDelegate.h */,
 				D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */,
 				D115921D16B8ED5600C1E1C2 /* MAXAnimationManager.h */,
 				D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */,

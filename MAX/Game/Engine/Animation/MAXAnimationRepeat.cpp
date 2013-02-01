@@ -26,7 +26,7 @@ bool MAXAnimationRepeat::IsFinished()
 void MAXAnimationRepeat::Update(double time)
 {
     if (_animaton->IsFinished())
-        _animaton->Start();
+        _animaton->BaseStart();
 }
 
 void MAXAnimationRepeat::CompletlyFinish()
