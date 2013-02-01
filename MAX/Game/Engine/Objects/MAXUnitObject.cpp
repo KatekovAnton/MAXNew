@@ -19,7 +19,8 @@ const int bodyOffset = 0;
 const int headOffset = 8;
 const int headFireOffset = 16;
 
-MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material):_renderAspect(renderObject),_material(material), fireStartTime(0), changed(true), fireing(false)
+MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material)
+:_renderAspect(renderObject),_material(material), fireStartTime(0), changed(true), fireing(false)
 {
     bodyIndex = 2;
     headIndex = 9;
@@ -147,37 +148,6 @@ void MAXUnitObject::SetIsFireing(bool fire)
 //    if (fireing) {
 //        fireStartTime = engine->FullTime();
 //    }
-}
-
-GLKMatrix4 MAXUnitObject::MatrixForCell(const CCPoint& cell)
-{
-    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cell.x - 112/2) + 1, ((-1*cell.y - 1) + 112/2), 0);
-    return rt;
-}
-
-int MAXUnitObject::CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget)
-{
-    CCPoint delta = CCPoint(floorf(cellTarget.x) - floorf(cellLocation.x), floorf(cellTarget.y) - floorf(cellLocation.y));
-    float l = sqrtf(delta.x * delta.x + delta.y * delta.y);
-    delta.x = delta.x/l;//cos
-    delta.y = delta.y/l;//sin
-    
-    int result = 0;
-    
-    if (delta.y > 0.9238795) 
-        result = 4;
-    else if(delta.y <= 0.923879 && delta.y > 0.3826834)
-        result = delta.x > 0?3:5;
-    else if(delta.y <= 0.3826834 && delta.y > -0.3826834)
-        result = delta.x > 0?2:6;
-    else if(delta.y <= -0.3826834 && delta.y > -0.923879)
-        result = delta.x > 0?1:7;
-    else if(delta.y < -0.923879)
-        result = 0;
-    
- 
-    
-    return result;
 }
 
 

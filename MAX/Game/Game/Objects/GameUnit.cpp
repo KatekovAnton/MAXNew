@@ -30,14 +30,13 @@ void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
     
     if(!animated)
     {
-        _unitObject->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_unitCell, destination));
+        _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, destination));
         _unitCell = destination;
-        GLKMatrix4 rt = MAXUnitObject::MatrixForCell(destination);
-        _unitObject->SetGlobalPosition(rt, nullptr, nullptr, false);
+        _unitObject->SetPosition(destination);
     }
     else
     {
-        int neededBodyIndex = MAXUnitObject::CalculateImageIndex(_unitCell, destination);
+        int neededBodyIndex = MAXObject::CalculateImageIndex(_unitCell, destination);
         MAXAnimationSequence* sequence = new MAXAnimationSequence();
         sequence->_delegate = this;
         _unitObject->SetBodyDirection(neededBodyIndex);
@@ -60,7 +59,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 {
     if(_unitObject->GetFireing())
         return;
-    _unitObject->SetHeadDirection(MAXUnitObject::CalculateImageIndex(_unitCell, target));
+    _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
     MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(0.15, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
 }

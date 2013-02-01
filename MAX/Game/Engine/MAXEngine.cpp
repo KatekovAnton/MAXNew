@@ -11,6 +11,8 @@
 #include <math.h>
 #include "FileManger.h"
 #include "MAXAnimationManager.h"
+#include "MAXGrid.h"
+#include "MAXUnitSelection.h"
 #include "Utils.h"
 
 #include "cocos2d.h"
@@ -25,7 +27,6 @@
 #include "LevelObject.h"
 #include "RenderObject.h"
 #include "MAXUnitObject.h"
-#include "MAXGrid.h"
 #include "MAXMapObject.h"
 
 using namespace cocos2d;
@@ -75,6 +76,7 @@ void MAXEngine::Init() {
     
     _director->setDisplayStats(true);
     _grid = new MAXGrid();
+    _unitSelection = new MAXUnitSelection();
 }
 
 void MAXEngine::AddUnit(const shared_ptr<MAXUnitObject>& newUnit)
@@ -94,6 +96,7 @@ MAXEngine::~MAXEngine() {
     delete _mapShader;
     delete _grid;
     delete _scene;
+    delete _unitSelection;
 }
 
 Shader * MAXEngine::GetShader() {

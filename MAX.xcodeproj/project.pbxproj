@@ -277,6 +277,9 @@
 		D1AB733C16BBD381004D28F2 /* GameEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733616BBD381004D28F2 /* GameEffect.cpp */; };
 		D1AB733D16BBD381004D28F2 /* GameEffectBlast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733816BBD381004D28F2 /* GameEffectBlast.cpp */; };
 		D1AB733E16BBD381004D28F2 /* GameEffectRocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733A16BBD381004D28F2 /* GameEffectRocket.cpp */; };
+		D1E3D3ED16BC2CC200E88F2E /* MAXUnitSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */; };
+		D1E3D3F016BC2F1D00E88F2E /* MAXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */; };
+		D1E3D3F316BC319000E88F2E /* MAXEffectObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -635,6 +638,12 @@
 		D1AB733A16BBD381004D28F2 /* GameEffectRocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffectRocket.cpp; sourceTree = "<group>"; };
 		D1AB733B16BBD381004D28F2 /* GameEffectRocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectRocket.h; sourceTree = "<group>"; };
 		D1AB734216BBD9E7004D28F2 /* MAXAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationDelegate.h; sourceTree = "<group>"; };
+		D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitSelection.cpp; sourceTree = "<group>"; };
+		D1E3D3EC16BC2CC200E88F2E /* MAXUnitSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitSelection.h; sourceTree = "<group>"; };
+		D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObject.cpp; sourceTree = "<group>"; };
+		D1E3D3EF16BC2F1D00E88F2E /* MAXObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXObject.h; sourceTree = "<group>"; };
+		D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXEffectObject.cpp; sourceTree = "<group>"; };
+		D1E3D3F216BC319000E88F2E /* MAXEffectObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXEffectObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1197,6 +1206,8 @@
 				D18EDC7A1689843600EE3B4E /* RenderSystem.h */,
 				8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */,
 				8B8EAA40168E5AA30097CA74 /* MAXGrid.h */,
+				D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */,
+				D1E3D3EC16BC2CC200E88F2E /* MAXUnitSelection.h */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -1243,8 +1254,12 @@
 				D18EDCE3168B2C5800EE3B4E /* MapRenderObject.h */,
 				D199226E168E1C7D0067D6CF /* MAXUnitRenderObject.cpp */,
 				D199226F168E1C7D0067D6CF /* MAXUnitRenderObject.h */,
+				D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */,
+				D1E3D3EF16BC2F1D00E88F2E /* MAXObject.h */,
 				D1992277168E309E0067D6CF /* MAXUnitObject.cpp */,
 				D1992278168E309F0067D6CF /* MAXUnitObject.h */,
+				D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */,
+				D1E3D3F216BC319000E88F2E /* MAXEffectObject.h */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1644,6 +1659,9 @@
 				D1AB733C16BBD381004D28F2 /* GameEffect.cpp in Sources */,
 				D1AB733D16BBD381004D28F2 /* GameEffectBlast.cpp in Sources */,
 				D1AB733E16BBD381004D28F2 /* GameEffectRocket.cpp in Sources */,
+				D1E3D3ED16BC2CC200E88F2E /* MAXUnitSelection.cpp in Sources */,
+				D1E3D3F016BC2F1D00E88F2E /* MAXObject.cpp in Sources */,
+				D1E3D3F316BC319000E88F2E /* MAXEffectObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

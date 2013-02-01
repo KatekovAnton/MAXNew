@@ -10,8 +10,9 @@
 #define __MAX__MAXUnitObject__
 
 #include <iostream>
-#include "PivotObject.h"
+#include "MAXObject.h"
 #include "cocos2d.h"
+
 
 class MAXUnitRenderObject;
 class MAXUnitMaterial;
@@ -24,7 +25,7 @@ enum
     MAXUnitObjectTypeTurreted
 } typedef MAXUnitObjectType;
 
-class MAXUnitObject : public PivotObject {
+class MAXUnitObject : public MAXObject {
     
     MAXUnitRenderObject        *_renderAspect;//own
     MAXUnitMaterial            *_material;//own
@@ -68,8 +69,6 @@ public:
     void SetHeadDirection(int state);
     void SetIsFireing(bool fire);
     
-    static GLKMatrix4 MatrixForCell(const CCPoint& cell);
-    static int CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget);
     
 };
 

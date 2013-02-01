@@ -70,8 +70,7 @@ void MAXAnimationObjectUnit::Update(double time)
             float deltaTime = sinf(elapsed/moveTime * M_PI_2);
             CCPoint delta = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
             CCPoint result = CCPoint(_startLocation.x + delta.x * deltaTime, _startLocation.y + delta.y * deltaTime);
-            GLKMatrix4 rt = MAXUnitObject::MatrixForCell(result);
-            _unit->SetGlobalPosition(rt, nullptr, nullptr, false);
+            _unit->SetPosition(result);
         }   break;
             
         case MAXANIMATION_UNITROTATE:
@@ -94,7 +93,6 @@ void MAXAnimationObjectUnit::CompletlyFinish()
     
         case MAXANIMATION_UNITMOVE:
         {
-            //_unit->SetBodyDirection(MAXUnitObject::CalculateImageIndex(_startLocation, _endLocation));
             GLKMatrix4 rt = MAXUnitObject::MatrixForCell(_endLocation);
             _unit->SetGlobalPosition(rt, nullptr, nullptr, false);
         }   break;

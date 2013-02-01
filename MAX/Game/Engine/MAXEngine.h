@@ -23,11 +23,11 @@ class Shader;
 class SceneSystem;
 class MAXCamera;
 class MAXAnimationManager;
+class MAXGrid;
+class MAXUnitSelection;
 
-class LevelObject;
 class MAXMapObject;
 class MAXContentMap;
-class MAXGrid;
 class MAXUnitObject;
 
 class MAXEngine  {
@@ -52,11 +52,11 @@ public:
     float displayw,displayh;
     bool drawGrid;
     
-//    shared_ptr<MAXUnitObject>           _unit;
     shared_ptr<MAXMapObject>            _map;
     
     MAXCamera               *_camera;
     MAXGrid                 *_grid;
+    MAXUnitSelection        *_unitSelection;
     CCDirector              *_director;
     
     MAXEngine();
