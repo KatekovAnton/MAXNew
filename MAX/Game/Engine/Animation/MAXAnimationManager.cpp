@@ -11,21 +11,57 @@
 
 MAXAnimationManager::MAXAnimationManager()
 {
-    _objects = new UContainer<MAXAnimationBase>();
+    
 }
 
 MAXAnimationManager::~MAXAnimationManager()
 {
-    delete _objects;
+    list<MAXAnimationBase*>::const_iterator iterator;
+    for (iterator = _objects.begin(); iterator != _objects.end(); ++iterator)
+    {
+        MAXAnimationBase* item = *iterator;
+        delete item;
+    }
 }
 
-void MAXAnimationManager::AddAnimatedObject(shared_ptr<MAXAnimationBase>& object)
-{}
+void MAXAnimationManager::AddAnimatedObject(MAXAnimationBase* object)
+{
+    _objects.push_back(object);
+    object->Start();
+}
 
-void MAXAnimationManager::RemoveAnimatedObject(shared_ptr<MAXAnimationBase>& object)
-{}
+void MAXAnimationManager::RemoveAnimatedObject(MAXAnimationBase* object)
+{
+    _objects.remove(object);
+    object->CompletlyFinish();
+}
 
 void MAXAnimationManager::Update()
 {
     double time = engine->ElapsedTime();
+    list<MAXAnimationBase*>::const_iterator iterator;
+    for (iterator = _objects.begin(); iterator != _objects.end(); ++iterator)
+    {
+        MAXAnimationBase* item = *iterator;
+        item->Update(time);
+    }
+    
+    bool toRemove = true;
+    while (toRemove)
+    {
+        toRemove = false;
+    
+        for (iterator = _objects.begin(); iterator != _objects.end(); ++iterator)
+        {
+            MAXAnimationBase* item = *iterator;
+            if (item->IsFinished())
+            {
+                toRemove = true;
+                item->CompletlyFinish();
+                break;
+            }
+        }
+        if(toRemove)
+            _objects.remove(*iterator);
+    }
 }

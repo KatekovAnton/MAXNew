@@ -95,9 +95,9 @@ Material * MAXUnitObject::GetMaterial()
 void MAXUnitObject::Frame(double time)
 {
     _material->DoFrame(time);
-    if (fireing && engine->FullTime() - fireStartTime > fireTIme) {
-        SetIsFireing(false);
-    }
+//    if (fireing && engine->FullTime() - fireStartTime > fireTIme) {
+//        SetIsFireing(false);
+//    }
 }
 
 void MAXUnitObject::Draw(Shader *shader)
@@ -144,9 +144,9 @@ void MAXUnitObject::SetIsFireing(bool fire)
     fireing = fire;
     headIndex = state + (fireing?headFireOffset:headOffset);
     changed = true;
-    if (fireing) {
-        fireStartTime = engine->FullTime();
-    }
+//    if (fireing) {
+//        fireStartTime = engine->FullTime();
+//    }
 }
 
 GLKMatrix4 MAXUnitObject::MatrixForCell(const CCPoint& cell)

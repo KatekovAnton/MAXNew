@@ -13,16 +13,22 @@
 
 class MAXAnimationBase {
     
-protected:
     double _animStartTime;
     
 public:
+    
+    double GetStartTime() const {return _animStartTime;};
+    
     MAXAnimationBase();
     virtual ~MAXAnimationBase();
+    
+    
+    void Start();
     
     virtual bool IsFinished() = 0;
     virtual void Update(double time) = 0;
     virtual void CompletlyFinish() = 0;
+    virtual void StartAnimation() = 0;
     
 };
 

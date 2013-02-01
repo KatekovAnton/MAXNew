@@ -46,6 +46,8 @@ void MAXAnimationSequence::AddAnimation(MAXAnimationBase* baseAnim)
 
 bool MAXAnimationSequence::IsFinished()
 {
+    if (_animations.size() == 0)
+        return true;
     MAXAnimationBase* anim = _animations.at(_animations.size());
     return anim->IsFinished();
 }
@@ -60,4 +62,11 @@ void MAXAnimationSequence::Update(double time)
 void MAXAnimationSequence::CompletlyFinish()
 {
     
+}
+
+void MAXAnimationSequence::StartAnimation()
+{
+    if (_animations.size() == 0)
+        return;
+    _animations.at(0)->StartAnimation();
 }

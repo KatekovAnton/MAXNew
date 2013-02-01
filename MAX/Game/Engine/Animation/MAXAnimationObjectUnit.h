@@ -24,6 +24,9 @@ enum MAXGAMESTATE
 
 class MAXAnimationObjectUnit : public MAXAnimationBase {
     
+    int _startBodyIndex;
+    int _startHeadIndex;
+    
     shared_ptr<MAXUnitObject> _unit;
     int _bodyIndex;
     int _headIndex;
@@ -32,6 +35,8 @@ class MAXAnimationObjectUnit : public MAXAnimationBase {
     CCPoint _endLocation;
     
     int _type;
+    
+    int CalculateInterpolatedIndex(double theta);
     
 public:
     
@@ -43,6 +48,7 @@ public:
     virtual bool IsFinished();
     virtual void Update(double time);
     virtual void CompletlyFinish();
+    virtual void StartAnimation();
     
 };
 

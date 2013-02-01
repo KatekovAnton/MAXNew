@@ -88,6 +88,7 @@ static int const _kTEiOSMaxTouchesCount = 10;
         return;
     
     CGPoint translation = [gestureRecognizer translationInView:self.view];
+    
     [gestureRecognizer setTranslation:CGPointMake(0, 0) inView:self.view];
     _pinchDelegate->ProceedPan(translation.x, translation.y);
 }

@@ -10,21 +10,19 @@
 #define __MAX__AnimationManager__
 
 #include <iostream>
-#include "Utils.h"
 #include "MAXAnimationBase.h"
-
-using namespace Utils;
+#include "miniPrefix.h"
 
 class MAXAnimationManager {
     
-    UContainer<MAXAnimationBase> *_objects;
+    list<MAXAnimationBase*> _objects;
     
 public:
     MAXAnimationManager();
     ~MAXAnimationManager();
     
-    void AddAnimatedObject(shared_ptr<MAXAnimationBase>& object);
-    void RemoveAnimatedObject(shared_ptr<MAXAnimationBase>& object);
+    void AddAnimatedObject(MAXAnimationBase* object);
+    void RemoveAnimatedObject(MAXAnimationBase* object);
     
     void Update();
 };

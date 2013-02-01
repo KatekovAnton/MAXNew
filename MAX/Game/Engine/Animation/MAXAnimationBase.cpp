@@ -10,9 +10,15 @@
 #include "MAXEngine.h"
 
 MAXAnimationBase::MAXAnimationBase()
-:_animStartTime(engine->FullTime())
 {
 }
 
 MAXAnimationBase::~MAXAnimationBase()
 {}
+
+
+void MAXAnimationBase::Start()
+{
+    _animStartTime = engine->FullTime();
+    this->StartAnimation();
+}

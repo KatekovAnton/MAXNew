@@ -10,11 +10,15 @@
 #define MAX_miniPrefix_h
 
 #include <vector>
+#include <string>
+#include <list>
 
 #include "Geometry.h"
 #include "cocos2d.h"
+#include "Utils.h"
 
 using namespace cocos2d;
 using namespace std;
+using namespace Utils;
 
 #endif

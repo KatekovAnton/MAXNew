@@ -31,6 +31,7 @@ public:
     virtual bool IsFinished();
     virtual void Update(double time);
     virtual void CompletlyFinish();
+    virtual void StartAnimation();
 };
 
 #endif /* defined(__MAX__MAXAnimationSequence__) */
