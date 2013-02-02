@@ -33,6 +33,7 @@ public:
     
     MAXUnitMaterialFrame* frames;
     Texture** textures;
+    Texture* pallete;
     
     MAXUnitMaterial(int frameCount);
     ~MAXUnitMaterial();

@@ -63,8 +63,10 @@ public:
     
     shared_ptr<MAXContentMap> LoadMapWithName(string name);
     vector<Texture*> CreatePalletes(Color* palette);
+    Texture* TextureIdexedFromIndex(int w, int h, unsigned char* indexes);
     Texture* TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
     Texture* TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
+    Texture* TexturePalleteFormDefaultPalleteAndPlayerColor(const Color& color);
     int FindImage(string name);
     void LoadFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
     MAXUnitMaterial* LoadUnitMaterial(string name);

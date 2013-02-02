@@ -290,6 +290,22 @@ Color default_palette[256] =
     {0xff, 0xff, 0xff, 0xff}, //255
 };
 
+//for i:=32 to 39 do
+//
+//это коды цветов в палитре
+//
+//вот код переопределения
+//
+//for n:=0 to mg_game.plr_cnt-1 do for i:=32 to 39 do
+//palpx[n][i]:=gnearestpc(tcrgb(round(mg_game.plr[n].color[2]*((40-i)/8*200)/255),
+//                              round(mg_game.plr[n].color[1]*((40-i)/8*200)/255),
+//                              round(mg_game.plr[n].color[0]*((40-i)/8*200)/255)));
+//
+//for i:=0 to 255 do al_palpx[i]:=i;
+//for i:=32 to 39 do al_palpx[i]:=gnearestpc(tcrgb(round(128*((40-i)/8*200)/255),
+//                                                 round(128*((40-i)/8*200)/255),
+//                                                 round(128*((40-i)/8*200)/255)));
+
 MAXContentLoader* _sharedContentLoader = nullptr;
 
 MAXContentLoader::MAXContentLoader()
@@ -377,6 +393,40 @@ shared_ptr<MAXContentMap> MAXContentLoader::LoadMapWithName(string name)
     return result;
 }
 
+vector<Texture*> MAXContentLoader::CreatePalletes(Color* palette)
+{
+    Color* colors = new Color[pal_size/3];
+    memcpy(colors, palette, 4 * pal_size/3);
+    
+    vector<Texture*> result;
+    for(int i = 0;i<30;i++)
+    {
+        GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
+        memcpy(currentPalette, colors, 4 * pal_size/3);
+        result.push_back(new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1));
+        if (i != 29)
+            animatePalette(colors);
+    }
+    
+    delete colors;
+    return result;
+}
+
+Texture* MAXContentLoader::TextureIdexedFromIndex(int w, int h, unsigned char* indexes)
+{
+    Color* colors = (Color*)malloc(w * h * 4);
+    memset(colors, 0x00000000, w * h * 4);
+    for (int i = 0; i < h; i++)
+        for (int j = 0; j < w; j++)
+        {
+            unsigned char colornumber = indexes[i * w + j];
+            colors[i * w + j].r = colornumber;
+        }
+    
+    Texture *result = new Texture(GL_NEAREST, (GLubyte*)colors, w, h);
+    return result;
+}
+
 Texture* MAXContentLoader::TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette)
 {
     Color* colors = (Color*)malloc(w * h * 4);
@@ -406,22 +456,11 @@ Texture* MAXContentLoader::TextureFromIndexAndDefaultPalette(int w, int h, unsig
     return new Texture(GL_NEAREST, (GLubyte*)colors, w, h);
 }
 
-vector<Texture*> MAXContentLoader::CreatePalletes(Color* palette)
+Texture* MAXContentLoader::TexturePalleteFormDefaultPalleteAndPlayerColor(const Color& color)
 {
-    Color* colors = new Color[pal_size/3];
-    memcpy(colors, palette, 4 * pal_size/3);
-    
-    vector<Texture*> result;
-    for(int i = 0;i<30;i++)
-    {
-        GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
-        memcpy(currentPalette, colors, 4 * pal_size/3);
-        result.push_back(new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1));
-        if (i != 29)
-            animatePalette(colors);
-    }
-    
-    delete colors;
+    GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
+    memcpy(currentPalette, &default_palette, 4 * pal_size/3);
+    Texture* result = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     return result;
 }
 
@@ -434,12 +473,14 @@ int MAXContentLoader::FindImage(string name)
         char* cname = dir[i].name;
         for(int j = 0; j < name.length(); j++)
         {
-            if (name[j] != cname[j]) {
+            if (name[j] != cname[j])
+            {
                 suit = false;
                 break;
             }
         }
-        if (suit) {
+        if (suit)
+        {
             index = i;
             break;
         }
@@ -501,7 +542,7 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
         destOffset = new_pos;
     }
     
-    Texture* result = TextureFromIndexAndDefaultPalette((int)width, (int)height, pixels);
+    Texture* result = TextureIdexedFromIndex((int)width, (int)height, pixels);// TextureFromIndexAndDefaultPalette((int)width, (int)height, pixels);
     target->textures[index] = result;
     delete [] rows;
 }
@@ -529,6 +570,9 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
     }
     loadedData[index] = (void*)result;
     
+    //TODO:replace it to use one texure per player not per unit
+    Color unitColor;
+    result->pallete = TexturePalleteFormDefaultPalleteAndPlayerColor(unitColor);
     delete []picbounds;
     return result;
 }
@@ -537,7 +581,6 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
 
 shared_ptr<MAXUnitObject> MAXContentLoader::CreateUnit(string bodyName)
 {
-   
     MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(bodyName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
     

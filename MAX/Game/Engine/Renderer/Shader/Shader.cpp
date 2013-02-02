@@ -26,18 +26,18 @@ Shader::Shader(string vertexName, string fragmentName) {
     
     _shaderUniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_program, "projectionMatrix");
     _shaderUniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
-    _shaderUniforms[UNIFORM_COLOR_TEXTURE] = glGetUniformLocation(_program, "colorTexture");
     _shaderUniforms[UNIFORM_ALPHA] = glGetUniformLocation(_program, "alpha");
     
     _shaderUniforms[UNIFORM_VECTOR1] = glGetUniformLocation(_program, "vector1");
     _shaderUniforms[UNIFORM_VECTOR2] = glGetUniformLocation(_program, "vector2");
     
     
+    _shaderUniforms[UNIFORM_COLOR_TEXTURE] = glGetUniformLocation(_program, "colorTexture");
     _shaderUniforms[UNIFORM_COLOR_TEXTURE1] = glGetUniformLocation(_program, "colorTexture1");
     _shaderUniforms[UNIFORM_COLOR_TEXTURE2] = glGetUniformLocation(_program, "colorTexture2");
     _shaderUniforms[UNIFORM_COLOR_TEXTURE3] = glGetUniformLocation(_program, "colorTexture3");
-    _shaderUniforms[UNIFORM_LIGHTPOSITION] = glGetUniformLocation(_program, "lightPosition");
     
+    _shaderUniforms[UNIFORM_LIGHTPOSITION] = glGetUniformLocation(_program, "lightPosition");
     
     _shaderUniforms[UNIFORM_FLOATPARAM1] = glGetUniformLocation(_program, "floatParam1");
     _shaderUniforms[UNIFORM_FLOATPARAM2] = glGetUniformLocation(_program, "floatParam2");
