@@ -12,15 +12,17 @@
 
 const double MAXUnitMaterialframeTime = 1.0;
 
-MAXUnitMaterial::MAXUnitMaterial(int _frameCount)
+MAXUnitMaterial::MAXUnitMaterial()
+:index(0), time(0)
+{
+    
+}
+
+void MAXUnitMaterial::SetImagesCount(int _frameCount)
 {
     frameCount = _frameCount;
     frames = new MAXUnitMaterialFrame[frameCount];
     textures = new Texture*[frameCount];
-    
-    
-    index = 0;
-    time = 0;
 }
 
 MAXUnitMaterial::~MAXUnitMaterial()

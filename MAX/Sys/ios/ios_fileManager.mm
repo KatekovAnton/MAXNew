@@ -57,7 +57,7 @@ GLubyte * iosFileManager::CreateBitmapData(string filename, GLfloat *width, GLfl
     
     CGDataProviderRelease(dataProvider);
     CGImageRelease(image);
-    
+    CGContextRelease(spriteContext);
     (* width) = i_width;
     (* heigth) = i_height;
     
@@ -85,6 +85,7 @@ GLubyte * iosFileManager::CreateBitmapData(char* data, size_t size, GLfloat *wid
     
     CGDataProviderRelease(dataProvider);
     CGImageRelease(image);
+    CGContextRelease(spriteContext);
     
     (* width) = i_width;
     (* heigth) = i_height;
