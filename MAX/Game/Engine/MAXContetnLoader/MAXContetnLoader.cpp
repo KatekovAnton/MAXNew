@@ -571,7 +571,7 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
     loadedData[index] = (void*)result;
     
     //TODO:replace it to use one texure per player not per unit
-    Color unitColor;
+    Color unitColor = {1,0,0,1};
     result->pallete = TexturePalleteFormDefaultPalleteAndPlayerColor(unitColor);
     delete []picbounds;
     return result;
