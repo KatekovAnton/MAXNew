@@ -280,6 +280,11 @@
 		D1E3D3ED16BC2CC200E88F2E /* MAXUnitSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */; };
 		D1E3D3F016BC2F1D00E88F2E /* MAXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */; };
 		D1E3D3F316BC319000E88F2E /* MAXEffectObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */; };
+		D1E3D3FA16C12C4A00E88F2E /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3F816C12C4A00E88F2E /* Thread.cpp */; };
+		D1E3D3FE16C138E500E88F2E /* Request.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3FC16C138E500E88F2E /* Request.cpp */; };
+		D1E3D77716C14A8700E88F2E /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1E3D77616C14A8700E88F2E /* libcurl.a */; };
+		D1E3D78416C1649800E88F2E /* Response.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D78216C1649700E88F2E /* Response.cpp */; };
+		D1E3D78816C1709200E88F2E /* NetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D78616C1709200E88F2E /* NetworkManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -644,6 +649,26 @@
 		D1E3D3EF16BC2F1D00E88F2E /* MAXObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXObject.h; sourceTree = "<group>"; };
 		D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXEffectObject.cpp; sourceTree = "<group>"; };
 		D1E3D3F216BC319000E88F2E /* MAXEffectObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXEffectObject.h; sourceTree = "<group>"; };
+		D1E3D3F816C12C4A00E88F2E /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
+		D1E3D3F916C12C4A00E88F2E /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
+		D1E3D3FC16C138E500E88F2E /* Request.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Request.cpp; sourceTree = "<group>"; };
+		D1E3D3FD16C138E500E88F2E /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
+		D1E3D77616C14A8700E88F2E /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
+		D1E3D77816C14AAB00E88F2E /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
+		D1E3D77916C14AAB00E88F2E /* curlbuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlbuild.h; sourceTree = "<group>"; };
+		D1E3D77A16C14AAB00E88F2E /* curlrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlrules.h; sourceTree = "<group>"; };
+		D1E3D77B16C14AAB00E88F2E /* curlver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlver.h; sourceTree = "<group>"; };
+		D1E3D77C16C14AAB00E88F2E /* easy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = easy.h; sourceTree = "<group>"; };
+		D1E3D77D16C14AAB00E88F2E /* mprintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mprintf.h; sourceTree = "<group>"; };
+		D1E3D77E16C14AAB00E88F2E /* multi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multi.h; sourceTree = "<group>"; };
+		D1E3D77F16C14AAB00E88F2E /* stdcheaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdcheaders.h; sourceTree = "<group>"; };
+		D1E3D78016C14AAB00E88F2E /* typecheck-gcc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "typecheck-gcc.h"; sourceTree = "<group>"; };
+		D1E3D78116C14AAB00E88F2E /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		D1E3D78216C1649700E88F2E /* Response.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Response.cpp; sourceTree = "<group>"; };
+		D1E3D78316C1649700E88F2E /* Response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Response.h; sourceTree = "<group>"; };
+		D1E3D78516C16EC600E88F2E /* RequestDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RequestDelegate.h; sourceTree = "<group>"; };
+		D1E3D78616C1709200E88F2E /* NetworkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkManager.cpp; sourceTree = "<group>"; };
+		D1E3D78716C1709200E88F2E /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -660,6 +685,7 @@
 				D18EDBD01689770C00EE3B4E /* UIKit.framework in Frameworks */,
 				D18EDBD21689770C00EE3B4E /* Foundation.framework in Frameworks */,
 				D18EDBD41689770C00EE3B4E /* CoreGraphics.framework in Frameworks */,
+				D1E3D77716C14A8700E88F2E /* libcurl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,6 +1096,8 @@
 		D18EDBED1689773600EE3B4E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				D1E3D3FB16C1389200E88F2E /* Network */,
+				D1E3D3F716C12C2D00E88F2E /* Threads */,
 				D18EDC191689794A00EE3B4E /* MathKit */,
 				D18EDC101689792C00EE3B4E /* KompexSQLite */,
 				D18EDBFE1689789C00EE3B4E /* Utils.h */,
@@ -1318,6 +1346,48 @@
 				D1AB733B16BBD381004D28F2 /* GameEffectRocket.h */,
 			);
 			path = Effects;
+			sourceTree = "<group>";
+		};
+		D1E3D3F716C12C2D00E88F2E /* Threads */ = {
+			isa = PBXGroup;
+			children = (
+				D1E3D3F816C12C4A00E88F2E /* Thread.cpp */,
+				D1E3D3F916C12C4A00E88F2E /* Thread.h */,
+			);
+			path = Threads;
+			sourceTree = "<group>";
+		};
+		D1E3D3FB16C1389200E88F2E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				D1E3D5D316C1434800E88F2E /* curl */,
+				D1E3D3FC16C138E500E88F2E /* Request.cpp */,
+				D1E3D3FD16C138E500E88F2E /* Request.h */,
+				D1E3D78216C1649700E88F2E /* Response.cpp */,
+				D1E3D78316C1649700E88F2E /* Response.h */,
+				D1E3D78516C16EC600E88F2E /* RequestDelegate.h */,
+				D1E3D78616C1709200E88F2E /* NetworkManager.cpp */,
+				D1E3D78716C1709200E88F2E /* NetworkManager.h */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		D1E3D5D316C1434800E88F2E /* curl */ = {
+			isa = PBXGroup;
+			children = (
+				D1E3D77816C14AAB00E88F2E /* curl.h */,
+				D1E3D77916C14AAB00E88F2E /* curlbuild.h */,
+				D1E3D77A16C14AAB00E88F2E /* curlrules.h */,
+				D1E3D77B16C14AAB00E88F2E /* curlver.h */,
+				D1E3D77C16C14AAB00E88F2E /* easy.h */,
+				D1E3D77D16C14AAB00E88F2E /* mprintf.h */,
+				D1E3D77E16C14AAB00E88F2E /* multi.h */,
+				D1E3D77F16C14AAB00E88F2E /* stdcheaders.h */,
+				D1E3D78016C14AAB00E88F2E /* typecheck-gcc.h */,
+				D1E3D78116C14AAB00E88F2E /* types.h */,
+				D1E3D77616C14A8700E88F2E /* libcurl.a */,
+			);
+			path = curl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1662,6 +1732,10 @@
 				D1E3D3ED16BC2CC200E88F2E /* MAXUnitSelection.cpp in Sources */,
 				D1E3D3F016BC2F1D00E88F2E /* MAXObject.cpp in Sources */,
 				D1E3D3F316BC319000E88F2E /* MAXEffectObject.cpp in Sources */,
+				D1E3D3FA16C12C4A00E88F2E /* Thread.cpp in Sources */,
+				D1E3D3FE16C138E500E88F2E /* Request.cpp in Sources */,
+				D1E3D78416C1649800E88F2E /* Response.cpp in Sources */,
+				D1E3D78816C1709200E88F2E /* NetworkManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1761,12 +1835,14 @@
 					"\"$(SRCROOT)/MAX/Game/Vendors/cocos2d-2.0-x-2.0.4/cocos2dx/include\"",
 					"\"$(SRCROOT)/MAX/Game/Vendors/cocos2d-2.0-x-2.0.4/cocos2dx/cocoa\"",
 					"\"$(SDKROOT)/usr/include/libxml2/\"",
+					"$(SRCROOT)/MAX/Utils/Network",
 				);
 				INFOPLIST_FILE = "MAX/MAX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
+					"\"$(SRCROOT)/MAX/Utils/Network/curl\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "57CA4373-1501-4B77-BF36-64F32353BC3D";
@@ -1789,12 +1865,14 @@
 					"\"$(SRCROOT)/MAX/Game/Vendors/cocos2d-2.0-x-2.0.4/cocos2dx/include\"",
 					"\"$(SRCROOT)/MAX/Game/Vendors/cocos2d-2.0-x-2.0.4/cocos2dx/cocoa\"",
 					"\"$(SDKROOT)/usr/include/libxml2/\"",
+					"$(SRCROOT)/MAX/Utils/Network",
 				);
 				INFOPLIST_FILE = "MAX/MAX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
+					"\"$(SRCROOT)/MAX/Utils/Network/curl\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "57CA4373-1501-4B77-BF36-64F32353BC3D";
