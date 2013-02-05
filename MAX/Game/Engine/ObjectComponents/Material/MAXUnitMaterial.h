@@ -33,9 +33,11 @@ public:
     
     MAXUnitMaterialFrame* frames;
     Texture** textures;
+    Texture* pallete;
     
-    MAXUnitMaterial(int frameCount);
+    MAXUnitMaterial();
     ~MAXUnitMaterial();
+    void SetImagesCount(int _frameCount);
     
     void DoFrame(double elapsedTime);
     

@@ -12,15 +12,17 @@
 
 const double MAXUnitMaterialframeTime = 1.0;
 
-MAXUnitMaterial::MAXUnitMaterial(int _frameCount)
+MAXUnitMaterial::MAXUnitMaterial()
+:index(0), time(0)
+{
+    
+}
+
+void MAXUnitMaterial::SetImagesCount(int _frameCount)
 {
     frameCount = _frameCount;
     frames = new MAXUnitMaterialFrame[frameCount];
     textures = new Texture*[frameCount];
-    
-    
-    index = 0;
-    time = 0;
 }
 
 MAXUnitMaterial::~MAXUnitMaterial()
@@ -29,6 +31,7 @@ MAXUnitMaterial::~MAXUnitMaterial()
     for (int i = 0; i < frameCount; i++) 
         delete textures[i];
     delete [] textures;
+    delete pallete;
 }
 
 void MAXUnitMaterial::DoFrame(double elapsedTime)
@@ -44,6 +47,10 @@ void MAXUnitMaterial::ApplyLod(int lod, Shader *shader)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textures[index]->GetTextureName());
     glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, pallete->GetTextureName());
+    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE1], 1);
 }
 
 void MAXUnitMaterial::SetFrame(int frame)

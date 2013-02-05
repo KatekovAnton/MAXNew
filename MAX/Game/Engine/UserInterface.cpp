@@ -47,7 +47,9 @@ void UserInterface::Prepare() {
     menu->setPosition(CCPoint(00, 280));
     menu->setTouchEnabled(true);
     _guiNodes->addObject(menu);
-    
+//    CCTexture2D* pTexture = new CCTexture2D();
+//    pTexture->initWithData(const void *data, CCTexture2DPixelFormat pixelFormat, unsigned int pixelsWide, unsigned int pixelsHigh, const cocos2d::CCSize &contentSize);
+//    CCSprite* spr = CCSprite::createWithTexture(pTexture);
 }
 
 
