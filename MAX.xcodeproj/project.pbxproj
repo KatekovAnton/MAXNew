@@ -284,7 +284,7 @@
 		D1E3D3FE16C138E500E88F2E /* Request.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3FC16C138E500E88F2E /* Request.cpp */; };
 		D1E3D77716C14A8700E88F2E /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1E3D77616C14A8700E88F2E /* libcurl.a */; };
 		D1E3D78416C1649800E88F2E /* Response.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D78216C1649700E88F2E /* Response.cpp */; };
-		D1E3D78816C1709200E88F2E /* NetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D78616C1709200E88F2E /* NetworkManager.cpp */; };
+		D1E3D78816C1709200E88F2E /* RequestManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D78616C1709200E88F2E /* RequestManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -667,8 +667,8 @@
 		D1E3D78216C1649700E88F2E /* Response.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Response.cpp; sourceTree = "<group>"; };
 		D1E3D78316C1649700E88F2E /* Response.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Response.h; sourceTree = "<group>"; };
 		D1E3D78516C16EC600E88F2E /* RequestDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RequestDelegate.h; sourceTree = "<group>"; };
-		D1E3D78616C1709200E88F2E /* NetworkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkManager.cpp; sourceTree = "<group>"; };
-		D1E3D78716C1709200E88F2E /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		D1E3D78616C1709200E88F2E /* RequestManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RequestManager.cpp; sourceTree = "<group>"; };
+		D1E3D78716C1709200E88F2E /* RequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1366,8 +1366,8 @@
 				D1E3D78216C1649700E88F2E /* Response.cpp */,
 				D1E3D78316C1649700E88F2E /* Response.h */,
 				D1E3D78516C16EC600E88F2E /* RequestDelegate.h */,
-				D1E3D78616C1709200E88F2E /* NetworkManager.cpp */,
-				D1E3D78716C1709200E88F2E /* NetworkManager.h */,
+				D1E3D78616C1709200E88F2E /* RequestManager.cpp */,
+				D1E3D78716C1709200E88F2E /* RequestManager.h */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1735,7 +1735,7 @@
 				D1E3D3FA16C12C4A00E88F2E /* Thread.cpp in Sources */,
 				D1E3D3FE16C138E500E88F2E /* Request.cpp in Sources */,
 				D1E3D78416C1649800E88F2E /* Response.cpp in Sources */,
-				D1E3D78816C1709200E88F2E /* NetworkManager.cpp in Sources */,
+				D1E3D78816C1709200E88F2E /* RequestManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

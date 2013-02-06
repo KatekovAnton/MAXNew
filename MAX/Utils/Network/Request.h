@@ -24,11 +24,11 @@ public:
 };
 
 class Response;
-class NetworkManager;
+class RequestManager;
 
 class Request : public Thread {
     
-    friend class NetworkManager;
+    friend class RequestManager;
     
 public:
     

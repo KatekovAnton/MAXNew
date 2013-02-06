@@ -16,6 +16,7 @@ Response::Response()
 
 Response::~Response()
 {
+    free(_data);
     printf("!!!!");
 }
 

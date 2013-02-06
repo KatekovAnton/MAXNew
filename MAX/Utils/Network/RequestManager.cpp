@@ -6,19 +6,19 @@
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
-#include "NetworkManager.h"
+#include "RequestManager.h"
 #include "Request.h"
 #include "Response.h"
 #include <vector>
 
 using namespace std;
 
-void NetworkManager::ExecuteRequest(Request* request)
+void RequestManager::ExecuteRequest(Request* request)
 {
     _requests.push_back(request);
 }
 
-void NetworkManager::Flush()
+void RequestManager::Flush()
 {
     std::vector<Request*>finishedRequests;
     

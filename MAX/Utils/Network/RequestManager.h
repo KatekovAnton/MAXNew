@@ -1,13 +1,13 @@
 //
-//  NetworkManager.h
+//  RequestManager.h
 //  MAX
 //
 //  Created by Anton Katekov on 05.02.13.
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
-#ifndef __MAX__NetworkManager__
-#define __MAX__NetworkManager__
+#ifndef __MAX__RequestManager__
+#define __MAX__RequestManager__
 
 #include <iostream>
 #include <list>
@@ -18,7 +18,7 @@ using namespace std;
 class Request;
 class Responce;
 
-class NetworkManager {
+class RequestManager {
     
     friend class Request;
     list<Request*> _requests;
