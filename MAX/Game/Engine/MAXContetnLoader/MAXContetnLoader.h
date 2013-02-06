@@ -69,6 +69,7 @@ public:
     Texture* TexturePalleteFormDefaultPalleteAndPlayerColor(const Color& color);
     int FindImage(string name);
     void LoadUnitFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
+    void LoadUnitFrameWithShadow(BinaryReader* source, BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long baseOffset, long shadowBaseOffset);
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     
 #pragma mark - fabric

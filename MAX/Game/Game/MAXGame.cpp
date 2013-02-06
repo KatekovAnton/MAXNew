@@ -34,7 +34,7 @@ void MAXGame::Init()
     Display::currentDisplay()->SetPinchDelegate(this);
     
     this->SetMap("Green_6.wrl");
-    _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit("TANK", "")));
+    _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit("TANK", "S_TANK")));
     _testUnit->SetUnitLocation(CCPoint(56, 56), false);
     engine->AddUnit(_testUnit->GetUnitObject());
 }

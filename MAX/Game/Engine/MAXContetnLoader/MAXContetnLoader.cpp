@@ -320,7 +320,7 @@ MAXContentLoader::MAXContentLoader()
         inf->ReadBuffer(8, dir[f].name);
         dir[f].offset = inf->ReadInt();
         dir[f].size = inf->ReadInt();
-      //  SysLogInfo("%s", dir[f].name);
+        //SysLogInfo("%s", dir[f].name);
     }
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
@@ -547,28 +547,111 @@ void MAXContentLoader::LoadUnitFrame(BinaryReader* source, int index, MAXUnitMat
     delete [] rows;
 }
 
+void MAXContentLoader::LoadUnitFrameWithShadow(BinaryReader* source, BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long baseOffset, long shadowBaseOffset)
+{
+    ushort width = source->ReadUInt16();
+    ushort height = source->ReadUInt16();
+    short center_x = source->ReadInt16();
+    short center_y = source->ReadInt16();
+    
+    if (index == 15 + 8) {
+        //        SysLogInfo("width = %d, height=%d, center_x=%d, center_y=%d", (int)width, (int)height, (int)center_x, (int)center_y);
+    }
+    //
+    
+    target->frames[index].center.x = center_x;
+    target->frames[index].center.y = center_y;
+    target->frames[index].size.x = width;
+    target->frames[index].size.y = height;
+    
+    //MAXUnitMaterialFrame frame = target->frames[index];
+    int size = width * height;
+    if (size == 0)
+        return;
+    
+    unsigned char* pixels = (unsigned char*)malloc(size);
+    memset(pixels, 0, size);
+    // Rows offsets.
+    unsigned int* rows = new unsigned int[height];
+    source->ReadBuffer(height * 4, (char *)rows);
+    
+    int destOffset = 0;
+    
+    
+    unsigned char buf;
+    char tmpbuffer[256];
+    memset(tmpbuffer, 0, 256);
+    for (int i = 0; i < height; i++)
+    {
+        unsigned int rowi = rows[i];
+        source->SetPosition(rowi + baseOffset);
+        buf = source->ReadChar();
+        while (buf != 0xff)
+        {
+            destOffset += buf;
+            buf = source->ReadUChar();
+            source->ReadBuffer((int)buf, tmpbuffer);
+            memcpy(pixels + destOffset, tmpbuffer, buf);
+            memset(tmpbuffer, 0, 256);
+            buf = source->ReadUChar();
+        }
+        
+        int new_pos = (i + 1) * width;
+        destOffset = new_pos;
+    }
+    
+    Texture* result = TextureIdexedFromIndex((int)width, (int)height, pixels);
+    target->textures[index] = result;
+    delete [] rows;
+}
+
 MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowName)
 {
     int index = FindImage(name);
     void* cashed = loadedData[index];
     if(cashed)
         return (MAXUnitMaterial*)cashed;
+    
     MAXUnitMaterial* result  = new MAXUnitMaterial();
     
+    int shadowIndex = FindImage(shadowName);
+    char *data;
+    char *shadowData;
+    
     inf->SetPosition(dir[index].offset);
-
+    data = (char*)malloc(dir[index].size);
+    inf->ReadBuffer(dir[index].size, data);
     
-    long baseOffset = inf->GetPosition();
-    short picCount = inf->ReadInt16();
+    inf->SetPosition(dir[shadowIndex].offset);
+    shadowData = (char*)malloc(dir[shadowIndex].size);
+    inf->ReadBuffer(dir[shadowIndex].size, shadowData);
     
+    BinaryReader* dataReader = new BinaryReader(data, dir[index].size);
+    BinaryReader* shadowDataReader = new BinaryReader(shadowData, dir[shadowIndex].size);
+    long baseOffset = 0;//inf->GetPosition();
+    long shadowBaseOffset = 0;//inf->GetPosition();
+    
+    short picCount = dataReader->ReadInt16();
+    short shadowPicCount = shadowDataReader->ReadInt16();
     int* picbounds = new int[picCount];
-    inf->ReadBuffer(picCount*4, (char*) picbounds);
+    int* shadowPicbounds = new int[shadowPicCount];
+    dataReader->ReadBuffer(picCount*4, (char*) picbounds);
+    shadowDataReader->ReadBuffer(shadowPicCount*4, (char*) shadowPicbounds);
     
     result ->SetImagesCount(picCount);
     for (int picIndex = 0; picIndex < picCount; picIndex++)
     {
-        inf->SetPosition(picbounds[picIndex] + baseOffset);
-        LoadUnitFrame(inf, picIndex, result, baseOffset);
+        if(picIndex<8)
+        {
+            dataReader->SetPosition(picbounds[picIndex] + baseOffset);
+            shadowDataReader->SetPosition(shadowPicbounds[picIndex] + shadowBaseOffset);
+            LoadUnitFrameWithShadow(dataReader, shadowDataReader, picIndex, result, baseOffset, shadowBaseOffset);
+        }
+        else
+        {
+            dataReader->SetPosition(picbounds[picIndex] + baseOffset);
+            LoadUnitFrame(dataReader, picIndex, result, baseOffset);
+        }
     }
     loadedData[index] = (void*)result;
     
@@ -576,40 +659,16 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     Color unitColor = {1,0,0,1};
     result->pallete = TexturePalleteFormDefaultPalleteAndPlayerColor(unitColor);
     delete []picbounds;
+    delete []shadowPicbounds;
+    delete dataReader;
+    delete shadowDataReader;
+    free(data);
+    free(shadowData);
+    
     return result;
 }
 
 /*
- function mrDecodeMultiShadow(fn:string;var s:typuspr):boolean;
- var X,Y,blockIndex:integer;
- picCount,picbegin,picEnd,picIndex,picWidth,picHeight:integer;
- picHX,picHY:integer;
- picRows,picbounds:array of integer;
- Opacity,Color:byte;
- 
- buf:array of byte;
- ih:vfile;
- //c:pallette3;
- begin
- result:=false;
- if not vfexists(fn) then exit;
- vfopen(ih,fn,1);
- setlength(buf,vffilesize(ih));
- vfread(ih,@buf[0],length(buf));
- vfclose(ih);
- //c:=thepal;
- 
- if length(buf)<2 then exit;
- picCount:=buf[0]+256*buf[1];
- if picCount<1 then exit;
- if length(buf)<picCount*12+2 then exit;
- 
- Setlength(picbounds,picCount);
- 
- for picIndex:=0 to picCount-1 do begin
- picbounds[picIndex]:=buf[2+picIndex*4] + 256 * buf[3+picIndex*4] +65536 * (buf[4+picIndex*4] + 256 * buf[5+picIndex*4]);
- if picbounds[picIndex]>length(buf) then Exit;
- end;
  
  s.cnt:=picCount;
  setlength(s.sprc,picCount);
@@ -617,13 +676,12 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
  for picIndex:=0 to picCount-1 do begin
  picbegin:=buf[2+picIndex*4] + 256 * buf[3+picIndex*4] +65536 * (buf[4+picIndex*4] + 256 * buf[5+picIndex*4]);
  picEnd:=length(buf);
+ 
  for X:=0 to High(picbounds) do if (picEnd > picbounds[X]) and (picbegin < picbounds[X]) then picEnd:=picbounds[X];
  picWidth:=buf[picbegin] + 256 * buf[picbegin+1];
  picHeight:=buf[picbegin+2] + 256 * buf[picbegin+3];
  picHX:=smallint(buf[picbegin+4] + 256 * buf[picbegin+5]);
  picHY:=smallint(buf[picbegin+6] + 256 * buf[picbegin+7]);
- if (picWidth>640) or (picHeight>480) then begin Result:=False;break;end;
- if (picWidth<1) or (picHeight<1) or (Abs(picHX)>640) or (Abs(picHY)>480) then begin Result:=False;break;end;
  s.sprc[picIndex].tp:=3;
  s.sprc[picIndex].xs:=picWidth;
  s.sprc[picIndex].ys:=picHeight;
