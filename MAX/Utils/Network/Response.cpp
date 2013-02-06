@@ -17,7 +17,6 @@ Response::Response()
 Response::~Response()
 {
     free(_data);
-    printf("!!!!");
 }
 
 void Response::AppendData(char *buffer,

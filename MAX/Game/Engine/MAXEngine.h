@@ -10,9 +10,9 @@
 #define __MAX__MAXEngine__
 
 #include <iostream>
-
-
 #include "cocos2d.h"
+#include "RequestDelegate.h"
+
 
 using namespace cocos2d;
 using namespace std;
@@ -30,7 +30,7 @@ class MAXMapObject;
 class MAXContentMap;
 class MAXUnitObject;
 
-class MAXEngine  {
+class MAXEngine : public RequestDelegate  {
     
     
     RenderSystem        *_renderSystem;
@@ -102,7 +102,8 @@ public:
     CCPoint WorldCoordinatesToScreenCocos(const CCPoint &world);
     CCRect ScreenToWorldRect();
     
-    
+#pragma mark - RequestDelegate
+    void RequestDidFinishLoadingWithResponce(Request* request, Response* response);
 };
 
 

@@ -10,9 +10,9 @@
 #include "curl.h"
 #include "Response.h"
 
-void* Request::run()
+void Request::run()
 {
-    return this;
+    Send();
 }
 
 const std::string RequestMethod::GET = "Get";
@@ -52,22 +52,17 @@ void Request::AddHeader(const char *header)
     headers = curl_slist_append(headers, header);
 }
 
-bool Request::Send()
+void Request::Send()
 {
     if(_url == "")
-        return false;
+        return;
     if(_method.compare(RequestMethod::GET)==0)
-    {
-        return GetMethod();
-    }
+        GetMethod();
     else if(_method.compare(RequestMethod::POST)==0)
-    {
-        return PostMethod();
-    }
+        PostMethod();
     else
-    {
-        return false;
-    }
+        return;
+    _finished = true;
 }
 
 bool Request::GetMethod()
@@ -80,7 +75,6 @@ bool Request::GetMethod()
     curl_easy_setopt(easy_handle, CURLOPT_WRITEDATA, this);
     CURLcode code = curl_easy_perform(easy_handle);
     _response->_status = code;
-    _finished = true;
     return code == CURLE_OK;
 }
 
@@ -91,7 +85,7 @@ bool Request::PostMethod()//not works yet
         curl_easy_setopt(easy_handle,CURLOPT_HTTPHEADER,headers);
     char *encodedURL = curl_easy_escape(easy_handle, _url.c_str(), _url.length());
     
-    curl_easy_setopt(easy_handle, CURLOPT_HEADERFUNCTION, RecvHeaderFunc);
+  //  curl_easy_setopt(easy_handle, CURLOPT_HEADERFUNCTION, RecvHeaderFunc);
     //curl_easy_setopt(easy_handle, CURLOPT_HEADERDATA,&head);
     
     curl_easy_setopt(easy_handle, CURLOPT_POSTFIELDS,encodedURL);
@@ -104,7 +98,6 @@ bool Request::PostMethod()//not works yet
     CURLcode code = curl_easy_perform(easy_handle);
     curl_free(encodedURL);
     _response->_status = code;
-    _finished = true;
     return code == CURLE_OK;
 }
 
@@ -112,11 +105,6 @@ size_t Request::ReceiveFunc(char *ptr, size_t size, size_t nmemb, void *userdata
 {
     ((Request*)userdata)->_response->AppendData(ptr, size, nmemb);
     return size*nmemb;
-}
-
-void Request::RecvHeaderFunc(char *ptr, size_t size, size_t nmemb, void *userdata)
-{
-    
 }
 
 

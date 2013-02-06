@@ -13,9 +13,27 @@
 
 using namespace std;
 
+static RequestManager* _staticRequestManager = NULL;
+
+
+RequestManager::RequestManager()
+{}
+
+RequestManager::~RequestManager()
+{
+    std::list<Request*>::iterator it = _requests.begin();
+    for (; it != _requests.end(); it++) {
+        Request* request = *it;
+        if (!request->_finished) {
+            request->kill();
+        }
+    }
+}
+
 void RequestManager::ExecuteRequest(Request* request)
 {
     _requests.push_back(request);
+    request->Thread::start();
 }
 
 void RequestManager::Flush()
@@ -26,8 +44,10 @@ void RequestManager::Flush()
     bool finded = true;
     while (finded)
     {
+        if(_requests.empty())
+            break;
         finded = false;
-    
+        int i = 0;
         for (; it != _requests.end(); it++) {
             Request* request = *it;
             if (request->_finished) {
@@ -36,6 +56,7 @@ void RequestManager::Flush()
                 _requests.remove(request);
                 break;
             }
+            i++;
         }
     }
     
@@ -51,3 +72,10 @@ void RequestManager::Flush()
     }
 }
 
+RequestManager* RequestManager::SharedRequestManager()
+{
+    if (!_staticRequestManager) {
+        _staticRequestManager = new RequestManager();
+    }
+    return _staticRequestManager;
+}

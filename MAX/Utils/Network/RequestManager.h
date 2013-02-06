@@ -25,9 +25,14 @@ class RequestManager {
     
 public:
     
+    RequestManager();
+    ~RequestManager();
+    
     void ExecuteRequest(Request* request);
     void Flush();
     
+    static RequestManager* SharedRequestManager();
+
 };
 
 #endif /* defined(__MAX__NetworkManager__) */

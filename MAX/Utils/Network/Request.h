@@ -47,13 +47,12 @@ public:
     //Responce* GetResponce () const { return _responce; }
     
     void AddHeader(const char *header);
-    bool Send();
+    void Send();
     
     //thread method
-    void* run();
+    void run();
     
     static size_t ReceiveFunc(char *ptr, size_t size, size_t nmemb, void *userdata);//receive data  callback function. you can handle recv data in this function.
-    static void RecvHeaderFunc(char *ptr, size_t size, size_t nmemb, void *userdata);
     
 private:
     

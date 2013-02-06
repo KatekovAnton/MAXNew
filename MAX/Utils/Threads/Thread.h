@@ -24,9 +24,10 @@ public:
     int start();
     int join();
     int detach();
+    int kill();
     pthread_t self();
     
-    virtual void* run() = 0;
+    virtual void run() = 0;
     
 private:
     pthread_t  m_tid;

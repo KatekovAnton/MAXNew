@@ -29,7 +29,7 @@
 #include "MAXUnitObject.h"
 #include "MAXMapObject.h"
 #include "Request.h"
-
+#include "RequestManager.h"
 #include "Response.h"
 
 using namespace cocos2d;
@@ -64,8 +64,10 @@ void MAXEngine::Init() {
     
     r->SetUrl("http://api-dev-mobile.sclub.ru/partners/3/?token=c470727a82075a94648cee86b116aecb");
     r->SetMethod(RequestMethod::GET);
-    r->Send();
-    delete r;
+    r->delegate = this;
+    r->_needAutoDelete = true;
+    RequestManager::SharedRequestManager()->ExecuteRequest(r);
+    
     
     _unitShader = new Shader("ShaderUnit.vsh", "ShaderUnit.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
@@ -170,7 +172,7 @@ void MAXEngine::DrawInterface() {
 }
 
 void MAXEngine::Update() {
-    
+    RequestManager::SharedRequestManager()->Flush();
     _scene->BeginFrame();
     
     
@@ -350,6 +352,15 @@ CCRect MAXEngine::ScreenToWorldRect()
     
     return result;
 }
+
+#pragma mark - RequestDelegate
+void MAXEngine::RequestDidFinishLoadingWithResponce(Request* request, Response* response)
+{
+    printf("responce: \n");
+    printf("%s", response->ToString().c_str());
+    printf("\n");
+}
+
 
 //void MAXEngine::TestFire(CCPoint unitLocation, CCPoint targetLocation)
 //{

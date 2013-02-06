@@ -10,10 +10,13 @@
 
 static void* runThread(void* arg)
 {
-    return ((Thread*)arg)->run();
+    ((Thread*)arg)->run();
+    return 0;
 }
 
-Thread::Thread() : m_tid(0), m_running(0), m_detached(0) {}
+Thread::Thread()
+: m_tid(0), m_running(0), m_detached(0)
+{}
 
 Thread::~Thread()
 {
@@ -41,6 +44,18 @@ int Thread::join()
         result = pthread_join(m_tid, NULL);
         if (result == 0) {
             m_detached = 0;
+        }
+    }
+    return result;
+}
+
+int Thread::kill()
+{
+    int result = -1;
+    if (m_running == 1 && m_detached == 0) {
+        result = pthread_kill(m_tid, 0);
+        if (result == 0) {
+            m_detached = 1;
         }
     }
     return result;
