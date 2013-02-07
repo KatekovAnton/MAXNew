@@ -115,8 +115,14 @@ MAXUnitConfigManager* _sharedMAXUnitConfigManager = NULL;
 
 MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName)
 {
+    BinaryReader *r = new BinaryReader(resourceConfigName);
+    string resourceConfig = r->ReadFullAsString();
+    delete r;
+    
+    r = new BinaryReader(balanceConfigName);
+    string balanceConfig = r->ReadFullAsString();
+    delete r;
 }
-
 
 MAXUnitConfigManager* MAXUnitConfigManager::SharedMAXUnitConfigManager()
 {
@@ -128,19 +134,17 @@ MAXUnitConfigManager* MAXUnitConfigManager::SharedMAXUnitConfigManager()
 void MAXUnitConfigManager::LoadConfigsFromFile(string file)
 {
     BinaryReader* reader = new BinaryReader(file);
-    long length = reader->GetLength();
-    char* data = (char*)malloc(length);
-    reader->ReadBuffer(length, data);
+    string strContent = reader->ReadFullAsString();
     delete reader;
-    
-    string strContent = string(data);
-    free(data);
     
     
     vector<string> components = splitString(strContent, '\n');
     for (int i = 0; i < components.size(); i++)
     {
         string str = components[i];
+        if (str.length()<1) 
+            continue;
+        
         vector<string> typeData = splitString(str, '=');
         
         string type = typeData[0];

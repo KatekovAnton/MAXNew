@@ -201,4 +201,14 @@ BinaryReader::~BinaryReader()
    // free(_currentBuffer);
 }
 
+std::string BinaryReader::ReadFullAsString()
+{
+    SetPosition(0);
+    long length = GetLength();
+    char* data = (char*)malloc(length);
+    ReadBuffer(length, data);
+    std::string result = string(data);
+    free(data);
+    return result;
+}
 

@@ -18,6 +18,33 @@ public:
     
     string _type;
     
+    //КадрыБазы=0,7,2
+    //КадрыПушки=8,15,2
+    //КадрыПушкиСтрел=16,23,2
+    
+    //ФайлB=TANK
+    string _bodyName;
+    
+    //ФайлF=P_TANK
+    //ФайлV=Tank03.flc
+    //ФайлI=I_TANK,1
+    
+    //ФайлA=A_TANK
+    string _instoreName;
+    
+    //ФайлS=S_TANK
+    string _shadowName;
+    
+    ////Sound//
+    //Взрывзвук=blast-15.wav
+    //Выстзвук=shoot-0.wav
+    //Запзвук=on.wav
+    //Рабзвук=hld.wav
+    //Стрзвук=-1
+    //Стопзвук=off.wav
+    //Двигзвук=run.wav
+    //Степзвук=off.wav
+    
     MAXUnitConfig(string balanceConfigName, string resourceConfigName);
     
 };

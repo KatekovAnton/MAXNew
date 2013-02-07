@@ -43,6 +43,8 @@ public:
     void SetPosition(int position);
     
 	long GetLength() { return _filesize; };
+    
+    std::string ReadFullAsString();
 };
 
 #endif /* defined(__TerminalExtraction__BinaryReader__) */
