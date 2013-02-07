@@ -17,6 +17,8 @@
 #include "MAXMap.h"
 #include "GameUnit.h"
 
+#include "MAXUnitConfig.h"
+
 MAXGame globalGame;
 MAXGame * game = &globalGame;
 
@@ -32,6 +34,8 @@ MAXGame::~MAXGame()
 void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
+    
+    MAXUnitConfigManager::SharedMAXUnitConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
     
     this->SetMap("Green_6.wrl");
     _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit("TANK", "S_TANK")));

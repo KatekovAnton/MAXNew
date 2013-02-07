@@ -1,0 +1,2 @@
+Tank=grp_tank.cfg#tank.cfg
+Bomber=grp_bomber.cfg#bomber.cfg

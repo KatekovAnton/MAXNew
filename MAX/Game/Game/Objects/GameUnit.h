@@ -42,6 +42,8 @@ public:
     
     void SetUnitLocation(const CCPoint& cell, const bool animated);
     
+    static shared_ptr<GameUnit> CreateUnit(string balanceConfigName, string resourceConfigName);
+    
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);
     virtual void OnAnimationUpdate(MAXAnimationBase* animation);
