@@ -730,8 +730,8 @@ shared_ptr<MAXUnitObject> MAXContentLoader::CreateUnit(MAXUnitConfig* unitConfig
 {
     MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(unitConfig->_bodyName, unitConfig->_shadowName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
-    
-    return shared_ptr<MAXUnitObject>(new MAXUnitObject(renderObject, material));
+    shared_ptr<MAXUnitObject>result = shared_ptr<MAXUnitObject>(new MAXUnitObject(renderObject, material, unitConfig));
+    return result;
 }
 
 

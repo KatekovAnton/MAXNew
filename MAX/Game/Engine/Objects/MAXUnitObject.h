@@ -16,6 +16,7 @@
 
 class MAXUnitRenderObject;
 class MAXUnitMaterial;
+class MAXUnitConfig;
 
 using namespace cocos2d;
 
@@ -32,25 +33,39 @@ class MAXUnitObject : public MAXObject {
     
     int bodyIndex;
     int headIndex;
+    
+    int purebodyIndex;
+    int pureheadIndex;
+    
     bool fireing;
-    double fireStartTime;
     
     bool changed;
     
     GLKMatrix4 bodyRenderMatrix;
     GLKMatrix4 headRenderMatrix;
     
+    int bodyOffset = 0;
+    int headOffset = 8;
+    int headFireOffset = 16;
+    
+    double _lastHeadAnimTime;
+    
 public:
+    
+    MAXUnitConfig* _config;
     
     bool GetFireing() const {return fireing;};
     int GetBodyIndex() const {return bodyIndex;};
     int GetHeadIndex() const {return headIndex;};
 
+    bool IsSingleFire() const;
+    bool IsHasBody() const;
+    bool CanFire() const;
     
     float deltax;
     float deltay;
     
-    MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material);
+    MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config);
     ~MAXUnitObject();
     
     virtual RenderObject * GetRenderAspect();
@@ -63,11 +78,11 @@ public:
     
     GLKMatrix4 CalculateBodyRenderMatrix();
     GLKMatrix4 CalculateHeadRenderMatrix();
-    
+    CCPoint CalculateAirOffset();
     
     void SetBodyDirection(int state);
     void SetHeadDirection(int state);
-    void SetIsFireing(bool fire);
+    void SetIsFireing(bool fire, bool ligthFrame);
     
     
 };

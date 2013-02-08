@@ -21,12 +21,13 @@ using namespace cocos2d;
 class MAXUnitObject;
 class MAXAnimationBase;
 class MAXAnimationObjectUnit;
+class MAXUnitConfig;
 
 class GameUnit : public GameObject, public MAXAnimationDelegate {
     
     MAXAnimationObjectUnit* _moveAnimation;
     MAXAnimationBase* _currentTopAnimation;
-    
+    MAXUnitConfig* _config;
     CCPoint _unitCell;
     shared_ptr<MAXUnitObject> _unitObject;
     

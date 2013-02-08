@@ -23,6 +23,9 @@ public:
     //КадрыБазы=0,7,2
     //КадрыПушки=8,15,2
     //КадрыПушкиСтрел=16,23,2
+    bool _isAnimBase;
+    bool _isAnimHead;
+    bool _isAbleToFire;
     
     //ФайлB=TANK
     string _bodyName;
@@ -51,6 +54,7 @@ public:
     
     MAXUnitConfig(string balanceConfigName, string resourceConfigName);
     bool IsValid() const;
+    
     
     
 };

@@ -3,4 +3,5 @@ Tank=grp_tank.cfg#tank.cfg
 Bomber=grp_bomber.cfg#bomber.cfg
 Inter=grp_interceptor.cfg#interceptor.cfg
 Aagunm=grp_mobile_aa_gun.cfg#mobile_aa_gun.cfg
+Awac=grp_awac.cfg#awac.cfg
 #segment=configs

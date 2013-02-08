@@ -11,11 +11,12 @@
 #include "MAXUnitObject.h"
 #include "MAXAnimationPrefix.h"
 #include "MAXEngine.h"
+#include "MAXUnitConfig.h"
 
 using namespace cocos2d;
 
 GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject)
-:_unitObject(unitObject), _currentTopAnimation(NULL)
+:_unitObject(unitObject), _currentTopAnimation(NULL), _config(unitObject->_config)
 {
 }
 
@@ -57,10 +58,12 @@ void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
 
 void GameUnit::Fire(const cocos2d::CCPoint &target)
 {
+    if(!_unitObject->_config->_isAbleToFire)
+        return;
     if(_unitObject->GetFireing())
         return;
     _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
-    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(0.15, _unitObject);
+    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?0.15:0.2, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
 }
 

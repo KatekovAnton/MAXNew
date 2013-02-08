@@ -9,6 +9,7 @@
 #include "MAXAnimationObjectUnit.h"
 #include "MAXUnitObject.h"
 #include "MAXEngine.h"
+#include "MAXUnitMaterial.h"
 
 const float rotateTime = 0.1;
 const float moveTime = 0.2;
@@ -61,6 +62,12 @@ void MAXAnimationObjectUnit::Update(double time)
     {
         case MAXANIMATION_UNITFIRE:
         {
+            if (!_unit->IsSingleFire())
+            {
+                double elapsed = (engine->FullTime()-GetStartTime())/_firetime;
+                int count = elapsed/0.2;
+                _unit->SetIsFireing(true, count%2 == 1);
+            }
             
         }   break;
             
@@ -88,7 +95,7 @@ void MAXAnimationObjectUnit::CompletlyFinish()
     {
         case MAXANIMATION_UNITFIRE:
         {
-            _unit->SetIsFireing(false);
+            _unit->SetIsFireing(false, false);
         }   break;
     
         case MAXANIMATION_UNITMOVE:
@@ -113,7 +120,7 @@ void MAXAnimationObjectUnit::StartAnimation()
     {
         case MAXANIMATION_UNITFIRE:
         {
-            _unit->SetIsFireing(true);
+            _unit->SetIsFireing(true, true);
         }   break;
             
         case MAXANIMATION_UNITMOVE:

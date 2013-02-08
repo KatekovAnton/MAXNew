@@ -98,11 +98,9 @@ MAXUnitConfigManager* _sharedMAXUnitConfigManager = NULL;
 void MAXUnitConfig::SetResurceConfigValue(string key, string value)
 {
     //Файл
-    char data[5];
-    data[0] = 0xD4;
-    data[1] = 0xE0;
-    data[2] = 0xE9;
-    data[3] = 0xEB;
+    unsigned char data[5];
+    data[0] = 0xD4;data[1] = 0xE0;data[2] = 0xE9;data[3] = 0xEB;
+    
     data[4] = 'B';
     int res = memcmp(data, key.c_str(), 5);
     if (res == 0)
@@ -127,7 +125,6 @@ void MAXUnitConfig::SetResurceConfigValue(string key, string value)
         return;
     }
     
-    
     data[4] = 'F';
     res = memcmp(data, key.c_str(), 5);
     if (res == 0)
@@ -135,10 +132,38 @@ void MAXUnitConfig::SetResurceConfigValue(string key, string value)
         _imageName = value;
         return;
     }
+    
+    //кадрыбазыаним
+    static unsigned char dataBaseAnim[] = {0xCA, 0xE0, 0xE4, 0xF0, 0xFB, 0xC1, 0xE0, 0xE7, 0xFB, 0xC0, 0xED, 0xE8, 0xEC};
+    res = memcmp(dataBaseAnim, key.c_str(), 13);
+    if (res == 0)
+    {
+        _isAnimHead = true;
+        return;
+    }
+    
+    //кадрыпушкистрел
+    static unsigned char dataHeadFire[] = {0xCA, 0xE0, 0xE4, 0xF0, 0xFB, 0xCF, 0xF3, 0xF8, 0xEA, 0xE8, 0xD1, 0xF2, 0xF0, 0xE5, 0xEB};
+    res = memcmp(dataHeadFire, key.c_str(), 13);
+    if (res == 0)
+    {
+        _isAbleToFire = true;
+        return;
+    }
+    
+    //кадрыбазыстрел
+    static unsigned char dataBaseFire[] = {0xCA, 0xE0, 0xE4, 0xF0, 0xFB, 0xC1, 0xE0, 0xE7, 0xFB, 0xD1, 0xF2, 0xF0, 0xE5, 0xEB};
+    res = memcmp(dataBaseFire, key.c_str(), 13);
+    if (res == 0)
+    {
+        _isAbleToFire = true;
+        return;
+    }
+    
 }
 
 MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName)
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type("")
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
 {
     BinaryReader *r = new BinaryReader(resourceConfigName);
     string resourceConfig = r->ReadFullAsString();
@@ -151,7 +176,6 @@ MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName
         vector<string> typeData = splitString(lines[i], '=');
         if (typeData.size() == 2)
             SetResurceConfigValue(typeData[0], typeData[1]);
-    //    cout<<lines[i] <<'\n';
     }
     
     r = new BinaryReader(balanceConfigName);

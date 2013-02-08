@@ -37,8 +37,12 @@ void MAXGame::Init()
     MAXUnitConfigManager::SharedMAXUnitConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
     
     this->SetMap("Green_6.wrl");
-    
-    MAXUnitConfig* unit = MAXUnitConfigManager::SharedMAXUnitConfigManager()->GetConfig("Tank");
+    //Aagunm
+    //Tank
+    //Inter
+    //Bomber
+    //Awac
+    MAXUnitConfig* unit = MAXUnitConfigManager::SharedMAXUnitConfigManager()->GetConfig("Aagunm");
     _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit)));
     _testUnit->SetUnitLocation(CCPoint(56, 56), false);
     engine->AddUnit(_testUnit->GetUnitObject());
