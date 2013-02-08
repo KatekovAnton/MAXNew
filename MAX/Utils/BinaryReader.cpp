@@ -205,8 +205,10 @@ std::string BinaryReader::ReadFullAsString()
 {
     SetPosition(0);
     long length = GetLength();
-    char* data = (char*)malloc(length);
+    char* data = (char*)malloc(length+1);
+    memset(data, 0, length+1);
     ReadBuffer(length, data);
+    data[length] = '\0';
     std::string result = string(data);
     free(data);
     return result;

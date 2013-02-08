@@ -14,8 +14,10 @@
 
 class MAXUnitConfig {
     
-public:
+    void SetResurceConfigValue(string key, string value);
     
+public:
+    //Тип=Tank
     string _type;
     
     //КадрыБазы=0,7,2
@@ -26,6 +28,8 @@ public:
     string _bodyName;
     
     //ФайлF=P_TANK
+    string _imageName;
+    
     //ФайлV=Tank03.flc
     //ФайлI=I_TANK,1
     
@@ -46,12 +50,16 @@ public:
     //Степзвук=off.wav
     
     MAXUnitConfig(string balanceConfigName, string resourceConfigName);
+    bool IsValid() const;
+    
     
 };
 
 class MAXUnitConfigManager {
     
     map<string, MAXUnitConfig*> _configs;
+    
+    void LoadUnitSegment(string source);
     
 public:
     
