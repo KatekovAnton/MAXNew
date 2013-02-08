@@ -42,7 +42,7 @@ void MAXGame::Init()
     //Inter
     //Bomber
     //Awac
-    MAXUnitConfig* unit = MAXUnitConfigManager::SharedMAXUnitConfigManager()->GetConfig("Aagunm");
+    MAXUnitConfig* unit = MAXUnitConfigManager::SharedMAXUnitConfigManager()->GetConfig("Tank");
     _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit)));
     _testUnit->SetUnitLocation(CCPoint(56, 56), false);
     engine->AddUnit(_testUnit->GetUnitObject());

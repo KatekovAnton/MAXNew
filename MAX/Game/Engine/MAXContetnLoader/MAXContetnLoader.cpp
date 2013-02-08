@@ -528,13 +528,14 @@ void MAXContentLoader::LoadUnitFrame(BinaryReader* source, int index, MAXUnitMat
     {
         unsigned int rowi = rows[i];
         source->SetPosition(rowi + baseOffset);
-        buf = source->ReadChar();
+        buf = source->ReadUChar();
         while (buf != 0xff)
         {
             destOffset += buf;
             buf = source->ReadUChar();
             source->ReadBuffer((int)buf, tmpbuffer);
             memcpy(pixels + destOffset, tmpbuffer, buf);
+            destOffset+=buf;
             memset(tmpbuffer, 0, 256);
             buf = source->ReadUChar();
         }
@@ -586,13 +587,14 @@ void MAXContentLoader::LoadUnitFrameWithShadow(BinaryReader* source, BinaryReade
     {
         unsigned int rowi = rows[i];
         source->SetPosition(rowi + baseOffset);
-        buf = source->ReadChar();
+        buf = source->ReadUChar();
         while (buf != 0xff)
         {
-            destOffset += buf;
+            destOffset += (int)buf;
             buf = source->ReadUChar();
             source->ReadBuffer((int)buf, tmpbuffer);
             memcpy(pixels + destOffset, tmpbuffer, buf);
+            destOffset+=buf;
             memset(tmpbuffer, 0, 256);
             buf = source->ReadUChar();
         }
