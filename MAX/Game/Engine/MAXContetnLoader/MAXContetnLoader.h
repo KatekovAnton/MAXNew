@@ -24,6 +24,7 @@ class Texture;
 class EngineMesh;
 
 class MAXUnitObject;
+class MAXUnitConfig;
 
 struct typhdr
 {
@@ -73,7 +74,7 @@ public:
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     
 #pragma mark - fabric
-    shared_ptr<MAXUnitObject> CreateUnit(string bodyName, string shadowName);
+    shared_ptr<MAXUnitObject> CreateUnit(MAXUnitConfig* unitConfig);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */

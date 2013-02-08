@@ -17,6 +17,7 @@
 #include "MAXUnitObject.h"
 #include "Sys.h"
 #include "EngineMesh.h"
+#include "MAXUnitConfig.h"
 
 using namespace std;
 
@@ -725,9 +726,9 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
 
 #pragma mark - fabric
 
-shared_ptr<MAXUnitObject> MAXContentLoader::CreateUnit(string bodyName, string shadowName)
+shared_ptr<MAXUnitObject> MAXContentLoader::CreateUnit(MAXUnitConfig* unitConfig)
 {
-    MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(bodyName, shadowName);
+    MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(unitConfig->_bodyName, unitConfig->_shadowName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
     
     return shared_ptr<MAXUnitObject>(new MAXUnitObject(renderObject, material));

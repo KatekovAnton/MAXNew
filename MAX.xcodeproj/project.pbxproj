@@ -276,8 +276,8 @@
 		D1AB733C16BBD381004D28F2 /* GameEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733616BBD381004D28F2 /* GameEffect.cpp */; };
 		D1AB733D16BBD381004D28F2 /* GameEffectBlast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733816BBD381004D28F2 /* GameEffectBlast.cpp */; };
 		D1AB733E16BBD381004D28F2 /* GameEffectRocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733A16BBD381004D28F2 /* GameEffectRocket.cpp */; };
-		D1DBC45F16C3DF920096034A /* MAXUnitConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC45D16C3DF920096034A /* MAXUnitConfig.cpp */; };
 		D1DBC46116C3EAED0096034A /* UnitListOriginal.txt in Resources */ = {isa = PBXBuildFile; fileRef = D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */; };
+		D1DBC46416C544040096034A /* MAXUnitConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC46216C544040096034A /* MAXUnitConfig.cpp */; };
 		D1E3D3ED16BC2CC200E88F2E /* MAXUnitSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */; };
 		D1E3D3F016BC2F1D00E88F2E /* MAXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */; };
 		D1E3D3F316BC319000E88F2E /* MAXEffectObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */; };
@@ -642,9 +642,9 @@
 		D1AB733A16BBD381004D28F2 /* GameEffectRocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffectRocket.cpp; sourceTree = "<group>"; };
 		D1AB733B16BBD381004D28F2 /* GameEffectRocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectRocket.h; sourceTree = "<group>"; };
 		D1AB734216BBD9E7004D28F2 /* MAXAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationDelegate.h; sourceTree = "<group>"; };
-		D1DBC45D16C3DF920096034A /* MAXUnitConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitConfig.cpp; sourceTree = "<group>"; };
-		D1DBC45E16C3DF920096034A /* MAXUnitConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitConfig.h; sourceTree = "<group>"; };
 		D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnitListOriginal.txt; sourceTree = "<group>"; };
+		D1DBC46216C544040096034A /* MAXUnitConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitConfig.cpp; sourceTree = "<group>"; };
+		D1DBC46316C544040096034A /* MAXUnitConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitConfig.h; sourceTree = "<group>"; };
 		D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitSelection.cpp; sourceTree = "<group>"; };
 		D1E3D3EC16BC2CC200E88F2E /* MAXUnitSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitSelection.h; sourceTree = "<group>"; };
 		D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObject.cpp; sourceTree = "<group>"; };
@@ -899,7 +899,6 @@
 		8B8EAA11168A17D70097CA74 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				D11591C116B8214600C1E1C2 /* LoadedResources */,
 				D11ABAA1168DDA7800CD29EA /* Objects */,
 				D16D494D168B5F0D0055F35D /* Map */,
 				D16D48DD168B37F20055F35D /* Resources */,
@@ -907,15 +906,6 @@
 				8B8EAA13168A17F30097CA74 /* MAXGame.h */,
 			);
 			path = Game;
-			sourceTree = "<group>";
-		};
-		D11591C116B8214600C1E1C2 /* LoadedResources */ = {
-			isa = PBXGroup;
-			children = (
-				D1DBC45D16C3DF920096034A /* MAXUnitConfig.cpp */,
-				D1DBC45E16C3DF920096034A /* MAXUnitConfig.h */,
-			);
-			path = LoadedResources;
 			sourceTree = "<group>";
 		};
 		D115921B16B8ED2B00C1E1C2 /* Animation */ = {
@@ -957,6 +947,8 @@
 				D16D48CD168B30A00055F35D /* MAXContentObjects */,
 				D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */,
 				D199226C168DF75C0067D6CF /* MAXContetnLoader.h */,
+				D1DBC46216C544040096034A /* MAXUnitConfig.cpp */,
+				D1DBC46316C544040096034A /* MAXUnitConfig.h */,
 				D16D491C168B456D0055F35D /* MAXContetnConstants.h */,
 			);
 			path = MAXContetnLoader;
@@ -1740,7 +1732,7 @@
 				D1E3D3FE16C138E500E88F2E /* Request.cpp in Sources */,
 				D1E3D78416C1649800E88F2E /* Response.cpp in Sources */,
 				D1E3D78816C1709200E88F2E /* RequestManager.cpp in Sources */,
-				D1DBC45F16C3DF920096034A /* MAXUnitConfig.cpp in Sources */,
+				D1DBC46416C544040096034A /* MAXUnitConfig.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

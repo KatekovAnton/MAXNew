@@ -138,7 +138,7 @@ void MAXUnitConfig::SetResurceConfigValue(string key, string value)
 }
 
 MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName)
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type("");
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type("")
 {
     BinaryReader *r = new BinaryReader(resourceConfigName);
     string resourceConfig = r->ReadFullAsString();

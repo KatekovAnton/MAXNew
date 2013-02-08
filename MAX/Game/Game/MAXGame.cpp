@@ -34,11 +34,12 @@ MAXGame::~MAXGame()
 void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
-    
     MAXUnitConfigManager::SharedMAXUnitConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
     
     this->SetMap("Green_6.wrl");
-    _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit("TANK", "S_TANK")));
+    
+    MAXUnitConfig* unit = MAXUnitConfigManager::SharedMAXUnitConfigManager()->GetConfig("Tank");
+    _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit)));
     _testUnit->SetUnitLocation(CCPoint(56, 56), false);
     engine->AddUnit(_testUnit->GetUnitObject());
 }
