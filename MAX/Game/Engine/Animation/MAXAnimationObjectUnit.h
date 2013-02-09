@@ -31,6 +31,7 @@ class MAXAnimationObjectUnit : public MAXAnimationBase {
     int _bodyIndex;
     int _headIndex;
     
+    double rotateTime;
     
     float _firetime;
     CCPoint _startLocation;

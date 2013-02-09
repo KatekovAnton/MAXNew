@@ -23,24 +23,26 @@ void MAXUnitMaterial::SetImagesCount(int _frameCount)
     frameCount = _frameCount;
     frames = new MAXUnitMaterialFrame[frameCount];
     textures = new Texture*[frameCount];
+    
+    shadowframes = new MAXUnitMaterialFrame[8];
+    shadowTextures = new Texture*[8];
 }
 
 MAXUnitMaterial::~MAXUnitMaterial()
 {
     delete [] frames;
+    delete [] shadowframes;
     for (int i = 0; i < frameCount; i++) 
         delete textures[i];
+    for (int i = 0; i < 0; i++)
+        delete shadowTextures[i];
     delete [] textures;
+    delete [] shadowTextures;
     delete pallete;
 }
 
 void MAXUnitMaterial::DoFrame(double elapsedTime)
-{
-//    time = time + elapsedTime;
-//    
-//    int f = (time/MAXUnitMaterialframeTime);
-//    index = f%frameCount;    
-}
+{}
 
 void MAXUnitMaterial::ApplyLod(int lod, Shader *shader)
 {
@@ -58,3 +60,5 @@ void MAXUnitMaterial::SetFrame(int frame)
 
 void MAXUnitMaterial::StopBackgroundLoading()
 {}
+
+

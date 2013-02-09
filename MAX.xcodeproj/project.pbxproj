@@ -277,7 +277,7 @@
 		D1AB733D16BBD381004D28F2 /* GameEffectBlast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733816BBD381004D28F2 /* GameEffectBlast.cpp */; };
 		D1AB733E16BBD381004D28F2 /* GameEffectRocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733A16BBD381004D28F2 /* GameEffectRocket.cpp */; };
 		D1DBC46116C3EAED0096034A /* UnitListOriginal.txt in Resources */ = {isa = PBXBuildFile; fileRef = D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */; };
-		D1DBC46416C544040096034A /* MAXUnitConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC46216C544040096034A /* MAXUnitConfig.cpp */; };
+		D1DBC4A716C67DCA0096034A /* MAXUnitConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4A516C67DCA0096034A /* MAXUnitConfig.cpp */; };
 		D1E3D3ED16BC2CC200E88F2E /* MAXUnitSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */; };
 		D1E3D3F016BC2F1D00E88F2E /* MAXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */; };
 		D1E3D3F316BC319000E88F2E /* MAXEffectObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */; };
@@ -643,8 +643,8 @@
 		D1AB733B16BBD381004D28F2 /* GameEffectRocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectRocket.h; sourceTree = "<group>"; };
 		D1AB734216BBD9E7004D28F2 /* MAXAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationDelegate.h; sourceTree = "<group>"; };
 		D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnitListOriginal.txt; sourceTree = "<group>"; };
-		D1DBC46216C544040096034A /* MAXUnitConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitConfig.cpp; sourceTree = "<group>"; };
-		D1DBC46316C544040096034A /* MAXUnitConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitConfig.h; sourceTree = "<group>"; };
+		D1DBC4A516C67DCA0096034A /* MAXUnitConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitConfig.cpp; sourceTree = "<group>"; };
+		D1DBC4A616C67DCA0096034A /* MAXUnitConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitConfig.h; sourceTree = "<group>"; };
 		D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitSelection.cpp; sourceTree = "<group>"; };
 		D1E3D3EC16BC2CC200E88F2E /* MAXUnitSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitSelection.h; sourceTree = "<group>"; };
 		D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObject.cpp; sourceTree = "<group>"; };
@@ -947,8 +947,6 @@
 				D16D48CD168B30A00055F35D /* MAXContentObjects */,
 				D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */,
 				D199226C168DF75C0067D6CF /* MAXContetnLoader.h */,
-				D1DBC46216C544040096034A /* MAXUnitConfig.cpp */,
-				D1DBC46316C544040096034A /* MAXUnitConfig.h */,
 				D16D491C168B456D0055F35D /* MAXContetnConstants.h */,
 			);
 			path = MAXContetnLoader;
@@ -957,6 +955,8 @@
 		D16D48CD168B30A00055F35D /* MAXContentObjects */ = {
 			isa = PBXGroup;
 			children = (
+				D1DBC4A516C67DCA0096034A /* MAXUnitConfig.cpp */,
+				D1DBC4A616C67DCA0096034A /* MAXUnitConfig.h */,
 				D16D48D1168B31030055F35D /* MAXContentMap.cpp */,
 				D16D48D2168B31030055F35D /* MAXContentMap.h */,
 			);
@@ -1732,7 +1732,7 @@
 				D1E3D3FE16C138E500E88F2E /* Request.cpp in Sources */,
 				D1E3D78416C1649800E88F2E /* Response.cpp in Sources */,
 				D1E3D78816C1709200E88F2E /* RequestManager.cpp in Sources */,
-				D1DBC46416C544040096034A /* MAXUnitConfig.cpp in Sources */,
+				D1DBC4A716C67DCA0096034A /* MAXUnitConfig.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

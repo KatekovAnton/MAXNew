@@ -35,7 +35,29 @@ int GetInterpolatedRotateIndex(int from, int to, float zerotoone)
     }
 }
 
-const float rotateTime = 0.15;
+int GetRotateLengt(int from, int to)
+{
+    if (from > to)
+    {
+        int lengthRight = from - to;
+        int lengthReverse = to + 8 - from;
+        
+        if (lengthRight < lengthReverse)
+            return lengthRight;
+        else
+            return lengthReverse;
+    }
+    else //if (to > from)
+    {
+        int lengthRight = to - from;
+        int lengthReverse = from + 8 - to;
+        if (lengthRight < lengthReverse)
+            return lengthRight;
+        else
+            return lengthReverse;
+    }
+}
+
 const float moveTime = 0.2;
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, const shared_ptr<MAXUnitObject>& object)      //creates move action
@@ -43,7 +65,7 @@ MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, con
 {}
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int headIndex, const shared_ptr<MAXUnitObject>& object)                                  //creates rotate action
-:MAXAnimationBase(), _unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(object->GetBodyIndex())
+:MAXAnimationBase(), _unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(object->GetBodyIndex()), rotateTime(0.07 * GetRotateLengt(_startBodyIndex, _bodyIndex))
 {}
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(double firetime, const shared_ptr<MAXUnitObject>& object)                                               //creates fire action

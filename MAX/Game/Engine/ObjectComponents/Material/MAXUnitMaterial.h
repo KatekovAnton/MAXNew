@@ -32,7 +32,9 @@ public:
     
     
     MAXUnitMaterialFrame* frames;
+    MAXUnitMaterialFrame* shadowframes;
     Texture** textures;
+    Texture** shadowTextures;
     Texture* pallete;
     
     MAXUnitMaterial();

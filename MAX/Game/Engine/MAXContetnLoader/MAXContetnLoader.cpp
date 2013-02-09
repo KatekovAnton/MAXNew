@@ -291,22 +291,6 @@ Color default_palette[256] =
     {0xff, 0xff, 0xff, 0xff}, //255
 };
 
-//for i:=32 to 39 do
-//
-//это коды цветов в палитре
-//
-//вот код переопределения
-//
-//for n:=0 to mg_game.plr_cnt-1 do for i:=32 to 39 do
-//palpx[n][i]:=gnearestpc(tcrgb(round(mg_game.plr[n].color[2]*((40-i)/8*200)/255),
-//                              round(mg_game.plr[n].color[1]*((40-i)/8*200)/255),
-//                              round(mg_game.plr[n].color[0]*((40-i)/8*200)/255)));
-//
-//for i:=0 to 255 do al_palpx[i]:=i;
-//for i:=32 to 39 do al_palpx[i]:=gnearestpc(tcrgb(round(128*((40-i)/8*200)/255),
-//                                                 round(128*((40-i)/8*200)/255),
-//                                                 round(128*((40-i)/8*200)/255)));
-
 MAXContentLoader* _sharedContentLoader = nullptr;
 
 MAXContentLoader::MAXContentLoader()
@@ -459,8 +443,16 @@ Texture* MAXContentLoader::TextureFromIndexAndDefaultPalette(int w, int h, unsig
 
 Texture* MAXContentLoader::TexturePalleteFormDefaultPalleteAndPlayerColor(const Color& color)
 {
-    GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
+    Color* currentPalette = (Color*)malloc(4 * pal_size/3);
     memcpy(currentPalette, &default_palette, 4 * pal_size/3);
+    
+    for (int i = 32; i <= 39 ; i++)
+    {
+        currentPalette[i].r = color.r*((40.0-(float)i)/8.0*200.0);
+        currentPalette[i].g = color.g*((40.0-(float)i)/8.0*200.0);
+        currentPalette[i].b = color.b*((40.0-(float)i)/8.0*200.0);
+    }
+    
     Texture* result = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     return result;
 }
@@ -546,65 +538,54 @@ void MAXContentLoader::LoadUnitFrame(BinaryReader* source, int index, MAXUnitMat
     
     Texture* result = TextureIdexedFromIndex((int)width, (int)height, pixels);
     target->textures[index] = result;
+    free(pixels);
     delete [] rows;
 }
 
-void MAXContentLoader::LoadUnitFrameWithShadow(BinaryReader* source, BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long baseOffset, long shadowBaseOffset)
+void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long shadowBaseOffset)
 {
-    ushort width = source->ReadUInt16();
-    ushort height = source->ReadUInt16();
-    short center_x = source->ReadInt16();
-    short center_y = source->ReadInt16();
+    unsigned char *buffer = (unsigned char *)shadowSource->GetInternalBuffer();
     
-    if (index == 15 + 8) {
-        //        SysLogInfo("width = %d, height=%d, center_x=%d, center_y=%d", (int)width, (int)height, (int)center_x, (int)center_y);
-    }
-    //
+    ushort width = shadowSource->ReadUInt16();
+    ushort height = shadowSource->ReadUInt16();
+    short center_x = shadowSource->ReadInt16();
+    short center_y = shadowSource->ReadInt16();
+
     
-    target->frames[index].center.x = center_x;
-    target->frames[index].center.y = center_y;
-    target->frames[index].size.x = width;
-    target->frames[index].size.y = height;
+    target->shadowframes[index].center.x = center_x;
+    target->shadowframes[index].center.y = center_y;
+    target->shadowframes[index].size.x = width;
+    target->shadowframes[index].size.y = height;
     
     //MAXUnitMaterialFrame frame = target->frames[index];
     int size = width * height;
-    if (size == 0)
-        return;
     
-    unsigned char* pixels = (unsigned char*)malloc(size);
+    unsigned int* pixels = (unsigned int*)malloc(size*4);
     memset(pixels, 0, size);
     // Rows offsets.
     unsigned int* rows = new unsigned int[height];
-    source->ReadBuffer(height * 4, (char *)rows);
+    shadowSource->ReadBuffer(height * 4, (char *)rows);
     
-    int destOffset = 0;
-    
-    
-    unsigned char buf;
     char tmpbuffer[256];
     memset(tmpbuffer, 0, 256);
-    for (int i = 0; i < height; i++)
+    for(int Y = 0; Y< height; Y++)
     {
-        unsigned int rowi = rows[i];
-        source->SetPosition(rowi + baseOffset);
-        buf = source->ReadUChar();
-        while (buf != 0xff)
+        int color = 0x000000FF;
+        int X = 0;
+        int blockIndex = 0;
+        while (buffer[rows[Y] + shadowBaseOffset + blockIndex]!=0xFF)
         {
-            destOffset += (int)buf;
-            buf = source->ReadUChar();
-            source->ReadBuffer((int)buf, tmpbuffer);
-            memcpy(pixels + destOffset, tmpbuffer, buf);
-            destOffset+=buf;
-            memset(tmpbuffer, 0, 256);
-            buf = source->ReadUChar();
+            int size = buffer[rows[Y]+blockIndex];
+            memset((void*)(pixels + (Y*width + X)), color, size);
+            
+            color = color == 0x000000FF?0x00000000:0x000000FF;
+            X += buffer[rows[Y] + shadowBaseOffset + blockIndex];
+            blockIndex ++;
         }
-        
-        int new_pos = (i + 1) * width;
-        destOffset = new_pos;
     }
-    
-    Texture* result = TextureIdexedFromIndex((int)width, (int)height, pixels);
-    target->textures[index] = result;
+    Texture *result = new Texture(GL_NEAREST, (GLubyte*)pixels, width, height);
+    target->shadowTextures[index] = result;
+
     delete [] rows;
 }
 
@@ -644,16 +625,12 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     result ->SetImagesCount(picCount);
     for (int picIndex = 0; picIndex < picCount; picIndex++)
     {
+        dataReader->SetPosition(picbounds[picIndex] + baseOffset);
+        LoadUnitFrame(dataReader, picIndex, result, baseOffset);
         if(picIndex<8)
         {
-            dataReader->SetPosition(picbounds[picIndex] + baseOffset);
             shadowDataReader->SetPosition(shadowPicbounds[picIndex] + shadowBaseOffset);
-            LoadUnitFrameWithShadow(dataReader, shadowDataReader, picIndex, result, baseOffset, shadowBaseOffset);
-        }
-        else
-        {
-            dataReader->SetPosition(picbounds[picIndex] + baseOffset);
-            LoadUnitFrame(dataReader, picIndex, result, baseOffset);
+            LoadUnitShadow(shadowDataReader, picIndex, result, shadowBaseOffset);
         }
     }
     loadedData[index] = (void*)result;
@@ -670,61 +647,6 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     
     return result;
 }
-
-/*
- 
- s.cnt:=picCount;
- setlength(s.sprc,picCount);
- result:=true;
- for picIndex:=0 to picCount-1 do begin
- picbegin:=buf[2+picIndex*4] + 256 * buf[3+picIndex*4] +65536 * (buf[4+picIndex*4] + 256 * buf[5+picIndex*4]);
- picEnd:=length(buf);
- 
- for X:=0 to High(picbounds) do if (picEnd > picbounds[X]) and (picbegin < picbounds[X]) then picEnd:=picbounds[X];
- picWidth:=buf[picbegin] + 256 * buf[picbegin+1];
- picHeight:=buf[picbegin+2] + 256 * buf[picbegin+3];
- picHX:=smallint(buf[picbegin+4] + 256 * buf[picbegin+5]);
- picHY:=smallint(buf[picbegin+6] + 256 * buf[picbegin+7]);
- s.sprc[picIndex].tp:=3;
- s.sprc[picIndex].xs:=picWidth;
- s.sprc[picIndex].ys:=picHeight;
- s.sprc[picIndex].cx:=picHX;
- s.sprc[picIndex].cy:=picHY;
- s.sprc[picIndex].ldd:=true;
- s.sprc[picIndex].ltyp:=0;
- getmem(s.sprc[picIndex].srf,picWidth*picHeight);
- fillchar(s.sprc[picIndex].srf^,picWidth*picHeight,0);
- //getmem(mMaxImages[picIndex].Alpha, picWidth*picHeight);
- //FillChar(mMaxImages[picIndex].Alpha[0], picWidth*picHeight, 255);
- Setlength(picRows,picHeight);
- if picbegin+8+length(picRows)*4 > picEnd then begin Result:=False;break;end;
- Move(buf[picbegin+8], picRows[0], length(picRows)*4);
- for Y:=0 to High(picRows) do begin
- Color:=0;
- X:=0;
- Opacity:=255;
- blockIndex:=0;
- while (picRows[Y]+blockIndex < picEnd) and(buf[picRows[Y]+blockIndex]<>$FF) do begin
- if Y*picWidth + X + buf[picRows[Y]+blockIndex] >picWidth*picHeight then begin Result:=False;break;end;
- 
- FillChar(pbytea(s.sprc[picIndex].srf)[Y*picWidth + X],buf[picRows[Y]+blockIndex], Color);
- //FillChar(mMaxImages[picIndex].Alpha[Y*picWidth + X],mbuffer[picRows[Y]+blockIndex], Opacity);
- Color:=1-Color;
- Opacity:=255-Opacity;
- Inc(X,buf[picRows[Y]+blockIndex]);
- Inc(blockIndex);
- end;
- end;
- if not Result then break;
- end;
- if Result then begin
- //FillChar(mPalette[0], 3, 255);
- //FillChar(mPalette[1], 3, 0);
- end;
- picRows:=nil;
- picbounds:=nil;
- end;
- */
 
 #pragma mark - fabric
 

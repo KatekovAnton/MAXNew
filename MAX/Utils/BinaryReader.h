@@ -26,6 +26,8 @@ class BinaryReader {
     
 public:
     
+    char* GetInternalBuffer() const {return _internalBuffer;}
+    
     BinaryReader(std::string filename);
     BinaryReader(char *buffer, unsigned int length);
     ~ BinaryReader();
