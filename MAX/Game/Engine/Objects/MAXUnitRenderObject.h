@@ -28,7 +28,6 @@ public:
 
     virtual void Render(int lod, Material *material);
     void RenderShadow(int lod, Material *material);
-    
     void Bind();
     void UnBind();
 };

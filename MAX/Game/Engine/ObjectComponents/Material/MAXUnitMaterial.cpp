@@ -44,6 +44,13 @@ MAXUnitMaterial::~MAXUnitMaterial()
 void MAXUnitMaterial::DoFrame(double elapsedTime)
 {}
 
+void MAXUnitMaterial::ApplyPalette(Shader *shader)
+{
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, pallete->GetTextureName());
+    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE1], 1);
+}
+
 void MAXUnitMaterial::ApplyShadowLod(int lod, Shader *shader)
 {
     glActiveTexture(GL_TEXTURE0);
@@ -65,9 +72,6 @@ void MAXUnitMaterial::ApplyLod(int lod, Shader *shader)
         glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
     }
     
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, pallete->GetTextureName());
-    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE1], 1);
 }
 
 void MAXUnitMaterial::SetFrame(int frame)

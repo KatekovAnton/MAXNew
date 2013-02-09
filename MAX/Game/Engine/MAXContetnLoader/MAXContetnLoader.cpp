@@ -558,12 +558,12 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
     // Rows offsets.
     unsigned int* rows = new unsigned int[height];
     shadowSource->ReadBuffer(height * 4, (char *)rows);
-    
-    char tmpbuffer[256];
-    memset(tmpbuffer, 0, 256);
+    static unsigned int colorshadow = 0x710000ff;
+    static unsigned int colorclear = 0x720000ff;
+
     for(int Y = 0; Y < height; Y++)
     {
-        int color = 0x710000FF;
+        unsigned int color = colorshadow;
         int X = 0;
         int blockIndex = 0;
         while (buffer[rows[Y] + blockIndex] != 0xFF)
@@ -571,12 +571,12 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
             int size = buffer[rows[Y]+blockIndex];
             memset((void*)(pixels + (Y*width + X)), color, size);
             
-            color = color == 0x710000FF?0x720000FF:0x710000FF;
+            color = color == colorshadow?colorclear:colorshadow;
             X += buffer[rows[Y] + blockIndex];
             blockIndex ++;
         }
     }
-    
+   // memset(pixels, 0x710000FF, size*4);
     Texture *result = TextureIdexedFromIndex(width, height, (GLubyte*)pixels);
     target->shadowTextures[index] = result;
 

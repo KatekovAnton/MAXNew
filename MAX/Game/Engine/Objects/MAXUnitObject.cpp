@@ -154,6 +154,7 @@ bool MAXUnitObject::IsHasBody() const
 void MAXUnitObject::Draw(Shader *shader)
 {
     _renderAspect->Bind();
+    _material->ApplyPalette(shader);
     if(showShadows)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
