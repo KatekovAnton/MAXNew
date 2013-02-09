@@ -41,6 +41,7 @@ class MAXUnitObject : public MAXObject {
     
     bool changed;
     
+    GLKMatrix4 shadowRenderMatrix;
     GLKMatrix4 bodyRenderMatrix;
     GLKMatrix4 headRenderMatrix;
     
@@ -76,7 +77,7 @@ public:
     virtual void Frame(double time);
     virtual void AfterUpdate();
     
-    
+    GLKMatrix4 CalculateShadowRenderMatrix();
     GLKMatrix4 CalculateBodyRenderMatrix();
     GLKMatrix4 CalculateHeadRenderMatrix();
     CCPoint CalculateAirOffset();

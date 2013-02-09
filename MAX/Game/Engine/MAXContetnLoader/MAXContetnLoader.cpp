@@ -146,8 +146,8 @@ Color default_palette[256] =
     {0x00, 0x00, 0x00, 0xff}, //110
     {0x00, 0x00, 0x00, 0xff}, //111
     {0x00, 0x00, 0x00, 0xff}, //112
-    {0x00, 0x00, 0x00, 0xff}, //113
-    {0x00, 0x00, 0x00, 0xff}, //114
+    {0xff, 0x00, 0x00, 0xff}, //113//
+    {0xff, 0x00, 0x00, 0xff}, //114//
     {0x00, 0x00, 0x00, 0xff}, //115
     {0x00, 0x00, 0x00, 0xff}, //116
     {0x00, 0x00, 0x00, 0xff}, //117
@@ -305,7 +305,6 @@ MAXContentLoader::MAXContentLoader()
         inf->ReadBuffer(8, dir[f].name);
         dir[f].offset = inf->ReadInt();
         dir[f].size = inf->ReadInt();
-        //SysLogInfo("%s", dir[f].name);
     }
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
@@ -448,9 +447,9 @@ Texture* MAXContentLoader::TexturePalleteFormDefaultPalleteAndPlayerColor(const 
     
     for (int i = 32; i <= 39 ; i++)
     {
-        currentPalette[i].r = color.r*((40.0-(float)i)/8.0*200.0);
-        currentPalette[i].g = color.g*((40.0-(float)i)/8.0*200.0);
-        currentPalette[i].b = color.b*((40.0-(float)i)/8.0*200.0);
+        currentPalette[i].r = color.r*((40.0-(float)i)/6.0);
+        currentPalette[i].g = color.g*((40.0-(float)i)/6.0);
+        currentPalette[i].b = color.b*((40.0-(float)i)/6.0);
     }
     
     Texture* result = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
@@ -487,19 +486,13 @@ void MAXContentLoader::LoadUnitFrame(BinaryReader* source, int index, MAXUnitMat
     ushort width = source->ReadUInt16();
     ushort height = source->ReadUInt16();
     short center_x = source->ReadInt16();
-    short center_y = source->ReadInt16();
-    
-    if (index == 15 + 8) {
-//        SysLogInfo("width = %d, height=%d, center_x=%d, center_y=%d", (int)width, (int)height, (int)center_x, (int)center_y);
-    }
-  //  
+    short center_y = source->ReadInt16(); 
     
     target->frames[index].center.x = center_x;
     target->frames[index].center.y = center_y;
     target->frames[index].size.x = width;
     target->frames[index].size.y = height;
     
-    //MAXUnitMaterialFrame frame = target->frames[index];
     int size = width * height;
     if (size == 0)
         return;
@@ -568,22 +561,23 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
     
     char tmpbuffer[256];
     memset(tmpbuffer, 0, 256);
-    for(int Y = 0; Y< height; Y++)
+    for(int Y = 0; Y < height; Y++)
     {
-        int color = 0x000000FF;
+        int color = 0x710000FF;
         int X = 0;
         int blockIndex = 0;
-        while (buffer[rows[Y] + shadowBaseOffset + blockIndex]!=0xFF)
+        while (buffer[rows[Y] + blockIndex] != 0xFF)
         {
             int size = buffer[rows[Y]+blockIndex];
             memset((void*)(pixels + (Y*width + X)), color, size);
             
-            color = color == 0x000000FF?0x00000000:0x000000FF;
-            X += buffer[rows[Y] + shadowBaseOffset + blockIndex];
+            color = color == 0x710000FF?0x720000FF:0x710000FF;
+            X += buffer[rows[Y] + blockIndex];
             blockIndex ++;
         }
     }
-    Texture *result = new Texture(GL_NEAREST, (GLubyte*)pixels, width, height);
+    
+    Texture *result = TextureIdexedFromIndex(width, height, (GLubyte*)pixels);
     target->shadowTextures[index] = result;
 
     delete [] rows;
@@ -636,7 +630,7 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     loadedData[index] = (void*)result;
     
     //TODO:replace it to use one texure per player not per unit
-    Color unitColor = {1,0,0,1};
+    Color unitColor = {200,0,0,255};
     result->pallete = TexturePalleteFormDefaultPalleteAndPlayerColor(unitColor);
     delete []picbounds;
     delete []shadowPicbounds;

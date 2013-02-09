@@ -15,6 +15,8 @@
 #include "MAXAnimationPrefix.h"
 #include "MAXUnitConfig.h"
 
+static bool showShadows = false;
+
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), _config(config), _lastHeadAnimTime(0)
 {
@@ -38,6 +40,8 @@ MAXUnitObject::~MAXUnitObject()
 
 void MAXUnitObject::AfterUpdate()
 {
+    if(showShadows)
+        shadowRenderMatrix = CalculateShadowRenderMatrix();
     bodyRenderMatrix = CalculateBodyRenderMatrix();
     headRenderMatrix = CalculateHeadRenderMatrix();
 }
@@ -47,17 +51,33 @@ CCPoint MAXUnitObject::CalculateAirOffset()
     return CCPoint(0, 0);
 }
 
+GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
+{
+    GLKMatrix4 transform = GetTransformMatrix();
+    
+    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[bodyIndex%8];
+    float scalex = shadowFrame.size.x/64.0;
+    float scaley = shadowFrame.size.y/64.0;
+    
+    deltax = -(64.0 - shadowFrame.size.x)/128.0 - (shadowFrame.center.x/64.0);
+    deltay = (64.0-shadowFrame.size.y)/128.0 + (shadowFrame.center.y/64.0);
+    
+    CCPoint delta1 = CalculateAirOffset();
+    
+    GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
+    GLKMatrix4 translate = GLKMatrix4MakeTranslation(deltax + delta1.x, deltay + delta1.y, 0);
+    GLKMatrix4 addtr = GLKMatrix4Multiply(translate,scale);
+    
+    return GLKMatrix4Multiply(transform, addtr);
+}
+
 GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
 {
-//    float cellx = 0;
-//    float celly = 1;
-//    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cellx - 112/2) + 0.5, ((-1*celly - 1) + 112/2) + 0.5, 0);
     GLKMatrix4 transform = GetTransformMatrix();
     
     MAXUnitMaterialFrame bodyframe = _material->frames[bodyIndex];
     float scalex = bodyframe.size.x/64.0;
     float scaley = bodyframe.size.y/64.0;
-    
     
     deltax = -(64.0 - bodyframe.size.x)/128.0 - (bodyframe.center.x/64.0);
     deltay = (64.0-bodyframe.size.y)/128.0 + (bodyframe.center.y/64.0);
@@ -73,15 +93,11 @@ GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
 
 GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
 {
-    
     GLKMatrix4 transform = GetTransformMatrix();
-    
-    
     
     MAXUnitMaterialFrame headFrame = _material->frames[headIndex];
     float scalex = headFrame.size.x/64.0;
     float scaley = headFrame.size.y/64.0;
-    
     
     deltax = -(64.0 - headFrame.size.x)/128.0 - (headFrame.center.x/64.0);
     deltay = (64.0-headFrame.size.y)/128.0 + (headFrame.center.y/64.0);
@@ -138,7 +154,12 @@ bool MAXUnitObject::IsHasBody() const
 void MAXUnitObject::Draw(Shader *shader)
 {
     _renderAspect->Bind();
-    
+    if(showShadows)
+    {
+        shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
+        _material->index = bodyIndex;
+        _renderAspect->RenderShadow(0, _material);
+    }
     if (IsHasBody())
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);

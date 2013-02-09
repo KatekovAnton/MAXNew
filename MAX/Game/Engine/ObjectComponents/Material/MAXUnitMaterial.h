@@ -42,7 +42,7 @@ public:
     void SetImagesCount(int _frameCount);
     
     void DoFrame(double elapsedTime);
-    
+    void ApplyShadowLod(int lod, Shader *shader);
     virtual void ApplyLod(int lod, Shader *shader);
     virtual void SetFrame(int frame);
     virtual void StopBackgroundLoading();
