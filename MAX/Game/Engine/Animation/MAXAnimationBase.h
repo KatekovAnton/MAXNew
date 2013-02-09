@@ -18,6 +18,8 @@ class MAXAnimationBase {
     double _animStartTime;
 public:
     
+    bool _isCompletlyFinish;
+    
     MAXAnimationDelegate* _delegate;
     
     double GetStartTime() const {return _animStartTime;};

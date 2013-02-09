@@ -11,7 +11,7 @@
 #include "MAXAnimationDelegate.h"
 
 MAXAnimationBase::MAXAnimationBase()
-:_delegate(NULL)
+:_delegate(NULL), _isCompletlyFinish(false)
 {
 }
 
@@ -37,6 +37,9 @@ void MAXAnimationBase::BaseStart()
 
 void MAXAnimationBase::BaseCompletlyFinish()
 {
+    if(_isCompletlyFinish)
+        return;
+    _isCompletlyFinish = true;
     this->CompletlyFinish();
     if (_delegate) 
         _delegate->OnAnimationFinish(this);

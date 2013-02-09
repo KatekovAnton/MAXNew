@@ -19,8 +19,11 @@ class MAXAnimationSequence : public MAXAnimationBase {
     
     vector<MAXAnimationBase*> _animations;
     int _lastCompletlyFinishAnimation;
-    MAXAnimationBase* CurrentAnimaton();
     
+    MAXAnimationBase* _current;
+    
+    MAXAnimationBase* CurrentAnimaton();
+    int IndexOfAnimation(MAXAnimationBase* element);
 public:
     
     MAXAnimationSequence();

@@ -40,10 +40,10 @@ void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
         int neededBodyIndex = MAXObject::CalculateImageIndex(_unitCell, destination);
         MAXAnimationSequence* sequence = new MAXAnimationSequence();
         sequence->_delegate = this;
-        _unitObject->SetBodyDirection(neededBodyIndex);
+        //_unitObject->SetBodyDirection(neededBodyIndex);
         if (neededBodyIndex != _unitObject->GetBodyIndex())
         {
-            MAXAnimationObjectUnit* step1 = new MAXAnimationObjectUnit(neededBodyIndex, _unitObject->GetHeadIndex(), _unitObject);
+            MAXAnimationObjectUnit* step1 = new MAXAnimationObjectUnit(neededBodyIndex, _unitObject->GetPureHeadIndex(), _unitObject);
             sequence->AddAnimation(step1);
         }
         MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _unitObject);

@@ -30,6 +30,8 @@ class MAXAnimationObjectUnit : public MAXAnimationBase {
     shared_ptr<MAXUnitObject> _unit;
     int _bodyIndex;
     int _headIndex;
+    
+    
     float _firetime;
     CCPoint _startLocation;
     CCPoint _endLocation;

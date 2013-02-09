@@ -57,6 +57,7 @@ public:
     bool GetFireing() const {return fireing;};
     int GetBodyIndex() const {return bodyIndex;};
     int GetHeadIndex() const {return headIndex;};
+    int GetPureHeadIndex() const {return pureheadIndex;};
 
     bool IsSingleFire() const;
     bool IsHasBody() const;

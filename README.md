@@ -36,6 +36,6 @@ Try the sample project available on GitHub demonstrates a technique for building
 Coming soon.
 
 ####  Note
->For most actual information see [Seedr oficaial web page](http://seedr.ru/)
+>For most actual information see [Seedr oficial web page](http://seedr.ru/)
 
 <br>

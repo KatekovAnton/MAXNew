@@ -9,7 +9,7 @@
 #include "MAXAnimationSequence.h"
 
 MAXAnimationSequence::MAXAnimationSequence()
-:MAXAnimationBase(), _lastCompletlyFinishAnimation(0)
+:MAXAnimationBase(), _current(NULL)
 {
     
 }
@@ -30,15 +30,6 @@ MAXAnimationBase* MAXAnimationSequence::CurrentAnimaton()
         MAXAnimationBase* anim = _animations.at(i);
         if (!anim->IsFinished())
             return anim;
-        else if (_lastCompletlyFinishAnimation < i)
-        {
-            anim->BaseCompletlyFinish();
-            _lastCompletlyFinishAnimation++;
-            if (i<_animations.size()-2) {
-                MAXAnimationBase* anim1 = _animations.at(i+1);
-                anim1->BaseStart();
-            }
-        }
     }
     return nil;
 }
@@ -52,15 +43,41 @@ bool MAXAnimationSequence::IsFinished()
 {
     if (_animations.size() == 0)
         return true;
-    MAXAnimationBase* anim = _animations.at(_animations.size() - 1);
-    return anim->IsFinished();
+
+    for (int i = 0; i < _animations.size(); i++)
+    {
+        MAXAnimationBase* anim = _animations.at(i);
+        if (!anim->IsFinished())
+            return false;
+    }
+    return true;
+}
+
+int MAXAnimationSequence::IndexOfAnimation(MAXAnimationBase* element)
+{
+    for (int i = 0; i < _animations.size(); i++) {
+        if (_animations.at(i) == element) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 void MAXAnimationSequence::Update(double time)
 {
-    MAXAnimationBase* anim = this->CurrentAnimaton();
-    if (anim)
-        anim->BaseUpdate(time);
+    if (_current->IsFinished())
+    {
+        _current->BaseCompletlyFinish();
+        int index = IndexOfAnimation(_current);
+        if (index == _animations.size() - 1)
+            return;
+        _current = _animations.at(index + 1);
+        _current->BaseStart();
+        _current->BaseUpdate(time);
+        return;
+    }
+    else
+        _current->BaseUpdate(time);
 }
 
 void MAXAnimationSequence::CompletlyFinish()
@@ -75,5 +92,7 @@ void MAXAnimationSequence::StartAnimation()
 {
     if (_animations.size() == 0)
         return;
-    _animations.at(0)->BaseStart();
+    MAXAnimationBase* canim = _animations.at(0);
+    canim->BaseStart();
+    _current = canim;
 }

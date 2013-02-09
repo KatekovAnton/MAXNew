@@ -48,7 +48,7 @@ static int const _kTEiOSMaxTouchesCount = 10;
 
     UILongPressGestureRecognizer* vc3 = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongTap:)];
     vc3.delegate = self;
-    vc3.minimumPressDuration = 1.0;
+    vc3.minimumPressDuration = 0.5;
     [self.view addGestureRecognizer:vc3];
     
     lastTapTime = 0;

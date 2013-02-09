@@ -11,19 +11,43 @@
 #include "MAXEngine.h"
 #include "MAXUnitMaterial.h"
 
-const float rotateTime = 0.1;
+
+int GetInterpolatedRotateIndex(int from, int to, float zerotoone)
+{
+    if (from > to)
+    {
+        int lengthRight = from - to; 
+        int lengthReverse = to + 8 - from;
+        
+        if (lengthRight < lengthReverse)
+            return from - ((float)lengthRight * zerotoone);
+        else
+            return (from + (int)((float)lengthReverse * zerotoone))%8;
+    }
+    else //if (to > from)
+    {
+        int lengthRight = to - from;
+        int lengthReverse = from + 8 - to;
+        if (lengthRight < lengthReverse)
+            return from + ((float)lengthRight)*zerotoone;
+        else
+            return (8+from - (int)((float)lengthReverse * zerotoone))%8;
+    }
+}
+
+const float rotateTime = 0.15;
 const float moveTime = 0.2;
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, const shared_ptr<MAXUnitObject>& object)      //creates move action
-:_unit(object), _startLocation(startLocation), _endLocation(endLocation), _type(MAXANIMATION_UNITMOVE)
+:MAXAnimationBase(), _unit(object), _startLocation(startLocation), _endLocation(endLocation), _type(MAXANIMATION_UNITMOVE)
 {}
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int headIndex, const shared_ptr<MAXUnitObject>& object)                                  //creates rotate action
-:_unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE)
+:MAXAnimationBase(), _unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(object->GetBodyIndex())
 {}
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(double firetime, const shared_ptr<MAXUnitObject>& object)                                               //creates fire action
-:_unit(object), _firetime(firetime), _type(MAXANIMATION_UNITFIRE)
+:MAXAnimationBase(), _unit(object), _firetime(firetime), _type(MAXANIMATION_UNITFIRE)
 {}
 
 
@@ -43,12 +67,12 @@ bool MAXAnimationObjectUnit::IsFinished()
             
         case MAXANIMATION_UNITMOVE:
         {
-            return (engine->FullTime()-GetStartTime()) > moveTime;
+            return MAXAnimationBase::GetStartTime() + moveTime <= engine->FullTime();
         }   break;
             
         case MAXANIMATION_UNITROTATE:
         {
-            return true;
+            return MAXAnimationBase::GetStartTime() + rotateTime <= engine->FullTime();
         }   break;
         default:
             break;
@@ -74,7 +98,8 @@ void MAXAnimationObjectUnit::Update(double time)
         case MAXANIMATION_UNITMOVE:
         {
             double elapsed = (engine->FullTime()-GetStartTime());
-            float deltaTime = sinf(elapsed/moveTime * M_PI_2);
+            float fromminonetoone = (2.0*elapsed/moveTime) - 1.0;
+            float deltaTime = sinf(fromminonetoone * M_PI_2) * 0.5 + 0.5;
             CCPoint delta = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
             CCPoint result = CCPoint(_startLocation.x + delta.x * deltaTime, _startLocation.y + delta.y * deltaTime);
             _unit->SetPosition(result);
@@ -82,7 +107,16 @@ void MAXAnimationObjectUnit::Update(double time)
             
         case MAXANIMATION_UNITROTATE:
         {
+            //printf("updaterotate\n");
+            float elapsed = (engine->FullTime()-GetStartTime())/rotateTime;
             
+            if (_startBodyIndex != _bodyIndex) {
+                int index = GetInterpolatedRotateIndex(_startBodyIndex, _bodyIndex, elapsed);
+                _unit->SetBodyDirection(index);
+            }
+            if (_startHeadIndex != _headIndex) {
+                printf("rh\n");
+            }
         }   break;
         default:
             break;
