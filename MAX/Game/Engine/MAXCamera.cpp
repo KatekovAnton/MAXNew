@@ -17,10 +17,6 @@ MAXCamera::MAXCamera(GRect2D bounds)
     
     _aspectRatio = fabsf(bounds.size.width / bounds.size.height);
     _far = 100.0f;
-//    projection = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f),
-//                                           _aspectRatio,
-//                                           0.1f,
-//                                           _far);
     position = GLKVector3Make(0, 0, 0);
     _displayScale = Display::currentDisplay()->GetDisplayScale();
     _scalex = _displayScale*64.0/bounds.size.width;
