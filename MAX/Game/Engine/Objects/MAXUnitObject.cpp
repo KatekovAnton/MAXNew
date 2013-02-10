@@ -15,7 +15,7 @@
 #include "MAXAnimationPrefix.h"
 #include "MAXUnitConfig.h"
 
-static bool showShadows = false;
+static bool showShadows = true;
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), _config(config), _lastHeadAnimTime(0)

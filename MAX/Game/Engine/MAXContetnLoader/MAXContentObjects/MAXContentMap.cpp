@@ -32,7 +32,6 @@ void MAXContentMap::LoadFromStream(BinaryReader *br)
         char namebuffer[5]; 
         br->ReadBuffer(5, namebuffer);
         name = string(namebuffer);
-       // SysLogInfo("Map internal format:       %s", name.c_str());
     }
     
     {//size
@@ -58,44 +57,18 @@ void MAXContentMap::LoadFromStream(BinaryReader *br)
     
     {//palette
         palette = new Color[pal_size/3];
-        for (int i = 0; i < pal_size/3; i++) {
+        for (int i = 0; i < pal_size/3; i++)
+        {
             palette[i].r = br->ReadChar();
             palette[i].g = br->ReadChar();
             palette[i].b = br->ReadChar();
             palette[i].a = 1.0;
         }
-        //br->ReadBuffer(pal_size, palette);
     }
     
     {//ground types
         groundType = new char[elementCount];
         br->ReadBuffer(elementCount, groundType);
     }
-    
-//    {
-//        int oldw = w;
-//        int oldh = h;
-//        
-//        w*=4;
-//        h*=4;
-//        
-//        short* newmap = new short[w*h];
-//       // memcpy(newmap, map, w*h/4);
-//        //h
-////        for (int i = 0; i < 1; i ++)
-////        {
-////            //w
-////            for (int j = 0; j < 1; j++)
-////            {
-//                for (int str = 0; str<oldh; str++)
-//                {
-//                    memcpy(((char*)newmap) +  (w * str) * sizeof(short), ((char*)map) + str * oldw * sizeof(short), oldw * sizeof(short));
-//                }
-//       //     }
-////        }
-//        short* tmp = map;
-//        map = newmap;
-//        delete []tmp;
-//    }
-   // SysLogInfo("map size w: %d  h: %d", w, h);
 }
+

@@ -146,8 +146,8 @@ Color default_palette[256] =
     {0x00, 0x00, 0x00, 0xff}, //110
     {0x00, 0x00, 0x00, 0xff}, //111
     {0x00, 0x00, 0x00, 0xff}, //112
-    {0xff, 0x00, 0x00, 0xff}, //113//
-    {0xff, 0x00, 0x00, 0xff}, //114//
+    {0xff, 0x00, 0x00, 0x00}, //113//
+    {0x00, 0xff, 0x00, 0xff}, //114//
     {0x00, 0x00, 0x00, 0xff}, //115
     {0x00, 0x00, 0x00, 0xff}, //116
     {0x00, 0x00, 0x00, 0xff}, //117
@@ -553,30 +553,31 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
     //MAXUnitMaterialFrame frame = target->frames[index];
     int size = width * height;
     
-    unsigned int* pixels = (unsigned int*)malloc(size*4);
+    Color* pixels = (Color*)malloc(size*4);
     memset(pixels, 0, size);
     // Rows offsets.
     unsigned int* rows = new unsigned int[height];
     shadowSource->ReadBuffer(height * 4, (char *)rows);
-    static unsigned int colorshadow = 0x710000ff;
-    static unsigned int colorclear = 0x720000ff;
+    Color currentColor = {113,0,0,0};//113 is transparent, 114 is opaque
 
     for(int Y = 0; Y < height; Y++)
     {
-        unsigned int color = colorshadow;
         int X = 0;
         int blockIndex = 0;
         while (buffer[rows[Y] + blockIndex] != 0xFF)
         {
-            int size = buffer[rows[Y]+blockIndex];
-            memset((void*)(pixels + (Y*width + X)), color, size);
-            
-            color = color == colorshadow?colorclear:colorshadow;
+            int size1 = buffer[rows[Y]+blockIndex];
+            int color = *((int*)(&currentColor));
+            memset((void*)(pixels + (Y*width + X)), color, size1*4);
+            if (currentColor.r == 113) 
+                currentColor.r = 114;
+            else
+                currentColor.r = 113;
             X += buffer[rows[Y] + blockIndex];
             blockIndex ++;
         }
     }
-   // memset(pixels, 0x710000FF, size*4);
+    
     Texture *result = TextureIdexedFromIndex(width, height, (GLubyte*)pixels);
     target->shadowTextures[index] = result;
 
