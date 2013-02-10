@@ -689,6 +689,7 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name)
     
     short cx = inf->ReadInt16();
     short cy = inf->ReadInt16();
+    cx = cy;
     
     GLubyte* pixels = new GLubyte[w * h];
     inf->ReadBuffer(w*h, (char*)pixels);

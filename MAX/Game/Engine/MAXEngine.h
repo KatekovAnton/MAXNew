@@ -76,6 +76,9 @@ public:
     
     void Update();
     void Draw();
+    void DrawGround();
+    void DrawUnits();
+    void DrawGrid();
     void DrawInterface();
     void EndFrame();
     
@@ -87,10 +90,7 @@ public:
     virtual bool applicationDidFinishLaunching();
     virtual void applicationDidEnterBackground();
     virtual void applicationWillEnterForeground();
-    
-    //test
-    
-    void switchLight();
+
     
     void ScaleCamera(float deltaScale);
     void MoveCamera(float deltax, float deltay);

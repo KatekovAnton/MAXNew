@@ -38,16 +38,16 @@ CCScene * UserInterface::GetGUISession() {
 }
 
 void UserInterface::Prepare() {
-    CCLabelTTF *label = CCLabelTTF::create("Grid ON/OFF", "HelveticaNeue-Bold", 20);
-    CCMenuItemLabel *labelItem = CCMenuItemLabel::create(label, (CCObject *)engine, menu_selector(MAXEngine::switchLight));
-    ccColor3B color = {255, 255, 255};
-    labelItem->setColor(color);
-    labelItem->setPosition(CCPointZero);
-    labelItem->setAnchorPoint(CCPointZero);
-    CCMenu *menu = CCMenu::create(labelItem, nullptr);
-    menu->setPosition(CCPoint(00, 280));
-    menu->setTouchEnabled(true);
-    _guiNodes->addObject(menu);
+//    CCLabelTTF *label = CCLabelTTF::create("Grid ON/OFF", "HelveticaNeue-Bold", 20);
+//    CCMenuItemLabel *labelItem = CCMenuItemLabel::create(label, (CCObject *)engine, menu_selector(MAXEngine::switchLight));
+//    ccColor3B color = {255, 255, 255};
+//    labelItem->setColor(color);
+//    labelItem->setPosition(CCPointZero);
+//    labelItem->setAnchorPoint(CCPointZero);
+//    CCMenu *menu = CCMenu::create(labelItem, nullptr);
+//    menu->setPosition(CCPoint(00, 280));
+//    menu->setTouchEnabled(true);
+//    _guiNodes->addObject(menu);
 }
 
 

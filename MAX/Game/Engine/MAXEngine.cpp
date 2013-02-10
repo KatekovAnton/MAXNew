@@ -132,48 +132,49 @@ void MAXEngine::RunLoop(double delta) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     this->Update();
-    GLint prog;
-    glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
     this->Draw();
-    glUseProgram(prog);
     
-    this->DrawInterface();
+    
     this->EndFrame();
 }
 
-void MAXEngine::switchLight() {
-//    float abs = _color - 0.6;
-//    if(abs < 0)
-//        abs = -abs;
-//    
-//    if (abs<0.1 ) {
-//        _color = 0;
-//    } else {
-//        _color = 0.6;
-//    }
-    drawGrid = !drawGrid;
-}
-
-void MAXEngine::EndFrame() {
+void MAXEngine::EndFrame()
+{
     _renderSystem->EndFrame();
 }
 
-void MAXEngine::DrawInterface() {
-    glEnable(GL_BLEND);
+void MAXEngine::Draw()
+{
     glDisable(GL_DEPTH_TEST);
-    if(drawGrid)
-        _grid->DrawGrid();
-    
-    ccDrawColor4F(1, 1, 0, 0.7);
-    ccDrawCircle(CCPoint(100,100), 10,  1, 10, false);
-    _director->mainLoop();
-   
-    glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
-    
+    glDisable(GL_CULL_FACE);
+    GLint prog;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+    DrawGround();
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    DrawUnits();
+    glUseProgram(prog);
+    glEnable(GL_DEPTH_TEST);
+    DrawInterface();
 }
 
-void MAXEngine::Update() {
+void MAXEngine::DrawGrid()
+{
+    if(drawGrid)
+        _grid->DrawGrid();
+}
+
+void MAXEngine::DrawInterface()
+{
+    ccDrawColor4F(1, 1, 0, 0.7);
+    ccDrawCircle(CCPoint(100,100), 140,  1, 40, false);
+    DrawGrid();
+    _director->mainLoop();
+}
+
+void MAXEngine::Update()
+{
     RequestManager::SharedRequestManager()->Flush();
     _scene->BeginFrame();
     
@@ -193,11 +194,8 @@ void MAXEngine::Update() {
     _scene->AfterUpdate();
 }
 
-void MAXEngine::Draw() {
-    
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-    glDisable(GL_CULL_FACE);
+void MAXEngine::DrawGround()
+{
     
     _shader = _mapShader;
     glUseProgram(_shader->GetProgram());
@@ -208,21 +206,22 @@ void MAXEngine::Draw() {
     _shader->SetFloatValue(UNIFORM_FLOATPARAM3, _map->mapW);
     _shader->SetFloatValue(UNIFORM_FLOATPARAM4, _map->mapH);
     _map.get()->Draw(_shader);
+    
+    glActiveTexture(GL_TEXTURE0);
+}
 
-    glEnable(GL_BLEND);
+void MAXEngine::DrawUnits()
+{
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
-
+    
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
     const UContainer<PivotObject>* objects = _scene->GetVisibleObjects();
-    for (int i = 0; i < objects->GetCount(); i++) 
+    for (int i = 0; i < objects->GetCount(); i++)
         objects->objectAtIndex(i)->Draw(_shader);
-    glDisable(GL_BLEND);
-    
-        
-    glEnable(GL_DEPTH_TEST);
+ 
     glActiveTexture(GL_TEXTURE0);
 }
 
