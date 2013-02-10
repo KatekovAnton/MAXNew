@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include "MAXContetnConstants.h"
+#include "cocos2d.h"
 
 #define MAXSCL MAXContentLoader::SharedLoader()
 
@@ -25,6 +26,7 @@ class EngineMesh;
 
 class MAXUnitObject;
 class MAXUnitConfig;
+
 
 struct typhdr
 {
@@ -74,8 +76,13 @@ public:
 
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     
+#pragma mark - memory
+    void ClearImageCache();
+    
 #pragma mark - fabric
     shared_ptr<MAXUnitObject> CreateUnit(MAXUnitConfig* unitConfig);
+    cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
+    cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */

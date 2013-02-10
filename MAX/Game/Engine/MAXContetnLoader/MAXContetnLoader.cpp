@@ -18,12 +18,17 @@
 #include "Sys.h"
 #include "EngineMesh.h"
 #include "MAXUnitConfig.h"
+#include "cocos2d.h"
 
 using namespace std;
+using namespace cocos2d;
 
 const int pal_size = 0x300;
 const int max_width = 640;
 const int max_height = 480;
+
+//Color* default_palette;
+
 
 Color default_palette[256] =
 {
@@ -145,9 +150,9 @@ Color default_palette[256] =
     {0x00, 0x00, 0x00, 0xff}, //109
     {0x00, 0x00, 0x00, 0xff}, //110
     {0x00, 0x00, 0x00, 0xff}, //111
-    {0x00, 0x00, 0x00, 0xff}, //112
+    {0x00, 0x00, 0x00, 0x00}, //112
     {0x00, 0x00, 0x00, 0x00}, //113//
-    {0x00, 0x00, 0x00, 100}, //114//
+    {0x00, 0x00, 0x00, 190}, //114//
     {0x00, 0x00, 0x00, 0xff}, //115
     {0x00, 0x00, 0x00, 0xff}, //116
     {0x00, 0x00, 0x00, 0xff}, //117
@@ -291,6 +296,7 @@ Color default_palette[256] =
     {0xff, 0xff, 0xff, 0xff}, //255
 };
 
+
 MAXContentLoader* _sharedContentLoader = nullptr;
 
 MAXContentLoader::MAXContentLoader()
@@ -312,9 +318,19 @@ MAXContentLoader::MAXContentLoader()
     
     GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
     memcpy(currentPalette, &defaultPalette, 4 * pal_size/3);
-    defaultPalette = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
+    defaultPalette = new Texture(GL_NEAREST, (GLubyte*)currentPalette, pal_size/3, 1);
     unitMesh = EngineMesh::CreateUnitQuad();
-    
+//    default_palette = (Color*)malloc(256*4);
+//    memset(default_palette, 0, 256*4);
+//    BinaryReader* br = new BinaryReader("Max.pal");
+//    for (int i = 0; i < 256; i++) {
+//        default_palette[i].r = br->ReadUChar();
+//        default_palette[i].g = br->ReadUChar();
+//        default_palette[i].b = br->ReadUChar();
+//        
+//        default_palette[i].a = i == 0?0:255;
+//    }
+//    delete br;
 }
 
 MAXContentLoader::~MAXContentLoader()
@@ -632,7 +648,7 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     loadedData[index] = (void*)result;
     
     //TODO:replace it to use one texure per player not per unit
-    Color unitColor = {200,0,0,255};
+    Color unitColor = {180,0,0,255};
     result->pallete = TexturePalleteFormDefaultPalleteAndPlayerColor(unitColor);
     delete []picbounds;
     delete []shadowPicbounds;
@@ -642,6 +658,12 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     free(shadowData);
     
     return result;
+}
+
+#pragma mark - memory
+void MAXContentLoader::ClearImageCache()
+{
+    
 }
 
 #pragma mark - fabric
@@ -654,5 +676,111 @@ shared_ptr<MAXUnitObject> MAXContentLoader::CreateUnit(MAXUnitConfig* unitConfig
     return result;
 }
 
+CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name)
+{
+    int index = FindImage(name);
+    void* cashed = loadedData[index];
+    if(cashed)
+        return (CCTexture2D*)cashed;
+    
+    inf->SetPosition(dir[index].offset);
+    short w = inf->ReadInt16();
+    short h = inf->ReadInt16();
+    
+    short cx = inf->ReadInt16();
+    short cy = inf->ReadInt16();
+    
+    GLubyte* pixels = new GLubyte[w * h];
+    inf->ReadBuffer(w*h, (char*)pixels);
+    
+    Color* colors = (Color*)malloc(w * h * 4);
+    for (int i = 0; i < w; i++)
+        for (int j = 0; j < h; j++)
+        {
+            int colornumber = pixels[j * w + i];
+            colors[j * w + i] = default_palette[colornumber];
+            colors[j * w + i].a = 255;
+        }
+    CCTexture2D* pTexture = new CCTexture2D();
+   // pTexture->autorelease();
+    CCSize sz = CCSize(w, h);
+    pTexture->initWithData(colors, kCCTexture2DPixelFormat_RGBA8888, w, h, sz);
+    free(colors);
+    loadedData[index] = (void*)pTexture;
+    return pTexture;
+}
+
+CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
+{
+    int index = FindImage(name);
+    
+    inf->SetPosition(dir[index].offset);
+    int f = inf->ReadInt();
+    f = f;
+    
+    short w = inf->ReadInt16();
+    short h = inf->ReadInt16();
+    
+    
+//    
+//    short w = inf->ReadInt16();
+//    short h = inf->ReadInt16();
+    
+    GLbyte* pixels = new GLbyte[w * h];
+    
+    GLbyte palette[768];
+    inf->ReadBuffer(768, (char*)palette);
+    
+    
+    short block_size;
+    unsigned char buf;
+    char fill[65535];
+    memset(fill, 0, 65535);
+    short m1 = -1;
+    int position = 0;
+    
+    while (position < w * h)
+    {
+        block_size = inf->ReadInt16();
+        
+        if (block_size > 0)
+        {
+            inf->ReadBuffer(block_size, fill);
+            
+            memcpy(pixels, fill+position, block_size);
+            position += block_size;
+        }
+        else
+        {
+            block_size = (short)((int)m1 * (int)block_size);
+            buf = inf->ReadUChar();
+        
+            memset(fill, buf, block_size);
+            memcpy(pixels, fill+position, block_size);
+            position += block_size;
+        }
+    }
+    
+    Color* colors = (Color*)malloc(w * h * 4);
+    for (int i = 0; i < w; i++)
+        for (int j = 0; j < h; j++)
+        {
+            int colornumber = pixels[j * w + i];
+            colors[j * w + i].r = palette[colornumber * 3];
+            colors[j * w + i].g = palette[colornumber * 3 + 1];
+            colors[j * w + i].b = palette[colornumber * 3 + 2];
+            colors[j * w + i].a = 1.0;
+        }
+    CCTexture2D* pTexture = new CCTexture2D();
+    pTexture->autorelease();
+    CCSize sz = CCSize(w, h);
+    pTexture->initWithData(colors, kCCTexture2DPixelFormat_RGBA8888, w, h, sz);
+    free(colors);
+    return pTexture;
+//    CCImage* image = new CCImage();
+//    image->autorelease();
+//    image->initWithImageData(colors, w * h * 4, kFmtRawData, w, h, 8);
+//
+}
 
 

@@ -46,6 +46,7 @@ class MAXEngine : public RequestDelegate  {
     float             _color;
     
 public:
+    
     MAXAnimationManager* GetAnimationManager () const { return _animationManager; };
     
     

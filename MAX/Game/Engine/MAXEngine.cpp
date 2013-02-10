@@ -45,7 +45,7 @@ MAXEngine::MAXEngine() {
 void MAXEngine::Init() {
     
     SysInit();
-    drawGrid = true;
+    drawGrid = false;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
@@ -88,8 +88,8 @@ void MAXEngine::Init() {
 //    _unit = MAXSCL->CreateUnit("TANK");
 //    _scene->AddObject(_unit, true);
     
-    _scene->GetInterfaceManager()->Prepare();
-    _director->pushScene(_scene->GetInterfaceManager()->GetGUISession());
+//    _scene->GetInterfaceManager()->Prepare();
+//    _director->pushScene(_scene->GetInterfaceManager()->GetGUISession());
     
     _director->setDisplayStats(true);
     _grid = new MAXGrid();
@@ -163,8 +163,10 @@ void MAXEngine::DrawInterface() {
     glDisable(GL_DEPTH_TEST);
     if(drawGrid)
         _grid->DrawGrid();
-    _director->mainLoop();
+    
+    ccDrawColor4F(1, 1, 0, 0.7);
     ccDrawCircle(CCPoint(100,100), 10,  1, 10, false);
+    _director->mainLoop();
    
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);

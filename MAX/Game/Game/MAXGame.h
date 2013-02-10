@@ -26,9 +26,16 @@ class MAXEngine;
 class MAXMap;
 class GameUnit;
 
+class GameMatch;
+class GameInterface;
+
 class MAXGame : public DisplayPinchDelegate {
     
     MAXGAMESTATE _curretnState;
+    
+    
+    GameInterface* _gameInterface;
+    GameMatch* _match;
 public:
     
     shared_ptr<MAXMap> map;

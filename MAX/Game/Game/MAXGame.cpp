@@ -18,6 +18,7 @@
 #include "GameUnit.h"
 
 #include "MAXUnitConfig.h"
+#include "GameInteface.h"
 
 MAXGame globalGame;
 MAXGame * game = &globalGame;
@@ -29,7 +30,9 @@ MAXGame::MAXGame()
 }
 
 MAXGame::~MAXGame()
-{}
+{
+    delete _gameInterface;
+}
 
 void MAXGame::Init()
 {
@@ -46,6 +49,9 @@ void MAXGame::Init()
     _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit)));
     _testUnit->SetUnitLocation(CCPoint(56, 56), false);
     engine->AddUnit(_testUnit->GetUnitObject());
+    _gameInterface = new GameInterface();
+    _gameInterface->InitBaseInterface();
+    CCDirector::sharedDirector()->pushScene(_gameInterface);
 }
 
 void MAXGame::SetMap(string mapName)
