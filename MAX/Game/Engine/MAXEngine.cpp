@@ -208,6 +208,7 @@ void MAXEngine::Draw() {
     _map.get()->Draw(_shader);
 
     glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);

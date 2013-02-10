@@ -146,8 +146,8 @@ Color default_palette[256] =
     {0x00, 0x00, 0x00, 0xff}, //110
     {0x00, 0x00, 0x00, 0xff}, //111
     {0x00, 0x00, 0x00, 0xff}, //112
-    {0xff, 0x00, 0x00, 0x00}, //113//
-    {0x00, 0xff, 0x00, 0xff}, //114//
+    {0x00, 0x00, 0x00, 0x00}, //113//
+    {0x00, 0x00, 0x00, 100}, //114//
     {0x00, 0x00, 0x00, 0xff}, //115
     {0x00, 0x00, 0x00, 0xff}, //116
     {0x00, 0x00, 0x00, 0xff}, //117
@@ -553,7 +553,7 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
     //MAXUnitMaterialFrame frame = target->frames[index];
     int size = width * height;
     
-    Color* pixels = (Color*)malloc(size*4);
+    GLubyte* pixels = (GLubyte*)malloc(size);
     memset(pixels, 0, size);
     // Rows offsets.
     unsigned int* rows = new unsigned int[height];
@@ -567,8 +567,9 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
         while (buffer[rows[Y] + blockIndex] != 0xFF)
         {
             int size1 = buffer[rows[Y]+blockIndex];
-            int color = *((int*)(&currentColor));
-            memset((void*)(pixels + (Y*width + X)), color, size1*4);
+            for (int i = 0; i < size1; i++) 
+                pixels[Y*(int)width + X + i] = currentColor.r;
+            
             if (currentColor.r == 113) 
                 currentColor.r = 114;
             else
