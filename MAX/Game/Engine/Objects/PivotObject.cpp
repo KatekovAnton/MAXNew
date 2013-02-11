@@ -93,15 +93,15 @@ Material * PivotObject::GetMaterial() {
     return NULL;
 }
 
-GLKMatrix4 PivotObject::GetRenderMatrix() {
+GLKMatrix4 PivotObject::GetRenderMatrix() const {
     return _renderMatrix;
 }
 
-GLKMatrix4 PivotObject::GetTransformMatrix() {
+GLKMatrix4 PivotObject::GetTransformMatrix() const {
     return _transformMatrix;
 }
 
-GLKVector3 PivotObject::GetPosition() {
+GLKVector3 PivotObject::GetPosition() const {
     return GLKMatrix4GetTranslation(_transformMatrix);
 }
 

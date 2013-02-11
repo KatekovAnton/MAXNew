@@ -20,13 +20,19 @@ class MAXUnitSelection {
     
     double _animStartTime;
     
+    
+    CCPoint _globalPoints[12];
+    CCPoint _screenpoints[12];
+    bool _unitSelected;
+    float _part;
+    
 public:
     
     MAXUnitSelection();
     ~MAXUnitSelection();
     
     void SelectUnit(shared_ptr<MAXUnitObject> unit);
-    void DeelectUnit(shared_ptr<MAXUnitObject> unit);
+    void DeselectUnit(shared_ptr<MAXUnitObject> unit);
     
     void Update();
     void Draw();

@@ -20,6 +20,7 @@ class MAXObject : public PivotObject {
 public:
     
     void SetPosition(const CCPoint& cell);
+    CCPoint ObjectCell() const;
     
     static GLKMatrix4 MatrixForCell(const CCPoint& cell);
     static int CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget);

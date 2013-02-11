@@ -66,6 +66,7 @@ public:
     void Init();
     void EngineMain();
     
+    void SelectUnit(const shared_ptr<MAXUnitObject>& unit);
     void AddUnit(const shared_ptr<MAXUnitObject>& newUnit);
     void RemoveUnit(const shared_ptr<MAXUnitObject>& newUnit);
     

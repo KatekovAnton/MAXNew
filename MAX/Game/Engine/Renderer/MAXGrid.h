@@ -28,7 +28,7 @@ class MAXGrid {
     
 public:
     
-    
+    float cameraScale;
     
     float startx;
     int countx;

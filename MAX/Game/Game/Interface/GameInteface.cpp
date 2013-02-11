@@ -18,7 +18,7 @@ void ProceedCCNode(CCNode* node)
 
 GameInterface::GameInterface()
 {
-    
+    _drawGrid = false;
 }
 
 GameInterface::~GameInterface()

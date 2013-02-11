@@ -42,8 +42,8 @@ public:
     PivotObject();
     virtual ~PivotObject();
 
-    GLKMatrix4 GetRenderMatrix();
-    GLKMatrix4 GetTransformMatrix();
+    GLKMatrix4 GetRenderMatrix() const;
+    GLKMatrix4 GetTransformMatrix() const;
     
     void Update();
     virtual void AfterUpdate();
@@ -61,7 +61,7 @@ public:
     virtual RenderObject * GetRenderAspect();
     virtual Material * GetMaterial();
     
-    virtual GLKVector3 GetPosition();
+    virtual GLKVector3 GetPosition() const;
     virtual void SetPosition(const GLKVector3& position);
     
 };

@@ -58,12 +58,13 @@ void MAXDrawPrimitives::Begin()
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)vertices);
 }
 
-void MAXDrawPrimitives::BindColor()
+void MAXDrawPrimitives::BindColor(const GLKVector4& color)
 {
+    _color = color;
     _shader->SetVector4Value(UNIFORM_VECTOR1, (float*)&_color);
 }
 
-void MAXDrawPrimitives::DrawLine(CCPoint from, CCPoint to)
+void MAXDrawPrimitives::DrawLine(const CCPoint& from, const CCPoint& to)
 {
     vertices[0].x = from.x;
     vertices[0].y = from.y;

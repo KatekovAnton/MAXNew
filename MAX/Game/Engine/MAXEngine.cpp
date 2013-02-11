@@ -151,22 +151,34 @@ void MAXEngine::Update()
     _scene->CalculateVisbleObject();
     _animationManager->Update();
     if(updategrid)
+    {
+        _grid->cameraScale = _camera->scale;
         _grid->UpdateInfo(false);
-    
+    }
     _scene->AfterUpdate();
+    _unitSelection->Update();
+}
+
+void MAXEngine::SelectUnit(const shared_ptr<MAXUnitObject>& unit)
+{
+    _unitSelection->SelectUnit(unit);
 }
 
 void MAXEngine::DrawLine()
 {
-    MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
-    
-    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 1, 1);
-    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
-    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(10, 10), ccp(100, 100));
-    
-    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
-    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
-    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(100, 100), ccp(30, 320));
+//    MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
+//    
+//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 1, 1);
+//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(10, 10), ccp(100, 100));
+//    
+//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
+//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(100, 100), ccp(30, 320));
+//    
+//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
+//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawCircle(CCPoint(100,100), 140,  1, 40, false);
 }
 
 void MAXEngine::Draw()
@@ -180,7 +192,9 @@ void MAXEngine::Draw()
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     DrawGrid();
+    //DrawLine();
     DrawUnits();
+    _unitSelection->Draw();
     glUseProgram(prog);
     glEnable(GL_DEPTH_TEST);
     DrawInterface();
@@ -188,12 +202,6 @@ void MAXEngine::Draw()
 
 void MAXEngine::DrawGrid()
 {
-//    MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
-//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
-//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
-//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawCircle(CCPoint(100,100), 140,  1, 40, false);
-    
-
     if(drawGrid)
         _grid->DrawGrid();
 }

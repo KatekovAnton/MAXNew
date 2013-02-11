@@ -112,8 +112,7 @@ void MAXGrid::UpdateInfo(bool needNewSize)
 void MAXGrid::DrawGrid()
 {
     MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
-    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(14.0/255.0, 58.0/255.0, 0, 0.7);
-    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor(GLKVector4Make(14.0/255.0, 58.0/255.0, 0, 0.7));
     //ccDrawColor4F(14.0/255.0, 58.0/255.0, 0, 0.7);
     for (int i = 0; i < countx; i++)
     {

@@ -33,8 +33,8 @@ public:
     static MAXDrawPrimitives* SharedDrawPrimitives();
     
     void Begin();
-    void BindColor();
-    void DrawLine(CCPoint from, CCPoint to);
+    void BindColor(const GLKVector4& color);
+    void DrawLine(const CCPoint& from, const CCPoint& to);
     
     void DrawCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
     void DrawCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter);
