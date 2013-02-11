@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 using namespace std;
-Shader::Shader(string vertexName, string fragmentName) {
+Shader::Shader(const string& vertexName, const string& fragmentName) {
 //#ifdef TARGET_OS_IPHONE
 //    LoadShader(vertexName, fragmentName);
 //#endif
@@ -19,8 +19,8 @@ Shader::Shader(string vertexName, string fragmentName) {
 //	LoadShaderWin(vertexName, fragmentName);
 //#endif
 	LoadShader(vertexName, fragmentName);
-    _shaderUniforms = new GLuint[MAX_UNIFORMS];
-    
+    memset(_shaderUniforms, 0, MAX_UNIFORMS*4);
+    glUseProgram(_program);
     _shaderUniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_program, "modelMatrix");
     _shaderUniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_program, "viewMatrix");
     
@@ -47,6 +47,10 @@ Shader::Shader(string vertexName, string fragmentName) {
 
 void Shader::SetMatrixValue(int uniformCode, float *value) {
     glUniformMatrix4fv(_shaderUniforms[uniformCode], 1, 0, value);
+}
+
+void Shader::SetVector4Value(int uniformCode, float* value) {
+    glUniform4fv(_shaderUniforms[uniformCode], 1, value);
 }
 
 void Shader::SetFloatValue(int uniformCode, float value) {
@@ -172,7 +176,8 @@ bool Shader::LoadShaderWin(string vertexName, string fragmentName)
 #endif
 }
 
-bool Shader::LoadShader(string vertexName, string fragmentName) {
+bool Shader::LoadShader(const string& vertexName, const string& fragmentName)
+{
     GLuint vertShader, fragShader;
     
     // Create shader program.

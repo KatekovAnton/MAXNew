@@ -9,6 +9,7 @@
 #include "MAXGrid.h"
 #include "MAXEngine.h"
 #include "MAXCamera.h"
+#include "MAXDrawPrimitives.h"
 
 
 MAXGrid::MAXGrid()
@@ -110,11 +111,20 @@ void MAXGrid::UpdateInfo(bool needNewSize)
 
 void MAXGrid::DrawGrid()
 {
-    ccDrawColor4F(14.0/255.0, 58.0/255.0, 0, 0.7);
-    for (int i = 0; i < countx; i++) 
-        ccDrawLine(_startsW[i], _endsW[i]);
+    MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
+    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(14.0/255.0, 58.0/255.0, 0, 0.7);
+    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+    //ccDrawColor4F(14.0/255.0, 58.0/255.0, 0, 0.7);
+    for (int i = 0; i < countx; i++)
+    {
+        MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(_startsW[i], _endsW[i]);
+       // ccDrawLine(_startsW[i], _endsW[i]);
+    }
     
     for (int i = 0; i < county; i++)
-        ccDrawLine(_startsH[i], _endsH[i]);
+    {
+        MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(_startsH[i], _endsH[i]);
+      //  ccDrawLine(_startsH[i], _endsH[i]);
+    }
     
 }

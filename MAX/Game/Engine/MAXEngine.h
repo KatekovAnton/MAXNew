@@ -76,6 +76,7 @@ public:
     
     void Update();
     void Draw();
+    void DrawLine();
     void DrawGround();
     void DrawUnits();
     void DrawGrid();

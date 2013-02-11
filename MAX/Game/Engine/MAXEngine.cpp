@@ -31,6 +31,7 @@
 #include "Request.h"
 #include "RequestManager.h"
 #include "Response.h"
+#include "MAXDrawPrimitives.h"
 
 using namespace cocos2d;
 //using namespace Kompex;
@@ -71,6 +72,7 @@ void MAXEngine::Init() {
     
     _unitShader = new Shader("ShaderUnit.vsh", "ShaderUnit.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
+    MAXDrawPrimitives::SharedDrawPrimitives();
 
   //  _shader1 = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
     GCCHECK_GL_ERROR_DEBUG(); 
@@ -85,11 +87,6 @@ void MAXEngine::Init() {
     _animationManager = new MAXAnimationManager();
     
     _scene = new SceneSystem();
-//    _unit = MAXSCL->CreateUnit("TANK");
-//    _scene->AddObject(_unit, true);
-    
-//    _scene->GetInterfaceManager()->Prepare();
-//    _director->pushScene(_scene->GetInterfaceManager()->GetGUISession());
     
     _director->setDisplayStats(true);
     _grid = new MAXGrid();
@@ -138,9 +135,38 @@ void MAXEngine::RunLoop(double delta) {
     this->EndFrame();
 }
 
-void MAXEngine::EndFrame()
+void MAXEngine::Update()
 {
-    _renderSystem->EndFrame();
+    RequestManager::SharedRequestManager()->Flush();
+    _scene->BeginFrame();
+    
+    
+    _scene->Frame(_elapsedTime);
+    _map->Frame(_elapsedTime);
+    
+    _scene->EndFrame();
+    _scene->UpdateScene();
+    bool updategrid = _camera->changed;
+    _camera->Update();
+    _scene->CalculateVisbleObject();
+    _animationManager->Update();
+    if(updategrid)
+        _grid->UpdateInfo(false);
+    
+    _scene->AfterUpdate();
+}
+
+void MAXEngine::DrawLine()
+{
+    MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
+    
+    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 1, 1);
+    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(10, 10), ccp(100, 100));
+    
+    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
+    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(100, 100), ccp(30, 320));
 }
 
 void MAXEngine::Draw()
@@ -153,6 +179,7 @@ void MAXEngine::Draw()
     DrawGround();
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
+    DrawGrid();
     DrawUnits();
     glUseProgram(prog);
     glEnable(GL_DEPTH_TEST);
@@ -161,37 +188,14 @@ void MAXEngine::Draw()
 
 void MAXEngine::DrawGrid()
 {
+//    MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
+//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
+//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawCircle(CCPoint(100,100), 140,  1, 40, false);
+    
+
     if(drawGrid)
         _grid->DrawGrid();
-}
-
-void MAXEngine::DrawInterface()
-{
-    ccDrawColor4F(1, 1, 0, 0.7);
-    ccDrawCircle(CCPoint(100,100), 140,  1, 40, false);
-    DrawGrid();
-    _director->mainLoop();
-}
-
-void MAXEngine::Update()
-{
-    RequestManager::SharedRequestManager()->Flush();
-    _scene->BeginFrame();
-    
-    
-    _scene->Frame(_elapsedTime);
-    _map->Frame(_elapsedTime);
-
-    _scene->EndFrame();
-    _scene->UpdateScene();
-    bool updategrid = _camera->changed;
-    _camera->Update();
-    _scene->CalculateVisbleObject();
-    _animationManager->Update();
-    if(updategrid)
-        _grid->UpdateInfo(false);
-    
-    _scene->AfterUpdate();
 }
 
 void MAXEngine::DrawGround()
@@ -223,6 +227,17 @@ void MAXEngine::DrawUnits()
         objects->objectAtIndex(i)->Draw(_shader);
  
     glActiveTexture(GL_TEXTURE0);
+}
+
+void MAXEngine::DrawInterface()
+{
+    //DrawGrid();
+    _director->mainLoop();
+}
+
+void MAXEngine::EndFrame()
+{
+    _renderSystem->EndFrame();
 }
 
 void MAXEngine::applicationDidEnterBackground() {

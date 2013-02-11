@@ -56,9 +56,9 @@ using namespace std;
 
 class Shader {
     GLuint      _program;
-    GLuint      *_shaderUniforms;
+    GLuint      _shaderUniforms[MAX_UNIFORMS];
     
-    bool LoadShader(string vertexName, string fragmentName);
+    bool LoadShader(const string& vertexName, const string& fragmentName);
 	bool LoadShaderWin(string vertexName, string fragmentName);
 
 	GLchar* LoadShaderSource(const char *filename);
@@ -69,9 +69,10 @@ class Shader {
     
 public:
     
-    Shader(string vertexName, string fragmentName);
+    Shader(const string& vertexName, const string& fragmentName);
     void SetMatrixValue(int uniformCode, float *value);
     void SetFloatValue(int uniformCode, float value);
+    void SetVector4Value(int uniformCode, float* value);
     
     GLuint  GetProgram();
     
