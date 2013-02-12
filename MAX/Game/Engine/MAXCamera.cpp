@@ -10,12 +10,9 @@
 #include "Display.h"
 #include "MAXEngine.h"
 
-# define MIN(x,y) ((x)<(y)?(x):(y))
-
 #define DEFAULT_SCALE 0.5
 #define MIN_SCALE 0.25
 #define DEFAULT_MAP_PART 112
-
 #define DEFAULT_CELL_SIZE 64.0
 
 MAXCamera::MAXCamera(GRect2D bounds)
@@ -77,23 +74,23 @@ void MAXCamera::Move(float deltax, float deltay)
     if (rect.origin.x<0)
     {
         //move camera to right
-        position.x += rect.origin.x/64.0;
+        position.x += rect.origin.x/DEFAULT_CELL_SIZE;
     }
     else if (rect.size.width + rect.origin.x > mapW * DEFAULT_CELL_SIZE)
     {
         //move camera to left
-        position.x += (rect.size.width + rect.origin.x - mapW * DEFAULT_CELL_SIZE)/64.0;
+        position.x += (rect.size.width + rect.origin.x - mapW * DEFAULT_CELL_SIZE)/DEFAULT_CELL_SIZE;
     }
     
     if (rect.origin.y<0)
     {
         //move camera bottom
-        position.y -= rect.origin.y/64.0;
+        position.y -= rect.origin.y/DEFAULT_CELL_SIZE;
     }
     else if (rect.size.height + rect.origin.y > mapH * DEFAULT_CELL_SIZE)
     {
         //move camera top
-        position.y -= (rect.size.height + rect.origin.y - mapH * DEFAULT_CELL_SIZE)/64.0;
+        position.y -= (rect.size.height + rect.origin.y - mapH * DEFAULT_CELL_SIZE)/DEFAULT_CELL_SIZE;
     }
     
     changed = true;
@@ -109,20 +106,5 @@ void MAXCamera::Update()
 
 void MAXCamera::RecalculateViewMatrix()
 {
-//    GLfloat screenCurrentWidth = scale*screenSize.width/DEFAULT_CELL_SIZE;//Screen width in cells
-//    GLfloat screenCurrentHeight = scale*screenSize.height/DEFAULT_CELL_SIZE;//Screen width in cells
-//    
-//    if(position.x+screenCurrentWidth/2>mapW/2){
-//        position.x = (mapW-screenCurrentWidth)/2;
-//    }else if(position.x-screenCurrentWidth/2<-mapW/2){
-//        position.x = (-mapW+screenCurrentWidth)/2;
-//    }
-//    
-//    if(position.y+screenCurrentHeight/2>mapH/2){
-//        position.y = (mapH-screenCurrentHeight)/2;
-//    }else if(position.y-screenCurrentHeight/2<-mapH/2){
-//        position.y = (-mapH+screenCurrentHeight)/2;
-//    }
-    
     this->view = GLKMatrix4Multiply(GLKMatrix4MakeScale(1.0/scale, 1.0/scale, 1), GLKMatrix4MakeTranslationV(position));
 }
