@@ -35,6 +35,9 @@ public:
     GLKMatrix4          projection;
     GLKMatrix4          view;
     
+    int mapH;
+    int mapW;
+    
     //current game camera scale
     GLfloat             scale;
     //current game camera position
@@ -42,13 +45,15 @@ public:
     
     MAXCamera(GRect2D bounds);
     
+    //set map bounds
+    void SetMapSize(int w, int h);
     //scale camera, on touches
     void Scale(float deltaScale);
     //move camera
     void Move(float deltax, float deltay);
     //update camra, recalculates values
     void Update();
-    
+
 };
 
 #endif /* defined(__MAX__MAXCamera__) */

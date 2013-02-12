@@ -10,7 +10,11 @@
 #include "Display.h"
 
 #define MINSCALE 0.25
-#define MAXSCALE 20
+#define MAXSCALE 3.5
+
+#define DEFAULT_SCALE 0.5
+
+#define DEFAULT_MAP_PART 112
 
 MAXCamera::MAXCamera(GRect2D bounds)
 {
@@ -22,7 +26,10 @@ MAXCamera::MAXCamera(GRect2D bounds)
     _scalex = _displayScale*64.0/bounds.size.width;
     _scaley = _displayScale*64.0/bounds.size.height;
     
-    scale = 0.5;
+    scale = DEFAULT_SCALE;
+    
+    mapH = DEFAULT_MAP_PART;
+    mapW = DEFAULT_MAP_PART;
     
     this->view = GLKMatrix4Identity;
     
@@ -31,6 +38,13 @@ MAXCamera::MAXCamera(GRect2D bounds)
     maxDepth = 100.0;
     screenSize = bounds.size;
     
+    changed = true;
+}
+
+void MAXCamera::SetMapSize(int w, int h)
+{
+    mapH = h;
+    mapW = w;
     changed = true;
 }
 
@@ -47,7 +61,7 @@ void MAXCamera::Scale(float deltaScale)
 void MAXCamera::Move(float deltax, float deltay)
 {
     position.x += deltax * _scalex * scale/( _displayScale * 2.0);
-    position.y -= deltay * _scalex * scale/( _displayScale * 2.0);
+    position.y -= deltay * _scaley * scale/( _displayScale * 2.0);
     changed = true;
 }
 
@@ -61,5 +75,20 @@ void MAXCamera::Update()
 
 void MAXCamera::RecalculateViewMatrix()
 {
+    GLfloat screenCurrentWidth = scale*screenSize.width*(_displayScale * 2.0)/64.0;//Screen width in cells
+    GLfloat screenCurrentHeight = scale*screenSize.height*(_displayScale * 2.0)/64.0;//Screen width in cells
+    
+    if(position.x+screenCurrentWidth/2>mapW/2){
+        position.x = (mapW-screenCurrentWidth)/2;
+    }else if(position.x-screenCurrentWidth/2<-mapW/2){
+        position.x = (-mapW+screenCurrentWidth)/2;
+    }
+    
+    if(position.y+screenCurrentHeight/2>mapH/2){
+        position.y = (mapH-screenCurrentHeight)/2;
+    }else if(position.y-screenCurrentHeight/2<-mapH/2){
+        position.y = (-mapH+screenCurrentHeight)/2;
+    }
+    
     this->view = GLKMatrix4Multiply(GLKMatrix4MakeScale(1.0/scale, 1.0/scale, 1), GLKMatrix4MakeTranslationV(position));
 }

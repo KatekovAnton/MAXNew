@@ -20,8 +20,8 @@ class MAXMapObject : public PivotObject {
     
 public:
     
-    float mapW;
-    float mapH;
+    int mapW;
+    int mapH;
     float mapTexW;
     float mapTexH;
     

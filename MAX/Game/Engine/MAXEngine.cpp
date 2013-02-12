@@ -274,6 +274,7 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 {
     _map = shared_ptr<MAXMapObject>(new MAXMapObject(map));
     _grid->SetMapSize(_map->mapW, _map->mapH);
+    _camera->SetMapSize(_map->mapW, _map->mapH);
 }
 
 CCPoint MAXEngine::ScreenToWorldCoordinates(const CCPoint &screen)
