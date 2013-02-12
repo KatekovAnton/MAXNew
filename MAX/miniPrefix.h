@@ -16,6 +16,7 @@
 #include "Geometry.h"
 #include "cocos2d.h"
 #include "Utils.h"
+#include "clist.h"
 
 using namespace cocos2d;
 using namespace std;
