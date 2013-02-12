@@ -8,8 +8,10 @@
 
 #include "GameMatch.h"
 #include "GameMatchPlayer.h"
+#include "GameBattlefield.h"
 
 GameMatch::GameMatch()
+:_battlefield(NULL)
 {}
 
 GameMatch::~GameMatch()
@@ -18,4 +20,6 @@ GameMatch::~GameMatch()
         GameMatchPlayer* player = players[i];
         delete player;
     }
+    if(_battlefield)
+        delete _battlefield;
 }

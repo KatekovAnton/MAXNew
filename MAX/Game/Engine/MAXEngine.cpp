@@ -192,7 +192,6 @@ void MAXEngine::Draw()
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     DrawGrid();
-    //DrawLine();
     DrawUnits();
     _unitSelection->Draw();
     glUseProgram(prog);
@@ -208,7 +207,6 @@ void MAXEngine::DrawGrid()
 
 void MAXEngine::DrawGround()
 {
-    
     _shader = _mapShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
@@ -239,7 +237,6 @@ void MAXEngine::DrawUnits()
 
 void MAXEngine::DrawInterface()
 {
-    //DrawGrid();
     _director->mainLoop();
 }
 
@@ -381,14 +378,8 @@ CCRect MAXEngine::ScreenToWorldRect()
 #pragma mark - RequestDelegate
 void MAXEngine::RequestDidFinishLoadingWithResponce(Request* request, Response* response)
 {
-    printf("responce: \n");
-    printf("%s", response->ToString().c_str());
-    printf("\n");
+//    printf("responce: \n");
+//    printf("%s", response->ToString().c_str());
+//    printf("\n");
 }
 
-
-//void MAXEngine::TestFire(CCPoint unitLocation, CCPoint targetLocation)
-//{
-//    _unit->SetHeadDirection(MAXUnitObject::CalculateHeadIndex(unitLocation, targetLocation));
-//    _unit->SetIsFireing(true);
-//}
