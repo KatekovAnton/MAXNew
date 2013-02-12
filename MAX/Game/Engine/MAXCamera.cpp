@@ -9,12 +9,11 @@
 #include "MAXCamera.h"
 #include "Display.h"
 
-#define MINSCALE 0.25
-#define MAXSCALE 3.5
-
 #define DEFAULT_SCALE 0.5
 
 #define DEFAULT_MAP_PART 112
+
+#define DEFAULT_CELL_SIZE 64.0
 
 MAXCamera::MAXCamera(GRect2D bounds)
 {
@@ -23,8 +22,8 @@ MAXCamera::MAXCamera(GRect2D bounds)
     _far = 100.0f;
     position = GLKVector3Make(0, 0, 0);
     _displayScale = Display::currentDisplay()->GetDisplayScale();
-    _scalex = _displayScale*64.0/bounds.size.width;
-    _scaley = _displayScale*64.0/bounds.size.height;
+    _scalex = DEFAULT_CELL_SIZE/bounds.size.width;
+    _scaley = DEFAULT_CELL_SIZE/bounds.size.height;
     
     scale = DEFAULT_SCALE;
     
@@ -51,10 +50,15 @@ void MAXCamera::SetMapSize(int w, int h)
 void MAXCamera::Scale(float deltaScale)
 {
     scale/=deltaScale;
-    if (scale<MINSCALE)
-        scale = MINSCALE;
-    if (scale>MAXSCALE) 
-        scale = MAXSCALE;
+    GLfloat screenCurrentWidth = scale*screenSize.width/DEFAULT_CELL_SIZE;//Screen width in cells
+    GLfloat screenCurrentHeight = scale*screenSize.height/DEFAULT_CELL_SIZE;//Screen width in cells
+    
+    if(screenCurrentWidth>mapW){
+        scale = mapW*DEFAULT_CELL_SIZE/screenSize.width;
+    }else if(screenCurrentHeight>mapH){
+        scale = mapH*DEFAULT_CELL_SIZE/screenSize.height;
+    }
+        
     changed = true;
 }
 
@@ -75,8 +79,8 @@ void MAXCamera::Update()
 
 void MAXCamera::RecalculateViewMatrix()
 {
-    GLfloat screenCurrentWidth = scale*screenSize.width*(_displayScale * 2.0)/64.0;//Screen width in cells
-    GLfloat screenCurrentHeight = scale*screenSize.height*(_displayScale * 2.0)/64.0;//Screen width in cells
+    GLfloat screenCurrentWidth = scale*screenSize.width/DEFAULT_CELL_SIZE;//Screen width in cells
+    GLfloat screenCurrentHeight = scale*screenSize.height/DEFAULT_CELL_SIZE;//Screen width in cells
     
     if(position.x+screenCurrentWidth/2>mapW/2){
         position.x = (mapW-screenCurrentWidth)/2;
