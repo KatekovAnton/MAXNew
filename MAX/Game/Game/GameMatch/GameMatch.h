@@ -13,11 +13,13 @@
 #include "miniPrefix.h"
 
 class GameMatchPlayer;
+class GameBattlefield;
 
 class GameMatch {
     
 public:
-
+    
+    GameBattlefield* _battlefield;
     vector<GameMatchPlayer*> players;
 
     GameMatch();

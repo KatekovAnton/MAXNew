@@ -185,7 +185,6 @@
 		D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */; };
 		D11ABAA4168DDB0A00CD29EA /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */; };
 		D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */; };
-		D11ABAAA168DDB3400CD29EA /* GameBuilding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA8168DDB3400CD29EA /* GameBuilding.cpp */; };
 		D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */; };
 		D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48D1168B31030055F35D /* MAXContentMap.cpp */; };
 		D16D48F9168B381D0055F35D /* 112x112.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48DF168B381D0055F35D /* 112x112.wrl */; };
@@ -290,6 +289,11 @@
 		D1DBC4B616C924D40096034A /* ShaderLine.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4B416C924D30096034A /* ShaderLine.vsh */; };
 		D1DBC4B716C926B00096034A /* ShaderLine.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D1DBC4B316C924D20096034A /* ShaderLine.fsh */; };
 		D1DBC4B816C926B00096034A /* ShaderLine.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D1DBC4B416C924D30096034A /* ShaderLine.vsh */; };
+		D1DBC4C216CA50400096034A /* GameBattlefield.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4C016CA50400096034A /* GameBattlefield.cpp */; };
+		D1DBC4C616CA517D0096034A /* PlayerUpgradeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4C416CA517D0096034A /* PlayerUpgradeManager.cpp */; };
+		D1DBC4CA16CA520E0096034A /* PlayerResearchManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4C816CA520D0096034A /* PlayerResearchManager.cpp */; };
+		D1DBC4CE16CA53360096034A /* PlayerClanBonuses.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4CC16CA53360096034A /* PlayerClanBonuses.cpp */; };
+		D1DBC4D116CA53590096034A /* GameUnitParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4CF16CA53590096034A /* GameUnitParameters.cpp */; };
 		D1E3D3ED16BC2CC200E88F2E /* MAXUnitSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */; };
 		D1E3D3F016BC2F1D00E88F2E /* MAXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */; };
 		D1E3D3F316BC319000E88F2E /* MAXEffectObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */; };
@@ -515,8 +519,6 @@
 		D11ABAA3168DDB0A00CD29EA /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnit.cpp; sourceTree = "<group>"; };
 		D11ABAA6168DDB2A00CD29EA /* GameUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnit.h; sourceTree = "<group>"; };
-		D11ABAA8168DDB3400CD29EA /* GameBuilding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameBuilding.cpp; sourceTree = "<group>"; };
-		D11ABAA9168DDB3400CD29EA /* GameBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameBuilding.h; sourceTree = "<group>"; };
 		D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitMaterial.cpp; sourceTree = "<group>"; };
 		D11ABAC5168DEC3000CD29EA /* MAXUnitMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitMaterial.h; sourceTree = "<group>"; };
 		D16D48D1168B31030055F35D /* MAXContentMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentMap.cpp; sourceTree = "<group>"; };
@@ -677,6 +679,16 @@
 		D1DBC4B116C923410096034A /* MAXDrawPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXDrawPrimitives.h; sourceTree = "<group>"; };
 		D1DBC4B316C924D20096034A /* ShaderLine.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderLine.fsh; sourceTree = "<group>"; };
 		D1DBC4B416C924D30096034A /* ShaderLine.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderLine.vsh; sourceTree = "<group>"; };
+		D1DBC4C016CA50400096034A /* GameBattlefield.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameBattlefield.cpp; sourceTree = "<group>"; };
+		D1DBC4C116CA50400096034A /* GameBattlefield.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameBattlefield.h; sourceTree = "<group>"; };
+		D1DBC4C416CA517D0096034A /* PlayerUpgradeManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerUpgradeManager.cpp; sourceTree = "<group>"; };
+		D1DBC4C516CA517D0096034A /* PlayerUpgradeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerUpgradeManager.h; sourceTree = "<group>"; };
+		D1DBC4C816CA520D0096034A /* PlayerResearchManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerResearchManager.cpp; sourceTree = "<group>"; };
+		D1DBC4C916CA520D0096034A /* PlayerResearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerResearchManager.h; sourceTree = "<group>"; };
+		D1DBC4CC16CA53360096034A /* PlayerClanBonuses.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerClanBonuses.cpp; sourceTree = "<group>"; };
+		D1DBC4CD16CA53360096034A /* PlayerClanBonuses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerClanBonuses.h; sourceTree = "<group>"; };
+		D1DBC4CF16CA53590096034A /* GameUnitParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnitParameters.cpp; sourceTree = "<group>"; };
+		D1DBC4D016CA53590096034A /* GameUnitParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnitParameters.h; sourceTree = "<group>"; };
 		D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitSelection.cpp; sourceTree = "<group>"; };
 		D1E3D3EC16BC2CC200E88F2E /* MAXUnitSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitSelection.h; sourceTree = "<group>"; };
 		D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObject.cpp; sourceTree = "<group>"; };
@@ -970,10 +982,14 @@
 		8BB8456E16C8436400B9A007 /* GameMatch */ = {
 			isa = PBXGroup;
 			children = (
+				D1DBC4CB16CA52C10096034A /* StaticInformation */,
+				D1DBC4C316CA50C20096034A /* PlayerInformation */,
 				8BB8456F16C8437400B9A007 /* GameMatch.cpp */,
 				8BB8457016C8437400B9A007 /* GameMatch.h */,
 				8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */,
 				8BB8457216C8437400B9A007 /* GameMatchPlayer.h */,
+				D1DBC4C016CA50400096034A /* GameBattlefield.cpp */,
+				D1DBC4C116CA50400096034A /* GameBattlefield.h */,
 			);
 			path = GameMatch;
 			sourceTree = "<group>";
@@ -1000,13 +1016,10 @@
 		D11ABAA1168DDA7800CD29EA /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				D1DBC4C716CA51AC0096034A /* Unit */,
 				D1AB733516BBD35B004D28F2 /* Effects */,
 				D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */,
 				D11ABAA3168DDB0A00CD29EA /* GameObject.h */,
-				D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */,
-				D11ABAA6168DDB2A00CD29EA /* GameUnit.h */,
-				D11ABAA8168DDB3400CD29EA /* GameBuilding.cpp */,
-				D11ABAA9168DDB3400CD29EA /* GameBuilding.h */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1421,6 +1434,37 @@
 			path = Effects;
 			sourceTree = "<group>";
 		};
+		D1DBC4C316CA50C20096034A /* PlayerInformation */ = {
+			isa = PBXGroup;
+			children = (
+				D1DBC4C416CA517D0096034A /* PlayerUpgradeManager.cpp */,
+				D1DBC4C516CA517D0096034A /* PlayerUpgradeManager.h */,
+				D1DBC4C816CA520D0096034A /* PlayerResearchManager.cpp */,
+				D1DBC4C916CA520D0096034A /* PlayerResearchManager.h */,
+			);
+			path = PlayerInformation;
+			sourceTree = "<group>";
+		};
+		D1DBC4C716CA51AC0096034A /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */,
+				D11ABAA6168DDB2A00CD29EA /* GameUnit.h */,
+				D1DBC4CF16CA53590096034A /* GameUnitParameters.cpp */,
+				D1DBC4D016CA53590096034A /* GameUnitParameters.h */,
+			);
+			name = Unit;
+			sourceTree = "<group>";
+		};
+		D1DBC4CB16CA52C10096034A /* StaticInformation */ = {
+			isa = PBXGroup;
+			children = (
+				D1DBC4CC16CA53360096034A /* PlayerClanBonuses.cpp */,
+				D1DBC4CD16CA53360096034A /* PlayerClanBonuses.h */,
+			);
+			name = StaticInformation;
+			sourceTree = "<group>";
+		};
 		D1E3D3F716C12C2D00E88F2E /* Threads */ = {
 			isa = PBXGroup;
 			children = (
@@ -1788,7 +1832,6 @@
 				D16D4950168B5F2D0055F35D /* MAXMap.cpp in Sources */,
 				D11ABAA4168DDB0A00CD29EA /* GameObject.cpp in Sources */,
 				D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */,
-				D11ABAAA168DDB3400CD29EA /* GameBuilding.cpp in Sources */,
 				D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */,
 				D199226D168DF75C0067D6CF /* MAXContetnLoader.cpp in Sources */,
 				D1992270168E1C7D0067D6CF /* MAXUnitRenderObject.cpp in Sources */,
@@ -1822,6 +1865,11 @@
 				D1DBC4B216C923410096034A /* MAXDrawPrimitives.cpp in Sources */,
 				D1DBC4B516C924D40096034A /* ShaderLine.fsh in Sources */,
 				D1DBC4B616C924D40096034A /* ShaderLine.vsh in Sources */,
+				D1DBC4C216CA50400096034A /* GameBattlefield.cpp in Sources */,
+				D1DBC4C616CA517D0096034A /* PlayerUpgradeManager.cpp in Sources */,
+				D1DBC4CA16CA520E0096034A /* PlayerResearchManager.cpp in Sources */,
+				D1DBC4CE16CA53360096034A /* PlayerClanBonuses.cpp in Sources */,
+				D1DBC4D116CA53590096034A /* GameUnitParameters.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1931,7 +1979,7 @@
 					"\"$(SRCROOT)/MAX/Utils/Network/curl\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2335F6E0-076A-4FFA-9410-EE6D4A0F3943";
+				PROVISIONING_PROFILE = "B2B6FAD1-7BFA-43B3-AC96-7E8F85C86911";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1961,7 +2009,7 @@
 					"\"$(SRCROOT)/MAX/Utils/Network/curl\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2335F6E0-076A-4FFA-9410-EE6D4A0F3943";
+				PROVISIONING_PROFILE = "B2B6FAD1-7BFA-43B3-AC96-7E8F85C86911";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
