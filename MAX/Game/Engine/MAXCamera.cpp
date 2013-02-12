@@ -13,7 +13,7 @@
 # define MIN(x,y) ((x)<(y)?(x):(y))
 
 #define DEFAULT_SCALE 0.5
-
+#define MIN_SCALE 0.25
 #define DEFAULT_MAP_PART 112
 
 #define DEFAULT_CELL_SIZE 64.0
@@ -59,7 +59,9 @@ void MAXCamera::SetMapSize(int w, int h)
 void MAXCamera::Scale(float deltaScale)
 {
     scale/=deltaScale;
-       
+    if (scale<MIN_SCALE) 
+        scale = MIN_SCALE;
+    
     if(scale>maxScale)
         scale = maxScale;
     Move(0, 0);
