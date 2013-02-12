@@ -18,10 +18,11 @@ class MAXCamera {
     GLfloat _scalex;
     //how many cells can be displayed on scrren by height
     GLfloat _scaley;
+    
+    float maxScale;
+public:
     //devise display scale, retina = 2
     GLfloat _displayScale;
-    
-public:
     
     bool changed;
     //100

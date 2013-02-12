@@ -370,8 +370,8 @@ CCRect MAXEngine::ScreenToWorldRect()
     
     CCRect result;
     result.origin = ltp;
-    result.size.width = screenSize.x;
-    result.size.height = screenSize.y;
+    result.size.width = screenSize.x * 2.0;
+    result.size.height = screenSize.y * 2.0;
     
     return result;
 }
