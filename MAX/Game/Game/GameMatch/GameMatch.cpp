@@ -8,7 +8,7 @@
 
 #include "GameMatch.h"
 #include "GameMatchPlayer.h"
-#include "GameBattlefield.h"
+#include "GameMap.h"
 
 GameMatch::GameMatch()
 :_battlefield(NULL)

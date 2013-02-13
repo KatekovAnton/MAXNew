@@ -1,15 +1,15 @@
 //
-//  MAXMap.cpp
+//  GameMap.cpp
 //  MAX
 //
 //  Created by Anton Katekov on 26.12.12.
 //  Copyright (c) 2012 AntonKatekov. All rights reserved.
 //
 
-#include "MAXMap.h"
+#include "GameMap.h"
 #include "MAXContentMap.h"
 
-MAXMap::MAXMap(const shared_ptr<MAXContentMap>& map)
+GameMap::GameMap(const shared_ptr<MAXContentMap>& map)
 {
     _w = map->w;
     _h = map->h;
@@ -25,12 +25,12 @@ MAXMap::MAXMap(const shared_ptr<MAXContentMap>& map)
     }
 }
 
-MAXMap::~MAXMap()
+GameMap::~GameMap()
 {
     free(_groundType);
 }
 
-char MAXMap::GroundTypeAtPoint(const CCPoint& point)
+char GameMap::GroundTypeAtPoint(const CCPoint& point)
 {
     return _groundType[(int)point.y * _w + (int)point.x];
 }

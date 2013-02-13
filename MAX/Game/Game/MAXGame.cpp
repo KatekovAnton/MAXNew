@@ -14,7 +14,7 @@
 
 #include "MAXContetnLoader.h"
 #include "MAXUnitObject.h"
-#include "MAXMap.h"
+#include "GameMap.h"
 #include "GameUnit.h"
 
 #include "MAXUnitConfig.h"
@@ -57,7 +57,7 @@ void MAXGame::Init()
 void MAXGame::SetMap(string mapName)
 {
     shared_ptr<MAXContentMap> map1 = MAXSCL->LoadMapWithName(mapName);
-    map = shared_ptr<MAXMap>(new MAXMap(map1));
+    map = shared_ptr<GameMap>(new GameMap(map1));
     engine->SetMap(map1);
 }
 

@@ -1,13 +1,13 @@
 //
-//  MAXMap.h
+//  GameMap.h
 //  MAX
 //
 //  Created by Anton Katekov on 26.12.12.
 //  Copyright (c) 2012 AntonKatekov. All rights reserved.
 //
 
-#ifndef __MAX__MAXMap__
-#define __MAX__MAXMap__
+#ifndef __MAX__GameMap__
+#define __MAX__GameMap__
 
 #include <iostream>
 #include "miniPrefix.h"
@@ -23,7 +23,7 @@ enum MAXMAPGROUNDTYPE
     MAXMAPGROUNDTYPE_UNPASSABLE
 };
 
-class MAXMap {
+class GameMap {
     
     char* _groundType;//0-ground 1-water 2-coast 3-unpassable
     int _w;
@@ -38,8 +38,8 @@ public:
     
     Texture* palette;
     
-    MAXMap(const shared_ptr<MAXContentMap>& map);
-    ~MAXMap();
+    GameMap(const shared_ptr<MAXContentMap>& map);
+    ~GameMap();
     char GroundTypeAtPoint(const CCPoint& point);
 };
 

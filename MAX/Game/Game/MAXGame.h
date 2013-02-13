@@ -23,7 +23,7 @@ enum MAXGAMESTATE
 };
 
 class MAXEngine;
-class MAXMap;
+class GameMap;
 class GameUnit;
 
 class GameMatch;
@@ -38,7 +38,7 @@ class MAXGame : public DisplayPinchDelegate {
     GameMatch* _match;
 public:
     
-    shared_ptr<MAXMap> map;
+    shared_ptr<GameMap> map;
     MAXGAMESTATE GetCurretnState() const {return _curretnState;}
     
     MAXGame();
