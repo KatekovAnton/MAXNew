@@ -30,7 +30,7 @@ GameMap::~GameMap()
     free(_groundType);
 }
 
-char GameMap::GroundTypeAtPoint(const CCPoint& point)
+char GameMap::GroundTypeAtPoint(const CCPoint& point) const
 {
     return _groundType[(int)point.y * _w + (int)point.x];
 }

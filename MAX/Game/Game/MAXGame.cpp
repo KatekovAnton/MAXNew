@@ -95,7 +95,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
     {
         char groundType = map->GroundTypeAtPoint(p);
-        if (groundType == MAXMAPGROUNDTYPE_GROUND) 
+        if (groundType == GROUND_TYPE_GROUND)
             _testUnit->SetUnitLocation(p, true);
     }
 }

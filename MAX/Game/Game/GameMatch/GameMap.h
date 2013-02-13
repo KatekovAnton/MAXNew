@@ -15,13 +15,14 @@
 class Texture;
 class MAXContentMap;
 
-enum MAXMAPGROUNDTYPE
+typedef enum
 {
-    MAXMAPGROUNDTYPE_GROUND,
-    MAXMAPGROUNDTYPE_WATER,
-    MAXMAPGROUNDTYPE_COAST,
-    MAXMAPGROUNDTYPE_UNPASSABLE
-};
+    GROUND_TYPE_GROUND,
+    GROUND_TYPE_WATER,
+    GROUND_TYPE_COAST,
+    GROUND_TYPE_UNPASSABLE
+} GROUND_TYPE;
+
 
 class GameMap {
     
@@ -40,7 +41,7 @@ public:
     
     GameMap(const shared_ptr<MAXContentMap>& map);
     ~GameMap();
-    char GroundTypeAtPoint(const CCPoint& point);
+    char GroundTypeAtPoint(const CCPoint& point) const;
 };
 
 #endif /* defined(__MAX__MAXMap__) */
