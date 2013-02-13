@@ -7,6 +7,8 @@
 //
 
 #include "GameMap.h"
+#include "GameUnit.h"
+#include "GameUnitParameters.h"
 #include "MAXContentMap.h"
 
 GameMap::GameMap(const shared_ptr<MAXContentMap>& map)
@@ -28,6 +30,10 @@ GameMap::GameMap(const shared_ptr<MAXContentMap>& map)
 GameMap::~GameMap()
 {
     free(_groundType);
+    for (int i = 0; i < _units.GetCount(); i++) {
+        GameUnit* unit = _units.objectAtIndex(i);
+        delete unit;
+    }
 }
 
 char GameMap::GroundTypeAtPoint(const CCPoint& point) const

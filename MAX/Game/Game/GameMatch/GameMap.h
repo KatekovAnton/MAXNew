@@ -23,13 +23,18 @@ typedef enum
     GROUND_TYPE_UNPASSABLE
 } GROUND_TYPE;
 
+class GameUnit;
 
 class GameMap {
     
     char* _groundType;//0-ground 1-water 2-coast 3-unpassable
     int _w;
     int _h;
+    
+    USimpleContainer<GameUnit*> _units;
+    
 public:
+    
     
     int GetMapWidth() const {return _w;};
     int GetMapHeight() const {return _h;};

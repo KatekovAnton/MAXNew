@@ -14,8 +14,11 @@
 #include <list>
 
 #include "Geometry.h"
+#include "UContainer.h"
+#include "USimpleContainer.h"
+#include "IdGenerator.h"
+#include "Sys.h"
 #include "cocos2d.h"
-#include "Utils.h"
 #include "clist.h"
 
 using namespace cocos2d;

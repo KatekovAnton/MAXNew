@@ -714,6 +714,7 @@
 		D1E62CD716CBCCB7006D55E1 /* t_2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = t_2.h; sourceTree = "<group>"; };
 		D1E62CD816CBDDA2006D55E1 /* GameMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMap.cpp; sourceTree = "<group>"; };
 		D1E62CD916CBDDA2006D55E1 /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMap.h; sourceTree = "<group>"; };
+		D1E62CDB16CBE85F006D55E1 /* USimpleContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USimpleContainer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1172,6 +1173,7 @@
 				D18EDBFF1689789C00EE3B4E /* Sys.c */,
 				D18EDC001689789C00EE3B4E /* Sys.h */,
 				D18EDC011689789C00EE3B4E /* UContainer.h */,
+				D1E62CDB16CBE85F006D55E1 /* USimpleContainer.h */,
 				D18EDC021689789C00EE3B4E /* GlobalConstants.h */,
 				D18EDC031689789C00EE3B4E /* IdGenerator.cpp */,
 				D18EDC041689789C00EE3B4E /* IdGenerator.h */,
