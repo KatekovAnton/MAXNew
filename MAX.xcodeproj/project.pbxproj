@@ -716,6 +716,7 @@
 		D1E3D78516C16EC600E88F2E /* RequestDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RequestDelegate.h; sourceTree = "<group>"; };
 		D1E3D78616C1709200E88F2E /* RequestManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RequestManager.cpp; sourceTree = "<group>"; };
 		D1E3D78716C1709200E88F2E /* RequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestManager.h; sourceTree = "<group>"; };
+		D1E62CD716CBCCB7006D55E1 /* t_2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = t_2.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1190,6 +1191,7 @@
 				D18EDC051689789C00EE3B4E /* BinaryReader.cpp */,
 				D18EDC061689789C00EE3B4E /* BinaryReader.h */,
 				8BB8457916CAD09000B9A007 /* clist.h */,
+				D1E62CD716CBCCB7006D55E1 /* t_2.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
