@@ -67,10 +67,30 @@ void MAXCamera::Scale(float deltaScale)
 
 void MAXCamera::Move(float deltax, float deltay)
 {
-    position.x += deltax * _scalex * scale/( _displayScale * 2.0);
-    position.y -= deltay * _scalex * scale/( _displayScale * 2.0);
-    
     CCRect rect = engine->ScreenToWorldRect();
+    float screenMX = rect.size.width / 64.0;
+    float screenMY = rect.size.height / 64.0;
+    
+    CCSize sz = CCSize(Display::currentDisplay()->GetDisplayWidth() / _displayScale, Display::currentDisplay()->GetDisplayHeight() / _displayScale);
+    float rdx = screenMX * deltax / sz.width;
+    float rdy = screenMY * deltay / sz.height;
+    
+    position.x += rdx;
+    position.y -= rdy;
+    
+    
+    position.x = floorf(position.x * 100) / 100;
+    position.y = floorf(position.y * 100) / 100;
+    {
+        int c = position.x * 64.0;
+        position.x = c / 64.0 + 0.5/128.0;
+    }
+    {
+        int c = position.y * 64.0;
+        position.y = c / 64.0 + 0.5/128.0;
+    }
+    
+    rect = engine->ScreenToWorldRect();
     if (rect.origin.x<0)
     {
         //move camera to right
