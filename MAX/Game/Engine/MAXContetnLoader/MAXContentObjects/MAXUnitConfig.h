@@ -141,7 +141,7 @@ public:
     int _pScan;
     int _pAmmo;
     int _pCost;
-    int _pZone;
+    int _pZone;//explosive range
     int _pMoveAndShot;
     int _pFireType;
     int _pBulletType;
