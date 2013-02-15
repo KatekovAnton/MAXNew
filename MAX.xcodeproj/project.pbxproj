@@ -301,6 +301,7 @@
 		D1E3D78416C1649800E88F2E /* Response.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D78216C1649700E88F2E /* Response.cpp */; };
 		D1E3D78816C1709200E88F2E /* RequestManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D78616C1709200E88F2E /* RequestManager.cpp */; };
 		D1E62CDA16CBDDA2006D55E1 /* GameMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E62CD816CBDDA2006D55E1 /* GameMap.cpp */; };
+		D1E62CE416CE50D2006D55E1 /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E62CE216CE50D0006D55E1 /* Framebuffer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -715,6 +716,8 @@
 		D1E62CD816CBDDA2006D55E1 /* GameMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMap.cpp; sourceTree = "<group>"; };
 		D1E62CD916CBDDA2006D55E1 /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMap.h; sourceTree = "<group>"; };
 		D1E62CDB16CBE85F006D55E1 /* USimpleContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USimpleContainer.h; sourceTree = "<group>"; };
+		D1E62CE216CE50D0006D55E1 /* Framebuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Framebuffer.cpp; sourceTree = "<group>"; };
+		D1E62CE316CE50D1006D55E1 /* Framebuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Framebuffer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1313,6 +1316,8 @@
 				D1E3D3EC16BC2CC200E88F2E /* MAXUnitSelection.h */,
 				D1DBC4B016C923410096034A /* MAXDrawPrimitives.cpp */,
 				D1DBC4B116C923410096034A /* MAXDrawPrimitives.h */,
+				D1E62CE216CE50D0006D55E1 /* Framebuffer.cpp */,
+				D1E62CE316CE50D1006D55E1 /* Framebuffer.h */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -1862,6 +1867,7 @@
 				D1DBC4CE16CA53360096034A /* PlayerClanBonuses.cpp in Sources */,
 				D1DBC4D116CA53590096034A /* GameUnitParameters.cpp in Sources */,
 				D1E62CDA16CBDDA2006D55E1 /* GameMap.cpp in Sources */,
+				D1E62CE416CE50D2006D55E1 /* Framebuffer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
