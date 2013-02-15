@@ -23,6 +23,8 @@ Framebuffer::~Framebuffer()
 
 void Framebuffer::initFB(GLKVector2 sz)
 {
+    _w = sz.x;
+    _h = sz.y;
     // create a frame buffer object
     GLuint _local;
     glGenFramebuffers(1, &_local);
@@ -70,9 +72,11 @@ void Framebuffer::initFB(GLKVector2 sz)
 
 void Framebuffer::bind()
 {
+    glGetFloatv(GL_VIEWPORT, (GLfloat*)&_viewport);
+    
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_lastfbo);
     glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
-    
+    glViewport(0, 0, _w, _h);
     glGetFloatv(GL_COLOR_CLEAR_VALUE,oldClearColor_);
     
 	// BUG XXX: doesn't work with RGB565.
@@ -88,4 +92,5 @@ void Framebuffer::unbind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, _lastfbo);
     glClearColor( oldClearColor_[0], oldClearColor_[1], oldClearColor_[2], oldClearColor_[3] );
+    glViewport(_viewport.x, _viewport.y, _viewport.w, _viewport.h);
 }

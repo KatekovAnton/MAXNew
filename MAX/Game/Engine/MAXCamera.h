@@ -18,7 +18,7 @@ class MAXCamera {
     GLfloat _scalex;
     //how many cells can be displayed on scrren by height
     GLfloat _scaley;
-    
+    GRect2D _bounds;
     float maxScale;
 public:
     //devise display scale, retina = 2
@@ -44,7 +44,7 @@ public:
     //current game camera position
     GLKVector3          position;
     
-    MAXCamera(GRect2D bounds);
+    MAXCamera(GRect2D bounds, float displayScale);
     
     //set map bounds
     void SetMapSize(int w, int h);

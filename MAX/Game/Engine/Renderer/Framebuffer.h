@@ -12,6 +12,12 @@
 #include <iostream>
 #include "miniPrefix.h"
 
+struct Viewport {
+    float x;
+    float y;
+    float w;
+    float h;
+};
 
 class Framebuffer {
     GLuint _fbo;
@@ -20,6 +26,9 @@ class Framebuffer {
     GLfloat	oldClearColor_[4];
     
     void initFB(GLKVector2 sz);
+    
+    float _w, _h;
+    Viewport _viewport;
 
 public:
     GLuint GetColorTexture() const { return _colorTexture; };

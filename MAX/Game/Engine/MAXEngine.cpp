@@ -16,7 +16,8 @@
 #include "Utils.h"
 
 #include "cocos2d.h"
-
+#include "EngineMesh.h"
+#include "Framebuffer.h"
 #include "RenderSystem.h"
 #include "Shader.h"
 #include "Display.h"
@@ -51,8 +52,8 @@ void MAXEngine::Init() {
     _renderSystem->InitOpenGL();
     
     
-    GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth(), _renderSystem->GetDisplay()->GetDisplayHeight());
-    _camera = new MAXCamera(_screenRect);
+    GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth()/_renderSystem->GetDisplay()->GetDisplayScale(), _renderSystem->GetDisplay()->GetDisplayHeight()/_renderSystem->GetDisplay()->GetDisplayScale());
+    _camera = new MAXCamera(_screenRect,1.0);// _renderSystem->GetDisplay()->GetDisplayScale());
     
     
     Request* r = new Request();
@@ -72,6 +73,8 @@ void MAXEngine::Init() {
     
     _unitShader = new Shader("ShaderUnit.vsh", "ShaderUnit.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
+    _mapQuadShader = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
+    _mapQuadMesh = EngineMesh::CreateScaledQuad(2,2);
     MAXDrawPrimitives::SharedDrawPrimitives();
 
   //  _shader1 = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
@@ -91,6 +94,7 @@ void MAXEngine::Init() {
     _director->setDisplayStats(true);
     _grid = new MAXGrid();
     _unitSelection = new MAXUnitSelection();
+    _mapFrambuffer = new Framebuffer(GLKVector2Make(_screenRect.size.width, _screenRect.size.height));
 }
 
 void MAXEngine::AddUnit(const shared_ptr<MAXUnitObject>& newUnit)
@@ -103,21 +107,26 @@ void MAXEngine::RemoveUnit(const shared_ptr<MAXUnitObject>& newUnit)
     _scene->RemoveObject(newUnit);
 }
 
-MAXEngine::~MAXEngine() {
+MAXEngine::~MAXEngine()
+{
     delete _animationManager;
     delete _renderSystem;
     delete _shader;
     delete _mapShader;
+    delete _mapQuadShader;
     delete _grid;
     delete _scene;
     delete _unitSelection;
+    delete _mapFrambuffer;
 }
 
-Shader * MAXEngine::GetShader() {
+Shader * MAXEngine::GetShader()
+{
     return _shader;
 }
 
-void MAXEngine::RunLoop(double delta) {
+void MAXEngine::RunLoop(double delta)
+{
     
     displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
     displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
@@ -207,6 +216,7 @@ void MAXEngine::DrawGrid()
 
 void MAXEngine::DrawGround()
 {
+//    _mapFrambuffer->bind();
     _shader = _mapShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
@@ -216,8 +226,18 @@ void MAXEngine::DrawGround()
     _shader->SetFloatValue(UNIFORM_FLOATPARAM3, _map->mapW);
     _shader->SetFloatValue(UNIFORM_FLOATPARAM4, _map->mapH);
     _map.get()->Draw(_shader);
-    
+//    _mapFrambuffer->unbind();
     glActiveTexture(GL_TEXTURE0);
+    
+//    _shader = _mapQuadShader;
+//    glUseProgram(_shader->GetProgram());
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, _mapFrambuffer->GetColorTexture());
+//    glUniform1i(_shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
+//    _mapQuadMesh->Bind();
+//    _mapQuadMesh->Render();
+//    _mapQuadMesh->Unbind();
+    
 }
 
 void MAXEngine::DrawUnits()

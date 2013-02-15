@@ -15,13 +15,13 @@
 #define DEFAULT_MAP_PART 112
 #define DEFAULT_CELL_SIZE 64.0
 
-MAXCamera::MAXCamera(GRect2D bounds)
+MAXCamera::MAXCamera(GRect2D bounds, float displayScale)
 {
-    
+    _bounds = bounds;
     _aspectRatio = fabsf(bounds.size.width / bounds.size.height);
     _far = 100.0f;
     position = GLKVector3Make(0, 0, 0);
-    _displayScale = Display::currentDisplay()->GetDisplayScale();
+    _displayScale = displayScale;//Display::currentDisplay()->GetDisplayScale();
     _scalex = _displayScale*DEFAULT_CELL_SIZE/bounds.size.width;
     _scaley = _displayScale*DEFAULT_CELL_SIZE/bounds.size.height;
     
@@ -71,7 +71,7 @@ void MAXCamera::Move(float deltax, float deltay)
     float screenMX = rect.size.width / 64.0;
     float screenMY = rect.size.height / 64.0;
     
-    CCSize sz = CCSize(Display::currentDisplay()->GetDisplayWidth() / _displayScale, Display::currentDisplay()->GetDisplayHeight() / _displayScale);
+    CCSize sz = CCSize(_bounds.size.width / _displayScale, _bounds.size.height / _displayScale);
     float rdx = screenMX * deltax / sz.width;
     float rdy = screenMY * deltay / sz.height;
     
@@ -81,14 +81,14 @@ void MAXCamera::Move(float deltax, float deltay)
     
     position.x = floorf(position.x * 100) / 100;
     position.y = floorf(position.y * 100) / 100;
-    {
-        int c = position.x * 64.0;
-        position.x = c / 64.0 + 0.5/128.0;
-    }
-    {
-        int c = position.y * 64.0;
-        position.y = c / 64.0 + 0.5/128.0;
-    }
+//    {
+//        int c = position.x * 64.0;
+//        position.x = c / 64.0 + 0.5/128.0;
+//    }
+//    {
+//        int c = position.y * 64.0;
+//        position.y = c / 64.0 + 0.5/128.0;
+//    }
     
     rect = engine->ScreenToWorldRect();
     if (rect.origin.x<0)

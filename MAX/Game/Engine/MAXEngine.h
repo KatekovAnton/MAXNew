@@ -17,6 +17,8 @@
 using namespace cocos2d;
 using namespace std;
 
+class EngineMesh;
+class Framebuffer;
 class PivotObject;
 class RenderSystem;
 class Shader;
@@ -43,8 +45,10 @@ class MAXEngine : public RequestDelegate  {
     Shader              *_shader;
     Shader              *_unitShader;
     Shader              *_mapShader;
+    Shader              *_mapQuadShader;
+    shared_ptr<EngineMesh> _mapQuadMesh;
     float             _color;
-    
+    Framebuffer         *_mapFrambuffer;
 public:
     
     MAXAnimationManager* GetAnimationManager () const { return _animationManager; };
