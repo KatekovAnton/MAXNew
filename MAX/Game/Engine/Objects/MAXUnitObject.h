@@ -12,11 +12,10 @@
 #include <iostream>
 #include "MAXObject.h"
 #include "cocos2d.h"
-
+#include "MAXUnitConfig.h"
 
 class MAXUnitRenderObject;
 class MAXUnitMaterial;
-class MAXUnitConfig;
 
 using namespace cocos2d;
 
@@ -25,6 +24,18 @@ enum
     MAXUnitObjectTypeSingle,
     MAXUnitObjectTypeTurreted
 } typedef MAXUnitObjectType;
+
+struct MAXUnitObjectParameters
+{
+    bool _isPlane;
+    GLKVector2 _shadowOffset;
+    UNIT_LEVEL _level;
+    bool _haveHead;
+    bool _isAnimatedHead;
+    bool _isMultifire;
+    MAXUnitObjectParameters(MAXUnitConfig* config);
+    
+};
 
 class MAXUnitObject : public MAXObject {
     

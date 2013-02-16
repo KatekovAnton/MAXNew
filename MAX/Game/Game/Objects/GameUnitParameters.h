@@ -12,9 +12,9 @@
 #include <iostream>
 
 class MAXUnitConfig;
+class MAXClanConfig;
 class PlayerResearchManager;
 class PlayerUpgradeManager;
-class PlayerClanBonuses;
 
 class BinaryReader;
 
@@ -22,7 +22,7 @@ class GameUnitParameters {
     
 public:
     GameUnitParameters(MAXUnitConfig            *config,
-                       PlayerClanBonuses        *clanBonuses,
+                       MAXClanConfig            *clanBonuses,
                        PlayerResearchManager    *researchManager,
                        PlayerUpgradeManager     *upgradeManager);
     GameUnitParameters(BinaryReader             *saveReader);

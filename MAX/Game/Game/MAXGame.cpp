@@ -12,6 +12,7 @@
 #include "Display.h"
 #include "UserInterface.h"
 
+#include "MAXConfigManager.h"
 #include "MAXContetnLoader.h"
 #include "MAXUnitObject.h"
 #include "GameMap.h"
@@ -37,7 +38,7 @@ MAXGame::~MAXGame()
 void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
-    MAXUnitConfigManager::SharedMAXUnitConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
+    MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
     
     this->SetMap("Green_6.wrl");
     //Aagunm
@@ -45,7 +46,7 @@ void MAXGame::Init()
     //Inter
     //Bomber
     //Awac
-    MAXUnitConfig* unit = MAXUnitConfigManager::SharedMAXUnitConfigManager()->GetConfig("Tank");
+    MAXUnitConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig("Tank");
     _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit)));
     _testUnit->SetUnitLocation(CCPoint(56, 56), false);
     engine->AddUnit(_testUnit->GetUnitObject());

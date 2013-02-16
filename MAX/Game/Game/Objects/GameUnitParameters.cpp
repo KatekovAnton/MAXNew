@@ -8,13 +8,13 @@
 
 #include "GameUnitParameters.h"
 #include "MAXUnitConfig.h"
+#include "MAXClanConfig.h"
 #include "PlayerResearchManager.h"
 #include "PlayerUpgradeManager.h"
-#include "PlayerClanBonuses.h"
 #include "BinaryReader.h"
 
 GameUnitParameters::GameUnitParameters(MAXUnitConfig            *config,
-                                       PlayerClanBonuses        *clanBonuses,
+                                       MAXClanConfig            *clanBonuses,
                                        PlayerResearchManager    *researchManager,
                                        PlayerUpgradeManager     *upgradeManager)
 {}

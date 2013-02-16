@@ -13,9 +13,16 @@
 #include "MAXEngine.h"
 #include "Geometry.h"
 #include "MAXAnimationPrefix.h"
-#include "MAXUnitConfig.h"
 
 static bool showShadows = true;
+
+MAXUnitObjectParameters::MAXUnitObjectParameters(MAXUnitConfig* config)
+{
+    _isPlane = config->_bLevel == UNIT_LEVEL_AIR;
+    _haveHead = config->_pSeparateCanon == 1;
+    _isMultifire = config->_pFireType == 3;
+    _isAnimatedHead = config->_isAnimHead;
+}
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), _config(config), _lastHeadAnimTime(0)

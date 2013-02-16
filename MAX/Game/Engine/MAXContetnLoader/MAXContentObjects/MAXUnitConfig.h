@@ -20,7 +20,7 @@ typedef enum
     UNIT_LEVEL_BUILDING     = 3,
     UNIT_LEVEL_UNITS        = 4,
     UNIT_LEVEL_OVERUNITS    = 5,
-    UNIT_LEVEL_INAIR        = 6,
+    UNIT_LEVEL_AIR          = 6,
     UNIT_LEVEL_OVERAIR      = 7
 } UNIT_LEVEL;
 
@@ -66,7 +66,19 @@ public:
     
     
     string _name;
-    //Basics
+    //Basics=1   0   4   52  4   0
+    ////     Р   П   У   Н   С   С
+    ////     а   р   р   о   т   т
+    ////     з   о   о   м   р   р
+    ////     м   х   в   е   о   о
+    ////     е   о   е   р   и   и
+    ////     р   д   н       м   т
+    ////         и   ь       ы   е
+    ////         м           й   л
+    ////         о               ь
+    ////         с
+    ////         т
+    ////         ь
     int _bSize;
     int _bMoveType;
     int _bLevel;
@@ -183,21 +195,6 @@ public:
     bool IsValid() const;
     
     
-    
-};
-
-class MAXUnitConfigManager {
-    
-    map<string, MAXUnitConfig*> _configs;
-    
-    void LoadUnitSegment(string source);
-    
-public:
-    
-    static MAXUnitConfigManager* SharedMAXUnitConfigManager();
-    
-    void LoadConfigsFromFile(string file);
-    MAXUnitConfig* GetConfig(string type);
     
 };
 
