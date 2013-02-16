@@ -18,23 +18,23 @@ const double frameTime = 1.0/10.0;
 
 MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
 {
-    int w = map->w;
+//    int w = map->w;
     index = 0;
     time = 0;
-    GLubyte* colors = (GLubyte*)malloc(map->w * map->h * 4);
-    for (int i = 0; i < map->h; i++)
-    {
-        for (int j = 0; j < w; j++)
-        {
-            short value = map->map[i*w + j];
-            GLubyte starshi = (GLubyte)((float)value/255.0);
-            GLubyte mladshi = (GLubyte)(value - (short)starshi * 255.0);
-            colors[(i * w + j) * 4] = starshi;
-            colors[(i * w + j) * 4 + 1] = mladshi;
-        }
-    }
-    
-    fullMapTexture = new Texture(GL_NEAREST, colors, map->w, map->h);
+//    GLubyte* colors = (GLubyte*)malloc(map->w * map->h * 4);
+//    for (int i = 0; i < map->h; i++)
+//    {
+//        for (int j = 0; j < w; j++)
+//        {
+//            short value = map->map[i*w + j];
+//            GLubyte starshi = (GLubyte)((float)value/255.0);
+//            GLubyte mladshi = (GLubyte)(value - (short)starshi * 255.0);
+//            colors[(i * w + j) * 4] = starshi;
+//            colors[(i * w + j) * 4 + 1] = mladshi;
+//        }
+//    }
+//    
+//    fullMapTexture = new Texture(GL_NEAREST, colors, map->w, map->h);
     
     {
         const int w = 32;
@@ -74,7 +74,7 @@ MAXMapMaterial::~MAXMapMaterial()
         Texture* tex = palettes[i];
         delete tex;
     }
-    delete fullMapTexture;
+//    delete fullMapTexture;
     delete mapElementsSingle;
 }
 
