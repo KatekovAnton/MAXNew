@@ -40,20 +40,29 @@ MAXUnitObjectParameters::MAXUnitObjectParameters(MAXUnitConfig* config)
     _isAnimatedHead = config->_isAnimHead;
     _level = config->_bLevel;
     _isAbleToFire = config->_isAbleToFire;
+    _isAmphibious = config->_bMoveType == 2;
 }
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), params(config), _lastHeadAnimTime(0)
 {
     bodyIndex = 2;
-    headIndex = 9;
+    headIndex = 9+8;
     
     purebodyIndex = 2;
     pureheadIndex = 1;
     
     bodyOffset = 0;
     headOffset = IsHasBody()?8:0;
-    headFireOffset = IsHasBody()?16:8;
+    if(IsHasBody())
+        headFireOffset = 16;
+    else
+    {
+        if (params._isAmphibious)
+            headFireOffset = 16;
+        else
+            headFireOffset = 8;
+    }
 }
 
 MAXUnitObject::~MAXUnitObject()

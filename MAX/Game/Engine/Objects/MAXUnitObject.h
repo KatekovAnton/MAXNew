@@ -34,6 +34,7 @@ struct MAXUnitObjectParameters
     bool _isAnimatedHead;
     bool _isMultifire;
     bool _isAbleToFire;
+    bool _isAmphibious;
     MAXUnitObjectParameters(MAXUnitConfig* config);
     
 };

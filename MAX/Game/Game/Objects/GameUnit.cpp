@@ -62,7 +62,10 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
         return;
     if(_unitObject->GetFireing())
         return;
-    _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
+    if (_unitObject->params._hasHead) 
+        _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
+    else
+        _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, target));
     MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?0.15:0.3, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
 }
