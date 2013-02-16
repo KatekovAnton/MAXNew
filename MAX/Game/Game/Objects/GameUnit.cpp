@@ -62,7 +62,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
         return;
     if(_unitObject->GetFireing())
         return;
-    if (_unitObject->params._hasHead) 
+    if (_unitObject->params_w->_hasHead)
         _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
     else
         _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, target));

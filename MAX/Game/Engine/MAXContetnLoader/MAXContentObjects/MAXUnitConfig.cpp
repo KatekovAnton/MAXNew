@@ -296,7 +296,13 @@ MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName
             SetBalanceConfigValue(typeData[0], typeData[1]);
     }
     
-    }
+    _isPlane = _bLevel == UNIT_LEVEL_AIR;
+    _hasHead = _pSeparateCanon == 1 || _isAnimHead;
+    _isMultifire = _pFireType == 3;
+    _isAnimatedHead = _isAnimHead;
+    _level = _bLevel;
+    _isAmphibious = _bMoveType == 2;
+}
 
 
 

@@ -48,7 +48,7 @@ void MAXGame::Init()
     //Awac
     //Scout
     //Asgun
-    MAXUnitConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig("Scout");
+    MAXUnitConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig("Inter");
     _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit), unit));
     _testUnit->SetUnitLocation(CCPoint(56, 56), false);
     engine->AddUnit(_testUnit->GetUnitObject());

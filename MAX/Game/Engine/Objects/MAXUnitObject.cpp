@@ -32,19 +32,8 @@ GLKVector2 planeOffsets[] = {
 
 GLKVector2 planeShadowOffset = {1.0, -1.0};
 
-MAXUnitObjectParameters::MAXUnitObjectParameters(MAXUnitConfig* config)
-{
-    _isPlane = config->_bLevel == UNIT_LEVEL_AIR;
-    _hasHead = config->_pSeparateCanon == 1 || config->_isAnimHead;
-    _isMultifire = config->_pFireType == 3;
-    _isAnimatedHead = config->_isAnimHead;
-    _level = config->_bLevel;
-    _isAbleToFire = config->_isAbleToFire;
-    _isAmphibious = config->_bMoveType == 2;
-}
-
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
-:_renderAspect(renderObject),_material(material), changed(true), fireing(false), params(config), _lastHeadAnimTime(0)
+:_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0)
 {
     bodyIndex = 2;
     headIndex = 9+8;
@@ -58,11 +47,12 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
         headFireOffset = 16;
     else
     {
-        if (params._isAmphibious)
+        if (params_w->_isAmphibious)
             headFireOffset = 16;
         else
             headFireOffset = 8;
     }
+    params_w->_isMultifire = IsHasBody() && _material->frameCount == 32;
 }
 
 MAXUnitObject::~MAXUnitObject()
@@ -75,7 +65,7 @@ void MAXUnitObject::AfterUpdate()
 {
     if(showShadows)
         shadowRenderMatrix = CalculateShadowRenderMatrix();
-    if (params._hasHead) 
+    if (params_w->_hasHead) 
         bodyRenderMatrix = CalculateBodyRenderMatrix();
     headRenderMatrix = CalculateHeadRenderMatrix();
 }
@@ -105,7 +95,7 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
   
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
-    if (params._isPlane)
+    if (params_w->_isPlane)
     {
         GLKVector2 offset = CalculateAirOffset();
         translate = GLKMatrix4MakeTranslation(deltax + planeShadowOffset.x + offset.x, deltay + planeShadowOffset.y + offset.y, 0);
@@ -128,7 +118,7 @@ GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
     deltay = (64.0-bodyframe.size.y)/128.0 + (bodyframe.center.y/64.0);
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
-    if (params._isPlane)
+    if (params_w->_isPlane)
     {
         GLKVector2 offset = CalculateAirOffset();
         translate = GLKMatrix4MakeTranslation(deltax + offset.x, deltay + offset.y, 0);
@@ -153,7 +143,7 @@ GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
     
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
-    if (params._isPlane)
+    if (params_w->_isPlane)
     {
         GLKVector2 offset = CalculateAirOffset();
         translate = GLKMatrix4MakeTranslation(deltax + offset.x, deltay + offset.y, 0);
@@ -178,7 +168,7 @@ Material * MAXUnitObject::GetMaterial()
 void MAXUnitObject::Frame(double time)
 {
     _material->DoFrame(time);
-    if (params._isAnimatedHead) {
+    if (params_w->_isAnimatedHead) {
         _lastHeadAnimTime+=time;
         if (_lastHeadAnimTime>0.1) {
             _lastHeadAnimTime-=0.1;
@@ -194,17 +184,17 @@ void MAXUnitObject::Frame(double time)
 
 bool MAXUnitObject::CanFire() const
 {
-    return params._isAbleToFire;
+    return params_w->_isAbleToFire;
 }
 
 bool MAXUnitObject::IsSingleFire() const
 {
-    return !params._isMultifire;
+    return !params_w->_isMultifire;
 }
 
 bool MAXUnitObject::IsHasBody() const
 {
-    return params._hasHead;
+    return params_w->_hasHead;
 }
 
 void MAXUnitObject::Draw(Shader *shader)
@@ -242,13 +232,13 @@ void MAXUnitObject::SetBodyDirection(int state)
 void MAXUnitObject::SetHeadDirection(int state)
 {
     pureheadIndex = state;
-    headIndex = state + ((params._isAnimatedHead)?(headOffset):(fireing?headFireOffset:headOffset));
+    headIndex = state + ((params_w->_isAnimatedHead)?(headOffset):(fireing?headFireOffset:headOffset));
     changed = true;
 }
 
 void MAXUnitObject::SetIsFireing(bool fire, bool ligthFrame)
 {
-    if(!params._isAbleToFire)
+    if(!params_w->_isAbleToFire)
         return;
     
     int offset = fire?headFireOffset:headOffset;

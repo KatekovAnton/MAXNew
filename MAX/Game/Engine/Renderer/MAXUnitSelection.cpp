@@ -63,7 +63,7 @@ void MAXUnitSelection::Update()
     //deltaD *= 0.5;
     //GLKMatrix4 matrix = _selectedUnit->GetTransformMatrix();
     CCPoint point = _selectedUnit->ObjectCell();
-    if (_selectedUnit->params._isPlane) {
+    if (_selectedUnit->params_w->_isPlane) {
         GLKVector2 po = _selectedUnit->CalculateAirOffset();
         point.x += po.x;
         point.y -= po.y;

@@ -191,6 +191,16 @@ public:
     int _retEnergy;
     int _retPeoples;
     
+    
+    bool _isPlane;
+    GLKVector2 _shadowOffset;
+    int _level;
+    bool _hasHead;
+    bool _isAnimatedHead;
+    bool _isMultifire;
+    bool _isAmphibious;
+    
+    
     MAXUnitConfig(string balanceConfigName, string resourceConfigName);
     bool IsValid() const;
     

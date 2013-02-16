@@ -25,19 +25,7 @@ enum
     MAXUnitObjectTypeTurreted
 } typedef MAXUnitObjectType;
 
-struct MAXUnitObjectParameters
-{
-    bool _isPlane;
-    GLKVector2 _shadowOffset;
-    int _level;
-    bool _hasHead;
-    bool _isAnimatedHead;
-    bool _isMultifire;
-    bool _isAbleToFire;
-    bool _isAmphibious;
-    MAXUnitObjectParameters(MAXUnitConfig* config);
-    
-};
+
 
 class MAXUnitObject : public MAXObject {
     
@@ -66,7 +54,7 @@ class MAXUnitObject : public MAXObject {
     
 public:
     
-    MAXUnitObjectParameters params;
+    MAXUnitConfig* params_w;
     
     bool GetFireing() const {return fireing;};
     int GetBodyIndex() const {return bodyIndex;};
