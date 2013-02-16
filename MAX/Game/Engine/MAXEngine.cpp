@@ -221,10 +221,10 @@ void MAXEngine::DrawGround()
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-    _shader->SetFloatValue(UNIFORM_FLOATPARAM2, 1.0/_map->mapTexH);
-    _shader->SetFloatValue(UNIFORM_FLOATPARAM1, 1.0/_map->mapTexW);
-    _shader->SetFloatValue(UNIFORM_FLOATPARAM3, _map->mapW);
-    _shader->SetFloatValue(UNIFORM_FLOATPARAM4, _map->mapH);
+//    _shader->SetFloatValue(UNIFORM_FLOATPARAM2, 1.0/_map->mapTexH);
+//    _shader->SetFloatValue(UNIFORM_FLOATPARAM1, 1.0/_map->mapTexW);
+//    _shader->SetFloatValue(UNIFORM_FLOATPARAM3, _map->mapW);
+//    _shader->SetFloatValue(UNIFORM_FLOATPARAM4, _map->mapH);
     _map.get()->Draw(_shader);
 //    _mapFrambuffer->unbind();
     glActiveTexture(GL_TEXTURE0);
