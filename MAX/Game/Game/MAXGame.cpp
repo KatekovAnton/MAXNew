@@ -46,8 +46,8 @@ void MAXGame::Init()
     //Inter
     //Bomber
     //Awac
-    MAXUnitConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig("Tank");
-    _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit)));
+    MAXUnitConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig("Awac");
+    _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit), unit));
     _testUnit->SetUnitLocation(CCPoint(56, 56), false);
     engine->AddUnit(_testUnit->GetUnitObject());
     _gameInterface = new GameInterface();
@@ -96,7 +96,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
     {
         char groundType = map->GroundTypeAtPoint(p);
-        if (groundType == GROUND_TYPE_GROUND)
+        if (groundType == GROUND_TYPE_GROUND || _testUnit->_config->_bLevel == UNIT_LEVEL_AIR)
             _testUnit->SetUnitLocation(p, true);
     }
 }

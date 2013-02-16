@@ -163,7 +163,8 @@ void MAXAnimationObjectUnit::CompletlyFinish()
         case MAXANIMATION_UNITROTATE:
         {
             _unit->SetBodyDirection(_bodyIndex);
-            _unit->SetHeadDirection(_headIndex);
+            if (_unit->params._hasHead)
+                _unit->SetHeadDirection(_headIndex);
         }   break;
         default:
             break;

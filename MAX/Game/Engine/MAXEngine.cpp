@@ -100,11 +100,13 @@ void MAXEngine::Init() {
 void MAXEngine::AddUnit(const shared_ptr<MAXUnitObject>& newUnit)
 {
     _scene->AddObject(newUnit, true);
+    newUnit->HasBeenLocatedToScene();
 }
 
 void MAXEngine::RemoveUnit(const shared_ptr<MAXUnitObject>& newUnit)
 {
     _scene->RemoveObject(newUnit);
+    newUnit->HasBeenRemovedFromScene();
 }
 
 MAXEngine::~MAXEngine()

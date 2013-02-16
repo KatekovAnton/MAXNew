@@ -29,10 +29,11 @@ struct MAXUnitObjectParameters
 {
     bool _isPlane;
     GLKVector2 _shadowOffset;
-    UNIT_LEVEL _level;
-    bool _haveHead;
+    int _level;
+    bool _hasHead;
     bool _isAnimatedHead;
     bool _isMultifire;
+    bool _isAbleToFire;
     MAXUnitObjectParameters(MAXUnitConfig* config);
     
 };
@@ -64,7 +65,7 @@ class MAXUnitObject : public MAXObject {
     
 public:
     
-    MAXUnitConfig* _config;
+    MAXUnitObjectParameters params;
     
     bool GetFireing() const {return fireing;};
     int GetBodyIndex() const {return bodyIndex;};
@@ -91,7 +92,7 @@ public:
     GLKMatrix4 CalculateShadowRenderMatrix();
     GLKMatrix4 CalculateBodyRenderMatrix();
     GLKMatrix4 CalculateHeadRenderMatrix();
-    CCPoint CalculateAirOffset();
+    GLKVector2 CalculateAirOffset();
     
     void SetBodyDirection(int state);
     void SetHeadDirection(int state);

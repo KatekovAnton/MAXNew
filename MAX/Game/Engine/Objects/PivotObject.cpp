@@ -11,6 +11,7 @@
 #include "Material.h"
 #include "Geometry.h"
 #include "Shader.h"
+#include "MAXEngine.h"
 
 PivotObject::PivotObject() {
 
@@ -77,6 +78,14 @@ void PivotObject::EndFrame() {
    // moved = _objectBehaviourModel->moved;
    // _transformMatrix = _objectBehaviourModel->GetGlobalPosition();
 }
+
+void PivotObject::HasBeenLocatedToScene()
+{
+    _sceneLocationTime = engine->FullTime();
+}
+
+void PivotObject::HasBeenRemovedFromScene()
+{}
 
 void PivotObject::Draw(Shader *shader)
 {

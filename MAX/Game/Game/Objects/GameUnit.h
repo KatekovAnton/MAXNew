@@ -27,16 +27,18 @@ class GameUnit : public GameObject, public MAXAnimationDelegate {
     
     MAXAnimationObjectUnit* _moveAnimation;
     MAXAnimationBase* _currentTopAnimation;
-    MAXUnitConfig* _config;
     CCPoint _unitCell;
     shared_ptr<MAXUnitObject> _unitObject;
     
     
 public:
+    
+    MAXUnitConfig* _config;
+    
     shared_ptr<MAXUnitObject> GetUnitObject() const {return _unitObject;};
     CCPoint GetUnitCell() const {return _unitCell;};
     
-    GameUnit(shared_ptr<MAXUnitObject> unitObject);
+    GameUnit(shared_ptr<MAXUnitObject> unitObject, MAXUnitConfig* config);
     ~GameUnit();
     
     void Fire(const CCPoint& target);

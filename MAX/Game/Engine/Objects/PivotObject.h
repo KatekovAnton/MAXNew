@@ -22,6 +22,9 @@ class Material;
 class Shader;
 
 class PivotObject {
+    
+    double _sceneLocationTime;
+    
 protected:
     GLKMatrix4              _renderMatrix;
     GLKMatrix4              _transformMatrix;
@@ -30,6 +33,7 @@ protected:
     bool                _isOnScreen;
 
     unsigned _objectId;
+    
     
 public:
 
@@ -51,6 +55,10 @@ public:
     virtual void Frame(double time);
     void BeginFrame();
     void EndFrame();
+    
+    double GetSceneLocationTime() const {return _sceneLocationTime;}
+    virtual void HasBeenLocatedToScene();
+    virtual void HasBeenRemovedFromScene();
     
     virtual void Draw(Shader* shader);
     

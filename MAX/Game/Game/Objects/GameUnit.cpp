@@ -15,8 +15,8 @@
 
 using namespace cocos2d;
 
-GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject)
-:_unitObject(unitObject), _currentTopAnimation(NULL), _config(unitObject->_config)
+GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject, MAXUnitConfig* config)
+:_unitObject(unitObject), _currentTopAnimation(NULL), _config(config)
 {
 }
 
@@ -58,12 +58,12 @@ void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
 
 void GameUnit::Fire(const cocos2d::CCPoint &target)
 {
-    if(!_unitObject->_config->_isAbleToFire)
+    if(!_config->_isAbleToFire)
         return;
     if(_unitObject->GetFireing())
         return;
     _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
-    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?0.15:0.2, _unitObject);
+    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?0.15:0.3, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
 }
 

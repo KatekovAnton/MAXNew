@@ -67,8 +67,15 @@ void MAXAnimationManager::Update()
         {
             count --;
             _objects.remove(*iterator);
-            delete *iterator;
-           // SysLogInfo("removing animation, cout = %d", 0);
+            try
+            {
+                delete *iterator;
+            }
+            catch(...)
+            {
+                printf("catch(...) in MAXAnimationManager::Update() -> delete *iterator, line 72");
+            }
+            // SysLogInfo("removing animation, cout = %d", 0);
         }
     }
 }
