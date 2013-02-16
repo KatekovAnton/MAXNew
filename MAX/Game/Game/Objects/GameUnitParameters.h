@@ -20,13 +20,22 @@ class BinaryReader;
 
 class GameUnitParameters {
     
+    MAXUnitConfig            *_wconfig;
+    MAXClanConfig            *_wclanBonuses;
+    PlayerResearchManager    *_wresearchManager;
+    PlayerUpgradeManager     *_wupgradeManager;
+    
 public:
+    
     GameUnitParameters(MAXUnitConfig            *config,
                        MAXClanConfig            *clanBonuses,
                        PlayerResearchManager    *researchManager,
                        PlayerUpgradeManager     *upgradeManager);
+    
     GameUnitParameters(BinaryReader             *saveReader);
     ~GameUnitParameters();
+    
+    void Upgrade();
 };
 
 #endif /* defined(__MAX__GameUnitParameters__) */

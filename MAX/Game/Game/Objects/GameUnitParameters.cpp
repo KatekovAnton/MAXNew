@@ -17,10 +17,14 @@ GameUnitParameters::GameUnitParameters(MAXUnitConfig            *config,
                                        MAXClanConfig            *clanBonuses,
                                        PlayerResearchManager    *researchManager,
                                        PlayerUpgradeManager     *upgradeManager)
+:_wconfig(config), _wclanBonuses(clanBonuses), _wresearchManager(researchManager), _wupgradeManager(upgradeManager)
 {}
 
 GameUnitParameters::GameUnitParameters(BinaryReader             *saveReader)
 {}
 
 GameUnitParameters::~GameUnitParameters()
+{}
+
+void GameUnitParameters::Upgrade()
 {}
