@@ -19,7 +19,7 @@ PivotObject::PivotObject() {
     _isOnScreen = true;
     moved = false;
     forceHidden = false;
-    _size = GLKVector2Make(1, 1);
+    _bbsize = GLKVector2Make(1, 1);
 }
 
 void PivotObject::Update() {

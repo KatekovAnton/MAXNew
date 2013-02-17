@@ -34,7 +34,7 @@ protected:
     
 public:
     
-    GLKVector2  _size;
+    GLKVector2  _bbsize;
     BoundingBox _boundingShape;
 
     bool GetIsOnScreen() const {return _isOnScreen;};

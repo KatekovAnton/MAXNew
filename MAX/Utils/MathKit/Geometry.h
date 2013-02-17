@@ -103,8 +103,8 @@ static __inline__ ContainmentType GetContainmentType(BoundingBox first, Bounding
         return ContainmentType_Disjoint;
     }
     
-    if (first.max.x > second.min.x && first.max.y > second.min.y &&
-        first.min.x < second.max.x && first.min.y < second.max.y) {
+    if (second.min.x > first.min.x && second.min.y > first.min.y &&
+        second.max.x < first.max.x && second.max.y < first.max.y) {
         return ContainmentType_Contains;
     }
     

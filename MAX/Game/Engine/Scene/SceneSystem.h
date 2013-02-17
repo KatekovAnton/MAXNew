@@ -20,8 +20,7 @@ class MAXSceneGraph;
 
 class SceneSystem {
     
-    UContainer<PivotObject>         *_shadowObjects;
-    UContainer<PivotObject>         *_visibleObjects;
+    USimpleContainer<PivotObject*>  *_visibleObjects;
     UContainer<PivotObject>         *_objects;
     
     
@@ -31,13 +30,15 @@ class SceneSystem {
     
     MAXSceneGraph                   *_sceneGraph;
     
+    void CalculateBBForObject(PivotObject* object);
+    
 public:
     UContainer<PivotObject>* GetAllObjects() const { return _objects; } 
     SceneSystem(MAXMapObject* map);
     ~SceneSystem();
     
     
-    UContainer<PivotObject>* GetVisibleObjects() const { return _visibleObjects; };
+    USimpleContainer<PivotObject*>* GetVisibleObjects() const { return _visibleObjects; };
     UContainer<PivotObject>* GetObjects() const { return _objects; };
     MAXMapObject *GetMap() const {return _map_w; };
     void Clear();

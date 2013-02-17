@@ -10,6 +10,7 @@
 #include "PivotObject.h"
 #include "MAXSceneGraph.h"
 #include "MAXMapObject.h"
+#include "MAXEngine.h"
 
 using namespace std;
 
@@ -18,8 +19,7 @@ SceneSystem::SceneSystem(MAXMapObject* map)
     
     _map_w = map;
     _objects = new UContainer<PivotObject>(100);
-    _visibleObjects = new UContainer<PivotObject>(100);
-    _shadowObjects = new UContainer<PivotObject>(100);
+    _visibleObjects = new USimpleContainer<PivotObject*>(100);
     
     _movedObjects_w = new USimpleContainer<PivotObject*>(100);
     
@@ -30,17 +30,23 @@ SceneSystem::~SceneSystem()
 {
     delete _objects;
     delete _visibleObjects;
-    delete _shadowObjects;
     delete _movedObjects_w;
     delete _sceneGraph;
 }
 
 void SceneSystem::CalculateVisbleObject()
 {
+    BoundingBox viewField;
+    CCRect rect = engine->ScreenToWorldRect();
+    viewField.min.x = rect.origin.x / 64.0;
+    viewField.min.y = rect.origin.y / 64.0;
     
-    //_sceneGraph.calculateVisibleObjects(CameraControllers.CameraManager.Camera.cameraFrustum, _visibleObjects);
+    viewField.max.x = rect.origin.x / 64.0 + rect.size.width / 64.0;
+    viewField.max.y = rect.origin.y / 64.0 + rect.size.height / 64.0;
     
-    _visibleObjects->AddObjects(_objects);
+    _sceneGraph->CalculateVisibleObjects(viewField, _visibleObjects);
+    
+    //_visibleObjects->AddObjects(_objects);
 }
 
 void SceneSystem::BeginFrame()
@@ -77,15 +83,11 @@ void SceneSystem::UpdateScene()
     }
     //_sceneGraph.NewFrame();
     _visibleObjects->clear();
-    _shadowObjects->clear();
 }
 
 void SceneSystem::AfterUpdate()
 {
     _movedObjects_w->clear();
-    float resultX;
-    float resultY;
-    BoundingBox result;
     for (int i = 0; i < _objects->GetCount(); i++)
     {
         PivotObject* object = _objects->objectAtIndex(i).get();
@@ -93,17 +95,7 @@ void SceneSystem::AfterUpdate()
         if (object->moved)
         {
             _movedObjects_w->addObject(object);
-            
-            //update bs
-            resultX = object->GetTransformMatrix().m30 - 1 + _map_w->mapW/2;
-            resultY = -1 * (object->GetTransformMatrix().m31 - _map_w->mapH/2) - 1;
-            
-            result.min.x = resultX + 0.1;
-            result.min.y = resultY + 0.1;
-            result.max.x = resultX - 0.1 + object->_size.x;
-            result.max.y = resultY - 0.1 + object->_size.y;
-            object->_boundingShape = result;
-            
+            CalculateBBForObject(object);
             object->moved = false;
         }
     }
@@ -111,9 +103,9 @@ void SceneSystem::AfterUpdate()
 
 void SceneSystem::LastUpdate()
 {
-    for (int i = 0; i < _objects->GetCount(); i++)
+    for (int i = 0; i < _visibleObjects->GetCount(); i++)
     {
-        PivotObject* object = _objects->objectAtIndex(i).get();
+        PivotObject* object = _visibleObjects->objectAtIndex(i);
         object->LastUpdate();
     }
 }
@@ -121,17 +113,34 @@ void SceneSystem::LastUpdate()
 void SceneSystem::Clear()
 {
     _visibleObjects->clear();
-    _shadowObjects->clear();
     _objects->clear();
+}
+
+void SceneSystem::CalculateBBForObject(PivotObject* object)
+{
+    float resultX;
+    float resultY;
+    BoundingBox result;
+    //update bs
+    resultX = object->GetTransformMatrix().m30 - 1 + _map_w->mapW/2;
+    resultY = -1 * (object->GetTransformMatrix().m31 - _map_w->mapH/2) - 1;
+    
+    result.min.x = resultX + 0.1 + object->_bbsize.x - 1;
+    result.min.y = resultY + 0.1 + object->_bbsize.y - 1;
+    result.max.x = resultX - 0.1 + object->_bbsize.x;
+    result.max.y = resultY - 0.1 + object->_bbsize.y;
+    object->_boundingShape = result;
 }
 
 void SceneSystem::AddObject(const shared_ptr<PivotObject>& newObject, bool needUpdate)
 {
-    
     //newObject->_objectBehaviourModel->Enable();
     _objects->addObject(newObject);
     newObject->AfterUpdate();
-    //_sceneGraph->AddObject((MAXObject*)newObject.get());
+    
+    CalculateBBForObject(newObject.get());
+    
+    _sceneGraph->AddObject(newObject.get());
 }
 
 shared_ptr<PivotObject> SceneSystem::GetObject(unsigned int objId)

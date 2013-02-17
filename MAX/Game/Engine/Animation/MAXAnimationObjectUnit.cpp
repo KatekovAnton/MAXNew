@@ -65,7 +65,7 @@ MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, con
 {}
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int headIndex, const shared_ptr<MAXUnitObject>& object)                                  //creates rotate action
-:MAXAnimationBase(), _unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(object->GetBodyIndex()), rotateTime(0.07 * GetRotateLengt(_startBodyIndex, _bodyIndex))
+:MAXAnimationBase(), _unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(object->GetBodyIndex()), rotateTime(0.05 * GetRotateLengt(_startBodyIndex, _bodyIndex))
 {}
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(double firetime, const shared_ptr<MAXUnitObject>& object)                                               //creates fire action

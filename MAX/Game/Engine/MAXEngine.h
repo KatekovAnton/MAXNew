@@ -48,11 +48,9 @@ class MAXEngine : public RequestDelegate  {
     Shader              *_mapQuadShader;
     shared_ptr<EngineMesh> _mapQuadMesh;
     float             _color;
-    Framebuffer         *_mapFrambuffer;
 public:
     
     MAXAnimationManager* GetAnimationManager () const { return _animationManager; };
-    
     
     float displayw,displayh;
     bool drawGrid;
