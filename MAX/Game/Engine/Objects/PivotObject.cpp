@@ -16,8 +16,6 @@
 PivotObject::PivotObject() {
 
     _transformMatrix = GLKMatrix4Identity;
-    _renderMatrix = GLKMatrix4Identity;
-    _needMouseCast = false;
     _isOnScreen = true;
     moved = false;
     forceHidden = false;
@@ -39,6 +37,7 @@ void PivotObject::SetGlobalPosition(GLKMatrix4 globalPosition, void *aditionalDa
     {
        // _objectBehaviourModel->EndFrame();
         Update();
+        AfterUpdate();
     }
 //    else
 //    {
@@ -48,13 +47,7 @@ void PivotObject::SetGlobalPosition(GLKMatrix4 globalPosition, void *aditionalDa
 
 void PivotObject::AfterUpdate()
 {
-    if (_isOnScreen)
-        _renderMatrix = CalculateRenderMatrix(_transformMatrix);
-}
-
-GLKMatrix4 PivotObject::CalculateRenderMatrix(GLKMatrix4 transform)
-{
-    return transform;
+    
 }
 
 void PivotObject::SetIsOnScreen(bool isOnScreen) {
@@ -86,8 +79,7 @@ void PivotObject::HasBeenRemovedFromScene()
 
 void PivotObject::Draw(Shader *shader)
 {
-    GLKMatrix4 m1 = GetRenderMatrix();
-    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
+    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, _transformMatrix.m);
     GetRenderAspect()->Render(0, GetMaterial());
 }
 
@@ -97,10 +89,6 @@ RenderObject * PivotObject::GetRenderAspect() {
 
 Material * PivotObject::GetMaterial() {
     return NULL;
-}
-
-GLKMatrix4 PivotObject::GetRenderMatrix() const {
-    return _renderMatrix;
 }
 
 GLKMatrix4 PivotObject::GetTransformMatrix() const {

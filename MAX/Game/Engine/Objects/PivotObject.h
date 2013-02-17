@@ -27,11 +27,8 @@ class PivotObject {
     bool                _isOnScreen;
     
 protected:
-    GLKMatrix4              _renderMatrix;
-    GLKMatrix4              _transformMatrix;
     
-    bool                _needMouseCast;
-
+    GLKMatrix4              _transformMatrix;
     unsigned _objectId;
     
     
@@ -51,10 +48,7 @@ public:
     PivotObject();
     virtual ~PivotObject();
 
-    GLKMatrix4 GetRenderMatrix() const;
     GLKMatrix4 GetTransformMatrix() const;
-    
-    GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
     
     void BeginFrame();
     virtual void Frame(double time);
