@@ -60,7 +60,6 @@ namespace Utils {
     void USimpleContainer<T>::remove(int index) {
         if (index < _count) {
             T obj  = _array[index];
-            obj.reset();
             
             _array[index] = _array[_count - 1];
             _array[_count - 1] = nullptr;

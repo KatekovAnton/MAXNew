@@ -13,8 +13,10 @@
 #include "miniPrefix.h"
 
 class SceneSystem;
-class MAXObject;
+class PivotObject;
 class MAXSceneGraphNode;
+
+
 
 class MAXSceneGraph {
     
@@ -30,7 +32,7 @@ class MAXSceneGraph {
     
     int _maxNestingLevel = 3;
     stack<MAXSceneGraphNode*>   _nodeStack;
-    map<int, MAXSceneGraphNode*> _objectNodeMap;
+    map<PivotObject*, MAXSceneGraphNode*> _objectNodeMap;
     MAXSceneGraphNode** _leafs;
     int _leafMassiveSize;
     float _leafSize;
@@ -43,28 +45,33 @@ class MAXSceneGraph {
     //Stopwatch _timer;
     GLKVector2 leafSize;
     
-    MAXSceneGraphNode* GetLeaf(MAXObject* entity);
+    
+    MAXSceneGraphNode* GetLeaf(PivotObject* entity);
     void SplitNode(MAXSceneGraphNode* parent);
     int GetLeafArrayIndex(int x, int y) const;
+    void RegistrateEntity(PivotObject *entity, MAXSceneGraphNode *node);
     void Build();
+    void GetSubtree(MAXSceneGraphNode *node, USimpleContainer<PivotObject*> *visibleEntities);
+    
 public:
+    
+    int GetRecalulcalatedObjectsCount() const {return _recalculatedCount;};
     
     MAXSceneGraph(SceneSystem* scene);
     ~MAXSceneGraph();
     
-    void AddObject(MAXObject *newObject);
-    
-    void RemoveObject(MAXObject *object);
-    
-    void NewFrame();
-    
-    void CalculateVisibleObjects(BoundingBox viewField, USimpleContainer<MAXObject*> *container);
-    
+    void AddObject(PivotObject *newObject);
+    void RemoveObject(PivotObject *object);
     void Clear();
+
     
-    int GetRecalulcalatedObjectsCount() const {return _recalculatedCount;};
+    void CalculateVisibleObjects(BoundingBox viewField, USimpleContainer<PivotObject*> *container);
+    void Query(BoundingBox viewField, USimpleContainer<PivotObject*> *container);
     
-    void Query(BoundingBox viewField, USimpleContainer<MAXObject*> *container);
+    
+    void Update(USimpleContainer<PivotObject*> *container);
+    
+    
     
 };
 

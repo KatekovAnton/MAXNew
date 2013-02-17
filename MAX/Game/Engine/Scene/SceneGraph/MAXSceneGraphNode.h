@@ -12,7 +12,7 @@
 #include <iostream>
 #include "miniPrefix.h"
 
-class MAXObject;
+class PivotObject;
 
 class MAXSceneGraphNode {
     
@@ -22,7 +22,7 @@ public:
     MAXSceneGraphNode                       *_childNodes[4];
     BoundingBox                             _boundingRect;
     int                                     _nestingLevel;
-    USimpleContainer<MAXObject*>            *_entities_w;
+    USimpleContainer<PivotObject*>          *_entities_w;
     
     
     MAXSceneGraphNode(MAXSceneGraphNode *parentNode, BoundingBox bb, int level);

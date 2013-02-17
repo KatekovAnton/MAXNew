@@ -86,6 +86,31 @@ static __inline__ BoundingBox BoundingBoxMake(GLKVector2 min, GLKVector2 max) {
     return rect;
 };
 
+enum __ContainmentType
+{
+    ContainmentType_Disjoint,
+    ContainmentType_Contains,
+    ContainmentType_Intersects
+};
+
+typedef enum __ContainmentType ContainmentType;
+
+
+static __inline__ ContainmentType GetContainmentType(BoundingBox first, BoundingBox second)
+{
+    if (first.max.x < second.min.x || first.max.y < second.min.y ||
+        first.min.x > second.max.x || first.min.y > second.max.y) {
+        return ContainmentType_Disjoint;
+    }
+    
+    if (first.max.x > second.min.x && first.max.y > second.min.y &&
+        first.min.x < second.max.x && first.min.y < second.max.y) {
+        return ContainmentType_Contains;
+    }
+    
+    return ContainmentType_Intersects;
+}
+
 //http://www.opengl.org/wiki/GluProject_and_gluUnProject_code
 
 #endif

@@ -32,7 +32,7 @@ class SceneSystem {
     MAXSceneGraph                   *_sceneGraph;
     
 public:
-   
+    UContainer<PivotObject>* GetAllObjects() const { return _objects; } 
     SceneSystem(MAXMapObject* map);
     ~SceneSystem();
     

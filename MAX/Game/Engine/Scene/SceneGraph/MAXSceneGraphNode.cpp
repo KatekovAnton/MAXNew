@@ -13,7 +13,7 @@ MAXSceneGraphNode::MAXSceneGraphNode(MAXSceneGraphNode *parentNode, BoundingBox 
     _boundingRect = bb;
     _parentNode_w = parentNode;
     _nestingLevel = level;
-    _entities_w = new USimpleContainer<MAXObject*>(100);
+    _entities_w = new USimpleContainer<PivotObject*>(100);
     memset(_childNodes, 4*sizeof(size_t), 0);
 }
 
