@@ -76,7 +76,7 @@ public:
     
     virtual void Draw(Shader *shader);
     virtual void Frame(double time);
-    virtual void AfterUpdate();
+    virtual void LastUpdate();
     
     GLKMatrix4 CalculateShadowRenderMatrix();
     GLKMatrix4 CalculateBodyRenderMatrix();

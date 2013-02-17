@@ -12,6 +12,7 @@
 #include <vector>
 #include <string>
 #include <list>
+#include <stack>
 
 #include "Geometry.h"
 #include "UContainer.h"

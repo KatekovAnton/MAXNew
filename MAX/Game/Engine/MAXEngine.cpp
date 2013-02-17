@@ -89,12 +89,23 @@ void MAXEngine::Init() {
     _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth()/scale, _renderSystem->GetDisplay()->GetDisplayHeight()/scale, kResolutionNoBorder);
     _animationManager = new MAXAnimationManager();
     
-    _scene = new SceneSystem();
     
     _director->setDisplayStats(true);
     _grid = new MAXGrid();
     _unitSelection = new MAXUnitSelection();
     _mapFrambuffer = new Framebuffer(GLKVector2Make(_screenRect.size.width, _screenRect.size.height));
+    
+    _scene = NULL;
+}
+
+void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
+{
+    _map = shared_ptr<MAXMapObject>(new MAXMapObject(map));
+    _grid->SetMapSize(_map->mapW, _map->mapH);
+    _camera->SetMapSize(_map->mapW, _map->mapH);
+    if (_scene)
+        delete _scene;
+    _scene = new SceneSystem(_map.get());
 }
 
 void MAXEngine::AddUnit(const shared_ptr<MAXUnitObject>& newUnit)
@@ -159,7 +170,6 @@ void MAXEngine::Update()
     _scene->UpdateScene();
     bool updategrid = _camera->changed;
     _camera->Update();
-    _scene->CalculateVisbleObject();
     _animationManager->Update();
     if(updategrid)
     {
@@ -167,6 +177,8 @@ void MAXEngine::Update()
         _grid->UpdateInfo(false);
     }
     _scene->AfterUpdate();
+    _scene->CalculateVisbleObject();
+    _scene->LastUpdate();
     _unitSelection->Update();
 }
 
@@ -287,13 +299,6 @@ void MAXEngine::ScaleCamera(float deltaScale)
 void MAXEngine::MoveCamera(float deltax, float deltay)
 {
     _camera->Move(deltax, deltay);
-}
-
-void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
-{
-    _map = shared_ptr<MAXMapObject>(new MAXMapObject(map));
-    _grid->SetMapSize(_map->mapW, _map->mapH);
-    _camera->SetMapSize(_map->mapW, _map->mapH);
 }
 
 CCPoint MAXEngine::ScreenToWorldCoordinates(const CCPoint &screen)

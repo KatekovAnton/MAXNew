@@ -7,20 +7,20 @@
 //
 
 #include "MAXObject.h"
-
+#include "MAXEngine.h"
+#include "MAXMapObject.h"
 
 void MAXObject::SetPosition(const CCPoint& cell)
 {
     GLKMatrix4 matrix = MAXObject::MatrixForCell(cell);
     this->SetGlobalPosition(matrix, NULL, NULL, true);
-    
     CCPoint pt = ObjectCell();
     pt = pt;
 }
 
 GLKMatrix4 MAXObject::MatrixForCell(const CCPoint& cell)
 {
-    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cell.x - 112/2) + 1, (-1*(cell.y + 1) + 112/2), 0);
+    GLKMatrix4 rt = GLKMatrix4MakeTranslation((cell.x - engine->_map->mapW/2.0) + 1, (-1*(cell.y + 1) + engine->_map->mapH/2.0), 0);
     return rt;
 }
 
@@ -28,8 +28,8 @@ CCPoint MAXObject::ObjectCell() const
 {
     CCPoint result;
     GLKMatrix4 transform = GetTransformMatrix();
-    result.x = transform.m30 - 1 + 112/2;
-    result.y = -1 * (transform.m31 - 112/2) - 1;
+    result.x = transform.m30 - 1 + engine->_map->mapW/2;
+    result.y = -1 * (transform.m31 - engine->_map->mapH/2) - 1;
     return result;
 }
 

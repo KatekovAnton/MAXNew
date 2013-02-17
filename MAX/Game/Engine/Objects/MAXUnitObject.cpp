@@ -61,8 +61,10 @@ MAXUnitObject::~MAXUnitObject()
     delete _material;
 }
 
-void MAXUnitObject::AfterUpdate()
+void MAXUnitObject::LastUpdate()
 {
+    if (!GetIsOnScreen())
+        return;
     if(showShadows)
         shadowRenderMatrix = CalculateShadowRenderMatrix();
     if (params_w->_hasHead) 

@@ -11,30 +11,35 @@
 
 #include <iostream>
 #include "Utils.h"
-#include "UserInterface.h"
 
 using namespace Utils;
 
 class PivotObject;
+class MAXMapObject;
+class MAXSceneGraph;
 
 class SceneSystem {
     
-    UContainer<PivotObject>        *  _shadowObjects;
-    UContainer<PivotObject>        *  _visibleObjects;
-    UContainer<PivotObject>        *  _objects;
+    UContainer<PivotObject>         *_shadowObjects;
+    UContainer<PivotObject>         *_visibleObjects;
+    UContainer<PivotObject>         *_objects;
     
-    UserInterface                    *_userInterface;
     
+    USimpleContainer<PivotObject*>         *_movedObjects_w;
+    
+    MAXMapObject                    *_map_w;
+    
+    MAXSceneGraph                   *_sceneGraph;
     
 public:
    
-    SceneSystem();
+    SceneSystem(MAXMapObject* map);
     ~SceneSystem();
     
     
     UContainer<PivotObject>* GetVisibleObjects() const { return _visibleObjects; };
     UContainer<PivotObject>* GetObjects() const { return _objects; };
-    
+    MAXMapObject *GetMap() const {return _map_w; };
     void Clear();
     
     shared_ptr<PivotObject> GetObject(unsigned int objId);
@@ -46,13 +51,13 @@ public:
     
     void UpdateScene();
     void AfterUpdate();
+    void LastUpdate();
     void CalculateVisbleObject();
     
     void BeginFrame();
     void EndFrame();
     void Frame(double time);
-    
-    UserInterface * GetInterfaceManager();
+
 };
 
 

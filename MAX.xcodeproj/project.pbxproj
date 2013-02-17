@@ -13,6 +13,8 @@
 		8B7CA08B16C81F9F00282A74 /* CCTableViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B7CA08616C81F9F00282A74 /* CCTableViewCell.cpp */; };
 		8B7CA09216C831EB00282A74 /* GameInteface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B7CA09016C831EB00282A74 /* GameInteface.cpp */; };
 		8B7E22B016D149CB00FE748B /* SceneSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B7E22AE16D149CB00FE748B /* SceneSystem.cpp */; };
+		8B7E22B416D14B8300FE748B /* MAXSceneGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B7E22B216D14B8300FE748B /* MAXSceneGraph.cpp */; };
+		8B7E22B716D14BC200FE748B /* MAXSceneGraphNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B7E22B516D14BC200FE748B /* MAXSceneGraphNode.cpp */; };
 		8B84DBC816CFDB1E00DD12B8 /* MAXClanConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBC616CFDB1C00DD12B8 /* MAXClanConfig.cpp */; };
 		8B84DBCE16CFDBAF00DD12B8 /* MAXConfigManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBCC16CFDBA500DD12B8 /* MAXConfigManager.cpp */; };
 		8B84DBD216CFDC9900DD12B8 /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD016CFDC9900DD12B8 /* StringUtils.cpp */; };
@@ -340,6 +342,10 @@
 		8B7CA09116C831EB00282A74 /* GameInteface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInteface.h; sourceTree = "<group>"; };
 		8B7E22AE16D149CB00FE748B /* SceneSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneSystem.cpp; sourceTree = "<group>"; };
 		8B7E22AF16D149CB00FE748B /* SceneSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSystem.h; sourceTree = "<group>"; };
+		8B7E22B216D14B8300FE748B /* MAXSceneGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXSceneGraph.cpp; sourceTree = "<group>"; };
+		8B7E22B316D14B8300FE748B /* MAXSceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXSceneGraph.h; sourceTree = "<group>"; };
+		8B7E22B516D14BC200FE748B /* MAXSceneGraphNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXSceneGraphNode.cpp; sourceTree = "<group>"; };
+		8B7E22B616D14BC200FE748B /* MAXSceneGraphNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXSceneGraphNode.h; sourceTree = "<group>"; };
 		8B84DBC616CFDB1C00DD12B8 /* MAXClanConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXClanConfig.cpp; sourceTree = "<group>"; };
 		8B84DBC716CFDB1C00DD12B8 /* MAXClanConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXClanConfig.h; sourceTree = "<group>"; };
 		8B84DBCC16CFDBA500DD12B8 /* MAXConfigManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXConfigManager.cpp; sourceTree = "<group>"; };
@@ -781,10 +787,22 @@
 		8B7E22AD16D149A100FE748B /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				8B7E22B116D14B6C00FE748B /* SceneGraph */,
 				8B7E22AE16D149CB00FE748B /* SceneSystem.cpp */,
 				8B7E22AF16D149CB00FE748B /* SceneSystem.h */,
 			);
 			path = Scene;
+			sourceTree = "<group>";
+		};
+		8B7E22B116D14B6C00FE748B /* SceneGraph */ = {
+			isa = PBXGroup;
+			children = (
+				8B7E22B216D14B8300FE748B /* MAXSceneGraph.cpp */,
+				8B7E22B316D14B8300FE748B /* MAXSceneGraph.h */,
+				8B7E22B516D14BC200FE748B /* MAXSceneGraphNode.cpp */,
+				8B7E22B616D14BC200FE748B /* MAXSceneGraphNode.h */,
+			);
+			path = SceneGraph;
 			sourceTree = "<group>";
 		};
 		8B8A43EA16935851005C4ADA /* Units */ = {
@@ -1892,6 +1910,8 @@
 				8B84DBD516CFE33800DD12B8 /* GameUnitCurrentState.cpp in Sources */,
 				D1E62CF516D13FF5006D55E1 /* PlayerBase.cpp in Sources */,
 				8B7E22B016D149CB00FE748B /* SceneSystem.cpp in Sources */,
+				8B7E22B416D14B8300FE748B /* MAXSceneGraph.cpp in Sources */,
+				8B7E22B716D14BC200FE748B /* MAXSceneGraphNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

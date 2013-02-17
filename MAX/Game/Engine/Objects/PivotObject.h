@@ -24,19 +24,24 @@ class Shader;
 class PivotObject {
     
     double _sceneLocationTime;
+    bool                _isOnScreen;
     
 protected:
     GLKMatrix4              _renderMatrix;
     GLKMatrix4              _transformMatrix;
     
     bool                _needMouseCast;
-    bool                _isOnScreen;
 
     unsigned _objectId;
     
     
 public:
+    
+    GLKVector2  _size;
+    BoundingBox _boundingShape;
 
+    bool GetIsOnScreen() const {return _isOnScreen;};
+    
     unsigned GetObjectId() const {return _objectId; };
     void SetObjectId(unsigned newValue) { _objectId = newValue; };
     
@@ -49,12 +54,14 @@ public:
     GLKMatrix4 GetRenderMatrix() const;
     GLKMatrix4 GetTransformMatrix() const;
     
+    GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
+    
+    void BeginFrame();
+    virtual void Frame(double time);
+    void EndFrame();
     void Update();
     virtual void AfterUpdate();
-    GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
-    virtual void Frame(double time);
-    void BeginFrame();
-    void EndFrame();
+    virtual void LastUpdate();
     
     double GetSceneLocationTime() const {return _sceneLocationTime;}
     virtual void HasBeenLocatedToScene();
