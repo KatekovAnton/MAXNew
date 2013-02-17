@@ -12,15 +12,16 @@
 #include <iostream>
 #include "miniPrefix.h"
 
+class GameMap;
 class GameMatchPlayer;
-class GameBattlefield;
 
 class GameMatch {
     
 public:
     
-    GameBattlefield* _battlefield;
-    vector<GameMatchPlayer*> players;
+    GameMap*                    _map;
+    vector<GameMatchPlayer*>    _players;
+    GameMatchPlayer*            _me;
 
     GameMatch();
     ~GameMatch();

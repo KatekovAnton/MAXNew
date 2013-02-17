@@ -11,15 +11,12 @@
 #include "GameMap.h"
 
 GameMatch::GameMatch()
-:_battlefield(NULL)
 {}
 
 GameMatch::~GameMatch()
 {
-    for (int i = 0; i < players.size(); i++) {
-        GameMatchPlayer* player = players[i];
+    for (int i = 0; i < _players.size(); i++) {
+        GameMatchPlayer* player = _players[i];
         delete player;
     }
-    if(_battlefield)
-        delete _battlefield;
 }

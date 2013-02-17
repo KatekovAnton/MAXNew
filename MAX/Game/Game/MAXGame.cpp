@@ -38,8 +38,14 @@ MAXGame::~MAXGame()
 void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
-    MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
     
+    StartMatch();
+    
+}
+
+void MAXGame::StartMatch()
+{
+    MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
     this->SetMap("Green_6.wrl");
     //Aagunm
     //Tank

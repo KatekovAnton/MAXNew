@@ -14,10 +14,15 @@
 #include "MAXContetnConstants.h"
 
 class Texture2D;
+class GameUnit;
+class PlayerBase;
 
 class GameMatchPlayer {
     
 public:
+    
+    USimpleContainer<GameUnit*> _units;
+    PlayerBase* _base;
     
     GameMatchPlayer();
     ~GameMatchPlayer();

@@ -246,7 +246,6 @@
 		D18EDC5816897B1E00EE3B4E /* GLSurface.m in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC5316897B1E00EE3B4E /* GLSurface.m */; };
 		D18EDC721689831800EE3B4E /* MAXEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC701689831800EE3B4E /* MAXEngine.cpp */; };
 		D18EDC77168983F800EE3B4E /* UserInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC73168983F700EE3B4E /* UserInterface.cpp */; };
-		D18EDC78168983F800EE3B4E /* SceneSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC75168983F700EE3B4E /* SceneSystem.cpp */; };
 		D18EDC7C1689843600EE3B4E /* RenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC7B1689843600EE3B4E /* RenderSystem.cpp */; };
 		D18EDC801689846300EE3B4E /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC7E1689846300EE3B4E /* Shader.cpp */; };
 		D18EDC861689847B00EE3B4E /* ShaderBackground.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC821689847B00EE3B4E /* ShaderBackground.vsh */; };
@@ -305,6 +304,8 @@
 		D1E3D78816C1709200E88F2E /* RequestManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D78616C1709200E88F2E /* RequestManager.cpp */; };
 		D1E62CDA16CBDDA2006D55E1 /* GameMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E62CD816CBDDA2006D55E1 /* GameMap.cpp */; };
 		D1E62CE416CE50D2006D55E1 /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E62CE216CE50D0006D55E1 /* Framebuffer.cpp */; };
+		D1E62CF516D13FF5006D55E1 /* PlayerBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E62CF316D13FF5006D55E1 /* PlayerBase.cpp */; };
+		D1E62CF916D1412E006D55E1 /* SceneSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E62CF716D1412E006D55E1 /* SceneSystem.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -628,8 +629,6 @@
 		D18EDC711689831800EE3B4E /* MAXEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXEngine.h; sourceTree = "<group>"; };
 		D18EDC73168983F700EE3B4E /* UserInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserInterface.cpp; sourceTree = "<group>"; };
 		D18EDC74168983F700EE3B4E /* UserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInterface.h; sourceTree = "<group>"; };
-		D18EDC75168983F700EE3B4E /* SceneSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneSystem.cpp; sourceTree = "<group>"; };
-		D18EDC76168983F700EE3B4E /* SceneSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSystem.h; sourceTree = "<group>"; };
 		D18EDC7A1689843600EE3B4E /* RenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSystem.h; sourceTree = "<group>"; };
 		D18EDC7B1689843600EE3B4E /* RenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSystem.cpp; sourceTree = "<group>"; };
 		D18EDC7E1689846300EE3B4E /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
@@ -727,6 +726,10 @@
 		D1E62CDB16CBE85F006D55E1 /* USimpleContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USimpleContainer.h; sourceTree = "<group>"; };
 		D1E62CE216CE50D0006D55E1 /* Framebuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Framebuffer.cpp; sourceTree = "<group>"; };
 		D1E62CE316CE50D1006D55E1 /* Framebuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Framebuffer.h; sourceTree = "<group>"; };
+		D1E62CF316D13FF5006D55E1 /* PlayerBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerBase.cpp; sourceTree = "<group>"; };
+		D1E62CF416D13FF5006D55E1 /* PlayerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerBase.h; sourceTree = "<group>"; };
+		D1E62CF716D1412E006D55E1 /* SceneSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneSystem.cpp; sourceTree = "<group>"; };
+		D1E62CF816D1412E006D55E1 /* SceneSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSystem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1301,6 +1304,7 @@
 		D18EDC6F168982CA00EE3B4E /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				D1E62CF616D14107006D55E1 /* Scene */,
 				D16D48C9168B306C0055F35D /* MAXContetnLoader */,
 				D18EDCA6168989A700EE3B4E /* ObjectComponents */,
 				D18EDC8E1689862A00EE3B4E /* Objects */,
@@ -1310,8 +1314,6 @@
 				D18EDC711689831800EE3B4E /* MAXEngine.h */,
 				8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */,
 				8B8EAA2B168A28620097CA74 /* MAXCamera.h */,
-				D18EDC75168983F700EE3B4E /* SceneSystem.cpp */,
-				D18EDC76168983F700EE3B4E /* SceneSystem.h */,
 				D18EDC73168983F700EE3B4E /* UserInterface.cpp */,
 				D18EDC74168983F700EE3B4E /* UserInterface.h */,
 			);
@@ -1453,6 +1455,8 @@
 				D1DBC4C516CA517D0096034A /* PlayerUpgradeManager.h */,
 				D1DBC4C816CA520D0096034A /* PlayerResearchManager.cpp */,
 				D1DBC4C916CA520D0096034A /* PlayerResearchManager.h */,
+				D1E62CF316D13FF5006D55E1 /* PlayerBase.cpp */,
+				D1E62CF416D13FF5006D55E1 /* PlayerBase.h */,
 			);
 			path = PlayerInformation;
 			sourceTree = "<group>";
@@ -1510,6 +1514,15 @@
 				D1E3D77616C14A8700E88F2E /* libcurl.a */,
 			);
 			path = curl;
+			sourceTree = "<group>";
+		};
+		D1E62CF616D14107006D55E1 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				D1E62CF716D1412E006D55E1 /* SceneSystem.cpp */,
+				D1E62CF816D1412E006D55E1 /* SceneSystem.h */,
+			);
+			path = Scene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1810,7 +1823,6 @@
 				D18EDC5816897B1E00EE3B4E /* GLSurface.m in Sources */,
 				D18EDC721689831800EE3B4E /* MAXEngine.cpp in Sources */,
 				D18EDC77168983F800EE3B4E /* UserInterface.cpp in Sources */,
-				D18EDC78168983F800EE3B4E /* SceneSystem.cpp in Sources */,
 				D18EDC7C1689843600EE3B4E /* RenderSystem.cpp in Sources */,
 				D18EDC801689846300EE3B4E /* Shader.cpp in Sources */,
 				D18EDC861689847B00EE3B4E /* ShaderBackground.vsh in Sources */,
@@ -1878,6 +1890,8 @@
 				8B84DBCE16CFDBAF00DD12B8 /* MAXConfigManager.cpp in Sources */,
 				8B84DBD216CFDC9900DD12B8 /* StringUtils.cpp in Sources */,
 				8B84DBD516CFE33800DD12B8 /* GameUnitCurrentState.cpp in Sources */,
+				D1E62CF516D13FF5006D55E1 /* PlayerBase.cpp in Sources */,
+				D1E62CF916D1412E006D55E1 /* SceneSystem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

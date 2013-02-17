@@ -8,6 +8,9 @@
 
 #include "GameMatchPlayer.h"
 #include "Texture.h"
+#include "PlayerBase.h"
+#include "GameUnit.h"
+#include "MAXEngine.h"
 
 GameMatchPlayer::GameMatchPlayer()
 {}

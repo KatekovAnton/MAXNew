@@ -40,15 +40,17 @@ public:
     
     shared_ptr<GameMap> map;
     MAXGAMESTATE GetCurretnState() const {return _curretnState;}
+    shared_ptr<GameUnit> _testUnit;
     
     MAXGame();
     ~MAXGame();
     
-    shared_ptr<GameUnit> _testUnit;
+    void Init();
     
+    
+    void StartMatch();
     void SetMap(string mapName);
     
-    void Init();
     
 #pragma mark - DisplayPinchDelegate
     virtual bool CanStartPinch(float x, float y);
