@@ -99,6 +99,7 @@ void SceneSystem::AfterUpdate()
             object->moved = false;
         }
     }
+    _sceneGraph->Update(_movedObjects_w);
 }
 
 void SceneSystem::LastUpdate()
@@ -125,8 +126,8 @@ void SceneSystem::CalculateBBForObject(PivotObject* object)
     resultX = object->GetTransformMatrix().m30 - 1 + _map_w->mapW/2;
     resultY = -1 * (object->GetTransformMatrix().m31 - _map_w->mapH/2) - 1;
     
-    result.min.x = resultX + 0.1 + object->_bbsize.x - 1;
-    result.min.y = resultY + 0.1 + object->_bbsize.y - 1;
+    result.min.x = resultX + 0.1 - object->_bbsize.x + 1;
+    result.min.y = resultY + 0.1 - object->_bbsize.y + 1;
     result.max.x = resultX - 0.1 + object->_bbsize.x;
     result.max.y = resultY - 0.1 + object->_bbsize.y;
     object->_boundingShape = result;

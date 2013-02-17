@@ -323,11 +323,10 @@ void MAXSceneGraph::Update(USimpleContainer<PivotObject*>* objects)
     for (int i = 0; i < objects->GetCount(); i++)
     {
         PivotObject* obj = objects->objectAtIndex(i);
-        if (obj->moved)
-        {
-            _entityRecalculateCount++;
-            RemoveObject(obj);
-            AddObject(obj);
-        }
+  
+        _entityRecalculateCount++;
+        RemoveObject(obj);
+        AddObject(obj);
+        
     }
 }
