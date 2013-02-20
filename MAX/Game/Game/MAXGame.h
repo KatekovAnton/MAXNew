@@ -40,7 +40,7 @@ class MAXGame : public DisplayPinchDelegate {
 public:
     
     MAXGAMESTATE GetCurretnState() const {return _curretnState;}
-    shared_ptr<GameUnit> _testUnit;
+    GameUnit* _currentUnit;
     
     MAXGame();
     ~MAXGame();

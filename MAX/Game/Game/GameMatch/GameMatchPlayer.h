@@ -13,25 +13,33 @@
 #include "miniPrefix.h"
 #include "MAXContetnConstants.h"
 
-class Texture2D;
+
+class Texture;
 class GameUnit;
 class PlayerBase;
+
+struct GameMatchPlayerInfo {
+    unsigned int    _playerId;
+    string          _name;
+    Color           _color;
+};
 
 class GameMatchPlayer {
     
 public:
     
+    GameMatchPlayerInfo _playerInfo;
+    Texture* _palette;
+    
     USimpleContainer<GameUnit*> _units;
     PlayerBase* _base;
     
-    GameMatchPlayer();
+    GameMatchPlayer(GameMatchPlayerInfo playerInfo);
     ~GameMatchPlayer();
+
     
-    int _id;
-    string _name;
-    Color _playerColor;
+    GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     
-    Texture2D* _palette;
 };
 
 #endif /* defined(__MAX__Game_MatchPlayer__) */

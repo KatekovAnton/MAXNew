@@ -39,12 +39,14 @@ void MAXGame::Init()
     Display::currentDisplay()->SetPinchDelegate(this);
     
     StartMatch();
-    
 }
 
 void MAXGame::StartMatch()
 {
-    _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl");
+    vector<GameMatchPlayerInfo> infos;
+    GameMatchPlayerInfo player1 = {3, "Test player", {180,0,0,255}};
+    infos.push_back(player1);
+    _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl", infos);
     engine->SetMap(_match->_map->_contentMap);
     
     //Aagunm
@@ -54,10 +56,9 @@ void MAXGame::StartMatch()
     //Awac
     //Scout
     //Asgun
-    MAXUnitConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig("Inter");
-    _testUnit = shared_ptr<GameUnit>(new GameUnit(MAXSCL->CreateUnit(unit), unit));
-    _testUnit->SetUnitLocation(CCPoint(56, 56), false);
-    engine->AddUnit(_testUnit->GetUnitObject());
+    _currentUnit = _match->_currentPlayer_w->CreateUnit(56, 56, "Inter", 0);
+    engine->AddUnit(_currentUnit->GetUnitObject());
+    
     _gameInterface = new GameInterface();
     _gameInterface->InitBaseInterface();
     CCDirector::sharedDirector()->pushScene(_gameInterface);
@@ -95,7 +96,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
     p.y = floorf(p.y);
-    CCPoint location = _testUnit->GetUnitCell();
+    CCPoint location = _currentUnit->GetUnitCell();
     if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
         return;
     if ((!(p.x == location.x && p.y == location.y)) &&                          //not same
@@ -103,17 +104,17 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
     {
         char groundType = _match->_map->GroundTypeAtPoint(p);
-        if (groundType == GROUND_TYPE_GROUND || _testUnit->_config->_bLevel == UNIT_LEVEL_AIR)
-            _testUnit->SetUnitLocation(p, true);
+        if (groundType == GROUND_TYPE_GROUND || _currentUnit->_config->_bLevel == UNIT_LEVEL_AIR)
+            _currentUnit->SetUnitLocation(p, true);
     }
 }
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-    _testUnit->Fire(p);
+    _currentUnit->Fire(p);
     
-    engine->SelectUnit(_testUnit->GetUnitObject());
+    engine->SelectUnit(_currentUnit->GetUnitObject());
 }
 
 

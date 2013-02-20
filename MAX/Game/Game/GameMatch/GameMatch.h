@@ -11,9 +11,9 @@
 
 #include <iostream>
 #include "miniPrefix.h"
+#include "GameMatchPlayer.h"
 
 class GameMap;
-class GameMatchPlayer;
 
 class GameMatch {
     
@@ -21,9 +21,9 @@ public:
     
     GameMap*                    _map;
     vector<GameMatchPlayer*>    _players;
-    GameMatchPlayer*            _me;
+    GameMatchPlayer*            _currentPlayer_w;
 
-    GameMatch(string configName, string mapName);
+    GameMatch(const string& configName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();
 };
 
