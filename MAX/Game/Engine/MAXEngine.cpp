@@ -55,20 +55,7 @@ void MAXEngine::Init() {
     _camera = new MAXCamera(_screenRect,1.0);
     
     
-    Request* r = new Request();
-    r->AddHeader("Accept: application/json");
-    r->AddHeader("charsets: utf-8");
-    r->AddHeader("Content-Length: 0");
-    r->AddHeader("sclub_image_type: 4");
-    r->AddHeader("sclubclient_platform: ios");
-    r->AddHeader("sclubclient_version: 10");
-    
-    r->SetUrl("http://api-dev-mobile.sclub.ru/partners/3/?token=c470727a82075a94648cee86b116aecb");
-    r->SetMethod(RequestMethod::GET);
-    r->delegate = this;
-    r->_needAutoDelete = true;
-    RequestManager::SharedRequestManager()->ExecuteRequest(r);
-    
+   
     
     _unitShader = new Shader("ShaderUnit.vsh", "ShaderUnit.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
