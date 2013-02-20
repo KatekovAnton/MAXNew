@@ -43,6 +43,8 @@ void MAXConfigManager::LoadUnitSegment(string source)
 
 void MAXConfigManager::LoadConfigsFromFile(string file)
 {
+    _unitConfigs.clear();
+    _clanConfigs.clear();
     BinaryReader* reader = new BinaryReader(file);
     string strContent = reader->ReadFullAsString();
     delete reader;
@@ -61,6 +63,9 @@ void MAXConfigManager::LoadConfigsFromFile(string file)
     }
     
 }
+
+void MAXConfigManager::LoadConfigsFromString(string file)
+{}
 
 MAXUnitConfig* MAXConfigManager::GetConfig(string type)
 {

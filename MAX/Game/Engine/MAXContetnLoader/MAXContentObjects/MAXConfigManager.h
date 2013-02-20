@@ -27,6 +27,7 @@ public:
     static MAXConfigManager* SharedMAXConfigManager();
     
     void LoadConfigsFromFile(string file);
+    void LoadConfigsFromString(string file);
     MAXUnitConfig* GetConfig(string type);
     
 };

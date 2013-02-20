@@ -55,6 +55,7 @@ compareFunc MAXUnitObject::GetCompareFunc()
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0)
 {
+    _playerId = 0;
     bodyIndex = 2;
     headIndex = 9+8;
     
@@ -189,6 +190,7 @@ Material * MAXUnitObject::GetMaterial()
 
 void MAXUnitObject::Frame(double time)
 {
+    _lastPlayerIndex = -1;
     _material->DoFrame(time);
     if (params_w->_isAnimatedHead) {
         _lastHeadAnimTime+=time;
@@ -222,7 +224,11 @@ bool MAXUnitObject::IsHasBody() const
 void MAXUnitObject::Draw(Shader *shader)
 {
     _renderAspect->Bind();
-    _material->ApplyPalette(shader);
+    if (_lastPlayerIndex != _playerId)
+    {
+        _lastPlayerIndex = _playerId;
+        _material->ApplyPalette(shader, _playerPalette_w);
+    }
     if(showShadows)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);

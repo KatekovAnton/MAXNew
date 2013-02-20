@@ -36,9 +36,9 @@ class MAXGame : public DisplayPinchDelegate {
     
     GameInterface* _gameInterface;
     GameMatch* _match;
+    
 public:
     
-    shared_ptr<GameMap> map;
     MAXGAMESTATE GetCurretnState() const {return _curretnState;}
     shared_ptr<GameUnit> _testUnit;
     

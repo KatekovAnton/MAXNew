@@ -15,15 +15,14 @@
 #include "MAXConfigManager.h"
 #include "MAXContetnLoader.h"
 #include "MAXUnitObject.h"
+
 #include "GameMap.h"
 #include "GameUnit.h"
-
-#include "MAXUnitConfig.h"
+#include "GameMatch.h"
 #include "GameInteface.h"
 
 MAXGame globalGame;
 MAXGame * game = &globalGame;
-
 
 MAXGame::MAXGame()
 {
@@ -45,8 +44,9 @@ void MAXGame::Init()
 
 void MAXGame::StartMatch()
 {
-    MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
-    this->SetMap("Green_6.wrl");
+    _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl");
+    engine->SetMap(_match->_map->_contentMap);
+    
     //Aagunm
     //Tank
     //Inter
@@ -65,9 +65,8 @@ void MAXGame::StartMatch()
 
 void MAXGame::SetMap(string mapName)
 {
-    shared_ptr<MAXContentMap> map1 = MAXSCL->LoadMapWithName(mapName);
-    map = shared_ptr<GameMap>(new GameMap(map1));
-    engine->SetMap(map1);
+    
+    
 }
 
 #pragma mark - DisplayPinchDelegate
@@ -97,13 +96,13 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.x = floorf(p.x);
     p.y = floorf(p.y);
     CCPoint location = _testUnit->GetUnitCell();
-    if (p.x < 0 || p.x>= map->GetMapWidth() || p.y < 0 || p.y >= map->GetMapHeight())
+    if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
         return;
     if ((!(p.x == location.x && p.y == location.y)) &&                          //not same
         (fabsf(p.x - location.x) <= 1 || fabsf(p.y - location.y) <= 1) &&       //only near
         (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
     {
-        char groundType = map->GroundTypeAtPoint(p);
+        char groundType = _match->_map->GroundTypeAtPoint(p);
         if (groundType == GROUND_TYPE_GROUND || _testUnit->_config->_bLevel == UNIT_LEVEL_AIR)
             _testUnit->SetUnitLocation(p, true);
     }

@@ -23,7 +23,7 @@ public:
     vector<GameMatchPlayer*>    _players;
     GameMatchPlayer*            _me;
 
-    GameMatch();
+    GameMatch(string configName, string mapName);
     ~GameMatch();
 };
 

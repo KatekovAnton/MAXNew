@@ -16,6 +16,7 @@
 
 class MAXUnitRenderObject;
 class MAXUnitMaterial;
+class Texture;
 
 using namespace cocos2d;
 
@@ -54,6 +55,7 @@ class MAXUnitObject : public MAXObject {
     
 public:
     
+    Texture* _playerPalette_w;
     int _playerId;
     MAXUnitConfig* params_w;
     

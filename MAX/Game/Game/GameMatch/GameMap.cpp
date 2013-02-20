@@ -25,6 +25,7 @@ GameMap::GameMap(const shared_ptr<MAXContentMap>& map)
             _groundType[i * _w + j] = grundtype;
         }
     }
+    _contentMap = map;
 }
 
 GameMap::~GameMap()

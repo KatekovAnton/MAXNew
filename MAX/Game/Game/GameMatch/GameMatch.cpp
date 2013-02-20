@@ -9,13 +9,24 @@
 #include "GameMatch.h"
 #include "GameMatchPlayer.h"
 #include "GameMap.h"
+#include "MAXContetnLoader.h"
+#include "MAXConfigManager.h"
 
-GameMatch::GameMatch()
-{}
+
+GameMatch::GameMatch(string configName, string mapName)
+{
+    MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile(configName);
+    
+    shared_ptr<MAXContentMap> map1 = MAXSCL->LoadMapWithName(mapName);
+    _map = new GameMap(map1);
+}
 
 GameMatch::~GameMatch()
 {
-    for (int i = 0; i < _players.size(); i++) {
+    if (_map)
+        delete _map;
+    for (int i = 0; i < _players.size(); i++)
+    {
         GameMatchPlayer* player = _players[i];
         delete player;
     }

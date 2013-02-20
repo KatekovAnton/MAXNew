@@ -44,7 +44,7 @@ MAXUnitMaterial::~MAXUnitMaterial()
 void MAXUnitMaterial::DoFrame(double elapsedTime)
 {}
 
-void MAXUnitMaterial::ApplyPalette(Shader *shader)
+void MAXUnitMaterial::ApplyPalette(Shader *shader, Texture* _palette)
 {
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, pallete->GetTextureName());

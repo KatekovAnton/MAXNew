@@ -24,6 +24,7 @@ typedef enum
 } GROUND_TYPE;
 
 class GameUnit;
+class MAXContentMap;
 
 class GameMap {
     
@@ -35,6 +36,7 @@ class GameMap {
     
 public:
     
+    shared_ptr<MAXContentMap> _contentMap;
     
     int GetMapWidth() const {return _w;};
     int GetMapHeight() const {return _h;};
