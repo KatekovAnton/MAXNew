@@ -21,7 +21,7 @@ class MAXSceneGraph;
 class SceneSystem {
     
     USimpleContainer<PivotObject*>  *_visibleObjects;
-    UContainer<PivotObject>         *_objects;
+    USimpleContainer<PivotObject*>  *_objects;
     
     
     USimpleContainer<PivotObject*>         *_movedObjects_w;
@@ -33,21 +33,21 @@ class SceneSystem {
     void CalculateBBForObject(PivotObject* object);
     
 public:
-    UContainer<PivotObject>* GetAllObjects() const { return _objects; } 
+    
     SceneSystem(MAXMapObject* map);
     ~SceneSystem();
     
-    
     USimpleContainer<PivotObject*>* GetVisibleObjects() const { return _visibleObjects; };
-    UContainer<PivotObject>* GetObjects() const { return _objects; };
+    USimpleContainer<PivotObject*>* GetObjects() const { return _objects; };
+    
     MAXMapObject *GetMap() const {return _map_w; };
     void Clear();
     
-    shared_ptr<PivotObject> GetObject(unsigned int objId);
-    void AddObject(const shared_ptr<PivotObject>& newObject, bool needUpdate);
+    PivotObject* GetObject(unsigned int objId);
+    void AddObject(PivotObject* newObject, bool needUpdate);
     //not imlemented
     void DeleteObjects(UContainer<PivotObject> *objects);
-    void RemoveObject(const shared_ptr<PivotObject>& object);
+    void RemoveObject(PivotObject* object);
     void AddObject(UContainer<PivotObject> *newObjects);
     
     void UpdateScene();

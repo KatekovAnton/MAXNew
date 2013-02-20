@@ -35,7 +35,6 @@ public:
     MAXUnitMaterialFrame* shadowframes;
     Texture** textures;
     Texture** shadowTextures;
-    Texture* pallete;
     
     MAXUnitMaterial();
     ~MAXUnitMaterial();

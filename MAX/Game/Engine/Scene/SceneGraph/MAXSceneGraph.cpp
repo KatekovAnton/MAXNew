@@ -219,9 +219,9 @@ void MAXSceneGraph::RemoveObject(PivotObject* wo)
 
 void MAXSceneGraph::Clear()
 {
-    for (int i = 0; i < _scene_w->GetAllObjects()->GetCount(); i++)
+    for (int i = 0; i < _scene_w->GetObjects()->GetCount(); i++)
     {
-        PivotObject* obj = _scene_w->GetAllObjects()->objectAtIndex(i).get();
+        PivotObject* obj = _scene_w->GetObjects()->objectAtIndex(i);
         RemoveObject(obj);
     }
 }

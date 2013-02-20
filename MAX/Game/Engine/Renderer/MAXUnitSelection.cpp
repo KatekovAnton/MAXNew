@@ -35,16 +35,23 @@ MAXUnitSelection::MAXUnitSelection()
 MAXUnitSelection::~MAXUnitSelection()
 {}
 
-void MAXUnitSelection::SelectUnit(shared_ptr<MAXUnitObject> unit)
+void MAXUnitSelection::SelectUnit(MAXUnitObject* unit)
 {
-    _animStartTime = engine->FullTime();
-    _unitSelected = true;
-    _selectedUnit = unit;
+    if (unit)
+    {
+        _animStartTime = engine->FullTime();
+        _unitSelected = true;
+        _selectedUnit_w = unit;
+    }
+    else
+    {
+        DeselectUnit(_selectedUnit_w);
+    }
 }
 
-void MAXUnitSelection::DeselectUnit(shared_ptr<MAXUnitObject> unit)
+void MAXUnitSelection::DeselectUnit(MAXUnitObject* unit)
 {
-    _selectedUnit = nullptr;
+    _selectedUnit_w = NULL;
     _unitSelected = false;
 }
 
@@ -62,9 +69,9 @@ void MAXUnitSelection::Update()
     float deltaD = startD + _part * (endD - startD);
     //deltaD *= 0.5;
     //GLKMatrix4 matrix = _selectedUnit->GetTransformMatrix();
-    CCPoint point = _selectedUnit->ObjectCell();
-    if (_selectedUnit->params_w->_isPlane) {
-        GLKVector2 po = _selectedUnit->CalculateAirOffset();
+    CCPoint point = _selectedUnit_w->ObjectCell();
+    if (_selectedUnit_w->params_w->_isPlane) {
+        GLKVector2 po = _selectedUnit_w->CalculateAirOffset();
         point.x += po.x;
         point.y -= po.y;
     }

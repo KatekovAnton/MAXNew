@@ -16,7 +16,7 @@ class MAXUnitObject;
 
 class MAXUnitSelection {
     
-    shared_ptr<MAXUnitObject> _selectedUnit;
+    MAXUnitObject* _selectedUnit_w;
     
     double _animStartTime;
     
@@ -31,8 +31,8 @@ public:
     MAXUnitSelection();
     ~MAXUnitSelection();
     
-    void SelectUnit(shared_ptr<MAXUnitObject> unit);
-    void DeselectUnit(shared_ptr<MAXUnitObject> unit);
+    void SelectUnit(MAXUnitObject* unit);
+    void DeselectUnit(MAXUnitObject* unit);
     
     void Update();
     void Draw();

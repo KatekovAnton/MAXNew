@@ -647,9 +647,7 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     }
     loadedData[index] = (void*)result;
     
-    //TODO:replace it to use one texure per player not per unit
-    Color unitColor = {180,0,0,255};
-    result->pallete = TexturePalleteFormDefaultPalleteAndPlayerColor(unitColor);
+
     delete []picbounds;
     delete []shadowPicbounds;
     delete dataReader;
@@ -668,11 +666,11 @@ void MAXContentLoader::ClearImageCache()
 
 #pragma mark - fabric
 
-shared_ptr<MAXUnitObject> MAXContentLoader::CreateUnit(MAXUnitConfig* unitConfig)
+MAXUnitObject* MAXContentLoader::CreateUnit(MAXUnitConfig* unitConfig)
 {
     MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(unitConfig->_bodyName, unitConfig->_shadowName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
-    shared_ptr<MAXUnitObject>result = shared_ptr<MAXUnitObject>(new MAXUnitObject(renderObject, material, unitConfig));
+    MAXUnitObject* result = new MAXUnitObject(renderObject, material, unitConfig);
     if (unitConfig->_isPlane) {
         result->_bbsize = GLKVector2Make(2, 2);
     }

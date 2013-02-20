@@ -80,7 +80,7 @@ public:
     void ClearImageCache();
     
 #pragma mark - fabric
-    shared_ptr<MAXUnitObject> CreateUnit(MAXUnitConfig* unitConfig);
+    MAXUnitObject* CreateUnit(MAXUnitConfig* unitConfig);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);
 };

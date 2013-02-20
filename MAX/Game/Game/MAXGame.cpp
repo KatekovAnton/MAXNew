@@ -44,7 +44,7 @@ void MAXGame::Init()
 void MAXGame::StartMatch()
 {
     vector<GameMatchPlayerInfo> infos;
-    GameMatchPlayerInfo player1 = {3, "Test player", {180,0,0,255}};
+    GameMatchPlayerInfo player1 = {0, 3, "Test player", {180,0,0,255}};
     infos.push_back(player1);
     _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl", infos);
     engine->SetMap(_match->_map->_contentMap);

@@ -19,6 +19,10 @@ class GameUnit;
 class PlayerBase;
 
 struct GameMatchPlayerInfo {
+    
+	int clan;
+    
+    
     unsigned int    _playerId;
     string          _name;
     Color           _color;

@@ -18,7 +18,7 @@ SceneSystem::SceneSystem(MAXMapObject* map)
 {
     
     _map_w = map;
-    _objects = new UContainer<PivotObject>(100);
+    _objects = new USimpleContainer<PivotObject*>(100);
     _visibleObjects = new USimpleContainer<PivotObject*>(100);
     
     _movedObjects_w = new USimpleContainer<PivotObject*>(100);
@@ -53,7 +53,7 @@ void SceneSystem::BeginFrame()
 {
     for (int i = 0; i < _objects->GetCount(); i++)
     {
-        shared_ptr<PivotObject> obj = _objects->objectAtIndex(i);
+        PivotObject* obj = _objects->objectAtIndex(i);
         obj->BeginFrame();
     }
 }
@@ -78,7 +78,7 @@ void SceneSystem::UpdateScene()
 {
     for (int i = 0; i < _objects->GetCount(); i++)
     {
-        PivotObject* object = _objects->objectAtIndex(i).get();
+        PivotObject* object = _objects->objectAtIndex(i);
         object->Update();
     }
     //_sceneGraph.NewFrame();
@@ -90,7 +90,7 @@ void SceneSystem::AfterUpdate()
     _movedObjects_w->clear();
     for (int i = 0; i < _objects->GetCount(); i++)
     {
-        PivotObject* object = _objects->objectAtIndex(i).get();
+        PivotObject* object = _objects->objectAtIndex(i);
         object->AfterUpdate();
         if (object->moved)
         {
@@ -133,18 +133,18 @@ void SceneSystem::CalculateBBForObject(PivotObject* object)
     object->_boundingShape = result;
 }
 
-void SceneSystem::AddObject(const shared_ptr<PivotObject>& newObject, bool needUpdate)
+void SceneSystem::AddObject(PivotObject* newObject, bool needUpdate)
 {
     //newObject->_objectBehaviourModel->Enable();
     _objects->addObject(newObject);
     newObject->AfterUpdate();
     
-    CalculateBBForObject(newObject.get());
+    CalculateBBForObject(newObject);
     
-    _sceneGraph->AddObject(newObject.get());
+    _sceneGraph->AddObject(newObject);
 }
 
-shared_ptr<PivotObject> SceneSystem::GetObject(unsigned int objId)
+PivotObject* SceneSystem::GetObject(unsigned int objId)
 {
     for (int i = 0; i < _objects->GetCount(); i++)
     {
@@ -161,7 +161,7 @@ void SceneSystem::DeleteObjects(UContainer<PivotObject> *objects)
     
 }
 
-void SceneSystem::RemoveObject(const shared_ptr<PivotObject>& object)
+void SceneSystem::RemoveObject(PivotObject* object)
 {
     _objects->removeObject(object);
     //_sceneGraph.RemoveObject(deletingobjects);

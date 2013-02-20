@@ -27,7 +27,7 @@ class MAXAnimationObjectUnit : public MAXAnimationBase {
     int _startBodyIndex;
     int _startHeadIndex;
     
-    shared_ptr<MAXUnitObject> _unit;
+    MAXUnitObject* _unit;
     int _bodyIndex;
     int _headIndex;
     
@@ -46,9 +46,9 @@ public:
     CCPoint GetStartLocation () const { return _startLocation; };
     CCPoint GetEendLocation () const { return _endLocation; };
     
-    MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, const shared_ptr<MAXUnitObject>& object);      //creates move action
-    MAXAnimationObjectUnit(int bodyIndex, int headIndex, const shared_ptr<MAXUnitObject>& object);                                  //creates rotate action
-    MAXAnimationObjectUnit(double firetime, const shared_ptr<MAXUnitObject>& object);                                               //creates fire action
+    MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, MAXUnitObject* object);      //creates move action
+    MAXAnimationObjectUnit(int bodyIndex, int headIndex, MAXUnitObject* object);                                  //creates rotate action
+    MAXAnimationObjectUnit(double firetime, MAXUnitObject* object);                                               //creates fire action
     
     
     virtual bool IsFinished();

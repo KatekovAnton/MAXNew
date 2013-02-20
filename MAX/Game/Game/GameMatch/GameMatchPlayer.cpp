@@ -34,7 +34,7 @@ GameMatchPlayer::~GameMatchPlayer()
 GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned int ID)
 {
     MAXUnitConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
-    GameUnit* result = new GameUnit(MAXSCL->CreateUnit(unit), unit);
+    GameUnit* result = new GameUnit(MAXSCL->CreateUnit(unit), unit, this);
     result->SetUnitLocation(CCPoint(posx, posy), false);
     _units.addObject(result);
     return result;

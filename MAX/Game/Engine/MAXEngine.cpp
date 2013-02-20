@@ -52,7 +52,7 @@ void MAXEngine::Init() {
     _renderSystem->InitOpenGL();
     
     GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth()/_renderSystem->GetDisplay()->GetDisplayScale(), _renderSystem->GetDisplay()->GetDisplayHeight()/_renderSystem->GetDisplay()->GetDisplayScale());
-    _camera = new MAXCamera(_screenRect,1.0);// _renderSystem->GetDisplay()->GetDisplayScale());
+    _camera = new MAXCamera(_screenRect,1.0);
     
     
     Request* r = new Request();
@@ -105,13 +105,13 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
     _scene = new SceneSystem(_map.get());
 }
 
-void MAXEngine::AddUnit(const shared_ptr<MAXUnitObject>& newUnit)
+void MAXEngine::AddUnit(MAXUnitObject* newUnit)
 {
     _scene->AddObject(newUnit, true);
     newUnit->HasBeenLocatedToScene();
 }
 
-void MAXEngine::RemoveUnit(const shared_ptr<MAXUnitObject>& newUnit)
+void MAXEngine::RemoveUnit(MAXUnitObject* newUnit)
 {
     _scene->RemoveObject(newUnit);
     newUnit->HasBeenRemovedFromScene();
@@ -181,7 +181,7 @@ void MAXEngine::Update()
     _unitSelection->Update();
 }
 
-void MAXEngine::SelectUnit(const shared_ptr<MAXUnitObject>& unit)
+void MAXEngine::SelectUnit(MAXUnitObject* unit)
 {
     _unitSelection->SelectUnit(unit);
 }

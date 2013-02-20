@@ -60,15 +60,15 @@ int GetRotateLengt(int from, int to)
 
 const float moveTime = 0.2;
 
-MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, const shared_ptr<MAXUnitObject>& object)      //creates move action
+MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, MAXUnitObject* object)      //creates move action
 :MAXAnimationBase(), _unit(object), _startLocation(startLocation), _endLocation(endLocation), _type(MAXANIMATION_UNITMOVE)
 {}
 
-MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int headIndex, const shared_ptr<MAXUnitObject>& object)                                  //creates rotate action
+MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int headIndex, MAXUnitObject* object)                                  //creates rotate action
 :MAXAnimationBase(), _unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(object->GetBodyIndex()), rotateTime(0.05 * GetRotateLengt(_startBodyIndex, _bodyIndex))
 {}
 
-MAXAnimationObjectUnit::MAXAnimationObjectUnit(double firetime, const shared_ptr<MAXUnitObject>& object)                                               //creates fire action
+MAXAnimationObjectUnit::MAXAnimationObjectUnit(double firetime, MAXUnitObject* object)                                               //creates fire action
 :MAXAnimationBase(), _unit(object), _firetime(firetime), _type(MAXANIMATION_UNITFIRE)
 {}
 

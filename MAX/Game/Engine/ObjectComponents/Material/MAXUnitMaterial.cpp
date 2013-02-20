@@ -38,7 +38,6 @@ MAXUnitMaterial::~MAXUnitMaterial()
         delete shadowTextures[i];
     delete [] textures;
     delete [] shadowTextures;
-    delete pallete;
 }
 
 void MAXUnitMaterial::DoFrame(double elapsedTime)
@@ -47,7 +46,7 @@ void MAXUnitMaterial::DoFrame(double elapsedTime)
 void MAXUnitMaterial::ApplyPalette(Shader *shader, Texture* _palette)
 {
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, pallete->GetTextureName());
+    glBindTexture(GL_TEXTURE_2D, _palette->GetTextureName());
     glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE1], 1);
 }
 

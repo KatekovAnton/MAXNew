@@ -68,9 +68,9 @@ public:
     void Init();
     void EngineMain();
     
-    void SelectUnit(const shared_ptr<MAXUnitObject>& unit);
-    void AddUnit(const shared_ptr<MAXUnitObject>& newUnit);
-    void RemoveUnit(const shared_ptr<MAXUnitObject>& newUnit);
+    void SelectUnit(MAXUnitObject* unit);
+    void AddUnit(MAXUnitObject* newUnit);
+    void RemoveUnit(MAXUnitObject* newUnit);
     
     void RunLoop(double delta);
     

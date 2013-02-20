@@ -12,15 +12,30 @@
 #include "MAXAnimationPrefix.h"
 #include "MAXEngine.h"
 #include "MAXUnitConfig.h"
+#include "GameMatchPlayer.h"
 
 using namespace cocos2d;
 
-GameUnit::GameUnit(shared_ptr<MAXUnitObject> unitObject, MAXUnitConfig* config)
+GameUnit::GameUnit(MAXUnitObject* unitObject, MAXUnitConfig* config, GameMatchPlayer* owner)
 :_unitObject(unitObject), _currentTopAnimation(NULL), _config(config)
 {
+    _unitObject->_playerId = owner->_playerInfo._playerId;
+    _unitObject->_playerPalette_w = owner->_palette;
 }
 
 GameUnit::~GameUnit()
+{}
+
+void GameUnit::LocateOnMap()
+{}
+
+void GameUnit::RemoveFromMap()
+{}
+
+void GameUnit::LowerPlane()
+{}
+
+void GameUnit::LiftPlane()
 {}
 
 void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)

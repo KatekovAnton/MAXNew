@@ -23,29 +23,31 @@ class MAXAnimationBase;
 class MAXAnimationObjectUnit;
 class MAXUnitConfig;
 
+class GameMatchPlayer;
+
 class GameUnit : public GameObject, public MAXAnimationDelegate {
     
     MAXAnimationObjectUnit* _moveAnimation;
     MAXAnimationBase* _currentTopAnimation;
     CCPoint _unitCell;
-    shared_ptr<MAXUnitObject> _unitObject;
-    
+    MAXUnitObject* _unitObject;
     
 public:
     
     MAXUnitConfig* _config;
     
-    shared_ptr<MAXUnitObject> GetUnitObject() const {return _unitObject;};
+    MAXUnitObject* GetUnitObject() const {return _unitObject;};
     CCPoint GetUnitCell() const {return _unitCell;};
     
-    GameUnit(shared_ptr<MAXUnitObject> unitObject, MAXUnitConfig* config);
+    GameUnit(MAXUnitObject* unitObject, MAXUnitConfig* config, GameMatchPlayer* owner);
     ~GameUnit();
     
+    void LocateOnMap();
+    void RemoveFromMap();
+    void LowerPlane();
+    void LiftPlane();
     void Fire(const CCPoint& target);
-    
     void SetUnitLocation(const CCPoint& cell, const bool animated);
-    
-    static shared_ptr<GameUnit> CreateUnit(string balanceConfigName, string resourceConfigName);
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);
