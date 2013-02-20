@@ -12,6 +12,8 @@
 #include <iostream>
 #include "Geometry.h"
 
+typedef int (*compareFunc)( const void *, const void * );
+
 using namespace std;
 
 class EditorData;
@@ -56,6 +58,9 @@ public:
     void Update();
     virtual void AfterUpdate();
     virtual void LastUpdate();
+    
+    
+    virtual compareFunc GetCompareFunc();
     
     double GetSceneLocationTime() const {return _sceneLocationTime;}
     virtual void HasBeenLocatedToScene();

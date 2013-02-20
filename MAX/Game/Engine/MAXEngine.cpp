@@ -174,6 +174,9 @@ void MAXEngine::Update()
     }
     _scene->AfterUpdate();
     _scene->CalculateVisbleObject();
+    USimpleContainer<PivotObject*> *container = _scene->GetVisibleObjects();
+    if (container->GetCount()!=0)
+        container->sort(container->objectAtIndex(0)->GetCompareFunc());
     _scene->LastUpdate();
     _unitSelection->Update();
 }

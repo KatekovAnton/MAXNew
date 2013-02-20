@@ -54,6 +54,7 @@ class MAXUnitObject : public MAXObject {
     
 public:
     
+    int _playerId;
     MAXUnitConfig* params_w;
     
     bool GetFireing() const {return fireing;};
@@ -77,6 +78,8 @@ public:
     virtual void Draw(Shader *shader);
     virtual void Frame(double time);
     virtual void LastUpdate();
+    
+    virtual compareFunc GetCompareFunc();
     
     GLKMatrix4 CalculateShadowRenderMatrix();
     GLKMatrix4 CalculateBodyRenderMatrix();

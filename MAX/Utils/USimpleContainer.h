@@ -35,7 +35,7 @@ namespace Utils {
         void AddObjects(const USimpleContainer<T>* objects);
         void clear();
         T objectAtIndex(int index) const;
-        void sort(int (* pointer)(const void *, const void *), size_t size);
+        void sort(int (* pointer)(const void *, const void *));
         int GetCount() const { return _count; };
     };
 
@@ -114,8 +114,8 @@ namespace Utils {
     }
     
     template <class T>
-    void USimpleContainer<T>::sort(int (*pointer)(const void *, const void *), size_t size) {
-        qsort(_array, _count, size, pointer);
+    void USimpleContainer<T>::sort(int (*pointer)(const void *, const void *)) {
+        qsort(_array, _count, sizeof(T), pointer);
     }
     
     template <class T>

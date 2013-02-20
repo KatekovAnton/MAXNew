@@ -32,6 +32,26 @@ GLKVector2 planeOffsets[] = {
 
 GLKVector2 planeShadowOffset = {1.0, -1.0};
 
+int compareMAXUnitObject (const void * a, const void * b)
+{
+    MAXUnitObject* a1 = *((MAXUnitObject**)a);
+    MAXUnitObject* b1 = *((MAXUnitObject**)b);
+    
+    if ( a1->_playerId <  b1->_playerId ) return -1;
+    if ( a1->_playerId == b1->_playerId ) return 0;
+    if ( a1->_playerId >  b1->_playerId ) return 1;
+    
+    return 0;
+}
+
+int _lastPlayerIndex = -1;
+
+
+compareFunc MAXUnitObject::GetCompareFunc()
+{
+    return &compareMAXUnitObject;
+}
+
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0)
 {

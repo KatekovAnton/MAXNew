@@ -13,6 +13,17 @@
 #include "Shader.h"
 #include "MAXEngine.h"
 
+
+int compareDummy(const void * a, const void * b)
+{
+    return 0;
+}
+
+compareFunc PivotObject::GetCompareFunc()
+{
+    return &compareDummy;
+}
+
 PivotObject::PivotObject() {
 
     _transformMatrix = GLKMatrix4Identity;
