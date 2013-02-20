@@ -44,8 +44,10 @@ void MAXGame::Init()
 void MAXGame::StartMatch()
 {
     vector<GameMatchPlayerInfo> infos;
-    GameMatchPlayerInfo player1 = {0, 3, "Test player", {180,0,0,255}};
+    GameMatchPlayerInfo player1 = {0, 3, "Test player3", {180,0,0,255}};
+    GameMatchPlayerInfo player2 = {0, 7, "Test player7", {0,180,0,255}};
     infos.push_back(player1);
+    infos.push_back(player2);
     _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl", infos);
     engine->SetMap(_match->_map->_contentMap);
     
@@ -58,6 +60,24 @@ void MAXGame::StartMatch()
     //Asgun
     _currentUnit = _match->_currentPlayer_w->CreateUnit(56, 56, "Inter", 0);
     engine->AddUnit(_currentUnit->GetUnitObject());
+    
+    
+    {
+        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 56, "Inter", 0);
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(54, 55, "Inter", 0);
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(54, 58, "Inter", 0);
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 53, "Inter", 0);
+        engine->AddUnit(unit1->GetUnitObject());
+    }
     
     _gameInterface = new GameInterface();
     _gameInterface->InitBaseInterface();

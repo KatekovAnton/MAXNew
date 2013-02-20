@@ -30,6 +30,9 @@ enum
 
 class MAXUnitObject : public MAXObject {
     
+    
+    double _random;
+    
     MAXUnitRenderObject        *_renderAspect;//own
     MAXUnitMaterial            *_material;//own
     

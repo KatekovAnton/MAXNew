@@ -13,6 +13,7 @@
 #include "MAXEngine.h"
 #include "Geometry.h"
 #include "MAXAnimationPrefix.h"
+#include "MyRandom.h"
 
 static bool showShadows = true;
 
@@ -55,6 +56,7 @@ compareFunc MAXUnitObject::GetCompareFunc()
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0)
 {
+    _random = nextDoubleMax(1000);
     _playerId = 0;
     bodyIndex = 2;
     headIndex = 9+8;
@@ -95,7 +97,7 @@ void MAXUnitObject::LastUpdate()
 
 GLKVector2 MAXUnitObject::CalculateAirOffset()
 {
-    double elapsedTime = engine->FullTime() - GetSceneLocationTime();
+    double elapsedTime = engine->FullTime() - GetSceneLocationTime() + _random;
     double loopTime = elapsedTime - (int)(elapsedTime/(double)LOOPTIME) * LOOPTIME;
     float dt = loopTime/PLANESINGLEANIM;
     int deltaPhase = (int)dt;

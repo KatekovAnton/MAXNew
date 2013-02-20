@@ -282,6 +282,7 @@
 		D1992275168E1DFD0067D6CF /* ShaderUnit.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992271168E1DE40067D6CF /* ShaderUnit.fsh */; };
 		D1992276168E1DFD0067D6CF /* ShaderUnit.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D1992272168E1DE40067D6CF /* ShaderUnit.vsh */; };
 		D1992279168E309F0067D6CF /* MAXUnitObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1992277168E309E0067D6CF /* MAXUnitObject.cpp */; };
+		D19C065B16D531A60014A6BE /* MAXGameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D19C065916D531A30014A6BE /* MAXGameController.cpp */; };
 		D1AB732516B93C16004D28F2 /* MAXAnimationSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */; };
 		D1AB733416BBCAEF004D28F2 /* MAXAnimationRepeat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733216BBCAEC004D28F2 /* MAXAnimationRepeat.cpp */; };
 		D1AB733C16BBD381004D28F2 /* GameEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733616BBD381004D28F2 /* GameEffect.cpp */; };
@@ -676,6 +677,9 @@
 		D1992272168E1DE40067D6CF /* ShaderUnit.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnit.vsh; sourceTree = "<group>"; };
 		D1992277168E309E0067D6CF /* MAXUnitObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitObject.cpp; sourceTree = "<group>"; };
 		D1992278168E309F0067D6CF /* MAXUnitObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitObject.h; sourceTree = "<group>"; };
+		D19C065816D530480014A6BE /* MyRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRandom.h; sourceTree = "<group>"; };
+		D19C065916D531A30014A6BE /* MAXGameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGameController.cpp; sourceTree = "<group>"; };
+		D19C065A16D531A40014A6BE /* MAXGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGameController.h; sourceTree = "<group>"; };
 		D1AB732216B93467004D28F2 /* miniPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniPrefix.h; sourceTree = "<group>"; };
 		D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationSequence.cpp; sourceTree = "<group>"; };
 		D1AB732416B93C15004D28F2 /* MAXAnimationSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationSequence.h; sourceTree = "<group>"; };
@@ -1014,6 +1018,8 @@
 				8BB8456E16C8436400B9A007 /* GameMatch */,
 				D11ABAA1168DDA7800CD29EA /* Objects */,
 				D16D48DD168B37F20055F35D /* Resources */,
+				D19C065916D531A30014A6BE /* MAXGameController.cpp */,
+				D19C065A16D531A40014A6BE /* MAXGameController.h */,
 				8B8EAA12168A17F30097CA74 /* MAXGame.cpp */,
 				8B8EAA13168A17F30097CA74 /* MAXGame.h */,
 			);
@@ -1215,6 +1221,7 @@
 				D18EDC191689794A00EE3B4E /* MathKit */,
 				D18EDC101689792C00EE3B4E /* KompexSQLite */,
 				D18EDBFE1689789C00EE3B4E /* Utils.h */,
+				D19C065816D530480014A6BE /* MyRandom.h */,
 				D18EDBFF1689789C00EE3B4E /* Sys.c */,
 				D18EDC001689789C00EE3B4E /* Sys.h */,
 				D18EDC011689789C00EE3B4E /* UContainer.h */,
@@ -1912,6 +1919,7 @@
 				8B7E22B016D149CB00FE748B /* SceneSystem.cpp in Sources */,
 				8B7E22B416D14B8300FE748B /* MAXSceneGraph.cpp in Sources */,
 				8B7E22B716D14BC200FE748B /* MAXSceneGraphNode.cpp in Sources */,
+				D19C065B16D531A60014A6BE /* MAXGameController.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
