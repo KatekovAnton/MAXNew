@@ -49,8 +49,8 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32\compat;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\include;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\cocoa;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\shaders;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include;$(IncludePath)</IncludePath>
-    <SourcePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32\compat;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32;C:\Users\Admin\Desktop\Projects\MAXNew\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\include;$(SourcePath)</SourcePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)..\..;$(ProjectDir)..\..\platform\win32\compat;$(ProjectDir)..\..\platform\win32;$(ProjectDir)..\..\include;$(ProjectDir)..\..\cocoa;$(ProjectDir)..\shaders;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include;$(IncludePath)</IncludePath>
+    <SourcePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectPath)..\..\platform\win32\compat;$(ProjectPath)..\..\platform\win32;$(ProjectPath)..\..\include;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
