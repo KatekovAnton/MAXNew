@@ -154,9 +154,10 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
-    CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-    _currentUnit->Fire(p);
-    
+    if (_currentUnit) {
+        CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
+        _currentUnit->Fire(p);
+    }
    ///engine->SelectUnit(_currentUnit->GetUnitObject());
 }
 
