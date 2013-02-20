@@ -19,7 +19,7 @@ static bool showShadows = true;
 
 #define PLANESINGLEANIM 0.25
 #define LOOPTIME        4.0 // 8 * 2 * PLANESINGLEANIM
-#define OFFSETSCALE     0.07
+#define OFFSETSCALE     0.05
 
 GLKVector2 planeOffsets[] = {
     {0 * OFFSETSCALE,       -1 * OFFSETSCALE},
