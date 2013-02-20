@@ -12,38 +12,65 @@
 
 const double MAXUnitMaterialframeTime = 1.0;
 
-MAXUnitMaterial::MAXUnitMaterial(int _frameCount)
+MAXUnitMaterial::MAXUnitMaterial()
+:index(0), time(0)
+{
+    
+}
+
+void MAXUnitMaterial::SetImagesCount(int _frameCount)
 {
     frameCount = _frameCount;
     frames = new MAXUnitMaterialFrame[frameCount];
     textures = new Texture*[frameCount];
     
-    
-    index = 0;
-    time = 0;
+    shadowframes = new MAXUnitMaterialFrame[8];
+    shadowTextures = new Texture*[8];
 }
 
 MAXUnitMaterial::~MAXUnitMaterial()
 {
     delete [] frames;
+    delete [] shadowframes;
     for (int i = 0; i < frameCount; i++) 
         delete textures[i];
+    for (int i = 0; i < 0; i++)
+        delete shadowTextures[i];
     delete [] textures;
+    delete [] shadowTextures;
 }
 
 void MAXUnitMaterial::DoFrame(double elapsedTime)
+{}
+
+void MAXUnitMaterial::ApplyPalette(Shader *shader, Texture* _palette)
 {
-//    time = time + elapsedTime;
-//    
-//    int f = (time/MAXUnitMaterialframeTime);
-//    index = f%frameCount;    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, _palette->GetTextureName());
+    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE1], 1);
+}
+
+void MAXUnitMaterial::ApplyShadowLod(int lod, Shader *shader)
+{
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, shadowTextures[index]->GetTextureName());
+    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
 }
 
 void MAXUnitMaterial::ApplyLod(int lod, Shader *shader)
 {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textures[index]->GetTextureName());
-    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
+//    if (index<8) {
+//        glActiveTexture(GL_TEXTURE0);
+//        glBindTexture(GL_TEXTURE_2D, shadowTextures[index]->GetTextureName());
+//        glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
+//    }
+//    else
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textures[index]->GetTextureName());
+        glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
+    }
+    
 }
 
 void MAXUnitMaterial::SetFrame(int frame)
@@ -51,3 +78,5 @@ void MAXUnitMaterial::SetFrame(int frame)
 
 void MAXUnitMaterial::StopBackgroundLoading()
 {}
+
+

@@ -23,23 +23,34 @@ enum MAXGAMESTATE
 };
 
 class MAXEngine;
-class MAXMap;
+class GameMap;
+class GameUnit;
+
+class GameMatch;
+class GameInterface;
 
 class MAXGame : public DisplayPinchDelegate {
     
     MAXGAMESTATE _curretnState;
+    
+    
+    GameInterface* _gameInterface;
+    GameMatch* _match;
+    
 public:
     
-    MAXMap * map;
-    
     MAXGAMESTATE GetCurretnState() const {return _curretnState;}
+    GameUnit* _currentUnit;
     
     MAXGame();
     ~MAXGame();
     
+    void Init();
+    
+    
+    void StartMatch();
     void SetMap(string mapName);
     
-    void Init();
     
 #pragma mark - DisplayPinchDelegate
     virtual bool CanStartPinch(float x, float y);

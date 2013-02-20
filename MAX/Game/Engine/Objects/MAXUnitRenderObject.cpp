@@ -10,12 +10,13 @@
 #include "EngineMesh.h"
 #include "Material.h"
 #include "MAXEngine.h"
+#include "MAXUnitMaterial.h"
 
 using namespace std;
 
-MAXUnitRenderObject::MAXUnitRenderObject(shared_ptr<EngineMesh> mesh)
+MAXUnitRenderObject::MAXUnitRenderObject(shared_ptr<EngineMesh> mesh):_mesh(mesh)
 {
-    _mesh = mesh;
+//    _mesh = mesh;
 }
 
 MAXUnitRenderObject::~MAXUnitRenderObject()
@@ -33,8 +34,14 @@ void MAXUnitRenderObject::UnBind()
     _mesh->Unbind();
 }
 
+void MAXUnitRenderObject::RenderShadow(int lod, Material *material)
+{
+    ((MAXUnitMaterial*)material)->ApplyShadowLod(lod, engine->GetShader());
+    _mesh->Render();
+}
+
 void MAXUnitRenderObject::Render(int lod, Material *material)
 {
-    material->ApplyLod(lod, engine->GetShader());    
+    material->ApplyLod(lod, engine->GetShader());
     _mesh->Render();
 }

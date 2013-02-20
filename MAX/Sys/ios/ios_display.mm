@@ -14,14 +14,23 @@ iosDisplay::iosDisplay() {
     //if (UIInterfaceOrientationIsLandscape([[ViewController instance] interfaceOrientation]) ) {
     if(![[UIApplication sharedApplication] isStatusBarHidden])
     {
-        m_obScreenSize.width = m_obDesignResolutionSize.width = [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale;
-        m_obScreenSize.height = m_obDesignResolutionSize.height = ([UIScreen mainScreen].bounds.size.width) * [UIScreen mainScreen].scale;
+        m_obScreenSize.width = [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale;
+        m_obScreenSize.height = ([UIScreen mainScreen].bounds.size.width) * [UIScreen mainScreen].scale;
     }
     else
     {
-        m_obScreenSize.width = m_obDesignResolutionSize.width = [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale;
-        m_obScreenSize.height = m_obDesignResolutionSize.height = [UIScreen mainScreen].bounds.size.width * [UIScreen mainScreen].scale;
+        m_obScreenSize.width = [UIScreen mainScreen].bounds.size.width * [UIScreen mainScreen].scale;
+        m_obScreenSize.height = [UIScreen mainScreen].bounds.size.height * [UIScreen mainScreen].scale;
     }
+    
+    if (m_obScreenSize.width < m_obScreenSize.height) {
+        float t = m_obScreenSize.width;
+        m_obScreenSize.width = m_obScreenSize.height;
+        m_obScreenSize.height = t;
+        
+    }
+    
+    m_obDesignResolutionSize = m_obScreenSize;
 //    }
 //    else
 //    {
@@ -49,12 +58,12 @@ void iosDisplay::InitGLSurface(unsigned int depthFormat, unsigned int pixelForma
 }
 
 GLfloat iosDisplay::GetDisplayHeight() {
-    float result = [[ViewController instance] view].layer.bounds.size.height * [UIScreen mainScreen].scale;
+    float result = m_obScreenSize.height;//[[ViewController instance] view].layer.bounds.size.height * [UIScreen mainScreen].scale;
     return result;
 }
 
 GLfloat iosDisplay::GetDisplayWidth() {
-    float result = [[ViewController instance] view].layer.bounds.size.width * [UIScreen mainScreen].scale;
+    float result = m_obScreenSize.width;//[[ViewController instance] view].layer.bounds.size.width * [UIScreen mainScreen].scale;
     return result;
 }
 

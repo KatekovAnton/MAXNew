@@ -12,6 +12,8 @@
 #include <iostream>
 #include "Geometry.h"
 
+typedef int (*compareFunc)( const void *, const void * );
+
 using namespace std;
 
 class EditorData;
@@ -22,17 +24,23 @@ class Material;
 class Shader;
 
 class PivotObject {
-protected:
-    GLKMatrix4              _renderMatrix;
-    GLKMatrix4              _transformMatrix;
     
-    bool                _needMouseCast;
+    double _sceneLocationTime;
     bool                _isOnScreen;
-
+    
+protected:
+    
+    GLKMatrix4              _transformMatrix;
     unsigned _objectId;
     
+    
 public:
+    
+    GLKVector2  _bbsize;
+    BoundingBox _boundingShape;
 
+    bool GetIsOnScreen() const {return _isOnScreen;};
+    
     unsigned GetObjectId() const {return _objectId; };
     void SetObjectId(unsigned newValue) { _objectId = newValue; };
     
@@ -42,15 +50,21 @@ public:
     PivotObject();
     virtual ~PivotObject();
 
-    GLKMatrix4 GetRenderMatrix();
-    GLKMatrix4 GetTransformMatrix();
+    GLKMatrix4 GetTransformMatrix() const;
     
+    void BeginFrame();
+    virtual void Frame(double time);
+    void EndFrame();
     void Update();
     virtual void AfterUpdate();
-    GLKMatrix4 CalculateRenderMatrix(GLKMatrix4 transform);
-    virtual void Frame(double time);
-    void BeginFrame();
-    void EndFrame();
+    virtual void LastUpdate();
+    
+    
+    virtual compareFunc GetCompareFunc();
+    
+    double GetSceneLocationTime() const {return _sceneLocationTime;}
+    virtual void HasBeenLocatedToScene();
+    virtual void HasBeenRemovedFromScene();
     
     virtual void Draw(Shader* shader);
     
@@ -61,7 +75,7 @@ public:
     virtual RenderObject * GetRenderAspect();
     virtual Material * GetMaterial();
     
-    virtual GLKVector3 GetPosition();
+    virtual GLKVector3 GetPosition() const;
     virtual void SetPosition(const GLKVector3& position);
     
 };

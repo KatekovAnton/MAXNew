@@ -32,13 +32,17 @@ public:
     
     
     MAXUnitMaterialFrame* frames;
+    MAXUnitMaterialFrame* shadowframes;
     Texture** textures;
+    Texture** shadowTextures;
     
-    MAXUnitMaterial(int frameCount);
+    MAXUnitMaterial();
     ~MAXUnitMaterial();
+    void SetImagesCount(int _frameCount);
     
     void DoFrame(double elapsedTime);
-    
+    void ApplyShadowLod(int lod, Shader *shader);
+    void ApplyPalette(Shader *shader, Texture* palette);
     virtual void ApplyLod(int lod, Shader *shader);
     virtual void SetFrame(int frame);
     virtual void StopBackgroundLoading();

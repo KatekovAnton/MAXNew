@@ -10,10 +10,14 @@
 #include <time.h>
 #include <math.h>
 #include "FileManger.h"
+#include "MAXAnimationManager.h"
+#include "MAXGrid.h"
+#include "MAXUnitSelection.h"
 #include "Utils.h"
 
 #include "cocos2d.h"
-
+#include "EngineMesh.h"
+#include "Framebuffer.h"
 #include "RenderSystem.h"
 #include "Shader.h"
 #include "Display.h"
@@ -24,8 +28,11 @@
 #include "LevelObject.h"
 #include "RenderObject.h"
 #include "MAXUnitObject.h"
-#include "MAXGrid.h"
-#include "MapObject.h"
+#include "MAXMapObject.h"
+#include "Request.h"
+#include "RequestManager.h"
+#include "Response.h"
+#include "MAXDrawPrimitives.h"
 
 using namespace cocos2d;
 //using namespace Kompex;
@@ -40,20 +47,22 @@ MAXEngine::MAXEngine() {
 void MAXEngine::Init() {
     
     SysInit();
-    drawGrid = true;
+    drawGrid = false;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
-    
-    GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth(), _renderSystem->GetDisplay()->GetDisplayHeight());
-    _camera = new MAXCamera(_screenRect);
+    GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth()/_renderSystem->GetDisplay()->GetDisplayScale(), _renderSystem->GetDisplay()->GetDisplayHeight()/_renderSystem->GetDisplay()->GetDisplayScale());
+    _camera = new MAXCamera(_screenRect,1.0);
     
     
    
+    
     _unitShader = new Shader("ShaderUnit.vsh", "ShaderUnit.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
+    _mapQuadShader = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
+    _mapQuadMesh = EngineMesh::CreateScaledQuad(2,2);
+    MAXDrawPrimitives::SharedDrawPrimitives();
 
-  //  _shader1 = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
     GCCHECK_GL_ERROR_DEBUG(); 
 
         
@@ -63,29 +72,57 @@ void MAXEngine::Init() {
       
     float scale = _renderSystem->GetDisplay()->GetDisplayScale();
     _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth()/scale, _renderSystem->GetDisplay()->GetDisplayHeight()/scale, kResolutionNoBorder);
+    _animationManager = new MAXAnimationManager();
     
-    
-    _scene = new SceneSystem();
-    _unit = MAXSCL->CreateUnit("TANK");
-    _scene->AddObject(_unit, true);
-    
-    _scene->GetInterfaceManager()->Prepare();
-    _director->pushScene(_scene->GetInterfaceManager()->GetGUISession());
     
     _director->setDisplayStats(true);
     _grid = new MAXGrid();
+    _unitSelection = new MAXUnitSelection();
+    
+    _scene = NULL;
 }
 
-MAXEngine::~MAXEngine() {
+void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
+{
+    _map = shared_ptr<MAXMapObject>(new MAXMapObject(map));
+    _grid->SetMapSize(_map->mapW, _map->mapH);
+    _camera->SetMapSize(_map->mapW, _map->mapH);
+    if (_scene)
+        delete _scene;
+    _scene = new SceneSystem(_map.get());
+}
+
+void MAXEngine::AddUnit(MAXUnitObject* newUnit)
+{
+    _scene->AddObject(newUnit, true);
+    newUnit->HasBeenLocatedToScene();
+}
+
+void MAXEngine::RemoveUnit(MAXUnitObject* newUnit)
+{
+    _scene->RemoveObject(newUnit);
+    newUnit->HasBeenRemovedFromScene();
+}
+
+MAXEngine::~MAXEngine()
+{
+    delete _animationManager;
     delete _renderSystem;
     delete _shader;
+    delete _mapShader;
+    delete _mapQuadShader;
+    delete _grid;
+    delete _scene;
+    delete _unitSelection;
 }
 
-Shader * MAXEngine::GetShader() {
+Shader * MAXEngine::GetShader()
+{
     return _shader;
 }
 
-void MAXEngine::RunLoop(double delta) {
+void MAXEngine::RunLoop(double delta)
+{
     
     displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
     displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
@@ -97,94 +134,120 @@ void MAXEngine::RunLoop(double delta) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     this->Update();
-    GLint prog;
-    glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
     this->Draw();
-    glUseProgram(prog);
     
-    this->DrawInterface();
+    
     this->EndFrame();
 }
 
-void MAXEngine::switchLight() {
-//    float abs = _color - 0.6;
-//    if(abs < 0)
-//        abs = -abs;
-//    
-//    if (abs<0.1 ) {
-//        _color = 0;
-//    } else {
-//        _color = 0.6;
-//    }
-    drawGrid = !drawGrid;
-}
-
-void MAXEngine::EndFrame() {
-    _renderSystem->EndFrame();
-}
-
-void MAXEngine::DrawInterface() {
-    glEnable(GL_BLEND);
-    glDisable(GL_DEPTH_TEST);
-    if(drawGrid)
-        _grid->DrawGrid();
-    _director->mainLoop();
-    ccDrawCircle(CCPoint(100,100), 10,  1, 10, false);
-   
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-    
-}
-
-void MAXEngine::Update() {
-    
+void MAXEngine::Update()
+{
+    RequestManager::SharedRequestManager()->Flush();
     _scene->BeginFrame();
     
     
     _scene->Frame(_elapsedTime);
     _map->Frame(_elapsedTime);
-
+    
     _scene->EndFrame();
     _scene->UpdateScene();
     bool updategrid = _camera->changed;
     _camera->Update();
-    _scene->CalculateVisbleObject();
+    _animationManager->Update();
     if(updategrid)
+    {
+        _grid->cameraScale = _camera->scale;
         _grid->UpdateInfo(false);
-    
+    }
     _scene->AfterUpdate();
+    _scene->CalculateVisbleObject();
+    USimpleContainer<PivotObject*> *container = _scene->GetVisibleObjects();
+    if (container->GetCount()!=0)
+        container->sort(container->objectAtIndex(0)->GetCompareFunc());
+    _scene->LastUpdate();
+    _unitSelection->Update();
 }
 
-void MAXEngine::Draw() {
-    
+void MAXEngine::SelectUnit(MAXUnitObject* unit)
+{
+    _unitSelection->SelectUnit(unit);
+}
+
+void MAXEngine::DrawLine()
+{
+//    MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
+//    
+//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 1, 1);
+//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(10, 10), ccp(100, 100));
+//    
+//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
+//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(100, 100), ccp(30, 320));
+//    
+//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
+//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
+//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawCircle(CCPoint(100,100), 140,  1, 40, false);
+}
+
+void MAXEngine::Draw()
+{
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glDisable(GL_CULL_FACE);
-    
+    GLint prog;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+    DrawGround();
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    DrawGrid();
+    DrawUnits();
+    _unitSelection->Draw();
+    glUseProgram(prog);
+    glEnable(GL_DEPTH_TEST);
+    DrawInterface();
+}
+
+void MAXEngine::DrawGrid()
+{
+    if(drawGrid)
+        _grid->DrawGrid();
+}
+
+void MAXEngine::DrawGround()
+{
     _shader = _mapShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-    _shader->SetFloatValue(UNIFORM_FLOATPARAM2, 1.0/_map->mapTexH);
-    _shader->SetFloatValue(UNIFORM_FLOATPARAM1, 1.0/_map->mapTexW);
-    _shader->SetFloatValue(UNIFORM_FLOATPARAM3, _map->mapW);
-    _shader->SetFloatValue(UNIFORM_FLOATPARAM4, _map->mapH);
     _map.get()->Draw(_shader);
+    glActiveTexture(GL_TEXTURE0);
+}
 
-    glEnable(GL_BLEND);
+void MAXEngine::DrawUnits()
+{
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
-
-    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-    const UContainer<PivotObject>* objects = _scene->GetVisibleObjects();
-    for (int i = 0; i < objects->GetCount(); i++) 
-        objects->objectAtIndex(i)->Draw(_shader);
-    glDisable(GL_BLEND);
     
-        
-    glEnable(GL_DEPTH_TEST);
+    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+    const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
+    
+    for (int i = 0; i < objects->GetCount(); i++)
+        objects->objectAtIndex(i)->Draw(_shader);
+ 
     glActiveTexture(GL_TEXTURE0);
+}
+
+void MAXEngine::DrawInterface()
+{
+    _director->mainLoop();
+}
+
+void MAXEngine::EndFrame()
+{
+    _renderSystem->EndFrame();
 }
 
 void MAXEngine::applicationDidEnterBackground() {
@@ -207,12 +270,6 @@ void MAXEngine::ScaleCamera(float deltaScale)
 void MAXEngine::MoveCamera(float deltax, float deltay)
 {
     _camera->Move(deltax, deltay);
-}
-
-void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
-{
-    _map = shared_ptr<MapObject>(new MapObject(map));
-    _grid->SetMapSize(_map->mapW, _map->mapH);
 }
 
 CCPoint MAXEngine::ScreenToWorldCoordinates(const CCPoint &screen)
@@ -311,13 +368,17 @@ CCRect MAXEngine::ScreenToWorldRect()
     
     CCRect result;
     result.origin = ltp;
-    result.size.width = screenSize.x;
-    result.size.height = screenSize.y;
+    result.size.width = screenSize.x * 2.0;
+    result.size.height = screenSize.y * 2.0;
     
     return result;
 }
 
-void MAXEngine::TestFire()
+#pragma mark - RequestDelegate
+void MAXEngine::RequestDidFinishLoadingWithResponce(Request* request, Response* response)
 {
-    _unit->SetIsFireing(true);
+//    printf("responce: \n");
+//    printf("%s", response->ToString().c_str());
+//    printf("\n");
 }
+

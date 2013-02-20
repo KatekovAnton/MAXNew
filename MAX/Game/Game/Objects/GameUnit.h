@@ -11,11 +11,48 @@
 
 #include <iostream>
 #include "GameObject.h"
+#include "cocos2d.h"
+#include "MAXAnimationDelegate.h"
 
-class GameUnit : public GameObject {
+using namespace std;
+using namespace cocos2d;
+
+
+class MAXUnitObject;
+class MAXAnimationBase;
+class MAXAnimationObjectUnit;
+class MAXUnitConfig;
+
+class GameMatchPlayer;
+
+class GameUnit : public GameObject, public MAXAnimationDelegate {
+    
+    MAXAnimationObjectUnit* _moveAnimation;
+    MAXAnimationBase* _currentTopAnimation;
+    CCPoint _unitCell;
+    MAXUnitObject* _unitObject;
     
 public:
     
+    MAXUnitConfig* _config;
+    
+    MAXUnitObject* GetUnitObject() const {return _unitObject;};
+    CCPoint GetUnitCell() const {return _unitCell;};
+    
+    GameUnit(MAXUnitObject* unitObject, MAXUnitConfig* config, GameMatchPlayer* owner);
+    ~GameUnit();
+    
+    void LocateOnMap();
+    void RemoveFromMap();
+    void LowerPlane();
+    void LiftPlane();
+    void Fire(const CCPoint& target);
+    void SetUnitLocation(const CCPoint& cell, const bool animated);
+    
+#pragma mark - MAXAnimationDelegate
+    virtual void OnAnimationStart(MAXAnimationBase* animation);
+    virtual void OnAnimationUpdate(MAXAnimationBase* animation);
+    virtual void OnAnimationFinish(MAXAnimationBase* animation);
 };
 
 #endif /* defined(__MAX__Unit__) */

@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include "MAXContetnConstants.h"
+#include "cocos2d.h"
 
 #define MAXSCL MAXContentLoader::SharedLoader()
 
@@ -24,6 +25,8 @@ class Texture;
 class EngineMesh;
 
 class MAXUnitObject;
+class MAXUnitConfig;
+
 
 struct typhdr
 {
@@ -63,14 +66,23 @@ public:
     
     shared_ptr<MAXContentMap> LoadMapWithName(string name);
     vector<Texture*> CreatePalletes(Color* palette);
+    Texture* TextureIdexedFromIndex(int w, int h, unsigned char* indexes);
     Texture* TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
     Texture* TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
+    Texture* TexturePalleteFormDefaultPalleteAndPlayerColor(const Color& color);
     int FindImage(string name);
-    void LoadFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
-    MAXUnitMaterial* LoadUnitMaterial(string name);
+    void LoadUnitFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
+    void LoadUnitShadow(BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long shadowBaseOffset);
+
+    MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
+    
+#pragma mark - memory
+    void ClearImageCache();
     
 #pragma mark - fabric
-    shared_ptr<MAXUnitObject> CreateUnit(string bodyName);
+    MAXUnitObject* CreateUnit(MAXUnitConfig* unitConfig);
+    cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
+    cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */

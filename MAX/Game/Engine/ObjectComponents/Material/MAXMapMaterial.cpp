@@ -18,26 +18,26 @@ const double frameTime = 1.0/10.0;
 
 MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
 {
-    int w = map->w;
+//    int w = map->w;
     index = 0;
     time = 0;
-    GLubyte* colors = (GLubyte*)malloc(map->w * map->h * 4);
-    for (int i = 0; i < map->h; i++)
-    {
-        for (int j = 0; j < w; j++)
-        {
-            short value = map->map[i*w + j];
-            GLubyte starshi = (GLubyte)((float)value/255.0);
-            GLubyte mladshi = (GLubyte)(value - (short)starshi * 255.0);
-            colors[(i * w + j) * 4] = starshi;
-            colors[(i * w + j) * 4 + 1] = mladshi;
-        }
-    }
+//    GLubyte* colors = (GLubyte*)malloc(map->w * map->h * 4);
+//    for (int i = 0; i < map->h; i++)
+//    {
+//        for (int j = 0; j < w; j++)
+//        {
+//            short value = map->map[i*w + j];
+//            GLubyte starshi = (GLubyte)((float)value/255.0);
+//            GLubyte mladshi = (GLubyte)(value - (short)starshi * 255.0);
+//            colors[(i * w + j) * 4] = starshi;
+//            colors[(i * w + j) * 4 + 1] = mladshi;
+//        }
+//    }
+//    
+//    fullMapTexture = new Texture(GL_NEAREST, colors, map->w, map->h);
     
-    fullMapTexture = new Texture(GL_NEAREST, colors, map->w, map->h);
-    
     {
-        int w = 32;
+        const int w = 32;
         texW = w;
         int h = map->elementCount / w;
         if (w * h < map->elementCount)
@@ -70,11 +70,11 @@ MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
 
 MAXMapMaterial::~MAXMapMaterial()
 {
-    for (int i = 0; i < palettes.size(); i++) {
+    for (int i = 0; i < palettes.size(); i++)
+    {
         Texture* tex = palettes[i];
         delete tex;
     }
-    delete fullMapTexture;
     delete mapElementsSingle;
 }
 
@@ -85,25 +85,17 @@ void MAXMapMaterial::DoFrame(double elapsedTime)
     index = f%palettes.size();
 
     currentPalette = palettes[index];
-    
-    
 }
 
 void MAXMapMaterial::ApplyLod(int lod, Shader *shader)
 {
-    
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, fullMapTexture->GetTextureName());
+    glBindTexture(GL_TEXTURE_2D, mapElementsSingle->GetTextureName());
     glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
-    
+ 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, currentPalette->GetTextureName());
     glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE3], 1);
-    
-    glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, mapElementsSingle->GetTextureName());
-    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE1], 2);
-    
 }
 
 void MAXMapMaterial::SetFrame(int frame)

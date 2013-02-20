@@ -10,8 +10,10 @@
 #define TerminalExtraction_Utils_h
 
 #include "UContainer.h"
+#include "USimpleContainer.h"
 #include "IdGenerator.h"
 #include "Sys.h"
+#include "MyRandom.h"
 //#include "KompexSQLiteDatabase.h"
 //#include "KompexSQLiteException.h"
 //#include "KompexSQLiteStatement.h"

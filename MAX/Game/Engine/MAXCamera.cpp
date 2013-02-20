@@ -8,25 +8,27 @@
 
 #include "MAXCamera.h"
 #include "Display.h"
+#include "MAXEngine.h"
 
-#define MINSCALE 0.25
-#define MAXSCALE 20
+#define DEFAULT_SCALE 0.5
+#define MIN_SCALE 0.25
+#define DEFAULT_MAP_PART 112
+#define DEFAULT_CELL_SIZE 64.0
 
-MAXCamera::MAXCamera(GRect2D bounds)
+MAXCamera::MAXCamera(GRect2D bounds, float displayScale)
 {
-    
+    _bounds = bounds;
     _aspectRatio = fabsf(bounds.size.width / bounds.size.height);
     _far = 100.0f;
-//    projection = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f),
-//                                           _aspectRatio,
-//                                           0.1f,
-//                                           _far);
     position = GLKVector3Make(0, 0, 0);
-    _displayScale = Display::currentDisplay()->GetDisplayScale();
-    _scalex = _displayScale*64.0/bounds.size.width;
-    _scaley = _displayScale*64.0/bounds.size.height;
+    _displayScale = displayScale;//Display::currentDisplay()->GetDisplayScale();
+    _scalex = _displayScale*DEFAULT_CELL_SIZE/bounds.size.width;
+    _scaley = _displayScale*DEFAULT_CELL_SIZE/bounds.size.height;
     
-    scale = 0.5;
+    scale = DEFAULT_SCALE;
+    
+    mapH = DEFAULT_MAP_PART;
+    mapW = DEFAULT_MAP_PART;
     
     this->view = GLKMatrix4Identity;
     
@@ -38,20 +40,79 @@ MAXCamera::MAXCamera(GRect2D bounds)
     changed = true;
 }
 
+void MAXCamera::SetMapSize(int w, int h)
+{
+    mapH = h;
+    mapW = w;
+    changed = true;
+    
+    float maxscalew = w * DEFAULT_CELL_SIZE/screenSize.width * _displayScale / 2.0;
+    float maxscaleh = h * DEFAULT_CELL_SIZE/screenSize.height * _displayScale / 2.0;
+    float resultscale = MIN(maxscaleh, maxscalew);
+    
+    maxScale = resultscale;
+}
+
 void MAXCamera::Scale(float deltaScale)
 {
     scale/=deltaScale;
-    if (scale<MINSCALE)
-        scale = MINSCALE;
-    if (scale>MAXSCALE) 
-        scale = MAXSCALE;
+    if (scale<MIN_SCALE) 
+        scale = MIN_SCALE;
+    
+    if(scale>maxScale)
+        scale = maxScale;
+    Move(0, 0);
     changed = true;
 }
 
 void MAXCamera::Move(float deltax, float deltay)
 {
-    position.x += deltax * _scalex * scale/( _displayScale * 2.0);
-    position.y -= deltay * _scalex * scale/( _displayScale * 2.0);
+    CCRect rect = engine->ScreenToWorldRect();
+    float screenMX = rect.size.width / 64.0;
+    float screenMY = rect.size.height / 64.0;
+    
+    CCSize sz = CCSize(_bounds.size.width / _displayScale, _bounds.size.height / _displayScale);
+    float rdx = screenMX * deltax / sz.width;
+    float rdy = screenMY * deltay / sz.height;
+    
+    position.x += rdx;
+    position.y -= rdy;
+    
+    
+    position.x = floorf(position.x * 100) / 100;
+    position.y = floorf(position.y * 100) / 100;
+//    {
+//        int c = position.x * 64.0;
+//        position.x = c / 64.0 + 0.5/128.0;
+//    }
+//    {
+//        int c = position.y * 64.0;
+//        position.y = c / 64.0 + 0.5/128.0;
+//    }
+    
+    rect = engine->ScreenToWorldRect();
+    if (rect.origin.x<0)
+    {
+        //move camera to right
+        position.x += rect.origin.x/DEFAULT_CELL_SIZE;
+    }
+    else if (rect.size.width + rect.origin.x > mapW * DEFAULT_CELL_SIZE)
+    {
+        //move camera to left
+        position.x += (rect.size.width + rect.origin.x - mapW * DEFAULT_CELL_SIZE)/DEFAULT_CELL_SIZE;
+    }
+    
+    if (rect.origin.y<0)
+    {
+        //move camera bottom
+        position.y -= rect.origin.y/DEFAULT_CELL_SIZE;
+    }
+    else if (rect.size.height + rect.origin.y > mapH * DEFAULT_CELL_SIZE)
+    {
+        //move camera top
+        position.y -= (rect.size.height + rect.origin.y - mapH * DEFAULT_CELL_SIZE)/DEFAULT_CELL_SIZE;
+    }
+    
     changed = true;
 }
 

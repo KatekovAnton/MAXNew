@@ -207,7 +207,9 @@ shared_ptr<EngineMesh> EngineMesh::CreateScaledQuad(float sidex, float sidey)
         scaledVertexData[i * 8] *= sidex;
         scaledVertexData[i * 8 + 1] *= sidey;
     }
-    return shared_ptr<EngineMesh>(new EngineMesh(scaledVertexData, 48 * sizeof(GLfloat), planeIndexData, sizeof(planeIndexData)));
+    shared_ptr<EngineMesh> result = shared_ptr<EngineMesh>(new EngineMesh(scaledVertexData, 48 * sizeof(GLfloat), planeIndexData, sizeof(planeIndexData)));
+    delete [] scaledVertexData;
+    return result;
 }
 
 void EngineMesh::LoadFromBuffer(char *buffer, unsigned int bufferLength)

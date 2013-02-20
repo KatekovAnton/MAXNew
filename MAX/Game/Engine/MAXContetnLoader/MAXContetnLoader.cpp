@@ -17,12 +17,18 @@
 #include "MAXUnitObject.h"
 #include "Sys.h"
 #include "EngineMesh.h"
+#include "MAXUnitConfig.h"
+#include "cocos2d.h"
 
 using namespace std;
+using namespace cocos2d;
 
 const int pal_size = 0x300;
 const int max_width = 640;
 const int max_height = 480;
+
+//Color* default_palette;
+
 
 Color default_palette[256] =
 {
@@ -144,9 +150,9 @@ Color default_palette[256] =
     {0x00, 0x00, 0x00, 0xff}, //109
     {0x00, 0x00, 0x00, 0xff}, //110
     {0x00, 0x00, 0x00, 0xff}, //111
-    {0x00, 0x00, 0x00, 0xff}, //112
-    {0x00, 0x00, 0x00, 0xff}, //113
-    {0x00, 0x00, 0x00, 0xff}, //114
+    {0x00, 0x00, 0x00, 0x00}, //112
+    {0x00, 0x00, 0x00, 0x00}, //113//
+    {0x00, 0x00, 0x00, 190}, //114//
     {0x00, 0x00, 0x00, 0xff}, //115
     {0x00, 0x00, 0x00, 0xff}, //116
     {0x00, 0x00, 0x00, 0xff}, //117
@@ -290,6 +296,7 @@ Color default_palette[256] =
     {0xff, 0xff, 0xff, 0xff}, //255
 };
 
+
 MAXContentLoader* _sharedContentLoader = nullptr;
 
 MAXContentLoader::MAXContentLoader()
@@ -304,7 +311,6 @@ MAXContentLoader::MAXContentLoader()
         inf->ReadBuffer(8, dir[f].name);
         dir[f].offset = inf->ReadInt();
         dir[f].size = inf->ReadInt();
-      //  SysLogInfo("%s", dir[f].name);
     }
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
@@ -312,9 +318,19 @@ MAXContentLoader::MAXContentLoader()
     
     GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
     memcpy(currentPalette, &defaultPalette, 4 * pal_size/3);
-    defaultPalette = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
+    defaultPalette = new Texture(GL_NEAREST, (GLubyte*)currentPalette, pal_size/3, 1);
     unitMesh = EngineMesh::CreateUnitQuad();
-    
+//    default_palette = (Color*)malloc(256*4);
+//    memset(default_palette, 0, 256*4);
+//    BinaryReader* br = new BinaryReader("Max.pal");
+//    for (int i = 0; i < 256; i++) {
+//        default_palette[i].r = br->ReadUChar();
+//        default_palette[i].g = br->ReadUChar();
+//        default_palette[i].b = br->ReadUChar();
+//        
+//        default_palette[i].a = i == 0?0:255;
+//    }
+//    delete br;
 }
 
 MAXContentLoader::~MAXContentLoader()
@@ -377,6 +393,40 @@ shared_ptr<MAXContentMap> MAXContentLoader::LoadMapWithName(string name)
     return result;
 }
 
+vector<Texture*> MAXContentLoader::CreatePalletes(Color* palette)
+{
+    Color* colors = new Color[pal_size/3];
+    memcpy(colors, palette, 4 * pal_size/3);
+    
+    vector<Texture*> result;
+    for(int i = 0;i<30;i++)
+    {
+        GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
+        memcpy(currentPalette, colors, 4 * pal_size/3);
+        result.push_back(new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1));
+        if (i != 29)
+            animatePalette(colors);
+    }
+    
+    delete colors;
+    return result;
+}
+
+Texture* MAXContentLoader::TextureIdexedFromIndex(int w, int h, unsigned char* indexes)
+{
+    Color* colors = (Color*)malloc(w * h * 4);
+    memset(colors, 0x00000000, w * h * 4);
+    for (int i = 0; i < h; i++)
+        for (int j = 0; j < w; j++)
+        {
+            unsigned char colornumber = indexes[i * w + j];
+            colors[i * w + j].r = colornumber;
+        }
+    
+    Texture *result = new Texture(GL_NEAREST, (GLubyte*)colors, w, h);
+    return result;
+}
+
 Texture* MAXContentLoader::TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette)
 {
     Color* colors = (Color*)malloc(w * h * 4);
@@ -406,22 +456,19 @@ Texture* MAXContentLoader::TextureFromIndexAndDefaultPalette(int w, int h, unsig
     return new Texture(GL_NEAREST, (GLubyte*)colors, w, h);
 }
 
-vector<Texture*> MAXContentLoader::CreatePalletes(Color* palette)
+Texture* MAXContentLoader::TexturePalleteFormDefaultPalleteAndPlayerColor(const Color& color)
 {
-    Color* colors = new Color[pal_size/3];
-    memcpy(colors, palette, 4 * pal_size/3);
+    Color* currentPalette = (Color*)malloc(4 * pal_size/3);
+    memcpy(currentPalette, &default_palette, 4 * pal_size/3);
     
-    vector<Texture*> result;
-    for(int i = 0;i<30;i++)
+    for (int i = 32; i <= 39 ; i++)
     {
-        GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
-        memcpy(currentPalette, colors, 4 * pal_size/3);
-        result.push_back(new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1));
-        if (i != 29)
-            animatePalette(colors);
+        currentPalette[i].r = color.r*((40.0-(float)i)/6.0);
+        currentPalette[i].g = color.g*((40.0-(float)i)/6.0);
+        currentPalette[i].b = color.b*((40.0-(float)i)/6.0);
     }
     
-    delete colors;
+    Texture* result = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     return result;
 }
 
@@ -434,12 +481,14 @@ int MAXContentLoader::FindImage(string name)
         char* cname = dir[i].name;
         for(int j = 0; j < name.length(); j++)
         {
-            if (name[j] != cname[j]) {
+            if (name[j] != cname[j])
+            {
                 suit = false;
                 break;
             }
         }
-        if (suit) {
+        if (suit)
+        {
             index = i;
             break;
         }
@@ -448,24 +497,18 @@ int MAXContentLoader::FindImage(string name)
     return index;
 }
 
-void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset)
+void MAXContentLoader::LoadUnitFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset)
 {    
     ushort width = source->ReadUInt16();
     ushort height = source->ReadUInt16();
     short center_x = source->ReadInt16();
-    short center_y = source->ReadInt16();
-    
-    if (index == 15 + 8) {
-//        SysLogInfo("width = %d, height=%d, center_x=%d, center_y=%d", (int)width, (int)height, (int)center_x, (int)center_y);
-    }
-  //  
+    short center_y = source->ReadInt16(); 
     
     target->frames[index].center.x = center_x;
     target->frames[index].center.y = center_y;
     target->frames[index].size.x = width;
     target->frames[index].size.y = height;
     
-    //MAXUnitMaterialFrame frame = target->frames[index];
     int size = width * height;
     if (size == 0)
         return;
@@ -486,13 +529,14 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
     {
         unsigned int rowi = rows[i];
         source->SetPosition(rowi + baseOffset);
-        buf = source->ReadChar();
+        buf = source->ReadUChar();
         while (buf != 0xff)
         {
             destOffset += buf;
             buf = source->ReadUChar();
             source->ReadBuffer((int)buf, tmpbuffer);
             memcpy(pixels + destOffset, tmpbuffer, buf);
+            destOffset+=buf;
             memset(tmpbuffer, 0, 256);
             buf = source->ReadUChar();
         }
@@ -501,48 +545,244 @@ void MAXContentLoader::LoadFrame(BinaryReader* source, int index, MAXUnitMateria
         destOffset = new_pos;
     }
     
-    Texture* result = TextureFromIndexAndDefaultPalette((int)width, (int)height, pixels);
+    Texture* result = TextureIdexedFromIndex((int)width, (int)height, pixels);
     target->textures[index] = result;
+    free(pixels);
     delete [] rows;
 }
 
-MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name)
+void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long shadowBaseOffset)
+{
+    unsigned char *buffer = (unsigned char *)shadowSource->GetInternalBuffer();
+    
+    ushort width = shadowSource->ReadUInt16();
+    ushort height = shadowSource->ReadUInt16();
+    short center_x = shadowSource->ReadInt16();
+    short center_y = shadowSource->ReadInt16();
+
+    
+    target->shadowframes[index].center.x = center_x;
+    target->shadowframes[index].center.y = center_y;
+    target->shadowframes[index].size.x = width;
+    target->shadowframes[index].size.y = height;
+    
+    //MAXUnitMaterialFrame frame = target->frames[index];
+    int size = width * height;
+    
+    GLubyte* pixels = (GLubyte*)malloc(size);
+    memset(pixels, 0, size);
+    // Rows offsets.
+    unsigned int* rows = new unsigned int[height];
+    shadowSource->ReadBuffer(height * 4, (char *)rows);
+    Color currentColor = {113,0,0,0};//113 is transparent, 114 is opaque
+
+    for(int Y = 0; Y < height; Y++)
+    {
+        int X = 0;
+        int blockIndex = 0;
+        while (buffer[rows[Y] + blockIndex] != 0xFF)
+        {
+            int size1 = buffer[rows[Y]+blockIndex];
+            for (int i = 0; i < size1; i++) 
+                pixels[Y*(int)width + X + i] = currentColor.r;
+            
+            if (currentColor.r == 113) 
+                currentColor.r = 114;
+            else
+                currentColor.r = 113;
+            X += buffer[rows[Y] + blockIndex];
+            blockIndex ++;
+        }
+    }
+    
+    Texture *result = TextureIdexedFromIndex(width, height, (GLubyte*)pixels);
+    target->shadowTextures[index] = result;
+
+    delete [] rows;
+}
+
+MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowName)
 {
     int index = FindImage(name);
     void* cashed = loadedData[index];
     if(cashed)
         return (MAXUnitMaterial*)cashed;
+    
+    MAXUnitMaterial* result  = new MAXUnitMaterial();
+    
+    int shadowIndex = FindImage(shadowName);
+    char *data;
+    char *shadowData;
+    
     inf->SetPosition(dir[index].offset);
-
+    data = (char*)malloc(dir[index].size);
+    inf->ReadBuffer(dir[index].size, data);
     
-    long baseOffset = inf->GetPosition();
-    short picCount = inf->ReadInt16();
+    inf->SetPosition(dir[shadowIndex].offset);
+    shadowData = (char*)malloc(dir[shadowIndex].size);
+    inf->ReadBuffer(dir[shadowIndex].size, shadowData);
     
+    BinaryReader* dataReader = new BinaryReader(data, dir[index].size);
+    BinaryReader* shadowDataReader = new BinaryReader(shadowData, dir[shadowIndex].size);
+    long baseOffset = 0;//inf->GetPosition();
+    long shadowBaseOffset = 0;//inf->GetPosition();
+    
+    short picCount = dataReader->ReadInt16();
+    short shadowPicCount = shadowDataReader->ReadInt16();
     int* picbounds = new int[picCount];
-    inf->ReadBuffer(picCount*4, (char*) picbounds);
+    int* shadowPicbounds = new int[shadowPicCount];
+    dataReader->ReadBuffer(picCount*4, (char*) picbounds);
+    shadowDataReader->ReadBuffer(shadowPicCount*4, (char*) shadowPicbounds);
     
-    MAXUnitMaterial* result = new MAXUnitMaterial(picCount);
+    result ->SetImagesCount(picCount);
     for (int picIndex = 0; picIndex < picCount; picIndex++)
     {
-        inf->SetPosition(picbounds[picIndex] + baseOffset);
-        LoadFrame(inf, picIndex, result, baseOffset);
+        dataReader->SetPosition(picbounds[picIndex] + baseOffset);
+        LoadUnitFrame(dataReader, picIndex, result, baseOffset);
+        if(picIndex<8)
+        {
+            shadowDataReader->SetPosition(shadowPicbounds[picIndex] + shadowBaseOffset);
+            LoadUnitShadow(shadowDataReader, picIndex, result, shadowBaseOffset);
+        }
     }
     loadedData[index] = (void*)result;
     
+
     delete []picbounds;
+    delete []shadowPicbounds;
+    delete dataReader;
+    delete shadowDataReader;
+    free(data);
+    free(shadowData);
+    
     return result;
+}
+
+#pragma mark - memory
+void MAXContentLoader::ClearImageCache()
+{
+    
 }
 
 #pragma mark - fabric
 
-shared_ptr<MAXUnitObject> MAXContentLoader::CreateUnit(string bodyName)
+MAXUnitObject* MAXContentLoader::CreateUnit(MAXUnitConfig* unitConfig)
 {
-   
-    MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(bodyName);
+    MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(unitConfig->_bodyName, unitConfig->_shadowName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
-    
-    return shared_ptr<MAXUnitObject>(new MAXUnitObject(renderObject, material));
+    MAXUnitObject* result = new MAXUnitObject(renderObject, material, unitConfig);
+    if (unitConfig->_isPlane) {
+        result->_bbsize = GLKVector2Make(2, 2);
+    }
+    return result;
 }
 
+CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name)
+{
+    int index = FindImage(name);
+    void* cashed = loadedData[index];
+    if(cashed)
+        return (CCTexture2D*)cashed;
+    
+    inf->SetPosition(dir[index].offset);
+    short w = inf->ReadInt16();
+    short h = inf->ReadInt16();
+    
+    short cx = inf->ReadInt16();
+    short cy = inf->ReadInt16();
+    cx = cy;
+    
+    GLubyte* pixels = new GLubyte[w * h];
+    inf->ReadBuffer(w*h, (char*)pixels);
+    
+    Color* colors = (Color*)malloc(w * h * 4);
+    for (int i = 0; i < w; i++)
+        for (int j = 0; j < h; j++)
+        {
+            int colornumber = pixels[j * w + i];
+            colors[j * w + i] = default_palette[colornumber];
+            colors[j * w + i].a = 255;
+        }
+    CCTexture2D* pTexture = new CCTexture2D();
+   // pTexture->autorelease();
+    CCSize sz = CCSize(w, h);
+    pTexture->initWithData(colors, kCCTexture2DPixelFormat_RGBA8888, w, h, sz);
+    free(colors);
+    loadedData[index] = (void*)pTexture;
+    return pTexture;
+}
+
+CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
+{
+    int index = FindImage(name);
+    
+    inf->SetPosition(dir[index].offset);
+    int f = inf->ReadInt();
+    f = f;
+    
+    short w = inf->ReadInt16();
+    short h = inf->ReadInt16();
+    
+    
+//    
+//    short w = inf->ReadInt16();
+//    short h = inf->ReadInt16();
+    
+    GLbyte* pixels = new GLbyte[w * h];
+    
+    GLbyte palette[768];
+    inf->ReadBuffer(768, (char*)palette);
+    
+    
+    short block_size;
+    unsigned char buf;
+    char fill[65535];
+    memset(fill, 0, 65535);
+    short m1 = -1;
+    int position = 0;
+    
+    while (position < w * h)
+    {
+        block_size = inf->ReadInt16();
+        
+        if (block_size > 0)
+        {
+            inf->ReadBuffer(block_size, fill);
+            
+            memcpy(pixels, fill+position, block_size);
+            position += block_size;
+        }
+        else
+        {
+            block_size = (short)((int)m1 * (int)block_size);
+            buf = inf->ReadUChar();
+        
+            memset(fill, buf, block_size);
+            memcpy(pixels, fill+position, block_size);
+            position += block_size;
+        }
+    }
+    
+    Color* colors = (Color*)malloc(w * h * 4);
+    for (int i = 0; i < w; i++)
+        for (int j = 0; j < h; j++)
+        {
+            int colornumber = pixels[j * w + i];
+            colors[j * w + i].r = palette[colornumber * 3];
+            colors[j * w + i].g = palette[colornumber * 3 + 1];
+            colors[j * w + i].b = palette[colornumber * 3 + 2];
+            colors[j * w + i].a = 1.0;
+        }
+    CCTexture2D* pTexture = new CCTexture2D();
+    pTexture->autorelease();
+    CCSize sz = CCSize(w, h);
+    pTexture->initWithData(colors, kCCTexture2DPixelFormat_RGBA8888, w, h, sz);
+    free(colors);
+    return pTexture;
+//    CCImage* image = new CCImage();
+//    image->autorelease();
+//    image->initWithImageData(colors, w * h * 4, kFmtRawData, w, h, 8);
+//
+}
 
 

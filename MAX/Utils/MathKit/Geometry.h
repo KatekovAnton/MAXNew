@@ -56,8 +56,60 @@ static __inline__ GRect2D GRect2DMake(GLfloat x, GLfloat y, GLfloat width, GLflo
     return rect;
 };
 
+
 #include "MyMath.h"
 #include "GLKMath.h"
+
+struct __BoundingBox {
+    GLKVector2 min;
+    GLKVector2 max;
+    
+    GLKVector2 GetCenter() const {return GLKVector2Make((min.x + max.x)/2.0, (min.y + max.y)/2.0); }
+    GLKVector2 GetSize() const {return GLKVector2Make(- (min.x - max.x), -(min.y - max.y)); }
+    
+};
+typedef struct __BoundingBox BoundingBox;
+
+static __inline__ BoundingBox BoundingBoxMake(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2) {
+    BoundingBox rect;
+    rect.min.x = x1;
+    rect.min.y = y1;
+    rect.max.x = x2;
+    rect.max.y = y2;
+    return rect;
+};
+
+static __inline__ BoundingBox BoundingBoxMake(GLKVector2 min, GLKVector2 max) {
+    BoundingBox rect;
+    rect.min = min;
+    rect.max = max;
+    return rect;
+};
+
+enum __ContainmentType
+{
+    ContainmentType_Disjoint,
+    ContainmentType_Contains,
+    ContainmentType_Intersects
+};
+
+typedef enum __ContainmentType ContainmentType;
+
+
+static __inline__ ContainmentType GetContainmentType(BoundingBox first, BoundingBox second)
+{
+    if (first.max.x < second.min.x || first.max.y < second.min.y ||
+        first.min.x > second.max.x || first.min.y > second.max.y) {
+        return ContainmentType_Disjoint;
+    }
+    
+    if (second.min.x > first.min.x && second.min.y > first.min.y &&
+        second.max.x < first.max.x && second.max.y < first.max.y) {
+        return ContainmentType_Contains;
+    }
+    
+    return ContainmentType_Intersects;
+}
 
 //http://www.opengl.org/wiki/GluProject_and_gluUnProject_code
 

@@ -11,23 +11,32 @@
 #include "Material.h"
 #include "Geometry.h"
 #include "Shader.h"
+#include "MAXEngine.h"
+
+
+int compareDummy(const void * a, const void * b)
+{
+    return 0;
+}
+
+compareFunc PivotObject::GetCompareFunc()
+{
+    return &compareDummy;
+}
 
 PivotObject::PivotObject() {
 
     _transformMatrix = GLKMatrix4Identity;
-    _renderMatrix = GLKMatrix4Identity;
-    _needMouseCast = false;
     _isOnScreen = true;
     moved = false;
     forceHidden = false;
+    _bbsize = GLKVector2Make(1, 1);
 }
 
 void PivotObject::Update() {
  //   _transformMatrix = _objectBehaviourModel->GetGlobalPosition();
 //    if (moved)
 //        raycastaspect.boundingShape.Update(transform);
-    if (_isOnScreen)
-        _renderMatrix = CalculateRenderMatrix(_transformMatrix);
 }
 
 void PivotObject::SetGlobalPosition(GLKMatrix4 globalPosition, void *aditionalData, PivotObject *parent, bool afterUpdate)
@@ -39,6 +48,7 @@ void PivotObject::SetGlobalPosition(GLKMatrix4 globalPosition, void *aditionalDa
     {
        // _objectBehaviourModel->EndFrame();
         Update();
+        AfterUpdate();
     }
 //    else
 //    {
@@ -48,14 +58,7 @@ void PivotObject::SetGlobalPosition(GLKMatrix4 globalPosition, void *aditionalDa
 
 void PivotObject::AfterUpdate()
 {
-    if (_isOnScreen)
-        _renderMatrix = CalculateRenderMatrix(_transformMatrix);
     
-}
-
-GLKMatrix4 PivotObject::CalculateRenderMatrix(GLKMatrix4 transform)
-{
-    return transform;
 }
 
 void PivotObject::SetIsOnScreen(bool isOnScreen) {
@@ -63,7 +66,6 @@ void PivotObject::SetIsOnScreen(bool isOnScreen) {
 }
 
 void PivotObject::BeginFrame() {
-    moved = false;
     //_objectBehaviourModel->BeginFrame();
    // SetIsOnScreen(false);
 }
@@ -78,10 +80,17 @@ void PivotObject::EndFrame() {
    // _transformMatrix = _objectBehaviourModel->GetGlobalPosition();
 }
 
+void PivotObject::HasBeenLocatedToScene()
+{
+    _sceneLocationTime = engine->FullTime();
+}
+
+void PivotObject::HasBeenRemovedFromScene()
+{}
+
 void PivotObject::Draw(Shader *shader)
 {
-    GLKMatrix4 m1 = GetRenderMatrix();
-    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, m1.m);
+    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, _transformMatrix.m);
     GetRenderAspect()->Render(0, GetMaterial());
 }
 
@@ -93,15 +102,11 @@ Material * PivotObject::GetMaterial() {
     return NULL;
 }
 
-GLKMatrix4 PivotObject::GetRenderMatrix() {
-    return _renderMatrix;
-}
-
-GLKMatrix4 PivotObject::GetTransformMatrix() {
+GLKMatrix4 PivotObject::GetTransformMatrix() const {
     return _transformMatrix;
 }
 
-GLKVector3 PivotObject::GetPosition() {
+GLKVector3 PivotObject::GetPosition() const {
     return GLKMatrix4GetTranslation(_transformMatrix);
 }
 
@@ -112,3 +117,6 @@ void PivotObject::SetPosition(const GLKVector3& position) {
 PivotObject::~PivotObject() {
    // delete _objectBehaviourModel;
 }
+
+void PivotObject::LastUpdate()
+{}

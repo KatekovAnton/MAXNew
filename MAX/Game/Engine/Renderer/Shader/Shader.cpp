@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 using namespace std;
-Shader::Shader(string vertexName, string fragmentName) {
+Shader::Shader(const string& vertexName, const string& fragmentName) {
 //#ifdef TARGET_OS_IPHONE
 //    LoadShader(vertexName, fragmentName);
 //#endif
@@ -19,25 +19,25 @@ Shader::Shader(string vertexName, string fragmentName) {
 //	LoadShaderWin(vertexName, fragmentName);
 //#endif
 	LoadShader(vertexName, fragmentName);
-    _shaderUniforms = new GLuint[MAX_UNIFORMS];
-    
+    memset(_shaderUniforms, 0, MAX_UNIFORMS*4);
+    glUseProgram(_program);
     _shaderUniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_program, "modelMatrix");
     _shaderUniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_program, "viewMatrix");
     
     _shaderUniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_program, "projectionMatrix");
     _shaderUniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
-    _shaderUniforms[UNIFORM_COLOR_TEXTURE] = glGetUniformLocation(_program, "colorTexture");
     _shaderUniforms[UNIFORM_ALPHA] = glGetUniformLocation(_program, "alpha");
     
     _shaderUniforms[UNIFORM_VECTOR1] = glGetUniformLocation(_program, "vector1");
     _shaderUniforms[UNIFORM_VECTOR2] = glGetUniformLocation(_program, "vector2");
     
     
+    _shaderUniforms[UNIFORM_COLOR_TEXTURE] = glGetUniformLocation(_program, "colorTexture");
     _shaderUniforms[UNIFORM_COLOR_TEXTURE1] = glGetUniformLocation(_program, "colorTexture1");
     _shaderUniforms[UNIFORM_COLOR_TEXTURE2] = glGetUniformLocation(_program, "colorTexture2");
     _shaderUniforms[UNIFORM_COLOR_TEXTURE3] = glGetUniformLocation(_program, "colorTexture3");
-    _shaderUniforms[UNIFORM_LIGHTPOSITION] = glGetUniformLocation(_program, "lightPosition");
     
+    _shaderUniforms[UNIFORM_LIGHTPOSITION] = glGetUniformLocation(_program, "lightPosition");
     
     _shaderUniforms[UNIFORM_FLOATPARAM1] = glGetUniformLocation(_program, "floatParam1");
     _shaderUniforms[UNIFORM_FLOATPARAM2] = glGetUniformLocation(_program, "floatParam2");
@@ -47,6 +47,10 @@ Shader::Shader(string vertexName, string fragmentName) {
 
 void Shader::SetMatrixValue(int uniformCode, float *value) {
     glUniformMatrix4fv(_shaderUniforms[uniformCode], 1, 0, value);
+}
+
+void Shader::SetVector4Value(int uniformCode, float* value) {
+    glUniform4fv(_shaderUniforms[uniformCode], 1, value);
 }
 
 void Shader::SetFloatValue(int uniformCode, float value) {
@@ -172,7 +176,8 @@ bool Shader::LoadShaderWin(string vertexName, string fragmentName)
 #endif
 }
 
-bool Shader::LoadShader(string vertexName, string fragmentName) {
+bool Shader::LoadShader(const string& vertexName, const string& fragmentName)
+{
     GLuint vertShader, fragShader;
     
     // Create shader program.

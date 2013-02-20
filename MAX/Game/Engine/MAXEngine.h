@@ -10,59 +10,67 @@
 #define __MAX__MAXEngine__
 
 #include <iostream>
-
-
 #include "cocos2d.h"
+#include "RequestDelegate.h"
+
 
 using namespace cocos2d;
 using namespace std;
 
+class EngineMesh;
+class Framebuffer;
 class PivotObject;
 class RenderSystem;
 class Shader;
 class SceneSystem;
 class MAXCamera;
-
-class LevelObject;
-class MapObject;
-class MAXContentMap;
+class MAXAnimationManager;
 class MAXGrid;
+class MAXUnitSelection;
+
+class MAXMapObject;
+class MAXContentMap;
 class MAXUnitObject;
 
-class MAXEngine  {
+class MAXEngine : public RequestDelegate  {
     
     
     RenderSystem        *_renderSystem;
     double                _elapsedTime;
     double                _fullTime;
     
-    
+    MAXAnimationManager *_animationManager;
     SceneSystem         *_scene;
     
     Shader              *_shader;
     Shader              *_unitShader;
     Shader              *_mapShader;
+    Shader              *_mapQuadShader;
+    shared_ptr<EngineMesh> _mapQuadMesh;
     float             _color;
-    
 public:
     
-    
+    MAXAnimationManager* GetAnimationManager () const { return _animationManager; };
     
     float displayw,displayh;
     bool drawGrid;
     
-    shared_ptr<MAXUnitObject>           _unit;
-    shared_ptr<MapObject>               _map;
+    shared_ptr<MAXMapObject>            _map;
     
-    MAXCamera              *_camera;
-    MAXGrid                *_grid;
-    CCDirector          *_director;
+    MAXCamera               *_camera;
+    MAXGrid                 *_grid;
+    MAXUnitSelection        *_unitSelection;
+    CCDirector              *_director;
     
     MAXEngine();
     ~MAXEngine();
     
     void Init();
     void EngineMain();
+    
+    void SelectUnit(MAXUnitObject* unit);
+    void AddUnit(MAXUnitObject* newUnit);
+    void RemoveUnit(MAXUnitObject* newUnit);
     
     void RunLoop(double delta);
     
@@ -71,6 +79,10 @@ public:
     
     void Update();
     void Draw();
+    void DrawLine();
+    void DrawGround();
+    void DrawUnits();
+    void DrawGrid();
     void DrawInterface();
     void EndFrame();
     
@@ -82,10 +94,7 @@ public:
     virtual bool applicationDidFinishLaunching();
     virtual void applicationDidEnterBackground();
     virtual void applicationWillEnterForeground();
-    
-    //test
-    
-    void switchLight();
+
     
     void ScaleCamera(float deltaScale);
     void MoveCamera(float deltax, float deltay);
@@ -98,8 +107,8 @@ public:
     CCPoint WorldCoordinatesToScreenCocos(const CCPoint &world);
     CCRect ScreenToWorldRect();
     
-    
-    void TestFire();
+#pragma mark - RequestDelegate
+    void RequestDidFinishLoadingWithResponce(Request* request, Response* response);
 };
 
 
