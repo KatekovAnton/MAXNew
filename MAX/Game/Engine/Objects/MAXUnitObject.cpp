@@ -38,9 +38,21 @@ int compareMAXUnitObject (const void * a, const void * b)
     MAXUnitObject* a1 = *((MAXUnitObject**)a);
     MAXUnitObject* b1 = *((MAXUnitObject**)b);
     
-    if ( a1->_playerId <  b1->_playerId ) return -1;
-    if ( a1->_playerId == b1->_playerId ) return 0;
-    if ( a1->_playerId >  b1->_playerId ) return 1;
+    if (a1->params_w->_bLevel == b1->params_w->_bLevel) {
+        float a1x = a1->GetTransformMatrix().m30;
+        float a1y = a1->GetTransformMatrix().m31;
+        float b1x = b1->GetTransformMatrix().m30;
+        float b1y = b1->GetTransformMatrix().m31;
+        if (a1x < b1x || a1y > b1y)
+            return -1;
+        else
+            return 1;
+    }
+    else if(a1->params_w->_bLevel < b1->params_w->_bLevel)
+        return -1;
+    else if(a1->params_w->_bLevel > b1->params_w->_bLevel)
+        return 1;
+
     
     return 0;
 }

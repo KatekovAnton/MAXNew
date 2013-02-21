@@ -64,15 +64,15 @@ void MAXGame::StartMatch()
         engine->AddUnit(unit1->GetUnitObject());
     }
     {
-        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 56, "Inter", 0);
-        engine->AddUnit(unit1->GetUnitObject());
-    }
-    {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(54, 55, "Inter", 0);
         engine->AddUnit(unit1->GetUnitObject());
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(54, 58, "Inter", 0);
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 56, "Inter", 0);
         engine->AddUnit(unit1->GetUnitObject());
     }
     {
@@ -138,13 +138,19 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     }
     if (!_unitMoved)
     {
-        if (_currentUnit) 
-            engine->SelectUnit(NULL);
-
-        _currentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
-        if (_currentUnit)
-            engine->SelectUnit(_currentUnit->GetUnitObject());
+        GameUnit* newCurrentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
         
+        if (newCurrentUnit && _currentUnit != newCurrentUnit)
+        {
+            _currentUnit = newCurrentUnit;
+            engine->SelectUnit(_currentUnit->GetUnitObject());
+        }
+        
+        if (!newCurrentUnit)
+        {
+            engine->SelectUnit(NULL);
+            _currentUnit = NULL;
+        }
     }
     
 }

@@ -50,7 +50,7 @@ public:
     PivotObject();
     virtual ~PivotObject();
 
-    GLKMatrix4 GetTransformMatrix() const;
+    GLKMatrix4 GetTransformMatrix() const { return _transformMatrix; }
     
     void BeginFrame();
     virtual void Frame(double time);
@@ -75,7 +75,7 @@ public:
     virtual RenderObject * GetRenderAspect();
     virtual Material * GetMaterial();
     
-    virtual GLKVector3 GetPosition() const;
+    virtual GLKVector3 GetPosition() const { return GLKMatrix4GetTranslation(_transformMatrix); };
     virtual void SetPosition(const GLKVector3& position);
     
 };

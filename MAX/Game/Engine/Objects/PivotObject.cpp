@@ -102,14 +102,6 @@ Material * PivotObject::GetMaterial() {
     return NULL;
 }
 
-GLKMatrix4 PivotObject::GetTransformMatrix() const {
-    return _transformMatrix;
-}
-
-GLKVector3 PivotObject::GetPosition() const {
-    return GLKMatrix4GetTranslation(_transformMatrix);
-}
-
 void PivotObject::SetPosition(const GLKVector3& position) {
   //  _objectBehaviourModel->SetPosition(GLKMatrix4MakeTranslationV(position));
 }
