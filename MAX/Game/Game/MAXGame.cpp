@@ -10,7 +10,6 @@
 #include "SceneSystem.h"
 #include "MAXEngine.h"
 #include "Display.h"
-#include "UserInterface.h"
 
 #include "MAXConfigManager.h"
 #include "MAXContetnLoader.h"

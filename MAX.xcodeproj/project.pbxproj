@@ -248,7 +248,6 @@
 		D18EDC5716897B1E00EE3B4E /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC5116897B1E00EE3B4E /* ViewController.mm */; };
 		D18EDC5816897B1E00EE3B4E /* GLSurface.m in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC5316897B1E00EE3B4E /* GLSurface.m */; };
 		D18EDC721689831800EE3B4E /* MAXEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC701689831800EE3B4E /* MAXEngine.cpp */; };
-		D18EDC77168983F800EE3B4E /* UserInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC73168983F700EE3B4E /* UserInterface.cpp */; };
 		D18EDC7C1689843600EE3B4E /* RenderSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC7B1689843600EE3B4E /* RenderSystem.cpp */; };
 		D18EDC801689846300EE3B4E /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC7E1689846300EE3B4E /* Shader.cpp */; };
 		D18EDC861689847B00EE3B4E /* ShaderBackground.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D18EDC821689847B00EE3B4E /* ShaderBackground.vsh */; };
@@ -636,8 +635,6 @@
 		D18EDC5B168980E600EE3B4E /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "cocos2d-2.0-x-2.0.4/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		D18EDC701689831800EE3B4E /* MAXEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXEngine.cpp; sourceTree = "<group>"; };
 		D18EDC711689831800EE3B4E /* MAXEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXEngine.h; sourceTree = "<group>"; };
-		D18EDC73168983F700EE3B4E /* UserInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserInterface.cpp; sourceTree = "<group>"; };
-		D18EDC74168983F700EE3B4E /* UserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInterface.h; sourceTree = "<group>"; };
 		D18EDC7A1689843600EE3B4E /* RenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderSystem.h; sourceTree = "<group>"; };
 		D18EDC7B1689843600EE3B4E /* RenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderSystem.cpp; sourceTree = "<group>"; };
 		D18EDC7E1689846300EE3B4E /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
@@ -1348,8 +1345,6 @@
 				D18EDC711689831800EE3B4E /* MAXEngine.h */,
 				8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */,
 				8B8EAA2B168A28620097CA74 /* MAXCamera.h */,
-				D18EDC73168983F700EE3B4E /* UserInterface.cpp */,
-				D18EDC74168983F700EE3B4E /* UserInterface.h */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -1847,7 +1842,6 @@
 				D18EDC5716897B1E00EE3B4E /* ViewController.mm in Sources */,
 				D18EDC5816897B1E00EE3B4E /* GLSurface.m in Sources */,
 				D18EDC721689831800EE3B4E /* MAXEngine.cpp in Sources */,
-				D18EDC77168983F800EE3B4E /* UserInterface.cpp in Sources */,
 				D18EDC7C1689843600EE3B4E /* RenderSystem.cpp in Sources */,
 				D18EDC801689846300EE3B4E /* Shader.cpp in Sources */,
 				D18EDC861689847B00EE3B4E /* ShaderBackground.vsh in Sources */,
