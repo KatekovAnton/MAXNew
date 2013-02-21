@@ -61,14 +61,47 @@ void MAXGame::StartMatch()
     
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
+        unit1->SetRandomDirection();
         engine->AddUnit(unit1->GetUnitObject());
     }
     {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(54, 55, "Inter", 0);
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 52, "Bomber", 0);
+        unit1->SetRandomDirection();
         engine->AddUnit(unit1->GetUnitObject());
     }
     {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(54, 58, "Inter", 0);
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 57, "Aagunm", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 58, "Awac", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 58, "Scout", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(59, 53, "Asgun", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 54, "Inter", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 52, "Tank", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 58, "Inter", 0);
+        unit1->SetRandomDirection();
         engine->AddUnit(unit1->GetUnitObject());
     }
     {

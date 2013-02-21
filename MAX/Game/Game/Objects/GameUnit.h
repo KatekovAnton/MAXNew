@@ -48,6 +48,7 @@ public:
     void LiftPlane();
     void Fire(const CCPoint& target);
     void SetUnitLocation(const CCPoint& cell, const bool animated);
+    void SetRandomDirection();
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);

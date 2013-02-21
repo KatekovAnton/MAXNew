@@ -13,6 +13,7 @@
 #include "MAXEngine.h"
 #include "MAXUnitConfig.h"
 #include "GameMatchPlayer.h"
+#include "MyRandom.h"
 
 using namespace cocos2d;
 
@@ -25,6 +26,13 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, MAXUnitConfig* config, GameMatchPl
 
 GameUnit::~GameUnit()
 {}
+
+void GameUnit::SetRandomDirection()
+{
+    int dir = nextIntMax(8);
+    _unitObject->SetBodyDirection(dir);
+    _unitObject->SetHeadDirection(dir);
+}
 
 void GameUnit::LocateOnMap()
 {}
