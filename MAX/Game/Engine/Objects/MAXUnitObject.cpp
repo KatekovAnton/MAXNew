@@ -108,7 +108,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
 MAXUnitObject::~MAXUnitObject()
 {
     delete _renderAspect;
-    delete _material;
+//    delete _material;
 }
 
 void MAXUnitObject::LastUpdate()

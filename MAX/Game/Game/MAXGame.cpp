@@ -192,12 +192,40 @@ void MAXGame::ProceedPan(float speedx, float speedy)
     engine->MoveCamera(speedx, speedy);
 }
 
+bool CanMove(int unitType, int groundType, bool unitInCell)
+{
+    switch (unitType) {
+        case UNIT_MOVETYPE_GROUND:
+            return groundType == GROUND_TYPE_GROUND && !unitInCell;
+            break;
+        case UNIT_MOVETYPE_GROUNDCOST:
+            return (groundType == GROUND_TYPE_GROUND || groundType == GROUND_TYPE_COAST) && !unitInCell;
+            break;
+        case UNIT_MOVETYPE_AMHIB:
+            return (groundType == GROUND_TYPE_WATER || groundType == GROUND_TYPE_COAST || groundType == GROUND_TYPE_GROUND)  && !unitInCell;
+            break;
+        case UNIT_MOVETYPE_SEACOST:
+            return (groundType == GROUND_TYPE_WATER || groundType == GROUND_TYPE_COAST) && !unitInCell;
+            break;
+        case UNIT_MOVETYPE_SEA:
+            return groundType == GROUND_TYPE_WATER && !unitInCell;
+            break;
+        case UNIT_MOVETYPE_AIR:
+            return true;
+            break;
+        default:
+            break;
+    }
+    return true;
+}
+
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
     bool _unitMoved = false;
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
     p.y = floorf(p.y);
+    GameUnit* newCurrentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
     if (_currentUnit)
     {
         
@@ -209,7 +237,9 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                  (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
         {
             char groundType = _match->_map->GroundTypeAtPoint(p);
-            if (groundType == GROUND_TYPE_GROUND || _currentUnit->_config->_bLevel == UNIT_LEVEL_AIR)
+            int unitMoveType = _currentUnit->_config->_bMoveType;
+            
+            if (CanMove(unitMoveType, groundType, newCurrentUnit != NULL))
             {
                 _currentUnit->SetUnitLocation(p, true);
                 _unitMoved = true;
@@ -218,7 +248,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     }
     if (!_unitMoved)
     {
-        GameUnit* newCurrentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
+        
         
         if (newCurrentUnit && _currentUnit != newCurrentUnit)
         {

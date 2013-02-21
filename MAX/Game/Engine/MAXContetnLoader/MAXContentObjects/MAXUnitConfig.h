@@ -24,6 +24,16 @@ typedef enum
     UNIT_LEVEL_OVERAIR      = 7
 } UNIT_LEVEL;
 
+typedef enum
+{
+    UNIT_MOVETYPE_GROUND = 0,
+    UNIT_MOVETYPE_GROUNDCOST = 1,
+    UNIT_MOVETYPE_AMHIB = 2,
+    UNIT_MOVETYPE_SEACOST = 3,
+    UNIT_MOVETYPE_SEA = 4,
+    UNIT_MOVETYPE_AIR = 5
+} UNIT_MOVETYPE;
+
 class MAXUnitConfig {
     
     void SetResurceConfigValue(string key, string value);
