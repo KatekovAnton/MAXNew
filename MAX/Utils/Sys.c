@@ -2,7 +2,7 @@
 //  Sys.c
 //  TerminalExtraction
 //
-//  Created by Yarik Smirnov on 11/15/12.
+//  Created by Katekov Anton on 11/15/12.
 //
 //
 

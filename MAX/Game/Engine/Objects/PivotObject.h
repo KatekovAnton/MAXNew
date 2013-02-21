@@ -2,7 +2,7 @@
 //  PivotObject.h
 //  TerminalExtraction
 //
-//  Created by Yarik Smirnov on 10/31/12.
+//  Created by Katekov Anton on 10/31/12.
 //
 //
 

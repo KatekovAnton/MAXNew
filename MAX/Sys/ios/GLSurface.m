@@ -2,7 +2,7 @@
 //  GLSurface.m
 //  TerminalExtraction
 //
-//  Created by Yarik Smirnov on 10/18/12.
+//  Created by Katekov Anton on 10/18/12.
 //
 //
 

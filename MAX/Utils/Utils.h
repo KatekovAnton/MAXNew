@@ -2,7 +2,7 @@
 //  Utils.h
 //  TerminalExtraction
 //
-//  Created by Yarik Smirnov on 10/16/12.
+//  Created by Katekov Anton on 10/16/12.
 //
 //
 

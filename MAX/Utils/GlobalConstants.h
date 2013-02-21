@@ -2,7 +2,7 @@
 //  GlobalConstants.h
 //  TerminalExtraction
 //
-//  Created by Yarik Smirnov on 10/20/12.
+//  Created by Katekov Anton on 10/20/12.
 //
 //
 

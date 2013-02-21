@@ -2,7 +2,7 @@
 //  Texture.h
 //  TerminalExtraction
 //
-//  Created by Yarik Smirnov on 11/3/12.
+//  Created by Katekov Anton on 11/3/12.
 //
 //
 
