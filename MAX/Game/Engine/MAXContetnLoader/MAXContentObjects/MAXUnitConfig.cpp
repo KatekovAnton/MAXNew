@@ -302,6 +302,7 @@ MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName
     _isAnimatedHead = _isAnimHead;
     _level = _bLevel;
     _isAmphibious = _bMoveType == 2;
+    _isShip = _bMoveType == 4;
 }
 
 

@@ -62,10 +62,16 @@ public:
     int _playerId;
     MAXUnitConfig* params_w;
     
+    bool _needAirOffset;
+    float _airOffsetMult;
+    bool _needShipOffset;
+    
     bool GetFireing() const {return fireing;};
     int GetBodyIndex() const {return bodyIndex;};
     int GetHeadIndex() const {return headIndex;};
     int GetPureHeadIndex() const {return pureheadIndex;};
+    
+
 
     bool IsSingleFire() const;
     bool IsHasBody() const;
@@ -90,6 +96,7 @@ public:
     GLKMatrix4 CalculateBodyRenderMatrix();
     GLKMatrix4 CalculateHeadRenderMatrix();
     GLKVector2 CalculateAirOffset();
+    GLKVector2 CalculateShipOffset();
     
     void SetBodyDirection(int state);
     void SetHeadDirection(int state);

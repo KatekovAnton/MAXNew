@@ -193,6 +193,7 @@ public:
     
     
     bool _isPlane;
+    bool _isShip;
     GLKVector2 _shadowOffset;
     int _level;
     bool _hasHead;

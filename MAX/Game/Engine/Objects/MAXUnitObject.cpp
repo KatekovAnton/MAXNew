@@ -20,6 +20,7 @@ static bool showShadows = true;
 #define PLANESINGLEANIM 0.25
 #define LOOPTIME        4.0 // 8 * 2 * PLANESINGLEANIM
 #define OFFSETSCALE     0.05
+#define OFFSETSCALESHIP 0.01
 
 GLKVector2 planeOffsets[] = {
     {0 * OFFSETSCALE,       -1 * OFFSETSCALE},
@@ -30,6 +31,16 @@ GLKVector2 planeOffsets[] = {
     {-0.85 * OFFSETSCALE,   0.85 * OFFSETSCALE},
     {-1 * OFFSETSCALE,      0 * OFFSETSCALE},
     {-0.85 * OFFSETSCALE,   -0.85 * OFFSETSCALE}};
+
+GLKVector2 shipOffsets[] = {
+    {0 * OFFSETSCALESHIP,       -1 * OFFSETSCALESHIP},
+    {0.85f * OFFSETSCALESHIP,   -0.85f * OFFSETSCALESHIP},
+    {1 * OFFSETSCALESHIP,       0 * OFFSETSCALESHIP},
+    {0.85 * OFFSETSCALESHIP,    0.85 * OFFSETSCALESHIP},
+    {0 * OFFSETSCALESHIP,       1 * OFFSETSCALESHIP},
+    {-0.85 * OFFSETSCALESHIP,   0.85 * OFFSETSCALESHIP},
+    {-1 * OFFSETSCALESHIP,      0 * OFFSETSCALESHIP},
+    {-0.85 * OFFSETSCALESHIP,   -0.85 * OFFSETSCALESHIP}};
 
 GLKVector2 planeShadowOffset = {1.0, -1.0};
 
@@ -68,6 +79,10 @@ compareFunc MAXUnitObject::GetCompareFunc()
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0)
 {
+    _needAirOffset = config->_isPlane;
+    _needShipOffset = config->_isShip;
+    _airOffsetMult = 1.0;
+    
     _random = nextDoubleMax(1000);
     _playerId = 0;
     bodyIndex = 2;
@@ -114,10 +129,24 @@ GLKVector2 MAXUnitObject::CalculateAirOffset()
     float dt = loopTime/PLANESINGLEANIM;
     int deltaPhase = (int)dt;
     
-    float deltaMove = (deltaPhase%2==0)?dt-floorf(dt):1.0 - dt+floorf(dt);
+    float deltaMove = _airOffsetMult * ((deltaPhase%2==0)?dt-floorf(dt):1.0 - dt+floorf(dt));
     
     return GLKVector2Make(planeOffsets[deltaPhase/2].x * deltaMove, planeOffsets[deltaPhase/2].y * deltaMove);
 }
+
+GLKVector2 MAXUnitObject::CalculateShipOffset()
+{
+    double elapsedTime = engine->FullTime() - GetSceneLocationTime() + _random;
+    elapsedTime *= 0.25;
+    double loopTime = elapsedTime - (int)(elapsedTime/(double)LOOPTIME) * LOOPTIME;
+    float dt = loopTime/PLANESINGLEANIM;
+    int deltaPhase = (int)dt;
+    
+    float deltaMove = (deltaPhase%2==0)?dt-floorf(dt):1.0 - dt+floorf(dt);
+    
+    return GLKVector2Make(shipOffsets[deltaPhase/2].x * deltaMove, shipOffsets[deltaPhase/2].y * deltaMove);
+}
+
 
 GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
 {
@@ -132,10 +161,15 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
   
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
-    if (params_w->_isPlane)
+    if (_needAirOffset)
     {
         GLKVector2 offset = CalculateAirOffset();
         translate = GLKMatrix4MakeTranslation(deltax + planeShadowOffset.x + offset.x, deltay + planeShadowOffset.y + offset.y, 0);
+    }
+    else if (_needShipOffset)
+    {
+        GLKVector2 offset = CalculateShipOffset();
+        translate = GLKMatrix4MakeTranslation(deltax + offset.x, deltay + offset.y, 0);
     }
     else
         translate = GLKMatrix4MakeTranslation(deltax, deltay, 0);
@@ -155,9 +189,14 @@ GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
     deltay = (64.0-bodyframe.size.y)/128.0 + (bodyframe.center.y/64.0);
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
-    if (params_w->_isPlane)
+    if (_needAirOffset)
     {
         GLKVector2 offset = CalculateAirOffset();
+        translate = GLKMatrix4MakeTranslation(deltax + offset.x, deltay + offset.y, 0);
+    }
+    else if (_needShipOffset)
+    {
+        GLKVector2 offset = CalculateShipOffset();
         translate = GLKMatrix4MakeTranslation(deltax + offset.x, deltay + offset.y, 0);
     }
     else
@@ -180,9 +219,14 @@ GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
     
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
-    if (params_w->_isPlane)
+    if (_needAirOffset)
     {
         GLKVector2 offset = CalculateAirOffset();
+        translate = GLKMatrix4MakeTranslation(deltax + offset.x, deltay + offset.y, 0);
+    }
+    else if (_needShipOffset)
+    {
+        GLKVector2 offset = CalculateShipOffset();
         translate = GLKMatrix4MakeTranslation(deltax + offset.x, deltay + offset.y, 0);
     }
     else
@@ -243,7 +287,7 @@ void MAXUnitObject::Draw(Shader *shader)
         _lastPlayerIndex = _playerId;
         _material->ApplyPalette(shader, _playerPalette_w);
     }
-    if(showShadows)
+    if(showShadows && !params_w->_isUnderwater)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
         _material->index = IsHasBody()?bodyIndex:pureheadIndex;

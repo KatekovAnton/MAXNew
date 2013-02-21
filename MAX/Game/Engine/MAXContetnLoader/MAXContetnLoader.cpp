@@ -639,7 +639,7 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     {
         dataReader->SetPosition(picbounds[picIndex] + baseOffset);
         LoadUnitFrame(dataReader, picIndex, result, baseOffset);
-        if(picIndex<8)
+        if(picIndex<8 && shadowName != "")
         {
             shadowDataReader->SetPosition(shadowPicbounds[picIndex] + shadowBaseOffset);
             LoadUnitShadow(shadowDataReader, picIndex, result, shadowBaseOffset);

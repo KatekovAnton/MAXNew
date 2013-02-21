@@ -50,15 +50,62 @@ void MAXGame::StartMatch()
     _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl", infos);
     engine->SetMap(_match->_map->_contentMap);
     
-    //Aagunm
-    //Tank
-    //Inter
-    //Bomber
-    //Awac
-    //Scout
-    //Asgun
+//    Aagunm=grp_mobile_aa_gun.cfg#mobile_aa_gun.cfg
+//    Asgun=grp_assault_gun.cfg#assault_gun.cfg
+//    Awac=grp_awac.cfg#awac.cfg
+//    Bomber=grp_bomber.cfg#bomber.cfg
+//    Constructor=grp_constructor.cfg#constructor.cfg
+//    Corvette=grp_corvette.cfg#corvette.cfg
+//    Dozer=grp_bulldozer.cfg#bulldozer.cfg
+//    Engineer=grp_engineer.cfg#engineer.cfg
+//    Escort=grp_escort.cfg#escort.cfg
+//    Gunboat=grp_gun_boat.cfg#gun_boat.cfg
+//    Inter=grp_interceptor.cfg#interceptor.cfg
+//    Tank=grp_tank.cfg#tank.cfg
+//    Scout=grp_scout.cfg#scout.cfg
+//    sub=grp_submarine.cfg#submarine.cfg
+//    pcan=grp_personnel_carrier.cfg#personnel_carrier.cfg
     _currentUnit = NULL;
-    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 53, "Constructor", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 47, "Corvette", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 60, "Dozer", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 58, "Engineer", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(47, 49, "Escort", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 44, "sub", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 55, "pcan", 0);
+        unit1->SetRandomDirection();
+        engine->AddUnit(unit1->GetUnitObject());
+    }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
         unit1->SetRandomDirection();
