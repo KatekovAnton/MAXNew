@@ -23,17 +23,20 @@ MAXStatusRenderer* MAXStatusRenderer::SharedStatusRenderer()
     return _sharedMAXStatusRenderer;
 }
 
-void MAXStatusRenderer::Draw(USimpleContainer<MAXUnitObject*> visibleObjects)
+void MAXStatusRenderer::DrawUnitStatus(MAXUnitObject* unit)
+{
+    if (_drawHealStatus)
+    {}
+    
+    if (_drawShots)
+    {}
+}
+
+void MAXStatusRenderer::DrawCircles()
 {
     if (_drawScan)
     {}
 
     if (_drawRange)
-    {}
-
-    if (_drawHealStatus)
-    {}
-
-    if (_drawShots)
     {}
 }

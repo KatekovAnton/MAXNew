@@ -236,7 +236,10 @@ void MAXEngine::DrawUnits()
     const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
     
     for (int i = 0; i < objects->GetCount(); i++)
+    {
         objects->objectAtIndex(i)->Draw(_shader);
+        MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus((MAXUnitObject*)objects->objectAtIndex(i));
+    }
  
     glActiveTexture(GL_TEXTURE0);
 }

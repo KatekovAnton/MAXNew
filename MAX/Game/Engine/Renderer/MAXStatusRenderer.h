@@ -33,7 +33,8 @@ public:
     MAXStatusRenderer();
     ~MAXStatusRenderer();
     
-    void Draw(USimpleContainer<MAXUnitObject*> visibleObjects);
+    void DrawUnitStatus(MAXUnitObject* unit);
+    void DrawCircles();
     
     static MAXStatusRenderer* SharedStatusRenderer();
     

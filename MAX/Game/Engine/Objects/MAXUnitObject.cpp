@@ -252,7 +252,7 @@ void MAXUnitObject::Frame(double time)
     _material->DoFrame(time);
     if (params_w->_isAnimatedHead) {
         _lastHeadAnimTime+=time;
-        if (_lastHeadAnimTime>0.1) {
+        if (_lastHeadAnimTime>0.05) {
             _lastHeadAnimTime=0;
             int newHeadOffset = headIndex + 1;
             if (newHeadOffset == _material->frameCount) {
