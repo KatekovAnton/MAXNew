@@ -77,7 +77,7 @@ compareFunc MAXUnitObject::GetCompareFunc()
 }
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
-:_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0)
+:_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0), _statusDelegate_w(NULL)
 {
     _needAirOffset = config->_isPlane;
     _needShipOffset = config->_isShip;
@@ -253,7 +253,7 @@ void MAXUnitObject::Frame(double time)
     if (params_w->_isAnimatedHead) {
         _lastHeadAnimTime+=time;
         if (_lastHeadAnimTime>0.1) {
-            _lastHeadAnimTime-=0.1;
+            _lastHeadAnimTime=0;
             int newHeadOffset = headIndex + 1;
             if (newHeadOffset == _material->frameCount) {
                 newHeadOffset = headOffset;

@@ -55,6 +55,12 @@ public:
     float displayw,displayh;
     bool drawGrid;
     
+    bool drawScan;
+    bool drawRange;
+    bool drawHealStatus;
+    bool drawShots;
+    
+    
     shared_ptr<MAXMapObject>            _map;
     
     MAXCamera               *_camera;

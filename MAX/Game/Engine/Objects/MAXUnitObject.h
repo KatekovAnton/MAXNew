@@ -13,6 +13,7 @@
 #include "MAXObject.h"
 #include "cocos2d.h"
 #include "MAXUnitConfig.h"
+#include "MAXStatusRendererUnitDelegate.h"
 
 class MAXUnitRenderObject;
 class MAXUnitMaterial;
@@ -57,6 +58,8 @@ class MAXUnitObject : public MAXObject {
     double _lastHeadAnimTime;
     
 public:
+    
+    MAXStatusRendererUnitDelegate* _statusDelegate_w;
     
     Texture* _playerPalette_w;
     int _playerId;

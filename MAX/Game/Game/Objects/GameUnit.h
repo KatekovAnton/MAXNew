@@ -13,6 +13,7 @@
 #include "GameObject.h"
 #include "cocos2d.h"
 #include "MAXAnimationDelegate.h"
+#include "MAXStatusRendererUnitDelegate.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -25,7 +26,7 @@ class MAXUnitConfig;
 
 class GameMatchPlayer;
 
-class GameUnit : public GameObject, public MAXAnimationDelegate {
+class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatusRendererUnitDelegate {
     
     MAXAnimationObjectUnit* _moveAnimation;
     MAXAnimationBase* _currentTopAnimation;
@@ -54,6 +55,13 @@ public:
     virtual void OnAnimationStart(MAXAnimationBase* animation);
     virtual void OnAnimationUpdate(MAXAnimationBase* animation);
     virtual void OnAnimationFinish(MAXAnimationBase* animation);
+    
+    
+#pragma mark - MAXStatusRendererUnitDelegate
+    virtual int GetScan() const;
+    virtual int GetRange() const;
+    virtual float GetHealStatus() const;
+    virtual float GetShots() const;
 };
 
 #endif /* defined(__MAX__Unit__) */

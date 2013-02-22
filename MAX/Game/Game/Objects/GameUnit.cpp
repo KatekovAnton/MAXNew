@@ -22,6 +22,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, MAXUnitConfig* config, GameMatchPl
 {
     _unitObject->_playerId = owner->_playerInfo._playerId;
     _unitObject->_playerPalette_w = owner->_palette;
+    _unitObject->_statusDelegate_w = this;
 }
 
 GameUnit::~GameUnit()
@@ -116,4 +117,26 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         _currentTopAnimation->_delegate = NULL;
         _currentTopAnimation = NULL;
     }
+}
+
+#pragma mark - MAXStatusRendererUnitDelegate
+
+int GameUnit::GetScan() const
+{
+    return _config->_pScan;
+}
+
+int GameUnit::GetRange() const
+{
+    return _config->_pRange;
+}
+
+float GameUnit::GetHealStatus() const
+{
+    return 1.0;
+}
+
+float GameUnit::GetShots() const
+{
+    return _config->_pShots;
 }

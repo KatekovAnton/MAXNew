@@ -33,6 +33,7 @@
 #include "RequestManager.h"
 #include "Response.h"
 #include "MAXDrawPrimitives.h"
+#include "MAXStatusRenderer.h"
 
 using namespace cocos2d;
 //using namespace Kompex;
