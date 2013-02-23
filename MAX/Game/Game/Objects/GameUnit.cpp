@@ -12,21 +12,26 @@
 #include "MAXAnimationPrefix.h"
 #include "MAXEngine.h"
 #include "MAXUnitConfig.h"
+#include "GameUnitParameters.h"
 #include "GameMatchPlayer.h"
 #include "MyRandom.h"
 
 using namespace cocos2d;
 
-GameUnit::GameUnit(MAXUnitObject* unitObject, MAXUnitConfig* config, GameMatchPlayer* owner)
+GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner)
 :_unitObject(unitObject), _currentTopAnimation(NULL), _config(config)
 {
     _unitObject->_playerId = owner->_playerInfo._playerId;
     _unitObject->_playerPalette_w = owner->_palette;
     _unitObject->_statusDelegate_w = this;
+    _unitObject->_needShadow = !_config->GetCongig()->_isUnderwater;
+    _onMap = false;
 }
 
 GameUnit::~GameUnit()
-{}
+{
+    delete _config;
+}
 
 void GameUnit::SetRandomDirection()
 {
@@ -36,10 +41,22 @@ void GameUnit::SetRandomDirection()
 }
 
 void GameUnit::LocateOnMap()
-{}
+{
+    if (_onMap) 
+        return;
+    _onMap = true;
+    
+    engine->AddUnit(_unitObject);
+}
 
 void GameUnit::RemoveFromMap()
-{}
+{
+    if (!_onMap)
+        return;
+    _onMap = false;
+    
+    engine->RemoveUnit(_unitObject);
+}
 
 void GameUnit::LowerPlane()
 {}
@@ -82,7 +99,7 @@ void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
 
 void GameUnit::Fire(const cocos2d::CCPoint &target)
 {
-    if(!_config->_isAbleToFire)
+    if(!_config->GetCongig()->_isAbleToFire)
         return;
     if(_unitObject->GetFireing())
         return;
@@ -101,6 +118,10 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
 
 void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
+    if (animation == _moveAnimation)
+    {
+        
+    }
     //update radar range etc
 }
 

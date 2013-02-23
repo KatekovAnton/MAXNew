@@ -79,9 +79,11 @@ compareFunc MAXUnitObject::GetCompareFunc()
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0), _statusDelegate_w(NULL)
 {
+    
     _needAirOffset = config->_isPlane;
     _needShipOffset = config->_isShip;
     _airOffsetMult = 1.0;
+    _needShadow = false;
     
     _random = nextDoubleMax(1000);
     _playerId = 0;
@@ -287,7 +289,7 @@ void MAXUnitObject::Draw(Shader *shader)
         _lastPlayerIndex = _playerId;
         _material->ApplyPalette(shader, _playerPalette_w);
     }
-    if(showShadows && !params_w->_isUnderwater)
+    if(_needShadow)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
         _material->index = IsHasBody()?bodyIndex:pureheadIndex;

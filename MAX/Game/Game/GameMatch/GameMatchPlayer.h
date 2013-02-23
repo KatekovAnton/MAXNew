@@ -12,11 +12,15 @@
 #include <iostream>
 #include "miniPrefix.h"
 #include "MAXContetnConstants.h"
-
+#include "PlayerResearchManager.h"
 
 class Texture;
 class GameUnit;
+class MAXClanConfig;
 class PlayerBase;
+
+class PlayerResearchManager;
+class PlayerUpgradeManager;
 
 struct GameMatchPlayerInfo {
     
@@ -31,6 +35,12 @@ struct GameMatchPlayerInfo {
 class GameMatchPlayer {
     
 public:
+    
+    int researchCentersWorkingOnArea[kNrResearchAreas]; ///< counts the number of research centers that are currently working on each area
+    
+    PlayerResearchManager* _researchManager;
+    PlayerUpgradeManager* _upgradeManager;
+    MAXClanConfig* _clanConfig;
     
     GameMatchPlayerInfo _playerInfo;
     Texture* _palette;

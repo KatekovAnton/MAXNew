@@ -68,6 +68,7 @@ public:
     bool _needAirOffset;
     float _airOffsetMult;
     bool _needShipOffset;
+    bool _needShadow;
     
     bool GetFireing() const {return fireing;};
     int GetBodyIndex() const {return bodyIndex;};

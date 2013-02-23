@@ -24,6 +24,7 @@ class MAXAnimationBase;
 class MAXAnimationObjectUnit;
 class MAXUnitConfig;
 
+class GameUnitParameters;
 class GameMatchPlayer;
 
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatusRendererUnitDelegate {
@@ -35,12 +36,14 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     
 public:
     
-    MAXUnitConfig* _config;
+    bool _onMap;
+    
+    GameUnitParameters* _config;
     
     MAXUnitObject* GetUnitObject() const {return _unitObject;};
     CCPoint GetUnitCell() const {return _unitCell;};
     
-    GameUnit(MAXUnitObject* unitObject, MAXUnitConfig* config, GameMatchPlayer* owner);
+    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner);
     ~GameUnit();
     
     void LocateOnMap();

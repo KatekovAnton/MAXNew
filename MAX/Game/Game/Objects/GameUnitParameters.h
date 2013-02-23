@@ -20,12 +20,27 @@ class BinaryReader;
 
 class GameUnitParameters {
     
-    MAXUnitConfig            *_wconfig;
-    MAXClanConfig            *_wclanBonuses;
-    PlayerResearchManager    *_wresearchManager;
-    PlayerUpgradeManager     *_wupgradeManager;
+    MAXUnitConfig            *_config_w;
+    MAXClanConfig            *_clanBonuses_w;
+    PlayerResearchManager    *_researchManager_w;
+    PlayerUpgradeManager     *_upgradeManager_w;
     
 public:
+    
+    MAXUnitConfig* GetCongig() const {return _config_w;}
+    
+    int _pAttack;
+    int _pSpeed;
+    int _pHealth;
+    int _pArmor;
+    int _pShots;
+    int _pFuel;
+    int _pRange;
+    int _pScan;
+    int _pAmmo;
+    int _pCost;
+    
+    int _version;
     
     GameUnitParameters(MAXUnitConfig            *config,
                        MAXClanConfig            *clanBonuses,
@@ -34,6 +49,8 @@ public:
     
     GameUnitParameters(BinaryReader             *saveReader);
     ~GameUnitParameters();
+    
+    void CalcParams(int researchArea, bool &incrementVersion);
     
     void Upgrade();
 };

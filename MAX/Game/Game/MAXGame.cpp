@@ -19,6 +19,7 @@
 #include "GameUnit.h"
 #include "GameMatch.h"
 #include "GameInteface.h"
+#include "GameUnitParameters.h"
 
 MAXGame globalGame;
 MAXGame * game = &globalGame;
@@ -69,95 +70,95 @@ void MAXGame::StartMatch()
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 53, "Constructor", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 47, "Corvette", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 60, "Dozer", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 58, "Engineer", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(47, 49, "Escort", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 44, "sub", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 55, "pcan", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 52, "Bomber", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 57, "Aagunm", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 58, "Awac", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 58, "Scout", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(59, 53, "Asgun", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 54, "Inter", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 52, "Tank", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 58, "Inter", 0);
         unit1->SetRandomDirection();
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 56, "Inter", 0);
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 53, "Inter", 0);
-        engine->AddUnit(unit1->GetUnitObject());
+        unit1->LocateOnMap();
     }
     
     _gameInterface = new GameInterface();
@@ -237,7 +238,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                  (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
         {
             char groundType = _match->_map->GroundTypeAtPoint(p);
-            int unitMoveType = _currentUnit->_config->_bMoveType;
+            int unitMoveType = _currentUnit->_config->GetCongig()->_bMoveType;
             
             if (CanMove(unitMoveType, groundType, newCurrentUnit != NULL))
             {
