@@ -11,22 +11,29 @@
 #include "Display.h"
 #include "CocosHelper.h"
 
+float Scale= 1.0;
+
 CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fontSize, ccColor3B titleColor, string normal, string selected, CCObject* target, SEL_MenuHandler selector)
 {
     CCSprite* _onToggleGridSprite = MAXSCL->CreateSpriteFromSimpleImage(selected);
     CCSprite* _ofToggleGridSprite = MAXSCL->CreateSpriteFromSimpleImage(normal);
     CCMenuItemSprite* result = CCMenuItemSprite::create(_ofToggleGridSprite, _onToggleGridSprite, target, selector);
+    result->setAnchorPoint(ccp(0, 0));
     
-    CocosHelper::ProceedCCNode(result);
-    CCSize sz = result->getContentSize();
     
     CCLabelTTF *label = CCLabelTTF::create(title.c_str(), fontName.c_str(), fontSize);
-    CocosHelper::ProceedCCNodeBack(label);
     label->setColor(titleColor);
-    CCSize sz1 = label->getContentSize();
-    label->setPosition(ccp((sz.width - sz1.width)/2.0, (sz.height - sz1.height)/2.0));
-    label->setContentSize(CCSize(title.length()*fontSize, fontSize));
-    label->setAnchorPoint(ccp(0.5, 0.5));
+    CCSize sz = result->getContentSize();
+    sz.height /= 2;
+    label->setPosition(ccp(sz.width * 0.25, sz.height * 0.25));
+    sz.width *= Scale;
+    sz.height *= Scale;
+    label->setContentSize(sz);
+    label->setAnchorPoint(ccp(0, 0));
+    
+    CocosHelper::ProceedCCNode(result);
+    CocosHelper::ProceedCCNodeBack(label);
+    
     result->addChild(label, 1);
 
     return result;
@@ -36,6 +43,7 @@ GameInterface::GameInterface()
 {
     _drawGrid = false;
     _drawScan = false;
+    Scale = Display::currentDisplay()->GetDisplayScale();
 }
 
 GameInterface::~GameInterface()

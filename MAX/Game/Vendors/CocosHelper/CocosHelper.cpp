@@ -16,13 +16,11 @@ using namespace cocos2d;
 void CocosHelper::ProceedCCNode(CCNode* node)
 {
     node->setScale(Display::currentDisplay()->GetDisplayScale());
-    node->setAnchorPoint(ccp(0, 0));
 }
 
 void CocosHelper::ProceedCCNodeBack(CCNode* node)
 {
     node->setScale(1.0/Display::currentDisplay()->GetDisplayScale());
-    node->setAnchorPoint(ccp(0, 0));
 }
 
 void CocosHelper::SetPosition(CCNode* node, const CCPoint& point)

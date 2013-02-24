@@ -791,7 +791,6 @@ CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name)
     CCTexture2D* texture = CreateTexture2DFromSimpleImage(name);
     CCSprite* result = CCSprite::createWithTexture(texture);
    // result->setScale(Display::currentDisplay()->GetDisplayScale());
-    result->setAnchorPoint(ccp(0, 0));
     return result;
 }
 
