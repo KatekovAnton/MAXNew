@@ -103,7 +103,7 @@ void MAXGame::StartMatch()
         unit1->LocateOnMap();
     }
     {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 50, "pcan", 0);
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(74, 45, "pcan", 0);
         unit1->SetRandomDirection();
         unit1->LocateOnMap();
     }

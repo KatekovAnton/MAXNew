@@ -154,7 +154,7 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
 {
     GLKMatrix4 transform = GetTransformMatrix();
     
-    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[bodyIndex];
+    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[shadowOffset + (IsHasBody()?bodyIndex:pureheadIndex)];
     float scalex = shadowFrame.size.x/64.0;
     float scaley = shadowFrame.size.y/64.0;
     
