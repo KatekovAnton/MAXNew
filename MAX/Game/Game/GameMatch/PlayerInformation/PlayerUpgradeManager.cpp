@@ -877,11 +877,6 @@ int PlayerUpgradeManager::calcChangeByResearch (int startValue, int curResearchL
 		return 0;
 }
 
-int PlayerUpgradeManager::calcCurrentChangeByResearch (int startValue, int upgradeType, int unitType) const
-{
-    int bonusByResearch = calcChangeByResearch (startValue, _player_w->_researchManager->getCurResearchLevel (_player_w->_researchManager->getResearchArea (upgradeType)), upgradeType, unitType);
-}
-
 //--------------------------------------------------
 int PlayerUpgradeManager::getMaterialCostForUpgrading (int unitCost) const
 {

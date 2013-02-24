@@ -40,6 +40,7 @@ class MAXGame : public DisplayPinchDelegate {
 public:
     
     MAXGAMESTATE GetCurretnState() const {return _curretnState;}
+    GameMatch *GetCurretnMatch() const {return _match;}
     GameUnit* _currentUnit;
     
     MAXGame();

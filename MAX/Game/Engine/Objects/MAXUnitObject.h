@@ -51,13 +51,15 @@ class MAXUnitObject : public MAXObject {
     GLKMatrix4 bodyRenderMatrix;
     GLKMatrix4 headRenderMatrix;
     
-    int bodyOffset = 0;
-    int headOffset = 8;
-    int headFireOffset = 16;
     
     double _lastHeadAnimTime;
     
 public:
+    
+    int bodyOffset = 0;
+    int shadowOffset = 0;
+    int headOffset = 8;
+    int headFireOffset = 16;
     
     MAXStatusRendererUnitDelegate* _statusDelegate_w;
     
@@ -71,7 +73,7 @@ public:
     bool _needShadow;
     
     bool GetFireing() const {return fireing;};
-    int GetBodyIndex() const {return bodyIndex;};
+    int GetBodyIndex() const {return bodyIndex - bodyOffset;};
     int GetHeadIndex() const {return headIndex;};
     int GetPureHeadIndex() const {return pureheadIndex;};
     

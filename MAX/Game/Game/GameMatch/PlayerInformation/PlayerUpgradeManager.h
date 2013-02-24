@@ -107,8 +107,6 @@ public:
 							  int upgradeType = -1, int unitType = kBuilding) const;
     
     
-    int calcCurrentChangeByResearch (int startValue, int upgradeType, int unitType) const;
-    
 	/** Prints some upgrade values to the standard log on debug-level. Expand the implementation
      to test, if all works fine. */
 	void printAllToLog() const;

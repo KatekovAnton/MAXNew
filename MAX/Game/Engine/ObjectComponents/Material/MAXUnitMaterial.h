@@ -25,7 +25,8 @@ class MAXUnitMaterial : public Material {
 
 public:
 
-    int frameCount;
+    int _frameCount;
+    int _shadowframeCount;
     
     int index;
     double time;
@@ -38,7 +39,7 @@ public:
     
     MAXUnitMaterial();
     ~MAXUnitMaterial();
-    void SetImagesCount(int _frameCount);
+    void SetImagesCount(int frameCount, int shadowframeCount);
     
     void DoFrame(double elapsedTime);
     void ApplyShadowLod(int lod, Shader *shader);

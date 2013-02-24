@@ -18,23 +18,24 @@ MAXUnitMaterial::MAXUnitMaterial()
     
 }
 
-void MAXUnitMaterial::SetImagesCount(int _frameCount)
+void MAXUnitMaterial::SetImagesCount(int frameCount, int shadowframeCount)
 {
-    frameCount = _frameCount;
+    _frameCount = frameCount;
+    _shadowframeCount = shadowframeCount;
     frames = new MAXUnitMaterialFrame[frameCount];
     textures = new Texture*[frameCount];
     
-    shadowframes = new MAXUnitMaterialFrame[8];
-    shadowTextures = new Texture*[8];
+    shadowframes = new MAXUnitMaterialFrame[shadowframeCount];
+    shadowTextures = new Texture*[shadowframeCount];
 }
 
 MAXUnitMaterial::~MAXUnitMaterial()
 {
     delete [] frames;
     delete [] shadowframes;
-    for (int i = 0; i < frameCount; i++) 
+    for (int i = 0; i < _frameCount; i++)
         delete textures[i];
-    for (int i = 0; i < 0; i++)
+    for (int i = 0; i < _shadowframeCount; i++)
         delete shadowTextures[i];
     delete [] textures;
     delete [] shadowTextures;

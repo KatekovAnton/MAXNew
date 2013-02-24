@@ -21,7 +21,7 @@ GameMatch::GameMatch(const string& configName, const string& mapName, const vect
     _map = new GameMap(map1);
     
     for (int i = 0; i < players.size(); i++) {
-        GameMatchPlayer* player = new GameMatchPlayer(players[i]);
+        GameMatchPlayer* player = new GameMatchPlayer(players[i], this);
         _players.push_back(player);
     }
     

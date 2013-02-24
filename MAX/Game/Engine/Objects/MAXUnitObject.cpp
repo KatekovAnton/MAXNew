@@ -104,7 +104,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
         else
             headFireOffset = 8;
     }
-    params_w->_isMultifire = IsHasBody() && _material->frameCount == 32;
+    params_w->_isMultifire = IsHasBody() && _material->_frameCount == 32;
 }
 
 MAXUnitObject::~MAXUnitObject()
@@ -154,7 +154,7 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
 {
     GLKMatrix4 transform = GetTransformMatrix();
     
-    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[bodyIndex%8];
+    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[bodyIndex];
     float scalex = shadowFrame.size.x/64.0;
     float scaley = shadowFrame.size.y/64.0;
     
@@ -257,7 +257,7 @@ void MAXUnitObject::Frame(double time)
         if (_lastHeadAnimTime>0.05) {
             _lastHeadAnimTime=0;
             int newHeadOffset = headIndex + 1;
-            if (newHeadOffset == _material->frameCount) {
+            if (newHeadOffset == _material->_frameCount) {
                 newHeadOffset = headOffset;
             }
             newHeadOffset-=headOffset;
@@ -292,17 +292,18 @@ void MAXUnitObject::Draw(Shader *shader)
     if(_needShadow)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
-        _material->index = IsHasBody()?bodyIndex:pureheadIndex;
+        _material->index = shadowOffset + (IsHasBody()?bodyIndex:pureheadIndex);
         _renderAspect->RenderShadow(0, _material);
     }
     if (IsHasBody())
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
-        _material->index = bodyIndex;
+        _material->index = bodyIndex + bodyOffset;
         _renderAspect->Render(0, _material);
     }
+    
     shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, headRenderMatrix.m);
-    _material->index = headIndex;
+    _material->index = headIndex + (!IsHasBody()?bodyOffset:0);
     _renderAspect->Render(0, _material);
     
     _renderAspect->UnBind();

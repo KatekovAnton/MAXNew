@@ -19,7 +19,8 @@
 #include "PlayerUpgradeManager.h"
 #include "PlayerResearchManager.h"
 
-GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info)
+GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
+:_match_w(match)
 {
     _playerInfo = info;
     _palette = MAXSCL->TexturePalleteFormDefaultPalleteAndPlayerColor(_playerInfo._color);

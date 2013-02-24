@@ -22,6 +22,8 @@ class PlayerBase;
 class PlayerResearchManager;
 class PlayerUpgradeManager;
 
+class GameMatch;
+
 struct GameMatchPlayerInfo {
     
 	int clan;
@@ -36,6 +38,8 @@ class GameMatchPlayer {
     
 public:
     
+    GameMatch *_match_w;
+    
     int researchCentersWorkingOnArea[kNrResearchAreas]; ///< counts the number of research centers that are currently working on each area
     
     PlayerResearchManager* _researchManager;
@@ -48,7 +52,7 @@ public:
     USimpleContainer<GameUnit*> _units;
     PlayerBase* _base;
     
-    GameMatchPlayer(GameMatchPlayerInfo playerInfo);
+    GameMatchPlayer(GameMatchPlayerInfo playerInfo, GameMatch *match);
     ~GameMatchPlayer();
 
     

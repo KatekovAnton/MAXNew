@@ -8,24 +8,28 @@
 
 #include "GameUnit.h"
 #include "Geometry.h"
+#include "MyRandom.h"
 #include "MAXUnitObject.h"
 #include "MAXAnimationPrefix.h"
 #include "MAXEngine.h"
 #include "MAXUnitConfig.h"
+
 #include "GameUnitParameters.h"
 #include "GameMatchPlayer.h"
-#include "MyRandom.h"
+#include "GameMatch.h"
+#include "GameMap.h"
 
 using namespace cocos2d;
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner)
-:_unitObject(unitObject), _currentTopAnimation(NULL), _config(config)
+:_unitObject(unitObject), _currentTopAnimation(NULL), _config(config), _owner_w(owner)
 {
     _unitObject->_playerId = owner->_playerInfo._playerId;
     _unitObject->_playerPalette_w = owner->_palette;
     _unitObject->_statusDelegate_w = this;
     _unitObject->_needShadow = !_config->GetCongig()->_isUnderwater;
     _onMap = false;
+    _detected = false;
 }
 
 GameUnit::~GameUnit()
@@ -33,11 +37,54 @@ GameUnit::~GameUnit()
     delete _config;
 }
 
-void GameUnit::SetRandomDirection()
+void GameUnit::SetDirection(int dir)
 {
-    int dir = nextIntMax(8);
     _unitObject->SetBodyDirection(dir);
     _unitObject->SetHeadDirection(dir);
+}
+
+void GameUnit::SetRandomDirection()
+{
+    SetDirection(nextIntMax(8));
+}
+
+void GameUnit::CheckBodyAndShadow()
+{
+    if (!(_config->GetCongig()->_isAmphibious || _config->GetCongig()->_isUnderwater))
+        return;
+    
+    
+    char groundType = _owner_w->_match_w->_map->GroundTypeAtPoint(_unitCell);
+    if (groundType == GROUND_TYPE_WATER)
+    {
+        if (_config->GetCongig()->_isUnderwater && !_detected)
+        {
+            _unitObject->bodyOffset = 0;
+            _unitObject->_needShadow = false;
+            return;
+        }
+        if (_config->GetCongig()->_isAmphibious)
+        {
+            _unitObject->bodyOffset = 8;
+            return;
+        }
+    }
+    else
+    {
+        if (_config->GetCongig()->_isUnderwater)
+        {
+            _unitObject->bodyOffset = 8;
+            _unitObject->_needShadow = _config->GetCongig()->_haveShadow;
+            _unitObject->shadowOffset = 8;
+            return;
+        }
+        if (_config->GetCongig()->_isAmphibious)
+        {
+            _unitObject->bodyOffset = 0;
+            return;
+        }
+    }
+    
 }
 
 void GameUnit::LocateOnMap()
@@ -75,6 +122,7 @@ void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
         _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, destination));
         _unitCell = destination;
         _unitObject->SetPosition(destination);
+        CheckBodyAndShadow();
     }
     else
     {
@@ -120,7 +168,6 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
     if (animation == _moveAnimation)
     {
-        
     }
     //update radar range etc
 }
@@ -132,6 +179,7 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         _unitCell = ((MAXAnimationObjectUnit*)animation)->GetEendLocation();
         _moveAnimation->_delegate = NULL;
         _moveAnimation = NULL;
+        CheckBodyAndShadow();
     }
     else
     {

@@ -303,6 +303,7 @@ MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName
     _level = _bLevel;
     _isAmphibious = _bMoveType == 2;
     _isShip = _bMoveType == 4;
+    _haveShadow = _shadowName != "";
 }
 
 

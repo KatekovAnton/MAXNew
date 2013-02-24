@@ -215,7 +215,7 @@ public:
     MAXUnitConfig(string balanceConfigName, string resourceConfigName);
     bool IsValid() const;
     
-    
+    bool _haveShadow;
     
 };
 

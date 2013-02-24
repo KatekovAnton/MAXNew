@@ -634,12 +634,12 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     dataReader->ReadBuffer(picCount*4, (char*) picbounds);
     shadowDataReader->ReadBuffer(shadowPicCount*4, (char*) shadowPicbounds);
     
-    result ->SetImagesCount(picCount);
+    result ->SetImagesCount(picCount, shadowPicCount);
     for (int picIndex = 0; picIndex < picCount; picIndex++)
     {
         dataReader->SetPosition(picbounds[picIndex] + baseOffset);
         LoadUnitFrame(dataReader, picIndex, result, baseOffset);
-        if(picIndex<8 && shadowName != "")
+        if(shadowName != "")
         {
             shadowDataReader->SetPosition(shadowPicbounds[picIndex] + shadowBaseOffset);
             LoadUnitShadow(shadowDataReader, picIndex, result, shadowBaseOffset);

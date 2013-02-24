@@ -34,8 +34,13 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     CCPoint _unitCell;
     MAXUnitObject* _unitObject;
     
+    void CheckBodyAndShadow();
+    
 public:
     
+    GameMatchPlayer *_owner_w;
+    
+    bool _detected;
     bool _onMap;
     
     GameUnitParameters* _config;
@@ -52,6 +57,7 @@ public:
     void LiftPlane();
     void Fire(const CCPoint& target);
     void SetUnitLocation(const CCPoint& cell, const bool animated);
+    void SetDirection(int dir);
     void SetRandomDirection();
     
 #pragma mark - MAXAnimationDelegate
