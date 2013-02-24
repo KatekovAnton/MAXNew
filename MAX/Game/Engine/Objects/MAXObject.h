@@ -21,7 +21,8 @@ public:
     
     void SetPosition(const CCPoint& cell);
     CCPoint ObjectCell() const;
-    
+    CCPoint ObjectCoordinates() const;
+    CCPoint ObjectCenterCoordinates() const;
     static GLKMatrix4 MatrixForCell(const CCPoint& cell);
     static int CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget);
     

@@ -79,7 +79,7 @@ void MAXEngine::Init() {
     _director->setDisplayStats(true);
     _grid = new MAXGrid();
     _unitSelection = new MAXUnitSelection();
-    
+    _statusRenderer = MAXStatusRenderer::SharedStatusRenderer();
     _scene = NULL;
 }
 
@@ -185,6 +185,7 @@ void MAXEngine::Draw()
     DrawGrid();
     DrawUnits();
     _unitSelection->Draw();
+    _statusRenderer->DrawCircles();
     glUseProgram(prog);
     DrawInterface();
 }
@@ -228,7 +229,6 @@ void MAXEngine::DrawInterface()
 {
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     _director->mainLoop();
 }
 

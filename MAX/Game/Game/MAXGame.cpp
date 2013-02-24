@@ -67,6 +67,12 @@ void MAXGame::StartMatch()
 //    sub=grp_submarine.cfg#submarine.cfg
 //    pcan=grp_personnel_carrier.cfg#personnel_carrier.cfg
     _currentUnit = NULL;
+    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
+        unit1->SetRandomDirection();
+        unit1->LocateOnMap();
+    }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 53, "Constructor", 0);
         unit1->SetRandomDirection();
@@ -104,11 +110,6 @@ void MAXGame::StartMatch()
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(74, 45, "pcan", 0);
-        unit1->SetRandomDirection();
-        unit1->LocateOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
         unit1->SetRandomDirection();
         unit1->LocateOnMap();
     }
@@ -256,16 +257,16 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     }
     if (!_unitMoved)
     {
-        
-        
         if (newCurrentUnit && _currentUnit != newCurrentUnit)
         {
             _currentUnit = newCurrentUnit;
             engine->SelectUnit(_currentUnit->GetUnitObject());
+            _gameInterface->OnCurrentUnitChanged(newCurrentUnit);
         }
         
         if (!newCurrentUnit)
         {
+            _gameInterface->OnCurrentUnitChanged(NULL);
             engine->SelectUnit(NULL);
             _currentUnit = NULL;
         }

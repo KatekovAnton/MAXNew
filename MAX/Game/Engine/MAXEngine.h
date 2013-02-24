@@ -31,6 +31,7 @@ class MAXUnitSelection;
 class MAXMapObject;
 class MAXContentMap;
 class MAXUnitObject;
+class MAXStatusRenderer;
 
 class MAXEngine : public RequestDelegate  {
     
@@ -55,10 +56,6 @@ public:
     float displayw,displayh;
     bool drawGrid;
     
-    bool drawScan;
-    bool drawRange;
-    bool drawHealStatus;
-    bool drawShots;
     
     
     shared_ptr<MAXMapObject>            _map;
@@ -66,6 +63,7 @@ public:
     MAXCamera               *_camera;
     MAXGrid                 *_grid;
     MAXUnitSelection        *_unitSelection;
+    MAXStatusRenderer       *_statusRenderer;
     CCDirector              *_director;
     
     MAXEngine();

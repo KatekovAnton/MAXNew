@@ -48,22 +48,22 @@ void GameUnitParameters::CalcParams(int researchArea, bool &incrementVersion)
     int newResearchBonus = _upgradeManager_w->calcChangeByResearch (startValue, newResearchLevel,
                                                                                 researchArea == kCostResearch ? kCost : -1,
                                                                                 (_config_w->_isInfantry || _config_w->_isInfiltrator) ? PlayerUpgradeManager::kInfantry : PlayerUpgradeManager::kStandardUnit);
-    if (oldResearchBonus != newResearchBonus)
+    
+    switch (researchArea)
     {
-        switch (researchArea)
-        {
-            case kAttackResearch: _pAttack =    _config_w->_pAttack + newResearchBonus; break;
-            case kShotsResearch: _pShots =      _config_w->_pShots + newResearchBonus; break;
-            case kRangeResearch: _pRange =      _config_w->_pRange + newResearchBonus; break;
-            case kArmorResearch: _pArmor =      _config_w->_pArmor + newResearchBonus; break;
-            case kHitpointsResearch: _pHealth = _config_w->_pHealth + newResearchBonus; break;
-            case kScanResearch: _pScan =        _config_w->_pScan + newResearchBonus; break;
-            case kSpeedResearch: _pSpeed =      _config_w->_pSpeed + newResearchBonus; break;
-            case kCostResearch: _pCost =        _config_w->_pCost + newResearchBonus; break;
-        }
-        if (researchArea != kCostResearch)   // don't increment the version, if the only change are the costs
-            incrementVersion = true;
+        case kAttackResearch: _pAttack =    _config_w->_pAttack + newResearchBonus; break;
+        case kShotsResearch: _pShots =      _config_w->_pShots + newResearchBonus; break;
+        case kRangeResearch: _pRange =      _config_w->_pRange + newResearchBonus; break;
+        case kArmorResearch: _pArmor =      _config_w->_pArmor + newResearchBonus; break;
+        case kHitpointsResearch: _pHealth = _config_w->_pHealth + newResearchBonus; break;
+        case kScanResearch: _pScan =        _config_w->_pScan + newResearchBonus; break;
+        case kSpeedResearch: _pSpeed =      _config_w->_pSpeed + newResearchBonus; break;
+        case kCostResearch: _pCost =        _config_w->_pCost + newResearchBonus; break;
     }
+    _pAmmo = _config_w->_pAmmo;
+    if ((researchArea != kCostResearch) && (oldResearchBonus != newResearchBonus))   // don't increment the version, if the only change are the costs
+        incrementVersion = true;
+    
 }
 
 GameUnitParameters::~GameUnitParameters()

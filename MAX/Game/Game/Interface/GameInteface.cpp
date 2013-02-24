@@ -10,8 +10,11 @@
 #include "MAXContetnLoader.h"
 #include "Display.h"
 #include "CocosHelper.h"
+#include "GameUnit.h"
+#include "MAXEngine.h"
+#include "MAXStatusRenderer.h"
 
-float Scale= 1.0;
+float Scale = 1.0;
 
 CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fontSize, ccColor3B titleColor, string normal, string selected, CCObject* target, SEL_MenuHandler selector)
 {
@@ -41,14 +44,21 @@ CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fo
 
 bool GameInterface::ShouldReceiveTouch(int x, int y) const
 {
-    CCRect r = CCRect(0, 0, 70, 300);
+    CCRect r = CCRect(0, 0, 70, 320);
     return !r.containsPoint(CCPoint(x, y));
 }
 
 GameInterface::GameInterface()
 {
+    _lockUnits = false;
+    
     _drawGrid = false;
     _drawScan = false;
+   
+    _drawRange = false;
+    _drawShots = false;
+    _drawStatus = false;
+    
     Scale = Display::currentDisplay()->GetDisplayScale();
 }
 
@@ -79,9 +89,10 @@ void GameInterface::InitBaseInterface()
     _toggleStatusButton = createMenuItemFromMaxres("Status", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
     _toggleStatusButton->setPosition(ccp(bx,160));
     menu->addChild(_toggleStatusButton);
-  //  _toggleRangeButton;
-   // _toggleShotsButton;
-   // _toggleStatusButton;
+    
+    _toggleLockUnitsButton = createMenuItemFromMaxres("", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
+    _toggleLockUnitsButton->setPosition(ccp(bx,300));
+    menu->addChild(_toggleLockUnitsButton);
     
     
     
@@ -101,47 +112,69 @@ void GameInterface::InitBaseInterface()
 
 #pragma mark - Update left buttons
 
+void GameInterface::UpdateToggleLockUnitsButton()
+{
+    if(_lockUnits)
+        _toggleLockUnitsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("LOCK_ON"));
+    else
+        _toggleLockUnitsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("LOCK_OF"));
+}
+
 void GameInterface::UpdateToggleGridButton()
 {
     if(_drawGrid)
-        _toggleGridButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_ON")));
+        _toggleGridButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
     else
-        _toggleGridButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_OF")));
+        _toggleGridButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateToggleScanButton()
 {
     if(_drawScan)
-        _toggleScanButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_ON")));
+        _toggleScanButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
     else
-        _toggleScanButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_OF")));
+        _toggleScanButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateToggleRangeButton()
 {
     if(_drawRange)
-        _toggleRangeButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_ON")));
+        _toggleRangeButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
     else
-        _toggleRangeButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_OF")));
+        _toggleRangeButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateToggleShotsButton()
 {
     if(_drawShots)
-        _toggleShotsButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_ON")));
+        _toggleShotsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
     else
-        _toggleShotsButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_OF")));
+        _toggleShotsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateToggleStatusButton()
 {
     if(_drawStatus)
-        _toggleStatusButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_ON")));
+        _toggleStatusButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
     else
-        _toggleStatusButton->setNormalImage(CCSprite::createWithTexture(MAXSCL->CreateTexture2DFromSimpleImage("AMMO_OF")));
+        _toggleStatusButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 #pragma mark - Button events
+
+void GameInterface::OnToggleLockUnits()
+{
+    _lockUnits = !_lockUnits;
+    if (!_lockUnits) {
+        _lockedUnits.clear();
+        MAXStatusRenderer::SharedStatusRenderer()->ClearLockedUnits();
+        if (_currentUnit) {
+            _lockedUnits.push_back(_currentUnit);
+            MAXStatusRenderer::SharedStatusRenderer()->AddUnitToLock(_currentUnit->GetUnitObject());
+        }
+    }
+    UpdateToggleLockUnitsButton();
+}
 
 void GameInterface::OnToggleGrid()
 {
@@ -153,28 +186,77 @@ void GameInterface::OnToggleGrid()
 void GameInterface::OnToggleScan()
 {
     _drawScan = !_drawScan;
-    engine->drawScan = _drawScan;
+    MAXStatusRenderer::SharedStatusRenderer()->_drawScan = _drawScan;
     UpdateToggleScanButton();
 }
 
 void GameInterface::OnToggleRange()
 {
     _drawRange = !_drawRange;
-    engine->drawRange  = _drawRange;
+    MAXStatusRenderer::SharedStatusRenderer()->_drawRange  = _drawRange;
     UpdateToggleRangeButton();
 }
 
 void GameInterface::OnToggleShots()
 {
     _drawShots = !_drawShots;
-    engine->drawShots = _drawShots;
+    MAXStatusRenderer::SharedStatusRenderer()->_drawShots = _drawShots;
     UpdateToggleShotsButton();
 }
 
 void GameInterface::OnToggleStatus()
 {
     _drawStatus = !_drawStatus;
-    engine->drawHealStatus = _drawStatus;
+    MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
     UpdateToggleStatusButton();
+}
+
+#pragma mark - Game events
+
+bool AlreadyExist(GameUnit* object, vector<GameUnit*> *container)
+{
+    vector<GameUnit*>::iterator obj = find(container->begin(), container->end(), object);
+    return (obj != container->end());
+}
+
+void GameInterface::RemoveUnitFromLock(GameUnit* object)
+{
+    bool finded = true;
+    while (finded)
+    {
+        finded = false;
+        vector<GameUnit*>::iterator obj = find(_lockedUnits.begin(), _lockedUnits.end(), object);
+        if (obj != _lockedUnits.end())
+        {
+            _lockedUnits.erase(obj);
+            finded = true;
+        }
+    }
+    MAXStatusRenderer::SharedStatusRenderer()->RemoveUnitFromLock(object->GetUnitObject());
+}
+
+void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
+{
+    if (unit)
+    {
+        if (_currentUnit && !_lockUnits)
+            RemoveUnitFromLock(_currentUnit);
+        
+        vector<GameUnit*>::iterator obj = find(_lockedUnits.begin(), _lockedUnits.end(), unit);
+        if (obj == _lockedUnits.end())
+        {
+            _lockedUnits.push_back(unit);
+            MAXStatusRenderer::SharedStatusRenderer()->AddUnitToLock(unit->GetUnitObject());
+            _currentUnit = unit;
+        }
+    }
+    else
+    {
+        if (_currentUnit && !_lockUnits)
+            RemoveUnitFromLock(_currentUnit);
+    
+        _currentUnit = unit;
+    }
+    
 }
 

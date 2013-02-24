@@ -20,8 +20,7 @@ class MAXStatusRenderer
 public:
     
     
-    USimpleContainer<MAXUnitObject*> *_scanUnits;
-    USimpleContainer<MAXUnitObject*> *_rangeUnits;
+    vector<MAXUnitObject*> _scanRangeUnits_w;
     
     
     bool _drawScan;
@@ -35,6 +34,11 @@ public:
     
     void DrawUnitStatus(MAXUnitObject* unit);
     void DrawCircles();
+    
+    void SetLockedUnits(vector<MAXUnitObject*> objects);
+    void ClearLockedUnits();
+    void AddUnitToLock(MAXUnitObject* object);
+    void RemoveUnitFromLock(MAXUnitObject* object);
     
     static MAXStatusRenderer* SharedStatusRenderer();
     

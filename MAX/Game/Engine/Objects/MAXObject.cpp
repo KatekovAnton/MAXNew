@@ -33,6 +33,24 @@ CCPoint MAXObject::ObjectCell() const
     return result;
 }
 
+CCPoint MAXObject::ObjectCoordinates() const
+{
+    CCPoint result;
+    GLKMatrix4 transform = GetTransformMatrix();
+    result.x = 64.0 * (transform.m30 - 1 + engine->_map->mapW/2);
+    result.y = 64.0 * (-1.0 * (transform.m31 - engine->_map->mapH/2) - 1);
+    return result;
+}
+
+CCPoint MAXObject::ObjectCenterCoordinates() const
+{
+    CCPoint result;
+    GLKMatrix4 transform = GetTransformMatrix();
+    result.x = 64.0 * (transform.m30 - 1 + engine->_map->mapW/2) + 32.0;
+    result.y = 64.0 * (-1.0 * (transform.m31 - engine->_map->mapH/2) - 1) + 32.0;
+    return result;
+}
+
 int MAXObject::CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget)
 {
     CCPoint delta = CCPoint(floorf(cellTarget.x) - floorf(cellLocation.x), floorf(cellTarget.y) - floorf(cellLocation.y));

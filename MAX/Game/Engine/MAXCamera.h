@@ -21,7 +21,7 @@ class MAXCamera {
     GRect2D _bounds;
     float maxScale;
 public:
-    //devise display scale, retina = 2
+    //allways 1
     GLfloat _displayScale;
     
     bool changed;
