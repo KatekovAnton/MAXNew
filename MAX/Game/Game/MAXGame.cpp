@@ -176,11 +176,18 @@ void MAXGame::SetMap(string mapName)
 
 bool MAXGame::CanStartPinch(float x, float y)
 {
-    float _y = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale() - y;
-    
-    CCRect r = CCRect(0, 220, 130, 100);
-    return !r.containsPoint(CCPoint(x,_y));
-   // return _curretnState == MAXGAMESTATE_GAME;
+    switch (_curretnState)
+    {
+        case MAXGAMESTATE_GAME:
+        {
+            float _y = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale() - y;
+            return _gameInterface->ShouldReceiveTouch(x, _y);
+        }  break;
+            
+        default:
+            break;
+    }
+    return false;
 }
 
 void MAXGame::ProceedPinch(float scale)

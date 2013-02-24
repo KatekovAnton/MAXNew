@@ -24,11 +24,17 @@ class GameInterface : public CCScene
     CCMenuItemSprite* _toggleStatusButton;
     bool _drawGrid;
     bool _drawScan;
+    bool _drawRange;
+    bool _drawShots;
+    bool _drawStatus;
     
     
 public:
     
     bool GetDrawGrid() const {return _drawGrid;}
+    
+    bool ShouldReceiveTouch(int x, int y) const;
+    
     
     GameInterface();
     ~GameInterface();
@@ -37,9 +43,15 @@ public:
     
     void UpdateToggleGridButton();
     void UpdateToggleScanButton();
+    void UpdateToggleRangeButton();
+    void UpdateToggleShotsButton();
+    void UpdateToggleStatusButton();
     
     void OnToggleGrid();
     void OnToggleScan();
+    void OnToggleRange();
+    void OnToggleShots();
+    void OnToggleStatus();
 };
 
 #endif /* defined(__MAX__GameInteface__) */
