@@ -41,7 +41,7 @@ CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fo
 
 bool GameInterface::ShouldReceiveTouch(int x, int y) const
 {
-    CCRect r = CCRect(0, 0, 100, 300);
+    CCRect r = CCRect(0, 0, 70, 300);
     return !r.containsPoint(CCPoint(x, y));
 }
 
@@ -58,24 +58,26 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
+    float bx = 10;
+    
     _toggleGridButton = createMenuItemFromMaxres("Grid", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
-    _toggleGridButton->setPosition(ccp(20,280));
+    _toggleGridButton->setPosition(ccp(bx,280));
     CCMenu *menu = CCMenu::create(_toggleGridButton, nullptr);
     
     _toggleScanButton = createMenuItemFromMaxres("Scan", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleScan));
-    _toggleScanButton->setPosition(ccp(20,250));
+    _toggleScanButton->setPosition(ccp(bx,250));
     menu->addChild(_toggleScanButton);
     
     _toggleRangeButton = createMenuItemFromMaxres("Range", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleRange));
-    _toggleRangeButton->setPosition(ccp(20,220));
+    _toggleRangeButton->setPosition(ccp(bx,220));
     menu->addChild(_toggleRangeButton);
     
     _toggleShotsButton = createMenuItemFromMaxres("Shots", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleShots));
-    _toggleShotsButton->setPosition(ccp(20,190));
+    _toggleShotsButton->setPosition(ccp(bx,190));
     menu->addChild(_toggleShotsButton);
     
     _toggleStatusButton = createMenuItemFromMaxres("Status", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
-    _toggleStatusButton->setPosition(ccp(20,160));
+    _toggleStatusButton->setPosition(ccp(bx,160));
     menu->addChild(_toggleStatusButton);
   //  _toggleRangeButton;
    // _toggleShotsButton;
