@@ -18,8 +18,12 @@ using namespace cocos2d;
 class GameInterface : public CCScene
 {
     CCMenuItemSprite* _toggleGridButton;
+    CCMenuItemSprite* _toggleScanButton;
+    CCMenuItemSprite* _toggleRangeButton;
+    CCMenuItemSprite* _toggleShotsButton;
+    CCMenuItemSprite* _toggleStatusButton;
     bool _drawGrid;
-    
+    bool _drawScan;
     
     
 public:
@@ -31,9 +35,11 @@ public:
     
     void InitBaseInterface();
     
+    void UpdateToggleGridButton();
+    void UpdateToggleScanButton();
     
     void OnToggleGrid();
-    void UpdateToggleGridButton();
+    void OnToggleScan();
 };
 
 #endif /* defined(__MAX__GameInteface__) */

@@ -174,38 +174,18 @@ void MAXEngine::SelectUnit(MAXUnitObject* unit)
     _unitSelection->SelectUnit(unit);
 }
 
-void MAXEngine::DrawLine()
-{
-//    MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
-//    
-//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 1, 1);
-//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
-//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(10, 10), ccp(100, 100));
-//    
-//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
-//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
-//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(ccp(100, 100), ccp(30, 320));
-//    
-//    MAXDrawPrimitives::SharedDrawPrimitives()->_color = GLKVector4Make(1, 1, 0, 1);
-//    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor();
-//    MAXDrawPrimitives::SharedDrawPrimitives()->DrawCircle(CCPoint(100,100), 140,  1, 40, false);
-}
-
 void MAXEngine::Draw()
 {
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
-    glDisable(GL_CULL_FACE);
     GLint prog;
     glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
     DrawGround();
-    glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     DrawGrid();
     DrawUnits();
     _unitSelection->Draw();
     glUseProgram(prog);
-    glEnable(GL_DEPTH_TEST);
     DrawInterface();
 }
 
@@ -227,7 +207,7 @@ void MAXEngine::DrawGround()
 
 void MAXEngine::DrawUnits()
 {
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+   // glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
@@ -246,6 +226,9 @@ void MAXEngine::DrawUnits()
 
 void MAXEngine::DrawInterface()
 {
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     _director->mainLoop();
 }
 

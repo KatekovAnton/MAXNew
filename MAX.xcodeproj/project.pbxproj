@@ -180,6 +180,7 @@
 		8B8A452E16935951005C4ADA /* util_srb.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44E016935951005C4ADA /* util_srb.cfg */; };
 		8B8A452F16935951005C4ADA /* util_srope.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44E116935951005C4ADA /* util_srope.cfg */; };
 		8B8A453016935951005C4ADA /* util_syo.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44E216935951005C4ADA /* util_syo.cfg */; };
+		8B8C0CFC16DA54540077426D /* CocosHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C0CFA16DA54540077426D /* CocosHelper.cpp */; };
 		8B8EAA14168A17F30097CA74 /* MAXGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA12168A17F30097CA74 /* MAXGame.cpp */; };
 		8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */; };
 		8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA28168A27900097CA74 /* LevelObject.cpp */; };
@@ -516,6 +517,8 @@
 		8B8A44E016935951005C4ADA /* util_srb.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_srb.cfg; sourceTree = "<group>"; };
 		8B8A44E116935951005C4ADA /* util_srope.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_srope.cfg; sourceTree = "<group>"; };
 		8B8A44E216935951005C4ADA /* util_syo.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_syo.cfg; sourceTree = "<group>"; };
+		8B8C0CFA16DA54540077426D /* CocosHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CocosHelper.cpp; sourceTree = "<group>"; };
+		8B8C0CFB16DA54540077426D /* CocosHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosHelper.h; sourceTree = "<group>"; };
 		8B8EAA12168A17F30097CA74 /* MAXGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGame.cpp; sourceTree = "<group>"; };
 		8B8EAA13168A17F30097CA74 /* MAXGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGame.h; sourceTree = "<group>"; };
 		8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisplayPinchDelegate.cpp; sourceTree = "<group>"; };
@@ -1012,6 +1015,15 @@
 			name = Units;
 			sourceTree = "<group>";
 		};
+		8B8C0CF916DA54080077426D /* CocosHelper */ = {
+			isa = PBXGroup;
+			children = (
+				8B8C0CFA16DA54540077426D /* CocosHelper.cpp */,
+				8B8C0CFB16DA54540077426D /* CocosHelper.h */,
+			);
+			path = CocosHelper;
+			sourceTree = "<group>";
+		};
 		8B8EAA11168A17D70097CA74 /* Game */ = {
 			isa = PBXGroup;
 			children = (
@@ -1245,6 +1257,7 @@
 			children = (
 				8B7CA08C16C81FFD00282A74 /* cocos-ext.h */,
 				8B7CA08D16C81FFD00282A74 /* ExtensionMacros.h */,
+				8B8C0CF916DA54080077426D /* CocosHelper */,
 				8B7CA07F16C81F9F00282A74 /* CCScrollView */,
 				D18EDC5B168980E600EE3B4E /* cocos2dx.xcodeproj */,
 				D18EDC271689799400EE3B4E /* aharren-LibComponentLogging-Core-17e2940 */,
@@ -1922,6 +1935,7 @@
 				8B7E22B716D14BC200FE748B /* MAXSceneGraphNode.cpp in Sources */,
 				D19C065B16D531A60014A6BE /* MAXGameController.cpp in Sources */,
 				D132DC6116D7AC9800DEA269 /* MAXStatusRenderer.cpp in Sources */,
+				8B8C0CFC16DA54540077426D /* CocosHelper.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

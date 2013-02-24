@@ -83,6 +83,9 @@ public:
     MAXUnitObject* CreateUnit(MAXUnitConfig* unitConfig);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);
+    
+    
+    cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name);
 };
 
 #endif /* defined(__MAX__MAXContetnLoader__) */

@@ -19,6 +19,7 @@
 #include "EngineMesh.h"
 #include "MAXUnitConfig.h"
 #include "cocos2d.h"
+#include "Display.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -785,4 +786,12 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
 //
 }
 
+CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name)
+{
+    CCTexture2D* texture = CreateTexture2DFromSimpleImage(name);
+    CCSprite* result = CCSprite::createWithTexture(texture);
+   // result->setScale(Display::currentDisplay()->GetDisplayScale());
+    result->setAnchorPoint(ccp(0, 0));
+    return result;
+}
 

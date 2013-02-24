@@ -111,9 +111,9 @@ void MAXUnitSelection::Draw()
     if(time>1)
         time = 1;
 
-    glBlendFunc(GL_ONE, GL_SRC_ALPHA);
+  //  glBlendFunc(GL_ONE, GL_SRC_ALPHA);
     MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
-    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor(GLKVector4Make(140.0/255.0, 158.0/255.0, 0, time*time));
+    MAXDrawPrimitives::SharedDrawPrimitives()->BindColor(GLKVector4Make(140.0/255.0, 158.0/255.0, 0, 1.0 - time*time));
     MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(_screenpoints[0], _screenpoints[1]);
     MAXDrawPrimitives::SharedDrawPrimitives()->DrawLine(_screenpoints[1], _screenpoints[2]);
     

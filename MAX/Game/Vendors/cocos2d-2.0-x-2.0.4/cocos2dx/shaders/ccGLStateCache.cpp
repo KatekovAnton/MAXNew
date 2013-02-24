@@ -102,7 +102,7 @@ void ccGLUseProgram( GLuint program )
 void ccGLBlendFunc(GLenum sfactor, GLenum dfactor)
 {
 #if CC_ENABLE_GL_STATE_CACHE
-    if( sfactor != s_eBlendingSource || dfactor != s_eBlendingDest ) {
+    if( sfactor != s_eBlendingSource || dfactor != s_eBlendingDest) {
         s_eBlendingSource = sfactor;
         s_eBlendingDest = dfactor;
         glBlendFunc( sfactor, dfactor );

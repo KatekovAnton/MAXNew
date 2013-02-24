@@ -178,7 +178,7 @@ bool MAXGame::CanStartPinch(float x, float y)
 {
     float _y = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale() - y;
     
-    CCRect r = CCRect(0, 280, 130, 30);
+    CCRect r = CCRect(0, 220, 130, 100);
     return !r.containsPoint(CCPoint(x,_y));
    // return _curretnState == MAXGAMESTATE_GAME;
 }
