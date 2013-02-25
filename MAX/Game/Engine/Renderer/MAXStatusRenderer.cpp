@@ -90,7 +90,7 @@ void MAXStatusRenderer::DrawCircles()
             MAXUnitObject* object = *obj;
             MAXStatusRendererUnitDelegate* delegate = object->_statusDelegate_w;
             center = engine->WorldCoordinatesToScreenCocos(object->ObjectCenterCoordinates());
-            drawer->DrawCircle(center, delegate->GetScan() * oneCellRadius + oneCellRadius/2, 0, 30 + delegate->GetScan(), false);
+            drawer->DrawCircle(center, delegate->GetScan() * oneCellRadius + oneCellRadius * 0.49, 0, 30 + delegate->GetScan(), false);
         }
     }
     
@@ -106,12 +106,10 @@ void MAXStatusRenderer::DrawCircles()
             
             
             MAXStatusRendererUnitDelegate* delegate = object->_statusDelegate_w;
-            float mult = 0.5;
-            if (delegate->GetRange() == delegate->GetScan()) 
-                mult = 0.55;
+            
             
             center = engine->WorldCoordinatesToScreenCocos(object->ObjectCenterCoordinates());
-            drawer->DrawCircle(center, delegate->GetRange() * oneCellRadius + oneCellRadius * mult, 0, 30 + delegate->GetRange(), false);
+            drawer->DrawCircle(center, delegate->GetRange() * oneCellRadius + oneCellRadius * 0.52, 0, 30 + delegate->GetRange(), false);
         }
     }
 }

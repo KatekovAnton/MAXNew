@@ -199,6 +199,8 @@ void MAXUnitConfig::SetBalanceConfigValue(string key, string value)
         _pBulletType        = atoi(elements[13].c_str());
         _pSeparateCanon     = atoi(elements[14].c_str());
         _pMatPerTurn        = atoi(elements[15].c_str());
+        
+        _isAbleToFire = _pAttack != 0 && _pRange != 0 && _pAmmo != 0;
         return;
     }
     
