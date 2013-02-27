@@ -97,10 +97,10 @@ namespace Utils {
     void USimpleContainer<T>::addObject(const T& object) {
         if (_count == _currentSize) {
             T *tmp = _array;
-            _array = new T[_currentSize + _baseSize];
+            _currentSize = _currentSize + _baseSize;
+            _array = new T[_currentSize];
             for (int i = 0; i < _count; i++)
                 _array[i] = tmp[i];
-            _currentSize += _baseSize;
             delete [] tmp;
         }
         _array[_count] = object;
@@ -121,20 +121,26 @@ namespace Utils {
     template <class T>
     void USimpleContainer<T>::AddObjects(const USimpleContainer<T>* objects)
     {
-        if (_currentSize < objects->GetCount() + _count)
+        int newCount = _count + objects->GetCount();
+        if (_currentSize < newCount)
         {
+            int need = newCount - _currentSize;
+            int times = need/_baseSize;
+            if (times * _baseSize < need) 
+                times ++;
+            int newSize = _currentSize + _baseSize * times;
+            
             T *tmp = _array;
-            _array = new T[_count + _baseSize];
+            _array = new T[newSize];
             for (int i = 0; i < _count; i++)
                 _array[i] = tmp[i];
             
-            _currentSize = objects->GetCount() + _count + _baseSize;
+            _currentSize = newSize;
             delete [] tmp;
         }
-        for (int i = 0; i < objects->GetCount(); i++)
-            _array[_count + i] = objects->objectAtIndex(i);
+        memcpy(_array + _count, objects->_array, objects->GetCount() * sizeof(T));
         
-        _count += objects->GetCount();
+        _count = newCount;
     }
 }
 
