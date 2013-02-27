@@ -255,8 +255,8 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
         if (_currentUnit && !_lockUnits)
             RemoveUnitFromLock(_currentUnit);
     
-        _currentUnit = unit;
     }
+    _currentUnit = unit;
     
 }
 
