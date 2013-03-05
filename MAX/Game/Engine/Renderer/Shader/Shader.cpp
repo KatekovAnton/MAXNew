@@ -162,12 +162,12 @@ bool Shader::LoadShaderWin(string vertexName, string fragmentName)
 	{
 		infoLog = (GLcharARB *)malloc(len * sizeof(GLcharARB));
 		glGetInfoLogARB(shaderProgram, len, NULL, infoLog);
-		std::cout << "Ëîã øåéäåðíîé ïðîãðàììû:" << std::endl << infoLog << std::endl;
+		std::cout << "Ã€Ã“â€ž Â¯Ã‚Ãˆâ€°Ã‚ï£¿ÃŒÃ“Ãˆ Ã”ï£¿Ã“â€žï£¿â€¡ÃÃËš:" << std::endl << infoLog << std::endl;
 		free((void *)infoLog);
 	}
 	if (result != GL_TRUE)
 	{
-		std::cout << "Îøèáêà ëèíêîâêè øåéäåðíîé ïðîãðàììû '" << vertexName.c_str() << "', '" << fragmentName.c_str() << "'!" << std::endl;
+		std::cout << "Å’Â¯Ã‹Â·Ãâ€¡ ÃŽÃ‹ÃŒÃÃ“â€šÃÃ‹ Â¯Ã‚Ãˆâ€°Ã‚ï£¿ÃŒÃ“Ãˆ Ã”ï£¿Ã“â€žï£¿â€¡ÃÃËš '" << vertexName.c_str() << "', '" << fragmentName.c_str() << "'!" << std::endl;
 		std::cout << std::endl;
 		glDeleteObjectARB(shaderProgram);
 		return 0;
@@ -210,7 +210,7 @@ bool Shader::LoadShader(const string& vertexName, const string& fragmentName)
     glBindAttribLocation(_program, ATTRIB_COEFFICIENTS, "coefficients");
     
     // Link program.
-    if (!LinkProgram(_program))
+    if (!LinkProgram(_program, vertexName, fragmentName))
     {
         cout << "Failed to link program: " << _program << endl;
         
@@ -278,7 +278,7 @@ bool Shader::CompileShader(GLuint *shader, GLenum type, string file) {
     {
         GLchar *log = (GLchar *)malloc(logLength);
         glGetShaderInfoLog(*shader, logLength, &logLength, log);
-        cout << "Shader compile log: \n " << log << endl;
+        cout << "Shader " <<file.c_str() << " compile log: \n " << log << endl;
         free(log);
     }
     
@@ -294,11 +294,11 @@ bool Shader::CompileShader(GLuint *shader, GLenum type, string file) {
     return true;
 }
 
-bool Shader::LinkProgram(GLuint program) {
+bool Shader::LinkProgram(GLuint program, const string& vname, const string& fname) {
     
     GLint status;
     glLinkProgram(program);
-    
+    //
 #if defined(DEBUG)
     GLint logLength;
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
@@ -306,7 +306,7 @@ bool Shader::LinkProgram(GLuint program) {
     {
         GLchar *log = (GLchar *)malloc(logLength);
         glGetProgramInfoLog(program, logLength, &logLength, log);
-        cout << "Program link log: \n " << log << endl;
+        cout << "Program " << vname.c_str() << "/" <<fname.c_str() << " link log: \n" << log << endl;
         free(log);
     }
 #endif

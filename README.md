@@ -44,15 +44,67 @@ Coming soon.
 You need to add Seedr library and its header files to your project to get acces to Seedr. 
 First you need is open Project Navigator in your XCode project and open Seedr SDK folder with Finder.
 
-![](http://dl.dropbox.com/u/14190809/seedr1.png)
+![](https://s3-eu-west-1.amazonaws.com/static.seedr.ru/ios-step-1.png)
 
 
 Add the Seedr SDK for iOS into your project by dragging the Seedr SDK folder from Finder into the Frameworks section of your Project Navigator.
 
-![](http://dl.dropbox.com/u/14190809/seedr2.png)
+![](https://s3-eu-west-1.amazonaws.com/static.seedr.ru/ios-step-2.png)
 
 Choose 'Create groups for any added folders'. There is no matter for you in enable or disable 'Copy items into destination group's folder (if needed)'-option - if it is selected, Xcode will keep the reference to the SDK installation folder. If not - it will means Xcode will create a copy.
 
-![](http://dl.dropbox.com/u/14190809/seedr3.png)
+![](https://s3-eu-west-1.amazonaws.com/static.seedr.ru/ios-step-3.png)
 
 <br>
+###  Step 5. Initialize Seedr
+
+
+Incorporate the following two lines of Seedr code: 
+
+<!-- language: objective-c -->
+	#import "Seedr.h"
+	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+	{	
+		[[Seedr instance] startSessionWithApiKey:@"YOUR_API_KEY"];
+		// Pointer to your rootViewController
+		[[Seedr instance] initialize:self.window.rootViewController];
+		// Your code
+	}
+
+Ad shows as popup with video. You should request ad beforehand.
+<!-- language: objective-c -->
+ 	- (void)viewWillAppear:(BOOL)animated {
+		[super viewWillAppear:animated];
+ 
+		// Register yourself as a delegate for ad callbacks
+		[[Seedr instance] setDelegate:self];
+ 
+		// Fetch ads early when a later display is likely. For 
+		// example, at the beginning of a level. 
+		[[Seedr instance] requestAdForSpace:@”SEEDR_DEFAULTSPACE”];
+	}
+
+You will be notified when ad is ready by calling delegate meth
+<!-- language: objective-c -->
+	- (void)onReceivedAdForSpace:(NSString*)space;
+
+
+Invoke a takeover at a natural pause in your app. For example, when a level is completed, an article is read or a button is pressed.
+<!-- language: objective-c -->
+	- (void)showAd
+	{
+		// Check if ad is ready. If so, display the ad
+    		if ([[Seedr instance] isAdAvailableForSpace:SEEDR_DEFAULTSPACE])
+    		{
+        		[[Seedr instance] showAdForSpace:SEEDR_DEFAULTSPACE presentType:SeedrPresentTypeCustom];
+    		}
+	}
+
+Use callbacks to track app state.
+<!-- language: objective-c -->
+	// use it for pause your app
+	- (void)adWillPresent:(NSString *)space;
+	// use it for resume your app
+	- (void)adDidDismiss:(NSString *)space;
+	// use it for reward user after playing video
+	- (void)rewardForSpace:(NSString *)space;

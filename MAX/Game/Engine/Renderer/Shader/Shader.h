@@ -64,7 +64,7 @@ class Shader {
 	GLchar* LoadShaderSource(const char *filename);
 
     bool CompileShader(GLuint *shader, GLenum type, string file);
-    bool LinkProgram(GLuint program);
+    bool LinkProgram(GLuint program, const string& vname, const string& fname);
     bool ValidateProgram(GLuint program);
     
 public:
