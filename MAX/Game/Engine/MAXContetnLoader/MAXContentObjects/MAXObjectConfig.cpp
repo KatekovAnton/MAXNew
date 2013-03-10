@@ -269,6 +269,12 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
 
 }
 
+MAXObjectConfig::MAXObjectConfig()
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
+{
+    
+}
+
 MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfigName)
 :_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
 {
@@ -307,8 +313,6 @@ MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfig
     _isShip = _bMoveType == 4;
     _haveShadow = _shadowName != "";
 }
-
-
 
 bool MAXObjectConfig::IsValid() const
 {

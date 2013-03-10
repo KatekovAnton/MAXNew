@@ -8,7 +8,6 @@
 
 #include "GameEffect.h"
 #include "MAXEffectObject.h"
-#include "MAXObjectConfig.h"
 
 //-подложка под большое здание                                                  LRGSLAB	mult
 //-подложка под маленькое здание                                                SMLSLAB	mult
@@ -23,12 +22,15 @@
 //-взрыв на море                                                                SEAEXPLD
 //-взрыв на земле                                                               LNDEXPLD
 //-взрыв от здания                                                              BLDEXPLD
-//-все виды ракет(воздушная наземная итд или там везде один?)                   ROCKET
-//-дым от ракеты                                                                RKTSMOKE
-//-торпеда                                                                      TORPEDO
-//-пузыри от торпеды                                                            TRPBUBLE
-//-плазма                                                                       ALNABALL
 //-мелкий взрыв(эффект попадания в неуничтоженный объект)                       HITEXPLD
+
+//-дым от ракеты                                                                RKTSMOKE
+//-пузыри от торпеды                                                            TRPBUBLE
+
+//-торпеда                                                                      TORPEDO
+//-все виды ракет(воздушная наземная итд или там везде один?)                   ROCKET
+//-плазма                                                                       ALNABALL
+
 //контроллер реализует поведение эффекта-
 //залупленный многоразовый эфект для например маркеров выхода,
 //либо такйже точно залупленный но одноразовый для взрывов и дыма,
@@ -45,8 +47,31 @@ GameEffect* CreateBlast(BLAST_TYPE type)
     return NULL;
 }
 
-GameEffect* CreateBullet(BULLET_TYPE type)
+GameEffect* CreateBullet(BULLET_TYPE type, OBJECT_LEVEL level)
 {
+    string effectName = "ALNABALL";
+    switch (type) {
+        case BULLET_TYPE_ROCKET:
+            effectName = "ROCKET";
+            break;
+        case BULLET_TYPE_TORPEDO:
+            effectName = "TORPEDO";
+            break;
+        default:
+            break;
+    }
+    
+    MAXObjectConfig* unit = new MAXObjectConfig();// MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
+    unit->_bLevel = level;
+    
+//    GameUnit* result = new GameUnit(MAXSCL->CreateUnit(unit), params, this);
+//    result->SetLocation(CCPoint(posx, posy));
+//    result->CheckBodyAndShadow();
+//    _units.addObject(result);
+//    return result;
+    
+    
+    
     return NULL;
 }
 
@@ -75,3 +100,6 @@ void GameEffect::OnAnimationUpdate(MAXAnimationBase* animation)
 
 void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
 {}
+
+
+

@@ -12,6 +12,7 @@
 #include <iostream>
 #include "GameObject.h"
 #include "MAXAnimationDelegate.h"
+#include "MAXObjectConfig.h"
 
 typedef enum
 {
@@ -68,7 +69,7 @@ public:
 
 #pragma mark - creation
     static GameEffect* CreateBlast(BLAST_TYPE type);
-    static GameEffect* CreateBullet(BULLET_TYPE type);
+    static GameEffect* CreateBullet(BULLET_TYPE type, OBJECT_LEVEL level);
     static GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type);
     static GameEffect* CreateTrash(TRASH_TYPE type);
     static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type);

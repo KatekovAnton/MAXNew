@@ -26,7 +26,7 @@ class EngineMesh;
 
 class MAXUnitObject;
 class MAXObjectConfig;
-
+class MAXEffectObject;
 
 struct typhdr
 {
@@ -79,7 +79,8 @@ public:
 #pragma mark - memory
     void ClearImageCache();
     
-#pragma mark - fabric
+#pragma mark - creation
+    MAXEffectObject* CreateEffect(MAXObjectConfig* effectConfig, float size);
     MAXUnitObject* CreateUnit(MAXObjectConfig* unitConfig);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);

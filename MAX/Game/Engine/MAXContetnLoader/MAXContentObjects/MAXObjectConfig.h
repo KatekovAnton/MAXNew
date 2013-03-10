@@ -211,7 +211,7 @@ public:
     bool _isMultifire;
     bool _isAmphibious;
     
-    
+    MAXObjectConfig();
     MAXObjectConfig(string balanceConfigName, string resourceConfigName);
     bool IsValid() const;
     

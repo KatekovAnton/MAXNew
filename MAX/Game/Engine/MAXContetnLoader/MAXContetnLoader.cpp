@@ -15,6 +15,7 @@
 #include "MAXUnitMaterial.h"
 #include "MAXUnitRenderObject.h"
 #include "MAXUnitObject.h"
+#include "MAXEffectObject.h"
 #include "Sys.h"
 #include "EngineMesh.h"
 #include "MAXObjectConfig.h"
@@ -611,30 +612,34 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     
     MAXUnitMaterial* result  = new MAXUnitMaterial();
     
-    int shadowIndex = FindImage(shadowName);
-    char *data;
-    char *shadowData;
     
     inf->SetPosition(dir[index].offset);
-    data = (char*)malloc(dir[index].size);
+    char *data = (char*)malloc(dir[index].size);
     inf->ReadBuffer(dir[index].size, data);
-    
-    inf->SetPosition(dir[shadowIndex].offset);
-    shadowData = (char*)malloc(dir[shadowIndex].size);
-    inf->ReadBuffer(dir[shadowIndex].size, shadowData);
-    
     BinaryReader* dataReader = new BinaryReader(data, dir[index].size);
-    BinaryReader* shadowDataReader = new BinaryReader(shadowData, dir[shadowIndex].size);
     long baseOffset = 0;//inf->GetPosition();
-    long shadowBaseOffset = 0;//inf->GetPosition();
-    
     short picCount = dataReader->ReadInt16();
-    short shadowPicCount = shadowDataReader->ReadInt16();
     int* picbounds = new int[picCount];
-    int* shadowPicbounds = new int[shadowPicCount];
     dataReader->ReadBuffer(picCount*4, (char*) picbounds);
-    shadowDataReader->ReadBuffer(shadowPicCount*4, (char*) shadowPicbounds);
     
+    short shadowPicCount = 0;
+    long shadowBaseOffset = 0;
+    char *shadowData = NULL;
+    int* shadowPicbounds = NULL;
+    BinaryReader* shadowDataReader = NULL;
+    if (shadowName != "")
+    {
+        int shadowIndex = FindImage(shadowName);
+        inf->SetPosition(dir[shadowIndex].offset);
+        shadowData = (char*)malloc(dir[shadowIndex].size);
+        inf->ReadBuffer(dir[shadowIndex].size, shadowData);
+        shadowDataReader = new BinaryReader(shadowData, dir[shadowIndex].size);
+        shadowBaseOffset = 0;//inf->GetPosition();
+        shadowPicCount = shadowDataReader->ReadInt16();
+        shadowPicbounds = new int[shadowPicCount];
+        shadowDataReader->ReadBuffer(shadowPicCount*4, (char*) shadowPicbounds);
+    }
+
     result ->SetImagesCount(picCount, shadowPicCount);
     for (int picIndex = 0; picIndex < picCount; picIndex++)
     {
@@ -650,16 +655,19 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     
 
     delete []picbounds;
-    delete []shadowPicbounds;
     delete dataReader;
-    delete shadowDataReader;
     free(data);
-    free(shadowData);
-    
+    if (shadowName != "")
+    {
+        delete []shadowPicbounds;
+        delete shadowDataReader;
+        free(shadowData);
+    }
     return result;
 }
 
 #pragma mark - memory
+
 void MAXContentLoader::ClearImageCache()
 {
     
@@ -675,6 +683,16 @@ MAXUnitObject* MAXContentLoader::CreateUnit(MAXObjectConfig* unitConfig)
     if (unitConfig->_isPlane) {
         result->_bbsize = GLKVector2Make(2, 2);
     }
+    return result;
+}
+
+MAXEffectObject* MAXContentLoader::CreateEffect(MAXObjectConfig* effectConfig, float size)
+{
+    MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(effectConfig->_bodyName, "");
+    MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
+    MAXEffectObject* result = new MAXEffectObject(renderObject, material, effectConfig);
+    result->_bbsize = GLKVector2Make(size, size);
+    
     return result;
 }
 

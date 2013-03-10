@@ -12,11 +12,17 @@
 #include <iostream>
 #include "MAXObject.h"
 
+class MAXUnitRenderObject;
+class MAXUnitMaterial;
+class Texture;
+
 class MAXEffectObject : public MAXObject {
     
 public:
     
     int _frameCount;
+    
+    MAXEffectObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config);
     
     void SetEffectFrame(int frame);
 };
