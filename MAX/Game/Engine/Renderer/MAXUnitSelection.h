@@ -12,11 +12,11 @@
 #include <iostream>
 #include "miniPrefix.h"
 
-class MAXUnitObject;
+class MAXObject;
 
 class MAXUnitSelection {
     
-    MAXUnitObject* _selectedUnit_w;
+    MAXObject* _selectedUnit_w;
     
     double _animStartTime;
     
@@ -31,8 +31,8 @@ public:
     MAXUnitSelection();
     ~MAXUnitSelection();
     
-    void SelectUnit(MAXUnitObject* unit);
-    void DeselectUnit(MAXUnitObject* unit);
+    void SelectUnit(MAXObject* unit);
+    void DeselectUnit(MAXObject* unit);
     
     void Update();
     void Draw();

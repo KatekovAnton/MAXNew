@@ -20,6 +20,7 @@ using namespace std;
 class EngineMesh;
 class Framebuffer;
 class PivotObject;
+class MAXObject;
 class RenderSystem;
 class Shader;
 class SceneSystem;
@@ -72,9 +73,9 @@ public:
     void Init();
     void EngineMain();
     
-    void SelectUnit(MAXUnitObject* unit);
-    void AddUnit(MAXUnitObject* newUnit);
-    void RemoveUnit(MAXUnitObject* newUnit);
+    void SelectUnit(MAXObject* unit);
+    void AddUnit(PivotObject* newUnit);
+    void RemoveUnit(PivotObject* newUnit);
     
     void RunLoop(double delta);
     

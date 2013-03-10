@@ -77,7 +77,7 @@ compareFunc MAXUnitObject::GetCompareFunc()
 }
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
-:_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0), _statusDelegate_w(NULL)
+:_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0), _statusDelegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0)
 {
     
     _needAirOffset = config->_isPlane;
@@ -87,11 +87,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     
     _random = nextDoubleMax(1000);
     _playerId = 0;
-    bodyIndex = 2;
-    headIndex = 9+8;
-    
-    purebodyIndex = 2;
-    pureheadIndex = 1;
+
     
     bodyOffset = 0;
     headOffset = IsHasBody()?8:0;
@@ -124,7 +120,7 @@ void MAXUnitObject::LastUpdate()
     headRenderMatrix = CalculateHeadRenderMatrix();
 }
 
-GLKVector2 MAXUnitObject::CalculateAirOffset()
+GLKVector2 MAXUnitObject::CalculateAirOffset() const
 {
     double elapsedTime = engine->FullTime() - GetSceneLocationTime() + _random;
     double loopTime = elapsedTime - (int)(elapsedTime/(double)LOOPTIME) * LOOPTIME;
@@ -136,7 +132,7 @@ GLKVector2 MAXUnitObject::CalculateAirOffset()
     return GLKVector2Make(planeOffsets[deltaPhase/2].x * deltaMove, planeOffsets[deltaPhase/2].y * deltaMove);
 }
 
-GLKVector2 MAXUnitObject::CalculateShipOffset()
+GLKVector2 MAXUnitObject::CalculateShipOffset() const
 {
     double elapsedTime = engine->FullTime() - GetSceneLocationTime() + _random;
     elapsedTime *= 0.25;
@@ -149,6 +145,15 @@ GLKVector2 MAXUnitObject::CalculateShipOffset()
     return GLKVector2Make(shipOffsets[deltaPhase/2].x * deltaMove, shipOffsets[deltaPhase/2].y * deltaMove);
 }
 
+GLKVector2 MAXUnitObject::GetDeltaPosition() const
+{
+    if (_needAirOffset) 
+        return CalculateAirOffset();
+    if (_needShipOffset)
+        return CalculateShipOffset();
+    return MAXObject::GetDeltaPosition();
+    
+}
 
 GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
 {

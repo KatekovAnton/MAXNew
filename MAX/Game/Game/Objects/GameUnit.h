@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include "GameObject.h"
-#include "cocos2d.h"
 #include "MAXAnimationDelegate.h"
 #include "MAXStatusRendererUnitDelegate.h"
 
@@ -31,32 +30,26 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     
     MAXAnimationObjectUnit* _moveAnimation;
     MAXAnimationBase* _currentTopAnimation;
-    CCPoint _unitCell;
-    MAXUnitObject* _unitObject;
     
-    void CheckBodyAndShadow();
     
 public:
     
     GameMatchPlayer *_owner_w;
-    
-    bool _detected;
-    bool _onMap;
-    
     GameUnitParameters* _config;
     
-    MAXUnitObject* GetUnitObject() const {return _unitObject;};
-    CCPoint GetUnitCell() const {return _unitCell;};
+    bool _detected;
+    MAXUnitObject* GetUnitObject() const {return (MAXUnitObject*) GetObject(); };
     
     GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner);
     ~GameUnit();
     
-    void LocateOnMap();
-    void RemoveFromMap();
+    
+    void CheckBodyAndShadow();
+    void SetUnitLocationAnimated(const CCPoint& destination);
+    
     void LowerPlane();
     void LiftPlane();
     void Fire(const CCPoint& target);
-    void SetUnitLocation(const CCPoint& cell, const bool animated);
     void SetDirection(int dir);
     void SetRandomDirection();
     

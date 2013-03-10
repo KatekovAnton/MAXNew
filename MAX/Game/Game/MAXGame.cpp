@@ -92,17 +92,7 @@ void MAXGame::StartMatch()
         GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 47, "Corvette", 0);
         unit1->SetRandomDirection();
         unit1->LocateOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 60, "Dozer", 0);
-        unit1->SetRandomDirection();
-        unit1->LocateOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 58, "Engineer", 0);
-        unit1->SetRandomDirection();
-        unit1->LocateOnMap();
-    }
+    } 
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(47, 49, "Escort", 0);
         unit1->SetRandomDirection();
@@ -260,7 +250,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             
             if (CanMove(unitMoveType, groundType, newCurrentUnit != NULL))
             {
-                _currentUnit->SetUnitLocation(p, true);
+                _currentUnit->SetUnitLocationAnimated(p);
                 _unitMoved = true;
             }
         }

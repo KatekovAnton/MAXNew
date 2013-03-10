@@ -93,13 +93,13 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
     _scene = new SceneSystem(_map.get());
 }
 
-void MAXEngine::AddUnit(MAXUnitObject* newUnit)
+void MAXEngine::AddUnit(PivotObject* newUnit)
 {
     _scene->AddObject(newUnit, true);
     newUnit->HasBeenLocatedToScene();
 }
 
-void MAXEngine::RemoveUnit(MAXUnitObject* newUnit)
+void MAXEngine::RemoveUnit(PivotObject* newUnit)
 {
     _scene->RemoveObject(newUnit);
     newUnit->HasBeenRemovedFromScene();
@@ -169,7 +169,7 @@ void MAXEngine::Update()
     _unitSelection->Update();
 }
 
-void MAXEngine::SelectUnit(MAXUnitObject* unit)
+void MAXEngine::SelectUnit(MAXObject* unit)
 {
     _unitSelection->SelectUnit(unit);
 }

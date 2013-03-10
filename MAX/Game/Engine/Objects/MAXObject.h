@@ -23,6 +23,9 @@ public:
     CCPoint ObjectCell() const;
     CCPoint ObjectCoordinates() const;
     CCPoint ObjectCenterCoordinates() const;
+    
+    virtual GLKVector2 GetDeltaPosition() const;
+    
     static GLKMatrix4 MatrixForCell(const CCPoint& cell);
     static int CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget);
     

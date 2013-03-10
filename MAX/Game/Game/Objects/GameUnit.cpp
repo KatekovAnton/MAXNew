@@ -22,12 +22,12 @@
 using namespace cocos2d;
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner)
-:_unitObject(unitObject), _currentTopAnimation(NULL), _config(config), _owner_w(owner)
+:GameObject(unitObject), _currentTopAnimation(NULL), _config(config), _owner_w(owner)
 {
-    _unitObject->_playerId = owner->_playerInfo._playerId;
-    _unitObject->_playerPalette_w = owner->_palette;
-    _unitObject->_statusDelegate_w = this;
-    _unitObject->_needShadow = !_config->GetCongig()->_isUnderwater;
+    unitObject->_playerId = owner->_playerInfo._playerId;
+    unitObject->_playerPalette_w = owner->_palette;
+    unitObject->_statusDelegate_w = this;
+    unitObject->_needShadow = !_config->GetCongig()->_isUnderwater;
     _onMap = false;
     _detected = false;
 }
@@ -39,6 +39,7 @@ GameUnit::~GameUnit()
 
 void GameUnit::SetDirection(int dir)
 {
+    MAXUnitObject* _unitObject = GetUnitObject();
     _unitObject->SetBodyDirection(dir);
     _unitObject->SetHeadDirection(dir);
 }
@@ -54,6 +55,7 @@ void GameUnit::CheckBodyAndShadow()
         return;
     
     
+    MAXUnitObject* _unitObject = GetUnitObject();
     char groundType = _owner_w->_match_w->_map->GroundTypeAtPoint(_unitCell);
     if (groundType == GROUND_TYPE_WATER)
     {
@@ -87,66 +89,38 @@ void GameUnit::CheckBodyAndShadow()
     
 }
 
-void GameUnit::LocateOnMap()
-{
-    if (_onMap) 
-        return;
-    _onMap = true;
-    
-    engine->AddUnit(_unitObject);
-}
-
-void GameUnit::RemoveFromMap()
-{
-    if (!_onMap)
-        return;
-    _onMap = false;
-    
-    engine->RemoveUnit(_unitObject);
-}
-
 void GameUnit::LowerPlane()
 {}
 
 void GameUnit::LiftPlane()
 {}
 
-void GameUnit::SetUnitLocation(const CCPoint& destination, bool animated)
+void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
 {
-    if (animated && _currentTopAnimation) {
+    if (_currentTopAnimation) 
         return;
-    }
     
-    if(!animated)
+    MAXUnitObject* _unitObject = GetUnitObject();
+    int neededBodyIndex = MAXObject::CalculateImageIndex(_unitCell, destination);
+    MAXAnimationSequence* sequence = new MAXAnimationSequence();
+    sequence->_delegate = this;
+    if (neededBodyIndex != _unitObject->GetBodyIndex())
     {
-        _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, destination));
-        _unitCell = destination;
-        _unitObject->SetPosition(destination);
-        CheckBodyAndShadow();
+        MAXAnimationObjectUnit* step1 = new MAXAnimationObjectUnit(neededBodyIndex, _unitObject->GetPureHeadIndex(), _unitObject);
+        sequence->AddAnimation(step1);
     }
-    else
-    {
-        int neededBodyIndex = MAXObject::CalculateImageIndex(_unitCell, destination);
-        MAXAnimationSequence* sequence = new MAXAnimationSequence();
-        sequence->_delegate = this;
-        //_unitObject->SetBodyDirection(neededBodyIndex);
-        if (neededBodyIndex != _unitObject->GetBodyIndex())
-        {
-            MAXAnimationObjectUnit* step1 = new MAXAnimationObjectUnit(neededBodyIndex, _unitObject->GetPureHeadIndex(), _unitObject);
-            sequence->AddAnimation(step1);
-        }
-        MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _unitObject);
-        step2->_delegate = this;
-        sequence->AddAnimation(step2);
-        _moveAnimation = step2;
+    MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _unitObject);
+    step2->_delegate = this;
+    sequence->AddAnimation(step2);
+    _moveAnimation = step2;
     
-        MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
-        _currentTopAnimation = sequence;
-    }
+    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
+    _currentTopAnimation = sequence;
 }
 
 void GameUnit::Fire(const cocos2d::CCPoint &target)
 {
+    MAXUnitObject* _unitObject = GetUnitObject();
     if(!_config->GetCongig()->_isAbleToFire)
         return;
     if(_unitObject->GetFireing())

@@ -72,6 +72,8 @@ public:
     bool _needShipOffset;
     bool _needShadow;
     
+    virtual GLKVector2 GetDeltaPosition() const;
+    
     bool GetFireing() const {return fireing;};
     int GetBodyIndex() const {return bodyIndex - bodyOffset;};
     int GetHeadIndex() const {return headIndex;};
@@ -101,8 +103,8 @@ public:
     GLKMatrix4 CalculateShadowRenderMatrix();
     GLKMatrix4 CalculateBodyRenderMatrix();
     GLKMatrix4 CalculateHeadRenderMatrix();
-    GLKVector2 CalculateAirOffset();
-    GLKVector2 CalculateShipOffset();
+    GLKVector2 CalculateAirOffset() const;
+    GLKVector2 CalculateShipOffset() const;
     
     void SetBodyDirection(int state);
     void SetHeadDirection(int state);

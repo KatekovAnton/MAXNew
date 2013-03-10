@@ -47,7 +47,8 @@ GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned
     MAXUnitConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
     GameUnitParameters* params = new GameUnitParameters(unit, _clanConfig, _researchManager, _upgradeManager);
     GameUnit* result = new GameUnit(MAXSCL->CreateUnit(unit), params, this);
-    result->SetUnitLocation(CCPoint(posx, posy), false);
+    result->SetLocation(CCPoint(posx, posy));
+    result->CheckBodyAndShadow();
     _units.addObject(result);
     return result;
 }

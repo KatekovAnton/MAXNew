@@ -51,6 +51,11 @@ CCPoint MAXObject::ObjectCenterCoordinates() const
     return result;
 }
 
+GLKVector2 MAXObject::GetDeltaPosition() const
+{
+    return GLKVector2Make(0, 0);
+}
+
 int MAXObject::CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget)
 {
     CCPoint delta = CCPoint(floorf(cellTarget.x) - floorf(cellLocation.x), floorf(cellTarget.y) - floorf(cellLocation.y));

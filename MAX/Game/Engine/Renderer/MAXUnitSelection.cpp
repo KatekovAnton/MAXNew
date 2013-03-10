@@ -35,7 +35,7 @@ MAXUnitSelection::MAXUnitSelection()
 MAXUnitSelection::~MAXUnitSelection()
 {}
 
-void MAXUnitSelection::SelectUnit(MAXUnitObject* unit)
+void MAXUnitSelection::SelectUnit(MAXObject* unit)
 {
     if (unit)
     {
@@ -49,7 +49,7 @@ void MAXUnitSelection::SelectUnit(MAXUnitObject* unit)
     }
 }
 
-void MAXUnitSelection::DeselectUnit(MAXUnitObject* unit)
+void MAXUnitSelection::DeselectUnit(MAXObject* unit)
 {
     _selectedUnit_w = NULL;
     _unitSelected = false;
@@ -70,11 +70,10 @@ void MAXUnitSelection::Update()
     //deltaD *= 0.5;
     //GLKMatrix4 matrix = _selectedUnit->GetTransformMatrix();
     CCPoint point = _selectedUnit_w->ObjectCell();
-    if (_selectedUnit_w->params_w->_isPlane) {
-        GLKVector2 po = _selectedUnit_w->CalculateAirOffset();
-        point.x += po.x;
-        point.y -= po.y;
-    }
+    GLKVector2 delta = _selectedUnit_w->GetDeltaPosition();
+    point.x += delta.x;
+    point.y -= delta.y;
+    
     point.x = point.x * 64.0 + 32.0;
     point.y = point.y * 64.0 + 32.0;
     _globalPoints[1].x = point.x - deltaD; _globalPoints[1].y = point.y - deltaD;
