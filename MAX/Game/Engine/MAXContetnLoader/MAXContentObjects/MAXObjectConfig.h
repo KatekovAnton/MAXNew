@@ -1,28 +1,28 @@
 //
-//  MAXUnitConfig.h
+//  MAXObjectConfig.h
 //  MAX
 //
 //  Created by Anton Katekov on 07.02.13.
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
-#ifndef __MAX__MAXUnitConfig__
-#define __MAX__MAXUnitConfig__
+#ifndef __MAX__MAXObjectConfig__
+#define __MAX__MAXObjectConfig__
 
 #include <iostream>
 #include "miniPrefix.h"
 
 typedef enum
 {
-    UNIT_LEVEL_UNDERWATER   = 0,
-    UNIT_LEVEL_ONGROUND     = 1,
-    UNIT_LEVEL_OVERGROUND   = 2,
-    UNIT_LEVEL_BUILDING     = 3,
-    UNIT_LEVEL_UNITS        = 4,
-    UNIT_LEVEL_OVERUNITS    = 5,
-    UNIT_LEVEL_AIR          = 6,
-    UNIT_LEVEL_OVERAIR      = 7
-} UNIT_LEVEL;
+    OBJECT_LEVEL_UNDERWATER   = 0,
+    OBJECT_LEVEL_ONGROUND     = 1,
+    OBJECT_LEVEL_OVERGROUND   = 2,
+    OBJECT_LEVEL_BUILDING     = 3,
+    OBJECT_LEVEL_UNITS        = 4,
+    OBJECT_LEVEL_OVERUNITS    = 5,
+    OBJECT_LEVEL_AIR          = 6,
+    OBJECT_LEVEL_OVERAIR      = 7
+} OBJECT_LEVEL;
 
 typedef enum
 {
@@ -34,7 +34,7 @@ typedef enum
     UNIT_MOVETYPE_AIR = 5
 } UNIT_MOVETYPE;
 
-class MAXUnitConfig {
+class MAXObjectConfig {
     
     void SetResurceConfigValue(string key, string value);
     void SetBalanceConfigValue(string key, string value);
@@ -212,11 +212,11 @@ public:
     bool _isAmphibious;
     
     
-    MAXUnitConfig(string balanceConfigName, string resourceConfigName);
+    MAXObjectConfig(string balanceConfigName, string resourceConfigName);
     bool IsValid() const;
     
     bool _haveShadow;
     
 };
 
-#endif /* defined(__MAX__MAXUnitConfig__) */
+#endif /* defined(__MAX__MAXObjectConfig__) */

@@ -12,7 +12,7 @@
 #include <iostream>
 #include "MAXObject.h"
 #include "cocos2d.h"
-#include "MAXUnitConfig.h"
+#include "MAXObjectConfig.h"
 #include "MAXStatusRendererUnitDelegate.h"
 
 class MAXUnitRenderObject;
@@ -65,7 +65,7 @@ public:
     
     Texture* _playerPalette_w;
     int _playerId;
-    MAXUnitConfig* params_w;
+    MAXObjectConfig* params_w;
     
     bool _needAirOffset;
     float _airOffsetMult;
@@ -88,7 +88,7 @@ public:
     float deltax;
     float deltay;
     
-    MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config);
+    MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config);
     ~MAXUnitObject();
     
     virtual RenderObject * GetRenderAspect();

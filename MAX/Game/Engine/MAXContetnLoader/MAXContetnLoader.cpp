@@ -17,7 +17,7 @@
 #include "MAXUnitObject.h"
 #include "Sys.h"
 #include "EngineMesh.h"
-#include "MAXUnitConfig.h"
+#include "MAXObjectConfig.h"
 #include "cocos2d.h"
 #include "Display.h"
 
@@ -667,7 +667,7 @@ void MAXContentLoader::ClearImageCache()
 
 #pragma mark - fabric
 
-MAXUnitObject* MAXContentLoader::CreateUnit(MAXUnitConfig* unitConfig)
+MAXUnitObject* MAXContentLoader::CreateUnit(MAXObjectConfig* unitConfig)
 {
     MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(unitConfig->_bodyName, unitConfig->_shadowName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);

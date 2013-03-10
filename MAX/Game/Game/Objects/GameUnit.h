@@ -21,7 +21,7 @@ using namespace cocos2d;
 class MAXUnitObject;
 class MAXAnimationBase;
 class MAXAnimationObjectUnit;
-class MAXUnitConfig;
+class MAXObjectConfig;
 
 class GameUnitParameters;
 class GameMatchPlayer;

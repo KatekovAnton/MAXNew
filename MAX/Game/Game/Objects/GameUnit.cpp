@@ -12,7 +12,7 @@
 #include "MAXUnitObject.h"
 #include "MAXAnimationPrefix.h"
 #include "MAXEngine.h"
-#include "MAXUnitConfig.h"
+#include "MAXObjectConfig.h"
 
 #include "GameUnitParameters.h"
 #include "GameMatchPlayer.h"

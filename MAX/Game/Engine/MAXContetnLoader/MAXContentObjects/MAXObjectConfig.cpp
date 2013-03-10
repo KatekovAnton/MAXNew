@@ -1,16 +1,16 @@
 //
-//  MAXUnitConfig.cpp
+//  MAXObjectConfig.cpp
 //  MAX
 //
 //  Created by Anton Katekov on 07.02.13.
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
-#include "MAXUnitConfig.h"
+#include "MAXObjectConfig.h"
 #include "BinaryReader.h"
 #include "StringUtils.h"
 
-void MAXUnitConfig::SetResurceConfigValue(string key, string value)
+void MAXObjectConfig::SetResurceConfigValue(string key, string value)
 {
     //Файл
     unsigned char data[5];
@@ -77,7 +77,7 @@ void MAXUnitConfig::SetResurceConfigValue(string key, string value)
     
 }
 
-void MAXUnitConfig::SetBalanceConfigValue(string key, string value)
+void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
 {
     unsigned char name[3] = {0xC8, 0xEC, 0xFF};
     if (memcmp(name, key.c_str(), 3) == 0 && false) {
@@ -269,7 +269,7 @@ void MAXUnitConfig::SetBalanceConfigValue(string key, string value)
 
 }
 
-MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName)
+MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfigName)
 :_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
 {
     BinaryReader *r = new BinaryReader(resourceConfigName);
@@ -298,7 +298,7 @@ MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName
             SetBalanceConfigValue(typeData[0], typeData[1]);
     }
     
-    _isPlane = _bLevel == UNIT_LEVEL_AIR;
+    _isPlane = _bLevel == OBJECT_LEVEL_AIR;
     _hasHead = _pSeparateCanon == 1 || _isAnimHead;
     _isMultifire = _pFireType == 3;
     _isAnimatedHead = _isAnimHead;
@@ -310,7 +310,7 @@ MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName
 
 
 
-bool MAXUnitConfig::IsValid() const
+bool MAXObjectConfig::IsValid() const
 {
     return _type.length()>0 &&
     _bodyName.length()>0    &&

@@ -12,13 +12,13 @@
 #include <iostream>
 #include "miniPrefix.h"
 
-class MAXUnitConfig;
+class MAXObjectConfig;
 class MAXClanConfig;
 
 class MAXConfigManager {
     
-    map<string, MAXUnitConfig*> _unitConfigs;
-    map<string, MAXUnitConfig*> _clanConfigs;
+    map<string, MAXObjectConfig*> _unitConfigs;
+    map<string, MAXObjectConfig*> _clanConfigs;
     
     void LoadUnitSegment(string source);
     
@@ -28,7 +28,7 @@ public:
     
     void LoadConfigsFromFile(string file);
     void LoadConfigsFromString(string file);
-    MAXUnitConfig* GetConfig(string type);
+    MAXObjectConfig* GetConfig(string type);
     
 };
 

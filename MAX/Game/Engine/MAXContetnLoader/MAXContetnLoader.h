@@ -25,7 +25,7 @@ class Texture;
 class EngineMesh;
 
 class MAXUnitObject;
-class MAXUnitConfig;
+class MAXObjectConfig;
 
 
 struct typhdr
@@ -80,7 +80,7 @@ public:
     void ClearImageCache();
     
 #pragma mark - fabric
-    MAXUnitObject* CreateUnit(MAXUnitConfig* unitConfig);
+    MAXUnitObject* CreateUnit(MAXObjectConfig* unitConfig);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);
     

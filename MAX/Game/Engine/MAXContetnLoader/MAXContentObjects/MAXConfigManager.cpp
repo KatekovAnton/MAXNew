@@ -7,7 +7,7 @@
 //
 
 #include "MAXConfigManager.h"
-#include "MAXUnitConfig.h"
+#include "MAXObjectConfig.h"
 #include "BinaryReader.h"
 #include "StringUtils.h"
 
@@ -36,8 +36,8 @@ void MAXConfigManager::LoadUnitSegment(string source)
         string resourceConfig = data[0];
         string balanceConfig = data[1];
         
-        MAXUnitConfig* config = new MAXUnitConfig(balanceConfig, resourceConfig);
-        _unitConfigs.insert(pair<string, MAXUnitConfig*>(type, config));
+        MAXObjectConfig* config = new MAXObjectConfig(balanceConfig, resourceConfig);
+        _unitConfigs.insert(pair<string, MAXObjectConfig*>(type, config));
     }
 }
 
@@ -67,9 +67,9 @@ void MAXConfigManager::LoadConfigsFromFile(string file)
 void MAXConfigManager::LoadConfigsFromString(string file)
 {}
 
-MAXUnitConfig* MAXConfigManager::GetConfig(string type)
+MAXObjectConfig* MAXConfigManager::GetConfig(string type)
 {
-    MAXUnitConfig* result = NULL;
+    MAXObjectConfig* result = NULL;
     if (_unitConfigs.count(type) == 1) {
         result = _unitConfigs[type];
         return result;

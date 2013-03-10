@@ -290,7 +290,7 @@
 		D1AB733C16BBD381004D28F2 /* GameEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733616BBD381004D28F2 /* GameEffect.cpp */; };
 		D1AB733E16BBD381004D28F2 /* GameEffectRocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733A16BBD381004D28F2 /* GameEffectRocket.cpp */; };
 		D1DBC46116C3EAED0096034A /* UnitListOriginal.txt in Resources */ = {isa = PBXBuildFile; fileRef = D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */; };
-		D1DBC4A716C67DCA0096034A /* MAXUnitConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4A516C67DCA0096034A /* MAXUnitConfig.cpp */; };
+		D1DBC4A716C67DCA0096034A /* MAXObjectConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4A516C67DCA0096034A /* MAXObjectConfig.cpp */; };
 		D1DBC4B216C923410096034A /* MAXDrawPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4B016C923410096034A /* MAXDrawPrimitives.cpp */; };
 		D1DBC4B516C924D40096034A /* ShaderLine.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4B316C924D20096034A /* ShaderLine.fsh */; };
 		D1DBC4B616C924D40096034A /* ShaderLine.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4B416C924D30096034A /* ShaderLine.vsh */; };
@@ -698,8 +698,8 @@
 		D1AB733B16BBD381004D28F2 /* GameEffectRocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffectRocket.h; sourceTree = "<group>"; };
 		D1AB734216BBD9E7004D28F2 /* MAXAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationDelegate.h; sourceTree = "<group>"; };
 		D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnitListOriginal.txt; sourceTree = "<group>"; };
-		D1DBC4A516C67DCA0096034A /* MAXUnitConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitConfig.cpp; sourceTree = "<group>"; };
-		D1DBC4A616C67DCA0096034A /* MAXUnitConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitConfig.h; sourceTree = "<group>"; };
+		D1DBC4A516C67DCA0096034A /* MAXObjectConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObjectConfig.cpp; sourceTree = "<group>"; };
+		D1DBC4A616C67DCA0096034A /* MAXObjectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXObjectConfig.h; sourceTree = "<group>"; };
 		D1DBC4B016C923410096034A /* MAXDrawPrimitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXDrawPrimitives.cpp; sourceTree = "<group>"; };
 		D1DBC4B116C923410096034A /* MAXDrawPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXDrawPrimitives.h; sourceTree = "<group>"; };
 		D1DBC4B316C924D20096034A /* ShaderLine.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderLine.fsh; sourceTree = "<group>"; };
@@ -1097,8 +1097,8 @@
 		D16D48CD168B30A00055F35D /* MAXContentObjects */ = {
 			isa = PBXGroup;
 			children = (
-				D1DBC4A516C67DCA0096034A /* MAXUnitConfig.cpp */,
-				D1DBC4A616C67DCA0096034A /* MAXUnitConfig.h */,
+				D1DBC4A516C67DCA0096034A /* MAXObjectConfig.cpp */,
+				D1DBC4A616C67DCA0096034A /* MAXObjectConfig.h */,
 				D16D48D1168B31030055F35D /* MAXContentMap.cpp */,
 				D16D48D2168B31030055F35D /* MAXContentMap.h */,
 				8B84DBC616CFDB1C00DD12B8 /* MAXClanConfig.cpp */,
@@ -1908,7 +1908,7 @@
 				D1E3D3FE16C138E500E88F2E /* Request.cpp in Sources */,
 				D1E3D78416C1649800E88F2E /* Response.cpp in Sources */,
 				D1E3D78816C1709200E88F2E /* RequestManager.cpp in Sources */,
-				D1DBC4A716C67DCA0096034A /* MAXUnitConfig.cpp in Sources */,
+				D1DBC4A716C67DCA0096034A /* MAXObjectConfig.cpp in Sources */,
 				8B7CA08816C81F9F00282A74 /* CCScrollView.cpp in Sources */,
 				8B7CA08916C81F9F00282A74 /* CCSorting.cpp in Sources */,
 				8B7CA08A16C81F9F00282A74 /* CCTableView.cpp in Sources */,

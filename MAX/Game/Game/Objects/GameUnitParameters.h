@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-class MAXUnitConfig;
+class MAXObjectConfig;
 class MAXClanConfig;
 class PlayerResearchManager;
 class PlayerUpgradeManager;
@@ -20,14 +20,14 @@ class BinaryReader;
 
 class GameUnitParameters {
     
-    MAXUnitConfig            *_config_w;
+    MAXObjectConfig            *_config_w;
     MAXClanConfig            *_clanBonuses_w;
     PlayerResearchManager    *_researchManager_w;
     PlayerUpgradeManager     *_upgradeManager_w;
     
 public:
     
-    MAXUnitConfig* GetCongig() const {return _config_w;}
+    MAXObjectConfig* GetCongig() const {return _config_w;}
     
     int _pAttack;
     int _pSpeed;
@@ -42,7 +42,7 @@ public:
     
     int _version;
     
-    GameUnitParameters(MAXUnitConfig            *config,
+    GameUnitParameters(MAXObjectConfig            *config,
                        MAXClanConfig            *clanBonuses,
                        PlayerResearchManager    *researchManager,
                        PlayerUpgradeManager     *upgradeManager);

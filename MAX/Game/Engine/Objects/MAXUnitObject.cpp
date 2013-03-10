@@ -76,7 +76,7 @@ compareFunc MAXUnitObject::GetCompareFunc()
     return &compareMAXUnitObject;
 }
 
-MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXUnitConfig* config)
+MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config)
 :_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0), _statusDelegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0)
 {
     
