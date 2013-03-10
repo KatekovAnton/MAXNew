@@ -18,13 +18,27 @@ class Texture;
 
 class MAXEffectObject : public MAXObject {
     
+    MAXUnitRenderObject        *_renderAspect;//own
+    MAXUnitMaterial            *_material;//not own
+    GLKMatrix4 bodyRenderMatrix;
+    
 public:
     
+    Texture* _playerPalette_w;
+    
     int _frameCount;
+    int _currentFrame;
+    
+    GLKMatrix4 CalculateBodyRenderMatrix();
     
     MAXEffectObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config);
+    ~MAXEffectObject();
     
     void SetEffectFrame(int frame);
+    
+    virtual void Draw(Shader *shader);
+    virtual void Frame(double time);
+    virtual void LastUpdate();
 };
 
 #endif /* defined(__MAX__MAXEffectObject__) */

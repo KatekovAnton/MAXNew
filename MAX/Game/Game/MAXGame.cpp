@@ -18,6 +18,7 @@
 #include "GameMap.h"
 #include "GameUnit.h"
 #include "GameMatch.h"
+#include "GameEffect.h"
 #include "GameInteface.h"
 #include "GameUnitParameters.h"
 
@@ -27,11 +28,17 @@ MAXGame * game = &globalGame;
 MAXGame::MAXGame()
 {
     _curretnState = MAXGAMESTATE_GAME;
+    _effects = new USimpleContainer<GameEffect*>();
 }
 
 MAXGame::~MAXGame()
 {
     delete _gameInterface;
+    for (int i = 0; i < _effects->GetCount(); i++) {
+        GameEffect* effect = _effects->objectAtIndex(i);
+        delete effect;
+    }
+    delete _effects;
 }
 
 void MAXGame::Init()
@@ -280,6 +287,10 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     {
         CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
         _currentUnit->Fire(p);
+       // GameEffect* effect = GameEffect::CreateBullet(BULLET_TYPE_PLASMA, _currentUnit->_config->GetCongig()->_bLevel);
+       // _effects->addObject(effect);
+       // effect->SetLocation(p);
+       // effect->LocateOnMap();
     }
 }
 

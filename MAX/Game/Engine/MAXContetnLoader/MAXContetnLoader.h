@@ -75,7 +75,7 @@ public:
     void LoadUnitShadow(BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long shadowBaseOffset);
 
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
-    
+    MAXUnitMaterial* LoadEffectMaterial(string name);
 #pragma mark - memory
     void ClearImageCache();
     

@@ -666,6 +666,40 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
     return result;
 }
 
+MAXUnitMaterial* MAXContentLoader::LoadEffectMaterial(string name)
+{
+    int index = FindImage(name);
+    void* cashed = loadedData[index];
+    if(cashed)
+        return (MAXUnitMaterial*)cashed;
+    
+    MAXUnitMaterial* result  = new MAXUnitMaterial();
+    
+    
+    inf->SetPosition(dir[index].offset);
+    char *data = (char*)malloc(dir[index].size);
+    inf->ReadBuffer(dir[index].size, data);
+    BinaryReader* dataReader = new BinaryReader(data, dir[index].size);
+    long baseOffset = 0;//inf->GetPosition();
+    short picCount = dataReader->ReadInt16();
+    int* picbounds = new int[picCount];
+    dataReader->ReadBuffer(picCount*4, (char*) picbounds);
+    
+    result ->SetImagesCount(picCount, 0);
+    for (int picIndex = 0; picIndex < picCount; picIndex++)
+    {
+        dataReader->SetPosition(picbounds[picIndex] + baseOffset);
+        LoadUnitFrame(dataReader, picIndex, result, baseOffset);
+    }
+    loadedData[index] = (void*)result;
+    
+    
+    delete []picbounds;
+    delete dataReader;
+    free(data);
+    return result;
+}
+
 #pragma mark - memory
 
 void MAXContentLoader::ClearImageCache()
@@ -688,9 +722,10 @@ MAXUnitObject* MAXContentLoader::CreateUnit(MAXObjectConfig* unitConfig)
 
 MAXEffectObject* MAXContentLoader::CreateEffect(MAXObjectConfig* effectConfig, float size)
 {
-    MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(effectConfig->_bodyName, "");
+    MAXUnitMaterial *material = MAXSCL->LoadEffectMaterial(effectConfig->_bodyName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
     MAXEffectObject* result = new MAXEffectObject(renderObject, material, effectConfig);
+    result->_playerPalette_w = defaultPalette;
     result->_bbsize = GLKVector2Make(size, size);
     
     return result;

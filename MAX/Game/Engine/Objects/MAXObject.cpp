@@ -9,9 +9,42 @@
 #include "MAXObject.h"
 #include "MAXEngine.h"
 #include "MAXMapObject.h"
+#include "MAXObjectConfig.h"
+
+int compareMAXUnitObject (const void * a, const void * b)
+{
+    MAXObject* a1 = *((MAXObject**)a);
+    MAXObject* b1 = *((MAXObject**)b);
+    
+    if (a1->params_w->_bLevel == b1->params_w->_bLevel) {
+        float a1x = a1->GetTransformMatrix().m30;
+        float a1y = a1->GetTransformMatrix().m31;
+        float b1x = b1->GetTransformMatrix().m30;
+        float b1y = b1->GetTransformMatrix().m31;
+        if (a1x < b1x || a1y > b1y)
+            return -1;
+        else
+            return 1;
+    }
+    else if(a1->params_w->_bLevel < b1->params_w->_bLevel)
+        return -1;
+    else if(a1->params_w->_bLevel > b1->params_w->_bLevel)
+        return 1;
+    
+    
+    return 0;
+}
+
+compareFunc MAXObject::GetCompareFunc()
+{
+    return &compareMAXUnitObject;
+}
 
 MAXObject::MAXObject(MAXObjectConfig* params)
 :params_w(params)
+{}
+
+MAXObject::~MAXObject()
 {}
 
 void MAXObject::SetPosition(const CCPoint& cell)
@@ -80,7 +113,6 @@ int MAXObject::CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& c
     else if(delta.y < -0.923879)
         result = 0;
     
-    
-    
     return result;
 }
+

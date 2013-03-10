@@ -22,6 +22,7 @@ public:
     MAXObjectConfig* params_w;
     
     MAXObject(MAXObjectConfig* params);
+    virtual ~MAXObject();
     
     void SetPosition(const CCPoint& cell);
     CCPoint ObjectCell() const;
@@ -29,6 +30,7 @@ public:
     CCPoint ObjectCenterCoordinates() const;
     
     virtual GLKVector2 GetDeltaPosition() const;
+    virtual compareFunc GetCompareFunc();
     
     static GLKMatrix4 MatrixForCell(const CCPoint& cell);
     static int CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget);

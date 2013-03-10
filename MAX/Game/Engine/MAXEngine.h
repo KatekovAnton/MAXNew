@@ -34,6 +34,8 @@ class MAXContentMap;
 class MAXUnitObject;
 class MAXStatusRenderer;
 
+static int _applyedPaletteIndex = -1;
+
 class MAXEngine : public RequestDelegate  {
     
     

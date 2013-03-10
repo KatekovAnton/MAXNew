@@ -143,6 +143,7 @@ void MAXEngine::RunLoop(double delta)
 
 void MAXEngine::Update()
 {
+    
     RequestManager::SharedRequestManager()->Flush();
     _scene->BeginFrame();
     

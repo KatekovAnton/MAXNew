@@ -8,6 +8,7 @@
 
 #include "GameEffect.h"
 #include "MAXEffectObject.h"
+#include "MAXContetnLoader.h"
 
 //-подложка под большое здание                                                  LRGSLAB	mult
 //-подложка под маленькое здание                                                SMLSLAB	mult
@@ -37,55 +38,61 @@
 //либо просто статика, как для мусора, стрелок пути и оградок вокруг строителей-быльдозеров
 
 GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config)
-:GameObject(effectObject)
+:GameObject(effectObject), _config(config)
 {}
+
+GameEffect::~GameEffect()
+{
+    delete _config;
+}
 
 #pragma mark - creation
 
-GameEffect* CreateBlast(BLAST_TYPE type)
+GameEffect* GameEffect::CreateBlast(BLAST_TYPE type)
 {
     return NULL;
 }
 
-GameEffect* CreateBullet(BULLET_TYPE type, OBJECT_LEVEL level)
+GameEffect* GameEffect::CreateBullet(BULLET_TYPE type, int level)
 {
     string effectName = "ALNABALL";
+    bool animated = true;
+    float size = 1.0;
     switch (type) {
         case BULLET_TYPE_ROCKET:
+        {
+            animated = false;
             effectName = "ROCKET";
-            break;
+        }   break;
         case BULLET_TYPE_TORPEDO:
+        {
+            animated = false;
             effectName = "TORPEDO";
-            break;
+        }   break;
         default:
             break;
     }
     
-    MAXObjectConfig* unit = new MAXObjectConfig();// MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
-    unit->_bLevel = level;
+    MAXObjectConfig* config = new MAXObjectConfig();// MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
+    config->_bLevel = level;
+    config->_bodyName = effectName;
+    MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, 1.0);
+    GameEffect* result = new GameEffect(effectObject, config);
     
-//    GameUnit* result = new GameUnit(MAXSCL->CreateUnit(unit), params, this);
-//    result->SetLocation(CCPoint(posx, posy));
-//    result->CheckBodyAndShadow();
-//    _units.addObject(result);
-//    return result;
-    
-    
-    
-    return NULL;
+    return result;
 }
 
-GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type)
+GameEffect* GameEffect::CreateSecondaryEffect(SECONDARY_TYPE type)
 {
     return NULL;
 }
 
-GameEffect* CreateTrash(TRASH_TYPE type)
+GameEffect* GameEffect::CreateTrash(TRASH_TYPE type)
 {
     return NULL;
 }
 
-GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type)
+GameEffect* GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE type)
 {
     return NULL;
 }
@@ -99,7 +106,9 @@ void GameEffect::OnAnimationUpdate(MAXAnimationBase* animation)
 {}
 
 void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
-{}
+{
+    GameObject::RemoveFromMap();
+}
 
 
 

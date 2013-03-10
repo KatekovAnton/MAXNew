@@ -30,12 +30,11 @@ enum
 
 
 class MAXUnitObject : public MAXObject {
-    
-    
+
     double _random;
     
     MAXUnitRenderObject        *_renderAspect;//own
-    MAXUnitMaterial            *_material;//own
+    MAXUnitMaterial            *_material;//not own
     
     int bodyIndex;
     int headIndex;
@@ -84,8 +83,6 @@ public:
     bool IsHasBody() const;
     bool CanFire() const;
     
-    float deltax;
-    float deltay;
     
     MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config);
     ~MAXUnitObject();
@@ -96,8 +93,6 @@ public:
     virtual void Draw(Shader *shader);
     virtual void Frame(double time);
     virtual void LastUpdate();
-    
-    virtual compareFunc GetCompareFunc();
     
     GLKMatrix4 CalculateShadowRenderMatrix();
     GLKMatrix4 CalculateBodyRenderMatrix();

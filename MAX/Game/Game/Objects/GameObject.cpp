@@ -16,7 +16,9 @@ GameObject::GameObject(MAXObject* object)
 {}
 
 GameObject::~GameObject()
-{}
+{
+    delete _object;
+}
 
 void GameObject::LocateOnMap()
 {

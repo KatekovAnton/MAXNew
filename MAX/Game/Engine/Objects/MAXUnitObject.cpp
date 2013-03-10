@@ -44,38 +44,6 @@ GLKVector2 shipOffsets[] = {
 
 GLKVector2 planeShadowOffset = {1.0, -1.0};
 
-int compareMAXUnitObject (const void * a, const void * b)
-{
-    MAXUnitObject* a1 = *((MAXUnitObject**)a);
-    MAXUnitObject* b1 = *((MAXUnitObject**)b);
-    
-    if (a1->params_w->_bLevel == b1->params_w->_bLevel) {
-        float a1x = a1->GetTransformMatrix().m30;
-        float a1y = a1->GetTransformMatrix().m31;
-        float b1x = b1->GetTransformMatrix().m30;
-        float b1y = b1->GetTransformMatrix().m31;
-        if (a1x < b1x || a1y > b1y)
-            return -1;
-        else
-            return 1;
-    }
-    else if(a1->params_w->_bLevel < b1->params_w->_bLevel)
-        return -1;
-    else if(a1->params_w->_bLevel > b1->params_w->_bLevel)
-        return 1;
-
-    
-    return 0;
-}
-
-int _lastPlayerIndex = -1;
-
-
-compareFunc MAXUnitObject::GetCompareFunc()
-{
-    return &compareMAXUnitObject;
-}
-
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config)
 :MAXObject(config), _renderAspect(renderObject),_material(material), changed(true), fireing(false), _lastHeadAnimTime(0), _statusDelegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0)
 {
@@ -163,8 +131,8 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
     float scalex = shadowFrame.size.x/64.0;
     float scaley = shadowFrame.size.y/64.0;
     
-    deltax = -(64.0 - shadowFrame.size.x)/128.0 - (shadowFrame.center.x/64.0);
-    deltay = (64.0-shadowFrame.size.y)/128.0 + (shadowFrame.center.y/64.0);
+    float deltax = -(64.0 - shadowFrame.size.x)/128.0 - (shadowFrame.center.x/64.0);
+    float deltay = (64.0-shadowFrame.size.y)/128.0 + (shadowFrame.center.y/64.0);
   
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
@@ -192,8 +160,8 @@ GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
     float scalex = bodyframe.size.x/64.0;
     float scaley = bodyframe.size.y/64.0;
     
-    deltax = -(64.0 - bodyframe.size.x)/128.0 - (bodyframe.center.x/64.0);
-    deltay = (64.0-bodyframe.size.y)/128.0 + (bodyframe.center.y/64.0);
+    float deltax = -(64.0 - bodyframe.size.x)/128.0 - (bodyframe.center.x/64.0);
+    float deltay = (64.0-bodyframe.size.y)/128.0 + (bodyframe.center.y/64.0);
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
     if (_needAirOffset)
@@ -221,8 +189,8 @@ GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
     float scalex = headFrame.size.x/64.0;
     float scaley = headFrame.size.y/64.0;
     
-    deltax = -(64.0 - headFrame.size.x)/128.0 - (headFrame.center.x/64.0);
-    deltay = (64.0-headFrame.size.y)/128.0 + (headFrame.center.y/64.0);
+    float deltax = -(64.0 - headFrame.size.x)/128.0 - (headFrame.center.x/64.0);
+    float deltay = (64.0-headFrame.size.y)/128.0 + (headFrame.center.y/64.0);
     
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
@@ -255,7 +223,7 @@ Material * MAXUnitObject::GetMaterial()
 
 void MAXUnitObject::Frame(double time)
 {
-    _lastPlayerIndex = -1;
+    _applyedPaletteIndex = -1;
     _material->DoFrame(time);
     if (params_w->_isAnimatedHead) {
         _lastHeadAnimTime+=time;
@@ -289,9 +257,9 @@ bool MAXUnitObject::IsHasBody() const
 void MAXUnitObject::Draw(Shader *shader)
 {
     _renderAspect->Bind();
-    if (_lastPlayerIndex != _playerId)
+    if (_applyedPaletteIndex != _playerId)
     {
-        _lastPlayerIndex = _playerId;
+        _applyedPaletteIndex = _playerId;
         _material->ApplyPalette(shader, _playerPalette_w);
     }
     if(_needShadow)

@@ -11,8 +11,10 @@
 
 #include <iostream>
 #include "DisplayPinchDelegate.h"
+#include "USimpleContainer.h"
 
 using namespace std;
+using namespace Utils;
 
 enum MAXGAMESTATE
 {
@@ -27,6 +29,7 @@ class GameMap;
 class GameUnit;
 
 class GameMatch;
+class GameEffect;
 class GameInterface;
 
 class MAXGame : public DisplayPinchDelegate {
@@ -38,6 +41,8 @@ class MAXGame : public DisplayPinchDelegate {
     GameMatch* _match;
     
 public:
+    
+    USimpleContainer<GameEffect*> *_effects;
     
     MAXGAMESTATE GetCurretnState() const {return _curretnState;}
     GameMatch *GetCurretnMatch() const {return _match;}

@@ -58,7 +58,6 @@ class MAXAnimationObject;
 
 class GameEffect : public GameObject, public MAXAnimationDelegate {
     
-    MAXEffectObject* _effectObject;
     MAXObjectConfig* _config;
     
     MAXAnimationObject* _moveAnimation;
@@ -66,10 +65,11 @@ class GameEffect : public GameObject, public MAXAnimationDelegate {
 public:
     
     GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config);
-
+    ~GameEffect();
+     
 #pragma mark - creation
     static GameEffect* CreateBlast(BLAST_TYPE type);
-    static GameEffect* CreateBullet(BULLET_TYPE type, OBJECT_LEVEL level);
+    static GameEffect* CreateBullet(BULLET_TYPE type, int level);
     static GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type);
     static GameEffect* CreateTrash(TRASH_TYPE type);
     static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type);
@@ -78,6 +78,7 @@ public:
     virtual void OnAnimationStart(MAXAnimationBase* animation);
     virtual void OnAnimationUpdate(MAXAnimationBase* animation);
     virtual void OnAnimationFinish(MAXAnimationBase* animation);
+    
 };
 
 #endif /* defined(__MAX__GameEffect__) */

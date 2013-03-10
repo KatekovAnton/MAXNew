@@ -28,7 +28,7 @@ public:
     bool _onMap;
     
     GameObject(MAXObject* object);
-    ~GameObject();
+    virtual ~GameObject();
     
     MAXObject* GetObject() const {return _object;};
     CCPoint GetUnitCell() const {return _unitCell;};
