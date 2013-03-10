@@ -10,6 +10,10 @@
 #include "MAXEngine.h"
 #include "MAXMapObject.h"
 
+MAXObject::MAXObject(MAXObjectConfig* params)
+:params_w(params)
+{}
+
 void MAXObject::SetPosition(const CCPoint& cell)
 {
     GLKMatrix4 matrix = MAXObject::MatrixForCell(cell);

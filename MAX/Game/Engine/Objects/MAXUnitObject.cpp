@@ -77,7 +77,7 @@ compareFunc MAXUnitObject::GetCompareFunc()
 }
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config)
-:_renderAspect(renderObject),_material(material), changed(true), fireing(false), params_w(config), _lastHeadAnimTime(0), _statusDelegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0)
+:MAXObject(config), _renderAspect(renderObject),_material(material), changed(true), fireing(false), _lastHeadAnimTime(0), _statusDelegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0)
 {
     
     _needAirOffset = config->_isPlane;

@@ -7,6 +7,8 @@
 //
 
 #include "GameEffect.h"
+#include "MAXEffectObject.h"
+#include "MAXObjectConfig.h"
 
 //-подложка под большое здание                                                  LRGSLAB	mult
 //-подложка под маленькое здание                                                SMLSLAB	mult
@@ -31,3 +33,45 @@
 //залупленный многоразовый эфект для например маркеров выхода,
 //либо такйже точно залупленный но одноразовый для взрывов и дыма,
 //либо просто статика, как для мусора, стрелок пути и оградок вокруг строителей-быльдозеров
+
+GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config)
+:GameObject(effectObject)
+{}
+
+#pragma mark - creation
+
+GameEffect* CreateBlast(BLAST_TYPE type)
+{
+    return NULL;
+}
+
+GameEffect* CreateBullet(BULLET_TYPE type)
+{
+    return NULL;
+}
+
+GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type)
+{
+    return NULL;
+}
+
+GameEffect* CreateTrash(TRASH_TYPE type)
+{
+    return NULL;
+}
+
+GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type)
+{
+    return NULL;
+}
+
+#pragma mark - MAXAnimationDelegate
+
+void GameEffect::OnAnimationStart(MAXAnimationBase* animation)
+{}
+
+void GameEffect::OnAnimationUpdate(MAXAnimationBase* animation)
+{}
+
+void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
+{}

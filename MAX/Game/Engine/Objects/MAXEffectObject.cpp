@@ -7,3 +7,6 @@
 //
 
 #include "MAXEffectObject.h"
+
+void MAXEffectObject::SetEffectFrame(int frame)
+{}

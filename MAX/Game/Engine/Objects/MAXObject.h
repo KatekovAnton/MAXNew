@@ -15,9 +15,13 @@
 
 using namespace cocos2d;
 
+class MAXObjectConfig;
+
 class MAXObject : public PivotObject {
-    
 public:
+    MAXObjectConfig* params_w;
+    
+    MAXObject(MAXObjectConfig* params);
     
     void SetPosition(const CCPoint& cell);
     CCPoint ObjectCell() const;

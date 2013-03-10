@@ -16,6 +16,9 @@ class MAXEffectObject : public MAXObject {
     
 public:
     
+    int _frameCount;
+    
+    void SetEffectFrame(int frame);
 };
 
 #endif /* defined(__MAX__MAXEffectObject__) */

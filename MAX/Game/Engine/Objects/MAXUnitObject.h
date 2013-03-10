@@ -65,7 +65,6 @@ public:
     
     Texture* _playerPalette_w;
     int _playerId;
-    MAXObjectConfig* params_w;
     
     bool _needAirOffset;
     float _airOffsetMult;
