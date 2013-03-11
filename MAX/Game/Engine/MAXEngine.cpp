@@ -209,14 +209,16 @@ void MAXEngine::DrawGround()
 
 void MAXEngine::DrawUnits()
 {
+    _applyedPaletteIndex = -100;
+    _applyedPaletteCount = 0;
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
-    
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
-    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
     
+    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
     const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
+    
     for (int i = 0; i < objects->GetCount(); i++)
     {
         objects->objectAtIndex(i)->Draw(_shader);
@@ -224,6 +226,7 @@ void MAXEngine::DrawUnits()
     }
  
     glActiveTexture(GL_TEXTURE0);
+    printf("%d\n",_applyedPaletteCount);
 }
 
 void MAXEngine::DrawInterface()

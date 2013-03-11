@@ -54,7 +54,13 @@ void MAXEffectObject::Frame(double time)
 void MAXEffectObject::Draw(Shader *shader)
 {
     _renderAspect->Bind();
-    _material->ApplyPalette(shader, _playerPalette_w);
+    
+    if (engine->_applyedPaletteIndex != -200) {
+        engine->_applyedPaletteCount ++;
+        engine->_applyedPaletteIndex = -200;
+        _material->ApplyPalette(shader, _playerPalette_w);
+    }
+    
     
     
     shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);

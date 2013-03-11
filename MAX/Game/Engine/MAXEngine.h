@@ -34,7 +34,6 @@ class MAXContentMap;
 class MAXUnitObject;
 class MAXStatusRenderer;
 
-
 class MAXEngine : public RequestDelegate  {
     
     
@@ -58,7 +57,8 @@ public:
     float displayw,displayh;
     bool drawGrid;
     
-    
+    int _applyedPaletteIndex = -100;
+    int _applyedPaletteCount = 0;
     
     shared_ptr<MAXMapObject>            _map;
     

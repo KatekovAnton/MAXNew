@@ -29,7 +29,8 @@ void MAXAnimationObject::Update(double time)
 {
     double elapsed = (engine->FullTime()-GetStartTime());
     float deltaTime = 0;
-    if (_moveCurve == MAXANIMATION_CURVE_EASE_IN_OUT) {
+    if (_moveCurve == MAXANIMATION_CURVE_EASE_IN_OUT)
+    {
         float fromminonetoone = (2.0*elapsed/_moveTime) - 1.0;
         deltaTime = sinf(fromminonetoone * M_PI_2) * 0.5 + 0.5;
     }

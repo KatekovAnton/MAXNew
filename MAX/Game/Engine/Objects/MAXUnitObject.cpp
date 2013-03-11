@@ -257,7 +257,11 @@ bool MAXUnitObject::IsHasBody() const
 void MAXUnitObject::Draw(Shader *shader)
 {
     _renderAspect->Bind();
-    _material->ApplyPalette(shader, _playerPalette_w);
+    if (engine->_applyedPaletteIndex != _playerId) {
+        engine->_applyedPaletteCount ++;
+        engine->_applyedPaletteIndex = _playerId;
+        _material->ApplyPalette(shader, _playerPalette_w);
+    }
     
     if(_needShadow)
     {

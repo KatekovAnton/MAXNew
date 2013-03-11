@@ -25,6 +25,7 @@ class MAXEffectObject : public MAXObject {
 public:
     
     Texture* _playerPalette_w;
+    int _playerId;
     
     int _frameCount;
     int _currentFrame;
