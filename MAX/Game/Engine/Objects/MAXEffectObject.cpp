@@ -45,10 +45,17 @@ GLKMatrix4 MAXEffectObject::CalculateBodyRenderMatrix()
     return GLKMatrix4Multiply(transform, addtr);
 }
 
+void MAXEffectObject::HasBeenLocatedToScene()
+{
+    MAXObject::HasBeenLocatedToScene();
+    _material->time = GetSceneLocationTime();
+}
 
 void MAXEffectObject::Frame(double time)
 {
-    
+    _material->DoFrame(time);
+    if (_material->_autoAnimated) 
+        _currentFrame = _material->index;
 }
 
 void MAXEffectObject::Draw(Shader *shader)

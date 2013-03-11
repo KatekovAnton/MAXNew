@@ -721,14 +721,14 @@ MAXUnitObject* MAXContentLoader::CreateUnit(MAXObjectConfig* unitConfig)
     return result;
 }
 
-MAXEffectObject* MAXContentLoader::CreateEffect(MAXObjectConfig* effectConfig, float size)
+MAXEffectObject* MAXContentLoader::CreateEffect(MAXObjectConfig* effectConfig, float size, bool animated)
 {
     MAXUnitMaterial *material = MAXSCL->LoadEffectMaterial(effectConfig->_bodyName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
     MAXEffectObject* result = new MAXEffectObject(renderObject, material, effectConfig);
     result->_playerPalette_w = defaultPalette;
     result->_bbsize = GLKVector2Make(size, size);
-    
+    material->_autoAnimated = animated;
     return result;
 }
 

@@ -93,6 +93,37 @@ GLKVector2 MAXObject::GetDeltaPosition() const
     return GLKVector2Make(0, 0);
 }
 
+int MAXObject::CalculateRocketImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget)
+{
+    CCPoint delta = CCPoint(floorf(cellTarget.x) - floorf(cellLocation.x), floorf(cellTarget.y) - floorf(cellLocation.y));
+    float l = sqrtf(delta.x * delta.x + delta.y * delta.y);
+    delta.x = delta.x/l;//cos
+    delta.y = delta.y/l;//sin
+    
+    int result = 0;
+    
+    if (delta.y > 0.980785)
+        result = 8;//4
+    else if(delta.y <= 0.980785 && delta.y > 0.831469)
+        result = delta.x > 0?7:9;
+    else if(delta.y <= 0.831469 && delta.y > 0.55557)
+        result = delta.x > 0?6:10;
+    else if(delta.y <= 0.55557 && delta.y > 0.19509)
+        result = delta.x > 0?5:11;
+    else if(delta.y <= 0.19509 && delta.y > -0.19509)
+        result = delta.x > 0?4:12;
+    else if(delta.y <= -0.19509 && delta.y > -0.55557)
+        result = delta.x > 0?3:13;
+    else if(delta.y <= -0.55557 && delta.y > -0.831469)
+        result = delta.x > 0?2:14;
+    else if(delta.y <= -0.831469 && delta.y > -0.980785)
+        result = delta.x > 0?1:15;
+    else if(delta.y < -0.980785)
+        result = 0;
+    
+    return result;
+}
+
 int MAXObject::CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget)
 {
     CCPoint delta = CCPoint(floorf(cellTarget.x) - floorf(cellLocation.x), floorf(cellTarget.y) - floorf(cellLocation.y));

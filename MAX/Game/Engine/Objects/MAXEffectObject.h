@@ -36,7 +36,7 @@ public:
     ~MAXEffectObject();
     
     void SetEffectFrame(int frame);
-    
+    virtual void HasBeenLocatedToScene();
     virtual void Draw(Shader *shader);
     virtual void Frame(double time);
     virtual void LastUpdate();

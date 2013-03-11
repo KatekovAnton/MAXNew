@@ -135,11 +135,17 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?0.15:0.3, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
-    GameEffect* effect = GameEffect::CreateBullet(BULLET_TYPE_PLASMA, _config->GetCongig()->_bLevel);
+    BULLET_TYPE type = BULLET_TYPE_TORPEDO;
+    GameEffect* effect = GameEffect::CreateBullet(type, _config->GetCongig()->_bLevel);
     game->_effects->addObject(effect);
     effect->SetLocation(GetUnitCell());
     effect->LocateOnMap();
+    if (type != BULLET_TYPE_PLASMA) {
+        effect->SetDirection(MAXObject::CalculateRocketImageIndex(_unitCell, targetCenter));
+    }
+    
     MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject());
+    anim->_delegate = effect;
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
 }
 

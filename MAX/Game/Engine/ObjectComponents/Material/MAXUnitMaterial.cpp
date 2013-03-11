@@ -9,11 +9,12 @@
 #include "MAXUnitMaterial.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "MAXEngine.h"
 
 const double MAXUnitMaterialframeTime = 1.0;
 
 MAXUnitMaterial::MAXUnitMaterial()
-:index(0), time(0)
+:index(0), time(0), _autoAnimated(false)
 {
     
 }
@@ -46,7 +47,14 @@ MAXUnitMaterial::~MAXUnitMaterial()
 }
 
 void MAXUnitMaterial::DoFrame(double elapsedTime)
-{}
+{
+    if (!_autoAnimated) 
+        return;
+    
+    index = (engine->FullTime() - time)/0.1;
+    index = index % _frameCount;
+    
+}
 
 void MAXUnitMaterial::ApplyPalette(Shader *shader, Texture* _palette)
 {
@@ -64,18 +72,9 @@ void MAXUnitMaterial::ApplyShadowLod(int lod, Shader *shader)
 
 void MAXUnitMaterial::ApplyLod(int lod, Shader *shader)
 {
-//    if (index<8) {
-//        glActiveTexture(GL_TEXTURE0);
-//        glBindTexture(GL_TEXTURE_2D, shadowTextures[index]->GetTextureName());
-//        glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
-//    }
-//    else
-    {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textures[index]->GetTextureName());
-        glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
-    }
-    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textures[index]->GetTextureName());
+    glUniform1i(shader->GetShaderUniforms()[UNIFORM_COLOR_TEXTURE], 0);
 }
 
 void MAXUnitMaterial::SetFrame(int frame)

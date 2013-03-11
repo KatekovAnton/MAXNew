@@ -10,6 +10,8 @@
 #include "MAXEffectObject.h"
 #include "MAXContetnLoader.h"
 
+#include "MAXGame.h"
+
 //-подложка под большое здание                                                  LRGSLAB	mult
 //-подложка под маленькое здание                                                SMLSLAB	mult
 //-анимированные стрелки которые указывают на место для вывода юнита из здания	BLDMRK1-8	?
@@ -38,12 +40,18 @@
 //либо просто статика, как для мусора, стрелок пути и оградок вокруг строителей-быльдозеров
 
 GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config)
-:GameObject(effectObject), _config(config)
+:GameObject(effectObject), _config(config), _finished(false)
 {}
 
 GameEffect::~GameEffect()
 {
     delete _config;
+}
+
+void GameEffect::SetDirection(int index)
+{
+    MAXEffectObject* obj = (MAXEffectObject*)GetObject();
+    obj->_currentFrame = index;
 }
 
 #pragma mark - creation
@@ -76,7 +84,7 @@ GameEffect* GameEffect::CreateBullet(BULLET_TYPE type, int level)
     MAXObjectConfig* config = new MAXObjectConfig();
     config->_bLevel = level;
     config->_bodyName = effectName;
-    MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size);
+    MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, animated);
     GameEffect* result = new GameEffect(effectObject, config);
     
     return result;
@@ -108,6 +116,8 @@ void GameEffect::OnAnimationUpdate(MAXAnimationBase* animation)
 void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
 {
     GameObject::RemoveFromMap();
+    game->FlushEffectsWithNew(this);
+    _finished = true;
 }
 
 

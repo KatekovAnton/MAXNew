@@ -82,7 +82,7 @@ void MAXUnitObject::LastUpdate()
 {
     if (!GetIsOnScreen())
         return;
-    if(showShadows)
+    if (showShadows && params_w->_haveShadow)
         shadowRenderMatrix = CalculateShadowRenderMatrix();
     if (params_w->_hasHead) 
         bodyRenderMatrix = CalculateBodyRenderMatrix();

@@ -80,7 +80,7 @@ public:
     void ClearImageCache();
     
 #pragma mark - creation
-    MAXEffectObject* CreateEffect(MAXObjectConfig* effectConfig, float size);
+    MAXEffectObject* CreateEffect(MAXObjectConfig* effectConfig, float size, bool animated);
     MAXUnitObject* CreateUnit(MAXObjectConfig* unitConfig);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);

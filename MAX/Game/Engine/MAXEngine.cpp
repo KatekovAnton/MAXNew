@@ -226,7 +226,7 @@ void MAXEngine::DrawUnits()
     }
  
     glActiveTexture(GL_TEXTURE0);
-    printf("%d\n",_applyedPaletteCount);
+   // printf("%d\n",_applyedPaletteCount);
 }
 
 void MAXEngine::DrawInterface()

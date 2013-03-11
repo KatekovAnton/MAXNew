@@ -31,6 +31,8 @@ public:
     int index;
     double time;
     
+    bool _autoAnimated;
+    
     
     MAXUnitMaterialFrame* frames;
     MAXUnitMaterialFrame* shadowframes;

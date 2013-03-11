@@ -33,6 +33,7 @@ public:
     virtual compareFunc GetCompareFunc();
     
     static GLKMatrix4 MatrixForCell(const CCPoint& cell);
+    static int CalculateRocketImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget);
     static int CalculateImageIndex(const CCPoint& cellLocation, const CCPoint& cellTarget);
     
 };

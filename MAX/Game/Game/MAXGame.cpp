@@ -177,10 +177,25 @@ void MAXGame::StartMatch()
     CCDirector::sharedDirector()->pushScene(_gameInterface);
 }
 
-void MAXGame::SetMap(string mapName)
+void MAXGame::FlushEffectsWithNew(GameEffect* effect)
 {
-    
-    
+    bool onemorestep = true;
+    while (onemorestep)
+    {
+        onemorestep = false;
+        int count = _effects->GetCount();
+        for (int i = 0; i < count; i++)
+        {
+            GameEffect* effect = _effects->objectAtIndex(i);
+            if (effect->_finished)
+            {
+                _effects->remove(i);
+                onemorestep = true;
+                delete effect;
+                break;
+            }
+        }
+    }
 }
 
 #pragma mark - DisplayPinchDelegate

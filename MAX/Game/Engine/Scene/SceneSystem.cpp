@@ -164,7 +164,7 @@ void SceneSystem::DeleteObjects(UContainer<PivotObject> *objects)
 void SceneSystem::RemoveObject(PivotObject* object)
 {
     _objects->removeObject(object);
-    //_sceneGraph.RemoveObject(deletingobjects);
+    _sceneGraph->RemoveObject(object);
     //deletingobjects.behaviourmodel.Disable();
     if (_objects->GetCount() == 0)
         IdGenerator::DefaultGenerator()->Reset();

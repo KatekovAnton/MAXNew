@@ -213,6 +213,8 @@ public:
     
     MAXObjectConfig();
     MAXObjectConfig(string balanceConfigName, string resourceConfigName);
+    
+    ~MAXObjectConfig();
     bool IsValid() const;
     
     bool _haveShadow;

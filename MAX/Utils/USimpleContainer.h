@@ -59,7 +59,7 @@ namespace Utils {
     template <class T>
     void USimpleContainer<T>::remove(int index) {
         if (index < _count) {
-            T obj  = _array[index];
+//            T obj  = _array[index];
             
             _array[index] = _array[_count - 1];
             _array[_count - 1] = nullptr;

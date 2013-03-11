@@ -63,8 +63,12 @@ class GameEffect : public GameObject, public MAXAnimationDelegate {
     
 public:
     
+    bool _finished;
+    
     GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config);
     ~GameEffect();
+    
+    void SetDirection(int index);
      
 #pragma mark - creation
     static GameEffect* CreateBlast(BLAST_TYPE type);

@@ -55,8 +55,7 @@ public:
     
     
     void StartMatch();
-    void SetMap(string mapName);
-    
+    void FlushEffectsWithNew(GameEffect* effect);
     
 #pragma mark - DisplayPinchDelegate
     virtual bool CanStartPinch(float x, float y);

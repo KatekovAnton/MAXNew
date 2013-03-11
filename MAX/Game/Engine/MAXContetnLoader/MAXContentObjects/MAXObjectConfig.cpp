@@ -270,13 +270,13 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
 }
 
 MAXObjectConfig::MAXObjectConfig()
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
 {
     
 }
 
 MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfigName)
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
 {
     BinaryReader *r = new BinaryReader(resourceConfigName);
     string resourceConfig = r->ReadFullAsString();
@@ -313,6 +313,9 @@ MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfig
     _isShip = _bMoveType == 4;
     _haveShadow = _shadowName != "";
 }
+
+MAXObjectConfig::~MAXObjectConfig()
+{}
 
 bool MAXObjectConfig::IsValid() const
 {
