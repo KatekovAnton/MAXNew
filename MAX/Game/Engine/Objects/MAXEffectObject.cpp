@@ -13,7 +13,7 @@
 #include "MAXEngine.h"
 
 MAXEffectObject::MAXEffectObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config)
-:MAXObject(config)
+:MAXObject(config), _currentFrame(0), _frameCount(material->_frameCount), _material(material), _renderAspect(renderObject)
 {
     
 }
@@ -48,17 +48,14 @@ GLKMatrix4 MAXEffectObject::CalculateBodyRenderMatrix()
 
 void MAXEffectObject::Frame(double time)
 {
-    _applyedPaletteIndex = -1;
+    
 }
 
 void MAXEffectObject::Draw(Shader *shader)
 {
     _renderAspect->Bind();
-    if (_applyedPaletteIndex != -2)
-    {
-        _applyedPaletteIndex = -2;
-        _material->ApplyPalette(shader, _playerPalette_w);
-    }
+    _material->ApplyPalette(shader, _playerPalette_w);
+    
     
     shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
     _material->index = _currentFrame;

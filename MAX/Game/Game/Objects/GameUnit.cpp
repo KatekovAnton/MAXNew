@@ -9,6 +9,7 @@
 #include "GameUnit.h"
 #include "Geometry.h"
 #include "MyRandom.h"
+#include "MAXGame.h"
 #include "MAXUnitObject.h"
 #include "MAXAnimationPrefix.h"
 #include "MAXEngine.h"
@@ -16,6 +17,7 @@
 
 #include "GameUnitParameters.h"
 #include "GameMatchPlayer.h"
+#include "GameEffect.h"
 #include "GameMatch.h"
 #include "GameMap.h"
 
@@ -121,6 +123,7 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
 void GameUnit::Fire(const cocos2d::CCPoint &target)
 {
     MAXUnitObject* _unitObject = GetUnitObject();
+    CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
     if(!_config->GetCongig()->_isAbleToFire)
         return;
     if(_unitObject->GetFireing())
@@ -131,6 +134,13 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
         _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, target));
     MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?0.15:0.3, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
+    
+    GameEffect* effect = GameEffect::CreateBullet(BULLET_TYPE_PLASMA, _config->GetCongig()->_bLevel);
+    game->_effects->addObject(effect);
+    effect->SetLocation(GetUnitCell());
+    effect->LocateOnMap();
+    MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject());
+    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
 }
 
 #pragma mark - MAXAnimationDelegate

@@ -15,12 +15,12 @@
 
 class MAXUnitObject;
 
-enum MAXGAMESTATE
+typedef enum 
 {
     MAXANIMATION_UNITMOVE,
     MAXANIMATION_UNITROTATE,
     MAXANIMATION_UNITFIRE
-};
+} MAXANIMATION;
 
 class MAXAnimationObjectUnit : public MAXAnimationBase {
     

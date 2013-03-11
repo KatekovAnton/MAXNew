@@ -11,22 +11,32 @@
 #include "MAXEngine.h"
 #include "MAXUnitMaterial.h"
 
-const float moveTime = 0.2;
+
 
 MAXAnimationObject::MAXAnimationObject(const CCPoint& startLocation, const CCPoint& endLocation, MAXObject* object)
 :MAXAnimationBase(), _unit(object), _startLocation(startLocation), _endLocation(endLocation)
-{}
+{
+    _moveTime = 0.05 * sqrtf((startLocation.x - endLocation.x) * (startLocation.x - endLocation.x) + (startLocation.y - endLocation.y) * (startLocation.y - endLocation.y));
+    _moveCurve = MAXANIMATION_CURVE_EASE_LINEAR;
+}
 
 bool MAXAnimationObject::IsFinished()
 {
-    return MAXAnimationBase::GetStartTime() + moveTime <= engine->FullTime();
+    return MAXAnimationBase::GetStartTime() + _moveTime <= engine->FullTime();
 }
 
 void MAXAnimationObject::Update(double time)
 {
     double elapsed = (engine->FullTime()-GetStartTime());
-    float fromminonetoone = (2.0*elapsed/moveTime) - 1.0;
-    float deltaTime = sinf(fromminonetoone * M_PI_2) * 0.5 + 0.5;
+    float deltaTime = 0;
+    if (_moveCurve == MAXANIMATION_CURVE_EASE_IN_OUT) {
+        float fromminonetoone = (2.0*elapsed/_moveTime) - 1.0;
+        deltaTime = sinf(fromminonetoone * M_PI_2) * 0.5 + 0.5;
+    }
+    else //if (_moveCurve == MAXANIMATION_CURVE_EASE_LINEAR)
+    {
+        deltaTime = elapsed/_moveTime;
+    }
     CCPoint delta = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
     CCPoint result = CCPoint(_startLocation.x + delta.x * deltaTime, _startLocation.y + delta.y * deltaTime);
     _unit->SetPosition(result);

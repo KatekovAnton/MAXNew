@@ -59,7 +59,6 @@ class MAXAnimationObject;
 class GameEffect : public GameObject, public MAXAnimationDelegate {
     
     MAXObjectConfig* _config;
-    
     MAXAnimationObject* _moveAnimation;
     
 public:

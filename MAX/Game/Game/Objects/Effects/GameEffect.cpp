@@ -73,10 +73,10 @@ GameEffect* GameEffect::CreateBullet(BULLET_TYPE type, int level)
             break;
     }
     
-    MAXObjectConfig* config = new MAXObjectConfig();// MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
+    MAXObjectConfig* config = new MAXObjectConfig();
     config->_bLevel = level;
     config->_bodyName = effectName;
-    MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, 1.0);
+    MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size);
     GameEffect* result = new GameEffect(effectObject, config);
     
     return result;

@@ -209,14 +209,14 @@ void MAXEngine::DrawGround()
 
 void MAXEngine::DrawUnits()
 {
-   // glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
+    
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
-    
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-    const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
     
+    const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
     for (int i = 0; i < objects->GetCount(); i++)
     {
         objects->objectAtIndex(i)->Draw(_shader);

@@ -24,21 +24,25 @@ void MAXUnitMaterial::SetImagesCount(int frameCount, int shadowframeCount)
     _shadowframeCount = shadowframeCount;
     frames = new MAXUnitMaterialFrame[frameCount];
     textures = new Texture*[frameCount];
-    
-    shadowframes = new MAXUnitMaterialFrame[shadowframeCount];
-    shadowTextures = new Texture*[shadowframeCount];
+    if (shadowframeCount != 0)
+    {
+        shadowframes = new MAXUnitMaterialFrame[shadowframeCount];
+        shadowTextures = new Texture*[shadowframeCount];
+    }
 }
 
 MAXUnitMaterial::~MAXUnitMaterial()
 {
     delete [] frames;
-    delete [] shadowframes;
     for (int i = 0; i < _frameCount; i++)
         delete textures[i];
-    for (int i = 0; i < _shadowframeCount; i++)
-        delete shadowTextures[i];
     delete [] textures;
-    delete [] shadowTextures;
+    if (_shadowframeCount != 0) {
+        delete [] shadowframes;
+        for (int i = 0; i < _shadowframeCount; i++)
+            delete shadowTextures[i];
+        delete [] shadowTextures;
+    }
 }
 
 void MAXUnitMaterial::DoFrame(double elapsedTime)

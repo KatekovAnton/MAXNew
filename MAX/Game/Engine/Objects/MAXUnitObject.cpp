@@ -14,6 +14,7 @@
 #include "Geometry.h"
 #include "MAXAnimationPrefix.h"
 #include "MyRandom.h"
+#include "Texture.h"
 
 static bool showShadows = true;
 
@@ -223,7 +224,6 @@ Material * MAXUnitObject::GetMaterial()
 
 void MAXUnitObject::Frame(double time)
 {
-    _applyedPaletteIndex = -1;
     _material->DoFrame(time);
     if (params_w->_isAnimatedHead) {
         _lastHeadAnimTime+=time;
@@ -257,11 +257,8 @@ bool MAXUnitObject::IsHasBody() const
 void MAXUnitObject::Draw(Shader *shader)
 {
     _renderAspect->Bind();
-    if (_applyedPaletteIndex != _playerId)
-    {
-        _applyedPaletteIndex = _playerId;
-        _material->ApplyPalette(shader, _playerPalette_w);
-    }
+    _material->ApplyPalette(shader, _playerPalette_w);
+    
     if(_needShadow)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);

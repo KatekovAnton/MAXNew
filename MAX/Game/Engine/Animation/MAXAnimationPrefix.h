@@ -13,5 +13,7 @@
 #include "MAXAnimationBase.h"
 #include "MAXAnimationObjectUnit.h"
 #include "MAXAnimationSequence.h"
+#include "MAXAnimationEffect.h"
+#include "MAXAnimationObject.h"
 
 #endif

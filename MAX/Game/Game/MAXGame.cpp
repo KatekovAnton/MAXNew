@@ -11,6 +11,7 @@
 #include "MAXEngine.h"
 #include "Display.h"
 
+#include "MAXEffectObject.h"
 #include "MAXConfigManager.h"
 #include "MAXContetnLoader.h"
 #include "MAXUnitObject.h"
@@ -168,6 +169,8 @@ void MAXGame::StartMatch()
         GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 53, "Inter", 0);
         unit1->LocateOnMap();
     }
+
+    
     
     _gameInterface = new GameInterface();
     _gameInterface->InitBaseInterface();
@@ -287,10 +290,8 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     {
         CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
         _currentUnit->Fire(p);
-       // GameEffect* effect = GameEffect::CreateBullet(BULLET_TYPE_PLASMA, _currentUnit->_config->GetCongig()->_bLevel);
-       // _effects->addObject(effect);
-       // effect->SetLocation(p);
-       // effect->LocateOnMap();
+       
+        
     }
 }
 

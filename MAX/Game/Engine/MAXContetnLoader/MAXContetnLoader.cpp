@@ -29,7 +29,6 @@ const int pal_size = 0x300;
 const int max_width = 640;
 const int max_height = 480;
 
-//Color* default_palette;
 
 
 Color default_palette[256] =
@@ -313,14 +312,16 @@ MAXContentLoader::MAXContentLoader()
         inf->ReadBuffer(8, dir[f].name);
         dir[f].offset = inf->ReadInt();
         dir[f].size = inf->ReadInt();
+       // printf("%s\n", dir[f].name);
     }
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
-    
+
     
     GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
-    memcpy(currentPalette, &defaultPalette, 4 * pal_size/3);
-    defaultPalette = new Texture(GL_NEAREST, (GLubyte*)currentPalette, pal_size/3, 1);
+    memcpy(currentPalette, default_palette, 4 * pal_size/3);
+    defaultPalette = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
+    
     unitMesh = EngineMesh::CreateUnitQuad();
 //    default_palette = (Color*)malloc(256*4);
 //    memset(default_palette, 0, 256*4);

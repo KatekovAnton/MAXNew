@@ -12,7 +12,7 @@
 #include "MAXAnimationPrefix.h"
 
 GameObject::GameObject(MAXObject* object)
-:_object(object)
+:_object(object), _onMap(false)
 {}
 
 GameObject::~GameObject()
