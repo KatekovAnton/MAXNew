@@ -135,9 +135,8 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?0.15:0.3, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
-    BULLET_TYPE type = BULLET_TYPE_TORPEDO;
-    GameEffect* effect = GameEffect::CreateBullet(type, _config->GetCongig()->_bLevel);
-    game->_effects->addObject(effect);
+    BULLET_TYPE type = BULLET_TYPE_ROCKET;
+    GameEffect* effect = GameEffect::CreateBullet(type, _config->GetCongig()->_bLevel, BLAST_TYPE_BUILDING, SECONDARY_TYPE_SMOKE);
     effect->SetLocation(GetUnitCell());
     effect->LocateOnMap();
     if (type != BULLET_TYPE_PLASMA) {
@@ -159,7 +158,6 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
     if (animation == _moveAnimation)
     {
     }
-    //update radar range etc
 }
 
 void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)

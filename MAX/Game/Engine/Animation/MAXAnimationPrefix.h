@@ -15,5 +15,6 @@
 #include "MAXAnimationSequence.h"
 #include "MAXAnimationEffect.h"
 #include "MAXAnimationObject.h"
+#include "MAXAnimationWait.h"
 
 #endif

@@ -51,8 +51,8 @@ void MAXObject::SetPosition(const CCPoint& cell)
 {
     GLKMatrix4 matrix = MAXObject::MatrixForCell(cell);
     this->SetGlobalPosition(matrix, NULL, NULL, true);
-    CCPoint pt = ObjectCell();
-    pt = pt;
+//    CCPoint pt = ObjectCell();
+//    pt = pt;
 }
 
 GLKMatrix4 MAXObject::MatrixForCell(const CCPoint& cell)

@@ -197,6 +197,7 @@
 		D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */; };
 		D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */; };
 		D132DC6116D7AC9800DEA269 /* MAXStatusRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */; };
+		D14D50D016EF381200F8A8EC /* MAXAnimationWait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */; };
 		D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48D1168B31030055F35D /* MAXContentMap.cpp */; };
 		D16D48F9168B381D0055F35D /* 112x112.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48DF168B381D0055F35D /* 112x112.wrl */; };
 		D16D48FA168B381D0055F35D /* Crater_1.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E0168B381D0055F35D /* Crater_1.wrl */; };
@@ -553,6 +554,8 @@
 		D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXStatusRenderer.cpp; sourceTree = "<group>"; };
 		D132DC6016D7AC9800DEA269 /* MAXStatusRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXStatusRenderer.h; sourceTree = "<group>"; };
 		D132DC6216D7AE5B00DEA269 /* MAXStatusRendererUnitDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXStatusRendererUnitDelegate.h; sourceTree = "<group>"; };
+		D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationWait.cpp; sourceTree = "<group>"; };
+		D14D50CF16EF381000F8A8EC /* MAXAnimationWait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationWait.h; sourceTree = "<group>"; };
 		D16D48D1168B31030055F35D /* MAXContentMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentMap.cpp; sourceTree = "<group>"; };
 		D16D48D2168B31030055F35D /* MAXContentMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContentMap.h; sourceTree = "<group>"; };
 		D16D48DF168B381D0055F35D /* 112x112.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = 112x112.wrl; sourceTree = "<group>"; };
@@ -1072,6 +1075,8 @@
 				D1AB732416B93C15004D28F2 /* MAXAnimationSequence.h */,
 				D1AB733216BBCAEC004D28F2 /* MAXAnimationRepeat.cpp */,
 				D1AB733316BBCAED004D28F2 /* MAXAnimationRepeat.h */,
+				D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */,
+				D14D50CF16EF381000F8A8EC /* MAXAnimationWait.h */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -1936,6 +1941,7 @@
 				8B8C0CFC16DA54540077426D /* CocosHelper.cpp in Sources */,
 				8B54D40516ECFBFC00935B1A /* MAXAnimationObject.cpp in Sources */,
 				8B54D40816ECFD9800935B1A /* MAXAnimationEffect.cpp in Sources */,
+				D14D50D016EF381200F8A8EC /* MAXAnimationWait.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -187,7 +187,7 @@ void MAXGame::FlushEffectsWithNew(GameEffect* effect)
         for (int i = 0; i < count; i++)
         {
             GameEffect* effect = _effects->objectAtIndex(i);
-            if (effect->_finished)
+            if (effect->GetFinished())
             {
                 _effects->remove(i);
                 onemorestep = true;

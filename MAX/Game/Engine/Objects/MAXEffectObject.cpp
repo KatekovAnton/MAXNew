@@ -55,7 +55,10 @@ void MAXEffectObject::Frame(double time)
 {
     _material->DoFrame(time);
     if (_material->_autoAnimated) 
-        _currentFrame = _material->index;
+    {
+        _currentFrame = (engine->FullTime() - GetSceneLocationTime())/0.1;
+        _currentFrame = _currentFrame % _material->_frameCount;
+    }
 }
 
 void MAXEffectObject::Draw(Shader *shader)

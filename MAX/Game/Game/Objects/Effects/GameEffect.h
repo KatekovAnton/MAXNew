@@ -16,11 +16,21 @@
 
 typedef enum
 {
+    EFFECT_TYPE_BLAST,
+    EFFECT_TYPE_BULLET,
+    EFFECT_TYPE_SECONDARY,
+    EFFECT_TYPE_TRASH,
+    EFFECT_TYPE_BUILDING_BASE
+} EFFECT_TYPE;
+
+typedef enum
+{
     BLAST_TYPE_GROUND,
     BLAST_TYPE_SEA,
     BLAST_TYPE_AIR,
     BLAST_TYPE_BUILDING,
-    BLAST_TYPE_DAMAGEEFFECT
+    BLAST_TYPE_DAMAGEEFFECT,
+    BLAST_TYPE_NONE
 } BLAST_TYPE;
 
 typedef enum
@@ -33,7 +43,8 @@ typedef enum
 typedef enum
 {
     SECONDARY_TYPE_SMOKE,
-    SECONDARY_TYPE_RIBBLES
+    SECONDARY_TYPE_RIBBLES,
+    SECONDARY_TYPE_NONE
 } SECONDARY_TYPE;
 
 typedef enum
@@ -61,9 +72,21 @@ class GameEffect : public GameObject, public MAXAnimationDelegate {
     MAXObjectConfig* _config;
     MAXAnimationObject* _moveAnimation;
     
+    int _frameCount;
+    bool _finished;
+    
+    EFFECT_TYPE _effectType;
+    BULLET_TYPE _bulletType;
+    BLAST_TYPE _blastType;
+    SECONDARY_TYPE _secondaryType;
+    
+    double _lastSmokeCreationTime;
+    
 public:
     
-    bool _finished;
+    
+    bool GetFinished() const {return _finished;}
+    int GetFrameCount() const {return _frameCount;}
     
     GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config);
     ~GameEffect();
@@ -71,11 +94,11 @@ public:
     void SetDirection(int index);
      
 #pragma mark - creation
-    static GameEffect* CreateBlast(BLAST_TYPE type);
-    static GameEffect* CreateBullet(BULLET_TYPE type, int level);
-    static GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type);
-    static GameEffect* CreateTrash(TRASH_TYPE type);
-    static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type);
+    static GameEffect* CreateBlast(BLAST_TYPE type, int level);
+    static GameEffect* CreateBullet(BULLET_TYPE type, int level, BLAST_TYPE blastType, SECONDARY_TYPE secondarytype);
+    static GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type, int level);
+    static GameEffect* CreateTrash(TRASH_TYPE type, int level);
+    static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type, int level);
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);

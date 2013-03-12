@@ -51,8 +51,7 @@ void MAXUnitMaterial::DoFrame(double elapsedTime)
     if (!_autoAnimated) 
         return;
     
-    index = (engine->FullTime() - time)/0.1;
-    index = index % _frameCount;
+    
     
 }
 
