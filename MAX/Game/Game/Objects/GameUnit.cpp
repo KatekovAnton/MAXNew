@@ -24,7 +24,7 @@
 using namespace cocos2d;
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner)
-:GameObject(unitObject), _currentTopAnimation(NULL), _config(config), _owner_w(owner)
+:GameObject(unitObject, config->GetCongig()), _currentTopAnimation(NULL), _config(config), _owner_w(owner), _effectUnder(NULL)
 {
     unitObject->_playerId = owner->_playerInfo._playerId;
     unitObject->_playerPalette_w = owner->_palette;
@@ -32,15 +32,26 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMa
     unitObject->_needShadow = !_config->GetCongig()->_isUnderwater;
     _onMap = false;
     _detected = false;
+    if(_config->GetCongig()->_isBuilding && _config->GetCongig()->_isNeedPodkladka)
+    {
+        _effectUnder = GameEffect::CreateBuildingBase(_config->GetCongig()->_bSize == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
+    }
+        
 }
 
 GameUnit::~GameUnit()
 {
     delete _config;
+    if (_effectUnder) {
+        _effectUnder->RemoveFromMap();
+        delete _effectUnder;
+    }
 }
 
 void GameUnit::SetDirection(int dir)
 {
+    if(_config->GetCongig()->_isBuilding)
+        return;
     MAXUnitObject* _unitObject = GetUnitObject();
     _unitObject->SetBodyDirection(dir);
     _unitObject->SetHeadDirection(dir);
@@ -48,7 +59,30 @@ void GameUnit::SetDirection(int dir)
 
 void GameUnit::SetRandomDirection()
 {
+    if(_config->GetCongig()->_isBuilding)
+        return;
     SetDirection(nextIntMax(8));
+}
+
+void GameUnit::LocateOnMap()
+{
+    GameObject::LocateOnMap();
+    if (_effectUnder)
+        _effectUnder->LocateOnMap();
+}
+
+void GameUnit::RemoveFromMap()
+{
+    GameObject::RemoveFromMap();
+    if (_effectUnder)
+        _effectUnder->RemoveFromMap();
+}
+
+void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
+{
+    GameObject::SetLocation(cell);
+    if (_effectUnder) 
+        _effectUnder->SetLocation(_unitCell);
 }
 
 void GameUnit::CheckBodyAndShadow()
@@ -196,3 +230,4 @@ float GameUnit::GetShots() const
 {
     return _config->_pShots;
 }
+

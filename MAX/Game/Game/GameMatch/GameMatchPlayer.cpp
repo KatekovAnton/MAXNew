@@ -53,13 +53,11 @@ GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned
     return result;
 }
 
-GameUnit* GameMatchPlayer::GetUnitInPosition(CCPoint pos)
+GameUnit* GameMatchPlayer::GetUnitInPosition(const CCPoint& pos)
 {
-    CCPoint cell;
     for (int i = 0; i < _units.GetCount(); i++) {
         GameUnit* unit = _units.objectAtIndex(i);
-        cell = unit->GetUnitCell();
-        if ((int)cell.x == (int)pos.x && (int)cell.y == (int)pos.y ) {
+        if (unit->IsUnitInCell(pos)) {
             return unit;
         }
     }

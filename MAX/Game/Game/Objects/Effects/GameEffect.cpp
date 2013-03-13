@@ -15,13 +15,14 @@
 
 //-подложка под большое здание                                                  LRGSLAB	mult
 //-подложка под маленькое здание                                                SMLSLAB	mult
-//-анимированные стрелки которые указывают на место для вывода юнита из здания	BLDMRK1-8	?
-//-мусор на 1 клетку                                                            SMLRUBLE	mult
-//-мусор на 4 клетки                                                            LRGRUBLE	mult
 //-строительная подложка большая наземная                                       LRGTAPE	mult
 //-строительная подложка большая морская                                        LRGCONES	mult
 //-строительная подложка маленькая наземная                                     SMLTAPE
 //-строительная подложка маленькая морская                                      SMLCONES
+
+//-анимированные стрелки которые указывают на место для вывода юнита из здания	BLDMRK1-8	?
+//-мусор на 1 клетку                                                            SMLRUBLE	mult
+//-мусор на 4 клетки                                                            LRGRUBLE	mult
 
 //-взрыв в воздухе                                                              AIREXPLD
 //-взрыв на море                                                                SEAEXPLD
@@ -42,7 +43,7 @@
 //либо просто статика, как для мусора, стрелок пути и оградок вокруг строителей-быльдозеров
 
 GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config)
-:GameObject(effectObject), _config(config), _finished(false), _blastType(BLAST_TYPE_NONE), _secondaryType(SECONDARY_TYPE_NONE), _lastSmokeCreationTime(engine->FullTime())
+:GameObject(effectObject, config), _config(config), _finished(false), _blastType(BLAST_TYPE_NONE), _secondaryType(SECONDARY_TYPE_NONE), _lastSmokeCreationTime(engine->FullTime())
 {
     game->_effects->addObject(this);
     _frameCount = effectObject->_frameCount;
@@ -91,6 +92,8 @@ GameEffect* GameEffect::CreateBlast(BLAST_TYPE type, int level)
     MAXObjectConfig* config = new MAXObjectConfig();
     config->_bLevel = level;
     config->_bodyName = effectName;
+    config->_bSize = size;
+    config->_isBuilding = false;
     MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, true);
     GameEffect* result = new GameEffect(effectObject, config);
     result->_effectType = EFFECT_TYPE_BLAST;
@@ -120,6 +123,7 @@ GameEffect* GameEffect::CreateBullet(BULLET_TYPE type, int level, BLAST_TYPE bla
     MAXObjectConfig* config = new MAXObjectConfig();
     config->_bLevel = level;
     config->_bodyName = effectName;
+    config->_bSize = size;
     MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, animated);
     GameEffect* result = new GameEffect(effectObject, config);
     result->_effectType = EFFECT_TYPE_BULLET;
@@ -144,6 +148,7 @@ GameEffect* GameEffect::CreateSecondaryEffect(SECONDARY_TYPE type, int level)
     MAXObjectConfig* config = new MAXObjectConfig();
     config->_bLevel = level;
     config->_bodyName = effectName;
+    config->_bSize = size;
     MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, true);
     GameEffect* result = new GameEffect(effectObject, config);
     result->_effectType = EFFECT_TYPE_SECONDARY;
@@ -157,7 +162,54 @@ GameEffect* GameEffect::CreateTrash(TRASH_TYPE type, int level)
 
 GameEffect* GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE type, int level)
 {
-    return NULL;
+    string effectName = "";
+    float size = 1.0;
+    switch (type) {
+        case BUILDING_BASE_TYPE_LARGE:
+        {
+            size = 2.0;
+            effectName = "LRGSLAB";
+        }   break;
+        case BUILDING_BASE_TYPE_SMALL:
+        {
+            size = 1.0;
+            effectName = "SMLSLAB";
+        }   break;
+        case BUILDING_BASE_TYPE_PROGRESS_LARGE:
+        {
+            size = 2.0;
+            effectName = "LRGTAPE";
+        }   break;
+        case BUILDING_BASE_TYPE_PROGRESS_SEA_LARGE:
+        {
+            size = 2.0;
+            effectName = "LRGCONES";
+        }   break;
+        case BUILDING_BASE_TYPE_PROGRESS_SMALL:
+        {
+            size = 1.0;
+            effectName = "SMLTAPE";
+        }   break;
+        case BUILDING_BASE_TYPE_PROGRESS_SEA_SMALL:
+        {
+            size = 1.0;
+            effectName = "SMLCONES";
+        }   break;
+        default:
+            break;
+    }
+    
+    MAXObjectConfig* config = new MAXObjectConfig();
+    config->_bLevel = level;
+    config->_bodyName = effectName;
+    config->_bSize = size;
+    config->_isBuilding = true;
+    MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, false);
+    GameEffect* result = new GameEffect(effectObject, config);
+    result->_effectType = EFFECT_TYPE_BUILDING_BASE;
+    result->_blastType = BLAST_TYPE_NONE;
+    result->_secondaryType = SECONDARY_TYPE_NONE;
+    return result;
 }
 
 #pragma mark - MAXAnimationDelegate

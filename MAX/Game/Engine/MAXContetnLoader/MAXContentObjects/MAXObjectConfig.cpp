@@ -270,13 +270,13 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
 }
 
 MAXObjectConfig::MAXObjectConfig()
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false)
 {
     
 }
 
 MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfigName)
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false)
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false)
 {
     BinaryReader *r = new BinaryReader(resourceConfigName);
     string resourceConfig = r->ReadFullAsString();

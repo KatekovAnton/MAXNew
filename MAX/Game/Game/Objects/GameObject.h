@@ -16,27 +16,30 @@ using namespace std;
 using namespace cocos2d;
 
 class MAXObject;
+class MAXObjectConfig;
 
 class GameObject {
 
 protected:
     CCPoint _unitCell;
     MAXObject* _object;
-
+    MAXObjectConfig* _config_w;
+    
 public:
     
     bool _onMap;
     
-    GameObject(MAXObject* object);
+    GameObject(MAXObject* object, MAXObjectConfig* config);
     ~GameObject();
     
     MAXObject* GetObject() const {return _object;};
     CCPoint GetUnitCell() const {return _unitCell;};
     
-    void SetLocation(const CCPoint& cell);
+    bool IsUnitInCell(const CCPoint& cell) const;
     
-    void LocateOnMap();
-    void RemoveFromMap();
+    virtual void SetLocation(const CCPoint& cell);
+    virtual void LocateOnMap();
+    virtual void RemoveFromMap();
 };
 
 #endif /* defined(__MAX__Object__) */

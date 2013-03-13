@@ -67,6 +67,9 @@ void MAXUnitSelection::Update()
     
     
     float deltaD = startD + _part * (endD - startD);
+    if (_selectedUnit_w->params_w->_isBuilding) 
+        deltaD *= 2.0;
+    
     //deltaD *= 0.5;
     //GLKMatrix4 matrix = _selectedUnit->GetTransformMatrix();
     CCPoint point = _selectedUnit_w->ObjectCell();
@@ -82,17 +85,25 @@ void MAXUnitSelection::Update()
     _globalPoints[10].x = point.x - deltaD; _globalPoints[10].y = point.y + deltaD;
     
     
-    _globalPoints[0].x = _globalPoints[1].x;                  _globalPoints[0].y = _globalPoints[1].y + sideLength;
-    _globalPoints[2].x = _globalPoints[1].x + sideLength;     _globalPoints[2].y = _globalPoints[1].y;
+    _globalPoints[0].x = _globalPoints[1].x;
+    _globalPoints[0].y = _globalPoints[1].y + sideLength;
+    _globalPoints[2].x = _globalPoints[1].x + sideLength;
+    _globalPoints[2].y = _globalPoints[1].y;
     
-    _globalPoints[3].x = _globalPoints[4].x - sideLength;     _globalPoints[3].y = _globalPoints[4].y;
-    _globalPoints[5].x = _globalPoints[4].x;                  _globalPoints[5].y = _globalPoints[4].y + sideLength;
+    _globalPoints[3].x = _globalPoints[4].x - sideLength;
+    _globalPoints[3].y = _globalPoints[4].y;
+    _globalPoints[5].x = _globalPoints[4].x;
+    _globalPoints[5].y = _globalPoints[4].y + sideLength;
     
-    _globalPoints[6].x = _globalPoints[7].x;                  _globalPoints[6].y = _globalPoints[7].y - sideLength;
-    _globalPoints[8].x = _globalPoints[7].x - sideLength;     _globalPoints[8].y = _globalPoints[7].y;
+    _globalPoints[6].x = _globalPoints[7].x;
+    _globalPoints[6].y = _globalPoints[7].y - sideLength;
+    _globalPoints[8].x = _globalPoints[7].x - sideLength;
+    _globalPoints[8].y = _globalPoints[7].y;
     
-    _globalPoints[9].x = _globalPoints[10].x + sideLength;    _globalPoints[9].y = _globalPoints[10].y;
-    _globalPoints[11].x = _globalPoints[10].x;                _globalPoints[11].y = _globalPoints[10].y - sideLength;
+    _globalPoints[9].x = _globalPoints[10].x + sideLength;
+    _globalPoints[9].y = _globalPoints[10].y;
+    _globalPoints[11].x = _globalPoints[10].x;
+    _globalPoints[11].y = _globalPoints[10].y - sideLength;
     
     
     for (int i = 0; i < 12; i++)

@@ -161,8 +161,20 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->LocateOnMap();
     }
+    ///Scanner
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 58, "Inter", 0);
+        unit1->SetRandomDirection();
+        unit1->LocateOnMap();
+    }
+    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 45, "Airplant", 0);
+     //   unit1->SetRandomDirection();
+        unit1->LocateOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(50, 64, "Scanner", 0);
         unit1->SetRandomDirection();
         unit1->LocateOnMap();
     }
@@ -266,7 +278,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.x = floorf(p.x);
     p.y = floorf(p.y);
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
-    if (_currentUnit)
+    if (_currentUnit && !_currentUnit->_config->GetCongig()->_isBuilding)
     {
         
         CCPoint location = _currentUnit->GetUnitCell();

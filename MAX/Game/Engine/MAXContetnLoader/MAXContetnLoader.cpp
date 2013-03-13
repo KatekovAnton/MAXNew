@@ -715,9 +715,10 @@ MAXUnitObject* MAXContentLoader::CreateUnit(MAXObjectConfig* unitConfig)
     MAXUnitMaterial *material = MAXSCL->LoadUnitMaterial(unitConfig->_bodyName, unitConfig->_shadowName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
     MAXUnitObject* result = new MAXUnitObject(renderObject, material, unitConfig);
-    if (unitConfig->_isPlane) {
+    if (unitConfig->_isPlane) 
         result->_bbsize = GLKVector2Make(2, 2);
-    }
+    else
+        result->_bbsize = GLKVector2Make(unitConfig->_bSize, unitConfig->_bSize);
     return result;
 }
 

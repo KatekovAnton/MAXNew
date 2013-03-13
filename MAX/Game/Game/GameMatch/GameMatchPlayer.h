@@ -57,7 +57,7 @@ public:
 
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
-    GameUnit* GetUnitInPosition(CCPoint pos);
+    GameUnit* GetUnitInPosition(const CCPoint& pos);
 };
 
 #endif /* defined(__MAX__Game_MatchPlayer__) */

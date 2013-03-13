@@ -25,12 +25,13 @@ class MAXObjectConfig;
 
 class GameUnitParameters;
 class GameMatchPlayer;
+class GameEffect;
 
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatusRendererUnitDelegate {
     
     MAXAnimationObjectUnit* _moveAnimation;
     MAXAnimationBase* _currentTopAnimation;
-    
+    GameEffect* _effectUnder;
     
 public:
     
@@ -52,6 +53,11 @@ public:
     void Fire(const CCPoint& target);
     void SetDirection(int dir);
     void SetRandomDirection();
+    
+    virtual void SetLocation(const CCPoint& cell);
+    virtual void LocateOnMap();
+    virtual void RemoveFromMap();
+    
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);
