@@ -55,8 +55,9 @@ class MAXUnitObject : public MAXObject {
     
 public:
     
+    void SetBodyOffset (int offset);
+    
     int bodyOffset = 0;
-    int shadowOffset = 0;
     int headOffset = 8;
     int headFireOffset = 16;
     

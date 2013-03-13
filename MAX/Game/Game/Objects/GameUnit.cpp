@@ -63,13 +63,13 @@ void GameUnit::CheckBodyAndShadow()
     {
         if (_config->GetCongig()->_isUnderwater && !_detected)
         {
-            _unitObject->bodyOffset = 0;
+            _unitObject->SetBodyOffset(0);
             _unitObject->_needShadow = false;
             return;
         }
         if (_config->GetCongig()->_isAmphibious)
         {
-            _unitObject->bodyOffset = 8;
+            _unitObject->SetBodyOffset(8);
             return;
         }
     }
@@ -77,14 +77,13 @@ void GameUnit::CheckBodyAndShadow()
     {
         if (_config->GetCongig()->_isUnderwater)
         {
-            _unitObject->bodyOffset = 8;
+            _unitObject->SetBodyOffset(8);
             _unitObject->_needShadow = _config->GetCongig()->_haveShadow;
-            _unitObject->shadowOffset = 8;
             return;
         }
         if (_config->GetCongig()->_isAmphibious)
         {
-            _unitObject->bodyOffset = 0;
+            _unitObject->SetBodyOffset(0);
             return;
         }
     }

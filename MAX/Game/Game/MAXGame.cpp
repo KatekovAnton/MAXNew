@@ -117,7 +117,7 @@ void MAXGame::StartMatch()
         unit1->LocateOnMap();
     }
     {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(74, 45, "pcan", 0);
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(78, 45, "pcan", 0);
         unit1->SetRandomDirection();
         unit1->LocateOnMap();
     }
@@ -138,6 +138,11 @@ void MAXGame::StartMatch()
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 58, "Scout", 0);
+        unit1->SetRandomDirection();
+        unit1->LocateOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(48, 58, "Engineer", 0);
         unit1->SetRandomDirection();
         unit1->LocateOnMap();
     }
@@ -228,7 +233,8 @@ void MAXGame::ProceedPan(float speedx, float speedy)
 
 bool CanMove(int unitType, int groundType, bool unitInCell)
 {
-    switch (unitType) {
+    switch (unitType)
+    {
         case UNIT_MOVETYPE_GROUND:
             return groundType == GROUND_TYPE_GROUND && !unitInCell;
             break;

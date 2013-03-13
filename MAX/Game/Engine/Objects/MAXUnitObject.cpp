@@ -128,7 +128,7 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
 {
     GLKMatrix4 transform = GetTransformMatrix();
     
-    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[shadowOffset + (IsHasBody()?bodyIndex:pureheadIndex)];
+    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[bodyIndex];//(IsHasBody()?bodyIndex:pureheadIndex)];
     float scalex = shadowFrame.size.x/64.0;
     float scaley = shadowFrame.size.y/64.0;
     
@@ -157,7 +157,7 @@ GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
 {
     GLKMatrix4 transform = GetTransformMatrix();
     
-    MAXUnitMaterialFrame bodyframe = _material->frames[bodyIndex];
+    MAXUnitMaterialFrame bodyframe = _material->frames[bodyIndex];//(IsHasBody()?bodyIndex:pureheadIndex)];
     float scalex = bodyframe.size.x/64.0;
     float scaley = bodyframe.size.y/64.0;
     
@@ -266,18 +266,18 @@ void MAXUnitObject::Draw(Shader *shader)
     if(_needShadow)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
-        _material->index = shadowOffset + (IsHasBody()?bodyIndex:pureheadIndex);
+        _material->index = bodyIndex;//(IsHasBody()?bodyIndex:pureheadIndex);
         _renderAspect->RenderShadow(0, _material);
     }
     if (IsHasBody())
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
-        _material->index = bodyIndex + bodyOffset;
+        _material->index = bodyIndex;
         _renderAspect->Render(0, _material);
     }
     
     shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, headRenderMatrix.m);
-    _material->index = headIndex + (!IsHasBody()?bodyOffset:0);
+    _material->index = headIndex;
     _renderAspect->Render(0, _material);
     
     _renderAspect->UnBind();
@@ -287,15 +287,26 @@ void MAXUnitObject::SetBodyDirection(int state)
 {
     purebodyIndex = state;
     bodyIndex = state + bodyOffset;
+   // shadowIndex = state + shadowOffset;
+//    bodyIndex = (IsHasBody()?bodyIndex:pureheadIndex);
     if (!IsHasBody())
         SetHeadDirection(state);
+    changed = true;
+}
+
+void MAXUnitObject::SetBodyOffset(int offset)
+{
+    bodyOffset = offset;
+    bodyIndex = purebodyIndex + bodyOffset;
+    if (!IsHasBody()) 
+        headIndex = pureheadIndex + ((params_w->_isAnimatedHead)?(headOffset):(fireing?headFireOffset:headOffset)) + bodyOffset;
     changed = true;
 }
 
 void MAXUnitObject::SetHeadDirection(int state)
 {
     pureheadIndex = state;
-    headIndex = state + ((params_w->_isAnimatedHead)?(headOffset):(fireing?headFireOffset:headOffset));
+    headIndex = state + ((params_w->_isAnimatedHead)?(headOffset):(fireing?headFireOffset:headOffset)) + bodyOffset;
     changed = true;
 }
 
