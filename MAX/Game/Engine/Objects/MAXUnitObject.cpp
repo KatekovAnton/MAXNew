@@ -75,7 +75,6 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
 MAXUnitObject::~MAXUnitObject()
 {
     delete _renderAspect;
-//    delete _material;
 }
 
 void MAXUnitObject::LastUpdate()
@@ -128,7 +127,7 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
 {
     GLKMatrix4 transform = GetTransformMatrix();
     
-    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[bodyIndex];//(IsHasBody()?bodyIndex:pureheadIndex)];
+    MAXUnitMaterialFrame shadowFrame = _material->shadowframes[bodyIndex];
     float scalex = shadowFrame.size.x/64.0;
     float scaley = shadowFrame.size.y/64.0;
     
@@ -157,7 +156,7 @@ GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
 {
     GLKMatrix4 transform = GetTransformMatrix();
     
-    MAXUnitMaterialFrame bodyframe = _material->frames[bodyIndex];//(IsHasBody()?bodyIndex:pureheadIndex)];
+    MAXUnitMaterialFrame bodyframe = _material->frames[bodyIndex];
     float scalex = bodyframe.size.x/64.0;
     float scaley = bodyframe.size.y/64.0;
     
@@ -266,7 +265,7 @@ void MAXUnitObject::Draw(Shader *shader)
     if(_needShadow)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
-        _material->index = bodyIndex;//(IsHasBody()?bodyIndex:pureheadIndex);
+        _material->index = bodyIndex;
         _renderAspect->RenderShadow(0, _material);
     }
     if (IsHasBody())
@@ -287,8 +286,6 @@ void MAXUnitObject::SetBodyDirection(int state)
 {
     purebodyIndex = state;
     bodyIndex = state + bodyOffset;
-   // shadowIndex = state + shadowOffset;
-//    bodyIndex = (IsHasBody()?bodyIndex:pureheadIndex);
     if (!IsHasBody())
         SetHeadDirection(state);
     changed = true;
