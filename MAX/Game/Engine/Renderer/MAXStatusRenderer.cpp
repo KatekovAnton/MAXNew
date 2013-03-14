@@ -90,7 +90,11 @@ void MAXStatusRenderer::DrawCircles()
             MAXUnitObject* object = *obj;
             MAXStatusRendererUnitDelegate* delegate = object->_statusDelegate_w;
             center = engine->WorldCoordinatesToScreenCocos(object->ObjectCenterCoordinates());
-            drawer->DrawCircle(center, delegate->GetScan() * oneCellRadius + oneCellRadius * 0.49, 0, 30 + delegate->GetScan(), false);
+            float scan = delegate->GetScan();
+            if (object->params_w->_bSize % 2 == 0)
+                scan -= 0.5;
+            
+            drawer->DrawCircle(center, scan * oneCellRadius + oneCellRadius * 0.49, 0, 30 + delegate->GetScan(), false);
         }
     }
     

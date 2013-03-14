@@ -63,3 +63,10 @@ GameUnit* GameMatchPlayer::GetUnitInPosition(const CCPoint& pos)
     }
     return NULL;
 }
+
+void GameMatchPlayer::SetPalette(int rawIndex)
+{
+    
+}
+
+

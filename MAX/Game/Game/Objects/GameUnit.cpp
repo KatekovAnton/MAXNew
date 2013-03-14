@@ -24,7 +24,7 @@
 using namespace cocos2d;
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner)
-:GameObject(unitObject, config->GetCongig()), _currentTopAnimation(NULL), _config(config), _owner_w(owner), _effectUnder(NULL)
+:GameObject(unitObject, config->GetCongig()), _currentTopAnimation(NULL), _config(config), _owner_w(owner), _effectUnder(NULL), _isInProcess(false)
 {
     unitObject->_playerId = owner->_playerInfo._playerId;
     unitObject->_playerPalette_w = owner->_palette;
@@ -87,7 +87,7 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 
 void GameUnit::CheckBodyAndShadow()
 {
-    if (!(_config->GetCongig()->_isAmphibious || _config->GetCongig()->_isUnderwater))
+    if (!(_config->GetCongig()->_isAmphibious || _config->GetCongig()->_isUnderwater || _config->GetCongig()->_bSelfCreatorType != 0))
         return;
     
     
@@ -103,7 +103,7 @@ void GameUnit::CheckBodyAndShadow()
         }
         if (_config->GetCongig()->_isAmphibious)
         {
-            _unitObject->SetBodyOffset(8);
+            _unitObject->SetBodyOffset(_isInProcess?24:8);
             return;
         }
     }
@@ -117,7 +117,7 @@ void GameUnit::CheckBodyAndShadow()
         }
         if (_config->GetCongig()->_isAmphibious)
         {
-            _unitObject->SetBodyOffset(0);
+            _unitObject->SetBodyOffset(_isInProcess?16:0);
             return;
         }
     }
@@ -153,14 +153,27 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
     _currentTopAnimation = sequence;
 }
 
-void GameUnit::Fire(const cocos2d::CCPoint &target)
+#pragma mark - Fire methods
+
+bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
     MAXUnitObject* _unitObject = GetUnitObject();
-    CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
     if(!_config->GetCongig()->_isAbleToFire)
-        return;
+        return false;
     if(_unitObject->GetFireing())
+        return false;
+    
+    CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
+    float distance = sqrtf((targetCenter.x - _unitCell.x)*(targetCenter.x - _unitCell.x) + (targetCenter.y - _unitCell.y)*(targetCenter.y - _unitCell.y));
+    return (float)_config->_pRange + 0.5f >= distance && _config->_pAmmo != 0 && _config->_pShots != 0;
+}
+
+void GameUnit::Fire(const cocos2d::CCPoint &target)
+{
+    if (!CanFire(target)) 
         return;
+    MAXUnitObject* _unitObject = GetUnitObject();
+    CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
     if (_unitObject->params_w->_hasHead)
         _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
     else
@@ -169,7 +182,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
     BULLET_TYPE type = BULLET_TYPE_ROCKET;
-    GameEffect* effect = GameEffect::CreateBullet(type, _config->GetCongig()->_bLevel, BLAST_TYPE_BUILDING, SECONDARY_TYPE_SMOKE);
+    GameEffect* effect = GameEffect::CreateBullet(type, _config->GetCongig()->_bLevel, BLAST_TYPE_AIR, SECONDARY_TYPE_SMOKE);
     effect->SetLocation(GetUnitCell());
     effect->LocateOnMap();
     if (type != BULLET_TYPE_PLASMA) {
@@ -179,6 +192,27 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject());
     anim->_delegate = effect;
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
+}
+
+bool GameUnit::CanStartBuildProcess()
+{
+    return _config->GetCongig()->_bSelfCreatorType != 0 && !_isInProcess;
+}
+
+void GameUnit::StartBuildProcess()
+{
+    if (!CanStartBuildProcess())
+        return;
+    _isInProcess = true;
+    MAXUnitObject* object = (MAXUnitObject*)GetObject();
+    if (_config->GetCongig()->_isBuilding)
+    {
+        object->SetBodyOffset(1);
+    }
+    else
+    {
+        object->SetBodyOffset(16);
+    }
 }
 
 #pragma mark - MAXAnimationDelegate

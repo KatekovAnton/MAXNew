@@ -33,6 +33,8 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     MAXAnimationBase* _currentTopAnimation;
     GameEffect* _effectUnder;
     
+    bool _isInProcess;
+    
 public:
     
     GameMatchPlayer *_owner_w;
@@ -50,7 +52,6 @@ public:
     
     void LowerPlane();
     void LiftPlane();
-    void Fire(const CCPoint& target);
     void SetDirection(int dir);
     void SetRandomDirection();
     
@@ -58,6 +59,14 @@ public:
     virtual void LocateOnMap();
     virtual void RemoveFromMap();
     
+#pragma mark - Fire methods
+    bool IsInProcess() const {return _isInProcess;}
+    bool CanFire(const cocos2d::CCPoint &target);
+    void Fire(const CCPoint& target);
+    
+#pragma mark - Build methods
+    bool CanStartBuildProcess();
+    void StartBuildProcess();
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);

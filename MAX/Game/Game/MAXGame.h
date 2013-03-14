@@ -12,6 +12,7 @@
 #include <iostream>
 #include "DisplayPinchDelegate.h"
 #include "USimpleContainer.h"
+#include "MAXEngine.h"
 
 using namespace std;
 using namespace Utils;
@@ -32,7 +33,7 @@ class GameMatch;
 class GameEffect;
 class GameInterface;
 
-class MAXGame : public DisplayPinchDelegate {
+class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate {
     
     MAXGAMESTATE _curretnState;
     
@@ -56,6 +57,9 @@ public:
     
     void StartMatch();
     void FlushEffectsWithNew(GameEffect* effect);
+    
+#pragma mark - MAXEngineDelegate
+    virtual void onFrame();
     
 #pragma mark - DisplayPinchDelegate
     virtual bool CanStartPinch(float x, float y);

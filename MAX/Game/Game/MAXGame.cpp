@@ -34,6 +34,7 @@ MAXGame::MAXGame()
 
 MAXGame::~MAXGame()
 {
+    engine->_delegate = NULL;
     delete _gameInterface;
     for (int i = 0; i < _effects->GetCount(); i++) {
         GameEffect* effect = _effects->objectAtIndex(i);
@@ -45,7 +46,7 @@ MAXGame::~MAXGame()
 void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
-    
+    engine->_delegate = this;
     StartMatch();
 }
 
@@ -215,6 +216,13 @@ void MAXGame::FlushEffectsWithNew(GameEffect* effect)
     }
 }
 
+#pragma mark - MAXEngineDelegate
+
+void MAXGame::onFrame()
+{
+    _match->_players[0]->SetPalette(((int)(engine->FullTime()/10)));
+}
+
 #pragma mark - DisplayPinchDelegate
 
 bool MAXGame::CanStartPinch(float x, float y)
@@ -321,9 +329,15 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
     if (_currentUnit)
     {
-        CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-        _currentUnit->Fire(p);
-       
+        if (_currentUnit->CanStartBuildProcess())
+        {
+            _currentUnit->StartBuildProcess();
+        }
+        else
+        {
+            CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
+            _currentUnit->Fire(p);
+        }
         
     }
 }

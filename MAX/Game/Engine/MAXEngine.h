@@ -34,6 +34,11 @@ class MAXContentMap;
 class MAXUnitObject;
 class MAXStatusRenderer;
 
+class MAXEngineDelegate {
+public:
+    virtual void onFrame() = 0;
+};
+
 class MAXEngine : public RequestDelegate  {
     
     
@@ -51,6 +56,8 @@ class MAXEngine : public RequestDelegate  {
     shared_ptr<EngineMesh> _mapQuadMesh;
     float             _color;
 public:
+    
+    MAXEngineDelegate   *_delegate;
     
     MAXAnimationManager* GetAnimationManager () const { return _animationManager; };
     

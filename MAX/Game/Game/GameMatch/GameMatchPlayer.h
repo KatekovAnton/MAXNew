@@ -55,6 +55,7 @@ public:
     GameMatchPlayer(GameMatchPlayerInfo playerInfo, GameMatch *match);
     ~GameMatchPlayer();
 
+    void SetPalette(int rawIndex);
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     GameUnit* GetUnitInPosition(const CCPoint& pos);

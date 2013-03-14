@@ -41,7 +41,9 @@ using namespace cocos2d;
 MAXEngine globalEngine;
 MAXEngine * engine = &globalEngine;
 
-MAXEngine::MAXEngine() {
+MAXEngine::MAXEngine()
+:_delegate(NULL)
+{
     _renderSystem = new RenderSystem();
 }
 
@@ -135,6 +137,9 @@ void MAXEngine::RunLoop(double delta)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     this->Update();
+    if (_delegate) 
+        _delegate->onFrame();
+    
     this->Draw();
     
     
