@@ -279,7 +279,7 @@
 		D18EDCE4168B2C5800EE3B4E /* MapRenderObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCE2168B2C5800EE3B4E /* MapRenderObject.cpp */; };
 		D18EDCED168B2FBF00EE3B4E /* MAXMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */; };
 		D199226A168DF4540067D6CF /* Max.res in Resources */ = {isa = PBXBuildFile; fileRef = D1992269168DF4540067D6CF /* Max.res */; };
-		D199226D168DF75C0067D6CF /* MAXContetnLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */; };
+		D199226D168DF75C0067D6CF /* MAXContentLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D199226B168DF75C0067D6CF /* MAXContentLoader.cpp */; };
 		D1992270168E1C7D0067D6CF /* MAXUnitRenderObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D199226E168E1C7D0067D6CF /* MAXUnitRenderObject.cpp */; };
 		D1992273168E1DE40067D6CF /* ShaderUnit.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D1992271168E1DE40067D6CF /* ShaderUnit.fsh */; };
 		D1992274168E1DE40067D6CF /* ShaderUnit.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D1992272168E1DE40067D6CF /* ShaderUnit.vsh */; };
@@ -584,7 +584,7 @@
 		D16D48F6168B381D0055F35D /* Snow_4.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_4.wrl; sourceTree = "<group>"; };
 		D16D48F7168B381D0055F35D /* Snow_5.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_5.wrl; sourceTree = "<group>"; };
 		D16D48F8168B381D0055F35D /* Snow_6.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_6.wrl; sourceTree = "<group>"; };
-		D16D491C168B456D0055F35D /* MAXContetnConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXContetnConstants.h; sourceTree = "<group>"; };
+		D16D491C168B456D0055F35D /* MAXContentConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXContentConstants.h; sourceTree = "<group>"; };
 		D188A462168C550600E259B1 /* Crater_7.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_7.wrl; sourceTree = "<group>"; };
 		D188A464168C557300E259B1 /* Green_7.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_7.wrl; sourceTree = "<group>"; };
 		D188A466168C565400E259B1 /* Demo_1.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Demo_1.wrl; sourceTree = "<group>"; };
@@ -680,8 +680,8 @@
 		D18EDCEB168B2FBF00EE3B4E /* MAXMapMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXMapMaterial.cpp; sourceTree = "<group>"; };
 		D18EDCEC168B2FBF00EE3B4E /* MAXMapMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXMapMaterial.h; sourceTree = "<group>"; };
 		D1992269168DF4540067D6CF /* Max.res */ = {isa = PBXFileReference; lastKnownFileType = file; path = Max.res; sourceTree = "<group>"; };
-		D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContetnLoader.cpp; sourceTree = "<group>"; };
-		D199226C168DF75C0067D6CF /* MAXContetnLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContetnLoader.h; sourceTree = "<group>"; };
+		D199226B168DF75C0067D6CF /* MAXContentLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentLoader.cpp; sourceTree = "<group>"; };
+		D199226C168DF75C0067D6CF /* MAXContentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContentLoader.h; sourceTree = "<group>"; };
 		D199226E168E1C7D0067D6CF /* MAXUnitRenderObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitRenderObject.cpp; sourceTree = "<group>"; };
 		D199226F168E1C7D0067D6CF /* MAXUnitRenderObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitRenderObject.h; sourceTree = "<group>"; };
 		D1992271168E1DE40067D6CF /* ShaderUnit.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnit.fsh; sourceTree = "<group>"; };
@@ -1092,14 +1092,15 @@
 			path = Objects;
 			sourceTree = "<group>";
 		};
-		D16D48C9168B306C0055F35D /* MAXContetnLoader */ = {
+		D16D48C9168B306C0055F35D /* MAXContentLoader */ = {
 			isa = PBXGroup;
 			children = (
 				D16D48CD168B30A00055F35D /* MAXContentObjects */,
-				D199226B168DF75C0067D6CF /* MAXContetnLoader.cpp */,
-				D199226C168DF75C0067D6CF /* MAXContetnLoader.h */,
-				D16D491C168B456D0055F35D /* MAXContetnConstants.h */,
+				D199226B168DF75C0067D6CF /* MAXContentLoader.cpp */,
+				D199226C168DF75C0067D6CF /* MAXContentLoader.h */,
+				D16D491C168B456D0055F35D /* MAXContentConstants.h */,
 			);
+			name = MAXContentLoader;
 			path = MAXContetnLoader;
 			sourceTree = "<group>";
 		};
@@ -1362,7 +1363,7 @@
 			isa = PBXGroup;
 			children = (
 				8B7E22AD16D149A100FE748B /* Scene */,
-				D16D48C9168B306C0055F35D /* MAXContetnLoader */,
+				D16D48C9168B306C0055F35D /* MAXContentLoader */,
 				D18EDCA6168989A700EE3B4E /* ObjectComponents */,
 				D18EDC8E1689862A00EE3B4E /* Objects */,
 				D18EDC791689842100EE3B4E /* Renderer */,
@@ -1893,7 +1894,7 @@
 				D11ABAA4168DDB0A00CD29EA /* GameObject.cpp in Sources */,
 				D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */,
 				D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */,
-				D199226D168DF75C0067D6CF /* MAXContetnLoader.cpp in Sources */,
+				D199226D168DF75C0067D6CF /* MAXContentLoader.cpp in Sources */,
 				D1992270168E1C7D0067D6CF /* MAXUnitRenderObject.cpp in Sources */,
 				D1992273168E1DE40067D6CF /* ShaderUnit.fsh in Sources */,
 				D1992274168E1DE40067D6CF /* ShaderUnit.vsh in Sources */,

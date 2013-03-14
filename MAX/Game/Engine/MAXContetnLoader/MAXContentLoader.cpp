@@ -1,12 +1,12 @@
 //
-//  MAXContetnLoader.cpp
+//  MAXContentLoader.cpp
 //  MAX
 //
 //  Created by Anton Katekov on 26.12.12.
 //  Copyright (c) 2012 AntonKatekov. All rights reserved.
 //
 
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "MAXContentMap.h"
 #include "BinaryReader.h"
 #include "FileManger.h"

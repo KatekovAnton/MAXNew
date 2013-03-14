@@ -9,7 +9,7 @@
 #include "GameEffect.h"
 #include "MAXEngine.h"
 #include "MAXEffectObject.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "MAXAnimationPrefix.h"
 #include "MAXGame.h"
 

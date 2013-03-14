@@ -1,17 +1,17 @@
 //
-//  MAXContetnLoader.h
+//  MAXContentLoader.h
 //  MAX
 //
 //  Created by Anton Katekov on 26.12.12.
 //  Copyright (c) 2012 AntonKatekov. All rights reserved.
 //
 
-#ifndef __MAX__MAXContetnLoader__
-#define __MAX__MAXContetnLoader__
+#ifndef __MAX__MAXContentLoader__
+#define __MAX__MAXContentLoader__
 
 #include <iostream>
 #include <vector>
-#include "MAXContetnConstants.h"
+#include "MAXContentConstants.h"
 #include "cocos2d.h"
 
 #define MAXSCL MAXContentLoader::SharedLoader()
@@ -89,4 +89,4 @@ public:
     cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name);
 };
 
-#endif /* defined(__MAX__MAXContetnLoader__) */
+#endif /* defined(__MAX__MAXContentLoader__) */

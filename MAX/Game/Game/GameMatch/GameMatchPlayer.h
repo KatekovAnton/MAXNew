@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "miniPrefix.h"
-#include "MAXContetnConstants.h"
+#include "MAXContentConstants.h"
 #include "PlayerResearchManager.h"
 
 class Texture;

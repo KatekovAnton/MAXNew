@@ -13,7 +13,7 @@
 
 #include "MAXEffectObject.h"
 #include "MAXConfigManager.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "MAXUnitObject.h"
 
 #include "GameMap.h"

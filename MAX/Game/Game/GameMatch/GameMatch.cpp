@@ -9,7 +9,7 @@
 #include "GameMatch.h"
 #include "GameMatchPlayer.h"
 #include "GameMap.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "MAXConfigManager.h"
 
 

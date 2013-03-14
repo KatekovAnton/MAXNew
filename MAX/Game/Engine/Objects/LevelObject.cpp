@@ -12,7 +12,7 @@
 #include "TextureMaterial.h"
 #include "Texture.h"
 #include "MAXUnitMaterial.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 
 LevelObject::LevelObject(RenderObject *renderObject, Material *material):PivotObject()
 {

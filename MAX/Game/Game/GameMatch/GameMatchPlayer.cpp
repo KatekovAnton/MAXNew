@@ -14,7 +14,7 @@
 #include "MAXEngine.h"
 #include "Texture.h"
 #include "MAXClanConfig.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "MAXConfigManager.h"
 #include "PlayerUpgradeManager.h"
 #include "PlayerResearchManager.h"

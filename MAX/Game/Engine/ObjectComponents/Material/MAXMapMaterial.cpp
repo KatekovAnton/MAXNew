@@ -11,7 +11,7 @@
 #include "Geometry.h"
 #include "Texture.h"
 #include "Shader.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "Sys.h"
 
 const double frameTime = 1.0/10.0;

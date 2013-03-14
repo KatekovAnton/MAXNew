@@ -8,7 +8,7 @@
 
 #include "MAXMapObject.h"
 #include "MAXContentMap.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "MapRenderObject.h"
 #include "MAXMapMaterial.h"
 #include "EngineMesh.h"

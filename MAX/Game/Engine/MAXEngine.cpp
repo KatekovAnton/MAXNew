@@ -24,7 +24,7 @@
 #include "Geometry.h"
 #include "SceneSystem.h"
 #include "MAXCamera.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "LevelObject.h"
 #include "RenderObject.h"
 #include "MAXUnitObject.h"

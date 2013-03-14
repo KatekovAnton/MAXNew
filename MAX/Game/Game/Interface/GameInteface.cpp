@@ -7,7 +7,7 @@
 //
 
 #include "GameInteface.h"
-#include "MAXContetnLoader.h"
+#include "MAXContentLoader.h"
 #include "Display.h"
 #include "CocosHelper.h"
 #include "GameUnit.h"
