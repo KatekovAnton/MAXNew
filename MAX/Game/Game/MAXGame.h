@@ -35,7 +35,7 @@ class GameInterface;
 
 class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate {
     
-    MAXGAMESTATE _curretnState;
+    MAXGAMESTATE _currentState;
     
     
     GameInterface* _gameInterface;
@@ -45,8 +45,8 @@ public:
     
     USimpleContainer<GameEffect*> *_effects;
     
-    MAXGAMESTATE GetCurretnState() const {return _curretnState;}
-    GameMatch *GetCurretnMatch() const {return _match;}
+    MAXGAMESTATE GetCurrentState() const {return _currentState;}
+    GameMatch *GetCurrentMatch() const {return _match;}
     GameUnit* _currentUnit;
     
     MAXGame();

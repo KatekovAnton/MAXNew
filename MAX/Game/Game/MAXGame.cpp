@@ -28,7 +28,7 @@ MAXGame * game = &globalGame;
 
 MAXGame::MAXGame()
 {
-    _curretnState = MAXGAMESTATE_GAME;
+    _currentState = MAXGAMESTATE_GAME;
     _effects = new USimpleContainer<GameEffect*>();
 }
 
@@ -227,7 +227,7 @@ void MAXGame::onFrame()
 
 bool MAXGame::CanStartPinch(float x, float y)
 {
-    switch (_curretnState)
+    switch (_currentState)
     {
         case MAXGAMESTATE_GAME:
         {
