@@ -11,13 +11,13 @@
 
 Texture::Texture()
 {
-    _filrer = GL_LINEAR;
+    _filter = GL_LINEAR;
 }
 
 
 Texture::Texture(GLuint filter, GLubyte *spriteData, int texWidth, int texHeight)
 {
-    _filrer = filter;
+    _filter = filter;
     _texHeight = texHeight;
     _texWidth = texWidth;
     _name = SetupTexture(spriteData);
@@ -25,7 +25,7 @@ Texture::Texture(GLuint filter, GLubyte *spriteData, int texWidth, int texHeight
 
 Texture::Texture(string filename)
 {
-    _filrer = GL_LINEAR;
+    _filter = GL_LINEAR;
     FileManager *fm = FileManager::CreateManager();
     GLubyte *textureData = fm->CreateBitmapData(filename, &_texWidth, &_texHeight);
     
@@ -41,10 +41,10 @@ GLuint Texture::SetupTexture(GLubyte *spriteData)
     glGenTextures(1, &texName);
     
     glBindTexture(GL_TEXTURE_2D, texName);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _filrer);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _filrer);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _filter);
     
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _texWidth, _texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     

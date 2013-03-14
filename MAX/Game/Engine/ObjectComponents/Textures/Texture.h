@@ -16,7 +16,7 @@ using namespace std;
 
 class Texture {
     
-    GLuint _filrer;
+    GLuint _filter;
     
     GLuint          _name;
     bool            _fromFile;
