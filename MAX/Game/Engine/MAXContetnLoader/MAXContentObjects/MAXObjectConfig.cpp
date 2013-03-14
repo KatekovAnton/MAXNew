@@ -134,7 +134,7 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
         ////           е             к  т        о
         ////           м                         й
         _isBuilding         = value[0] == 0x31;
-        _isNeedPodkladka    = value[1] == 0x31;
+        _isNeedUndercover   = value[1] == 0x31;
         _isAllwaysOn        = value[2] == 0x31;
         _isCantSelect       = value[3] == 0x31;
         _isAbsCantSelect    = value[4] == 0x31;

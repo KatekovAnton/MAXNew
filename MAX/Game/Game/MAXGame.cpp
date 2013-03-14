@@ -286,7 +286,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.x = floorf(p.x);
     p.y = floorf(p.y);
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
-    if (_currentUnit && !_currentUnit->_config->GetCongig()->_isBuilding)
+    if (_currentUnit && !_currentUnit->_config->GetConfig()->_isBuilding)
     {
         
         CCPoint location = _currentUnit->GetUnitCell();
@@ -297,7 +297,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                  (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
         {
             char groundType = _match->_map->GroundTypeAtPoint(p);
-            int unitMoveType = _currentUnit->_config->GetCongig()->_bMoveType;
+            int unitMoveType = _currentUnit->_config->GetConfig()->_bMoveType;
             
             if (CanMove(unitMoveType, groundType, newCurrentUnit != NULL))
             {

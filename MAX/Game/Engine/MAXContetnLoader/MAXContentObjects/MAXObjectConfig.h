@@ -111,7 +111,7 @@ public:
     ////           е             к  т        о
     ////           м                         й
     bool _isBuilding;
-    bool _isNeedPodkladka;
+    bool _isNeedUndercover;
     bool _isAllwaysOn;
     bool _isCantSelect;
     bool _isAbsCantSelect;
