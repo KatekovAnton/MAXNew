@@ -204,7 +204,8 @@ void MAXGame::FlushEffectsWithNew(GameEffect* effect)
 
 void MAXGame::onFrame()
 {
-    _match->_players[0]->SetPalette(engine->FullTime());
+    for(int i = 0; i < _match->_players.size(); i++)
+        _match->_players[i]->SetPalette(engine->FullTime());
 }
 
 #pragma mark - DisplayPinchDelegate
