@@ -58,7 +58,6 @@ void MAXGame::StartMatch()
     infos.push_back(player1);
     infos.push_back(player2);
     _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl", infos);
-    engine->SetMap(_match->_map->_contentMap);
     
 //    Aagunm=grp_mobile_aa_gun.cfg#mobile_aa_gun.cfg
 //    Asgun=grp_assault_gun.cfg#assault_gun.cfg

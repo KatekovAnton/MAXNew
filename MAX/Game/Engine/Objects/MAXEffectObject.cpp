@@ -73,6 +73,7 @@ void MAXEffectObject::Draw(Shader *shader)
     
     
     
+    shader->SetFloatValue(UNIFORM_ALPHA, 1.0);
     shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
     _material->index = _currentFrame;
     _renderAspect->Render(0, _material);

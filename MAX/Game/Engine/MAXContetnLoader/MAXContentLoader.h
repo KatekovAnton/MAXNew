@@ -65,6 +65,7 @@ public:
     ~MAXContentLoader();
     
     shared_ptr<MAXContentMap> LoadMapWithName(string name);
+    void SetMapColorsToDefaultPalette(Color* thepal);
     vector<Texture*> CreatePalletes(Color* palette);
     Texture* TextureIdexedFromIndex(int w, int h, unsigned char* indexes);
     Texture* TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
@@ -76,6 +77,7 @@ public:
 
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     MAXUnitMaterial* LoadEffectMaterial(string name);
+    
 #pragma mark - memory
     void ClearImageCache();
     

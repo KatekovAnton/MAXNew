@@ -63,7 +63,7 @@ MAXMapMaterial::MAXMapMaterial(shared_ptr<MAXContentMap> map)
         
         mapElementsSingle = new Texture(GL_NEAREST, (GLubyte*)singleArray, w*64, h*64);
     }
-    
+    MAXSCL->SetMapColorsToDefaultPalette(map->palette);
     palettes = MAXSCL->CreatePalletes(map->palette);
     currentPalette = palettes[0];
 }

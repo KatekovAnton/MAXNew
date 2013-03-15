@@ -301,6 +301,7 @@ Color default_palette[256] =
 MAXContentLoader* _sharedContentLoader = nullptr;
 
 MAXContentLoader::MAXContentLoader()
+:defaultPalette(NULL)
 {
     inf = new BinaryReader("Max.res");
     inf->ReadBuffer(12, (char*)&hdr);
@@ -317,23 +318,44 @@ MAXContentLoader::MAXContentLoader()
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
 
+    {
+        BinaryReader* br = new BinaryReader("max.pal");
+        memset((void*)default_palette, 0xff, 256*4);
+        
+//        Color c1 = {189, 154, 206, 255};
+//        Color c2 = {165, 121, 123, 255};
+//        Color c3 = {173, 138, 189, 255};
+//        Color c4 = {181, 142, 198, 255};
+        
+        for (int i = 0; i < 256; i++)
+        {
+            default_palette[i].b = br->ReadUChar();
+            default_palette[i].g = br->ReadUChar();
+            default_palette[i].r = br->ReadUChar();
+            default_palette[i].a = 255;
+            
+//            if (default_palette[i] == c3) {
+//                default_palette[i].a = 0;
+//                int a = 0;
+//                a ++;
+//            }
+            
+        }
+        delete br;
+        //189 154 206
+        //165 121 123
+        //173 138 189
+        //181 142 198
+        default_palette[0].a = 0;
+        default_palette[255].a = 0;
+    }
     
-    GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
-    memcpy(currentPalette, default_palette, 4 * pal_size/3);
+    
+    GLubyte* currentPalette = (GLubyte*)malloc(1024);
+    memcpy(currentPalette, default_palette, 1024);
     defaultPalette = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     
     unitMesh = EngineMesh::CreateUnitQuad();
-//    default_palette = (Color*)malloc(256*4);
-//    memset(default_palette, 0, 256*4);
-//    BinaryReader* br = new BinaryReader("Max.pal");
-//    for (int i = 0; i < 256; i++) {
-//        default_palette[i].r = br->ReadUChar();
-//        default_palette[i].g = br->ReadUChar();
-//        default_palette[i].b = br->ReadUChar();
-//        
-//        default_palette[i].a = i == 0?0:255;
-//    }
-//    delete br;
 }
 
 MAXContentLoader::~MAXContentLoader()
@@ -383,6 +405,15 @@ void MAXContentLoader::animatePalette(Color* thepal)
     palshiftu(thepal, 123, 127);//4
 }
 
+void setColorsToDefaultPalette(Color* pal, int s, int e)
+{
+    for (int i = s; i <=e; i++) {
+        default_palette[i] = pal[i];
+        default_palette[i].a = 255;
+    }
+}
+
+
 shared_ptr<MAXContentMap> MAXContentLoader::LoadMapWithName(string name)
 {
     BinaryReader* br = new BinaryReader(name);
@@ -394,6 +425,22 @@ shared_ptr<MAXContentMap> MAXContentLoader::LoadMapWithName(string name)
     delete br;
     
     return result;
+}
+
+void MAXContentLoader::SetMapColorsToDefaultPalette(Color* thepal)
+{
+    setColorsToDefaultPalette(thepal, 96, 102);//6
+    setColorsToDefaultPalette(thepal, 103, 109);//6
+    setColorsToDefaultPalette(thepal, 110, 116);//6
+    setColorsToDefaultPalette(thepal, 117, 122);//5
+    setColorsToDefaultPalette(thepal, 123, 127);//4
+    
+    if (defaultPalette) 
+        delete defaultPalette;
+    
+    GLubyte* currentPalette = (GLubyte*)malloc(1024);
+    memcpy(currentPalette, default_palette, 1024);
+    defaultPalette = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
 }
 
 vector<Texture*> MAXContentLoader::CreatePalletes(Color* palette)
@@ -577,7 +624,9 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
     // Rows offsets.
     unsigned int* rows = new unsigned int[height];
     shadowSource->ReadBuffer(height * 4, (char *)rows);
-    Color currentColor = {113,0,0,0};//113 is transparent, 114 is opaque
+    unsigned char transparent = 0;
+    unsigned char opaque = 19;
+    Color currentColor = {transparent,0,0,0};//113 is transparent, 114 is opaque
 
     for(int Y = 0; Y < height; Y++)
     {
@@ -589,10 +638,10 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
             for (int i = 0; i < size1; i++) 
                 pixels[Y*(int)width + X + i] = currentColor.r;
             
-            if (currentColor.r == 113) 
-                currentColor.r = 114;
+            if (currentColor.r == transparent) 
+                currentColor.r = opaque;
             else
-                currentColor.r = 113;
+                currentColor.r = transparent;
             X += buffer[rows[Y] + blockIndex];
             blockIndex ++;
         }

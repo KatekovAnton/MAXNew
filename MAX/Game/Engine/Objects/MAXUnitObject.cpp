@@ -265,8 +265,10 @@ void MAXUnitObject::Draw(Shader *shader)
     if(_needShadow)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
+        shader->SetFloatValue(UNIFORM_ALPHA, SHADOWALPHA);
         _material->index = bodyIndex;
         _renderAspect->RenderShadow(0, _material);
+        shader->SetFloatValue(UNIFORM_ALPHA, 1.0);
     }
     if (IsHasBody())
     {

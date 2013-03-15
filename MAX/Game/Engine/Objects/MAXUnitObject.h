@@ -15,6 +15,7 @@
 #include "MAXObjectConfig.h"
 #include "MAXStatusRendererUnitDelegate.h"
 
+
 class MAXUnitRenderObject;
 class MAXUnitMaterial;
 class Texture;

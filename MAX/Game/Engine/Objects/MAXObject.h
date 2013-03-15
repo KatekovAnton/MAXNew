@@ -13,6 +13,8 @@
 #include "PivotObject.h"
 #include "cocos2d.h"
 
+#define SHADOWALPHA 0.4
+
 using namespace cocos2d;
 
 class MAXObjectConfig;
