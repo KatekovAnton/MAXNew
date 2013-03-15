@@ -59,21 +59,6 @@ void MAXGame::StartMatch()
     infos.push_back(player2);
     _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl", infos);
     
-//    Aagunm=grp_mobile_aa_gun.cfg#mobile_aa_gun.cfg
-//    Asgun=grp_assault_gun.cfg#assault_gun.cfg
-//    Awac=grp_awac.cfg#awac.cfg
-//    Bomber=grp_bomber.cfg#bomber.cfg
-//    Constructor=grp_constructor.cfg#constructor.cfg
-//    Corvette=grp_corvette.cfg#corvette.cfg
-//    Dozer=grp_bulldozer.cfg#bulldozer.cfg
-//    Engineer=grp_engineer.cfg#engineer.cfg
-//    Escort=grp_escort.cfg#escort.cfg
-//    Gunboat=grp_gun_boat.cfg#gun_boat.cfg
-//    Inter=grp_interceptor.cfg#interceptor.cfg
-//    Tank=grp_tank.cfg#tank.cfg
-//    Scout=grp_scout.cfg#scout.cfg
-//    sub=grp_submarine.cfg#submarine.cfg
-//    pcan=grp_personnel_carrier.cfg#personnel_carrier.cfg
     _currentUnit = NULL;
     
 //    for (int x = 0; x < 100; x++)
@@ -219,7 +204,7 @@ void MAXGame::FlushEffectsWithNew(GameEffect* effect)
 
 void MAXGame::onFrame()
 {
-    _match->_players[0]->SetPalette(((int)(engine->FullTime()/10)));
+    _match->_players[0]->SetPalette(engine->FullTime());
 }
 
 #pragma mark - DisplayPinchDelegate

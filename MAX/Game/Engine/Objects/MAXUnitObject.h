@@ -64,7 +64,7 @@ public:
     
     MAXStatusRendererUnitDelegate* _statusDelegate_w;
     
-    Texture* _playerPalette_w;
+    Texture** _playerPalette_w;
     int _playerId;
     
     bool _needAirOffset;

@@ -47,6 +47,7 @@ public:
     MAXClanConfig* _clanConfig;
     
     GameMatchPlayerInfo _playerInfo;
+    vector<Texture*> _palettes;
     Texture* _palette;
     
     USimpleContainer<GameUnit*> _units;
@@ -55,7 +56,7 @@ public:
     GameMatchPlayer(GameMatchPlayerInfo playerInfo, GameMatch *match);
     ~GameMatchPlayer();
 
-    void SetPalette(int rawIndex);
+    void SetPalette(double time);
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     GameUnit* GetUnitInPosition(const CCPoint& pos);

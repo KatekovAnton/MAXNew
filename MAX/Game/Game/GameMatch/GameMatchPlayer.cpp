@@ -23,7 +23,8 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
 :_match_w(match)
 {
     _playerInfo = info;
-    _palette = MAXSCL->TexturePalleteFormDefaultPalleteAndPlayerColor(_playerInfo._color);
+    _palettes = MAXSCL->TexturePalletesFormDefaultPalleteAndPlayerColor(_playerInfo._color);
+    _palette = _palettes[0];
     
     _researchManager = new PlayerResearchManager(this);
     _upgradeManager = new PlayerUpgradeManager(this);
@@ -33,8 +34,11 @@ GameMatchPlayer::~GameMatchPlayer()
 {
     delete _upgradeManager;
     delete _researchManager;
+    for (int i = 0; i < _palettes.size(); i++) {
+        Texture* t = _palettes[i];
+        delete t;
+    }
     
-    delete _palette;
     for (int i = 0; i < _units.GetCount(); i++) {
         GameUnit* unit = _units.objectAtIndex(i);
         unit->RemoveFromMap();
@@ -64,9 +68,10 @@ GameUnit* GameMatchPlayer::GetUnitInPosition(const CCPoint& pos)
     return NULL;
 }
 
-void GameMatchPlayer::SetPalette(int rawIndex)
+void GameMatchPlayer::SetPalette(double time)
 {
-    
+    int tt = ((int)(time*6)) % _palettes.size();
+    _palette = _palettes[tt];
 }
 
 

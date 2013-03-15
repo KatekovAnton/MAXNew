@@ -49,6 +49,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y) const
 }
 
 GameInterface::GameInterface()
+:_currentUnit(NULL)
 {
     _lockUnits = false;
     

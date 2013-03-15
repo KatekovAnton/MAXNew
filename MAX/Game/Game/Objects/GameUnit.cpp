@@ -27,7 +27,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMa
 :GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _config(config), _owner_w(owner), _effectUnder(NULL), _isInProcess(false)
 {
     unitObject->_playerId = owner->_playerInfo._playerId;
-    unitObject->_playerPalette_w = owner->_palette;
+    unitObject->_playerPalette_w = &owner->_palette;
     unitObject->_statusDelegate_w = this;
     unitObject->_needShadow = !_config->GetConfig()->_isUnderwater;
     _onMap = false;

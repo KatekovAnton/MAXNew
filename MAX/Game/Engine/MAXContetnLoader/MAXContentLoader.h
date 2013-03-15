@@ -47,7 +47,7 @@ class MAXContentLoader {
     void palshiftu(Color* pal, int s, int e);
     void palshiftd(Color* pal, int s, int e);
     void animatePalette(Color* thepal);
-    
+    void animateUnitPalette(Color* thepal);
     
     typdiritem *dir;
     typhdr hdr;
@@ -67,10 +67,11 @@ public:
     shared_ptr<MAXContentMap> LoadMapWithName(string name);
     void SetMapColorsToDefaultPalette(Color* thepal);
     vector<Texture*> CreatePalletes(Color* palette);
+    vector<Texture*> CreateUnitPalletes(Color* palette);
     Texture* TextureIdexedFromIndex(int w, int h, unsigned char* indexes);
     Texture* TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
     Texture* TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
-    Texture* TexturePalleteFormDefaultPalleteAndPlayerColor(const Color& color);
+    vector<Texture*> TexturePalletesFormDefaultPalleteAndPlayerColor(const Color& color);
     int FindImage(string name);
     void LoadUnitFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
     void LoadUnitShadow(BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long shadowBaseOffset);

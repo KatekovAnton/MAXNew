@@ -405,6 +405,23 @@ void MAXContentLoader::animatePalette(Color* thepal)
     palshiftu(thepal, 123, 127);//4
 }
 
+void MAXContentLoader::animateUnitPalette(Color* thepal)
+{
+    palshiftd(thepal, 9, 12);//3
+    palshiftu(thepal, 13, 16);//3
+   // palshiftu(thepal, 17, 20);//3
+    palshiftu(thepal, 21, 24);//3
+    
+    palshiftu(thepal, 25, 30);//5
+    //palblnkd(thepal, 31, 1 - frac(gct), gclgreen);
+    
+    palshiftu(thepal, 96, 102);//6
+    palshiftu(thepal, 103, 109);//6
+    palshiftu(thepal, 110, 116);//6
+    palshiftu(thepal, 117, 122);//5
+    palshiftu(thepal, 123, 127);//4
+}
+
 void setColorsToDefaultPalette(Color* pal, int s, int e)
 {
     for (int i = s; i <=e; i++) {
@@ -462,6 +479,25 @@ vector<Texture*> MAXContentLoader::CreatePalletes(Color* palette)
     return result;
 }
 
+vector<Texture*> MAXContentLoader::CreateUnitPalletes(Color* palette)
+{
+    Color* colors = new Color[pal_size/3];
+    memcpy(colors, palette, 4 * pal_size/3);
+    
+    vector<Texture*> result;
+    for(int i = 0;i<30;i++)
+    {
+        GLubyte* currentPalette = (GLubyte*)malloc(4 * pal_size/3);
+        memcpy(currentPalette, colors, 4 * pal_size/3);
+        result.push_back(new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1));
+        if (i != 29)
+            animateUnitPalette(colors);
+    }
+    
+    delete colors;
+    return result;
+}
+
 Texture* MAXContentLoader::TextureIdexedFromIndex(int w, int h, unsigned char* indexes)
 {
     Color* colors = (Color*)malloc(w * h * 4);
@@ -506,7 +542,7 @@ Texture* MAXContentLoader::TextureFromIndexAndDefaultPalette(int w, int h, unsig
     return new Texture(GL_NEAREST, (GLubyte*)colors, w, h);
 }
 
-Texture* MAXContentLoader::TexturePalleteFormDefaultPalleteAndPlayerColor(const Color& color)
+vector<Texture*> MAXContentLoader::TexturePalletesFormDefaultPalleteAndPlayerColor(const Color& color)
 {
     Color* currentPalette = (Color*)malloc(4 * pal_size/3);
     memcpy(currentPalette, &default_palette, 4 * pal_size/3);
@@ -517,8 +553,9 @@ Texture* MAXContentLoader::TexturePalleteFormDefaultPalleteAndPlayerColor(const 
         currentPalette[i].g = color.g*((40.0-(float)i)/6.0);
         currentPalette[i].b = color.b*((40.0-(float)i)/6.0);
     }
-    
-    Texture* result = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
+    vector<Texture*> result = CreateUnitPalletes(currentPalette);
+    free(currentPalette);
+  //  Texture* result = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     return result;
 }
 
