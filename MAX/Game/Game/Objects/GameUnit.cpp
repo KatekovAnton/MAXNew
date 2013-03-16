@@ -231,7 +231,7 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 {
     if (animation == _moveAnimation)
     {
-        _unitCell = ((MAXAnimationObjectUnit*)animation)->GetEendLocation();
+        _unitCell = ((MAXAnimationObjectUnit*)animation)->GetEndLocation();
         _moveAnimation->_delegate = NULL;
         _moveAnimation = NULL;
         CheckBodyAndShadow();

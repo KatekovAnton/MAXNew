@@ -35,7 +35,7 @@ public:
     float _moveTime;
     
     CCPoint GetStartLocation () const { return _startLocation; };
-    CCPoint GetEendLocation () const { return _endLocation; };
+    CCPoint GetEndLocation () const { return _endLocation; };
     
     MAXAnimationObject(const CCPoint& startLocation, const CCPoint& endLocation, MAXObject* object);      //creates move action
     
