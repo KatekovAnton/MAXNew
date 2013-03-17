@@ -19,14 +19,19 @@ class GameUnit;
 
 class GameInterface : public CCScene
 {
+    CCNode* _unitInterfaceBattle;
+    
+    
+    
+    CCMenuItemSprite* _toggleLockUnitsButton;
+    
     CCMenuItemSprite* _toggleGridButton;
     CCMenuItemSprite* _toggleScanButton;
     CCMenuItemSprite* _toggleRangeButton;
     CCMenuItemSprite* _toggleShotsButton;
     CCMenuItemSprite* _toggleStatusButton;
     
-    
-    CCMenuItemSprite* _toggleLockUnitsButton;
+    //locking units
     vector<GameUnit*> _lockedUnits;
     GameUnit* _currentUnit;
     void RemoveUnitFromLock(GameUnit* unit);

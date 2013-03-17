@@ -21,6 +21,8 @@
 		8B84DBCE16CFDBAF00DD12B8 /* MAXConfigManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBCC16CFDBA500DD12B8 /* MAXConfigManager.cpp */; };
 		8B84DBD216CFDC9900DD12B8 /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD016CFDC9900DD12B8 /* StringUtils.cpp */; };
 		8B84DBD516CFE33800DD12B8 /* GameUnitCurrentState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD316CFE33700DD12B8 /* GameUnitCurrentState.cpp */; };
+		8B85506E16F5C165000170D5 /* GIUnitParametersNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */; };
+		8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */; };
 		8B8A443D169358BE005C4ADA /* grp_aa_rocket.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */; };
 		8B8A443E169358BE005C4ADA /* grp_aa_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */; };
 		8B8A443F169358BE005C4ADA /* grp_aainfantry.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */; };
@@ -362,6 +364,10 @@
 		8B84DBD116CFDC9900DD12B8 /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
 		8B84DBD316CFE33700DD12B8 /* GameUnitCurrentState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnitCurrentState.cpp; sourceTree = "<group>"; };
 		8B84DBD416CFE33700DD12B8 /* GameUnitCurrentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnitCurrentState.h; sourceTree = "<group>"; };
+		8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIUnitParametersNode.cpp; sourceTree = "<group>"; };
+		8B85506D16F5C165000170D5 /* GIUnitParametersNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitParametersNode.h; sourceTree = "<group>"; };
+		8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIParameterRow.cpp; sourceTree = "<group>"; };
+		8B85507016F5C1FD000170D5 /* GIParameterRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIParameterRow.h; sourceTree = "<group>"; };
 		8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aa_rocket.cfg; sourceTree = "<group>"; };
 		8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aa_turret.cfg; sourceTree = "<group>"; };
 		8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aainfantry.cfg; sourceTree = "<group>"; };
@@ -791,6 +797,7 @@
 		8B7CA08F16C831BC00282A74 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				8B85506B16F5C104000170D5 /* UnitParameterNode */,
 				8B7CA09016C831EB00282A74 /* GameInteface.cpp */,
 				8B7CA09116C831EB00282A74 /* GameInteface.h */,
 			);
@@ -816,6 +823,17 @@
 				8B7E22B616D14BC200FE748B /* MAXSceneGraphNode.h */,
 			);
 			path = SceneGraph;
+			sourceTree = "<group>";
+		};
+		8B85506B16F5C104000170D5 /* UnitParameterNode */ = {
+			isa = PBXGroup;
+			children = (
+				8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */,
+				8B85506D16F5C165000170D5 /* GIUnitParametersNode.h */,
+				8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */,
+				8B85507016F5C1FD000170D5 /* GIParameterRow.h */,
+			);
+			path = UnitParameterNode;
 			sourceTree = "<group>";
 		};
 		8B8A43EA16935851005C4ADA /* Units */ = {
@@ -1947,6 +1965,8 @@
 				8B54D40516ECFBFC00935B1A /* MAXAnimationObject.cpp in Sources */,
 				8B54D40816ECFD9800935B1A /* MAXAnimationEffect.cpp in Sources */,
 				D14D50D016EF381200F8A8EC /* MAXAnimationWait.cpp in Sources */,
+				8B85506E16F5C165000170D5 /* GIUnitParametersNode.cpp in Sources */,
+				8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
