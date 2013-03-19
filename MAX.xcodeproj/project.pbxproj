@@ -314,6 +314,8 @@
 		D1E62CE416CE50D2006D55E1 /* Framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E62CE216CE50D0006D55E1 /* Framebuffer.cpp */; };
 		D1E62CF516D13FF5006D55E1 /* PlayerBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E62CF316D13FF5006D55E1 /* PlayerBase.cpp */; };
 		D1F8166B16F336F500873348 /* max.pal in Resources */ = {isa = PBXBuildFile; fileRef = D1F8166A16F336F500873348 /* max.pal */; };
+		D1F816DD16F8CD4F00873348 /* retina in Resources */ = {isa = PBXBuildFile; fileRef = D1F816DB16F8CD4F00873348 /* retina */; };
+		D1F816DE16F8CD4F00873348 /* simple in Resources */ = {isa = PBXBuildFile; fileRef = D1F816DC16F8CD4F00873348 /* simple */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -755,6 +757,8 @@
 		D1E62CF316D13FF5006D55E1 /* PlayerBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerBase.cpp; sourceTree = "<group>"; };
 		D1E62CF416D13FF5006D55E1 /* PlayerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerBase.h; sourceTree = "<group>"; };
 		D1F8166A16F336F500873348 /* max.pal */ = {isa = PBXFileReference; lastKnownFileType = file; path = max.pal; sourceTree = "<group>"; };
+		D1F816DB16F8CD4F00873348 /* retina */ = {isa = PBXFileReference; lastKnownFileType = folder; path = retina; sourceTree = "<group>"; };
+		D1F816DC16F8CD4F00873348 /* simple */ = {isa = PBXFileReference; lastKnownFileType = folder; path = simple; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1142,6 +1146,7 @@
 		D16D48DD168B37F20055F35D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D1F816AF16F8AFCD00873348 /* Images */,
 				8B8A43EA16935851005C4ADA /* Units */,
 				D16D48DE168B38080055F35D /* Maps */,
 				D1992269168DF4540067D6CF /* Max.res */,
@@ -1592,6 +1597,23 @@
 			path = curl;
 			sourceTree = "<group>";
 		};
+		D1F816AF16F8AFCD00873348 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				D1F816B016F8AFE400873348 /* Interface */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		D1F816B016F8AFE400873348 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				D1F816DB16F8CD4F00873348 /* retina */,
+				D1F816DC16F8CD4F00873348 /* simple */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1867,6 +1889,8 @@
 				8B8A453016935951005C4ADA /* util_syo.cfg in Resources */,
 				D1DBC46116C3EAED0096034A /* UnitListOriginal.txt in Resources */,
 				D1F8166B16F336F500873348 /* max.pal in Resources */,
+				D1F816DD16F8CD4F00873348 /* retina in Resources */,
+				D1F816DE16F8CD4F00873348 /* simple in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

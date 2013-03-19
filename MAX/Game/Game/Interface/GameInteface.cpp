@@ -15,6 +15,7 @@
 #include "MAXStatusRenderer.h"
 
 float Scale = 1.0;
+float panelW = 70;
 
 CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fontSize, ccColor3B titleColor, string normal, string selected, CCObject* target, SEL_MenuHandler selector)
 {
@@ -42,9 +43,35 @@ CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fo
     return result;
 }
 
-bool GameInterface::ShouldReceiveTouch(int x, int y) const
+CCMenuItemSprite* createMenuItemFromResources(string title, string fontName, int fontSize, ccColor3B titleColor, string normal, string selected, CCObject* target, SEL_MenuHandler selector)
 {
-    CCRect r = CCRect(0, 0, 70, 320);
+    CCSprite* _onToggleGridSprite = CCSprite::create(selected.c_str());
+    CCSprite* _ofToggleGridSprite = CCSprite::create(normal.c_str());
+    CCMenuItemSprite* result = CCMenuItemSprite::create(_ofToggleGridSprite, _onToggleGridSprite, target, selector);
+    result->setAnchorPoint(ccp(0, 0));
+    
+    
+    CCLabelTTF *label = CCLabelTTF::create(title.c_str(), fontName.c_str(), fontSize);
+    label->setColor(titleColor);
+    CCSize sz = result->getContentSize();
+    sz.height /= 2;
+    label->setPosition(ccp(sz.width * 0.25, sz.height * 0.25));
+    sz.width *= Scale;
+    sz.height *= Scale;
+    label->setContentSize(sz);
+    label->setAnchorPoint(ccp(0, 0));
+    
+    
+    result->addChild(label, 1);
+    
+    return result;
+}
+
+bool GameInterface::ShouldReceiveTouch(int x, int y)
+{
+    float currentPanelW = _panel->getPosition().x + panelW + 12;
+    
+    CCRect r = CCRect(0, 0, currentPanelW, this->getContentSize().height);
     return !r.containsPoint(CCPoint(x, y));
 }
 
@@ -69,7 +96,18 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
-    float bx = 10;
+    setContentSize(CCDirector::sharedDirector()->getVisibleSize());
+    _panel = CCNode::create();
+    _panel->setPosition(ccp(0, 0));
+    _panel->setAnchorPoint(ccp(0, 0));
+    _panel->setContentSize(CCSize(panelW, getContentSize().height));
+    this->addChild(_panel);
+    float bx = 7;
+    
+    CCSprite* spr = CCSprite::create("panel.png");
+    spr->setAnchorPoint(ccp(0, 0));
+    spr->setPosition(ccp(panelW - spr->getContentSize().width, 0));
+    _panel->addChild(spr);
     
     _toggleGridButton = createMenuItemFromMaxres("Grid", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
     _toggleGridButton->setPosition(ccp(bx,280));
@@ -96,12 +134,16 @@ void GameInterface::InitBaseInterface()
     menu->addChild(_toggleLockUnitsButton);
     
     
-    
-    
     menu->setPosition(CCPoint(0, 0));
     menu->setContentSize(CCSize(100, Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale()));
     menu->setTouchEnabled(true);
-    this->addChild(menu);
+    _panel->addChild(menu);
+    
+    
+    _buttonTogglePanel = createMenuItemFromResources("", "", 10, ccc3(0, 0, 0), "left_button.png", "left_button_pressed.png", this, menu_selector(GameInterface::OnTogglePanel));
+    _buttonTogglePanel->setPosition(ccp(panelW + 5, getContentSize().height/2.0));
+    _buttonTogglePanel->setAnchorPoint(ccp(0.5, 0.5));
+    menu->addChild(_buttonTogglePanel);
     
     
     UpdateToggleGridButton();
@@ -210,6 +252,39 @@ void GameInterface::OnToggleStatus()
     _drawStatus = !_drawStatus;
     MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
     UpdateToggleStatusButton();
+}
+
+void GameInterface::OnTogglePanel()
+{
+    const static int moveAnimationTag = 0;
+    CCAction* currentAction = _panel->getActionByTag(moveAnimationTag);
+    if (currentAction)
+        return;
+    
+    CCPoint location = _panel->getPosition();
+    bool willMoveToRight = location.x <= -0.5;
+    float originX = willMoveToRight ? 0.0 : - panelW + 3;
+    CCMoveTo* move = CCMoveTo::create(interfaceAnimationTime, ccp(originX, 0));
+    move->setTag(moveAnimationTag);
+    CCEaseInOut* action = CCEaseInOut::create(move, 2.0);
+    action->setTag(moveAnimationTag);
+    _panel->runAction(action);
+    
+    
+    CCSprite* newSimple = NULL;
+    CCSprite* newSelected = NULL;
+    if (willMoveToRight)
+    {
+        newSimple = CCSprite::create("left_button.png");
+        newSelected = CCSprite::create("left_button_pressed.png");
+    }
+    else
+    {
+        newSimple = CCSprite::create("right_button.png");
+        newSelected = CCSprite::create("right_button_pressed.png");
+    }
+    _buttonTogglePanel->setNormalImage(newSimple);
+    _buttonTogglePanel->setSelectedImage(newSelected);
 }
 
 #pragma mark - Game events

@@ -7,9 +7,10 @@
 //
 
 #include "MAXGame.h"
-#include "SceneSystem.h"
 #include "MAXEngine.h"
+#include "SceneSystem.h"
 #include "Display.h"
+#include "cocos2d.h"
 
 #include "MAXEffectObject.h"
 #include "MAXConfigManager.h"
@@ -30,6 +31,12 @@ MAXGame::MAXGame()
 {
     _currentState = MAXGAMESTATE_GAME;
     _effects = new USimpleContainer<GameEffect*>();
+    if (Display::currentDisplay()->GetDisplayScale() == 1.0) {
+        CCFileUtils::sharedFileUtils()->setResourceDirectory("simple");
+    }
+    if (Display::currentDisplay()->GetDisplayScale() == 2.0) {
+        CCFileUtils::sharedFileUtils()->setResourceDirectory("retina");
+    }
 }
 
 MAXGame::~MAXGame()

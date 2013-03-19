@@ -21,15 +21,14 @@ class GameInterface : public CCScene
 {
     CCNode* _unitInterfaceBattle;
     
-    
-    
     CCMenuItemSprite* _toggleLockUnitsButton;
-    
     CCMenuItemSprite* _toggleGridButton;
     CCMenuItemSprite* _toggleScanButton;
     CCMenuItemSprite* _toggleRangeButton;
     CCMenuItemSprite* _toggleShotsButton;
     CCMenuItemSprite* _toggleStatusButton;
+    CCNode* _panel;
+    CCMenuItemSprite* _buttonTogglePanel;
     
     //locking units
     vector<GameUnit*> _lockedUnits;
@@ -53,7 +52,7 @@ class GameInterface : public CCScene
 public:
     
     bool GetDrawGrid() const {return _drawGrid;}
-    bool ShouldReceiveTouch(int x, int y) const;
+    bool ShouldReceiveTouch(int x, int y);
     
     
     GameInterface();
@@ -69,6 +68,8 @@ public:
     void OnToggleRange();
     void OnToggleShots();
     void OnToggleStatus();
+    
+    void OnTogglePanel();
     
 #pragma mark - Game events
     

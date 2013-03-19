@@ -26,6 +26,8 @@ using namespace cocos2d;
 using namespace std;
 using namespace Utils;
 
+const float interfaceAnimationTime = 0.2;
+
 typedef enum
 {
     //unit parameters
@@ -45,13 +47,6 @@ typedef enum
     UNIT_PARAMETER_TYPE_MATERIAL,
     UNIT_PARAMETER_TYPE_PEOPLE,
     UNIT_PARAMETER_TYPE_ENERGY,
-    
-    //only buildings
-    UNIT_PARAMETER_TYPE_FUEL_FULL,
-    UNIT_PARAMETER_TYPE_GOLD_FULL,
-    UNIT_PARAMETER_TYPE_MATERIAL_FULL,
-    UNIT_PARAMETER_TYPE_PEOPLE_FULL,
-    UNIT_PARAMETER_TYPE_ENERGY_FULL,
     
     //caro
     UNIT_PARAMETER_TYPE_CARGO_UNITS,
