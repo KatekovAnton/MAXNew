@@ -16,6 +16,7 @@
 #define DEFAULT_CELL_SIZE 64.0
 
 MAXCamera::MAXCamera(GRect2D bounds, float displayScale)
+:minZoom(false)
 {
     _bounds = bounds;
     _aspectRatio = fabsf(bounds.size.width / bounds.size.height);
@@ -55,12 +56,16 @@ void MAXCamera::SetMapSize(int w, int h)
 
 void MAXCamera::Scale(float deltaScale)
 {
+    minZoom = false;
     scale/=deltaScale;
     if (scale<MIN_SCALE) 
         scale = MIN_SCALE;
     
     if(scale>maxScale)
+    {
         scale = maxScale;
+        minZoom = true;
+    }
     Move(0, 0);
     changed = true;
 }

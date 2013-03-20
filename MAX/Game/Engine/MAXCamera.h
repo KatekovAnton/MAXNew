@@ -23,7 +23,7 @@ class MAXCamera {
 public:
     //allways 1
     GLfloat _displayScale;
-    
+    bool minZoom;
     bool changed;
     //100
     GLfloat             maxDepth;

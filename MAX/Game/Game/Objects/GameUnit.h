@@ -13,6 +13,7 @@
 #include "GameObject.h"
 #include "MAXAnimationDelegate.h"
 #include "MAXStatusRendererUnitDelegate.h"
+#include "miniPrefix.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -54,6 +55,7 @@ public:
     void LiftPlane();
     void SetDirection(int dir);
     void SetRandomDirection();
+    void SetColor(GLKVector4 color);
     
     virtual void SetLocation(const CCPoint& cell);
     virtual void LocateOnMap();

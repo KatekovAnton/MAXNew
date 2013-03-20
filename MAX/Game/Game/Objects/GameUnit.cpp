@@ -64,6 +64,12 @@ void GameUnit::SetRandomDirection()
     SetDirection(nextIntMax(8));
 }
 
+void GameUnit::SetColor(GLKVector4 color)
+{
+    MAXUnitObject* _unitObject = GetUnitObject();
+    _unitObject->playerColor = color;
+}
+
 void GameUnit::LocateOnMap()
 {
     GameObject::LocateOnMap();

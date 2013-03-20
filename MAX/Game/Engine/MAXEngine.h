@@ -51,10 +51,13 @@ class MAXEngine : public RequestDelegate  {
     
     Shader              *_shader;
     Shader              *_unitShader;
+    Shader              *_unitLowShader;
     Shader              *_mapShader;
     Shader              *_mapQuadShader;
     shared_ptr<EngineMesh> _mapQuadMesh;
     float             _color;
+    
+    bool lowRender;
 public:
     
     MAXEngineDelegate   *_delegate;

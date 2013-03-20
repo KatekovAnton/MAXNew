@@ -56,6 +56,8 @@ class MAXUnitObject : public MAXObject {
     
 public:
     
+    GLKVector4 playerColor;
+    
     void SetBodyOffset (int offset);
     
     int bodyOffset = 0;
@@ -93,9 +95,11 @@ public:
     virtual Material * GetMaterial();
     
     virtual void Draw(Shader *shader);
+    virtual void DrawLow(Shader *shader);
     virtual void Frame(double time);
-    virtual void LastUpdate();
+    virtual void LastUpdate(bool low);
     
+    GLKMatrix4 CalculateLowRenderMatrix();
     GLKMatrix4 CalculateShadowRenderMatrix();
     GLKMatrix4 CalculateBodyRenderMatrix();
     GLKMatrix4 CalculateHeadRenderMatrix();

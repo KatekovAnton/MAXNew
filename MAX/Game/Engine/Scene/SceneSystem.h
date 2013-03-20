@@ -52,7 +52,7 @@ public:
     
     void UpdateScene();
     void AfterUpdate();
-    void LastUpdate();
+    void LastUpdate(bool low);
     void CalculateVisbleObject();
     
     void BeginFrame();

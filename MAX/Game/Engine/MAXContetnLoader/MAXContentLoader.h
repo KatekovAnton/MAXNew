@@ -56,6 +56,7 @@ class MAXContentLoader {
     
 public:
     
+    
     shared_ptr<EngineMesh> unitMesh;
     Texture* defaultPalette;
     

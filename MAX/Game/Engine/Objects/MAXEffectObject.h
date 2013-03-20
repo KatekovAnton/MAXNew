@@ -38,8 +38,9 @@ public:
     void SetEffectFrame(int frame);
     virtual void HasBeenLocatedToScene();
     virtual void Draw(Shader *shader);
+    virtual void DrawLow(Shader *shader);
     virtual void Frame(double time);
-    virtual void LastUpdate();
+    virtual void LastUpdate(bool low);
 };
 
 #endif /* defined(__MAX__MAXEffectObject__) */

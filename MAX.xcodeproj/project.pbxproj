@@ -316,6 +316,10 @@
 		D1F8166B16F336F500873348 /* max.pal in Resources */ = {isa = PBXBuildFile; fileRef = D1F8166A16F336F500873348 /* max.pal */; };
 		D1F816DD16F8CD4F00873348 /* retina in Resources */ = {isa = PBXBuildFile; fileRef = D1F816DB16F8CD4F00873348 /* retina */; };
 		D1F816DE16F8CD4F00873348 /* simple in Resources */ = {isa = PBXBuildFile; fileRef = D1F816DC16F8CD4F00873348 /* simple */; };
+		D1F816E316F9C60B00873348 /* ShaderUnitLow.fsh in Sources */ = {isa = PBXBuildFile; fileRef = D1F816E116F9C60B00873348 /* ShaderUnitLow.fsh */; };
+		D1F816E416F9C60B00873348 /* ShaderUnitLow.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D1F816E216F9C60B00873348 /* ShaderUnitLow.vsh */; };
+		D1F816E516F9C84400873348 /* ShaderUnitLow.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D1F816E116F9C60B00873348 /* ShaderUnitLow.fsh */; };
+		D1F816E616F9C84400873348 /* ShaderUnitLow.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D1F816E216F9C60B00873348 /* ShaderUnitLow.vsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -759,6 +763,8 @@
 		D1F8166A16F336F500873348 /* max.pal */ = {isa = PBXFileReference; lastKnownFileType = file; path = max.pal; sourceTree = "<group>"; };
 		D1F816DB16F8CD4F00873348 /* retina */ = {isa = PBXFileReference; lastKnownFileType = folder; path = retina; sourceTree = "<group>"; };
 		D1F816DC16F8CD4F00873348 /* simple */ = {isa = PBXFileReference; lastKnownFileType = folder; path = simple; sourceTree = "<group>"; };
+		D1F816E116F9C60B00873348 /* ShaderUnitLow.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnitLow.fsh; sourceTree = "<group>"; };
+		D1F816E216F9C60B00873348 /* ShaderUnitLow.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnitLow.vsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1436,6 +1442,8 @@
 		D18EDC811689846B00EE3B4E /* ShaderSources */ = {
 			isa = PBXGroup;
 			children = (
+				D1F816E116F9C60B00873348 /* ShaderUnitLow.fsh */,
+				D1F816E216F9C60B00873348 /* ShaderUnitLow.vsh */,
 				D1DBC4B316C924D20096034A /* ShaderLine.fsh */,
 				D1DBC4B416C924D30096034A /* ShaderLine.vsh */,
 				D1992271168E1DE40067D6CF /* ShaderUnit.fsh */,
@@ -1682,6 +1690,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1F816E516F9C84400873348 /* ShaderUnitLow.fsh in Resources */,
+				D1F816E616F9C84400873348 /* ShaderUnitLow.vsh in Resources */,
 				D1DBC4B716C926B00096034A /* ShaderLine.fsh in Resources */,
 				D1DBC4B816C926B00096034A /* ShaderLine.vsh in Resources */,
 				D1992275168E1DFD0067D6CF /* ShaderUnit.fsh in Resources */,
@@ -1991,6 +2001,8 @@
 				D14D50D016EF381200F8A8EC /* MAXAnimationWait.cpp in Sources */,
 				8B85506E16F5C165000170D5 /* GIUnitParametersNode.cpp in Sources */,
 				8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */,
+				D1F816E316F9C60B00873348 /* ShaderUnitLow.fsh in Sources */,
+				D1F816E416F9C60B00873348 /* ShaderUnitLow.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

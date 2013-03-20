@@ -57,7 +57,7 @@ public:
     void EndFrame();
     void Update();
     virtual void AfterUpdate();
-    virtual void LastUpdate();
+    virtual void LastUpdate(bool low);
     
     
     virtual compareFunc GetCompareFunc();
@@ -67,6 +67,7 @@ public:
     virtual void HasBeenRemovedFromScene();
     
     virtual void Draw(Shader* shader);
+    virtual void DrawLow(Shader* shader);
     
     void SetIsOnScreen(bool isOnScreen);
     

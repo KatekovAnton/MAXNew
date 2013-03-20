@@ -94,6 +94,12 @@ void PivotObject::Draw(Shader *shader)
     GetRenderAspect()->Render(0, GetMaterial());
 }
 
+void PivotObject::DrawLow(Shader* shader)
+{
+    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, _transformMatrix.m);
+    GetRenderAspect()->Render(0, GetMaterial());
+}
+
 RenderObject * PivotObject::GetRenderAspect() {
     return NULL;
 }
@@ -110,5 +116,5 @@ PivotObject::~PivotObject() {
    // delete _objectBehaviourModel;
 }
 
-void PivotObject::LastUpdate()
+void PivotObject::LastUpdate(bool low)
 {}

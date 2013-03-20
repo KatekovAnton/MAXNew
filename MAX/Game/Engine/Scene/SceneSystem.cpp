@@ -102,12 +102,12 @@ void SceneSystem::AfterUpdate()
     _sceneGraph->Update(_movedObjects_w);
 }
 
-void SceneSystem::LastUpdate()
+void SceneSystem::LastUpdate(bool low)
 {
     for (int i = 0; i < _visibleObjects->GetCount(); i++)
     {
         PivotObject* object = _visibleObjects->objectAtIndex(i);
-        object->LastUpdate();
+        object->LastUpdate(low);
     }
 }
 

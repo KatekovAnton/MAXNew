@@ -51,6 +51,7 @@ GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned
     MAXObjectConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
     GameUnitParameters* params = new GameUnitParameters(unit, _clanConfig, _researchManager, _upgradeManager);
     GameUnit* result = new GameUnit(MAXSCL->CreateUnit(unit), params, this);
+    result->SetColor(GLKVector4Make(_playerInfo._color.r, _playerInfo._color.g, _playerInfo._color.b, 1.0));
     result->SetLocation(CCPoint(posx, posy));
     result->CheckBodyAndShadow();
     _units.addObject(result);

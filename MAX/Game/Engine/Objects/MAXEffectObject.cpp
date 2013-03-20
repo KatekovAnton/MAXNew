@@ -63,7 +63,7 @@ void MAXEffectObject::Frame(double time)
 
 void MAXEffectObject::Draw(Shader *shader)
 {
-    _renderAspect->Bind();
+    //_renderAspect->Bind();
     
     if (engine->_applyedPaletteIndex != -200) {
         engine->_applyedPaletteCount ++;
@@ -76,15 +76,21 @@ void MAXEffectObject::Draw(Shader *shader)
     shader->SetFloatValue(UNIFORM_ALPHA, 1.0);
     shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
     _material->index = _currentFrame;
+    _material->ApplyLod(0, shader);
     _renderAspect->Render(0, _material);
     
-    _renderAspect->UnBind();
+    //_renderAspect->UnBind();
 }
 
-void MAXEffectObject::LastUpdate()
+void MAXEffectObject::DrawLow(Shader *shader)
+{
+    
+}
+
+void MAXEffectObject::LastUpdate(bool low)
 {
     if (!GetIsOnScreen())
         return;
-  
-    bodyRenderMatrix = CalculateBodyRenderMatrix();
+    if (!low)
+        bodyRenderMatrix = CalculateBodyRenderMatrix();
 }

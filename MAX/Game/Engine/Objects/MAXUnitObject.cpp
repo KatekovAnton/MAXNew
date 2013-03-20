@@ -77,15 +77,22 @@ MAXUnitObject::~MAXUnitObject()
     delete _renderAspect;
 }
 
-void MAXUnitObject::LastUpdate()
+void MAXUnitObject::LastUpdate(bool low)
 {
     if (!GetIsOnScreen())
         return;
-    if (showShadows && params_w->_haveShadow)
-        shadowRenderMatrix = CalculateShadowRenderMatrix();
-    if (params_w->_hasHead) 
-        bodyRenderMatrix = CalculateBodyRenderMatrix();
-    headRenderMatrix = CalculateHeadRenderMatrix();
+    if (low)
+    {
+        bodyRenderMatrix = CalculateLowRenderMatrix();
+    }
+    else
+    {
+        if (showShadows && params_w->_haveShadow)
+            shadowRenderMatrix = CalculateShadowRenderMatrix();
+        if (params_w->_hasHead)
+            bodyRenderMatrix = CalculateBodyRenderMatrix();
+        headRenderMatrix = CalculateHeadRenderMatrix();
+    }
 }
 
 GLKVector2 MAXUnitObject::CalculateAirOffset() const
@@ -181,6 +188,19 @@ GLKMatrix4 MAXUnitObject::CalculateBodyRenderMatrix()
     return GLKMatrix4Multiply(transform, addtr);
 }
 
+GLKMatrix4 MAXUnitObject::CalculateLowRenderMatrix()
+{
+    GLKMatrix4 transform = GetTransformMatrix();
+    float size = params_w->_bSize;
+    float deltax = -0.5;
+    float deltay = 0.5;
+    GLKMatrix4 scale = GLKMatrix4MakeScale(size, size, 1);
+    GLKMatrix4 translate = GLKMatrix4MakeTranslation(deltax, deltay, 0);
+    GLKMatrix4 addtr = GLKMatrix4Multiply(translate,scale);
+    
+    return GLKMatrix4Multiply(transform, addtr);
+}
+
 GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
 {
     GLKMatrix4 transform = GetTransformMatrix();
@@ -255,7 +275,7 @@ bool MAXUnitObject::IsHasBody() const
 
 void MAXUnitObject::Draw(Shader *shader)
 {
-    _renderAspect->Bind();
+    //_renderAspect->Bind();
     if (engine->_applyedPaletteIndex != _playerId) {
         engine->_applyedPaletteCount ++;
         engine->_applyedPaletteIndex = _playerId;
@@ -267,6 +287,7 @@ void MAXUnitObject::Draw(Shader *shader)
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
         shader->SetFloatValue(UNIFORM_ALPHA, SHADOWALPHA);
         _material->index = bodyIndex;
+        _material->ApplyShadowLod(0, shader);
         _renderAspect->RenderShadow(0, _material);
         shader->SetFloatValue(UNIFORM_ALPHA, 1.0);
     }
@@ -274,14 +295,32 @@ void MAXUnitObject::Draw(Shader *shader)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
         _material->index = bodyIndex;
+        _material->ApplyLod(0, shader);
         _renderAspect->Render(0, _material);
     }
     
     shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, headRenderMatrix.m);
     _material->index = headIndex;
+    _material->ApplyLod(0, shader);
     _renderAspect->Render(0, _material);
     
-    _renderAspect->UnBind();
+    //_renderAspect->UnBind();
+}
+
+void MAXUnitObject::DrawLow(Shader *shader)
+{
+   // _renderAspect->Bind();
+    if (engine->_applyedPaletteIndex != _playerId) {
+        engine->_applyedPaletteCount ++;
+        engine->_applyedPaletteIndex = _playerId;
+        shader->SetVector4Value(UNIFORM_VECTOR1, (float*)&playerColor);
+    }
+    
+       
+    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
+    _renderAspect->Render(0, _material);
+    
+    //_renderAspect->UnBind();
 }
 
 void MAXUnitObject::SetBodyDirection(int state)

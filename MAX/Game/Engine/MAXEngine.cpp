@@ -61,6 +61,7 @@ void MAXEngine::Init() {
    
     
     _unitShader = new Shader("ShaderUnit.vsh", "ShaderUnit.fsh");
+    _unitLowShader = new Shader("ShaderUnitLow.vsh", "ShaderUnitLow.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
     _mapQuadShader = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
     _mapQuadMesh = EngineMesh::CreateScaledQuad(2,2);
@@ -168,10 +169,17 @@ void MAXEngine::Update()
     }
     _scene->AfterUpdate();
     _scene->CalculateVisbleObject();
-    USimpleContainer<PivotObject*> *container = _scene->GetVisibleObjects();
-    if (container->GetCount()!=0)
-        container->sort(container->objectAtIndex(0)->GetCompareFunc());
-    _scene->LastUpdate();
+    
+    CCPoint c1 = engine->WorldCoordinatesToScreenCocos(ccp(0, 0));
+    CCPoint c2 = engine->WorldCoordinatesToScreenCocos(ccp(64, 0));
+    float oneCellRadius = c2.x - c1.x;
+    lowRender = oneCellRadius < 10 || _camera->minZoom;
+    if (!lowRender) {
+        USimpleContainer<PivotObject*> *container = _scene->GetVisibleObjects();
+        if (container->GetCount()!=0)
+            container->sort(container->objectAtIndex(0)->GetCompareFunc());
+    }
+    _scene->LastUpdate(lowRender);
     _unitSelection->Update();
 }
 
@@ -216,20 +224,39 @@ void MAXEngine::DrawUnits()
 {
     _applyedPaletteIndex = -100;
     _applyedPaletteCount = 0;
+    
+    
+    
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    _shader = _unitShader;
-    glUseProgram(_shader->GetProgram());
-    _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
-    
-    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-    const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
-    
-    for (int i = 0; i < objects->GetCount(); i++)
+    if (lowRender)
     {
-        objects->objectAtIndex(i)->Draw(_shader);
-        MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus((MAXUnitObject*)objects->objectAtIndex(i));
+        _shader = _unitLowShader;
+        glUseProgram(_shader->GetProgram());
+        _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
+        _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+        const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
+        
+        MAXSCL->unitMesh->Bind();
+        for (int i = 0; i < objects->GetCount(); i++)
+            objects->objectAtIndex(i)->DrawLow(_shader);
+        MAXSCL->unitMesh->Unbind();
     }
- 
+    else
+    {
+        _shader = _unitShader;
+        glUseProgram(_shader->GetProgram());
+        _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
+        _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+        const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
+        
+        MAXSCL->unitMesh->Bind();
+        for (int i = 0; i < objects->GetCount(); i++)
+        {
+            objects->objectAtIndex(i)->Draw(_shader);
+            MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus((MAXUnitObject*)objects->objectAtIndex(i));
+        }
+        MAXSCL->unitMesh->Unbind();
+    }
     glActiveTexture(GL_TEXTURE0);
    // printf("%d\n",_applyedPaletteCount);
 }

@@ -36,12 +36,10 @@ void MAXUnitRenderObject::UnBind()
 
 void MAXUnitRenderObject::RenderShadow(int lod, Material *material)
 {
-    ((MAXUnitMaterial*)material)->ApplyShadowLod(lod, engine->GetShader());
     _mesh->Render();
 }
 
 void MAXUnitRenderObject::Render(int lod, Material *material)
 {
-    material->ApplyLod(lod, engine->GetShader());
     _mesh->Render();
 }
