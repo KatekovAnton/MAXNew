@@ -77,7 +77,10 @@ void MAXStatusRenderer::DrawCircles()
 //    }
     
     MAXDrawPrimitives* drawer = MAXDrawPrimitives::SharedDrawPrimitives();
-    float oneCellRadius = (64.0 / engine->_camera->scale)/Display::currentDisplay()->GetDisplayScale();
+    
+    CCPoint c1 = engine->WorldCoordinatesToScreenCocos(ccp(0, 0));
+    CCPoint c2 = engine->WorldCoordinatesToScreenCocos(ccp(64, 0));
+    float oneCellRadius = c2.x - c1.x;
     CCPoint center;
     
     glBlendFunc(GL_ONE, GL_SRC_ALPHA);
@@ -92,7 +95,7 @@ void MAXStatusRenderer::DrawCircles()
             center = engine->WorldCoordinatesToScreenCocos(object->ObjectCenterCoordinates());
             float scan = delegate->GetScan();
             if (object->params_w->_bSize % 2 == 0)
-                scan -= 0.5;
+                scan += 0.5;
             
             drawer->DrawCircle(center, scan * oneCellRadius + oneCellRadius * 0.49, 0, 30 + delegate->GetScan(), false);
         }

@@ -208,10 +208,12 @@ void GameInterface::UpdateToggleStatusButton()
 void GameInterface::OnToggleLockUnits()
 {
     _lockUnits = !_lockUnits;
-    if (!_lockUnits) {
+    if (!_lockUnits)
+    {
         _lockedUnits.clear();
         MAXStatusRenderer::SharedStatusRenderer()->ClearLockedUnits();
-        if (_currentUnit) {
+        if (_currentUnit)
+        {
             _lockedUnits.push_back(_currentUnit);
             MAXStatusRenderer::SharedStatusRenderer()->AddUnitToLock(_currentUnit->GetUnitObject());
         }

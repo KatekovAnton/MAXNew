@@ -35,7 +35,10 @@ void MAXConfigManager::LoadUnitSegment(string source)
         vector<string> data = splitString(typeData[1], '#');
         string resourceConfig = data[0];
         string balanceConfig = data[1];
-        
+        if (type == "Powerpl") {
+            int a = 0;
+            a++;
+        }
         MAXObjectConfig* config = new MAXObjectConfig(balanceConfig, resourceConfig);
         _unitConfigs.insert(pair<string, MAXObjectConfig*>(type, config));
     }

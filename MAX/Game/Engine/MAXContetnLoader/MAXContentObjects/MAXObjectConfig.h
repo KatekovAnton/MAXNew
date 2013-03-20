@@ -198,6 +198,7 @@ public:
     int _retMaterial;
     int _retFuel;
     int _retGold;
+    int _retMoney;
     int _retEnergy;
     int _retPeoples;
     
@@ -218,6 +219,8 @@ public:
     bool IsValid() const;
     
     bool _haveShadow;
+    
+    bool ProduceSmth() const { return _retMaterial != 0 ||_retFuel != 0 || _retGold != 0 || _retMoney != 0 || _retMoney != 0 || _retEnergy != 0; }
     
 };
 

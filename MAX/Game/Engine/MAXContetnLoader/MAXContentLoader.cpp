@@ -334,6 +334,12 @@ MAXContentLoader::MAXContentLoader()
             default_palette[i].r = br->ReadUChar();
             default_palette[i].a = 255;
             
+//            if(default_palette[i].r < 20 && default_palette[i].g<20 && default_palette[i].b < 20)
+//            {
+//                int a = 0;
+//                a++;
+//                printf("%d\n", i);
+//            }
 //            if (default_palette[i] == c3) {
 //                default_palette[i].a = 0;
 //                int a = 0;
@@ -409,7 +415,7 @@ void MAXContentLoader::animateUnitPalette(Color* thepal)
 {
     palshiftd(thepal, 9, 12);//3
     palshiftu(thepal, 13, 16);//3
-   // palshiftu(thepal, 17, 20);//3
+    palshiftu(thepal, 17, 20);//3
     palshiftu(thepal, 21, 24);//3
     
     palshiftu(thepal, 25, 30);//5
@@ -662,7 +668,7 @@ void MAXContentLoader::LoadUnitShadow(BinaryReader* shadowSource, int index, MAX
     unsigned int* rows = new unsigned int[height];
     shadowSource->ReadBuffer(height * 4, (char *)rows);
     unsigned char transparent = 0;
-    unsigned char opaque = 19;
+    unsigned char opaque = 207;
     Color currentColor = {transparent,0,0,0};//113 is transparent, 114 is opaque
 
     for(int Y = 0; Y < height; Y++)

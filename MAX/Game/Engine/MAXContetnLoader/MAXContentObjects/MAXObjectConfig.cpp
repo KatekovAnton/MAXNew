@@ -249,8 +249,9 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
         _retMaterial            = atoi(elements[0].c_str());
         _retFuel                = atoi(elements[1].c_str());
         _retGold                = atoi(elements[2].c_str());
-        _retEnergy              = atoi(elements[3].c_str());
-        _retPeoples             = atoi(elements[4].c_str());
+        _retMoney               = atoi(elements[3].c_str());
+        _retEnergy              = atoi(elements[4].c_str());
+        _retPeoples             = atoi(elements[5].c_str());
         
         return;
     }

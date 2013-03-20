@@ -196,7 +196,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 
 bool GameUnit::CanStartBuildProcess()
 {
-    return _config->GetConfig()->_bSelfCreatorType != 0 && !_isInProcess;
+    return ((!_config->GetConfig()->_isAllwaysOn && _config->GetConfig()->_isBuilding) || _config->GetConfig()->_bSelfCreatorType != 0) && !_isInProcess;
 }
 
 void GameUnit::StartBuildProcess()
