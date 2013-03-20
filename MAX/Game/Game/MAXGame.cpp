@@ -68,15 +68,15 @@ void MAXGame::StartMatch()
     
     _currentUnit = NULL;
     
-    for (int x = 0; x < 100; x++)
-    {
-        for (int y = 0; y < 100; y++)
-        {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(x, y, "Inter", 0);
-            unit1->SetRandomDirection();
-            unit1->LocateOnMap();
-        }
-    }
+//    for (int x = 0; x < 100; x++)
+//    {
+//        for (int y = 0; y < 100; y++)
+//        {
+//            GameUnit *unit1 = _match->_players[0]->CreateUnit(x, y, "Inter", 0);
+//            unit1->SetRandomDirection();
+//            unit1->LocateOnMap();
+//        }
+//    }
     
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
