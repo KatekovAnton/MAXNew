@@ -50,7 +50,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
 {
     
     _needAirOffset = config->_isPlane;
-    _needShipOffset = config->_isShip;
+    _needShipOffset = config->_isShip && !config->_isBuilding;
     _airOffsetMult = 1.0;
     _needShadow = false;
     

@@ -28,7 +28,7 @@ int compareMAXUnitObject (const void * a, const void * b)
     }
     else if(a1->params_w->_bLevel < b1->params_w->_bLevel)
         return -1;
-    else if(a1->params_w->_bLevel > b1->params_w->_bLevel)
+    else
         return 1;
     
     
