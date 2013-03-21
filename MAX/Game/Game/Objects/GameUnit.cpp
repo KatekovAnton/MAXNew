@@ -93,7 +93,7 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 
 void GameUnit::CheckBodyAndShadow()
 {
-    if (!(_config->GetConfig()->_isAmphibious || _config->GetConfig()->_isUnderwater || _config->GetConfig()->_bSelfCreatorType != 0))
+    if (!(_config->GetConfig()->_isAmphibious || _config->GetConfig()->_isUnderwater || CanStartBuildProcess()))
         return;
     
     
@@ -101,30 +101,44 @@ void GameUnit::CheckBodyAndShadow()
     char groundType = _owner_w->_match_w->_map->GroundTypeAtPoint(_unitCell);
     if (groundType == GROUND_TYPE_WATER)
     {
-        if (_config->GetConfig()->_isUnderwater && !_detected)
+        if (_config->GetConfig()->_isBuilding)
         {
-            _unitObject->SetBodyOffset(0);
-            _unitObject->_needShadow = false;
-            return;
+            _unitObject->SetBodyOffset(_isInProcess?1:0);
         }
-        if (_config->GetConfig()->_isAmphibious)
+        else
         {
-            _unitObject->SetBodyOffset(_isInProcess?24:8);
-            return;
+            if (_config->GetConfig()->_isUnderwater && !_detected)
+            {
+                _unitObject->SetBodyOffset(0);
+                _unitObject->_needShadow = false;
+                return;
+            }
+            if (_config->GetConfig()->_isAmphibious)
+            {
+                _unitObject->SetBodyOffset(_isInProcess?24:8);
+                return;
+            }
         }
     }
     else
     {
-        if (_config->GetConfig()->_isUnderwater)
+        if (_config->GetConfig()->_isBuilding)
         {
-            _unitObject->SetBodyOffset(8);
-            _unitObject->_needShadow = _config->GetConfig()->_haveShadow;
-            return;
+            _unitObject->SetBodyOffset(_isInProcess?1:0);
         }
-        if (_config->GetConfig()->_isAmphibious)
+        else
         {
-            _unitObject->SetBodyOffset(_isInProcess?16:0);
-            return;
+            if (_config->GetConfig()->_isUnderwater)
+            {
+                _unitObject->SetBodyOffset(8);
+                _unitObject->_needShadow = _config->GetConfig()->_haveShadow;
+                return;
+            }
+            if (_config->GetConfig()->_isAmphibious)
+            {
+                _unitObject->SetBodyOffset(_isInProcess?16:0);
+                return;
+            }
         }
     }
     
@@ -202,23 +216,15 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 
 bool GameUnit::CanStartBuildProcess()
 {
-    return ((!_config->GetConfig()->_isAllwaysOn && _config->GetConfig()->_isBuilding) || _config->GetConfig()->_bSelfCreatorType != 0) && !_isInProcess;
+    return ((!_config->GetConfig()->_isAllwaysOn && _config->GetConfig()->_isBuilding) || _config->GetConfig()->_bSelfCreatorType != 0);
 }
 
 void GameUnit::StartBuildProcess()
 {
     if (!CanStartBuildProcess())
         return;
-    _isInProcess = true;
-    MAXUnitObject* object = (MAXUnitObject*)GetObject();
-    if (_config->GetConfig()->_isBuilding)
-    {
-        object->SetBodyOffset(1);
-    }
-    else
-    {
-        object->SetBodyOffset(16);
-    }
+    _isInProcess = !_isInProcess;
+    CheckBodyAndShadow();
 }
 
 #pragma mark - MAXAnimationDelegate
