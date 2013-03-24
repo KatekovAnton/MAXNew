@@ -70,12 +70,6 @@ void MAXStatusRenderer::DrawUnitStatus(MAXUnitObject* unit)
 int lastPrinted = -1;
 void MAXStatusRenderer::DrawCircles()
 {
-//    if (_scanRangeUnits_w.size() != lastPrinted)
-//    {
-//        lastPrinted = _scanRangeUnits_w.size();
-//        printf("%d\n", lastPrinted);
-//    }
-    
     MAXDrawPrimitives* drawer = MAXDrawPrimitives::SharedDrawPrimitives();
     
     CCPoint c1 = engine->WorldCoordinatesToScreenCocos(ccp(0, 0));
@@ -93,10 +87,8 @@ void MAXStatusRenderer::DrawCircles()
             MAXUnitObject* object = *obj;
             MAXStatusRendererUnitDelegate* delegate = object->_statusDelegate_w;
             center = engine->WorldCoordinatesToScreenCocos(object->ObjectCenterCoordinates());
-            float scan = delegate->GetScan();
-            if (object->params_w->_bSize % 2 == 0)
-                scan += 0.5;
             
+            float scan = delegate->GetScan() - 0.5;
             drawer->DrawCircle(center, scan * oneCellRadius + oneCellRadius * 0.49, 0, 30 + delegate->GetScan(), false);
         }
     }
@@ -114,9 +106,9 @@ void MAXStatusRenderer::DrawCircles()
             
             MAXStatusRendererUnitDelegate* delegate = object->_statusDelegate_w;
             
-            
+            float range = delegate->GetRange() - 0.5;
             center = engine->WorldCoordinatesToScreenCocos(object->ObjectCenterCoordinates());
-            drawer->DrawCircle(center, delegate->GetRange() * oneCellRadius + oneCellRadius * 0.52, 0, 30 + delegate->GetRange(), false);
+            drawer->DrawCircle(center, range * oneCellRadius + oneCellRadius * 0.52, 0, 30 + delegate->GetRange(), false);
         }
     }
 }
