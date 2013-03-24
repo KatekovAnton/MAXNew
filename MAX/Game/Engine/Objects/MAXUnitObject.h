@@ -50,9 +50,9 @@ class MAXUnitObject : public MAXObject {
     GLKMatrix4 bodyRenderMatrix;
     GLKMatrix4 headRenderMatrix;
     
-    int bodyOffset = 0;
-    int headOffset = 8;
-    int headFireOffset = 16;
+    int bodyOffset;
+    int headOffset;
+    int headFireOffset;
     
     double _lastHeadAnimTime;
     

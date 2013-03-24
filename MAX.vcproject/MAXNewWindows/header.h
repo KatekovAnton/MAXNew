@@ -9,6 +9,8 @@
 #define ushort unsigned short
 
 #include <memory>
+#include <math.h>
+#include <cmath>
 //#define SysLogInfo printf
 #define _USE_MATH_DEFINES
 #define DEBUG

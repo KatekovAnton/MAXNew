@@ -15,7 +15,7 @@ static void* runThread(void* arg)
 }
 
 Thread::Thread()
-: m_tid(0), m_running(0), m_detached(0)
+: m_running(0), m_detached(0)
 {}
 
 Thread::~Thread()

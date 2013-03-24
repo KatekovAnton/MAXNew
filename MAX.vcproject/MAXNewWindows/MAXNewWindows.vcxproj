@@ -38,8 +38,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)..\..\MAX\Game\Game;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects;$(ProjectDir)..\..\MAX\Game\Engine\Renderer\Shader;$(ProjectDir)..\..\MAX\Game\Engine\Renderer;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Textures;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Meshes;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Material;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader;$(ProjectDir)..\..\MAX\Game\Engine\Objects;$(ProjectDir)..\..\MAX\Game\Engine;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\kazmath\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\effects;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32\compat;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\shaders\;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx;$(ProjectDir)Sys\Windows;$(ProjectDir)..\..\MAX\Utils;$(ProjectDir)..\..\MAX\Game\Vendors\aharren-LibComponentLogging-Core-17e2940;$(ProjectDir)..\..\MAX\Sys;$(ProjectDir)..\..\MAX\Utils\MathKit;$(ProjectDir);$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)..\..\MAX\Game\Engine\Renderer;$(ProjectDir)..\..\MAX\Game\Engine\Renderer\Shader;$(ProjectDir)..\..\MAX\Game\Engine\Objects;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Textures;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Meshes;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Material;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader;$(ProjectDir)..\..\MAX\Game\Engine;$(ProjectDir)..\..\MAX.vcproject\MAXNewWindows\Sys\Windows;$(ProjectDir)..\..\MAX\Game\Game;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)..\..\MAX\Game\Game\Interface;$(ProjectDir)..\..\MAX\Game\Game\GameMatch\PlayerInformation;$(ProjectDir)..\..\MAX\Game\Game\GameMatch\;$(ProjectDir)..\..\MAX\Game\Game\Objects\;$(ProjectDir)..\..\MAX\Game\Game;$(ProjectDir)..\..\MAX\Game\Engine\Animation;$(ProjectDir)..\..\MAX\Game\Engine\Scene\SceneGraph;$(ProjectDir)..\..\MAX\Game\Engine\Scene;$(ProjectDir)..\..\MAX\Utils;$(ProjectDir)..\..\MAX\Utils\MathKit;$(ProjectDir)..\..\MAX\Utils\Threads;$(ProjectDir)..\..\MAX\Utils\Network;$(ProjectDir)..\..\MAX\Utils\Network\curlWindows;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects;$(ProjectDir)..\..\MAX\Game\Engine\Renderer\Shader;$(ProjectDir)..\..\MAX\Game\Engine\Renderer;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Textures;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Meshes;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Material;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader;$(ProjectDir)..\..\MAX\Game\Engine\Objects;$(ProjectDir)..\..\MAX\Game\Engine;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\kazmath\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\effects;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32\compat;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\third_party\win32\pthread;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\third_party\win32\curl;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\shaders\;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx;$(ProjectDir)..\..\MAX\Game\Vendors\aharren-LibComponentLogging-Core-17e2940;$(ProjectDir)..\..\MAX\Sys;$(ProjectDir)..\..\MAX;$(ProjectDir)Sys\Windows;$(ProjectDir);$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)..\..\MAX\Game\Game\Interface;$(ProjectDir)..\..\MAX\Game\Game\GameMatch\;$(ProjectDir)..\..\MAX\Game\Game\Objects\;$(ProjectDir)..\..\MAX\Game\Game;$(ProjectDir)..\..\MAX\Game\Engine\Animation;$(ProjectDir)..\..\MAX\Game\Engine\Scene\SceneGraph;$(ProjectDir)..\..\MAX\Game\Engine\Scene;$(ProjectDir)..\..\MAX\Utils;$(ProjectDir)..\..\MAX\Utils\MathKit;$(ProjectDir)..\..\MAX\Utils\Threads;$(ProjectDir)..\..\MAX\Utils\Network;$(ProjectDir)..\..\MAX\Utils\Network\curlWindows;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects;$(ProjectDir)..\..\MAX\Game\Engine\Renderer\Shader;$(ProjectDir)..\..\MAX\Game\Engine\Renderer;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Textures;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Meshes;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Material;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader;$(ProjectDir)..\..\MAX\Game\Engine\Objects;$(ProjectDir)..\..\MAX\Game\Engine;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\kazmath\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\effects;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32\compat;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\third_party\win32\pthread;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\third_party\win32\curl;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\shaders\;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx;$(ProjectDir)..\..\MAX\Game\Vendors\aharren-LibComponentLogging-Core-17e2940;$(ProjectDir)..\..\MAX\Sys;$(ProjectDir)..\..\MAX;$(ProjectDir)Sys\Windows;$(ProjectDir);$(IncludePath);$(SourcePath)</SourcePath>
     <LibraryPath>$(ProjectDir)..\Debug.win32;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
@@ -53,7 +53,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;libcocos2d.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;libcocos2d.lib;winmm.lib;pthreadVCE2.lib;libcurl_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,8 +70,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationBase.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationManager.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationObjectUnit.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationRepeat.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationSequence.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\MAXCamera.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXClanConfig.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXConfigManager.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXContentMap.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXUnitConfig.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnLoader.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\MAXEngine.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\Material.cpp" />
@@ -81,32 +89,68 @@
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Meshes\EngineMesh.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\LevelObject.cpp" />
-    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXEffectObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXMapObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXUnitObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXUnitRenderObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\PivotObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\RenderObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\UnAnimRenderObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\Framebuffer.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\MAXDrawPrimitives.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Renderer\MAXGrid.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\MAXUnitSelection.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Renderer\RenderSystem.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Renderer\Shader\Shader.cpp" />
-    <ClCompile Include="..\..\MAX\Game\Engine\SceneSystem.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Scene\SceneGraph\MAXSceneGraph.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Scene\SceneGraph\MAXSceneGraphNode.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\Scene\SceneSystem.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\UserInterface.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMap.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMatch.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayer.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerBase.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerResearchManager.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerUpgradeManager.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\GameInteface.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\MAXGame.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffectBlast.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffectRocket.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameObject.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnit.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitCurrentState.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitParameters.cpp" />
     <ClCompile Include="..\..\MAX\Sys\Display.cpp" />
     <ClCompile Include="..\..\MAX\Sys\DisplayPinchDelegate.cpp" />
     <ClCompile Include="..\..\MAX\Sys\FileManger.cpp" />
     <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp" />
     <ClCompile Include="..\..\MAX\Utils\IdGenerator.cpp" />
+    <ClCompile Include="..\..\MAX\Utils\Network\Request.cpp" />
+    <ClCompile Include="..\..\MAX\Utils\Network\RequestManager.cpp" />
+    <ClCompile Include="..\..\MAX\Utils\Network\Response.cpp" />
+    <ClCompile Include="..\..\MAX\Utils\StringUtils.cpp" />
     <ClCompile Include="..\..\MAX\Utils\Sys.c" />
+    <ClCompile Include="..\..\MAX\Utils\Threads\Thread.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sys\Windows\windows_display.cpp" />
     <ClCompile Include="Sys\Windows\windows_fileManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationBase.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationDelegate.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationManager.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationObjectUnit.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationPrefix.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationRepeat.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationSequence.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXCamera.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXClanConfig.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXConfigManager.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXContentMap.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXUnitConfig.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnConstants.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnLoader.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXEngine.h" />
@@ -117,23 +161,45 @@
     <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Meshes\EngineMesh.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Objects\LevelObject.h" />
-    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MapObject.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXEffectObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXMapObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXObject.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXUnitObject.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXUnitRenderObject.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Objects\PivotObject.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Objects\RenderObject.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Objects\UnAnimRenderObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\Framebuffer.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\MAXDrawPrimitives.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Renderer\MAXGrid.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\MAXUnitSelection.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Renderer\RenderSystem.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\Renderer\Shader\Shader.h" />
-    <ClInclude Include="..\..\MAX\Game\Engine\SceneSystem.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Scene\SceneGraph\MAXSceneGraph.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Scene\SceneGraph\MAXSceneGraphNode.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\Scene\SceneSystem.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\UserInterface.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMap.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatch.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayer.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerBase.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerResearchManager.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerUpgradeManager.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\GameInteface.h" />
     <ClInclude Include="..\..\MAX\Game\Game\MAXGame.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffectBlast.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffectRocket.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameObject.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnit.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitCurrentState.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitParameters.h" />
     <ClInclude Include="..\..\MAX\Sys\Display.h" />
     <ClInclude Include="..\..\MAX\Sys\DisplayPinchDelegate.h" />
     <ClInclude Include="..\..\MAX\Sys\FileManger.h" />
     <ClInclude Include="..\..\MAX\Utils\BinaryReader.h" />
+    <ClInclude Include="..\..\MAX\Utils\clist.h" />
     <ClInclude Include="..\..\MAX\Utils\GlobalConstants.h" />
     <ClInclude Include="..\..\MAX\Utils\IdGenerator.h" />
     <ClInclude Include="..\..\MAX\Utils\MathKit\Geometry.h" />
@@ -149,8 +215,16 @@
     <ClInclude Include="..\..\MAX\Utils\MathKit\GLKVector4.h" />
     <ClInclude Include="..\..\MAX\Utils\MathKit\Matrix.h" />
     <ClInclude Include="..\..\MAX\Utils\MathKit\MyMath.h" />
+    <ClInclude Include="..\..\MAX\Utils\Network\Request.h" />
+    <ClInclude Include="..\..\MAX\Utils\Network\RequestDelegate.h" />
+    <ClInclude Include="..\..\MAX\Utils\Network\RequestManager.h" />
+    <ClInclude Include="..\..\MAX\Utils\Network\Response.h" />
+    <ClInclude Include="..\..\MAX\Utils\StringUtils.h" />
     <ClInclude Include="..\..\MAX\Utils\Sys.h" />
+    <ClInclude Include="..\..\MAX\Utils\Threads\Thread.h" />
+    <ClInclude Include="..\..\MAX\Utils\t_2.h" />
     <ClInclude Include="..\..\MAX\Utils\UContainer.h" />
+    <ClInclude Include="..\..\MAX\Utils\USimpleContainer.h" />
     <ClInclude Include="..\..\MAX\Utils\Utils.h" />
     <ClInclude Include="glew.h" />
     <ClInclude Include="glext.h" />

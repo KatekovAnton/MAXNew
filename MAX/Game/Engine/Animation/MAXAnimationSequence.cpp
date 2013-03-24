@@ -31,7 +31,7 @@ MAXAnimationBase* MAXAnimationSequence::CurrentAnimaton()
         if (!anim->IsFinished())
             return anim;
     }
-    return nil;
+    return NULL;
 }
 
 void MAXAnimationSequence::AddAnimation(MAXAnimationBase* baseAnim)

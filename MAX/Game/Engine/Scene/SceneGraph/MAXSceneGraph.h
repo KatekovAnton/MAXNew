@@ -30,7 +30,7 @@ class MAXSceneGraph {
     MAXSceneGraphNode           *_baseNode;
     stack<MAXSceneGraphNode*>   _subtreeStack;
     
-    int _maxNestingLevel = 3;
+    int _maxNestingLevel;
     stack<MAXSceneGraphNode*>   _nodeStack;
     map<PivotObject*, MAXSceneGraphNode*> _objectNodeMap;
     MAXSceneGraphNode** _leafs;

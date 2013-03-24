@@ -32,7 +32,7 @@ static int nextIntMinMax(int min, int max)
 
 static float nextFloat()
 {
-    return ((float)arc4random() / ARC4RANDOM_MAX);
+    return ((float)rand() / ARC4RANDOM_MAX);
 }
 
 static float nextFloatMax(float max)
@@ -51,7 +51,7 @@ static float nextFloatMinMax(float min, float max)
 
 static double nextDouble()
 {
-    return ((double)arc4random() / ARC4RANDOM_MAX);
+    return ((double)rand() / ARC4RANDOM_MAX);
 }
 
 static double nextDoubleMax(double max)

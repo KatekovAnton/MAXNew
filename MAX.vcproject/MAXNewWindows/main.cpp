@@ -5,36 +5,36 @@
  *		If You've Found This Code Useful, Please Let Me Know.
  *		Visit My Site At nehe.gamedev.net
  */
-#include <windows.h>		// Header File For Windows
 #include "glew.h"
 //#include "glext.h"
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
 //#include <gl\glaux.h>		// Header File For The Glaux Library
 
-HDC			hDC=NULL;		// Private GDI Device Context
-HGLRC		hRC=NULL;		// Permanent Rendering Context
-HWND		hWnd=NULL;		// Holds Our Window Handle
-HINSTANCE	hInstance;		// Holds The Instance Of The Application
 
-bool	keys[256];			// Array Used For The Keyboard Routine
-bool	active=TRUE;		// Window Active Flag Set To TRUE By Default
-bool	fullscreen=TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 
-LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 
 #define TARGET_OS_WIN
 #include "Sys\Windows\windows_display.h"
 #include "MAXEngine.h"
 #include "MAXGame.h"
 
+#include <windows.h>		// Header File For Windows
 #include <stdio.h>
 #include <fcntl.h>
 #include <io.h>
 #include <iostream>
 #include <fstream>
 
+LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 
+HDC			hDC=NULL;		// Private GDI Device Context
+HGLRC		hRC=NULL;		// Permanent Rendering Context
+HWND		hWnd=NULL;		// Holds Our Window Handle
+HINSTANCE	hInstance;		// Holds The Instance Of The Application
+bool	keys[256];			// Array Used For The Keyboard Routine
+bool	active=TRUE;		// Window Active Flag Set To TRUE By Default
+bool	fullscreen=TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 void RedirectIOToConsole()
 {
 	int hConHandle;

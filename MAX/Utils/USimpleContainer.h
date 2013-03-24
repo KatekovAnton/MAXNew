@@ -40,7 +40,10 @@ namespace Utils {
     };
 
     template <class T>
-    USimpleContainer<T>::USimpleContainer():USimpleContainer(100) {
+    USimpleContainer<T>::USimpleContainer() {
+		_baseSize = 100;
+        _array = new T[100];
+        _currentSize = _baseSize;
     }
     
     template<class T>

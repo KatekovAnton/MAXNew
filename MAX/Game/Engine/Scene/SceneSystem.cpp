@@ -144,7 +144,7 @@ void SceneSystem::AddObject(PivotObject* newObject, bool needUpdate)
     _sceneGraph->AddObject(newObject);
 }
 
-PivotObject* SceneSystem::GetObject(unsigned int objId)
+PivotObject* SceneSystem::GetSceneObject(unsigned int objId)
 {
     for (int i = 0; i < _objects->GetCount(); i++)
     {

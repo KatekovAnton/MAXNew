@@ -7,7 +7,26 @@
 //
 
 #include "Framebuffer.h"
+#ifdef TARGET_OS_WIN
+#include <windows.h>
+#include "glew.h"
+#include "glext.h"
+#include "wchar.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
 
+#define glDeleteFramebuffers glDeleteFramebuffersEXT
+#define glGenFramebuffers glGenFramebuffersEXT
+#define glBindFramebuffer glBindFramebufferEXT
+#define glFramebufferTexture2D glFramebufferTexture2DEXT
+#define	glCheckFramebufferStatus glCheckFramebufferStatusEXT
+
+#define GL_FRAMEBUFFER GL_FRAMEBUFFER_EXT
+#define GL_COLOR_ATTACHMENT0 GL_COLOR_ATTACHMENT0_EXT
+#define GL_FRAMEBUFFER_BINDING GL_FRAMEBUFFER_BINDING_EXT
+#define GL_FRAMEBUFFER_COMPLETE GL_FRAMEBUFFER_COMPLETE_EXT
+
+#endif
 
 Framebuffer::Framebuffer(GLKVector2 sz)
 {
