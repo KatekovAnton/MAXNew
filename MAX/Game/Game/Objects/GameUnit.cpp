@@ -75,6 +75,9 @@ void GameUnit::LocateOnMap()
     GameObject::LocateOnMap();
     if (_effectUnder)
         _effectUnder->LocateOnMap();
+
+    // update the fog of war for the current gamer
+    _owner_w->UpdateFogForUnit(this, GetUnitCell());
 }
 
 void GameUnit::RemoveFromMap()
@@ -82,6 +85,9 @@ void GameUnit::RemoveFromMap()
     GameObject::RemoveFromMap();
     if (_effectUnder)
         _effectUnder->RemoveFromMap();
+
+    // update the fog of war for the current gamer
+    _owner_w->ResetFogForUnit(this, GetUnitCell());
 }
 
 void GameUnit::SetLocation(const cocos2d::CCPoint &cell)

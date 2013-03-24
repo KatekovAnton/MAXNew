@@ -11,6 +11,7 @@
 #include "PlayerBase.h"
 #include "GameUnit.h"
 #include "GameUnitParameters.h"
+#include "GameMatch.h"
 #include "MAXEngine.h"
 #include "Texture.h"
 #include "MAXClanConfig.h"
@@ -18,6 +19,8 @@
 #include "MAXConfigManager.h"
 #include "PlayerUpgradeManager.h"
 #include "PlayerResearchManager.h"
+#include "GameMap.h"
+#include "GameFog.h"
 
 GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
 :_match_w(match)
@@ -28,6 +31,7 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     
     _researchManager = new PlayerResearchManager(this);
     _upgradeManager = new PlayerUpgradeManager(this);
+    _fog = new GameFog(match->_map->GetMapWidth(), match->_map->GetMapHeight());
 }
 
 GameMatchPlayer::~GameMatchPlayer()
@@ -40,6 +44,8 @@ GameMatchPlayer::~GameMatchPlayer()
         delete t;
     }
     
+    delete _fog;
+
     for (int i = 0; i < _units.GetCount(); i++) {
         GameUnit* unit = _units.objectAtIndex(i);
         unit->RemoveFromMap();
@@ -76,4 +82,12 @@ void GameMatchPlayer::SetPalette(double time)
     _palette = _palettes[tt];
 }
 
+void GameMatchPlayer::UpdateFogForUnit(GameUnit *unit, CCPoint unitPosition)
+{
+    _fog->Update(unit, unitPosition);
+}
 
+void GameMatchPlayer::ResetFogForUnit(GameUnit *unit, CCPoint unitPosition)
+{
+    _fog->Reset(unit, unitPosition);
+}

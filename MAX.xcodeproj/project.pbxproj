@@ -320,6 +320,7 @@
 		D1F816E416F9C60B00873348 /* ShaderUnitLow.vsh in Sources */ = {isa = PBXBuildFile; fileRef = D1F816E216F9C60B00873348 /* ShaderUnitLow.vsh */; };
 		D1F816E516F9C84400873348 /* ShaderUnitLow.fsh in Resources */ = {isa = PBXBuildFile; fileRef = D1F816E116F9C60B00873348 /* ShaderUnitLow.fsh */; };
 		D1F816E616F9C84400873348 /* ShaderUnitLow.vsh in Resources */ = {isa = PBXBuildFile; fileRef = D1F816E216F9C60B00873348 /* ShaderUnitLow.vsh */; };
+		F1F2880216FE963600887D2D /* GameFog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1F2880016FE962C00887D2D /* GameFog.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -765,6 +766,8 @@
 		D1F816DC16F8CD4F00873348 /* simple */ = {isa = PBXFileReference; lastKnownFileType = folder; path = simple; sourceTree = "<group>"; };
 		D1F816E116F9C60B00873348 /* ShaderUnitLow.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnitLow.fsh; sourceTree = "<group>"; };
 		D1F816E216F9C60B00873348 /* ShaderUnitLow.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnitLow.vsh; sourceTree = "<group>"; };
+		F1F2880016FE962C00887D2D /* GameFog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameFog.cpp; sourceTree = "<group>"; };
+		F1F2880116FE962F00887D2D /* GameFog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameFog.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1546,6 +1549,8 @@
 				D1DBC4C916CA520D0096034A /* PlayerResearchManager.h */,
 				D1E62CF316D13FF5006D55E1 /* PlayerBase.cpp */,
 				D1E62CF416D13FF5006D55E1 /* PlayerBase.h */,
+				F1F2880016FE962C00887D2D /* GameFog.cpp */,
+				F1F2880116FE962F00887D2D /* GameFog.h */,
 			);
 			path = PlayerInformation;
 			sourceTree = "<group>";
@@ -2003,6 +2008,7 @@
 				8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */,
 				D1F816E316F9C60B00873348 /* ShaderUnitLow.fsh in Sources */,
 				D1F816E416F9C60B00873348 /* ShaderUnitLow.vsh in Sources */,
+				F1F2880216FE963600887D2D /* GameFog.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

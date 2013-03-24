@@ -23,6 +23,7 @@ class PlayerResearchManager;
 class PlayerUpgradeManager;
 
 class GameMatch;
+class GameFog;
 
 struct GameMatchPlayerInfo {
     
@@ -48,6 +49,8 @@ public:
     MAXClanConfig* _clanConfig;
     
     GameMatchPlayerInfo _playerInfo;
+    GameFog* _fog;
+    
     vector<Texture*> _palettes;
     Texture* _palette;
     
@@ -58,6 +61,9 @@ public:
     ~GameMatchPlayer();
 
     void SetPalette(double time);
+    
+    void UpdateFogForUnit(GameUnit* unit, CCPoint unitPosition);
+    void ResetFogForUnit(GameUnit* unit, CCPoint unitPosition);
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     GameUnit* GetUnitInPosition(const CCPoint& pos);
