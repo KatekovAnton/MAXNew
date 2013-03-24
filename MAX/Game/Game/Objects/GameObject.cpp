@@ -62,3 +62,33 @@ bool GameObject::IsUnitInCell(const CCPoint &cell) const
     }
 }
 
+// return some box for the object if the one is located in the point
+BoundingBox GameObject::GetBoundingBox(const CCPoint &point, const float radius) const
+{
+    int unitSize = _config_w->_bSize;
+    
+    // count borders with size corrections
+    return BoundingBoxMake(
+        point.x - radius + (unitSize - 1),
+        point.y - radius + (unitSize - 1),
+        point.x + radius + (unitSize > 1 ? (unitSize - 2) : 0),
+        point.y + radius + (unitSize > 1 ? (unitSize - 2) : 0)
+    );
+}
+
+// return some box for the object for the current location
+BoundingBox GameObject::GetCurrentBoundingBox(const float radius) const
+{
+    return GetBoundingBox(_unitCell, radius);
+}
+
+BoundingBox GameObject::GetScanBoundingBox(const CCPoint &point) const
+{
+    return GetBoundingBox(point, _config_w->_pScan);
+}
+
+BoundingBox GameObject::GetCurrentScanBoundingBox() const
+{
+    return GetScanBoundingBox(_unitCell);
+}
+

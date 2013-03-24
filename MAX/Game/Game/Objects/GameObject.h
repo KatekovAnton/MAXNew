@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "Geometry.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -36,6 +37,11 @@ public:
     CCPoint GetUnitCell() const {return _unitCell;};
     
     bool IsUnitInCell(const CCPoint &cell) const;
+    
+    BoundingBox GetBoundingBox(const CCPoint &point, const float radius) const;
+    BoundingBox GetCurrentBoundingBox(const float radius) const;
+    BoundingBox GetScanBoundingBox(const CCPoint &point) const;
+    BoundingBox GetCurrentScanBoundingBox() const;
     
     virtual void SetLocation(const CCPoint& cell);
     virtual void LocateOnMap();
