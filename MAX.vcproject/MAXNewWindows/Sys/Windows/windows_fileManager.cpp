@@ -55,11 +55,33 @@ string* windows_fileManager::GetContent(string filename)
     return result;
 }
 
-string  windows_fileManager::GetFilePath(string filename)
+string windows_fileManager::GetFilePath(string filename)
 {
 	string delemiter = string("\\");
-	delemiter.append(filename);
-	string pdf = string(appPath.c_str());
-	pdf.append(delemiter);
-	return pdf;
+	bool separateFileType = false;
+
+	int position = filename.find('.', 0);
+	if (position!= string::npos)
+	{
+		string extension = filename.substr(position + 1, filename.length() - position - 1);
+		if (extension == "vsh")
+		separateFileType = true;
+		if (extension == "fsh")
+		separateFileType = true;
+	}
+	if (separateFileType)
+	{
+		delemiter.append(filename);
+		string pdf = string(appPath.c_str());
+		pdf.append(delemiter);
+		return pdf;
+	}
+	else
+	{
+		//TODO
+		delemiter.append(filename);
+		string pdf = string(appPath.c_str());
+		pdf.append(delemiter);
+		return pdf;
+	}
 }
