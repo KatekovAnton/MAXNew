@@ -44,6 +44,7 @@ public:
     
     PlayerResearchManager* _researchManager;
     PlayerUpgradeManager* _upgradeManager;
+    
     MAXClanConfig* _clanConfig;
     
     GameMatchPlayerInfo _playerInfo;

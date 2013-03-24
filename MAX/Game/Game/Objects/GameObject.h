@@ -35,7 +35,7 @@ public:
     MAXObject* GetObject() const {return _object;};
     CCPoint GetUnitCell() const {return _unitCell;};
     
-    bool IsUnitInCell(const CCPoint& cell) const;
+    bool IsUnitInCell(const CCPoint &cell) const;
     
     virtual void SetLocation(const CCPoint& cell);
     virtual void LocateOnMap();

@@ -47,7 +47,7 @@ MAXObject::MAXObject(MAXObjectConfig* params)
 MAXObject::~MAXObject()
 {}
 
-void MAXObject::SetPosition(const CCPoint& cell)
+void MAXObject::SetPosition(const CCPoint &cell)
 {
     GLKMatrix4 matrix = MAXObject::MatrixForCell(cell);
     this->SetGlobalPosition(matrix, NULL, NULL, true);

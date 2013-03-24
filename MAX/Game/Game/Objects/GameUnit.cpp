@@ -36,12 +36,12 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMa
     {
         _effectUnder = GameEffect::CreateBuildingBase(_config->GetConfig()->_bSize == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
     }
-        
 }
 
 GameUnit::~GameUnit()
 {
     delete _config;
+
     if (_effectUnder) {
         _effectUnder->RemoveFromMap();
         delete _effectUnder;

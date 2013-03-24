@@ -40,7 +40,7 @@ void GameObject::RemoveFromMap()
     engine->RemoveUnit(_object);
 }
 
-void GameObject::SetLocation(const CCPoint& destination)
+void GameObject::SetLocation(const CCPoint &destination)
 {
     _unitCell = destination;
     if (_config_w->_isBuilding && _config_w->_bSize == 2)
@@ -49,7 +49,7 @@ void GameObject::SetLocation(const CCPoint& destination)
         _object->SetPosition(_unitCell);
 }
 
-bool GameObject::IsUnitInCell(const CCPoint& cell) const
+bool GameObject::IsUnitInCell(const CCPoint &cell) const
 {
     if (_config_w->_bSize == 1)
         return (int)cell.x == (int)_unitCell.x && (int)cell.y == (int)_unitCell.y;

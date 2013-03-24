@@ -34,6 +34,7 @@ GameMatchPlayer::~GameMatchPlayer()
 {
     delete _upgradeManager;
     delete _researchManager;
+
     for (int i = 0; i < _palettes.size(); i++) {
         Texture* t = _palettes[i];
         delete t;

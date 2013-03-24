@@ -26,7 +26,7 @@ public:
     MAXObject(MAXObjectConfig* params);
     virtual ~MAXObject();
     
-    void SetPosition(const CCPoint& cell);
+    void SetPosition(const CCPoint &cell);
     CCPoint ObjectCell() const;
     CCPoint ObjectCoordinates() const;
     CCPoint ObjectCenterCoordinates() const;
