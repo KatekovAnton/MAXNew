@@ -43,6 +43,10 @@ public:
     BoundingBox GetScanBoundingBox(const CCPoint &point) const;
     BoundingBox GetCurrentScanBoundingBox() const;
     
+    bool IsInRadius(const CCPoint &point, const float radius) const;
+    bool IsInScanRadius(const CCPoint &point) const;
+    bool IsInFireRadius(const CCPoint &point) const;
+    
     virtual void SetLocation(const CCPoint& cell);
     virtual void LocateOnMap();
     virtual void RemoveFromMap();

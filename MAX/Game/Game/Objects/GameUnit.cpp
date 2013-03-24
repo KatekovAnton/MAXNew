@@ -184,8 +184,7 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
         return false;
     
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    float distance = sqrtf((targetCenter.x - _unitCell.x)*(targetCenter.x - _unitCell.x) + (targetCenter.y - _unitCell.y)*(targetCenter.y - _unitCell.y));
-    return (float)_config->_pRange >= distance && _config->_pAmmo != 0 && _config->_pShots != 0;
+    return IsInFireRadius(targetCenter) && _config->_pAmmo != 0 && _config->_pShots != 0;
 }
 
 void GameUnit::Fire(const cocos2d::CCPoint &target)
