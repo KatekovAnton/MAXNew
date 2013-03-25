@@ -17,7 +17,7 @@ class MAXGameController {
     
 public:
     
-    GameUnit* _selectedUnit;
+    GameUnit *_selectedUnit;
 
     
     

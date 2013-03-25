@@ -13,7 +13,7 @@
 #include "MAXObjectConfig.h"
 #include "miniPrefix.h"
 
-GameObject::GameObject(MAXObject* object, MAXObjectConfig* config)
+GameObject::GameObject(MAXObject *object, MAXObjectConfig *config)
 :_object(object), _onMap(false), _config_w(config)
 {}
 

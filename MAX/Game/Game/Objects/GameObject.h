@@ -23,17 +23,17 @@ class GameObject {
 
 protected:
     CCPoint _unitCell;
-    MAXObject* _object;
-    MAXObjectConfig* _config_w;
+    MAXObject *_object;
+    MAXObjectConfig *_config_w;
     
 public:
     
     bool _onMap;
     
-    GameObject(MAXObject* object, MAXObjectConfig* config);
+    GameObject(MAXObject *object, MAXObjectConfig *config);
     ~GameObject();
     
-    MAXObject* GetObject() const {return _object;};
+    MAXObject *GetObject() const {return _object;};
     CCPoint GetUnitCell() const {return _unitCell;};
     
     bool IsUnitInCell(const CCPoint &cell) const;
@@ -47,7 +47,7 @@ public:
     bool IsInScanRadius(const CCPoint &point) const;
     bool IsInFireRadius(const CCPoint &point) const;
     
-    virtual void SetLocation(const CCPoint& cell);
+    virtual void SetLocation(const CCPoint &cell);
     virtual void LocateOnMap();
     virtual void RemoveFromMap();
 };

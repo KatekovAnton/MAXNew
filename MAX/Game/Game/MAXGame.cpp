@@ -44,7 +44,7 @@ MAXGame::~MAXGame()
     engine->_delegate = NULL;
     delete _gameInterface;
     for (int i = 0; i < _effects->GetCount(); i++) {
-        GameEffect* effect = _effects->objectAtIndex(i);
+        GameEffect *effect = _effects->objectAtIndex(i);
         delete effect;
     }
     delete _effects;
@@ -207,7 +207,7 @@ void MAXGame::StartMatch()
     CCDirector::sharedDirector()->pushScene(_gameInterface);
 }
 
-void MAXGame::FlushEffectsWithNew(GameEffect* effect)
+void MAXGame::FlushEffectsWithNew(GameEffect *effect)
 {
     bool onemorestep = true;
     while (onemorestep)

@@ -38,8 +38,8 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate {
     MAXGAMESTATE _currentState;
     
     
-    GameInterface* _gameInterface;
-    GameMatch* _match;
+    GameInterface *_gameInterface;
+    GameMatch *_match;
     
 public:
     
@@ -47,7 +47,7 @@ public:
     
     MAXGAMESTATE GetCurrentState() const {return _currentState;}
     GameMatch *GetCurrentMatch() const {return _match;}
-    GameUnit* _currentUnit;
+    GameUnit *_currentUnit;
     
     MAXGame();
     ~MAXGame();
@@ -56,7 +56,7 @@ public:
     
     
     void StartMatch();
-    void FlushEffectsWithNew(GameEffect* effect);
+    void FlushEffectsWithNew(GameEffect *effect);
     
 #pragma mark - MAXEngineDelegate
     virtual void onFrame();
