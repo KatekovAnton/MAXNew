@@ -38,9 +38,9 @@ void GameFog::Recount(GameUnit *unit, CCPoint unitPosition, bool withIncreasing)
             if (unit->IsInScanRadius(scannedPoint))
             {
                 if (withIncreasing)
-                    Increase(&scannedPoint);
+                    Increase(scannedPoint);
                 else
-                    Decrease(&scannedPoint);
+                    Decrease(scannedPoint);
             }
         }
     }
@@ -57,28 +57,23 @@ void GameFog::Reset(GameUnit *unit, CCPoint unitPosition)
      Recount(unit, unitPosition, false);
 }
 
-void GameFog::Increase(CCPoint* point)
+void GameFog::Increase(const CCPoint& point)
 {
     _gameField[IndexOf(point)]++;
 }
 
-void GameFog::Decrease(CCPoint* point)
+void GameFog::Decrease(const CCPoint& point)
 {
     _gameField[IndexOf(point)]--;
-}
-
-int GameFog::IndexOf(CCPoint* point)
-{
-    return (int) _mapWidth * ((int)point->y - 1) + (int)point->x;
 }
 
 bool GameFog::IsInTouchZone(GameUnit *unit)
 {
     CCPoint point = unit->GetUnitCell();
-    return (bool) _gameField[IndexOf(&point)];
+    return (bool) _gameField[IndexOf(point)];
 }
 
-int GameFog::GetValue(CCPoint* point)
+int GameFog::GetValue(const CCPoint &point) const
 {
     return _gameField[IndexOf(point)];
 }

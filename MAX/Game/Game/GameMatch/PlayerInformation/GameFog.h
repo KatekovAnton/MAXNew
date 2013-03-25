@@ -23,19 +23,19 @@ class GameFog {
     int _mapHeight;
     int _mapSize;
     
-    int IndexOf(CCPoint *point);
+    int IndexOf(const CCPoint &point) const { return (int) _mapWidth * ((int)point.y - 1) + (int)point.x; };
     
     void Recount(GameUnit *unit, CCPoint unitPosition, bool withIncreasing);
     
-    void Increase(CCPoint *point);
-    void Decrease(CCPoint *point);
+    void Increase(const CCPoint &point);
+    void Decrease(const CCPoint &point);
     
 public:
     void Update(GameUnit *unit, CCPoint unitPosition);
     void Reset(GameUnit *unit, CCPoint unitPosition);
     
     bool IsInTouchZone(GameUnit *unit);
-    int GetValue(CCPoint *point);
+    int GetValue(const CCPoint &point) const;
     
     GameFog(int mapWidth, int mapHeight);
     ~GameFog();
