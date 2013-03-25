@@ -36,6 +36,8 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     
     bool _isInProcess;
     
+    bool _isPlacedOnMap;
+    
 public:
     
     GameMatchPlayer *_owner_w;
@@ -60,6 +62,10 @@ public:
     virtual void SetLocation(const CCPoint& cell);
     virtual void LocateOnMap();
     virtual void RemoveFromMap();
+    
+    //logic methods
+    void PlaceUnitOnMap();
+    void RemoveUnitFromMap();
     
 #pragma mark - Fire methods
     bool IsInProcess() const {return _isInProcess;}

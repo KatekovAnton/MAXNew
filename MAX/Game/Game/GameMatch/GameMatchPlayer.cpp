@@ -82,12 +82,12 @@ void GameMatchPlayer::SetPalette(double time)
     _palette = _palettes[tt];
 }
 
-void GameMatchPlayer::UpdateFogForUnit(GameUnit *unit, CCPoint unitPosition)
+void GameMatchPlayer::UpdateFogForUnit(GameUnit *unit, const CCPoint &unitPosition)
 {
     _fog->Update(unit, unitPosition);
 }
 
-void GameMatchPlayer::ResetFogForUnit(GameUnit *unit, CCPoint unitPosition)
+void GameMatchPlayer::ResetFogForUnit(GameUnit *unit, const CCPoint &unitPosition)
 {
     _fog->Reset(unit, unitPosition);
 }

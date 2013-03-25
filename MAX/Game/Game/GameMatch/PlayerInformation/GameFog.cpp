@@ -30,7 +30,8 @@ void GameFog::Recount(GameUnit *unit, CCPoint unitPosition, bool withIncreasing)
     BoundingBox box = unit->GetScanBoundingBox(unitPosition);
     CCPoint scannedPoint = ccp(box.min.x, box.min.y);
     
-    for (int x = box.min.x; x <= box.max.x; x++) {
+    for (int x = box.min.x; x <= box.max.x; x++)
+    {
         for (int y = box.min.y; y <= box.max.y; y++)
         {
             scannedPoint.setPoint(x, y);
@@ -54,7 +55,7 @@ void GameFog::Update(GameUnit *unit, CCPoint unitPosition)
 
 void GameFog::Reset(GameUnit *unit, CCPoint unitPosition)
 {
-     Recount(unit, unitPosition, false);
+    Recount(unit, unitPosition, false);
 }
 
 void GameFog::Increase(const CCPoint& point)

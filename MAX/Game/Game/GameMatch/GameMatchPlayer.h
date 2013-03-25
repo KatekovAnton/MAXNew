@@ -62,8 +62,8 @@ public:
 
     void SetPalette(double time);
     
-    void UpdateFogForUnit(GameUnit* unit, CCPoint unitPosition);
-    void ResetFogForUnit(GameUnit* unit, CCPoint unitPosition);
+    void UpdateFogForUnit(GameUnit* unit, const CCPoint &unitPosition);
+    void ResetFogForUnit(GameUnit* unit, const CCPoint &unitPosition);
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     GameUnit* GetUnitInPosition(const CCPoint& pos);

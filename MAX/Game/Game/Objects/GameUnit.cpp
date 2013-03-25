@@ -24,7 +24,7 @@
 using namespace cocos2d;
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner)
-:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _config(config), _owner_w(owner), _effectUnder(NULL), _isInProcess(false)
+:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _config(config), _owner_w(owner), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false)
 {
     unitObject->_playerId = owner->_playerInfo._playerId;
     unitObject->_playerPalette_w = &owner->_palette;
@@ -75,9 +75,6 @@ void GameUnit::LocateOnMap()
     GameObject::LocateOnMap();
     if (_effectUnder)
         _effectUnder->LocateOnMap();
-
-    // update the fog of war for the current gamer
-    _owner_w->UpdateFogForUnit(this, GetUnitCell());
 }
 
 void GameUnit::RemoveFromMap()
@@ -85,7 +82,24 @@ void GameUnit::RemoveFromMap()
     GameObject::RemoveFromMap();
     if (_effectUnder)
         _effectUnder->RemoveFromMap();
+}
 
+void GameUnit::PlaceUnitOnMap()
+{
+    if (_isPlacedOnMap) 
+        return;
+    _isPlacedOnMap = true;
+    LocateOnMap();
+    // update the fog of war for the current gamer
+    _owner_w->UpdateFogForUnit(this, GetUnitCell());
+}
+
+void GameUnit::RemoveUnitFromMap()
+{
+    if (!_isPlacedOnMap)
+        return;
+    _isPlacedOnMap = false;
+    RemoveFromMap();
     // update the fog of war for the current gamer
     _owner_w->ResetFogForUnit(this, GetUnitCell());
 }
@@ -251,7 +265,8 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
         if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
         {
 //            printf("Update radar!\n");
-            
+            _owner_w->ResetFogForUnit(this, unitCell);
+            _owner_w->UpdateFogForUnit(this, realCell);
             //TODO:Update
             
             _unitCell = realCell;
