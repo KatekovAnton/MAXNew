@@ -118,7 +118,7 @@ void GameUnit::CheckBodyAndShadow()
     
     
     MAXUnitObject* _unitObject = GetUnitObject();
-    char groundType = _owner_w->_match_w->_map->GroundTypeAtPoint(_unitCell);
+    GROUND_TYPE groundType = _owner_w->_match_w->_map->GroundTypeAtPoint(_unitCell);
     if (groundType == GROUND_TYPE_WATER)
     {
         if (_config->GetConfig()->_isBuilding)
