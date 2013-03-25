@@ -34,7 +34,7 @@ public:
     void Update(GameUnit *unit, CCPoint unitPosition);
     void Reset(GameUnit *unit, CCPoint unitPosition);
     
-    bool IsInTouchZone(GameUnit *unit);
+    bool IsInTouchZone(GameUnit *unit) const;
     int GetValue(const CCPoint &point) const;
     
     GameFog(int mapWidth, int mapHeight);
