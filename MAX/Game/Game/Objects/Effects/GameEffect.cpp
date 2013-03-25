@@ -223,7 +223,7 @@ void GameEffect::OnAnimationUpdate(MAXAnimationBase* animation)
     {
         _lastSmokeCreationTime = engine->FullTime();
         GameEffect* blast = GameEffect::CreateSecondaryEffect(_secondaryType, _config->_bLevel);
-        blast->SetLocation(GetObject()->ObjectCell());
+        blast->SetLocation(GetObject()->GetObjectCell());
         blast->LocateOnMap();
         MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
         wait->_delegate = blast;
@@ -242,7 +242,7 @@ void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
             if (_blastType != BLAST_TYPE_NONE)
             {
                 GameEffect* blast = GameEffect::CreateBlast(_blastType, _config->_bLevel);
-                blast->SetLocation(GetObject()->ObjectCell());
+                blast->SetLocation(GetObject()->GetObjectCell());
                 blast->LocateOnMap();
                 MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
                 wait->_delegate = blast;

@@ -27,9 +27,9 @@ public:
     virtual ~MAXObject();
     
     void SetPosition(const CCPoint &cell);
-    CCPoint ObjectCell() const;
-    CCPoint ObjectCoordinates() const;
-    CCPoint ObjectCenterCoordinates() const;
+    CCPoint GetObjectCell() const;
+    CCPoint GetObjectCoordinates() const;
+    CCPoint GetObjectCenterCoordinates() const;
     
     virtual GLKVector2 GetDeltaPosition() const;
     virtual compareFunc GetCompareFunc();

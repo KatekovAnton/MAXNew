@@ -61,7 +61,7 @@ GLKMatrix4 MAXObject::MatrixForCell(const CCPoint& cell)
     return rt;
 }
 
-CCPoint MAXObject::ObjectCell() const
+CCPoint MAXObject::GetObjectCell() const
 {
     CCPoint result;
     GLKMatrix4 transform = GetTransformMatrix();
@@ -70,7 +70,7 @@ CCPoint MAXObject::ObjectCell() const
     return result;
 }
 
-CCPoint MAXObject::ObjectCoordinates() const
+CCPoint MAXObject::GetObjectCoordinates() const
 {
     CCPoint result;
     GLKMatrix4 transform = GetTransformMatrix();
@@ -79,7 +79,7 @@ CCPoint MAXObject::ObjectCoordinates() const
     return result;
 }
 
-CCPoint MAXObject::ObjectCenterCoordinates() const
+CCPoint MAXObject::GetObjectCenterCoordinates() const
 {
     CCPoint result;
     GLKMatrix4 transform = GetTransformMatrix();

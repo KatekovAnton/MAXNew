@@ -72,7 +72,7 @@ void MAXUnitSelection::Update()
     
     //deltaD *= 0.5;
     //GLKMatrix4 matrix = _selectedUnit->GetTransformMatrix();
-    CCPoint point = _selectedUnit_w->ObjectCell();
+    CCPoint point = _selectedUnit_w->GetObjectCell();
     GLKVector2 delta = _selectedUnit_w->GetDeltaPosition();
     point.x += delta.x;
     point.y -= delta.y;

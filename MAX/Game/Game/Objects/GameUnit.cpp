@@ -241,6 +241,21 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
     if (animation == _moveAnimation)
     {
+        CCPoint unitCell = GetUnitCell();
+        CCPoint realCell = GetUnitObject()->GetObjectCell();
+        realCell.x = (int)(realCell.x + 0.5);
+        realCell.y = (int)(realCell.y + 0.5);
+//        printf("unitcell = %f, %f\n", unitCell.x, unitCell.y);
+//        printf("realcell = %f, %f\n\n", realCell.x, realCell.y);
+        
+        if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
+        {
+//            printf("Update radar!\n");
+            
+            //TODO:Update
+            
+            _unitCell = realCell;
+        }
     }
 }
 
