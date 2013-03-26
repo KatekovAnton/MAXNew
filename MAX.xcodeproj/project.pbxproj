@@ -25,6 +25,8 @@
 		8B84DBD516CFE33800DD12B8 /* GameUnitCurrentState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD316CFE33700DD12B8 /* GameUnitCurrentState.cpp */; };
 		8B85506E16F5C165000170D5 /* GIUnitParametersNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */; };
 		8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */; };
+		8B88EF7C17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */; };
+		8B88EF8517021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */; };
 		8B8A443D169358BE005C4ADA /* grp_aa_rocket.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */; };
 		8B8A443E169358BE005C4ADA /* grp_aa_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */; };
 		8B8A443F169358BE005C4ADA /* grp_aainfantry.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */; };
@@ -381,6 +383,10 @@
 		8B85506D16F5C165000170D5 /* GIUnitParametersNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitParametersNode.h; sourceTree = "<group>"; };
 		8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIParameterRow.cpp; sourceTree = "<group>"; };
 		8B85507016F5C1FD000170D5 /* GIParameterRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIParameterRow.h; sourceTree = "<group>"; };
+		8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXResourceMapRenderer.cpp; sourceTree = "<group>"; };
+		8B88EF7B17021ABE00C0AAB5 /* MAXResourceMapRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXResourceMapRenderer.h; sourceTree = "<group>"; };
+		8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EngineTiledDynamicMesh.cpp; sourceTree = "<group>"; };
+		8B88EF8417021B4000C0AAB5 /* EngineTiledDynamicMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineTiledDynamicMesh.h; sourceTree = "<group>"; };
 		8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aa_rocket.cfg; sourceTree = "<group>"; };
 		8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aa_turret.cfg; sourceTree = "<group>"; };
 		8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grp_aainfantry.cfg; sourceTree = "<group>"; };
@@ -1438,6 +1444,8 @@
 				D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */,
 				D132DC6016D7AC9800DEA269 /* MAXStatusRenderer.h */,
 				D132DC6216D7AE5B00DEA269 /* MAXStatusRendererUnitDelegate.h */,
+				8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */,
+				8B88EF7B17021ABE00C0AAB5 /* MAXResourceMapRenderer.h */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -1518,6 +1526,8 @@
 			children = (
 				D18EDCA31689895B00EE3B4E /* EngineMesh.cpp */,
 				D18EDCA41689895B00EE3B4E /* EngineMesh.h */,
+				8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */,
+				8B88EF8417021B4000C0AAB5 /* EngineTiledDynamicMesh.h */,
 			);
 			path = Meshes;
 			sourceTree = "<group>";
@@ -2021,6 +2031,8 @@
 				F1F2880216FE963600887D2D /* GameFog.cpp in Sources */,
 				5127D6061700977200486F12 /* GameMapResources.cpp in Sources */,
 				5127D6091701741700486F12 /* GameSettings.cpp in Sources */,
+				8B88EF7C17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp in Sources */,
+				8B88EF8517021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

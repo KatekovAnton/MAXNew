@@ -10,27 +10,10 @@
 #define __MAX__GameMapResources__
 
 #include <iostream>
+#include "miniPrefix.h"
 
 class GameMap;
 class GameSettings;
-
-typedef enum
-{
-    RESOURCE_TYPE_NONE = -1,
-    RESOURCE_TYPE_RAW  = 0,
-    RESOURCE_TYPE_FUEL = 1,
-    RESOURCE_TYPE_GOLD = 2,
-    RESOURCE_TYPE_COUNT
-} RESOURCE_TYPE;
-
-typedef enum
-{
-    RES_MODE_MINE = 0,
-    RES_MODE_CONCENTRATE,
-    RES_MODE_NORMAL,
-    RES_MODE_DIFFUSION,
-    RES_MODE_COUNT
-} RES_MODE_TYPE;
 
 class GameMapResources
 {

@@ -12,15 +12,6 @@
 #include <iostream>
 #include "GameMapResources.h"
 
-typedef enum
-{
-    RESOURCE_LEVEL_POOR,
-    RESOURCE_LEVEL_MEDIUM,
-    RESOURCE_LEVEL_RICH,
-    RESOURCE_LEVEL_COUNT
-} RESOURCE_LEVEL;
-
-
 class GameSettings
 {
     void SetDebugSettings(void);

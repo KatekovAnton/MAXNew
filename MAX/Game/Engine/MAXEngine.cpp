@@ -51,6 +51,7 @@ void MAXEngine::Init() {
     
     SysInit();
     drawGrid = false;
+    drawResources = false;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     

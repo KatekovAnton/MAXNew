@@ -129,6 +129,10 @@ void GameInterface::InitBaseInterface()
     _toggleStatusButton->setPosition(ccp(bx,160));
     menu->addChild(_toggleStatusButton);
     
+    _toggleResourcesButton = createMenuItemFromMaxres("Surv", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleResources));
+    _toggleResourcesButton->setPosition(ccp(bx,130));
+    menu->addChild(_toggleResourcesButton);
+    
     _toggleLockUnitsButton = createMenuItemFromMaxres("", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,300));
     menu->addChild(_toggleLockUnitsButton);
@@ -151,6 +155,7 @@ void GameInterface::InitBaseInterface()
     UpdateToggleRangeButton();
     UpdateToggleShotsButton();
     UpdateToggleStatusButton();
+    UpdateToggleResourcesButton();
 }
 
 #pragma mark - Update left buttons
@@ -201,6 +206,14 @@ void GameInterface::UpdateToggleStatusButton()
         _toggleStatusButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
     else
         _toggleStatusButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+}
+
+void GameInterface::UpdateToggleResourcesButton()
+{
+    if(_drawResources)
+        _toggleResourcesButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+    else
+        _toggleResourcesButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 #pragma mark - Button events
@@ -254,6 +267,13 @@ void GameInterface::OnToggleStatus()
     _drawStatus = !_drawStatus;
     MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
     UpdateToggleStatusButton();
+}
+
+void GameInterface::OnToggleResources()
+{
+    _drawResources = !_drawResources;
+    engine->drawResources = _drawResources;
+    UpdateToggleResourcesButton();
 }
 
 void GameInterface::OnTogglePanel()

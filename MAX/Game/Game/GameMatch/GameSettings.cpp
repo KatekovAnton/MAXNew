@@ -7,6 +7,7 @@
 //
 
 #include "GameSettings.h"
+#include "miniPrefix.h"
 
 GameSettings::GameSettings()
 {
