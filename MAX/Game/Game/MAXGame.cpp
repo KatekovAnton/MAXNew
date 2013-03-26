@@ -265,7 +265,7 @@ void MAXGame::ProceedPan(float speedx, float speedy)
     engine->MoveCamera(speedx, speedy);
 }
 
-bool CanMove(int unitType, int groundType, bool unitInCell)
+bool CanMove(int unitType, GROUND_TYPE groundType, bool unitInCell)
 {
     switch (unitType)
     {
@@ -314,7 +314,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                  (fabsf(p.x - location.x) <= 1 || fabsf(p.y - location.y) <= 1) &&       //only near
                  (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
         {
-            char groundType = _match->_map->GroundTypeAtPoint(p);
+            GROUND_TYPE groundType = _match->_map->GroundTypeAtPoint(p);
             int unitMoveType = _currentUnit->_config->GetConfig()->_bMoveType;
             
             if (CanMove(unitMoveType, groundType, newCurrentUnit != NULL))

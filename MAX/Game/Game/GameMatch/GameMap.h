@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "miniPrefix.h"
+#include "GameMapResources.h"
 
 class Texture;
 class MAXContentMap;
@@ -28,13 +29,13 @@ class MAXContentMap;
 
 class GameMap {
     
-    char* _groundType;//0-ground 1-water 2-coast 3-unpassable
-    int _w;
-    int _h;
+    GROUND_TYPE* _groundType;//0-ground 1-water 2-coast 3-unpassable
     
     USimpleContainer<GameUnit*> _units;
     
 public:
+    int _w;
+    int _h;
     
     shared_ptr<MAXContentMap> _contentMap;
     
@@ -48,7 +49,8 @@ public:
     
     GameMap(const shared_ptr<MAXContentMap>& map);
     ~GameMap();
-    char GroundTypeAtPoint(const CCPoint& point) const;
+    GROUND_TYPE GroundTypeAtPoint(const CCPoint& point) const;
+    GROUND_TYPE GroundTypeAtXY(const int x, const int y) const;
 };
 
 #endif /* defined(__MAX__MAXMap__) */
