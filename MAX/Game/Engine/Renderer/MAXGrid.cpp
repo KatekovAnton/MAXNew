@@ -28,6 +28,11 @@ MAXGrid::~MAXGrid()
     freeArrays();
 }
 
+inline GLKVector2 GLKVector2MakeFromCCPoint(const CCPoint& point)
+{
+    return GLKVector2Make(point.x, point.y);
+}
+
 void MAXGrid::freeArrays()
 {
     if (_startsW)
@@ -78,16 +83,16 @@ void MAXGrid::UpdateInfo(bool needNewSize)
     
     if (needNewSize) {
         freeArrays();
-        _startsW = (CCPoint*)malloc((_mapw + 1) * sizeof(CCPoint));
-        _endsW = (CCPoint*)malloc((_mapw + 1) * sizeof(CCPoint));
-        _startsH = (CCPoint*)malloc((_maph + 1) * sizeof(CCPoint));
-        _endsH = (CCPoint*)malloc((_maph + 1) * sizeof(CCPoint));
+        _startsW = (GLKVector2*)malloc((_mapw + 1) * sizeof(GLKVector2));
+        _endsW = (GLKVector2*)malloc((_mapw + 1) * sizeof(GLKVector2));
+        _startsH = (GLKVector2*)malloc((_maph + 1) * sizeof(GLKVector2));
+        _endsH = (GLKVector2*)malloc((_maph + 1) * sizeof(GLKVector2));
     }
-    CCPoint tmp;
+    GLKVector2 tmp;
     tmp.x = startx;
     tmp.y = starty;
-    CCPoint start = engine->WorldCoordinatesToScreenCocos(tmp);
-    CCPoint end = CCPoint(start.x, 0);
+    GLKVector2 start = engine->WorldCoordinatesToScreenCocosV(tmp);
+    GLKVector2 end = GLKVector2Make(start.x, 0);
     for (int i = 0; i < countx; i++) {
         _startsW[i] = start;
         _endsW[i] = end;
@@ -99,8 +104,8 @@ void MAXGrid::UpdateInfo(bool needNewSize)
     
     
     
-    start = engine->WorldCoordinatesToScreenCocos(tmp);
-    end = CCPoint(engine->displayw, start.y);
+    start = engine->WorldCoordinatesToScreenCocosV(tmp);
+    end = GLKVector2Make(engine->displayw, start.y);
     for (int i = 0; i < county; i++) {
         _startsH[i] = start;
         _endsH[i] = end;

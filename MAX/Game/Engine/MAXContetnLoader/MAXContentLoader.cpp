@@ -21,6 +21,7 @@
 #include "MAXObjectConfig.h"
 #include "cocos2d.h"
 #include "Display.h"
+#include "StringUtils.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -297,8 +298,9 @@ Color default_palette[256] =
     {0xff, 0xff, 0xff, 0x00}, //255
 };
 
-
 MAXContentLoader* _sharedContentLoader = nullptr;
+
+const int resmapTextureMaxW = 2048;
 
 MAXContentLoader::MAXContentLoader()
 :defaultPalette(NULL)
@@ -306,6 +308,7 @@ MAXContentLoader::MAXContentLoader()
     inf = new BinaryReader("Max.res");
     inf->ReadBuffer(12, (char*)&hdr);
     inf->SetPosition(hdr.diroffset);
+    
     
     dir = new typdiritem[hdr.dirlength / 16];
     for (int f = 0; f < hdr.dirlength / 16; f++)
@@ -318,6 +321,7 @@ MAXContentLoader::MAXContentLoader()
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
 
+    
     {
         BinaryReader* br = new BinaryReader("max.pal");
         memset((void*)default_palette, 0xff, 256*4);
@@ -362,10 +366,13 @@ MAXContentLoader::MAXContentLoader()
     defaultPalette = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     
     unitMesh = EngineMesh::CreateUnitQuad();
+    resourceTiles = TextureForResourceRenderer();
 }
 
 MAXContentLoader::~MAXContentLoader()
 {
+    delete defaultPalette;
+    delete resourceTiles;
     delete inf;
     delete []dir;
     delete []loadedData;
@@ -563,6 +570,102 @@ vector<Texture*> MAXContentLoader::TexturePalletesFormDefaultPalleteAndPlayerCol
     free(currentPalette);
   //  Texture* result = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     return result;
+}
+
+Texture*  MAXContentLoader::TextureForResourceRenderer()
+{
+    int textureCount = 1 + 16 * 3;
+    string fuelP = "FUELMK";
+    string goldP = "GOLDMK";
+    string matP = "RAWMSK";
+    string* textureNames = new string[textureCount];
+    textureNames[0] = "FUELMK0";
+    int stride = 1;
+    for (int i = 0; i<16; i++) {
+        string p = fuelP + intToString(i+1);
+        textureNames[i+stride] = p;
+    }
+    stride += 16;
+    for (int i = 0; i<16; i++) {
+        string p = goldP + intToString(i+1);
+        textureNames[i+stride] = p;
+    }
+    stride += 16;
+    for (int i = 0; i<16; i++) {
+        string p = matP + intToString(i+1);
+        textureNames[i+stride] = p;
+    }
+    
+    
+    int wcount = resmapTextureMaxW/64;
+    int hcount = textureCount/wcount;
+    if (wcount * hcount <textureCount ) 
+        hcount ++;
+    long size = wcount * 64 * hcount * 64 * sizeof(Color);
+    Color* fullColor = (Color*)malloc(size);
+    memset(fullColor, 0, size);
+    
+    int rowIndex = 0;
+    int columnIndex = 0;
+    
+    const Color white1 = {0xff, 0xff, 0xff, 0xff};
+    const Color white2 = {0x6b, 0x9f, 0xbb, 0xff};
+    
+    
+    for (int i = 0; i < textureCount; i++)
+    {
+        string textureName = textureNames[i];
+        MAXRESTextureData data = CreateTexture2Data(textureName);
+        if (i < 1 + 16 + 16) {
+            //transparent color is white
+            for (int i = 0; i < data.w*data.h; i++) {
+                if (data.data[i] == white1) 
+                    data.data[i].a = 0;
+            }
+        }
+        else
+        {
+            //transparent color is white2
+            for (int i = 0; i < data.w*data.h; i++) {
+                if (data.data[i] == white2)
+                    data.data[i].a = 0;
+            }
+            
+        }
+        if (columnIndex * 64 == 2048)
+        {
+            columnIndex = 0;
+            rowIndex++;
+        }
+        
+        int startColumnPixel = columnIndex * 64;
+        int startRowPixel = rowIndex * 64;
+        
+        int dx = (64 - data.w)/2;
+        int dy = (64 - data.h)/2;
+        
+        startColumnPixel += dx;
+        startRowPixel += dy;
+        
+        
+        for (int j = 0; j < data.h; j++)
+        {
+            int posInPixels = startRowPixel * 2048 + startColumnPixel;
+            memcpy(fullColor + posInPixels, data.data + j*data.w, data.w * sizeof(Color));
+            startRowPixel ++;
+        }
+        data.FreeBuffer();
+        
+        columnIndex ++;
+    }
+    
+    delete [] textureNames;
+    
+//    CCTexture2D* t = new CCTexture2D();
+//    CCSize sz = CCSize(wcount * 64, hcount * 64);
+//    t->initWithData(fullColor, kCCTexture2DPixelFormat_RGBA8888, wcount * 64, hcount * 64, sz);
+//    return t;
+    return new Texture(GL_NEAREST, (GLubyte*)fullColor, wcount * 64, hcount * 64);
 }
 
 int MAXContentLoader::FindImage(string name)
@@ -825,12 +928,10 @@ MAXEffectObject* MAXContentLoader::CreateEffect(MAXObjectConfig* effectConfig, f
     return result;
 }
 
-CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name)
+MAXRESTextureData MAXContentLoader::CreateTexture2Data(string name)
 {
+    MAXRESTextureData result;
     int index = FindImage(name);
-    void* cashed = loadedData[index];
-    if(cashed)
-        return (CCTexture2D*)cashed;
     
     inf->SetPosition(dir[index].offset);
     short w = inf->ReadInt16();
@@ -851,11 +952,28 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name)
             colors[j * w + i] = default_palette[colornumber];
             colors[j * w + i].a = 255;
         }
+    
+    result.data = colors;
+    result.w = w;
+    result.h = h;
+    
+    delete [] pixels;
+    
+    return result;
+}
+
+CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name)
+{
+    int index = FindImage(name);
+    void* cashed = loadedData[index];
+    if(cashed)
+        return (CCTexture2D*)cashed;
+    
+    MAXRESTextureData data = CreateTexture2Data(name);
     CCTexture2D* pTexture = new CCTexture2D();
-   // pTexture->autorelease();
-    CCSize sz = CCSize(w, h);
-    pTexture->initWithData(colors, kCCTexture2DPixelFormat_RGBA8888, w, h, sz);
-    free(colors);
+    CCSize sz = CCSize(data.w, data.h);
+    pTexture->initWithData(data.data, kCCTexture2DPixelFormat_RGBA8888, data.w, data.h, sz);
+    data.FreeBuffer();
     loadedData[index] = (void*)pTexture;
     return pTexture;
 }

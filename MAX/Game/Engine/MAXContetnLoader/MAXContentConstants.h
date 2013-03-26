@@ -25,7 +25,7 @@ struct __Color
     
     inline bool operator == (const __Color &color) const
     {
-        return IsNear(r, color.r) && IsNear(g, color.g) && IsNear(b, color.b) && IsNear(a, color.a);
+        return color.r == r && color.b == b && color.g == g && color.a == a; //IsNear(r, color.r) && IsNear(g, color.g) && IsNear(b, color.b) && IsNear(a, color.a);
     }
     
 } typedef Color;

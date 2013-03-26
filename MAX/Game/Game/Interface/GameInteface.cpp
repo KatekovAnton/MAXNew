@@ -156,6 +156,11 @@ void GameInterface::InitBaseInterface()
     UpdateToggleShotsButton();
     UpdateToggleStatusButton();
     UpdateToggleResourcesButton();
+    
+//    CCSprite* spr1 = CCSprite::createWithTexture(MAXSCL->resourceTiles);
+//    spr1->setPosition(ccp(0,0));
+//    spr1->setAnchorPoint(ccp(0, 0));
+//    addChild(spr1);
 }
 
 #pragma mark - Update left buttons

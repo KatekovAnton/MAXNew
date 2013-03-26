@@ -74,6 +74,16 @@ void MAXDrawPrimitives::DrawLine(const CCPoint& from, const CCPoint& to)
     glDrawArrays(GL_LINES, 0, 2);
 }
 
+void MAXDrawPrimitives::DrawLine(const GLKVector2& from, const GLKVector2& to)
+{
+    vertices[0].x = from.x;
+    vertices[0].y = from.y;
+    vertices[1].x = to.x;
+    vertices[1].y = to.y;
+    
+    glDrawArrays(GL_LINES, 0, 2);
+}
+
 void MAXDrawPrimitives::DrawCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY)
 {
     int additionalSegment = 1;

@@ -12,7 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "RequestDelegate.h"
-
+#include "Geometry.h"
 
 using namespace cocos2d;
 using namespace std;
@@ -122,6 +122,7 @@ public:
     CCPoint ScreenToWorldCell(const CCPoint &screen);
     CCPoint WorldCoordinatesToScreen(const CCPoint &screen);
     CCPoint WorldCoordinatesToScreenCocos(const CCPoint &world);
+    GLKVector2 WorldCoordinatesToScreenCocosV(const GLKVector2 &world);
     CCRect ScreenToWorldRect();
     
 #pragma mark - RequestDelegate

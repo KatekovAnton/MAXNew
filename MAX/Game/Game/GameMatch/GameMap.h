@@ -18,10 +18,10 @@ class MAXContentMap;
 
 typedef enum
 {
-    GROUND_TYPE_GROUND,
-    GROUND_TYPE_WATER,
-    GROUND_TYPE_COAST,
-    GROUND_TYPE_UNPASSABLE
+    GROUND_TYPE_GROUND = 0,
+    GROUND_TYPE_WATER = 1,
+    GROUND_TYPE_COAST = 2,
+    GROUND_TYPE_UNPASSABLE = 3
 } GROUND_TYPE;
 
 class GameUnit;
@@ -29,7 +29,7 @@ class MAXContentMap;
 
 class GameMap {
     
-    GROUND_TYPE* _groundType;//0-ground 1-water 2-coast 3-unpassable
+    char* _groundType;//0-ground 1-water 2-coast 3-unpassable
     
     USimpleContainer<GameUnit*> _units;
     

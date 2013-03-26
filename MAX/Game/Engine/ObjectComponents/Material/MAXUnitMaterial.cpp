@@ -38,7 +38,8 @@ MAXUnitMaterial::~MAXUnitMaterial()
     for (int i = 0; i < _frameCount; i++)
         delete textures[i];
     delete [] textures;
-    if (_shadowframeCount != 0) {
+    if (_shadowframeCount != 0)
+    {
         delete [] shadowframes;
         for (int i = 0; i < _shadowframeCount; i++)
             delete shadowTextures[i];
@@ -50,9 +51,6 @@ void MAXUnitMaterial::DoFrame(double elapsedTime)
 {
     if (!_autoAnimated) 
         return;
-    
-    
-    
 }
 
 void MAXUnitMaterial::ApplyPalette(Shader *shader, Texture* _palette)

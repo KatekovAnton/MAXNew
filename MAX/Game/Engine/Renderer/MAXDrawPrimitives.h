@@ -35,6 +35,7 @@ public:
     void Begin();
     void BindColor(const GLKVector4& color);
     void DrawLine(const CCPoint& from, const CCPoint& to);
+    void DrawLine(const GLKVector2& from, const GLKVector2& to);
     
     void DrawCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
     void DrawCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter);

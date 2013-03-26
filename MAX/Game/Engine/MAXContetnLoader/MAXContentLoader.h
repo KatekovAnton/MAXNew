@@ -42,6 +42,24 @@ struct typdiritem
     int size;
 };
 
+struct MAXRESTextureData
+{
+    Color* data;
+    short w;
+    short h;
+    
+    void FreeBuffer () {free(data); };
+    
+};
+
+struct TileInformation
+{
+    float topX;
+    float topY;
+    float bottomX;
+    float bottomY;
+};
+
 class MAXContentLoader {
     
     void palshiftu(Color* pal, int s, int e);
@@ -59,6 +77,7 @@ public:
     
     shared_ptr<EngineMesh> unitMesh;
     Texture* defaultPalette;
+    Texture* resourceTiles;
     
     static MAXContentLoader* SharedLoader();
     
@@ -72,6 +91,7 @@ public:
     Texture* TextureIdexedFromIndex(int w, int h, unsigned char* indexes);
     Texture* TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
     Texture* TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
+    Texture* TextureForResourceRenderer();
     vector<Texture*> TexturePalletesFormDefaultPalleteAndPlayerColor(const Color& color);
     int FindImage(string name);
     void LoadUnitFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
@@ -79,6 +99,9 @@ public:
 
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     MAXUnitMaterial* LoadEffectMaterial(string name);
+    
+    
+    MAXRESTextureData CreateTexture2Data(string name);
     
 #pragma mark - memory
     void ClearImageCache();
@@ -88,7 +111,6 @@ public:
     MAXUnitObject* CreateUnit(MAXObjectConfig* unitConfig);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);
-    
     
     cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name);
 };

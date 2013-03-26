@@ -372,6 +372,27 @@ CCPoint MAXEngine::WorldCoordinatesToScreenCocos(const CCPoint &world)
     return result;
 }
 
+GLKVector2 MAXEngine::WorldCoordinatesToScreenCocosV(const GLKVector2 &world)
+{
+    CCPoint camcentercell;
+    camcentercell.x = _map->mapW/2.0 - _camera->position.x;
+    camcentercell.y = _camera->position.y + _map->mapH/2.0;
+    
+    CCPoint camcenterCoords;
+    camcenterCoords.x = camcentercell.x * 64.0;
+    camcenterCoords.y = camcentercell.y * 64.0;
+    
+    CCPoint screenSize;
+    screenSize.x = displayw * _camera->scale;
+    screenSize.y = displayh * _camera->scale;
+    
+    GLKVector2 result;
+    result.x = 0.5 * displayw * (world.x - camcenterCoords.x + screenSize.x)/screenSize.x;
+    result.y = displayh - 0.5 * displayh * (world.y - camcenterCoords.y + screenSize.y)/screenSize.y;
+    
+    return result;
+}
+
 CCRect MAXEngine::ScreenToWorldRect()
 {
     CCPoint camcentercell;

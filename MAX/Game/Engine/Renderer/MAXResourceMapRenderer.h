@@ -15,11 +15,13 @@
 class EngineTiledDynamicMesh;
 class Texture;
 
+struct TileInformation;
+
 class MAXResourceMapRenderer {
     
     EngineTiledDynamicMesh  *_mesh;
     Texture                 *_texture;
-    
+    TileInformation          *_tileInformation;
     bool                    *_cells;
     
     int _mapW;
@@ -28,7 +30,8 @@ class MAXResourceMapRenderer {
 public:
     
     
-    int TileIndexForResourceTypeAndAmount(RESOURCE_TYPE type, int amount) const;
+    int GetIndexForCoordinates(int x, int y) const;
+    int GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE type, int amount) const;
     
     MAXResourceMapRenderer(int mapW, int mapH);
     ~MAXResourceMapRenderer();

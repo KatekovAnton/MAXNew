@@ -25,4 +25,6 @@ std::vector<std::string> getElements(string value);
 
 vector<string> removeCommentsAndEmptyStrings(vector<string> lines);
 
+string intToString(int value);
+
 #endif /* defined(__MAX__StringUtils__) */

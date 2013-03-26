@@ -10,19 +10,17 @@
 #define __MAX__MAXGrid__
 
 #include <iostream>
-#include <cocos2d.h>
-
-using namespace cocos2d;
+#include "Geometry.h"
 
 class MAXGrid {
     
     int _mapw;
     int _maph;
     
-    CCPoint* _startsW;
-    CCPoint* _endsW;
-    CCPoint* _startsH;
-    CCPoint* _endsH;
+    GLKVector2* _startsW;
+    GLKVector2* _endsW;
+    GLKVector2* _startsH;
+    GLKVector2* _endsH;
     
     void freeArrays();
     
