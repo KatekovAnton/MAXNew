@@ -14,19 +14,34 @@
 #include "MAXEngine.h"
 #include "MAXMapObject.h"
 #include "MAXMapMaterial.h"
+#include "GameMapResources.h"
+#include "GameSettings.h"
+
+void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
+{
+    player->LandingTo(ccp(20 + i * 20 , 50));
+    _resources->LandPlayerAt((int)player->_landingPosition.x, (int)player->_landingPosition.y);
+}
 
 GameMatch::GameMatch(const string& configName, const string& mapName, const vector<GameMatchPlayerInfo>& players)
 {
     MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile(configName);
     
+    _gameSettings = new GameSettings();
+    
     shared_ptr<MAXContentMap> map1 = MAXSCL->LoadMapWithName(mapName);
     _map = new GameMap(map1);
     engine->SetMap(_map->_contentMap);
     
+    _resources = new GameMapResources(_gameSettings, _map);
+    _resources->GenerateInitialResources();
+    
     for (int i = 0; i < players.size(); i++) {
         GameMatchPlayer* player = new GameMatchPlayer(players[i], this);
-      //  player->_palette = engine->_map->_material->currentPalette;
+        //  player->_palette = engine->_map->_material->currentPalette;
         _players.push_back(player);
+
+        DebugLandPlayer(player, i); // ToDo: Remove debug code
     }
     
     _currentPlayer_w = _players[0];
@@ -38,6 +53,10 @@ GameMatch::~GameMatch()
 {
     if (_map)
         delete _map;
+    if (_resources)
+        delete _resources;
+    if (_gameSettings)
+        delete _gameSettings;
     for (int i = 0; i < _players.size(); i++)
     {
         GameMatchPlayer* player = _players[i];

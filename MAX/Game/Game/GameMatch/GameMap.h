@@ -50,6 +50,7 @@ public:
     GameMap(const shared_ptr<MAXContentMap>& map);
     ~GameMap();
     GROUND_TYPE GroundTypeAtPoint(const CCPoint& point) const;
+    GROUND_TYPE GroundTypeAtXY(const int x, const int y) const;
 };
 
 #endif /* defined(__MAX__MAXMap__) */

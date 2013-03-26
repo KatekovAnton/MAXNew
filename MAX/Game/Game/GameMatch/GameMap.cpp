@@ -41,3 +41,8 @@ GROUND_TYPE GameMap::GroundTypeAtPoint(const CCPoint& point) const
 {
     return _groundType[(int)point.y * _w + (int)point.x];
 }
+
+GROUND_TYPE GameMap::GroundTypeAtXY(const int x, const int y) const
+{
+    return _groundType[y * _w + x];
+}

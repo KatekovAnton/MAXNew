@@ -14,12 +14,18 @@
 #include "GameMatchPlayer.h"
 
 class GameMap;
+class GameMapResources;
+class GameSettings;
+class GameMatchPlayer;
 
 class GameMatch {
-    
+
+    void DebugLandPlayer(GameMatchPlayer* player, const int i);
 public:
     
+    GameSettings*               _gameSettings;
     GameMap*                    _map;
+    GameMapResources*           _resources;
     vector<GameMatchPlayer*>    _players;
     GameMatchPlayer*            _currentPlayer_w;
 

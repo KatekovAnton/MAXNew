@@ -82,6 +82,11 @@ void GameMatchPlayer::SetPalette(double time)
     _palette = _palettes[tt];
 }
 
+void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
+{
+    _landingPosition = landingPosition;
+}
+
 void GameMatchPlayer::UpdateFogForUnit(GameUnit *unit, const CCPoint &unitPosition)
 {
     _fog->Update(unit, unitPosition);

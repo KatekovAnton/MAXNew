@@ -47,6 +47,7 @@ public:
     PlayerUpgradeManager* _upgradeManager;
     
     MAXClanConfig* _clanConfig;
+    CCPoint _landingPosition;
     
     GameMatchPlayerInfo _playerInfo;
     GameFog* _fog;
@@ -61,6 +62,8 @@ public:
     ~GameMatchPlayer();
 
     void SetPalette(double time);
+    
+    void LandingTo(const CCPoint &landingPosition);
     
     void UpdateFogForUnit(GameUnit* unit, const CCPoint &unitPosition);
     void ResetFogForUnit(GameUnit* unit, const CCPoint &unitPosition);

@@ -8,15 +8,23 @@
 
 #include "GameMapResources.h"
 #include "GameMap.h"
+#include "GameSettings.h"
 
-GameMapResources::GameMapResources(GameMap* gameMap)
+GameMapResources::GameMapResources(GameSettings* settings, GameMap* map)
 {
-    _resourceValue = (unsigned char*)malloc(gameMap->_w * gameMap->_h);
+    _map = map;
+    _settings = settings;
+    
+    _h = map->_h;
+    _w = map->_w;
+    
+    _resourceValue = (unsigned char*)malloc(_w * _h);
 }
 
 GameMapResources::~GameMapResources()
 {
-    free(_resourceValue);
+    if (_resourceValue)
+        free(_resourceValue);
 }
 
 RESOURCE_TYPE GameMapResources::GetResourceTypeAt(const int x, const int y) const
@@ -47,14 +55,26 @@ RESOURCE_TYPE GameMapResources::GetResourceTypeAt(const int x, const int y) cons
     return result;
 }
 
-typedef enum
+int GameMapResources::GetIndexAt(const int x, const int y)
 {
-    RES_MODE_MINE = 0,
-    RES_MODE_CONCENTRATE,
-    RES_MODE_NORMAL,
-    RES_MODE_DIFFUSION,
-    RES_MODE_COUNT
-} RES_MODE_TYPE;
+    int result = -1;
+    if ((x > 0) && (y > 0) && (x < _w) && (y < _h))
+    {
+        result = x + y * _w;
+    }
+    return result;
+}
+
+unsigned char GameMapResources::GetResourceValueAt(const int x, const int y)
+{
+    int result = 0;
+    int resIndex = GetIndexAt(x, y);
+    if (resIndex >= 0)
+    {
+        result = _resourceValue[resIndex];
+    }
+    return result;
+}
 
 typedef enum
 {
@@ -63,171 +83,293 @@ typedef enum
     P_COUNT
 } P_KIND;
 
+static const int RES_COLLISION_AMOUNT = 7;
 
 static const int RES_DATA[RESOURCE_TYPE_COUNT][RESOURCE_LEVEL_COUNT][RES_MODE_COUNT][P_COUNT] =
 {
-    //none
-    {   // MINE    CONC    NORM    DIFF
-        {{ 0, 0},{ 0, 0},{ 0, 0},{ 0, 0}}, //R_POOR
-        {{ 0, 0},{ 0, 0},{ 0, 0},{ 0, 0}}, //R_MEDIUM
-        {{ 0, 0},{ 0, 0},{ 0, 0},{ 0, 0}}  //R_RICH
-    },
     //material
     {   // MINE    CONC    NORM    DIFF
-        {{10,10},{ 8,12},{ 0, 3},{ 8, 0}}, //R_POOR
-        {{12,12},{13,16},{ 1, 5},{ 6, 0}}, //R_MEDIUM
-        {{14,14},{16,16},{ 1, 5},{ 4, 0}}  //R_RICH
+        {{10,10},{ 8,12},{ 0, 3},{ 8, 0}}, //RESOURCE_LEVEL_POOR
+        {{12,12},{13,16},{ 1, 5},{ 6, 0}}, //RESOURCE_LEVEL_MEDIUM
+        {{14,14},{16,16},{ 1, 5},{ 4, 0}}  //RESOURCE_LEVEL_RICH
     },
     //fuel
     {   // MINE    CONC    NORM    DIFF
-        {{ 7, 7},{ 8,12},{ 1, 2},{ 8, 0}}, //R_POOR
-        {{ 8, 8},{12,16},{ 2, 3},{ 6, 0}}, //R_MEDIUM
-        {{ 9, 9},{16,16},{ 2, 4},{ 4, 0}}  //R_RICH
+        {{ 7, 7},{ 8,12},{ 1, 2},{ 8, 0}}, //RESOURCE_LEVEL_POOR
+        {{ 8, 8},{12,16},{ 2, 3},{ 6, 0}}, //RESOURCE_LEVEL_MEDIUM
+        {{ 9, 9},{16,16},{ 2, 4},{ 4, 0}}  //RESOURCE_LEVEL_RICH
     },
     //gold
     {   // MINE    CONC    NORM    DIFF
-        {{ 0, 0},{ 5, 9},{ 0, 0},{12, 0}}, //R_POOR
-        {{ 0, 0},{ 8,12},{ 0, 0},{10, 0}}, //R_MEDIUM
-        {{ 1, 1},{12,16},{ 0, 1},{ 8, 0}}  //R_RICH
+        {{ 0, 0},{ 5, 9},{ 0, 0},{12, 0}}, //RESOURCE_LEVEL_POOR
+        {{ 0, 0},{ 8,12},{ 0, 0},{10, 0}}, //RESOURCE_LEVEL_MEDIUM
+        {{ 1, 1},{12,16},{ 0, 1},{ 8, 0}}  //RESOURCE_LEVEL_RICH
     }
 };
 
-int getAmount(RESOURCE_TYPE type, RES_MODE_TYPE mode)
+unsigned char GameMapResources::GetAmount(RESOURCE_TYPE type, RES_MODE_TYPE mode)
 {
-    //    rand()%max
-    //int valMin = RES_DATA[type][]
+    int result = 0;
+    if (type != RESOURCE_TYPE_NONE)
+    {
+        //    rand()%max
+        RESOURCE_LEVEL level = _settings->resLevels[type];
+        int valMin = RES_DATA[type][level][mode][P_MIN];
+        int valMax = RES_DATA[type][level][mode][P_MAX];
+        result = valMin;
+        int delta = valMax - valMin + 1;
+        if (delta > 1)
+        {
+            delta += rand() % delta;
+        }
+    }
+    return result;
 }
 
-void GameMapResources::GenerateInitialResources(const RESOURCE_LEVEL resLevels[RESOURCE_TYPE_COUNT]) const
+unsigned int GameMapResources::GetDiff(RESOURCE_TYPE type)
 {
+    int result = 0;
+    if (type != RESOURCE_TYPE_NONE)
+    {
+        RESOURCE_LEVEL level = _settings->resLevels[type];
+        result = RES_DATA[type][level][RES_MODE_DIFFUSION][P_MIN];
+    }
+    return result;
+}
+
+void GameMapResources::SetAmount(const int x, const int y, const int amount)
+{
+    int resIndex = GetIndexAt(x, y);
+    if (resIndex >= 0)
+    {
+        _resourceValue[resIndex] = amount;
+    }
+}
+
+void GameMapResources::MergeAmount(const int x, const int y, const int amount)
+{
+    int resIndex = GetIndexAt(x, y);
+    if (resIndex >= 0)
+    {
+        int oldAmount = _resourceValue[resIndex];
+        if (oldAmount > 0)
+        {
+            _resourceValue[resIndex] = (amount + oldAmount + 1) / 2;
+        }
+        else
+        {
+            _resourceValue[resIndex] = amount;
+        }
+    }
+}
+
+void GameMapResources::AddMinePlacement(const int x, const int y)
+{
+    bool centerUpdated = false;
+    //find material place (center of new resource placement)
+    for (int dx = 0; dx <= 1; dx++)
+    {
+        for (int dy = 0; dy <= 1; dy++)
+        {
+            RESOURCE_TYPE type = GetResourceTypeAt(x + dx, y + dy);
+            if (type == RESOURCE_TYPE_FUEL)
+            {
+                AddResourcePlacement(x + dx, y + dy);
+                centerUpdated = true;
+                break;
+            }
+        }
+        if (centerUpdated)
+        {
+            break;
+        }
+    }
     
+    // update mine station place
+    for (int dx = 0; dx <= 1; dx++)
+    {
+        for (int dy = 0; dy <= 1; dy++)
+        {
+            RESOURCE_TYPE type = GetResourceTypeAt(x + dx, y + dy);
+            if (type != RESOURCE_TYPE_NONE)
+            {
+                int amount = GetAmount(type, RES_MODE_MINE);
+                if (amount > 0)
+                {
+                    SetAmount(x + dx, y + dy, amount);
+                }
+            }
+        }
+    }
 }
 
+void GameMapResources::AddResourcePlacement(const int x, const int y)
+{
+    for (int dx = -1; dx <= 1; dx++)
+    {
+        for (int dy = -1; dy <= 1; dy++)
+        {
+            RESOURCE_TYPE type = GetResourceTypeAt(x + dx, y + dy);
+            if (type != RESOURCE_TYPE_NONE)
+            {
+                RES_MODE_TYPE mode = RES_MODE_NORMAL;
+                if ((dx == 0) && (dy == 0))
+                {
+                    mode = RES_MODE_CONCENTRATE;
+                }
+                int amount = GetAmount(type, mode);
+                if (amount > 0) // may be remove this checking for merge 0 value
+                {
+                    MergeAmount(x + dx, y + dy, amount);
+                }
+            }
+        }
+    }
+}
 
-/*
+void GameMapResources::ClearResources(void)
+{
+    for (int x = 0; x < _w; x++)
+    {
+        for (int y = 0; y < _h; y++)
+        {
+            _resourceValue[x + y * _w] = 0;
+        }
+    }
+}
 
- //############################################################################//
- function get_amt(typ:integer;mode:integer):integer;
- var r1,r2:integer;
- begin
- r1:=R_DATA[typ,mg_game.rules.res_levels[typ],mode,P_MIN];
- r2:=R_DATA[typ,mg_game.rules.res_levels[typ],mode,P_MAX];
- result:=r1+random(r2-r1+1);
- end;
- //############################################################################//
- function get_dif(typ:integer):integer;
- begin
- result:=R_DATA[typ,mg_game.rules.res_levels[typ],M_DIFFUSION,P_MIN];
- end;
- //############################################################################//
- function getrescell(x,y:integer;out r:presrec):boolean;
- begin
- result:=false;
- if(x<0)or(y<0)or(x>=mg_game.mapx)or(y>=mg_game.mapy)then exit;
- r:=@mg_game.resmap[x+y*mg_game.mapx];
- result:=true;
- end;
- //############################################################################//
- function getrescell_amt(x,y:integer):integer;
- var r:presrec;
- begin
- if getrescell(x,y,r) then result:=r.amt
- else result:=0;
- end;
- //############################################################################//
- //Resource distribution
- //Needs fixing resource separation and diffusion
- procedure initial_resource_placement(x,y:integer;fix:boolean);
- var r:presrec;
- i,j,typ,amt:integer;
- begin
- if(x<0)or(y<0)or(x>=mg_game.mapx)or(y>=mg_game.mapy)then exit;
- 
- if fix then begin
- //find material place (center of new resource placement)
- for i:=0 to 1 do for j:=0 to 1 do if celltp(x+i,y+j)=1 then begin
- initial_resource_placement(x+i,y+j,false);
- break;
- end;
- 
- for i:=0 to 1 do for j:=0 to 1 do if getrescell(x+i,y+j,r) then begin
- r.typ:=celltp(x+i,y+j);
- amt:=get_amt(r.typ,M_MINE);
- if amt>0 then r.amt:=amt-1 else r.typ:=0;
- end;
- end else begin
- if getrescell(x,y,r) then begin
- typ:=r.typ;
- r.typ:=celltp(x,y);
- amt:=get_amt(r.typ,M_CONCENTRATE);
- if typ<>0 then amt:=round((r.amt+1+amt)/2);
- if amt>0 then r.amt:=amt-1 else r.typ:=0;
- end;
- 
- for i:=-1 to 1 do for j:=-1 to 1 do if (i<>0)or(j<>0) then if getrescell(x+i,y+j,r) then begin
- typ:=r.typ;
- r.typ:=celltp(x+i,y+j);
- amt:=get_amt(r.typ,M_NORMAL);
- if typ<>0 then amt:=round((r.amt+1+amt)/2);
- if amt>0 then r.amt:=amt-1 else r.typ:=0;
- end;
- end;
- end;
- //############################################################################//
- procedure clear_resources;
- var i:integer;
- begin try
- setlength(mg_game.resmap,mg_game.mapx*mg_game.mapy);
- for i:=0 to mg_game.mapx*mg_game.mapy-1 do begin
- mg_game.resmap[i].amt:=0;
- mg_game.resmap[i].typ:=0;
- end;
- except stderr('Resman','clear_resources');end;
- end;
- //############################################################################//
- procedure set_initial_resources;
- var i,tp,resmax,x,y,x1,y1,d,okmax:integer;
- is_ok:boolean;
- rescount:array[1..3] of integer;
- begin try
- clear_resources;
- resmax:=round(mg_game.rules.resset*((mg_game.mapx*mg_game.mapy)/(112*112)));
- rescount[2]:=round(resmax*0.40);            //40% of fuel
- rescount[3]:=round(resmax*0.15);            //15% of gold
- rescount[1]:=resmax-rescount[2]-rescount[3];//45% of metal
- 
- for i:=1 to resmax do begin
- for tp:=1 to 3 do begin
- if rescount[tp]>0 then begin
- okmax:=60;
- repeat
- //fuel cell by default
- x:=random(mg_game.mapx div 2)*2;
- y:=random(mg_game.mapy div 2)*2;
- case tp of
- 1:begin x:=x+1;y:=y+1;end;//metal
- 2:begin end;//fuel
- 3:begin y:=y+1;end;//gold
- end;
- is_ok:=inrm(x,y);
- //check resource placement for obstacles
- if is_ok then for x1:=x-1 to x+1 do for y1:=y-1 to y+1 do if inrm(x1,y1) and(tpassm(x1,y1)=P_OBSTACLE) then is_ok:=false;
- //check around cells for same res
- if is_ok then begin
- d:=get_dif(tp);
- if okmax<20 then d:=d div 2;
- if okmax<10 then d:=d div 2;
- if d=0 then d:=1;
- if okmax>0 then for x1:=-d to +d do for y1:=-d to +d do if inrm(x+x1*2,y+y1*2)and(getrescell_amt(x+x1*2,y+y1*2)>=7)then is_ok:=false;
- dec(okmax);
- end;
- until(is_ok)and((y mod 2<>0)or(x mod 2=0));
- rescount[tp]:=rescount[tp]-1;
- initial_resource_placement(x,y,false);
- end;
- end;
- end;
- except stderr('Resman','set_initial_resources');end;
- end;
- */
+void GameMapResources::GenerateInitialResources(void)
+{
+    ClearResources();
+    int resMax = _settings->resCount * ((_w * _h) / (112 * 112));
+    int resCount[RESOURCE_TYPE_COUNT];
+    resCount[RESOURCE_TYPE_FUEL] = resMax * 0.40; // 40% of fuel
+    resCount[RESOURCE_TYPE_GOLD] = resMax * 0.15; // 15% of gold
+    resCount[RESOURCE_TYPE_RAW] = resMax - resCount[RESOURCE_TYPE_FUEL] - resCount[RESOURCE_TYPE_GOLD]; //45% of metal
+    
+    for (int i = 0; i < resMax; i++)
+    {
+        for (RESOURCE_TYPE type = RESOURCE_TYPE_RAW; type < RESOURCE_TYPE_COUNT; type++)
+        {
+            if (resCount[type] > 0)
+            {
+                int okMax = 60;
+                bool correctPlace;
+                int x;
+                int y;
+                do
+                {
+                    correctPlace = true;
+                    
+                    //fuel cell by default
+                    x = (rand() % (_w / 2)) * 2;
+                    y = (rand() % (_h / 2)) * 2;
+                    switch (type)
+                    {
+                        case RESOURCE_TYPE_RAW:
+                        {
+                            x += 1;
+                            y += 1;
+                            break;
+                        }
+                        case RESOURCE_TYPE_GOLD:
+                        {
+                            y += 1;
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    for (int dx = -1; dx <= 1; dx++)
+                    {
+                        for (int dy = -1; dy <= 1; dy++)
+                        {
+                            int resIndex = GetIndexAt(x + dx, y + dy);
+                            if (resIndex >= 0)
+                            {
+                                GROUND_TYPE gt = _map->GroundTypeAtXY(x + dx, y + dy);
+                                if (gt == GROUND_TYPE_UNPASSABLE)
+                                {
+                                    correctPlace = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!correctPlace)
+                        {
+                            break;
+                        }
+                    }
+                    if (correctPlace)
+                    {
+                        //check cells around for same res
+                        int diff = GetDiff(type);
+                        if (okMax < 20)
+                        {
+                            diff /= 2;
+                        }
+                        if (okMax < 10)
+                        {
+                            diff /= 2;
+                        }
+                        if (diff <= 0)
+                        {
+                            diff = 1;
+                        }
+                        if (okMax > 0)
+                        {
+                            for (int dx = -diff; dx <= diff; dx++)
+                            {
+                                for (int dy = -diff; dy <= diff; dy++)
+                                {
+                                    int resIndex = GetIndexAt(x + dx * 2, y + dy * 2);
+                                    if (resIndex >= 0)
+                                    {
+                                        int amount = _resourceValue[resIndex];
+                                        if (amount >= RES_COLLISION_AMOUNT)
+                                        {
+                                            correctPlace = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (!correctPlace)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    okMax--;
+                } while (!correctPlace);
 
+                resCount[type]--;
+                AddResourcePlacement(x, y);
+            }
+        }
+    }
+}
+
+void GameMapResources::LandPlayerAt(const int x, const int y)
+{
+    AddMinePlacement(x, y);
+}
+
+void GameMapResources::LogResMap(void)
+{
+    printf("ResMap:\n");
+    for (int x = 0; x < _w; x++)
+    {
+        for (int y = 0; y < _h; y++)
+        {
+            int val = _resourceValue[x + y * _w];
+            char c = '.';
+            if (val > 10)
+                c = '#';
+            else if (val > 0)
+                c = '1' + val - 1;
+            printf("%c", c);
+        }
+        printf("\n");
+    }
+}
