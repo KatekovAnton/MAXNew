@@ -196,6 +196,10 @@
 		8B8EAA41168E5AA30097CA74 /* MAXGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */; };
 		8BB8457316C8437400B9A007 /* GameMatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB8456F16C8437400B9A007 /* GameMatch.cpp */; };
 		8BB8457416C8437400B9A007 /* GameMatchPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */; };
+		8BEE795F170388EB00F78F1A /* ShaderResourceMap.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */; };
+		8BEE7960170388EB00F78F1A /* ShaderResourceMap.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */; };
+		8BEE79611703894400F78F1A /* ShaderResourceMap.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */; };
+		8BEE79621703894400F78F1A /* ShaderResourceMap.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */; };
 		D115921E16B8ED5600C1E1C2 /* MAXAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */; };
 		D115922416B8F4C100C1E1C2 /* MAXAnimationBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */; };
 		D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */; };
@@ -565,6 +569,8 @@
 		8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMatchPlayer.cpp; sourceTree = "<group>"; };
 		8BB8457216C8437400B9A007 /* GameMatchPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMatchPlayer.h; sourceTree = "<group>"; };
 		8BB8457916CAD09000B9A007 /* clist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clist.h; sourceTree = "<group>"; };
+		8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderResourceMap.fsh; sourceTree = "<group>"; };
+		8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderResourceMap.vsh; sourceTree = "<group>"; };
 		D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationManager.cpp; sourceTree = "<group>"; };
 		D115921D16B8ED5600C1E1C2 /* MAXAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationManager.h; sourceTree = "<group>"; };
 		D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationBase.cpp; sourceTree = "<group>"; };
@@ -1469,6 +1475,8 @@
 				D1DBC4B416C924D30096034A /* ShaderLine.vsh */,
 				D1992271168E1DE40067D6CF /* ShaderUnit.fsh */,
 				D1992272168E1DE40067D6CF /* ShaderUnit.vsh */,
+				8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */,
+				8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */,
 				D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */,
 				D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */,
 				D18EDC821689847B00EE3B4E /* ShaderBackground.vsh */,
@@ -1715,6 +1723,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BEE79611703894400F78F1A /* ShaderResourceMap.fsh in Resources */,
+				8BEE79621703894400F78F1A /* ShaderResourceMap.vsh in Resources */,
 				D1F816E516F9C84400873348 /* ShaderUnitLow.fsh in Resources */,
 				D1F816E616F9C84400873348 /* ShaderUnitLow.vsh in Resources */,
 				D1DBC4B716C926B00096034A /* ShaderLine.fsh in Resources */,
@@ -2033,6 +2043,8 @@
 				5127D6091701741700486F12 /* GameSettings.cpp in Sources */,
 				8B88EF7C17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp in Sources */,
 				8B88EF8517021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp in Sources */,
+				8BEE795F170388EB00F78F1A /* ShaderResourceMap.fsh in Sources */,
+				8BEE7960170388EB00F78F1A /* ShaderResourceMap.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

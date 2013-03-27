@@ -34,6 +34,7 @@
 #include "Response.h"
 #include "MAXDrawPrimitives.h"
 #include "MAXStatusRenderer.h"
+#include "MAXResourceMapRenderer.h"
 
 using namespace cocos2d;
 //using namespace Kompex;
@@ -65,6 +66,7 @@ void MAXEngine::Init() {
     _unitLowShader = new Shader("ShaderUnitLow.vsh", "ShaderUnitLow.fsh");
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
     _mapQuadShader = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
+    _resourceMapShader = new Shader("ShaderResourceMap.vsh", "ShaderResourceMap.fsh");
     _mapQuadMesh = EngineMesh::CreateScaledQuad(2,2);
     MAXDrawPrimitives::SharedDrawPrimitives();
 
@@ -85,16 +87,34 @@ void MAXEngine::Init() {
     _unitSelection = new MAXUnitSelection();
     _statusRenderer = MAXStatusRenderer::SharedStatusRenderer();
     _scene = NULL;
+    _resourceRenderer = NULL;
 }
 
 void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 {
+    
     _map = shared_ptr<MAXMapObject>(new MAXMapObject(map));
     _grid->SetMapSize(_map->mapW, _map->mapH);
     _camera->SetMapSize(_map->mapW, _map->mapH);
     if (_scene)
         delete _scene;
     _scene = new SceneSystem(_map.get());
+    
+    
+    if (_resourceRenderer)
+        delete _resourceRenderer;
+    _resourceRenderer = new MAXResourceMapRenderer(_map->mapW, _map->mapH);
+}
+
+void MAXEngine::ClearMap()
+{
+    if(_resourceRenderer)
+        delete _resourceRenderer;
+    _resourceRenderer = NULL;
+    if (_scene)
+        delete _scene;
+    _scene = NULL;
+    _map = nullptr;
 }
 
 void MAXEngine::AddUnit(PivotObject* newUnit)

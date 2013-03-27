@@ -29,14 +29,15 @@ class MAXResourceMapRenderer {
     
 public:
     
-    
     int GetIndexForCoordinates(int x, int y) const;
-    int GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE type, int amount) const;
+    int GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE type, unsigned char amount) const;
     
     MAXResourceMapRenderer(int mapW, int mapH);
     ~MAXResourceMapRenderer();
     
-    void AddCellToScan(int x, int y);
+    void AddCellToScan(int x, int y, RESOURCE_TYPE type, unsigned char amount);
+    
+    void Draw();
 
 };
 
