@@ -75,7 +75,7 @@ void MAXGame::StartMatch()
 //        {
 //            GameUnit *unit1 = _match->_players[0]->CreateUnit(x, y, "Inter", 0);
 //            unit1->SetRandomDirection();
-//            unit1->LocateOnMap();
+//            unit1->PlaceUnitOnMap();
 //        }
 //    }
     

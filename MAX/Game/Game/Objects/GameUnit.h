@@ -60,8 +60,8 @@ public:
     void SetColor(GLKVector4 color);
     
     virtual void SetLocation(const CCPoint& cell);
-    virtual void LocateOnMap();
-    virtual void RemoveFromMap();
+    virtual void Show();
+    virtual void Hide();
     
     //logic methods
     void PlaceUnitOnMap();

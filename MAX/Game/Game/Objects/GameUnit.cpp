@@ -43,7 +43,7 @@ GameUnit::~GameUnit()
     delete _config;
 
     if (_effectUnder) {
-        _effectUnder->RemoveFromMap();
+        _effectUnder->Hide();
         delete _effectUnder;
     }
 }
@@ -70,18 +70,18 @@ void GameUnit::SetColor(GLKVector4 color)
     _unitObject->playerColor = color;
 }
 
-void GameUnit::LocateOnMap()
+void GameUnit::Show()
 {
-    GameObject::LocateOnMap();
+    GameObject::Show();
     if (_effectUnder)
-        _effectUnder->LocateOnMap();
+        _effectUnder->Show();
 }
 
-void GameUnit::RemoveFromMap()
+void GameUnit::Hide()
 {
-    GameObject::RemoveFromMap();
+    GameObject::Hide();
     if (_effectUnder)
-        _effectUnder->RemoveFromMap();
+        _effectUnder->Hide();
 }
 
 void GameUnit::PlaceUnitOnMap()
@@ -89,7 +89,7 @@ void GameUnit::PlaceUnitOnMap()
     if (_isPlacedOnMap) 
         return;
     _isPlacedOnMap = true;
-    LocateOnMap();
+    Show();
     // update the fog of war for the current gamer
     _owner_w->UpdateFogForUnit(this, GetUnitCell());
 }
@@ -99,7 +99,7 @@ void GameUnit::RemoveUnitFromMap()
     if (!_isPlacedOnMap)
         return;
     _isPlacedOnMap = false;
-    RemoveFromMap();
+    Hide();
     // update the fog of war for the current gamer
     _owner_w->ResetFogForUnit(this, GetUnitCell());
 }
@@ -223,7 +223,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     BULLET_TYPE type = BULLET_TYPE_ROCKET;
     GameEffect* effect = GameEffect::CreateBullet(type, _config->GetConfig()->_bLevel, BLAST_TYPE_AIR, SECONDARY_TYPE_SMOKE);
     effect->SetLocation(GetUnitCell());
-    effect->LocateOnMap();
+    effect->Show();
     if (type != BULLET_TYPE_PLASMA) {
         effect->SetDirection(MAXObject::CalculateRocketImageIndex(_unitCell, targetCenter));
     }

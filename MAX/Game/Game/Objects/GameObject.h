@@ -48,8 +48,8 @@ public:
     bool IsInFireRadius(const CCPoint &point) const;
     
     virtual void SetLocation(const CCPoint &cell);
-    virtual void LocateOnMap();
-    virtual void RemoveFromMap();
+    virtual void Show();
+    virtual void Hide();
 };
 
 #endif /* defined(__MAX__Object__) */

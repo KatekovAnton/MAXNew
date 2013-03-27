@@ -22,7 +22,7 @@ GameObject::~GameObject()
     delete _object;
 }
 
-void GameObject::LocateOnMap()
+void GameObject::Show()
 {
     if (_onMap)
         return;
@@ -31,7 +31,7 @@ void GameObject::LocateOnMap()
     engine->AddUnit(_object);
 }
 
-void GameObject::RemoveFromMap()
+void GameObject::Hide()
 {
     if (!_onMap)
         return;

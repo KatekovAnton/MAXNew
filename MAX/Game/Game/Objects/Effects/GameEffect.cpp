@@ -224,7 +224,7 @@ void GameEffect::OnAnimationUpdate(MAXAnimationBase* animation)
         _lastSmokeCreationTime = engine->FullTime();
         GameEffect* blast = GameEffect::CreateSecondaryEffect(_secondaryType, _config->_bLevel);
         blast->SetLocation(GetObject()->GetObjectCell());
-        blast->LocateOnMap();
+        blast->Show();
         MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
         wait->_delegate = blast;
         MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
@@ -236,14 +236,14 @@ void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
     switch (_effectType) {
         case EFFECT_TYPE_BULLET:
         {
-            GameObject::RemoveFromMap();
+            GameObject::Hide();
             game->FlushEffectsWithNew(this);
             _finished = true;
             if (_blastType != BLAST_TYPE_NONE)
             {
                 GameEffect* blast = GameEffect::CreateBlast(_blastType, _config->_bLevel);
                 blast->SetLocation(GetObject()->GetObjectCell());
-                blast->LocateOnMap();
+                blast->Show();
                 MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
                 wait->_delegate = blast;
                 MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
@@ -252,7 +252,7 @@ void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
         case EFFECT_TYPE_BLAST:
         case EFFECT_TYPE_SECONDARY:
         {
-            GameObject::RemoveFromMap();
+            GameObject::Hide();
             game->FlushEffectsWithNew(this);
             _finished = true;
         }   break;
