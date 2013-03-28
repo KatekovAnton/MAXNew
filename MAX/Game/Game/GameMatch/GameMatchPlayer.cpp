@@ -87,12 +87,12 @@ void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
     _landingPosition = landingPosition;
 }
 
-void GameMatchPlayer::UpdateFogForUnit(GameUnit *unit, const CCPoint &unitPosition)
+void GameMatchPlayer::UpdateFogForUnit(GameUnit *unit)
 {
-    _fog->Update(unit, unitPosition);
+    _fog->Update(unit);
 }
 
-void GameMatchPlayer::ResetFogForUnit(GameUnit *unit, const CCPoint &unitPosition)
+void GameMatchPlayer::ResetFogForUnit(GameUnit *unit)
 {
-    _fog->Reset(unit, unitPosition);
+    _fog->Reset(unit);
 }

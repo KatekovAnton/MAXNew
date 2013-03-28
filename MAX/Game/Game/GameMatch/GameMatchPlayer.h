@@ -65,8 +65,8 @@ public:
     
     void LandingTo(const CCPoint &landingPosition);
     
-    void UpdateFogForUnit(GameUnit* unit, const CCPoint &unitPosition);
-    void ResetFogForUnit(GameUnit* unit, const CCPoint &unitPosition);
+    void UpdateFogForUnit(GameUnit* unit);
+    void ResetFogForUnit(GameUnit* unit);
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     GameUnit* GetUnitInPosition(const CCPoint& pos);

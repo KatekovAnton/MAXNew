@@ -301,7 +301,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.y = floorf(p.y);
     
     
-    printf("%d\n", _match->_currentPlayer_w->_fog->GetValue(p));
+    printf("(%d, %d) = %d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_fog->GetValue(p));
     
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
     if (_currentUnit && !_currentUnit->_config->GetConfig()->_isBuilding)
