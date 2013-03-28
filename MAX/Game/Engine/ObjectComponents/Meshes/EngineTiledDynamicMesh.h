@@ -10,10 +10,38 @@
 #define __MAX__EngineTiledDynamicMesh__
 
 #include <iostream>
+#include "GlobalConstants.h"
+#include "USimpleContainer.h"
+
+struct Polygon {
+    vertexStruct vertexTL;
+    vertexStruct vertexBR;
+    vertexStruct vertexTR;
+    vertexStruct vertexBR1;
+    vertexStruct vertexBL;
+    vertexStruct vertexTL1;
+};
+
+using namespace Utils;
+
+struct EngineTiledDynamicMeshTextureInfo {
+    int tileCountW;
+    int tileCountH;
+};
 
 class EngineTiledDynamicMesh {
     
 public:
+    
+    USimpleContainer<Polygon> *_vertices;
+    USimpleContainer<int> *_indices;
+    
+    EngineTiledDynamicMeshTextureInfo _textureInfo;
+    
+    EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo);
+    ~EngineTiledDynamicMesh();
+    
+    void AddPolygon(int x, int y, int tileIndex);
     
 };
 

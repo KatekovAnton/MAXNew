@@ -16,20 +16,30 @@ int MAXResourceMapRenderer::GetIndexForCoordinates(int x, int y) const
     return y * _mapW + x;
 }
 
-int MAXResourceMapRenderer::GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE type, int amount) const
+int MAXResourceMapRenderer::GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE type, unsigned char amount) const
 {
-    return 0;
+    if (type == RESOURCE_TYPE_NONE || amount == 0) 
+        return 0;
+    
+    int stride = 1;
+    
+    if (type == RESOURCE_TYPE_GOLD)
+        stride += 16;
+    if (type == RESOURCE_TYPE_RAW)
+        stride += 32;
+        
+    return stride + amount - 1;
 }
 
 MAXResourceMapRenderer::MAXResourceMapRenderer(int mapW, int mapH)
 :_mesh(NULL), _texture(NULL), _cells(new bool[mapH * mapW]), _mapW(mapW), _mapH(mapH)
 {
     memset(_cells, 0, mapH * mapW);
-    
-    
-    
-    
-    
+    _texture = MAXSCL->resourceTiles;
+    EngineTiledDynamicMeshTextureInfo info;
+    info.tileCountH = 2;
+    info.tileCountW = 32;
+    _mesh = new EngineTiledDynamicMesh(info);
 }
 
 MAXResourceMapRenderer::~MAXResourceMapRenderer()
@@ -40,7 +50,14 @@ MAXResourceMapRenderer::~MAXResourceMapRenderer()
     delete [] _tileInformation;
 }
 
-void MAXResourceMapRenderer::AddCellToScan(int x, int y)
+void MAXResourceMapRenderer::AddCellToScan(int x, int y, RESOURCE_TYPE type, unsigned char amount)
+{
+    _cells[GetIndexForCoordinates(x, y)] = true;
+    _mesh->AddPolygon(x, y, GetTileIndexForResourceTypeAndAmount(type, amount));
+}
+
+void MAXResourceMapRenderer::Draw()
 {
     
 }
+

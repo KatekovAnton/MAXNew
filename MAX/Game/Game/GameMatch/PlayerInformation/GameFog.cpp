@@ -65,7 +65,9 @@ void GameFog::Increase(const CCPoint& point)
 
 void GameFog::Decrease(const CCPoint& point)
 {
-    _gameField[IndexOf(point)]--;
+    if (GetValue(point) > 0) {
+        _gameField[IndexOf(point)]--;
+    }
 }
 
 bool GameFog::IsInTouchZone(GameUnit *unit) const

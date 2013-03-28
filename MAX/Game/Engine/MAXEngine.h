@@ -35,6 +35,7 @@ class MAXMapObject;
 class MAXContentMap;
 class MAXUnitObject;
 class MAXStatusRenderer;
+class MAXResourceMapRenderer;
 
 class MAXEngineDelegate {
 public:
@@ -56,11 +57,14 @@ class MAXEngine : public RequestDelegate  {
     Shader              *_unitLowShader;
     Shader              *_mapShader;
     Shader              *_mapQuadShader;
+    Shader              *_resourceMapShader;
     shared_ptr<EngineMesh> _mapQuadMesh;
     float             _color;
     
     bool lowRender;
 public:
+    
+    MAXResourceMapRenderer *_resourceRenderer;
     
     MAXEngineDelegate   *_delegate;
     
@@ -121,6 +125,7 @@ public:
     void MoveCamera(float deltax, float deltay);
     
     void SetMap(shared_ptr<MAXContentMap> map);
+    void ClearMap();
     
     CCPoint ScreenToWorldCoordinates(const CCPoint &screen);
     CCPoint ScreenToWorldCell(const CCPoint &screen);

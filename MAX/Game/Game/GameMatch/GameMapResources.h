@@ -23,7 +23,7 @@ class GameMapResources
     int                 _h;
     int                 _w;
     
-    int GetIndexAt(const int x, const int y);
+    int GetIndexAt(const int x, const int y) const;
     void SetAmount(const int x, const int y, const int amount);
     void MergeAmount(const int x, const int y, const int amount);
     unsigned char GetAmount(RESOURCE_TYPE type, RES_MODE_TYPE mode);
@@ -34,7 +34,7 @@ class GameMapResources
 public:
     void GenerateInitialResources();
     RESOURCE_TYPE GetResourceTypeAt(const int x, const int y) const;
-    unsigned char GetResourceValueAt(const int x, const int y);
+    unsigned char GetResourceValueAt(const int x, const int y) const;
     void LandPlayerAt(const int x, const int y);
     void LogResMap(void);
     

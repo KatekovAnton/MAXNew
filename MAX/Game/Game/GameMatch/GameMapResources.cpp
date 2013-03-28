@@ -55,7 +55,7 @@ RESOURCE_TYPE GameMapResources::GetResourceTypeAt(const int x, const int y) cons
     return result;
 }
 
-int GameMapResources::GetIndexAt(const int x, const int y)
+int GameMapResources::GetIndexAt(const int x, const int y) const
 {
     int result = -1;
     if ((x > 0) && (y > 0) && (x < _w) && (y < _h))
@@ -65,7 +65,7 @@ int GameMapResources::GetIndexAt(const int x, const int y)
     return result;
 }
 
-unsigned char GameMapResources::GetResourceValueAt(const int x, const int y)
+unsigned char GameMapResources::GetResourceValueAt(const int x, const int y) const
 {
     int result = 0;
     int resIndex = GetIndexAt(x, y);
