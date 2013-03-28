@@ -65,11 +65,12 @@ void MAXAnimationManager::Update()
         }
         if(toRemove)
         {
+            MAXAnimationBase* item = *iterator;
             count --;
-            _objects.remove(*iterator);
+            _objects.remove(item);
             try
             {
-                delete *iterator;
+                delete item;
             }
             catch(...)
             {
