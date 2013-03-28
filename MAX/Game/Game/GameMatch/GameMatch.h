@@ -17,6 +17,7 @@ class GameMap;
 class GameMapResources;
 class GameSettings;
 class GameMatchPlayer;
+class Pathfinder;
 
 class GameMatch {
 
@@ -26,6 +27,7 @@ public:
     GameSettings*               _gameSettings;
     GameMap*                    _map;
     GameMapResources*           _resources;
+    Pathfinder*                 _pathfinder;
     vector<GameMatchPlayer*>    _players;
     GameMatchPlayer*            _currentPlayer_w;
 

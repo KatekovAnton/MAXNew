@@ -20,6 +20,7 @@
 #include "GameEffect.h"
 #include "GameMatch.h"
 #include "GameMap.h"
+#include "PFWaveCell.h"
 
 using namespace cocos2d;
 
@@ -170,6 +171,26 @@ void GameUnit::LowerPlane()
 void GameUnit::LiftPlane()
 {}
 
+void GameUnit::SetPath(std::vector<PFWaveCell*> path)
+{
+    movePath = path;
+    pathIndex = movePath.size() - 2; // last value is current position
+    MoveToNextCell();
+}
+
+bool GameUnit::MoveToNextCell(void)
+{
+    bool result = false;
+    if (pathIndex >= 0)
+    {
+        //int idx = movePath.size() - pathIndex - 2;
+        PFWaveCell* cell = movePath[pathIndex];
+        SetUnitLocationAnimated(CCPointMake(cell->x, cell->y));
+        pathIndex--;
+    }
+    return result;
+}
+
 void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
 {
     if (_currentTopAnimation) 
@@ -282,6 +303,12 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         _moveAnimation->_delegate = NULL;
         _moveAnimation = NULL;
         CheckBodyAndShadow();
+
+        { // Remove after rework path processing
+            _currentTopAnimation->_delegate = NULL;
+            _currentTopAnimation = NULL;
+            MoveToNextCell();
+        }
     }
     else
     {

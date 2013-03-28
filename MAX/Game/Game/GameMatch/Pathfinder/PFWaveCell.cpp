@@ -42,7 +42,7 @@ CellPoint PFWaveCell::GetPosFrom(void)
     return CellPointMake(x - DirToDX(direction), y - DirToDY(direction));
 }
 
-int PFWaveCell::DirToDX(const unsigned char _direction) const
+int PFWaveCell::DirToDX(const unsigned char _direction)
 {
 	int result = -1;
 	if ((_direction == 0) || (_direction == 4))
@@ -56,7 +56,7 @@ int PFWaveCell::DirToDX(const unsigned char _direction) const
 	return result;
 }
 
-int PFWaveCell::DirToDY(const unsigned char _direction) const
+int PFWaveCell::DirToDY(const unsigned char _direction)
 {
 	int result = -1;
 	if ((_direction == 2) || (_direction == 6))

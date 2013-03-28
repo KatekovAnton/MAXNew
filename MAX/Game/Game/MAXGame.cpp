@@ -25,6 +25,8 @@
 #include "GameInteface.h"
 #include "GameUnitParameters.h"
 
+#include "Pathfinder.h"
+
 MAXGame globalGame;
 MAXGame * game = &globalGame;
 
@@ -265,34 +267,6 @@ void MAXGame::ProceedPan(float speedx, float speedy)
     engine->MoveCamera(speedx, speedy);
 }
 
-bool CanMove(int unitType, GROUND_TYPE groundType, bool unitInCell)
-{
-    switch (unitType)
-    {
-        case UNIT_MOVETYPE_GROUND:
-            return groundType == GROUND_TYPE_GROUND && !unitInCell;
-            break;
-        case UNIT_MOVETYPE_GROUNDCOST:
-            return (groundType == GROUND_TYPE_GROUND || groundType == GROUND_TYPE_COAST) && !unitInCell;
-            break;
-        case UNIT_MOVETYPE_AMHIB:
-            return (groundType == GROUND_TYPE_WATER || groundType == GROUND_TYPE_COAST || groundType == GROUND_TYPE_GROUND)  && !unitInCell;
-            break;
-        case UNIT_MOVETYPE_SEACOST:
-            return (groundType == GROUND_TYPE_WATER || groundType == GROUND_TYPE_COAST) && !unitInCell;
-            break;
-        case UNIT_MOVETYPE_SEA:
-            return groundType == GROUND_TYPE_WATER && !unitInCell;
-            break;
-        case UNIT_MOVETYPE_AIR:
-            return true;
-            break;
-        default:
-            break;
-    }
-    return true;
-}
-
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
     bool _unitMoved = false;
@@ -306,20 +280,24 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
     if (_currentUnit && !_currentUnit->_config->GetConfig()->_isBuilding)
     {
-        
-        CCPoint location = _currentUnit->GetUnitCell();
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
         {}
-        else if ((!(p.x == location.x && p.y == location.y)) &&                          //not same
-                 (fabsf(p.x - location.x) <= 1 || fabsf(p.y - location.y) <= 1) &&       //only near
-                 (fabsf(p.x - location.x) < 2 && fabsf(p.y - location.y) < 2))           //only
+        else if (_currentUnit == newCurrentUnit)
         {
-            GROUND_TYPE groundType = _match->_map->GroundTypeAtPoint(p);
-            int unitMoveType = _currentUnit->_config->GetConfig()->_bMoveType;
-            
-            if (CanMove(unitMoveType, groundType, newCurrentUnit != NULL))
+            newCurrentUnit = NULL; // deselect current unit
+        }
+        else
+        {
+            CCPoint location = _currentUnit->GetUnitCell();
+            UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_config->GetConfig()->_bMoveType;
+            Pathfinder* pf = _match->_pathfinder;
+            std::vector<PFWaveCell*> path = pf->FindPath(location.x, location.y, p.x, p.y, unitMoveType); // alternative path find
+            //pf->MakePathMap(location.x, location.y, unitMoveType); // need to call when position changed
+            //std::vector<PFWaveCell*> path = pf->FindPathOnMap(p.x, p.y); // call after MakePathMap
+            if (path.size() > 1)
             {
-                _currentUnit->SetUnitLocationAnimated(p);
+                _currentUnit->SetPath(path);
+                //_currentUnit->SetUnitLocationAnimated(p);
                 _unitMoved = true;
             }
         }
@@ -329,6 +307,15 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         if (newCurrentUnit && _currentUnit != newCurrentUnit)
         {
             _currentUnit = newCurrentUnit;
+            if (!_currentUnit->_config->GetConfig()->_isBuilding)
+            {
+                CCPoint location = _currentUnit->GetUnitCell();
+                UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_config->GetConfig()->_bMoveType;
+                Pathfinder* pf = _match->_pathfinder;
+                pf->MakePathMap(location.x, location.y, unitMoveType);
+                pf->DumpMap(); // Remove debug logs
+            }
+            
             engine->SelectUnit(_currentUnit->GetUnitObject());
             _gameInterface->OnCurrentUnitChanged(newCurrentUnit);
         }

@@ -32,8 +32,8 @@ public:
 
     CellPoint GetPosForDirection(const unsigned char _direction);
     CellPoint GetPosFrom(void);
-    int DirToDX(const unsigned char _direction) const;
-    int DirToDY(const unsigned char _direction) const;
+    static int DirToDX(const unsigned char _direction);
+    static int DirToDY(const unsigned char _direction);
 };
 
 #endif /* defined(__MAX__PFWaveCell__) */

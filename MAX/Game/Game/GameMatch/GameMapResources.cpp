@@ -58,7 +58,7 @@ RESOURCE_TYPE GameMapResources::GetResourceTypeAt(const int x, const int y) cons
 int GameMapResources::GetIndexAt(const int x, const int y)
 {
     int result = -1;
-    if ((x > 0) && (y > 0) && (x < _w) && (y < _h))
+    if ((x >= 0) && (y >= 0) && (x < _w) && (y < _h))
     {
         result = x + y * _w;
     }
