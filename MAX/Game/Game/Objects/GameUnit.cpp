@@ -282,6 +282,15 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         _moveAnimation->_delegate = NULL;
         _moveAnimation = NULL;
         CheckBodyAndShadow();
+        
+        BoundingBox bb;
+        bb.min.x = _unitCell.x;
+        bb.min.y = _unitCell.y;
+        bb.max.x = _unitCell.x + 1;
+        bb.max.y = _unitCell.y + 1;
+        USimpleContainer<MAXObject*> *buffer = new USimpleContainer<MAXObject*>(10);
+        engine->GetAllObjectsInArea(bb, buffer);
+        delete buffer;
     }
     else
     {

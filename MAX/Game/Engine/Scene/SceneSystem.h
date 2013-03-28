@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "Utils.h"
+#include "Geometry.h"
 
 using namespace Utils;
 
@@ -49,6 +50,7 @@ public:
     void DeleteObjects(UContainer<PivotObject> *objects);
     void RemoveObject(PivotObject* object);
     void AddObject(UContainer<PivotObject> *newObjects);
+    void GetAllObjectsInArea(BoundingBox bb, USimpleContainer<PivotObject*> *buffer);
     
     void UpdateScene();
     void AfterUpdate();

@@ -13,7 +13,9 @@
 #include "cocos2d.h"
 #include "RequestDelegate.h"
 #include "Geometry.h"
+#include "USimpleContainer.h"
 
+using namespace Utils;
 using namespace cocos2d;
 using namespace std;
 
@@ -84,6 +86,8 @@ public:
     
     void Init();
     void EngineMain();
+    
+    void GetAllObjectsInArea(BoundingBox bb, USimpleContainer<MAXObject*> *buffer);
     
     void SelectUnit(MAXObject* unit);
     void AddUnit(PivotObject* newUnit);

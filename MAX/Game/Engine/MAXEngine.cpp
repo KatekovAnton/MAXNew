@@ -109,6 +109,11 @@ void MAXEngine::RemoveUnit(PivotObject* newUnit)
     newUnit->HasBeenRemovedFromScene();
 }
 
+void MAXEngine::GetAllObjectsInArea(BoundingBox bb, USimpleContainer<MAXObject*> *buffer)
+{
+    _scene->GetAllObjectsInArea(bb, (USimpleContainer<PivotObject*>*)buffer);
+}
+
 MAXEngine::~MAXEngine()
 {
     delete _animationManager;

@@ -144,6 +144,11 @@ void SceneSystem::AddObject(PivotObject* newObject, bool needUpdate)
     _sceneGraph->AddObject(newObject);
 }
 
+void SceneSystem::GetAllObjectsInArea(BoundingBox bb, USimpleContainer<PivotObject*> *buffer)
+{
+    _sceneGraph->Query(bb, buffer);
+}
+
 PivotObject* SceneSystem::GetObject(unsigned int objId)
 {
     for (int i = 0; i < _objects->GetCount(); i++)
