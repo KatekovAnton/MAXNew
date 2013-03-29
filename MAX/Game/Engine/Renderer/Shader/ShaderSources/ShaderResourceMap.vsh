@@ -12,7 +12,7 @@ attribute vec2 tcoord;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
-varying highp vec2 tcoordVarying;
+varying lowp vec2 tcoordVarying;
 
 void main()
 {

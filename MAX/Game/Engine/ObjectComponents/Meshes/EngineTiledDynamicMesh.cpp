@@ -46,26 +46,26 @@ void EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex)
     
     vertexTL.position[0] = minposx + x;
     vertexTL.position[1] = _mapH - (minposy + y);
-    vertexTL.tcoord[0] = 0;//singleTileW * _x;
-    vertexTL.tcoord[1] = 0;//singleTileH * _y;
+    vertexTL.tcoord[0] = singleTileW * _x;
+    vertexTL.tcoord[1] = singleTileH * _y;
     
 
     vertexBR.position[0] = minposx + x + 1;
     vertexBR.position[1] = (_mapH - (minposy + y + 1));
-    vertexBR.tcoord[0] = 1;//singleTileW * _x + singleTileW;
-    vertexBR.tcoord[1] = 1;//singleTileH * _y + singleTileH;
+    vertexBR.tcoord[0] = singleTileW * _x + singleTileW;
+    vertexBR.tcoord[1] = singleTileH * _y + singleTileH;
     
     
     vertexBL.position[0] = minposx + x;
     vertexBL.position[1] = (_mapH - (minposy + y + 1));
-    vertexBL.tcoord[0] = 0;//singleTileW * _x;
-    vertexBL.tcoord[1] = 1;//singleTileH * _y + singleTileH;
+    vertexBL.tcoord[0] = singleTileW * _x;
+    vertexBL.tcoord[1] = singleTileH * _y + singleTileH;
     
     
     vertexTR.position[0] = minposx + x + 1;
     vertexTR.position[1] = _mapH - (minposy + y);
-    vertexTR.tcoord[0] = 1;//singleTileW * _x + singleTileW;
-    vertexTR.tcoord[1] = 0;//singleTileH * _y;
+    vertexTR.tcoord[0] = singleTileW * _x + singleTileW;
+    vertexTR.tcoord[1] = singleTileH * _y;
     
     
     
@@ -82,11 +82,11 @@ void EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex)
 void EngineTiledDynamicMesh::Draw()
 {
     glEnableVertexAttribArray(ATTRIB_VERTEX);
-    glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(_vertices->GetArrayPointer() + vertexPositionOffset));
+    glVertexAttribPointer(ATTRIB_VERTEX, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)((char*)_vertices->GetArrayPointer() + vertexPositionOffset));
     glEnableVertexAttribArray(ATTRIB_NORMAL);
-    glVertexAttribPointer(ATTRIB_NORMAL, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)(_vertices->GetArrayPointer() + vertexNormalOffset));
+    glVertexAttribPointer(ATTRIB_NORMAL, 3, GL_FLOAT, GL_FALSE, vertexSize, (void*)((char*)_vertices->GetArrayPointer() + vertexNormalOffset));
     glEnableVertexAttribArray(ATTRIB_TCOORD);
-    glVertexAttribPointer(ATTRIB_TCOORD, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)(_vertices->GetArrayPointer() + vertexTcoordOffset));
+    glVertexAttribPointer(ATTRIB_TCOORD, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)((char*)_vertices->GetArrayPointer() + vertexTcoordOffset));
     
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
