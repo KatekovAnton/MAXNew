@@ -30,7 +30,8 @@ struct EngineTiledDynamicMeshTextureInfo {
 };
 
 class EngineTiledDynamicMesh {
-    
+    int _mapW;
+    int _mapH;
 public:
     
     USimpleContainer<Polygon> *_vertices;
@@ -38,11 +39,11 @@ public:
     
     EngineTiledDynamicMeshTextureInfo _textureInfo;
     
-    EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo);
+    EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo, int mapW, int mapH);
     ~EngineTiledDynamicMesh();
     
     void AddPolygon(int x, int y, int tileIndex);
-    
+    void Draw();
 };
 
 #endif /* defined(__MAX__EngineTiledDynamicMesh__) */

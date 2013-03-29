@@ -24,6 +24,8 @@ namespace Utils {
         
     public:
         
+        T *GetArrayPointer() const {return _array;};
+        
         USimpleContainer();
         USimpleContainer(int baseSize);
         ~USimpleContainer();

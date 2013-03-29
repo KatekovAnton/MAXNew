@@ -224,6 +224,7 @@ void MAXEngine::Draw()
     glEnable(GL_BLEND);
     DrawGrid();
     DrawUnits();
+    DrawResourceMap();
     _unitSelection->Draw();
     _statusRenderer->DrawCircles();
     glUseProgram(prog);
@@ -285,6 +286,17 @@ void MAXEngine::DrawUnits()
     }
     glActiveTexture(GL_TEXTURE0);
    // printf("%d\n",_applyedPaletteCount);
+}
+
+void MAXEngine::DrawResourceMap()
+{
+    if (!drawResources) 
+        return;
+    _shader = _resourceMapShader;
+    glUseProgram(_shader->GetProgram());
+    _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
+    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+    _resourceRenderer->Draw(_shader);
 }
 
 void MAXEngine::DrawInterface()

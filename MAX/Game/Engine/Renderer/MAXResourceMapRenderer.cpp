@@ -9,6 +9,7 @@
 #include "MAXResourceMapRenderer.h"
 #include "EngineTiledDynamicMesh.h"
 #include "Texture.h"
+#include "MAXREsourceMapMaterial.h"
 #include "MAXContentLoader.h"
 
 int MAXResourceMapRenderer::GetIndexForCoordinates(int x, int y) const
@@ -32,32 +33,37 @@ int MAXResourceMapRenderer::GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE t
 }
 
 MAXResourceMapRenderer::MAXResourceMapRenderer(int mapW, int mapH)
-:_mesh(NULL), _texture(NULL), _cells(new bool[mapH * mapW]), _mapW(mapW), _mapH(mapH)
+:_mesh(NULL), _material(new MAXREsourceMapMaterial()), _cells(new bool[mapH * mapW]), _mapW(mapW), _mapH(mapH)
 {
     memset(_cells, 0, mapH * mapW);
-    _texture = MAXSCL->resourceTiles;
     EngineTiledDynamicMeshTextureInfo info;
     info.tileCountH = 2;
     info.tileCountW = 32;
-    _mesh = new EngineTiledDynamicMesh(info);
+    _mesh = new EngineTiledDynamicMesh(info, mapW, mapH);
+    
+    
+    this->AddCellToScan(56, 56, RESOURCE_TYPE_GOLD, 14);
 }
 
 MAXResourceMapRenderer::~MAXResourceMapRenderer()
 {
     delete _mesh;
-    delete _texture;
+    delete _material;
     delete[] _cells;
     delete [] _tileInformation;
 }
 
 void MAXResourceMapRenderer::AddCellToScan(int x, int y, RESOURCE_TYPE type, unsigned char amount)
 {
+    if (_cells[GetIndexForCoordinates(x, y)]) 
+        return;
     _cells[GetIndexForCoordinates(x, y)] = true;
     _mesh->AddPolygon(x, y, GetTileIndexForResourceTypeAndAmount(type, amount));
 }
 
-void MAXResourceMapRenderer::Draw()
+void MAXResourceMapRenderer::Draw(Shader *shader)
 {
-    
+    _material->ApplyLod(0, shader);
+    _mesh->Draw();
 }
 

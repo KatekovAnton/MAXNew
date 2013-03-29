@@ -107,6 +107,7 @@ public:
     void DrawLine();
     void DrawGround();
     void DrawUnits();
+    void DrawResourceMap();
     void DrawGrid();
     void DrawInterface();
     void EndFrame();

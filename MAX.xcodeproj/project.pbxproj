@@ -200,6 +200,7 @@
 		8BEE7960170388EB00F78F1A /* ShaderResourceMap.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */; };
 		8BEE79611703894400F78F1A /* ShaderResourceMap.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */; };
 		8BEE79621703894400F78F1A /* ShaderResourceMap.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */; };
+		D100A842170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */; };
 		D115921E16B8ED5600C1E1C2 /* MAXAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */; };
 		D115922416B8F4C100C1E1C2 /* MAXAnimationBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */; };
 		D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */; };
@@ -571,6 +572,8 @@
 		8BB8457916CAD09000B9A007 /* clist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clist.h; sourceTree = "<group>"; };
 		8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderResourceMap.fsh; sourceTree = "<group>"; };
 		8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderResourceMap.vsh; sourceTree = "<group>"; };
+		D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXREsourceMapMaterial.cpp; sourceTree = "<group>"; };
+		D100A841170607E6002ED2D7 /* MAXREsourceMapMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXREsourceMapMaterial.h; sourceTree = "<group>"; };
 		D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationManager.cpp; sourceTree = "<group>"; };
 		D115921D16B8ED5600C1E1C2 /* MAXAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationManager.h; sourceTree = "<group>"; };
 		D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationBase.cpp; sourceTree = "<group>"; };
@@ -1525,6 +1528,8 @@
 				D18EDCEC168B2FBF00EE3B4E /* MAXMapMaterial.h */,
 				D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */,
 				D11ABAC5168DEC3000CD29EA /* MAXUnitMaterial.h */,
+				D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */,
+				D100A841170607E6002ED2D7 /* MAXREsourceMapMaterial.h */,
 			);
 			path = Material;
 			sourceTree = "<group>";
@@ -2045,6 +2050,7 @@
 				8B88EF8517021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp in Sources */,
 				8BEE795F170388EB00F78F1A /* ShaderResourceMap.fsh in Sources */,
 				8BEE7960170388EB00F78F1A /* ShaderResourceMap.vsh in Sources */,
+				D100A842170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,9 +7,10 @@
 //
 
 varying highp vec2 tcoordVarying;
+
 uniform sampler2D colorTexture;
 
 void main()
 {
-    gl_FragColor = texture2D(colorTexture, tcoordVarying);
+    gl_FragColor = vec4(tcoordVarying.x, tcoordVarying.y, 1.0, 1.0);//texture2D(colorTexture, tcoordVarying);
 }

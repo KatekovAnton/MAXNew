@@ -9,7 +9,6 @@
 attribute vec4 position;
 attribute vec2 tcoord;
 
-uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
@@ -17,6 +16,6 @@ varying highp vec2 tcoordVarying;
 
 void main()
 {
-    tcoordVarying = vec2(tcoord.x, tcoord.y);
-    gl_Position = (projectionMatrix * (viewMatrix * (modelMatrix * position)));
+    tcoordVarying = tcoord;
+    gl_Position = (projectionMatrix * (viewMatrix * position));
 }

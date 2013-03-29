@@ -14,14 +14,16 @@
 
 class EngineTiledDynamicMesh;
 class Texture;
+class MAXREsourceMapMaterial;
+class Shader;
 
 struct TileInformation;
 
 class MAXResourceMapRenderer {
     
     EngineTiledDynamicMesh  *_mesh;
-    Texture                 *_texture;
-    TileInformation          *_tileInformation;
+    TileInformation         *_tileInformation;
+    MAXREsourceMapMaterial  *_material;
     bool                    *_cells;
     
     int _mapW;
@@ -37,7 +39,7 @@ public:
     
     void AddCellToScan(int x, int y, RESOURCE_TYPE type, unsigned char amount);
     
-    void Draw();
+    void Draw(Shader *shader);
 
 };
 
