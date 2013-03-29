@@ -8,8 +8,10 @@
 
 #include "GameFog.h"
 #include "GameUnit.h"
+#include "GameFogDelegate.h"
 
 GameFog::GameFog(int mapWidth, int mapHeight)
+:_delegate_w(NULL)
 {
     _mapWidth = mapWidth;
     _mapHeight = mapHeight;
@@ -17,17 +19,20 @@ GameFog::GameFog(int mapWidth, int mapHeight)
     
     // create an empty field
     _gameField = new int[_mapSize];
+    _gameFieldLast = new int[_mapSize];
     memset(_gameField, 0, _mapSize);
+    memset(_gameFieldLast, 0, _mapSize);
 }
 
 GameFog::~GameFog()
 {
     delete [] _gameField;
+    delete [] _gameFieldLast;
 }
 
 void GameFog::Recount(GameUnit *unit, bool withIncreasing)
 {
-    BoundingBox box = unit->GetScanBoundingBox(unit->GetUnitCell());
+    BoundingBox box = unit->GetScanBoundingBox();
     CCPoint scannedPoint = ccp(box.min.x, box.min.y);
     
     for (int x = box.min.x; x <= box.max.x; x++)
@@ -44,7 +49,6 @@ void GameFog::Recount(GameUnit *unit, bool withIncreasing)
             }
         }
     }
-    
 }
 
 void GameFog::Update(GameUnit *unit)
@@ -77,3 +81,40 @@ int GameFog::GetValue(const CCPoint &point) const
 {
     return _gameField[IndexOf(point)];
 }
+
+void GameFog::BeginUpdates()
+{
+    memcpy(_gameFieldLast, _gameField, sizeof(int) * _mapSize);
+}
+
+void GameFog::EndUpdates()
+{
+    for (int x = _updatingBox.min.x; x <= _updatingBox.max.x; x++)
+    {
+        for (int y = _updatingBox.min.y; y <= _updatingBox.max.y; y++)
+        {
+            if ((_gameField[IndexOf(x, y)] == 0) != (_gameFieldLast[IndexOf(x, y)] == 0) && _delegate_w)
+                _delegate_w->CellDidUpdate(x, y, this, _gameField[IndexOf(x, y)] != 0);
+        }
+    }
+}
+
+void GameFog::UpdateWithUnitMove(GameUnit* unit, const CCPoint &movementPoint)
+{
+    if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
+    {
+        _complexUpdate = true;
+        BeginUpdates();
+        _updatingBox = unit->GetScanBoundingBox();
+        Reset(unit);
+        unit->UnsafeSetUnitCell(movementPoint);
+        Update(unit);
+        _updatingBox.AddBoundingBox(unit->GetScanBoundingBox());
+        EndUpdates();
+        _complexUpdate = false;
+    }
+}
+
+
+
+

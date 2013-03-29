@@ -55,6 +55,7 @@ public:
     
     void LowerPlane();
     void LiftPlane();
+    void UnsafeSetUnitCell(const CCPoint &point);//DONT USE THIS METHOD!!!!
     void SetDirection(int dir);
     void SetRandomDirection();
     void SetColor(GLKVector4 color);

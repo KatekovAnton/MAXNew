@@ -159,12 +159,17 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 58, "Inter", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 58, "Surveyor", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    
     
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 45, "Airplant", 0);

@@ -82,14 +82,9 @@ BoundingBox GameObject::GetCurrentBoundingBox(const float radius) const
     return GetBoundingBox(_unitCell, radius);
 }
 
-BoundingBox GameObject::GetScanBoundingBox(const CCPoint &point) const
+BoundingBox GameObject::GetScanBoundingBox() const
 {
-    return GetBoundingBox(point, _config_w->_pScan);
-}
-
-BoundingBox GameObject::GetCurrentScanBoundingBox() const
-{
-    return GetScanBoundingBox(_unitCell);
+    return GetBoundingBox(_unitCell, _config_w->_pScan);
 }
 
 // check if point is in radius around the object

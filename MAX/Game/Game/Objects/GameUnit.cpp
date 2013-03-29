@@ -27,7 +27,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMa
 :GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _config(config), _owner_w(owner), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false)
 {
     unitObject->_playerId = owner->_playerInfo._playerId;
-    unitObject->_playerPalette_w = &owner->_palette;
+    unitObject->_playerPalette_w = owner->GetPalettePointer();
     unitObject->_statusDelegate_w = this;
     unitObject->_needShadow = !_config->GetConfig()->_isUnderwater;
     _onMap = false;
@@ -170,6 +170,11 @@ void GameUnit::LowerPlane()
 void GameUnit::LiftPlane()
 {}
 
+void GameUnit::UnsafeSetUnitCell(const CCPoint &point)//DONT USE THIS METHOD!!!!
+{
+    _unitCell = point;
+}
+
 void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
 {
     if (_currentTopAnimation) 
@@ -265,9 +270,7 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
         if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
         {
 //            printf("Update radar!\n");
-            _owner_w->ResetFogForUnit(this);
-            _unitCell = realCell;
-            _owner_w->UpdateFogForUnit(this);
+            _owner_w->MoveUnitAndUpdateFogs(this, realCell);
         }
     }
 }

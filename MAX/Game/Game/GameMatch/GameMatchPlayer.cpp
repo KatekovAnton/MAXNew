@@ -32,6 +32,7 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     _researchManager = new PlayerResearchManager(this);
     _upgradeManager = new PlayerUpgradeManager(this);
     _fog = new GameFog(match->_map->GetMapWidth(), match->_map->GetMapHeight());
+    _resourceMapFog = new GameFog(match->_map->GetMapWidth(), match->_map->GetMapHeight());
 }
 
 GameMatchPlayer::~GameMatchPlayer()
@@ -45,6 +46,7 @@ GameMatchPlayer::~GameMatchPlayer()
     }
     
     delete _fog;
+    delete _resourceMapFog;
 
     for (int i = 0; i < _units.GetCount(); i++) {
         GameUnit* unit = _units.objectAtIndex(i);
@@ -87,6 +89,11 @@ void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
     _landingPosition = landingPosition;
 }
 
+void GameMatchPlayer::MoveUnitAndUpdateFogs(GameUnit *unit, const CCPoint &point)
+{
+    _fog->UpdateWithUnitMove(unit, point);
+}
+
 void GameMatchPlayer::UpdateFogForUnit(GameUnit *unit)
 {
     _fog->Update(unit);
@@ -96,3 +103,23 @@ void GameMatchPlayer::ResetFogForUnit(GameUnit *unit)
 {
     _fog->Reset(unit);
 }
+
+#pragma mark - GameFogDelegate
+
+bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const
+{
+    return true;
+}
+
+void GameMatchPlayer::CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const
+{
+    if (fog == _fog) {
+        
+    }
+    if (fog == _resourceMapFog) {
+        
+    }
+}
+
+
+

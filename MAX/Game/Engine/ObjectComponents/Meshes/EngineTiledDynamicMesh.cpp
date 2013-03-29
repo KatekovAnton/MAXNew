@@ -15,7 +15,7 @@ const size_t vertexNormalOffset = offsetof(vertexStruct,normal);
 const size_t vertexTcoordOffset = offsetof(vertexStruct,tcoord);
 
 EngineTiledDynamicMesh::EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo, int mapW, int mapH)
-:_textureInfo(textureInfo), _vertices(new USimpleContainer<Polygon>(100)), _indices(new USimpleContainer<int>(100)), _mapW(mapW), _mapH(mapH)
+:_textureInfo(textureInfo), _vertices(new USimpleContainer<Polygon>(mapH*mapW)), _indices(new USimpleContainer<int>(100)), _mapW(mapW), _mapH(mapH)
 {
     
 }

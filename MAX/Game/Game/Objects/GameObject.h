@@ -40,8 +40,7 @@ public:
     
     BoundingBox GetBoundingBox(const CCPoint &point, const float radius) const;
     BoundingBox GetCurrentBoundingBox(const float radius) const;
-    BoundingBox GetScanBoundingBox(const CCPoint &point) const;
-    BoundingBox GetCurrentScanBoundingBox() const;
+    BoundingBox GetScanBoundingBox() const;
     
     bool IsInRadius(const CCPoint &point, const float radius) const;
     bool IsInScanRadius(const CCPoint &point) const;

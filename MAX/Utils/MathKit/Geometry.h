@@ -26,6 +26,18 @@
 #include <GL/glu.h>
 #endif
 
+template <typename T> static __inline__
+T __min(T a, T b)
+{
+    return a<b?a:b;
+}
+
+template <typename T> static __inline__
+T __max(T a, T b)
+{
+    return a>b?a:b;
+}
+
 struct __GPoint2D {
     GLfloat x;
     GLfloat y;
@@ -66,6 +78,14 @@ struct __BoundingBox {
     
     GLKVector2 GetCenter() const {return GLKVector2Make((min.x + max.x)/2.0, (min.y + max.y)/2.0); }
     GLKVector2 GetSize() const {return GLKVector2Make(- (min.x - max.x), -(min.y - max.y)); }
+    
+    void AddBoundingBox(__BoundingBox bb)
+    {
+        min.x = __min(min.x, bb.min.x);
+        min.y = __min(min.y, bb.min.y);
+        max.x = __max(max.x, bb.max.x);
+        max.y = __max(max.y, bb.max.y);
+    }
     
 };
 typedef struct __BoundingBox BoundingBox;

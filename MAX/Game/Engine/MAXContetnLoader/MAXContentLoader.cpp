@@ -912,6 +912,8 @@ MAXUnitObject* MAXContentLoader::CreateUnit(MAXObjectConfig* unitConfig)
     MAXUnitObject* result = new MAXUnitObject(renderObject, material, unitConfig);
     if (unitConfig->_isPlane) 
         result->_bbsize = GLKVector2Make(2, 2);
+    else  if (unitConfig->_isBuilding) 
+        result->_bbsize = GLKVector2Make(unitConfig->_bSize + 1, unitConfig->_bSize + 1);
     else
         result->_bbsize = GLKVector2Make(unitConfig->_bSize, unitConfig->_bSize);
     return result;

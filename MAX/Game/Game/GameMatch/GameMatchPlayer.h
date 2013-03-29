@@ -13,6 +13,7 @@
 #include "miniPrefix.h"
 #include "MAXContentConstants.h"
 #include "PlayerResearchManager.h"
+#include "GameFogDelegate.h"
 
 class Texture;
 class GameUnit;
@@ -35,9 +36,14 @@ struct GameMatchPlayerInfo {
     Color           _color;
 };
 
-class GameMatchPlayer {
+class GameMatchPlayer : public GameFogDelegate {
+    
+    vector<Texture*> _palettes;
+    Texture* _palette;
     
 public:
+    
+    Texture** GetPalettePointer() {return &_palette;};
     
     GameMatch *_match_w;
     
@@ -51,9 +57,8 @@ public:
     
     GameMatchPlayerInfo _playerInfo;
     GameFog* _fog;
-    
-    vector<Texture*> _palettes;
-    Texture* _palette;
+    GameFog* _resourceMapFog;
+
     
     USimpleContainer<GameUnit*> _units;
     PlayerBase* _base;
@@ -65,11 +70,19 @@ public:
     
     void LandingTo(const CCPoint &landingPosition);
     
+    void MoveUnitAndUpdateFogs(GameUnit *unit, const CCPoint &point);
+    
     void UpdateFogForUnit(GameUnit* unit);
     void ResetFogForUnit(GameUnit* unit);
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     GameUnit* GetUnitInPosition(const CCPoint& pos);
+    
+#pragma mark - GameFogDelegate
+
+    virtual bool UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const;
+    virtual void CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const;
+    
 };
 
 #endif /* defined(__MAX__Game_MatchPlayer__) */

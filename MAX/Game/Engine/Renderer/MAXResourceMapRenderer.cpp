@@ -42,7 +42,6 @@ MAXResourceMapRenderer::MAXResourceMapRenderer(int mapW, int mapH)
     _mesh = new EngineTiledDynamicMesh(info, mapW, mapH);
     
     
-    this->AddCellToScan(56, 56, RESOURCE_TYPE_GOLD, 14);
 }
 
 MAXResourceMapRenderer::~MAXResourceMapRenderer()
