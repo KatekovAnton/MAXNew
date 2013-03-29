@@ -31,26 +31,29 @@ class GameFog {
     int IndexOf(const CCPoint &point) const { return (int) _mapWidth * (int)point.y + (int)point.x; };
     int IndexOf(const int x, const int y) const { return  _mapWidth * y + x; };
     
-    void Recount(GameUnit *unit, bool withIncreasing);
+    void Recount(GameUnit *unit, bool withIncreasing, const CCPoint &centerPoint);
     
     void Increase(const CCPoint &point);
-    void Decrease(const CCPoint &point);
+    void Decrease(const CCPoint &point);    
     
+    void Update(GameUnit *unit, const CCPoint &centerPoint);
+    void Reset(GameUnit *unit, const CCPoint &centerPoint);
+    
+    void BeginUpdates();
+    void EndUpdates();
     
 public:
     
     GameFogDelegate *_delegate_w;
     
-    void Update(GameUnit *unit);
-    void Reset(GameUnit *unit);
     
     bool IsInTouchZone(GameUnit *unit) const;
     int GetValue(const CCPoint &point) const;
     
-    void BeginUpdates();
-    void EndUpdates();
     
-    void UpdateWithUnitMove(GameUnit* unit, const CCPoint &movementPoint);
+    void UpdateOnUnitDidMove(GameUnit* unit, const CCPoint &oldPoint, const CCPoint &newPoint);
+    void UpdateOnUnitDidPlaceToMap(GameUnit* unit);
+    void UpdateOnUnitDidRemoveFromMap(GameUnit* unit);
     
     GameFog(int mapWidth, int mapHeight);
     ~GameFog();

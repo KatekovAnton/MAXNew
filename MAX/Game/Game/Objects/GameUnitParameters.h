@@ -53,6 +53,8 @@ public:
     void CalcParams(int researchArea, bool &incrementVersion);
     
     void Upgrade();
+    
+    bool GetIsSurvivor() const;
 };
 
 #endif /* defined(__MAX__GameUnitParameters__) */

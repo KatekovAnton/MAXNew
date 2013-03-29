@@ -70,10 +70,9 @@ public:
     
     void LandingTo(const CCPoint &landingPosition);
     
-    void MoveUnitAndUpdateFogs(GameUnit *unit, const CCPoint &point);
-    
-    void UpdateFogForUnit(GameUnit* unit);
-    void ResetFogForUnit(GameUnit* unit);
+    void UnitDidMove(GameUnit *unit, const CCPoint &oldPoint, const CCPoint &newPoint);
+    void UnitDidPlaceToMap(GameUnit* unit);
+    void UnitDidRemoveFromMap(GameUnit* unit);
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     GameUnit* GetUnitInPosition(const CCPoint& pos);

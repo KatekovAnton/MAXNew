@@ -91,7 +91,7 @@ void GameUnit::PlaceUnitOnMap()
     _isPlacedOnMap = true;
     Show();
     // update the fog of war for the current gamer
-    _owner_w->UpdateFogForUnit(this);
+    _owner_w->UnitDidPlaceToMap(this);
 }
 
 void GameUnit::RemoveUnitFromMap()
@@ -101,7 +101,7 @@ void GameUnit::RemoveUnitFromMap()
     _isPlacedOnMap = false;
     Hide();
     // update the fog of war for the current gamer
-    _owner_w->ResetFogForUnit(this);
+    _owner_w->UnitDidRemoveFromMap(this);
 }
 
 void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
@@ -270,7 +270,8 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
         if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
         {
 //            printf("Update radar!\n");
-            _owner_w->MoveUnitAndUpdateFogs(this, realCell);
+            _owner_w->UnitDidMove(this, _unitCell, realCell);
+            _unitCell = realCell;
         }
     }
 }

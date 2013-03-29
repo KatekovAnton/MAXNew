@@ -32,7 +32,9 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     _researchManager = new PlayerResearchManager(this);
     _upgradeManager = new PlayerUpgradeManager(this);
     _fog = new GameFog(match->_map->GetMapWidth(), match->_map->GetMapHeight());
+    _fog->_delegate_w = this;
     _resourceMapFog = new GameFog(match->_map->GetMapWidth(), match->_map->GetMapHeight());
+    _resourceMapFog->_delegate_w = this;
 }
 
 GameMatchPlayer::~GameMatchPlayer()
@@ -89,26 +91,37 @@ void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
     _landingPosition = landingPosition;
 }
 
-void GameMatchPlayer::MoveUnitAndUpdateFogs(GameUnit *unit, const CCPoint &point)
+#pragma mark - GameUnitDelegate
+
+void GameMatchPlayer::UnitDidMove(GameUnit *unit, const CCPoint &oldPoint, const CCPoint &newPoint)
 {
-    _fog->UpdateWithUnitMove(unit, point);
+    _fog->UpdateOnUnitDidMove(unit, oldPoint, newPoint);
+    _resourceMapFog->UpdateOnUnitDidMove(unit, oldPoint, newPoint);
 }
 
-void GameMatchPlayer::UpdateFogForUnit(GameUnit *unit)
+void GameMatchPlayer::UnitDidPlaceToMap(GameUnit *unit)
 {
-    _fog->Update(unit);
+    _fog->UpdateOnUnitDidPlaceToMap(unit);
+    _resourceMapFog->UpdateOnUnitDidPlaceToMap(unit);
 }
 
-void GameMatchPlayer::ResetFogForUnit(GameUnit *unit)
+void GameMatchPlayer::UnitDidRemoveFromMap(GameUnit *unit)
 {
-    _fog->Reset(unit);
+    _fog->UpdateOnUnitDidRemoveFromMap(unit);
+    _resourceMapFog->UpdateOnUnitDidRemoveFromMap(unit);
 }
 
 #pragma mark - GameFogDelegate
 
 bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const
 {
-    return true;
+    if (fog == _resourceMapFog) 
+        return unit->_config->GetIsSurvivor();
+    
+    if (fog == _fog) 
+        return true;
+    
+    return false;
 }
 
 void GameMatchPlayer::CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const

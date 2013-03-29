@@ -30,9 +30,9 @@ GameFog::~GameFog()
     delete [] _gameFieldLast;
 }
 
-void GameFog::Recount(GameUnit *unit, bool withIncreasing)
+void GameFog::Recount(GameUnit *unit, bool withIncreasing, const CCPoint &centerPoint)
 {
-    BoundingBox box = unit->GetScanBoundingBox();
+    BoundingBox box = unit->GetScanBoundingBox(centerPoint);
     CCPoint scannedPoint = ccp(box.min.x, box.min.y);
     
     for (int x = box.min.x; x <= box.max.x; x++)
@@ -40,7 +40,7 @@ void GameFog::Recount(GameUnit *unit, bool withIncreasing)
         for (int y = box.min.y; y <= box.max.y; y++)
         {
             scannedPoint.setPoint(x, y);
-            if (unit->IsInScanRadius(scannedPoint))
+            if (unit->IsInScanRadius(scannedPoint, centerPoint))
             {
                 if (withIncreasing)
                     Increase(scannedPoint);
@@ -51,14 +51,14 @@ void GameFog::Recount(GameUnit *unit, bool withIncreasing)
     }
 }
 
-void GameFog::Update(GameUnit *unit)
+void GameFog::Update(GameUnit *unit, const CCPoint &centerPoint)
 {
-    Recount(unit, true);
+    Recount(unit, true, centerPoint);
 }
 
-void GameFog::Reset(GameUnit *unit)
+void GameFog::Reset(GameUnit *unit, const CCPoint &centerPoint)
 {
-    Recount(unit, false);
+    Recount(unit, false, centerPoint);
 }
 
 void GameFog::Increase(const CCPoint& point)
@@ -99,19 +99,38 @@ void GameFog::EndUpdates()
     }
 }
 
-void GameFog::UpdateWithUnitMove(GameUnit* unit, const CCPoint &movementPoint)
+void GameFog::UpdateOnUnitDidMove(GameUnit* unit, const CCPoint &oldPoint, const CCPoint &newPoint)
 {
     if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
     {
-        _complexUpdate = true;
+        BeginUpdates();
+        _updatingBox = unit->GetScanBoundingBox(oldPoint);
+        Reset(unit, oldPoint);
+        Update(unit, newPoint);
+        _updatingBox.AddBoundingBox(unit->GetScanBoundingBox(newPoint));
+        EndUpdates();
+    }
+}
+
+void GameFog::UpdateOnUnitDidPlaceToMap(GameUnit* unit)
+{
+    if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
+    {
         BeginUpdates();
         _updatingBox = unit->GetScanBoundingBox();
-        Reset(unit);
-        unit->UnsafeSetUnitCell(movementPoint);
-        Update(unit);
-        _updatingBox.AddBoundingBox(unit->GetScanBoundingBox());
+        Update(unit, unit->GetUnitCell());
         EndUpdates();
-        _complexUpdate = false;
+    }
+}
+
+void GameFog::UpdateOnUnitDidRemoveFromMap(GameUnit* unit)
+{
+    if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
+    {
+        BeginUpdates();
+        _updatingBox = unit->GetScanBoundingBox();
+        Reset(unit, unit->GetUnitCell());
+        EndUpdates();
     }
 }
 

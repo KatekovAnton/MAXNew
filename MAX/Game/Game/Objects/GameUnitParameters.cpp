@@ -78,3 +78,11 @@ void GameUnitParameters::Upgrade()
     if (iv) 
         _version ++;
 }
+
+bool GameUnitParameters::GetIsSurvivor() const
+{
+    return _config_w->_isSurvivor;
+}
+
+
+
