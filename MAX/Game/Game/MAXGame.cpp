@@ -79,132 +79,132 @@ void MAXGame::StartMatch()
 //        }
 //    }
     
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 53, "Constructor", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 47, "Corvette", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    } 
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(47, 49, "Escort", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 44, "sub", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 53, "Constructor", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 47, "Corvette", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    } 
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(47, 49, "Escort", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 44, "sub", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(78, 45, "pcan", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 52, "Bomber", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 57, "Aagunm", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 58, "Awac", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 58, "Scout", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(48, 58, "Engineer", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(59, 53, "Asgun", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 54, "Inter", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 52, "Tank", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(53, 54, "Rocket", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 58, "Inter", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 58, "Surveyor", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    
-//    
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 45, "Airplant", 0);
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 43, "Hvplant", 0);
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 43, "Hang", 0);
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 43, "Powerpl", 0);
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
-//        unit1->PlaceUnitOnMap();
-//    }
-//    
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(50, 64, "Scanner", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 56, "Inter", 0);
-//        unit1->PlaceUnitOnMap();
-//    }
-//    {
-//        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 53, "Inter", 0);
-//        unit1->PlaceUnitOnMap();
-//    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 52, "Bomber", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 57, "Aagunm", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 58, "Awac", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 58, "Scout", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(48, 58, "Engineer", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(59, 53, "Asgun", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 54, "Inter", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 52, "Tank", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(53, 54, "Rocket", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 58, "Inter", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 58, "Surveyor", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    
+    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 45, "Airplant", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 43, "Hvplant", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 43, "Hang", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 43, "Powerpl", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(50, 64, "Scanner", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 56, "Inter", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 53, "Inter", 0);
+        unit1->PlaceUnitOnMap();
+    }
 
     
     

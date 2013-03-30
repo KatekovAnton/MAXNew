@@ -53,9 +53,13 @@ void MAXSolidTileRenderer::AddCell(const int x, const int y)
 
 void MAXSolidTileRenderer::RemoveCell(const int x, const int y)
 {
+    if (x==82 && y == 46) {
+        int a = 0;
+        a++;
+    }
     int index = GetIndexForCoordinates(x, y);
     int meshIndex = _cells[index];
-    _cells[GetIndexForCoordinates(x, y)] = emptyValue;
+    _cells[index] = emptyValue;
     _mesh->RemovePolygon(meshIndex);
 }
 
@@ -70,6 +74,7 @@ void MAXSolidTileRenderer::Draw(Shader *shader)
 void MAXSolidTileRenderer::ElementDidChangePosition(int oldIndex, int newIndex, int singleArrayIndex)
 {
     _cells[singleArrayIndex] = newIndex;
+    _cells[oldIndex] = emptyValue;
 }
 
 
