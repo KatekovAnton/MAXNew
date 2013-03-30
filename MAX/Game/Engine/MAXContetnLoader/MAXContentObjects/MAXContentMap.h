@@ -10,7 +10,7 @@
 #define __MAX__MAXContentMap__
 
 #include <iostream>
-#include "MAXContentConstants.h"
+#include "miniPrefix.h"
 
 using namespace std;
 

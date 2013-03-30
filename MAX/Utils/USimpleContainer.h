@@ -64,7 +64,6 @@ namespace Utils {
 //            T obj  = _array[index];
             
             _array[index] = _array[_count - 1];
-            _array[_count - 1] = nullptr;
             _count--;
         }
     }

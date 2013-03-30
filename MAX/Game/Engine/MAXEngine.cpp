@@ -35,6 +35,7 @@
 #include "MAXDrawPrimitives.h"
 #include "MAXStatusRenderer.h"
 #include "MAXResourceMapRenderer.h"
+#include "MAXSolidTileRenderer.h"
 
 using namespace cocos2d;
 //using namespace Kompex;
@@ -50,9 +51,19 @@ MAXEngine::MAXEngine()
 
 MAXEngine::~MAXEngine()
 {
+    if (_fogRenderer) {
+        delete _fogRenderer;
+        _fogRenderer = NULL;
+    }
+
+    if (_resourceRenderer) {
+        delete _resourceRenderer;
+        _resourceRenderer = NULL;
+    }
+    
     delete _animationManager;
     delete _renderSystem;
-    delete _shader;
+  
     delete _mapShader;
     delete _mapQuadShader;
     delete _grid;
@@ -100,6 +111,7 @@ void MAXEngine::Init() {
     _statusRenderer = MAXStatusRenderer::SharedStatusRenderer();
     _scene = NULL;
     _resourceRenderer = NULL;
+    _fogRenderer = NULL;
 }
 
 void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
@@ -116,6 +128,12 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
     if (_resourceRenderer)
         delete _resourceRenderer;
     _resourceRenderer = new MAXResourceMapRenderer(_map->mapW, _map->mapH);
+    
+    if (_fogRenderer)
+        delete _fogRenderer;
+    _fogRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
+    _fogRenderer->CompletlyFillMap();
+    _fogRenderer->color = GLKVector4Make(0, 0, 0, 0.5);
 }
 
 void MAXEngine::ClearMap()

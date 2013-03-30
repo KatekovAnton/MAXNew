@@ -49,7 +49,6 @@ MAXResourceMapRenderer::~MAXResourceMapRenderer()
     delete _mesh;
     delete _material;
     delete[] _cells;
-    delete [] _tileInformation;
 }
 
 void MAXResourceMapRenderer::AddCellToScan(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount)
@@ -57,7 +56,7 @@ void MAXResourceMapRenderer::AddCellToScan(const int x, const int y, const RESOU
     if (_cells[GetIndexForCoordinates(x, y)]) 
         return;
     _cells[GetIndexForCoordinates(x, y)] = true;
-    _mesh->AddPolygon(x, y, GetTileIndexForResourceTypeAndAmount(type, amount));
+    _mesh->AddPolygon(x, y, GetTileIndexForResourceTypeAndAmount(type, amount), GetIndexForCoordinates(x, y));
 }
 
 void MAXResourceMapRenderer::Draw(Shader *shader)

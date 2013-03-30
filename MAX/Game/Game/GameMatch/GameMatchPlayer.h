@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include "miniPrefix.h"
-#include "MAXContentConstants.h"
 #include "PlayerResearchManager.h"
 #include "GameFogDelegate.h"
 

@@ -34,6 +34,7 @@ class MAXContentMap;
 class MAXUnitObject;
 class MAXStatusRenderer;
 class MAXResourceMapRenderer;
+class MAXSolidTileRenderer;
 
 class MAXEngineDelegate {
 public:
@@ -62,7 +63,8 @@ class MAXEngine : public RequestDelegate  {
     bool lowRender;
 public:
     
-    MAXResourceMapRenderer *_resourceRenderer;
+    MAXResourceMapRenderer  *_resourceRenderer;
+    MAXSolidTileRenderer    *_fogRenderer;
     
     MAXEngineDelegate   *_delegate;
     

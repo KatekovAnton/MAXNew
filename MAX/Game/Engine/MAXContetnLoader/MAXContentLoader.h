@@ -11,8 +11,7 @@
 
 #include <iostream>
 #include <vector>
-#include "MAXContentConstants.h"
-#include "cocos2d.h"
+#include "miniPrefix.h"
 
 #define MAXSCL MAXContentLoader::SharedLoader()
 

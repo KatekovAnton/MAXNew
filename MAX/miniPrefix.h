@@ -81,4 +81,30 @@ typedef enum
     RES_MODE_COUNT
 } RES_MODE_TYPE;
 
+struct __Color
+{
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+    unsigned char a;
+    
+    bool IsNear(unsigned char a1, unsigned char a2) const
+    {
+        return MAX(a1, a2) - MIN(a1, a2)<3;
+    }
+    
+    inline bool operator == (const __Color &color) const
+    {
+        return color.r == r && color.b == b && color.g == g && color.a == a; //IsNear(r, color.r) && IsNear(g, color.g) && IsNear(b, color.b) && IsNear(a, color.a);
+    }
+    
+} typedef Color;
+    
+struct __MAXCoordinates
+{
+    int x;
+    int y;
+        
+} typedef MAXCoordinates;
+
 #endif

@@ -22,7 +22,6 @@ struct TileInformation;
 class MAXResourceMapRenderer {
     
     EngineTiledDynamicMesh  *_mesh;
-    TileInformation         *_tileInformation;
     MAXREsourceMapMaterial  *_material;
     bool                    *_cells;
     

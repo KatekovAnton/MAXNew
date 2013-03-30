@@ -7,6 +7,7 @@
 //
 
 #include "EngineTiledDynamicMesh.h"
+#include "EngineTiledDynamicMeshDelegate.h"
 #include <math.h>
 
 const int vertexSize = sizeof(vertexStruct);
@@ -15,14 +16,18 @@ const size_t vertexNormalOffset = offsetof(vertexStruct,normal);
 const size_t vertexTcoordOffset = offsetof(vertexStruct,tcoord);
 
 EngineTiledDynamicMesh::EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo, int mapW, int mapH)
-:_textureInfo(textureInfo), _vertices(new USimpleContainer<Polygon>(mapH*mapW)), _indices(new USimpleContainer<int>(100)), _mapW(mapW), _mapH(mapH)
+:_textureInfo(textureInfo), _vertices(new USimpleContainer<Polygon>(mapH*mapW)), _mapW(mapW), _mapH(mapH), _delegate_w(NULL)
 {}
 
 EngineTiledDynamicMesh::~EngineTiledDynamicMesh()
-{}
-
-void EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex)
 {
+    delete _vertices;
+}
+
+int EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex, int singleArrayIndex)
+{
+    cellCoordinateIndexHash[_vertices->GetCount()] = singleArrayIndex;
+    
     Polygon poly;
     
     float minposx = -_mapW/2.0;
@@ -79,6 +84,16 @@ void EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex)
     poly.vertexTL1 = vertexTL;
     
     _vertices->addObject(poly);
+    
+    return _vertices->GetCount() - 1;
+}
+
+void EngineTiledDynamicMesh::RemovePolygon(int index)
+{
+    _vertices->remove(index);
+    if (_delegate_w)
+        _delegate_w->ElementDidChangePosition(_vertices->GetCount(), index, cellCoordinateIndexHash[_vertices->GetCount()]);
+    
 }
 
 void EngineTiledDynamicMesh::Draw()
@@ -92,3 +107,5 @@ void EngineTiledDynamicMesh::Draw()
     
     glDrawArrays(GL_TRIANGLES, 0, _vertices->GetCount() * 6);
 }
+
+

@@ -26,6 +26,7 @@
 		8B85506E16F5C165000170D5 /* GIUnitParametersNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */; };
 		8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */; };
 		8B8742951707445D000B234B /* PlayerResourceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8742931707445D000B234B /* PlayerResourceMap.cpp */; };
+		8B874298170758B0000B234B /* MAXSolidTileRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B874296170758B0000B234B /* MAXSolidTileRenderer.cpp */; };
 		8B88EF7C17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */; };
 		8B88EF8517021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */; };
 		8B8A443D169358BE005C4ADA /* grp_aa_rocket.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */; };
@@ -391,6 +392,9 @@
 		8B85507016F5C1FD000170D5 /* GIParameterRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIParameterRow.h; sourceTree = "<group>"; };
 		8B8742931707445D000B234B /* PlayerResourceMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerResourceMap.cpp; sourceTree = "<group>"; };
 		8B8742941707445D000B234B /* PlayerResourceMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerResourceMap.h; sourceTree = "<group>"; };
+		8B874296170758B0000B234B /* MAXSolidTileRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXSolidTileRenderer.cpp; sourceTree = "<group>"; };
+		8B874297170758B0000B234B /* MAXSolidTileRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXSolidTileRenderer.h; sourceTree = "<group>"; };
+		8B87429917075EC5000B234B /* EngineTiledDynamicMeshDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EngineTiledDynamicMeshDelegate.h; sourceTree = "<group>"; };
 		8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXResourceMapRenderer.cpp; sourceTree = "<group>"; };
 		8B88EF7B17021ABE00C0AAB5 /* MAXResourceMapRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXResourceMapRenderer.h; sourceTree = "<group>"; };
 		8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EngineTiledDynamicMesh.cpp; sourceTree = "<group>"; };
@@ -623,7 +627,6 @@
 		D16D48F6168B381D0055F35D /* Snow_4.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_4.wrl; sourceTree = "<group>"; };
 		D16D48F7168B381D0055F35D /* Snow_5.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_5.wrl; sourceTree = "<group>"; };
 		D16D48F8168B381D0055F35D /* Snow_6.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snow_6.wrl; sourceTree = "<group>"; };
-		D16D491C168B456D0055F35D /* MAXContentConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXContentConstants.h; sourceTree = "<group>"; };
 		D188A462168C550600E259B1 /* Crater_7.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Crater_7.wrl; sourceTree = "<group>"; };
 		D188A464168C557300E259B1 /* Green_7.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Green_7.wrl; sourceTree = "<group>"; };
 		D188A466168C565400E259B1 /* Demo_1.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Demo_1.wrl; sourceTree = "<group>"; };
@@ -1160,7 +1163,6 @@
 				D16D48CD168B30A00055F35D /* MAXContentObjects */,
 				D199226B168DF75C0067D6CF /* MAXContentLoader.cpp */,
 				D199226C168DF75C0067D6CF /* MAXContentLoader.h */,
-				D16D491C168B456D0055F35D /* MAXContentConstants.h */,
 			);
 			name = MAXContentLoader;
 			path = MAXContetnLoader;
@@ -1459,6 +1461,8 @@
 				D132DC6216D7AE5B00DEA269 /* MAXStatusRendererUnitDelegate.h */,
 				8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */,
 				8B88EF7B17021ABE00C0AAB5 /* MAXResourceMapRenderer.h */,
+				8B874296170758B0000B234B /* MAXSolidTileRenderer.cpp */,
+				8B874297170758B0000B234B /* MAXSolidTileRenderer.h */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -1545,6 +1549,7 @@
 				D18EDCA41689895B00EE3B4E /* EngineMesh.h */,
 				8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */,
 				8B88EF8417021B4000C0AAB5 /* EngineTiledDynamicMesh.h */,
+				8B87429917075EC5000B234B /* EngineTiledDynamicMeshDelegate.h */,
 			);
 			path = Meshes;
 			sourceTree = "<group>";
@@ -2059,6 +2064,7 @@
 				8BEE7960170388EB00F78F1A /* ShaderResourceMap.vsh in Sources */,
 				D100A842170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp in Sources */,
 				8B8742951707445D000B234B /* PlayerResourceMap.cpp in Sources */,
+				8B874298170758B0000B234B /* MAXSolidTileRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

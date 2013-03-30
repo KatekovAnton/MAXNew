@@ -10,6 +10,7 @@
 #define __MAX__EngineTiledDynamicMesh__
 
 #include <iostream>
+#include <map>
 #include "GlobalConstants.h"
 #include "USimpleContainer.h"
 
@@ -23,26 +24,33 @@ struct Polygon {
 };
 
 using namespace Utils;
+using namespace std;
 
 struct EngineTiledDynamicMeshTextureInfo {
     int tileCountW;
     int tileCountH;
 };
 
+class EngineTiledDynamicMeshDelegate;
+
 class EngineTiledDynamicMesh {
     int _mapW;
     int _mapH;
 public:
     
+    map<int , int> cellCoordinateIndexHash;
+    
+    EngineTiledDynamicMeshDelegate *_delegate_w;
+    
     USimpleContainer<Polygon> *_vertices;
-    USimpleContainer<int> *_indices;
     
     EngineTiledDynamicMeshTextureInfo _textureInfo;
     
     EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo, int mapW, int mapH);
     ~EngineTiledDynamicMesh();
     
-    void AddPolygon(int x, int y, int tileIndex);
+    int AddPolygon(int x, int y, int tileIndex, int singleArrayIndex);
+    void RemovePolygon(int index);
     void Draw();
 };
 
