@@ -87,6 +87,7 @@ GameInterface::GameInterface()
     _drawRange = false;
     _drawShots = false;
     _drawStatus = false;
+    _drawFog = false;
     
     Scale = Display::currentDisplay()->GetDisplayScale();
 }
@@ -134,6 +135,10 @@ void GameInterface::InitBaseInterface()
     _toggleResourcesButton->setPosition(ccp(bx,130));
     menu->addChild(_toggleResourcesButton);
     
+    _toggleFogButton = createMenuItemFromMaxres("Fog", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleFog));
+    _toggleFogButton->setPosition(ccp(bx,100));
+    menu->addChild(_toggleFogButton);
+    
     _toggleLockUnitsButton = createMenuItemFromMaxres("", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,300));
     menu->addChild(_toggleLockUnitsButton);
@@ -157,11 +162,14 @@ void GameInterface::InitBaseInterface()
     UpdateToggleShotsButton();
     UpdateToggleStatusButton();
     UpdateToggleResourcesButton();
+    UpdateToggleFogButton();
     
 //    CCSprite* spr1 = CCSprite::createWithTexture(MAXSCL->resourceTiles);
 //    spr1->setPosition(ccp(0,0));
 //    spr1->setAnchorPoint(ccp(0, 0));
 //    addChild(spr1);
+
+    OnToggleFog();
 }
 
 #pragma mark - Update left buttons
@@ -220,6 +228,14 @@ void GameInterface::UpdateToggleResourcesButton()
         _toggleResourcesButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
     else
         _toggleResourcesButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+}
+
+void GameInterface::UpdateToggleFogButton()
+{
+    if(_drawFog)
+        _toggleFogButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+    else
+        _toggleFogButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 #pragma mark - Button events
@@ -284,6 +300,14 @@ void GameInterface::OnToggleResources()
         engine->drawResources = _drawResources;
     UpdateToggleResourcesButton();
 }
+
+void GameInterface::OnToggleFog()
+{
+    _drawFog = !_drawFog;
+    engine->drawFog = _drawFog;
+    UpdateToggleFogButton();
+}
+
 
 void GameInterface::OnTogglePanel()
 {

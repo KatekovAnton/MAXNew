@@ -36,8 +36,8 @@ public:
     ~MAXSolidTileRenderer();
     
     void CompletlyFillMap();
-    void AddCellToScan(const int x, const int y);
-    void RemoveCellFromScan(const int x, const int y);
+    void AddCell(const int x, const int y);
+    void RemoveCell(const int x, const int y);
     
     void Draw(Shader *shader);
     

@@ -39,22 +39,23 @@ void MAXSolidTileRenderer::CompletlyFillMap()
 {
     for (int i = 0; i < _mapH; i++) {
         for (int j = 0; j < _mapW; j++) {
-            AddCellToScan(j, i);
+            AddCell(j, i);
         }
     }
 }
 
-void MAXSolidTileRenderer::AddCellToScan(const int x, const int y)
+void MAXSolidTileRenderer::AddCell(const int x, const int y)
 {
     if (_cells[GetIndexForCoordinates(x, y)] != emptyValue)
         return;
     _cells[GetIndexForCoordinates(x, y)] = _mesh->AddPolygon(x, y, 0, GetIndexForCoordinates(x, y));
 }
 
-void MAXSolidTileRenderer::RemoveCellFromScan(const int x, const int y)
+void MAXSolidTileRenderer::RemoveCell(const int x, const int y)
 {
     int index = GetIndexForCoordinates(x, y);
     int meshIndex = _cells[index];
+    _cells[GetIndexForCoordinates(x, y)] = emptyValue;
     _mesh->RemovePolygon(meshIndex);
 }
 

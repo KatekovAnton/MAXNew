@@ -149,7 +149,10 @@ float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog 
 void GameMatchPlayer::CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const
 {
     if (fog == _fog) {
-        
+       if (GetIsCurrentPlayer())
+       {
+           engine->AddFogCell(cellX, cellY, !visibleFlag);
+       }
     }
     if (fog == _resourceMapFog)
     {

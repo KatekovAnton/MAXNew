@@ -76,6 +76,7 @@ void MAXEngine::Init() {
     SysInit();
     drawGrid = false;
     drawResources = false;
+    drawFog = false;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
@@ -134,7 +135,7 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
         delete _fogRenderer;
     _fogRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
     _fogRenderer->CompletlyFillMap();
-    _fogRenderer->color = GLKVector4Make(0, 0, 0, 0.5);
+    _fogRenderer->color = GLKVector4Make(0, 0, 0, 0.4);
 }
 
 void MAXEngine::ClearMap()
@@ -174,9 +175,9 @@ void MAXEngine::AddFogCell(const int x, const int y, const bool fog)
         return;
     
     if (fog)
-        _fogRenderer->AddCellToScan(x, y);
+        _fogRenderer->AddCell(x, y);
     else
-        _fogRenderer->RemoveCellFromScan(x, y);
+        _fogRenderer->RemoveCell(x, y);
 }
 
 void MAXEngine::GetAllObjectsInArea(BoundingBox bb, USimpleContainer<MAXObject*> *buffer)
@@ -340,6 +341,9 @@ void MAXEngine::DrawResourceMap()
 
 void MAXEngine::DrawFog()
 {
+    if (!drawFog) 
+        return;
+
     _shader = _fogShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);

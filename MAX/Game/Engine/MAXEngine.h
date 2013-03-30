@@ -74,6 +74,7 @@ public:
     float displayw,displayh;
     bool drawGrid;
     bool drawResources;
+    bool drawFog;
     
     int _applyedPaletteIndex = -100;
     int _applyedPaletteCount = 0;
