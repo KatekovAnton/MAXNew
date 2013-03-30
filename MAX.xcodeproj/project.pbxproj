@@ -27,6 +27,10 @@
 		8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */; };
 		8B8742951707445D000B234B /* PlayerResourceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8742931707445D000B234B /* PlayerResourceMap.cpp */; };
 		8B874298170758B0000B234B /* MAXSolidTileRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B874296170758B0000B234B /* MAXSolidTileRenderer.cpp */; };
+		8B87429C1707694A000B234B /* ShaderSolidFog.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 8B87429A1707694A000B234B /* ShaderSolidFog.fsh */; };
+		8B87429D1707694A000B234B /* ShaderSolidFog.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 8B87429B1707694A000B234B /* ShaderSolidFog.vsh */; };
+		8B87429E17076998000B234B /* ShaderSolidFog.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8B87429A1707694A000B234B /* ShaderSolidFog.fsh */; };
+		8B87429F17076998000B234B /* ShaderSolidFog.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8B87429B1707694A000B234B /* ShaderSolidFog.vsh */; };
 		8B88EF7C17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */; };
 		8B88EF8517021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */; };
 		8B8A443D169358BE005C4ADA /* grp_aa_rocket.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */; };
@@ -395,6 +399,8 @@
 		8B874296170758B0000B234B /* MAXSolidTileRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXSolidTileRenderer.cpp; sourceTree = "<group>"; };
 		8B874297170758B0000B234B /* MAXSolidTileRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXSolidTileRenderer.h; sourceTree = "<group>"; };
 		8B87429917075EC5000B234B /* EngineTiledDynamicMeshDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EngineTiledDynamicMeshDelegate.h; sourceTree = "<group>"; };
+		8B87429A1707694A000B234B /* ShaderSolidFog.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderSolidFog.fsh; sourceTree = "<group>"; };
+		8B87429B1707694A000B234B /* ShaderSolidFog.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderSolidFog.vsh; sourceTree = "<group>"; };
 		8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXResourceMapRenderer.cpp; sourceTree = "<group>"; };
 		8B88EF7B17021ABE00C0AAB5 /* MAXResourceMapRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXResourceMapRenderer.h; sourceTree = "<group>"; };
 		8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EngineTiledDynamicMesh.cpp; sourceTree = "<group>"; };
@@ -1488,6 +1494,8 @@
 				D1992272168E1DE40067D6CF /* ShaderUnit.vsh */,
 				8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */,
 				8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */,
+				8B87429A1707694A000B234B /* ShaderSolidFog.fsh */,
+				8B87429B1707694A000B234B /* ShaderSolidFog.vsh */,
 				D18EDCD9168B2AF600EE3B4E /* ShaderMap.fsh */,
 				D18EDCDA168B2AF600EE3B4E /* ShaderMap.vsh */,
 				D18EDC821689847B00EE3B4E /* ShaderBackground.vsh */,
@@ -1740,6 +1748,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B87429E17076998000B234B /* ShaderSolidFog.fsh in Resources */,
+				8B87429F17076998000B234B /* ShaderSolidFog.vsh in Resources */,
 				8BEE79611703894400F78F1A /* ShaderResourceMap.fsh in Resources */,
 				8BEE79621703894400F78F1A /* ShaderResourceMap.vsh in Resources */,
 				D1F816E516F9C84400873348 /* ShaderUnitLow.fsh in Resources */,
@@ -2065,6 +2075,8 @@
 				D100A842170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp in Sources */,
 				8B8742951707445D000B234B /* PlayerResourceMap.cpp in Sources */,
 				8B874298170758B0000B234B /* MAXSolidTileRenderer.cpp in Sources */,
+				8B87429C1707694A000B234B /* ShaderSolidFog.fsh in Sources */,
+				8B87429D1707694A000B234B /* ShaderSolidFog.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

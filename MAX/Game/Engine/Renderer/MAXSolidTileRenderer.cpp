@@ -21,7 +21,7 @@ int MAXSolidTileRenderer::GetIndexForCoordinates(const int x, const int y) const
 MAXSolidTileRenderer::MAXSolidTileRenderer(const int mapW, const int mapH)
 :_mesh(NULL), _cells(new int[mapH * mapW]), _mapW(mapW), _mapH(mapH)
 {
-    memset(_cells, emptyValue, mapH * mapW);
+    memset(_cells, emptyValue, mapH * mapW * sizeof(int));
     EngineTiledDynamicMeshTextureInfo info;
     info.tileCountH = 1;
     info.tileCountW = 1;

@@ -368,6 +368,8 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
     
     if (_currentUnit)
         engine->drawResources = _drawResources || _currentUnit->_config->GetIsSurvivor();
+    else
+        engine->drawResources = _drawResources;
     
 }
 

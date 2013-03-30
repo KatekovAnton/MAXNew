@@ -90,6 +90,7 @@ void MAXEngine::Init() {
     _mapShader = new Shader("ShaderMap.vsh", "ShaderMap.fsh");
     _mapQuadShader = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
     _resourceMapShader = new Shader("ShaderResourceMap.vsh", "ShaderResourceMap.fsh");
+    _fogShader = new Shader("ShaderSolidFog.vsh", "ShaderSolidFog.fsh");
     _mapQuadMesh = EngineMesh::CreateScaledQuad(2,2);
     MAXDrawPrimitives::SharedDrawPrimitives();
 
@@ -165,6 +166,17 @@ void MAXEngine::AddResourceCell(const int x, const int y, const RESOURCE_TYPE ty
         return;
     
     _resourceRenderer->AddCellToScan(x, y, type, amount);
+}
+
+void MAXEngine::AddFogCell(const int x, const int y, const bool fog)
+{
+    if (!_fogRenderer) 
+        return;
+    
+    if (fog)
+        _fogRenderer->AddCellToScan(x, y);
+    else
+        _fogRenderer->RemoveCellFromScan(x, y);
 }
 
 void MAXEngine::GetAllObjectsInArea(BoundingBox bb, USimpleContainer<MAXObject*> *buffer)
@@ -251,6 +263,7 @@ void MAXEngine::Draw()
     DrawGrid();
     DrawUnits();
     DrawResourceMap();
+    DrawFog();
     _unitSelection->Draw();
     _statusRenderer->DrawCircles();
     glUseProgram(prog);
@@ -323,6 +336,15 @@ void MAXEngine::DrawResourceMap()
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
     _resourceRenderer->Draw(_shader);
+}
+
+void MAXEngine::DrawFog()
+{
+    _shader = _fogShader;
+    glUseProgram(_shader->GetProgram());
+    _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
+    _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+    _fogRenderer->Draw(_shader);
 }
 
 void MAXEngine::DrawInterface()

@@ -57,6 +57,7 @@ class MAXEngine : public RequestDelegate  {
     Shader              *_mapShader;
     Shader              *_mapQuadShader;
     Shader              *_resourceMapShader;
+    Shader              *_fogShader;
     shared_ptr<EngineMesh> _mapQuadMesh;
     float             _color;
     
@@ -97,6 +98,7 @@ public:
     void AddUnit(PivotObject* newUnit);
     void RemoveUnit(PivotObject* newUnit);
     void AddResourceCell(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
+    void AddFogCell(const int x, const int y, const bool fog);
     
     void RunLoop(double delta);
     
@@ -109,6 +111,7 @@ public:
     void DrawGround();
     void DrawUnits();
     void DrawResourceMap();
+    void DrawFog();
     void DrawGrid();
     void DrawInterface();
     void EndFrame();
