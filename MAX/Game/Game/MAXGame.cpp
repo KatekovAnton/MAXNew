@@ -16,6 +16,7 @@
 #include "MAXConfigManager.h"
 #include "MAXContentLoader.h"
 #include "MAXUnitObject.h"
+#include "MAXAnimationPrefix.h"
 
 #include "GameMap.h"
 #include "GameFog.h"
@@ -29,6 +30,7 @@ MAXGame globalGame;
 MAXGame * game = &globalGame;
 
 MAXGame::MAXGame()
+:_testUnit(NULL), iteration(0)
 {
     _currentState = MAXGAMESTATE_GAME;
     _effects = new USimpleContainer<GameEffect*>();
@@ -56,6 +58,26 @@ void MAXGame::Init()
     Display::currentDisplay()->SetPinchDelegate(this);
     engine->_delegate = this;
     StartMatch();
+    StartTest();
+}
+
+void MAXGame::StartTest()
+{
+    if (!_testUnit) {
+        return;
+    }
+    _testUnit->SetDirection(3);
+
+    MAXAnimationSequence* sequence = new MAXAnimationSequence();
+    CCPoint _unitCell = _testUnit->GetUnitCell();
+    for (int i = 0; i < 28; i++) {
+        CCPoint destination = ccp(_unitCell.x + 1, _unitCell.y + 1);
+        MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _testUnit->GetUnitObject());
+        _unitCell = destination;
+        step2->_delegate = _testUnit;
+        sequence->AddAnimation(step2);
+    }
+    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
 }
 
 void MAXGame::StartMatch()
@@ -124,10 +146,12 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
+    
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 58, "Awac", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
+        _testUnit = unit1;
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 58, "Scout", 0);

@@ -26,6 +26,8 @@ EngineTiledDynamicMesh::~EngineTiledDynamicMesh()
 
 int EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex, int singleArrayIndex)
 {
+    if (meshIndexToCoordianteHash.count(_vertices->GetCount())!=0)
+        meshIndexToCoordianteHash.erase(_vertices->GetCount());
     meshIndexToCoordianteHash[_vertices->GetCount()] = singleArrayIndex;
     
     Polygon poly;
@@ -95,7 +97,7 @@ void EngineTiledDynamicMesh::RemovePolygon(int index)
     _delegate_w->ElementDidChangePosition(_vertices->GetCount(), index, meshIndexToCoordianteHash[_vertices->GetCount()]);
     
     meshIndexToCoordianteHash[index] = meshIndexToCoordianteHash[_vertices->GetCount()];
-    
+    meshIndexToCoordianteHash.erase(_vertices->GetCount());
 }
 
 void EngineTiledDynamicMesh::Draw()

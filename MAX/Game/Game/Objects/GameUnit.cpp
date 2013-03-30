@@ -171,11 +171,6 @@ void GameUnit::LowerPlane()
 void GameUnit::LiftPlane()
 {}
 
-void GameUnit::UnsafeSetUnitCell(const CCPoint &point)//DONT USE THIS METHOD!!!!
-{
-    _unitCell = point;
-}
-
 void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
 {
     if (_currentTopAnimation) 
@@ -259,7 +254,7 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
 
 void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
-    if (animation == _moveAnimation)
+  //  if (animation == _moveAnimation)
     {
         CCPoint unitCell = GetUnitCell();
         CCPoint realCell = GetUnitObject()->GetObjectCell();
@@ -297,8 +292,10 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
     }
     else
     {
-        _currentTopAnimation->_delegate = NULL;
-        _currentTopAnimation = NULL;
+        if (_currentTopAnimation) {
+            _currentTopAnimation->_delegate = NULL;
+            _currentTopAnimation = NULL;
+        }
     }
 }
 

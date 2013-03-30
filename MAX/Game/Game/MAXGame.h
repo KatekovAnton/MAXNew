@@ -41,6 +41,9 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate {
     GameInterface *_gameInterface;
     GameMatch *_match;
     
+    int iteration;
+    void StartTest();
+    
 public:
     
     USimpleContainer<GameEffect*> *_effects;
@@ -48,6 +51,8 @@ public:
     MAXGAMESTATE GetCurrentState() const {return _currentState;}
     GameMatch *GetCurrentMatch() const {return _match;}
     GameUnit *_currentUnit;
+    
+    GameUnit *_testUnit;
     
     MAXGame();
     ~MAXGame();

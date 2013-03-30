@@ -96,7 +96,11 @@ void GameFog::EndUpdates()
         for (int y = _updatingBox.min.y; y <= _updatingBox.max.y; y++)
         {
             if ((_gameField[IndexOf(x, y)] == 0) != (_gameFieldLast[IndexOf(x, y)] == 0) && _delegate_w)
-                _delegate_w->CellDidUpdate(x, y, this, _gameField[IndexOf(x, y)] != 0);
+            {
+                int value = _gameField[IndexOf(x, y)];
+                bool flag = value != 0;
+                _delegate_w->CellDidUpdate(x, y, this, flag);
+            }
         }
     }
 }

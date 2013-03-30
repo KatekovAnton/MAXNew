@@ -174,6 +174,11 @@ void MAXEngine::AddFogCell(const int x, const int y, const bool fog)
     if (!_fogRenderer) 
         return;
     
+//    if (x==86 && y == 99) {
+//        int a = 0;
+//        a++;
+//    }
+    
     if (fog)
         _fogRenderer->AddCell(x, y);
     else
