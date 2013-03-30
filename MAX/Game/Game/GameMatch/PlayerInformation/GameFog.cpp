@@ -34,13 +34,15 @@ void GameFog::Recount(GameUnit *unit, bool withIncreasing, const CCPoint &center
 {
     BoundingBox box = unit->GetScanBoundingBox(centerPoint);
     CCPoint scannedPoint = ccp(box.min.x, box.min.y);
-    
+    float radius = 0;
+    if(_delegate_w)
+        radius = _delegate_w->UnitScanRadiusForFog(unit, this);
     for (int x = box.min.x; x <= box.max.x; x++)
     {
         for (int y = box.min.y; y <= box.max.y; y++)
         {
             scannedPoint.setPoint(x, y);
-            if (unit->IsInScanRadius(scannedPoint, centerPoint))
+            if (unit->IsInRadius(scannedPoint, radius, centerPoint))
             {
                 if (withIncreasing)
                     Increase(scannedPoint);

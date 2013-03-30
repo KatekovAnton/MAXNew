@@ -12,12 +12,12 @@
 #include "MAXREsourceMapMaterial.h"
 #include "MAXContentLoader.h"
 
-int MAXResourceMapRenderer::GetIndexForCoordinates(int x, int y) const
+int MAXResourceMapRenderer::GetIndexForCoordinates(const int x, const int y) const
 {
     return y * _mapW + x;
 }
 
-int MAXResourceMapRenderer::GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE type, unsigned char amount) const
+int MAXResourceMapRenderer::GetTileIndexForResourceTypeAndAmount(const RESOURCE_TYPE type, const unsigned char amount) const
 {
     if (type == RESOURCE_TYPE_NONE || amount == 0) 
         return 0;
@@ -29,10 +29,10 @@ int MAXResourceMapRenderer::GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE t
     if (type == RESOURCE_TYPE_RAW)
         stride += 32;
         
-    return stride + amount - 1;
+    return stride + (int)amount - 1;
 }
 
-MAXResourceMapRenderer::MAXResourceMapRenderer(int mapW, int mapH)
+MAXResourceMapRenderer::MAXResourceMapRenderer(const int mapW, const int mapH)
 :_mesh(NULL), _material(new MAXREsourceMapMaterial()), _cells(new bool[mapH * mapW]), _mapW(mapW), _mapH(mapH)
 {
     memset(_cells, 0, mapH * mapW);
@@ -52,7 +52,7 @@ MAXResourceMapRenderer::~MAXResourceMapRenderer()
     delete [] _tileInformation;
 }
 
-void MAXResourceMapRenderer::AddCellToScan(int x, int y, RESOURCE_TYPE type, unsigned char amount)
+void MAXResourceMapRenderer::AddCellToScan(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount)
 {
     if (_cells[GetIndexForCoordinates(x, y)]) 
         return;

@@ -31,13 +31,13 @@ class MAXResourceMapRenderer {
     
 public:
     
-    int GetIndexForCoordinates(int x, int y) const;
-    int GetTileIndexForResourceTypeAndAmount(RESOURCE_TYPE type, unsigned char amount) const;
+    int GetIndexForCoordinates(const int x, const int y) const;
+    int GetTileIndexForResourceTypeAndAmount(const RESOURCE_TYPE type, const unsigned char amount) const;
     
-    MAXResourceMapRenderer(int mapW, int mapH);
+    MAXResourceMapRenderer(const int mapW, const int mapH);
     ~MAXResourceMapRenderer();
     
-    void AddCellToScan(int x, int y, RESOURCE_TYPE type, unsigned char amount);
+    void AddCellToScan(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
     
     void Draw(Shader *shader);
 

@@ -8,17 +8,21 @@
 
 #include "GameMatchPlayer.h"
 #include "Texture.h"
-#include "PlayerBase.h"
+
 #include "GameUnit.h"
 #include "GameUnitParameters.h"
 #include "GameMatch.h"
+
 #include "MAXEngine.h"
-#include "Texture.h"
 #include "MAXClanConfig.h"
 #include "MAXContentLoader.h"
 #include "MAXConfigManager.h"
+
 #include "PlayerUpgradeManager.h"
 #include "PlayerResearchManager.h"
+#include "PlayerResourceMap.h"
+#include "PlayerBase.h"
+
 #include "GameMap.h"
 #include "GameFog.h"
 
@@ -35,12 +39,14 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     _fog->_delegate_w = this;
     _resourceMapFog = new GameFog(match->_map->GetMapWidth(), match->_map->GetMapHeight());
     _resourceMapFog->_delegate_w = this;
+    _resourceMap = new PlayerResourceMap(match->_map->GetMapWidth(), match->_map->GetMapHeight());
 }
 
 GameMatchPlayer::~GameMatchPlayer()
 {
     delete _upgradeManager;
     delete _researchManager;
+    delete _resourceMap;
 
     for (int i = 0; i < _palettes.size(); i++) {
         Texture* t = _palettes[i];
@@ -55,6 +61,11 @@ GameMatchPlayer::~GameMatchPlayer()
         unit->Hide();
         delete unit;
     }
+}
+
+bool GameMatchPlayer::GetIsCurrentPlayer() const
+{
+    return this == _match_w->_currentPlayer_w;
 }
 
 GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned int ID)
@@ -124,15 +135,34 @@ bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *f
     return false;
 }
 
+float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const
+{
+    if (fog == _fog) 
+        return unit->_config->_pScan;
+    
+    if (fog == _resourceMapFog) 
+        return 1.5;
+    
+    return 0;
+}
+
 void GameMatchPlayer::CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const
 {
     if (fog == _fog) {
         
     }
-    if (fog == _resourceMapFog) {
-        
+    if (fog == _resourceMapFog)
+    {
+        if (visibleFlag)
+        {
+    //        printf("added cell %d %d\n", cellX, cellY);
+            _resourceMap->AddCell(cellX, cellY);
+            if (GetIsCurrentPlayer()) 
+                engine->AddResourceCell(cellX, cellY, _match_w->_resources->GetResourceTypeAt(cellX, cellY), _match_w->_resources->GetResourceValueAt(cellX, cellY));
+        }
     }
 }
+
 
 
 

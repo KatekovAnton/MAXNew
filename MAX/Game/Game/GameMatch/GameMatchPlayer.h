@@ -22,6 +22,7 @@ class PlayerBase;
 
 class PlayerResearchManager;
 class PlayerUpgradeManager;
+class PlayerResourceMap;
 
 class GameMatch;
 class GameFog;
@@ -43,14 +44,16 @@ class GameMatchPlayer : public GameFogDelegate {
     
 public:
     
+    bool GetIsCurrentPlayer() const;
     Texture** GetPalettePointer() {return &_palette;};
     
     GameMatch *_match_w;
     
     int researchCentersWorkingOnArea[kNrResearchAreas]; ///< counts the number of research centers that are currently working on each area
     
-    PlayerResearchManager* _researchManager;
-    PlayerUpgradeManager* _upgradeManager;
+    PlayerResearchManager   *_researchManager;
+    PlayerUpgradeManager    *_upgradeManager;
+    PlayerResourceMap       *_resourceMap;
     
     MAXClanConfig* _clanConfig;
     CCPoint _landingPosition;
@@ -80,6 +83,7 @@ public:
 #pragma mark - GameFogDelegate
 
     virtual bool UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const;
+    virtual float UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const;
     virtual void CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const;
     
 };

@@ -16,9 +16,7 @@ const size_t vertexTcoordOffset = offsetof(vertexStruct,tcoord);
 
 EngineTiledDynamicMesh::EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo, int mapW, int mapH)
 :_textureInfo(textureInfo), _vertices(new USimpleContainer<Polygon>(mapH*mapW)), _indices(new USimpleContainer<int>(100)), _mapW(mapW), _mapH(mapH)
-{
-    
-}
+{}
 
 EngineTiledDynamicMesh::~EngineTiledDynamicMesh()
 {}
@@ -46,24 +44,28 @@ void EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex)
     
     vertexTL.position[0] = minposx + x;
     vertexTL.position[1] = _mapH - (minposy + y);
+    vertexTL.position[2] = 0;
     vertexTL.tcoord[0] = singleTileW * _x;
     vertexTL.tcoord[1] = singleTileH * _y;
     
 
     vertexBR.position[0] = minposx + x + 1;
     vertexBR.position[1] = (_mapH - (minposy + y + 1));
+    vertexBR.position[2] = 0;
     vertexBR.tcoord[0] = singleTileW * _x + singleTileW;
     vertexBR.tcoord[1] = singleTileH * _y + singleTileH;
     
     
     vertexBL.position[0] = minposx + x;
     vertexBL.position[1] = (_mapH - (minposy + y + 1));
+    vertexBL.position[2] = 0;
     vertexBL.tcoord[0] = singleTileW * _x;
     vertexBL.tcoord[1] = singleTileH * _y + singleTileH;
     
     
     vertexTR.position[0] = minposx + x + 1;
     vertexTR.position[1] = _mapH - (minposy + y);
+    vertexTR.position[2] = 0;
     vertexTR.tcoord[0] = singleTileW * _x + singleTileW;
     vertexTR.tcoord[1] = singleTileH * _y;
     
@@ -88,5 +90,5 @@ void EngineTiledDynamicMesh::Draw()
     glEnableVertexAttribArray(ATTRIB_TCOORD);
     glVertexAttribPointer(ATTRIB_TCOORD, 2, GL_FLOAT, GL_FALSE, vertexSize, (void*)((char*)_vertices->GetArrayPointer() + vertexTcoordOffset));
     
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLES, 0, _vertices->GetCount() * 6);
 }

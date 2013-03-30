@@ -10,10 +10,8 @@
 #define __MAX__MAXEngine__
 
 #include <iostream>
-#include "cocos2d.h"
 #include "RequestDelegate.h"
-#include "Geometry.h"
-#include "USimpleContainer.h"
+#include "miniPrefix.h"
 
 using namespace Utils;
 using namespace cocos2d;
@@ -96,6 +94,7 @@ public:
     void SelectUnit(MAXObject* unit);
     void AddUnit(PivotObject* newUnit);
     void RemoveUnit(PivotObject* newUnit);
+    void AddResourceCell(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
     
     void RunLoop(double delta);
     

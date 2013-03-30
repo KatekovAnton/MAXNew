@@ -13,6 +13,7 @@
 #include "GameUnit.h"
 #include "MAXEngine.h"
 #include "MAXStatusRenderer.h"
+#include "GameUnitParameters.h"
 
 float Scale = 1.0;
 float panelW = 70;
@@ -277,7 +278,10 @@ void GameInterface::OnToggleStatus()
 void GameInterface::OnToggleResources()
 {
     _drawResources = !_drawResources;
-    engine->drawResources = _drawResources;
+    if (_currentUnit) 
+        engine->drawResources = _drawResources || _currentUnit->_config->GetIsSurvivor();
+    else
+        engine->drawResources = _drawResources;
     UpdateToggleResourcesButton();
 }
 
@@ -360,6 +364,10 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
     
     }
     _currentUnit = unit;
+    
+    
+    if (_currentUnit)
+        engine->drawResources = _drawResources || _currentUnit->_config->GetIsSurvivor();
     
 }
 

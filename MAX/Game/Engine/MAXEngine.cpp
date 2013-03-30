@@ -48,6 +48,18 @@ MAXEngine::MAXEngine()
     _renderSystem = new RenderSystem();
 }
 
+MAXEngine::~MAXEngine()
+{
+    delete _animationManager;
+    delete _renderSystem;
+    delete _shader;
+    delete _mapShader;
+    delete _mapQuadShader;
+    delete _grid;
+    delete _scene;
+    delete _unitSelection;
+}
+
 void MAXEngine::Init() {
     
     SysInit();
@@ -129,21 +141,17 @@ void MAXEngine::RemoveUnit(PivotObject* newUnit)
     newUnit->HasBeenRemovedFromScene();
 }
 
+void MAXEngine::AddResourceCell(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount)
+{
+    if (!_resourceRenderer)
+        return;
+    
+    _resourceRenderer->AddCellToScan(x, y, type, amount);
+}
+
 void MAXEngine::GetAllObjectsInArea(BoundingBox bb, USimpleContainer<MAXObject*> *buffer)
 {
     _scene->GetAllObjectsInArea(bb, (USimpleContainer<PivotObject*>*)buffer);
-}
-
-MAXEngine::~MAXEngine()
-{
-    delete _animationManager;
-    delete _renderSystem;
-    delete _shader;
-    delete _mapShader;
-    delete _mapQuadShader;
-    delete _grid;
-    delete _scene;
-    delete _unitSelection;
 }
 
 Shader * MAXEngine::GetShader()
