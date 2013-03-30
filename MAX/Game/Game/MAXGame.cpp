@@ -58,7 +58,7 @@ void MAXGame::Init()
     Display::currentDisplay()->SetPinchDelegate(this);
     engine->_delegate = this;
     StartMatch();
-    StartTest();
+   // StartTest();
 }
 
 void MAXGame::StartTest()
@@ -152,6 +152,16 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
         _testUnit = unit1;
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(0, 0, "Awac", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(111, 111, "Awac", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 58, "Scout", 0);

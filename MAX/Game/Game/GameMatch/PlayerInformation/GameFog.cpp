@@ -91,6 +91,15 @@ void GameFog::BeginUpdates()
 
 void GameFog::EndUpdates()
 {
+    if (_updatingBox.min.x < 0) 
+        _updatingBox.min.x = 0;
+    if (_updatingBox.min.y < 0)
+        _updatingBox.min.y = 0;
+    if (_updatingBox.max.x >= _mapWidth-1)
+        _updatingBox.max.x = _mapWidth-1;
+    if (_updatingBox.max.y >= _mapHeight-1)
+        _updatingBox.max.y = _mapHeight-1;
+    
     for (int x = _updatingBox.min.x; x <= _updatingBox.max.x; x++)
     {
         for (int y = _updatingBox.min.y; y <= _updatingBox.max.y; y++)
