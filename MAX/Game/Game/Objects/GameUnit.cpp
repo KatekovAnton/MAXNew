@@ -75,6 +75,7 @@ void GameUnit::Show()
     GameObject::Show();
     if (_effectUnder)
         _effectUnder->Show();
+    CheckBodyAndShadow();
 }
 
 void GameUnit::Hide()

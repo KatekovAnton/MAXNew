@@ -289,8 +289,8 @@ void MAXUnitObject::Draw(Shader *shader)
         _material->index = bodyIndex;
         _material->ApplyShadowLod(0, shader);
         _renderAspect->RenderShadow(0, _material);
-        shader->SetFloatValue(UNIFORM_ALPHA, 1.0);
     }
+    shader->SetFloatValue(UNIFORM_ALPHA, 1.0);
     if (IsHasBody())
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
