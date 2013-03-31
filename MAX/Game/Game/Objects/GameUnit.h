@@ -27,6 +27,7 @@ class MAXObjectConfig;
 class GameUnitParameters;
 class GameMatchPlayer;
 class GameEffect;
+class PFWaveCell;
 
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatusRendererUnitDelegate {
     
@@ -37,6 +38,11 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     bool _isInProcess;
     
     bool _isPlacedOnMap;
+    
+    std::vector<PFWaveCell*> movePath;
+    int pathIndex;
+    
+    bool MoveToNextCell(void);
     
 public:
     
@@ -52,6 +58,7 @@ public:
     
     void CheckBodyAndShadow();
     void SetUnitLocationAnimated(const CCPoint& destination);
+    void SetPath(std::vector<PFWaveCell*> path);
     
     void LowerPlane();
     void LiftPlane();

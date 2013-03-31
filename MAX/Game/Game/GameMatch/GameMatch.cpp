@@ -16,6 +16,7 @@
 #include "MAXMapMaterial.h"
 #include "GameMapResources.h"
 #include "GameSettings.h"
+#include "Pathfinder.h"
 
 void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
 {
@@ -46,7 +47,7 @@ GameMatch::GameMatch(const string& configName, const string& mapName, const vect
     
     _currentPlayer_w = _players[0];
     
-    
+    _pathfinder = new Pathfinder(_map);
 }
 
 GameMatch::~GameMatch()
@@ -62,4 +63,6 @@ GameMatch::~GameMatch()
         GameMatchPlayer* player = _players[i];
         delete player;
     }
+    if (_pathfinder)
+        delete _pathfinder;
 }

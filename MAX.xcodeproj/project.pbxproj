@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		5127D6061700977200486F12 /* GameMapResources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6041700977200486F12 /* GameMapResources.cpp */; };
 		5127D6091701741700486F12 /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6071701741600486F12 /* GameSettings.cpp */; };
+		5127D6101702C3FB00486F12 /* Pathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D60E1702C3FB00486F12 /* Pathfinder.cpp */; };
+		5127D6131702C42B00486F12 /* PFWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6111702C42B00486F12 /* PFWave.cpp */; };
+		5127D6191702C46C00486F12 /* PFWaveCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6171702C46800486F12 /* PFWaveCell.cpp */; };
 		8B54D40516ECFBFC00935B1A /* MAXAnimationObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */; };
 		8B54D40816ECFD9800935B1A /* MAXAnimationEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B54D40616ECFD9700935B1A /* MAXAnimationEffect.cpp */; };
 		8B7CA08816C81F9F00282A74 /* CCScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B7CA08016C81F9F00282A74 /* CCScrollView.cpp */; };
@@ -360,6 +363,12 @@
 		5127D6051700977200486F12 /* GameMapResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMapResources.h; sourceTree = "<group>"; };
 		5127D6071701741600486F12 /* GameSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSettings.cpp; sourceTree = "<group>"; };
 		5127D6081701741600486F12 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSettings.h; sourceTree = "<group>"; };
+		5127D60E1702C3FB00486F12 /* Pathfinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Pathfinder.cpp; path = Pathfinder/Pathfinder.cpp; sourceTree = "<group>"; };
+		5127D60F1702C3FB00486F12 /* Pathfinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Pathfinder.h; path = Pathfinder/Pathfinder.h; sourceTree = "<group>"; };
+		5127D6111702C42B00486F12 /* PFWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PFWave.cpp; path = Pathfinder/PFWave.cpp; sourceTree = "<group>"; };
+		5127D6121702C42B00486F12 /* PFWave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWave.h; path = Pathfinder/PFWave.h; sourceTree = "<group>"; };
+		5127D6171702C46800486F12 /* PFWaveCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PFWaveCell.cpp; path = Pathfinder/PFWaveCell.cpp; sourceTree = "<group>"; };
+		5127D6181702C46900486F12 /* PFWaveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWaveCell.h; path = Pathfinder/PFWaveCell.h; sourceTree = "<group>"; };
 		8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObject.cpp; sourceTree = "<group>"; };
 		8B54D40416ECFBFC00935B1A /* MAXAnimationObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationObject.h; sourceTree = "<group>"; };
 		8B54D40616ECFD9700935B1A /* MAXAnimationEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationEffect.cpp; sourceTree = "<group>"; };
@@ -825,6 +834,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5127D60D1702C39500486F12 /* PathFinder */ = {
+			isa = PBXGroup;
+			children = (
+				5127D60E1702C3FB00486F12 /* Pathfinder.cpp */,
+				5127D60F1702C3FB00486F12 /* Pathfinder.h */,
+				5127D6111702C42B00486F12 /* PFWave.cpp */,
+				5127D6121702C42B00486F12 /* PFWave.h */,
+				5127D6171702C46800486F12 /* PFWaveCell.cpp */,
+				5127D6181702C46900486F12 /* PFWaveCell.h */,
+			);
+			name = PathFinder;
+			sourceTree = "<group>";
+		};
 		8B7CA07F16C81F9F00282A74 /* CCScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1112,6 +1134,7 @@
 		8BB8456E16C8436400B9A007 /* GameMatch */ = {
 			isa = PBXGroup;
 			children = (
+				5127D60D1702C39500486F12 /* PathFinder */,
 				D1DBC4C316CA50C20096034A /* PlayerInformation */,
 				8BB8456F16C8437400B9A007 /* GameMatch.cpp */,
 				8BB8457016C8437400B9A007 /* GameMatch.h */,
@@ -2077,6 +2100,9 @@
 				8B874298170758B0000B234B /* MAXSolidTileRenderer.cpp in Sources */,
 				8B87429C1707694A000B234B /* ShaderSolidFog.fsh in Sources */,
 				8B87429D1707694A000B234B /* ShaderSolidFog.vsh in Sources */,
+				5127D6101702C3FB00486F12 /* Pathfinder.cpp in Sources */,
+				5127D6131702C42B00486F12 /* PFWave.cpp in Sources */,
+				5127D6191702C46C00486F12 /* PFWaveCell.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
