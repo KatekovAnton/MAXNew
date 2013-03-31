@@ -38,7 +38,7 @@ class EngineTiledDynamicMesh {
     int _mapH;
 public:
     
-    map<int , int> meshIndexToCoordianteHash;
+    int *meshIndexToCoordianteHash;
     
     EngineTiledDynamicMeshDelegate *_delegate_w;
     

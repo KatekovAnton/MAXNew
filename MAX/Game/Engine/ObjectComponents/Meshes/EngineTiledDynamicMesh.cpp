@@ -16,18 +16,21 @@ const size_t vertexNormalOffset = offsetof(vertexStruct,normal);
 const size_t vertexTcoordOffset = offsetof(vertexStruct,tcoord);
 
 EngineTiledDynamicMesh::EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo, int mapW, int mapH)
-:_textureInfo(textureInfo), _vertices(new USimpleContainer<Polygon>(mapH*mapW)), _mapW(mapW), _mapH(mapH), _delegate_w(NULL)
-{}
+:_textureInfo(textureInfo), _vertices(new USimpleContainer<Polygon>(mapH*mapW)), _mapW(mapW), _mapH(mapH), _delegate_w(NULL), meshIndexToCoordianteHash(new int[mapH*mapW])
+{
+    for (int i = 0; i < mapH*mapW; i++) 
+        meshIndexToCoordianteHash[i] = -1;
+    
+}
 
 EngineTiledDynamicMesh::~EngineTiledDynamicMesh()
 {
+    delete []meshIndexToCoordianteHash;
     delete _vertices;
 }
 
 int EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex, int singleArrayIndex)
 {
-    if (meshIndexToCoordianteHash.count(_vertices->GetCount())!=0)
-        meshIndexToCoordianteHash.erase(_vertices->GetCount());
     meshIndexToCoordianteHash[_vertices->GetCount()] = singleArrayIndex;
     
     Polygon poly;
@@ -97,7 +100,7 @@ void EngineTiledDynamicMesh::RemovePolygon(int index)
     _delegate_w->ElementDidChangePosition(_vertices->GetCount(), index, meshIndexToCoordianteHash[_vertices->GetCount()]);
     
     meshIndexToCoordianteHash[index] = meshIndexToCoordianteHash[_vertices->GetCount()];
-    meshIndexToCoordianteHash.erase(_vertices->GetCount());
+    meshIndexToCoordianteHash[_vertices->GetCount()] = -1;
 }
 
 void EngineTiledDynamicMesh::Draw()

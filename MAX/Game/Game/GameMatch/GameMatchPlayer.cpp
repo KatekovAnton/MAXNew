@@ -146,22 +146,22 @@ float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog 
     return 0;
 }
 
-void GameMatchPlayer::CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const
+void GameMatchPlayer::CellDidUpdate(const int x, const int y, const GameFog *fog, bool visibleFlag) const
 {
     if (fog == _fog) {
        if (GetIsCurrentPlayer())
        {
-           engine->AddFogCell(cellX, cellY, !visibleFlag);
+           engine->AddFogCell(x, y, !visibleFlag);
        }
     }
     if (fog == _resourceMapFog)
     {
         if (visibleFlag)
         {
-    //        printf("added cell %d %d\n", cellX, cellY);
-            _resourceMap->AddCell(cellX, cellY);
+    //        printf("added cell %d %d\n", x, y);
+            _resourceMap->AddCell(x, y);
             if (GetIsCurrentPlayer()) 
-                engine->AddResourceCell(cellX, cellY, _match_w->_resources->GetResourceTypeAt(cellX, cellY), _match_w->_resources->GetResourceValueAt(cellX, cellY));
+                engine->AddResourceCell(x, y, _match_w->_resources->GetResourceTypeAt(x, y), _match_w->_resources->GetResourceValueAt(x, y));
         }
     }
 }

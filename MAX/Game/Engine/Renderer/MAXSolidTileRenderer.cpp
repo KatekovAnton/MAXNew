@@ -46,7 +46,7 @@ void MAXSolidTileRenderer::CompletlyFillMap()
 
 void MAXSolidTileRenderer::AddCell(const int x, const int y)
 {
-//    if (x==86 && y == 99) {
+//    if (x==76 && y == 93) {
 //        int a = 0;
 //        a++;
 //    }
@@ -59,14 +59,14 @@ void MAXSolidTileRenderer::AddCell(const int x, const int y)
 
 void MAXSolidTileRenderer::RemoveCell(const int x, const int y)
 {
-//    if (x==86 && y == 99) {
+//    if (x==76 && y == 93) {
 //        int a = 0;
 //        a++;
 //    }
     int index = GetIndexForCoordinates(x, y);
     int meshIndex = _cells[index];
-    _cells[index] = emptyValue;
     _mesh->RemovePolygon(meshIndex);
+    _cells[index] = emptyValue;
 }
 
 void MAXSolidTileRenderer::Draw(Shader *shader)
@@ -79,7 +79,7 @@ void MAXSolidTileRenderer::Draw(Shader *shader)
 
 void MAXSolidTileRenderer::ElementDidChangePosition(int oldIndex, int newIndex, int singleArrayIndex)
 {
-//    if (oldIndex == 11174) {
+//    if (singleArrayIndex == 10492) {
 //        int a = 0;
 //        a++;
 //    }
