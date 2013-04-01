@@ -15,14 +15,6 @@
 
 class MAXObject;
 
-typedef enum
-{
-    MAXANIMATION_CURVE_EASE_IN = 1,
-    MAXANIMATION_CURVE_EASE_OUT = 2,
-    MAXANIMATION_CURVE_EASE_IN_OUT = 3,
-    MAXANIMATION_CURVE_EASE_LINEAR = 4
-} MAXANIMATION_CURVE;
-
 class MAXAnimationObject : public MAXAnimationBase {
     
     MAXObject* _unit;
@@ -32,15 +24,11 @@ class MAXAnimationObject : public MAXAnimationBase {
     
 public:
     
-    int _moveCurve;
-    float _aniTime;
-    
     CCPoint GetStartLocation () const { return _startLocation; };
     CCPoint GetEndLocation () const { return _endLocation; };
     
     MAXAnimationObject(const CCPoint& startLocation, const CCPoint& endLocation, MAXObject* object);      //creates move action
     
-    float GetAniElapsedPart(double elapsedTime);
     virtual bool IsFinished();
     virtual void Update(double time);
     virtual void CompletlyFinish();

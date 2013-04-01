@@ -68,9 +68,11 @@ MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int headIndex, MAX
 :MAXAnimationBase(), _unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(object->GetBodyIndex()), rotateTime(0.05 * GetRotateLengt(_startBodyIndex, _bodyIndex))
 {}
 
-MAXAnimationObjectUnit::MAXAnimationObjectUnit(double firetime, MAXUnitObject* object)                                               //creates fire action
-:MAXAnimationBase(), _unit(object), _firetime(firetime), _type(MAXANIMATION_UNITFIRE)
-{}
+MAXAnimationObjectUnit::MAXAnimationObjectUnit(float firetime, MAXUnitObject* object)                                               //creates fire action
+:MAXAnimationBase(), _unit(object), _type(MAXANIMATION_UNITFIRE)
+{
+    _aniTime = firetime;
+}
 
 
 int MAXAnimationObjectUnit::CalculateInterpolatedIndex(double theta)
@@ -84,7 +86,7 @@ bool MAXAnimationObjectUnit::IsFinished()
     {
         case MAXANIMATION_UNITFIRE:
         {
-            return MAXAnimationBase::GetStartTime() + _firetime <= engine->FullTime();
+            return MAXAnimationBase::GetStartTime() + _aniTime <= engine->FullTime();
         }   break;
             
         case MAXANIMATION_UNITMOVE:
@@ -110,7 +112,7 @@ void MAXAnimationObjectUnit::Update(double time)
         {
             if (!_unit->IsSingleFire())
             {
-                double elapsed = (engine->FullTime()-GetStartTime())/_firetime;
+                double elapsed = (engine->FullTime()-GetStartTime())/_aniTime;
                 int count = elapsed/0.2;
                 _unit->SetIsFireing(true, count%2 == 1);
             }

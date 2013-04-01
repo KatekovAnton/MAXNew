@@ -26,6 +26,31 @@ void MAXAnimationBase::BaseUpdate(double time)
     
 }
 
+float MAXAnimationBase::GetAniElapsedPart(double elapsedTime)
+{
+    float result = 0;
+    if (_moveCurve == MAXANIMATION_CURVE_EASE_IN_OUT)
+    {
+        float fromminonetoone = (2.0*elapsedTime/_aniTime) - 1.0;
+        result = sinf(fromminonetoone * M_PI_2) * 0.5 + 0.5;
+    }
+    else if (_moveCurve == MAXANIMATION_CURVE_EASE_IN)
+    {
+        float fromminonetoone = (elapsedTime/_aniTime) - 1.0;
+        result = sinf(fromminonetoone * M_PI_2) * 1.0 + 1.0;
+    }
+    else if (_moveCurve == MAXANIMATION_CURVE_EASE_OUT)
+    {
+        float fromminonetoone = (elapsedTime/_aniTime);
+        result = sinf(fromminonetoone * M_PI_2) * 1.0;
+    }
+    else //if (_moveCurve == MAXANIMATION_CURVE_EASE_LINEAR)
+    {
+        result = elapsedTime/_aniTime;
+    }
+    return result;
+}
+
 void MAXAnimationBase::BaseStart()
 {
     _animStartTime = engine->FullTime();
@@ -44,4 +69,9 @@ void MAXAnimationBase::BaseCompletlyFinish()
     if (_delegate) 
         _delegate->OnAnimationFinish(this);
     
+}
+
+bool MAXAnimationBase::IsFinished()
+{
+    return GetStartTime() + _aniTime <= engine->FullTime();
 }

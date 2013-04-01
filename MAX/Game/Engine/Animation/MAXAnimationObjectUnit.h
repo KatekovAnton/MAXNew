@@ -33,7 +33,6 @@ class MAXAnimationObjectUnit : public MAXAnimationBase {
     
     double rotateTime;
     
-    float _firetime;
     CCPoint _startLocation;
     CCPoint _endLocation;
     
@@ -48,7 +47,7 @@ public:
     
     MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, MAXUnitObject* object);      //creates move action
     MAXAnimationObjectUnit(int bodyIndex, int headIndex, MAXUnitObject* object);                                  //creates rotate action
-    MAXAnimationObjectUnit(double firetime, MAXUnitObject* object);                                               //creates fire action
+    MAXAnimationObjectUnit(float firetime, MAXUnitObject* object);                                               //creates fire action
     
     
     virtual bool IsFinished();
