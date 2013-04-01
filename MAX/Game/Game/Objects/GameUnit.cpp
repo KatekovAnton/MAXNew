@@ -231,7 +231,7 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 
 void GameUnit::Fire(const cocos2d::CCPoint &target)
 {
-    if (!CanFire(target)) 
+    if (!CanFire(target))
         return;
     MAXUnitObject* _unitObject = GetUnitObject();
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
@@ -311,20 +311,13 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         USimpleContainer<MAXObject*> *buffer = new USimpleContainer<MAXObject*>(10);
         engine->GetAllObjectsInArea(bb, buffer);
         delete buffer;
-
-
-        { // Remove after rework path processing
-            _currentTopAnimation->_delegate = NULL;
-            _currentTopAnimation = NULL;
-            MoveToNextCell();
-        }
-
     }
-    else
+    else if (animation == _currentTopAnimation)
     {
         if (_currentTopAnimation) {
             _currentTopAnimation->_delegate = NULL;
             _currentTopAnimation = NULL;
+            MoveToNextCell();
         }
     }
 }

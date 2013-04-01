@@ -320,6 +320,7 @@
 		D1DBC4C616CA517D0096034A /* PlayerUpgradeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4C416CA517D0096034A /* PlayerUpgradeManager.cpp */; };
 		D1DBC4CA16CA520E0096034A /* PlayerResearchManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4C816CA520D0096034A /* PlayerResearchManager.cpp */; };
 		D1DBC4D116CA53590096034A /* GameUnitParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4CF16CA53590096034A /* GameUnitParameters.cpp */; };
+		D1E07A221709621800344DF2 /* MatchMovementMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E07A201709621800344DF2 /* MatchMovementMap.cpp */; };
 		D1E3D3ED16BC2CC200E88F2E /* MAXUnitSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */; };
 		D1E3D3F016BC2F1D00E88F2E /* MAXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */; };
 		D1E3D3F316BC319000E88F2E /* MAXEffectObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */; };
@@ -770,6 +771,8 @@
 		D1DBC4C916CA520D0096034A /* PlayerResearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerResearchManager.h; sourceTree = "<group>"; };
 		D1DBC4CF16CA53590096034A /* GameUnitParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnitParameters.cpp; sourceTree = "<group>"; };
 		D1DBC4D016CA53590096034A /* GameUnitParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnitParameters.h; sourceTree = "<group>"; };
+		D1E07A201709621800344DF2 /* MatchMovementMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatchMovementMap.cpp; sourceTree = "<group>"; };
+		D1E07A211709621800344DF2 /* MatchMovementMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchMovementMap.h; sourceTree = "<group>"; };
 		D1E3D3EB16BC2CC200E88F2E /* MAXUnitSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXUnitSelection.cpp; sourceTree = "<group>"; };
 		D1E3D3EC16BC2CC200E88F2E /* MAXUnitSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitSelection.h; sourceTree = "<group>"; };
 		D1E3D3EE16BC2F1D00E88F2E /* MAXObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObject.cpp; sourceTree = "<group>"; };
@@ -1134,6 +1137,7 @@
 		8BB8456E16C8436400B9A007 /* GameMatch */ = {
 			isa = PBXGroup;
 			children = (
+				D1E07A1F170961E600344DF2 /* MatchInformation */,
 				5127D60D1702C39500486F12 /* PathFinder */,
 				D1DBC4C316CA50C20096034A /* PlayerInformation */,
 				8BB8456F16C8437400B9A007 /* GameMatch.cpp */,
@@ -1644,6 +1648,15 @@
 			name = Unit;
 			sourceTree = "<group>";
 		};
+		D1E07A1F170961E600344DF2 /* MatchInformation */ = {
+			isa = PBXGroup;
+			children = (
+				D1E07A201709621800344DF2 /* MatchMovementMap.cpp */,
+				D1E07A211709621800344DF2 /* MatchMovementMap.h */,
+			);
+			name = MatchInformation;
+			sourceTree = "<group>";
+		};
 		D1E3D3F716C12C2D00E88F2E /* Threads */ = {
 			isa = PBXGroup;
 			children = (
@@ -2103,6 +2116,7 @@
 				5127D6101702C3FB00486F12 /* Pathfinder.cpp in Sources */,
 				5127D6131702C42B00486F12 /* PFWave.cpp in Sources */,
 				5127D6191702C46C00486F12 /* PFWaveCell.cpp in Sources */,
+				D1E07A221709621800344DF2 /* MatchMovementMap.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
