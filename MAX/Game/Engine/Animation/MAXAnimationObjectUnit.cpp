@@ -58,19 +58,29 @@ int GetRotateLengt(int from, int to)
     }
 }
 
-const float moveTime = 0.2;
-
-MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, MAXUnitObject* object)      //creates move action
+MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, MAXUnitObject* object, const MAXANIMATION_CURVE moveCurve)      //creates move action
 :MAXAnimationBase(), _unit(object), _startLocation(startLocation), _endLocation(endLocation), _type(MAXANIMATION_UNITMOVE)
-{}
+{
+    _moveCurve = moveCurve;
+    _aniTime = 0.2;
+    if (_moveCurve != MAXANIMATION_CURVE_EASE_LINEAR)
+    {
+        _aniTime *= 1.5;
+    }
+    _deltaLocation = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
+}
 
-MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int headIndex, MAXUnitObject* object)                                  //creates rotate action
-:MAXAnimationBase(), _unit(object), _bodyIndex(bodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(object->GetBodyIndex()), rotateTime(0.05 * GetRotateLengt(_startBodyIndex, _bodyIndex))
-{}
+MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int newBodyIndex, int headIndex, MAXUnitObject* object)                                  //creates rotate action
+:MAXAnimationBase(), _unit(object), _bodyIndex(newBodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(bodyIndex)
+{
+    _aniTime = 0.07 * GetRotateLengt(_startBodyIndex, _bodyIndex);
+}
 
-MAXAnimationObjectUnit::MAXAnimationObjectUnit(double firetime, MAXUnitObject* object)                                               //creates fire action
-:MAXAnimationBase(), _unit(object), _firetime(firetime), _type(MAXANIMATION_UNITFIRE)
-{}
+MAXAnimationObjectUnit::MAXAnimationObjectUnit(float firetime, MAXUnitObject* object)                                               //creates fire action
+:MAXAnimationBase(), _unit(object), _type(MAXANIMATION_UNITFIRE)
+{
+    _aniTime = firetime;
+}
 
 
 int MAXAnimationObjectUnit::CalculateInterpolatedIndex(double theta)
@@ -78,40 +88,18 @@ int MAXAnimationObjectUnit::CalculateInterpolatedIndex(double theta)
     return 0;
 }
 
-bool MAXAnimationObjectUnit::IsFinished()
-{
-    switch (_type)
-    {
-        case MAXANIMATION_UNITFIRE:
-        {
-            return MAXAnimationBase::GetStartTime() + _firetime <= engine->FullTime();
-        }   break;
-            
-        case MAXANIMATION_UNITMOVE:
-        {
-            return MAXAnimationBase::GetStartTime() + moveTime <= engine->FullTime();
-        }   break;
-            
-        case MAXANIMATION_UNITROTATE:
-        {
-            return MAXAnimationBase::GetStartTime() + rotateTime <= engine->FullTime();
-        }   break;
-        default:
-            break;
-    }
-    return true;
-}
-
 void MAXAnimationObjectUnit::Update(double time)
 {
+    double elapsed = (engine->FullTime()-GetStartTime());
+    float deltaTime = GetAniElapsedPart(elapsed);
+    
     switch (_type)
     {
         case MAXANIMATION_UNITFIRE:
         {
             if (!_unit->IsSingleFire())
             {
-                double elapsed = (engine->FullTime()-GetStartTime())/_firetime;
-                int count = elapsed/0.2;
+                int count = deltaTime/0.2;
                 _unit->SetIsFireing(true, count%2 == 1);
             }
             
@@ -119,21 +107,14 @@ void MAXAnimationObjectUnit::Update(double time)
             
         case MAXANIMATION_UNITMOVE:
         {
-            double elapsed = (engine->FullTime()-GetStartTime());
-            float fromminonetoone = (2.0*elapsed/moveTime) - 1.0;
-            float deltaTime = sinf(fromminonetoone * M_PI_2) * 0.5 + 0.5;
-            CCPoint delta = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
-            CCPoint result = CCPoint(_startLocation.x + delta.x * deltaTime, _startLocation.y + delta.y * deltaTime);
+            CCPoint result = CCPoint(_startLocation.x + _deltaLocation.x * deltaTime, _startLocation.y + _deltaLocation.y * deltaTime);
             _unit->SetPosition(result);
         }   break;
             
         case MAXANIMATION_UNITROTATE:
         {
-            //printf("updaterotate\n");
-            float elapsed = (engine->FullTime()-GetStartTime())/rotateTime;
-            
             if (_startBodyIndex != _bodyIndex) {
-                int index = GetInterpolatedRotateIndex(_startBodyIndex, _bodyIndex, elapsed);
+                int index = GetInterpolatedRotateIndex(_startBodyIndex, _bodyIndex, deltaTime);
                 if (index != _unit->GetBodyIndex())
                 {
                     _unit->SetBodyDirection(index);

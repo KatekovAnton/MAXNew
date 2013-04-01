@@ -21,36 +21,6 @@ MAXAnimationObject::MAXAnimationObject(const CCPoint& startLocation, const CCPoi
     _deltaLocation = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
 }
 
-bool MAXAnimationObject::IsFinished()
-{
-    return MAXAnimationBase::GetStartTime() + _aniTime <= engine->FullTime();
-}
-
-float MAXAnimationObject::GetAniElapsedPart(double elapsedTime)
-{
-    float result = 0;
-    if (_moveCurve == MAXANIMATION_CURVE_EASE_IN_OUT)
-    {
-        float fromminonetoone = (2.0*elapsedTime/_aniTime) - 1.0;
-        result = sinf(fromminonetoone * M_PI_2) * 0.5 + 0.5;
-    }
-    else if (_moveCurve == MAXANIMATION_CURVE_EASE_IN)
-    {
-        float fromminonetoone = (elapsedTime/_aniTime) - 1.0;
-        result = sinf(fromminonetoone * M_PI_2) * 1.0 + 1.0;
-    }
-    else if (_moveCurve == MAXANIMATION_CURVE_EASE_OUT)
-    {
-        float fromminonetoone = (elapsedTime/_aniTime);
-        result = sinf(fromminonetoone * M_PI_2) * 1.0;
-    }
-    else //if (_moveCurve == MAXANIMATION_CURVE_EASE_LINEAR)
-    {
-        result = elapsedTime/_aniTime;
-    }
-    return result;
-}
-
 void MAXAnimationObject::Update(double time)
 {
     double elapsed = (engine->FullTime()-GetStartTime());
