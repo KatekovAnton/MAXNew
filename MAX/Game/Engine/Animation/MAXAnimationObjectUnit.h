@@ -50,7 +50,6 @@ public:
     MAXAnimationObjectUnit(float firetime, MAXUnitObject* object);                                               //creates fire action
     
     
-    virtual bool IsFinished();
     virtual void Update(double time);
     virtual void CompletlyFinish();
     virtual void StartAnimation();
