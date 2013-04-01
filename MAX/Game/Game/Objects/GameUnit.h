@@ -46,6 +46,8 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     
 public:
     
+    bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
+    
     GameMatchPlayer *_owner_w;
     GameUnitParameters* _config;
     
