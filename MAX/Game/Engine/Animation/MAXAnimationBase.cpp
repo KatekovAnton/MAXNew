@@ -13,6 +13,7 @@
 MAXAnimationBase::MAXAnimationBase()
 :_delegate(NULL), _isCompletlyFinish(false)
 {
+    _moveCurve = MAXANIMATION_CURVE_EASE_LINEAR;
 }
 
 MAXAnimationBase::~MAXAnimationBase()

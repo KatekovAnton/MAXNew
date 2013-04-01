@@ -206,7 +206,25 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
         MAXAnimationObjectUnit* step1 = new MAXAnimationObjectUnit(neededBodyIndex, _unitObject->GetPureHeadIndex(), _unitObject);
         sequence->AddAnimation(step1);
     }
-    MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _unitObject);
+    MAXANIMATION_CURVE curve;
+    int pathSize = movePath.size();
+    if (pathSize == 2)
+    {
+        curve = MAXANIMATION_CURVE_EASE_IN_OUT;
+    }
+    else if (pathIndex == pathSize - 2)
+    {
+        curve = MAXANIMATION_CURVE_EASE_IN;
+    }
+    else if (pathIndex == 0)
+    {
+        curve = MAXANIMATION_CURVE_EASE_OUT;
+    }
+    else
+    {
+        curve = MAXANIMATION_CURVE_EASE_LINEAR;
+    }
+    MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _unitObject, curve);
     step2->_delegate = this;
     sequence->AddAnimation(step2);
     _moveAnimation = step2;

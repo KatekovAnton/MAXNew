@@ -29,7 +29,6 @@ public:
     
     MAXAnimationObject(const CCPoint& startLocation, const CCPoint& endLocation, MAXObject* object);      //creates move action
     
-    virtual bool IsFinished();
     virtual void Update(double time);
     virtual void CompletlyFinish();
     virtual void StartAnimation();

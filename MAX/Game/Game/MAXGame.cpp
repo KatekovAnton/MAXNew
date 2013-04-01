@@ -74,7 +74,7 @@ void MAXGame::StartTest()
     CCPoint _unitCell = _testUnit->GetUnitCell();
     for (int i = 0; i < 30; i++) {
         CCPoint destination = ccp(_unitCell.x + 1, _unitCell.y + 1);
-        MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _testUnit->GetUnitObject());
+        MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _testUnit->GetUnitObject(), MAXANIMATION_CURVE_EASE_LINEAR);
         _unitCell = destination;
         step2->_delegate = _testUnit;
         sequence->AddAnimation(step2);
@@ -83,7 +83,7 @@ void MAXGame::StartTest()
     sequence->AddAnimation(step1);
     for (int i = 0; i < 5; i++) {
         CCPoint destination = ccp(_unitCell.x - 1, _unitCell.y - 1);
-        MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _testUnit->GetUnitObject());
+        MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _testUnit->GetUnitObject(), MAXANIMATION_CURVE_EASE_LINEAR);
         _unitCell = destination;
         step2->_delegate = _testUnit;
         sequence->AddAnimation(step2);
