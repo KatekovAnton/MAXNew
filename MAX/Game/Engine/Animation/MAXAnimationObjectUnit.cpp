@@ -134,7 +134,10 @@ void MAXAnimationObjectUnit::Update(double time)
             
             if (_startBodyIndex != _bodyIndex) {
                 int index = GetInterpolatedRotateIndex(_startBodyIndex, _bodyIndex, elapsed);
-                _unit->SetBodyDirection(index);
+                if (index != _unit->GetBodyIndex())
+                {
+                    _unit->SetBodyDirection(index);
+                }
             }
             if (_startHeadIndex != _headIndex) {
                 printf("rh\n");
