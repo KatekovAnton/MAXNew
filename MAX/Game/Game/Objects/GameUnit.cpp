@@ -195,6 +195,8 @@ void GameUnit::FollowPath(void)
         if (neededBodyIndex != bodyIndex)
         {
             MAXAnimationObjectUnit* turn = new MAXAnimationObjectUnit(bodyIndex, neededBodyIndex, _unitObject->GetPureHeadIndex(), _unitObject);
+            turn->_moveCurve = MAXANIMATION_CURVE_EASE_LINEAR;
+            turn->_aniTime = 0.01;
             sequence->AddAnimation(turn);
             bodyIndex = neededBodyIndex;
         }
