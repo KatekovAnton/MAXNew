@@ -49,7 +49,7 @@ public:
     CCPoint GetEndLocation () const { return _endLocation; };
     
     MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, MAXUnitObject* object, const MAXANIMATION_CURVE moveCurve);      //creates move action
-    MAXAnimationObjectUnit(int bodyIndex, int headIndex, MAXUnitObject* object);                                  //creates rotate action
+    MAXAnimationObjectUnit(int bodyIndex, int newBodyIndex, int headIndex, MAXUnitObject* object);                                  //creates rotate action
     MAXAnimationObjectUnit(float firetime, MAXUnitObject* object);                                               //creates fire action
     
     virtual void Update(double time);
