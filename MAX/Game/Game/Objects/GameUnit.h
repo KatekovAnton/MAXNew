@@ -31,7 +31,6 @@ class PFWaveCell;
 
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatusRendererUnitDelegate {
     
-    MAXAnimationObjectUnit* _moveAnimation;
     MAXAnimationBase* _currentTopAnimation;
     GameEffect* _effectUnder;
     
@@ -43,6 +42,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     int pathIndex;
     
     bool MoveToNextCell(void);
+    void FollowPath(void);
     
 public:
     
