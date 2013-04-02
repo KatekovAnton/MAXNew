@@ -71,7 +71,6 @@ std::vector<PFWaveCell*> Pathfinder::FindPath(const int fromX, const int fromY, 
 
 void Pathfinder::DumpMap(void)
 {
-    return;
     printf("PathMap:\n");
 #if 0
     for (int y = 0; y < h; y++)

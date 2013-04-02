@@ -91,6 +91,42 @@ void MAXGame::StartTest()
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
 }
 
+void MAXGame::ShowPathMap()
+{
+    Pathfinder* pf = _match->_pathfinder;
+    for (int x = 0; x < _match->_map->GetMapWidth(); x++)
+    {
+        for (int y = 0; y < _match->_map->GetMapHeight(); y++)
+        {
+            int cost = pf->GetCostAt(x, y);
+            if (cost == 0)
+            {
+                // current unit pos - don't highlight
+            }
+            else if (cost > 0)
+            {
+                // valid map cost - highlight with green aquare
+            }
+            else
+            {
+                // unpassable - don't highlight
+            }
+        }
+    }
+}
+
+void MAXGame::HidePathMap()
+{
+    for (int x = 0; x < _match->_map->GetMapWidth(); x++)
+    {
+        for (int y = 0; y < _match->_map->GetMapHeight(); y++)
+        {
+            // remove highlight at x, y
+        }
+    }
+}
+
+
 void MAXGame::StartMatch()
 {
     vector<GameMatchPlayerInfo> infos;
@@ -340,11 +376,11 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             if (!_currentUnit->GetIsFreezed())
             {
                 CCPoint location = _currentUnit->GetUnitCell();
-                UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_config->GetConfig()->_bMoveType;
+                //UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_config->GetConfig()->_bMoveType;
                 Pathfinder* pf = _match->_pathfinder;
-                std::vector<PFWaveCell*> path = pf->FindPath(location.x, location.y, p.x, p.y, unitMoveType); // alternative path find
+                //std::vector<PFWaveCell*> path = pf->FindPath(location.x, location.y, p.x, p.y, unitMoveType); // alternative path find
                 //pf->MakePathMap(location.x, location.y, unitMoveType); // need to call when position changed
-                //std::vector<PFWaveCell*> path = pf->FindPathOnMap(p.x, p.y); // call after MakePathMap
+                std::vector<PFWaveCell*> path = pf->FindPathOnMap(p.x, p.y); // call after MakePathMap
                 if (path.size() > 1)
                 {
                     _currentUnit->SetPath(path);
@@ -358,14 +394,20 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     {
         if (newCurrentUnit && _currentUnit != newCurrentUnit)
         {
+            if (_currentUnit)
+            {
+                _currentUnit->selectedGameObjectDelegate = NULL;
+            }
             _currentUnit = newCurrentUnit;
+            _currentUnit->selectedGameObjectDelegate = this;
             if (!_currentUnit->_config->GetConfig()->_isBuilding)
             {
                 CCPoint location = _currentUnit->GetUnitCell();
                 UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_config->GetConfig()->_bMoveType;
                 Pathfinder* pf = _match->_pathfinder;
                 pf->MakePathMap(location.x, location.y, unitMoveType);
-                pf->DumpMap(); // Remove debug logs
+                //pf->DumpMap();
+                ShowPathMap();
             }
             
             engine->SelectUnit(_currentUnit->GetUnitObject());
@@ -376,6 +418,10 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {
             _gameInterface->OnCurrentUnitChanged(NULL);
             engine->SelectUnit(NULL);
+            if (_currentUnit)
+            {
+                _currentUnit->selectedGameObjectDelegate = NULL;
+            }
             _currentUnit = NULL;
         }
     }
@@ -399,6 +445,28 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     }
 }
 
+#pragma mark - SelectedGameObjectDelegate
+
+void MAXGame::onUnitStartMove(GameUnit* unit)
+{
+    if (unit == _currentUnit)
+    {
+        HidePathMap();
+    }
+}
+
+void MAXGame::onUnitStopMove(GameUnit* unit)
+{
+    if (unit == _currentUnit)
+    {
+        CCPoint location = _currentUnit->GetUnitCell();
+        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_config->GetConfig()->_bMoveType;
+        Pathfinder* pf = _match->_pathfinder;
+        pf->MakePathMap(location.x, location.y, unitMoveType);
+        //pf->DumpMap();
+        ShowPathMap();
+    }
+}
 
 
 

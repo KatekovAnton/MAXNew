@@ -177,6 +177,12 @@ void GameUnit::SetPath(std::vector<PFWaveCell*> path)
     movePath = path;
     pathIndex = movePath.size() - 2; // last value is current position
     //MoveToNextCell();
+    
+    if (selectedGameObjectDelegate)
+    {
+        selectedGameObjectDelegate->onUnitStartMove(this);
+    }
+    
     FollowPath();
 }
 
@@ -390,6 +396,10 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
             {
                 // move completed succesfully
                 movePath.clear();
+                if (selectedGameObjectDelegate)
+                {
+                    selectedGameObjectDelegate->onUnitStopMove(this);
+                }
             }
             //MoveToNextCell();
         }
