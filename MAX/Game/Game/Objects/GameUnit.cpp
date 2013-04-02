@@ -187,28 +187,31 @@ void GameUnit::FollowPath(void)
     sequence->_delegate = this;
     CCPoint pos = _unitCell;
     int bodyIndex = _unitObject->GetBodyIndex();
-    while (pathIndex >= 0)
+    int pi = pathIndex;
+    while (pi >= 0)
     {
-        PFWaveCell* cell = movePath[pathIndex];
+        PFWaveCell* cell = movePath[pi];
+        int pathSize = movePath.size();
         CCPoint destination = CCPointMake(cell->x, cell->y);
         int neededBodyIndex = MAXObject::CalculateImageIndex(pos, destination);
         if (neededBodyIndex != bodyIndex)
         {
             MAXAnimationObjectUnit* turn = new MAXAnimationObjectUnit(bodyIndex, neededBodyIndex, _unitObject->GetPureHeadIndex(), _unitObject);
+            if (pi != pathSize - 2) // speed up unit rotation in middle of path
+                turn->_aniTime = 0.01;
             sequence->AddAnimation(turn);
             bodyIndex = neededBodyIndex;
         }
         MAXANIMATION_CURVE curve;
-        int pathSize = movePath.size();
         if (pathSize == 2)
         {
             curve = MAXANIMATION_CURVE_EASE_IN_OUT;
         }
-        else if (pathIndex == pathSize - 2)
+        else if (pi == pathSize - 2)
         {
             curve = MAXANIMATION_CURVE_EASE_IN;
         }
-        else if (pathIndex == 0)
+        else if (pi == 0)
         {
             curve = MAXANIMATION_CURVE_EASE_OUT;
         }
@@ -221,7 +224,7 @@ void GameUnit::FollowPath(void)
         sequence->AddAnimation(move);
         
         pos = destination;
-        pathIndex--;
+        pi--;
     }
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
     _currentTopAnimation = sequence;
@@ -232,7 +235,6 @@ bool GameUnit::MoveToNextCell(void)
     bool result = false;
     if (pathIndex >= 0)
     {
-        //int idx = movePath.size() - pathIndex - 2;
         PFWaveCell* cell = movePath[pathIndex];
         SetUnitLocationAnimated(CCPointMake(cell->x, cell->y));
         pathIndex--;
@@ -384,11 +386,17 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         if (_currentTopAnimation) {
             _currentTopAnimation->_delegate = NULL;
             _currentTopAnimation = NULL;
-            MoveToNextCell();
+            if (pathIndex < 0)
+            {
+                // move completed succesfully
+                movePath.clear();
+            }
+            //MoveToNextCell();
         }
     }
     else // move
     {
+        pathIndex--;
     }
 }
 
