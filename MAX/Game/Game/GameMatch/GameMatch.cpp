@@ -17,6 +17,7 @@
 #include "GameMapResources.h"
 #include "GameSettings.h"
 #include "Pathfinder.h"
+#include "MatchMapAgregator.h"
 
 void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
 {
@@ -37,17 +38,18 @@ GameMatch::GameMatch(const string& configName, const string& mapName, const vect
     _resources = new GameMapResources(_gameSettings, _map);
     _resources->GenerateInitialResources();
     
-    for (int i = 0; i < players.size(); i++) {
+    for (int i = 0; i < players.size(); i++)
+    {
         GameMatchPlayer* player = new GameMatchPlayer(players[i], this);
-        //  player->_palette = engine->_map->_material->currentPalette;
         _players.push_back(player);
-
+        
         DebugLandPlayer(player, i); // ToDo: Remove debug code
     }
     
     _currentPlayer_w = _players[0];
     
     _pathfinder = new Pathfinder(_map);
+    _agregator = new MatchMapAgregator(_map);
 }
 
 GameMatch::~GameMatch()

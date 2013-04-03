@@ -324,6 +324,25 @@ void GameUnit::StartBuildProcess()
     CheckBodyAndShadow();
 }
 
+void GameUnit::CheckMovementUpdate()
+{
+    CCPoint unitCell = GetUnitCell();
+    CCPoint realCell = GetUnitObject()->GetObjectCell();
+    realCell.x = (int)(realCell.x + 0.5);
+    realCell.y = (int)(realCell.y + 0.5);
+    //        printf("unitcell = %f, %f\n", unitCell.x, unitCell.y);
+    //        printf("realcell = %f, %f\n\n", realCell.x, realCell.y);
+    
+    if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
+    {
+        //            printf("Update radar!\n");
+        _delegate_w->GameUnitWillLeaveCell(this);
+        _unitCell = realCell;
+        _delegate_w->GameUnitDidEnterCell(this);
+        CheckBodyAndShadow();
+    }
+}
+
 #pragma mark - MAXAnimationDelegate
 
 void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
@@ -331,23 +350,7 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
 
 void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
-    {
-        CCPoint unitCell = GetUnitCell();
-        CCPoint realCell = GetUnitObject()->GetObjectCell();
-        realCell.x = (int)(realCell.x + 0.5);
-        realCell.y = (int)(realCell.y + 0.5);
-//        printf("unitcell = %f, %f\n", unitCell.x, unitCell.y);
-//        printf("realcell = %f, %f\n\n", realCell.x, realCell.y);
-        
-        if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
-        {
-//            printf("Update radar!\n");
-            _delegate_w->GameUnitWillLeaveCell(this);
-            _unitCell = realCell;
-            _delegate_w->GameUnitDidEnterCell(this);
-            CheckBodyAndShadow();
-        }
-    }
+    CheckMovementUpdate();
 }
 
 void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
@@ -370,22 +373,21 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 //        delete buffer;
 //    }
 //    else
+    CheckMovementUpdate();
+    
     if (animation == _currentTopAnimation)
     {
-        if (_currentTopAnimation) {
-            _currentTopAnimation->_delegate = NULL;
-            _currentTopAnimation = NULL;
-            if (pathIndex < 0)
-            {
-                // move completed succesfully
-                movePath.clear();
-                if (selectedGameObjectDelegate)
-                {
-                    selectedGameObjectDelegate->onUnitStopMove(this);
-                }
-            }
-            //MoveToNextCell();
+        _currentTopAnimation->_delegate = NULL;
+        _currentTopAnimation = NULL;
+        if (pathIndex < 0)
+        {
+            // move completed succesfully
+            movePath.clear();
+            if (selectedGameObjectDelegate)
+                selectedGameObjectDelegate->onUnitStopMove(this);
         }
+        //MoveToNextCell();
+        
     }
     else // move
     {

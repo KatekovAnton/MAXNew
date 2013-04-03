@@ -107,4 +107,21 @@ struct __MAXCoordinates
         
 } typedef MAXCoordinates;
 
+    
+typedef enum
+{
+    GROUND_TYPE_GROUND = 0,
+    GROUND_TYPE_WATER = 1,
+    GROUND_TYPE_COAST = 2,
+    GROUND_TYPE_UNPASSABLE = 3
+} GROUND_TYPE;
+    
+typedef enum
+{
+    EXTENDED_GROUND_TYPE_GROUND = 0,
+    EXTENDED_GROUND_TYPE_WATER = 1,
+    EXTENDED_GROUND_TYPE_COAST = 2,
+    EXTENDED_GROUND_TYPE_UNPASSABLE = 3
+} EXTENDED_GROUND_TYPE;
+    
 #endif

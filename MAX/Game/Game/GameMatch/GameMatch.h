@@ -17,6 +17,7 @@ class GameMap;
 class GameMapResources;
 class GameSettings;
 class GameMatchPlayer;
+class MatchMapAgregator;
 class Pathfinder;
 
 class GameMatch {
@@ -30,6 +31,7 @@ public:
     Pathfinder*                 _pathfinder;
     vector<GameMatchPlayer*>    _players;
     GameMatchPlayer*            _currentPlayer_w;
+    MatchMapAgregator*          _agregator;
 
     GameMatch(const string& configName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();

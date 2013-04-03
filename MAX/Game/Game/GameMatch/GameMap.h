@@ -15,17 +15,7 @@
 
 class Texture;
 class MAXContentMap;
-
-typedef enum
-{
-    GROUND_TYPE_GROUND = 0,
-    GROUND_TYPE_WATER = 1,
-    GROUND_TYPE_COAST = 2,
-    GROUND_TYPE_UNPASSABLE = 3
-} GROUND_TYPE;
-
 class GameUnit;
-class MAXContentMap;
 
 class GameMap {
     

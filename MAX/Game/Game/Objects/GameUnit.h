@@ -77,6 +77,8 @@ public:
     void PlaceUnitOnMap();
     void RemoveUnitFromMap();
     
+    void CheckMovementUpdate();
+    
 #pragma mark - Fire methods
     bool IsInProcess() const {return _isInProcess;}
     bool CanFire(const cocos2d::CCPoint &target);
