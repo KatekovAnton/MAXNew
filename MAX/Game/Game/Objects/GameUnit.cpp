@@ -92,7 +92,6 @@ void GameUnit::PlaceUnitOnMap()
     Show();
     // update the fog of war for the current gamer
     _delegate_w->GameUnitDidPlaceOnMap(this);
-//    _owner_w->UnitDidPlaceToMap(this);
 }
 
 void GameUnit::RemoveUnitFromMap()
@@ -103,7 +102,6 @@ void GameUnit::RemoveUnitFromMap()
     Hide();
     // update the fog of war for the current gamer
     _delegate_w->GameUnitDidRemoveFromMap(this);
-//    _owner_w->UnitDidRemoveFromMap(this);
 }
 
 void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
@@ -176,12 +174,11 @@ void GameUnit::SetPath(std::vector<PFWaveCell*> path)
 {
     movePath = path;
     pathIndex = movePath.size() - 2; // last value is current position
-    //MoveToNextCell();
+    
     
     if (selectedGameObjectDelegate)
-    {
         selectedGameObjectDelegate->onUnitStartMove(this);
-    }
+    
     
     FollowPath();
 }
@@ -204,27 +201,20 @@ void GameUnit::FollowPath(void)
         {
             MAXAnimationObjectUnit* turn = new MAXAnimationObjectUnit(bodyIndex, neededBodyIndex, _unitObject->GetPureHeadIndex(), _unitObject);
             if (pi != pathSize - 2) // speed up unit rotation in middle of path
-                turn->_aniTime = 0.01;
+                turn->_aniTime = 0.07;
             sequence->AddAnimation(turn);
             bodyIndex = neededBodyIndex;
         }
         MAXANIMATION_CURVE curve;
         if (pathSize == 2)
-        {
             curve = MAXANIMATION_CURVE_EASE_IN_OUT;
-        }
         else if (pi == pathSize - 2)
-        {
             curve = MAXANIMATION_CURVE_EASE_IN;
-        }
         else if (pi == 0)
-        {
             curve = MAXANIMATION_CURVE_EASE_OUT;
-        }
         else
-        {
             curve = MAXANIMATION_CURVE_EASE_LINEAR;
-        }
+        
         MAXAnimationObjectUnit* move = new MAXAnimationObjectUnit(pos ,destination, _unitObject, curve);
         move->_delegate = this;
         sequence->AddAnimation(move);
@@ -265,21 +255,14 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
     MAXANIMATION_CURVE curve;
     int pathSize = movePath.size();
     if (pathSize == 2)
-    {
         curve = MAXANIMATION_CURVE_EASE_IN_OUT;
-    }
     else if (pathIndex == pathSize - 2)
-    {
         curve = MAXANIMATION_CURVE_EASE_IN;
-    }
     else if (pathIndex == 0)
-    {
         curve = MAXANIMATION_CURVE_EASE_OUT;
-    }
     else
-    {
         curve = MAXANIMATION_CURVE_EASE_LINEAR;
-    }
+    
     MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _unitObject, curve);
     step2->_delegate = this;
     sequence->AddAnimation(step2);
@@ -348,7 +331,6 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
 
 void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
-  //  if (animation == _moveAnimation)
     {
         CCPoint unitCell = GetUnitCell();
         CCPoint realCell = GetUnitObject()->GetObjectCell();
@@ -360,7 +342,6 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
         if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
         {
 //            printf("Update radar!\n");
-            //  _owner_w->UnitDidMove(this, _unitCell, realCell);
             _delegate_w->GameUnitWillLeaveCell(this);
             _unitCell = realCell;
             _delegate_w->GameUnitDidEnterCell(this);

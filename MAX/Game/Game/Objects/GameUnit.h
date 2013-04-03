@@ -49,7 +49,6 @@ public:
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
     
-//    GameMatchPlayer *_owner_w;
     GameUnitCurrentState* _config;
     GameUnitDelegate    *_delegate_w;
     
