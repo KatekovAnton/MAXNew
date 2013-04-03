@@ -299,7 +299,7 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
         return false;
     
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    return IsInFireRadius(targetCenter) && _config->_pAmmo != 0 && _config->_pShots != 0;
+    return IsInFireRadius(targetCenter) && _config->_pMaxAmmo != 0 && _config->_pMaxShots != 0;
 }
 
 void GameUnit::Fire(const cocos2d::CCPoint &target)
@@ -414,12 +414,12 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 
 int GameUnit::GetScan() const
 {
-    return _config->_pScan;
+    return _config->_pMaxScan;
 }
 
 int GameUnit::GetRange() const
 {
-    return _config->_pRange;
+    return _config->_pMaxRange;
 }
 
 float GameUnit::GetHealStatus() const
@@ -429,6 +429,6 @@ float GameUnit::GetHealStatus() const
 
 float GameUnit::GetShots() const
 {
-    return _config->_pShots;
+    return _config->_pMaxShots;
 }
 

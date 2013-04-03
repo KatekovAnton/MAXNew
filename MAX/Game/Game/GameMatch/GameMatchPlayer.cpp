@@ -138,7 +138,7 @@ bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *f
 float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const
 {
     if (fog == _fog) 
-        return unit->_config->_pScan;
+        return unit->_config->_pMaxScan;
     
     if (fog == _resourceMapFog) 
         return 1.5;

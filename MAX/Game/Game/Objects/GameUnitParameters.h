@@ -29,16 +29,16 @@ public:
     
     MAXObjectConfig* GetConfig() const {return _config_w;}
     
-    int _pAttack;
-    int _pSpeed;
-    int _pHealth;
-    int _pArmor;
-    int _pShots;
-    int _pFuel;
-    int _pRange;
-    int _pScan;
-    int _pAmmo;
-    int _pCost;
+    int _pMaxAttack;
+    int _pMaxSpeed;
+    int _pMaxHealth;
+    int _pMaxArmor;
+    int _pMaxShots;
+    int _pMaxFuel;
+    int _pMaxRange;
+    int _pMaxScan;
+    int _pMaxAmmo;
+    int _pMaxCost;
     
     int _version;
     

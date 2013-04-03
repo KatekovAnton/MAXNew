@@ -15,9 +15,21 @@ class GameUnitParameters;
 
 class GameUnitCurrentState {
     
-    GameUnitParameters* _wParams;
     
 public:
+    
+    GameUnitParameters* _params_w;
+    
+    int _pAttack;
+    int _pSpeed;
+    int _pHealth;
+    int _pArmor;
+    int _pShots;
+    int _pFuel;
+    int _pRange;
+    int _pScan;
+    int _pAmmo;
+    int _pCost;
     
     GameUnitCurrentState(GameUnitParameters* params);
     ~GameUnitCurrentState();

@@ -51,16 +51,16 @@ void GameUnitParameters::CalcParams(int researchArea, bool &incrementVersion)
     
     switch (researchArea)
     {
-        case kAttackResearch: _pAttack =    _config_w->_pAttack + newResearchBonus; break;
-        case kShotsResearch: _pShots =      _config_w->_pShots + newResearchBonus; break;
-        case kRangeResearch: _pRange =      _config_w->_pRange + newResearchBonus; break;
-        case kArmorResearch: _pArmor =      _config_w->_pArmor + newResearchBonus; break;
-        case kHitpointsResearch: _pHealth = _config_w->_pHealth + newResearchBonus; break;
-        case kScanResearch: _pScan =        _config_w->_pScan + newResearchBonus; break;
-        case kSpeedResearch: _pSpeed =      _config_w->_pSpeed + newResearchBonus; break;
-        case kCostResearch: _pCost =        _config_w->_pCost + newResearchBonus; break;
+        case kAttackResearch: _pMaxAttack =    _config_w->_pAttack + newResearchBonus; break;
+        case kShotsResearch: _pMaxShots =      _config_w->_pShots + newResearchBonus; break;
+        case kRangeResearch: _pMaxRange =      _config_w->_pRange + newResearchBonus; break;
+        case kArmorResearch: _pMaxArmor =      _config_w->_pArmor + newResearchBonus; break;
+        case kHitpointsResearch: _pMaxHealth = _config_w->_pHealth + newResearchBonus; break;
+        case kScanResearch: _pMaxScan =        _config_w->_pScan + newResearchBonus; break;
+        case kSpeedResearch: _pMaxSpeed =      _config_w->_pSpeed + newResearchBonus; break;
+        case kCostResearch: _pMaxCost =        _config_w->_pCost + newResearchBonus; break;
     }
-    _pAmmo = _config_w->_pAmmo;
+    _pMaxAmmo = _config_w->_pAmmo;
     if ((researchArea != kCostResearch) && (oldResearchBonus != newResearchBonus))   // don't increment the version, if the only change are the costs
         incrementVersion = true;
     
