@@ -24,6 +24,7 @@ class MAXAnimationBase;
 class MAXAnimationObjectUnit;
 class MAXObjectConfig;
 
+class GameUnitCurrentState;
 class GameUnitParameters;
 class GameMatchPlayer;
 class GameEffect;
@@ -49,7 +50,7 @@ public:
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
     
     GameMatchPlayer *_owner_w;
-    GameUnitParameters* _config;
+    GameUnitCurrentState* _config;
     
     bool _detected;
     MAXUnitObject* GetUnitObject() const {return (MAXUnitObject*) GetObject(); };
