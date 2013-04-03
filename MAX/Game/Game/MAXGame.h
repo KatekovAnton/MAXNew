@@ -13,6 +13,7 @@
 #include "DisplayPinchDelegate.h"
 #include "USimpleContainer.h"
 #include "MAXEngine.h"
+#include "SelectedGameObjectDelegate.h"
 
 using namespace std;
 using namespace Utils;
@@ -33,7 +34,8 @@ class GameMatch;
 class GameEffect;
 class GameInterface;
 
-class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate {
+class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate
+{
     
     MAXGAMESTATE _currentState;
     
@@ -43,6 +45,8 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate {
     
     int iteration;
     void StartTest();
+    void ShowPathMap();
+    void HidePathMap();
     
 public:
     
@@ -72,6 +76,10 @@ public:
     virtual void ProceedPan(float speedx, float speedy);
     virtual void ProceedTap(float tapx, float tapy);
     virtual void ProceedLongTap(float tapx, float tapy);
+    
+#pragma mark - SelectedGameObjectDelegate
+    virtual void onUnitStartMove(GameUnit* unit);
+    virtual void onUnitStopMove(GameUnit* unit);
     
 };
 

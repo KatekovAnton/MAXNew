@@ -12,6 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "Geometry.h"
+#include "SelectedGameObjectDelegate.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -29,6 +30,7 @@ protected:
 public:
     
     bool _onMap;
+    SelectedGameObjectDelegate* selectedGameObjectDelegate;
     
     GameObject(MAXObject *object, MAXObjectConfig *config);
     ~GameObject();
