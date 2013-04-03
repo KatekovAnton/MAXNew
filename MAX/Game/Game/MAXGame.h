@@ -41,7 +41,6 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     
     
     GameInterface *_gameInterface;
-    GameMatch *_match;
     
     int iteration;
     void StartTest();
@@ -49,6 +48,7 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     void HidePathMap();
     
 public:
+    GameMatch *_match;
     
     USimpleContainer<GameEffect*> *_effects;
     

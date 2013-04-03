@@ -114,15 +114,22 @@ void GameFog::EndUpdates()
     }
 }
 
-void GameFog::UpdateOnUnitDidMove(GameUnit* unit, const CCPoint &oldPoint, const CCPoint &newPoint)
+void GameFog::UpdateOnUnitDidStartMove(GameUnit* unit)
 {
     if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
     {
         BeginUpdates();
-        _updatingBox = unit->GetScanBoundingBox(oldPoint);
-        Reset(unit, oldPoint);
-        Update(unit, newPoint);
-        _updatingBox.AddBoundingBox(unit->GetScanBoundingBox(newPoint));
+        _updatingBox = unit->GetScanBoundingBox(unit->GetUnitCell());
+        Reset(unit, unit->GetUnitCell());
+    }
+}
+
+void GameFog::UpdateOnUnitDidEndMove(GameUnit* unit)
+{
+    if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
+    {
+        Update(unit, unit->GetUnitCell());
+        _updatingBox.AddBoundingBox(unit->GetScanBoundingBox(unit->GetUnitCell()));
         EndUpdates();
     }
 }

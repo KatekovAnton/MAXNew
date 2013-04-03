@@ -17,7 +17,6 @@
 
 #include "GameUnitCurrentState.h"
 #include "GameUnitParameters.h"
-#include "GameMatchPlayer.h"
 #include "GameEffect.h"
 #include "GameMatch.h"
 #include "GameMap.h"
@@ -25,11 +24,9 @@
 
 using namespace cocos2d;
 
-GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner)
-:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _config(new GameUnitCurrentState(config)), _owner_w(owner), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false)
+GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
+:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _config(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL)
 {
-    unitObject->_playerId = owner->_playerInfo._playerId;
-    unitObject->_playerPalette_w = owner->GetPalettePointer();
     unitObject->_statusDelegate_w = this;
     unitObject->_needShadow = !_config->_params_w->GetConfig()->_isUnderwater;
     _onMap = false;
@@ -94,7 +91,8 @@ void GameUnit::PlaceUnitOnMap()
     _isPlacedOnMap = true;
     Show();
     // update the fog of war for the current gamer
-    _owner_w->UnitDidPlaceToMap(this);
+    _delegate_w->GameUnitDidPlaceOnMap(this);
+//    _owner_w->UnitDidPlaceToMap(this);
 }
 
 void GameUnit::RemoveUnitFromMap()
@@ -104,7 +102,8 @@ void GameUnit::RemoveUnitFromMap()
     _isPlacedOnMap = false;
     Hide();
     // update the fog of war for the current gamer
-    _owner_w->UnitDidRemoveFromMap(this);
+    _delegate_w->GameUnitDidRemoveFromMap(this);
+//    _owner_w->UnitDidRemoveFromMap(this);
 }
 
 void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
@@ -121,7 +120,7 @@ void GameUnit::CheckBodyAndShadow()
     
     
     MAXUnitObject* _unitObject = GetUnitObject();
-    GROUND_TYPE groundType = _owner_w->_match_w->_map->GroundTypeAtPoint(_unitCell);
+    GROUND_TYPE groundType = game->_match->_map->GroundTypeAtPoint(_unitCell);
     if (groundType == GROUND_TYPE_WATER)
     {
         if (_config->_params_w->GetConfig()->_isBuilding)
@@ -361,8 +360,10 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
         if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
         {
 //            printf("Update radar!\n");
-            _owner_w->UnitDidMove(this, _unitCell, realCell);
+            //  _owner_w->UnitDidMove(this, _unitCell, realCell);
+            _delegate_w->GameUnitWillLeaveCell(this);
             _unitCell = realCell;
+            _delegate_w->GameUnitDidEnterCell(this);
             CheckBodyAndShadow();
         }
     }

@@ -26,7 +26,7 @@ class MAXObjectConfig;
 
 class GameUnitCurrentState;
 class GameUnitParameters;
-class GameMatchPlayer;
+class GameUnitDelegate;
 class GameEffect;
 class PFWaveCell;
 
@@ -49,13 +49,14 @@ public:
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
     
-    GameMatchPlayer *_owner_w;
+//    GameMatchPlayer *_owner_w;
     GameUnitCurrentState* _config;
+    GameUnitDelegate    *_delegate_w;
     
     bool _detected;
     MAXUnitObject* GetUnitObject() const {return (MAXUnitObject*) GetObject(); };
     
-    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config, GameMatchPlayer* owner);
+    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config);
     ~GameUnit();
     
     

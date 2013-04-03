@@ -51,7 +51,8 @@ public:
     int GetValue(const CCPoint &point) const;
     
     
-    void UpdateOnUnitDidMove(GameUnit* unit, const CCPoint &oldPoint, const CCPoint &newPoint);
+    void UpdateOnUnitDidStartMove(GameUnit* unit);
+    void UpdateOnUnitDidEndMove(GameUnit* unit);
     void UpdateOnUnitDidPlaceToMap(GameUnit* unit);
     void UpdateOnUnitDidRemoveFromMap(GameUnit* unit);
     

@@ -16,6 +16,7 @@
 
 #include "MAXEngine.h"
 #include "MAXClanConfig.h"
+#include "MAXUnitObject.h"
 #include "MAXContentLoader.h"
 #include "MAXConfigManager.h"
 
@@ -73,10 +74,19 @@ GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned
 {
     MAXObjectConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
     GameUnitParameters* params = new GameUnitParameters(unit, _clanConfig, _researchManager, _upgradeManager);
-    GameUnit* result = new GameUnit(MAXSCL->CreateUnit(unit), params, this);
+    MAXUnitObject *unitObject = MAXSCL->CreateUnit(unit);
+    unitObject->_playerId = _playerInfo._playerId;
+    unitObject->_playerPalette_w = GetPalettePointer();
+    
+    GameUnit* result = new GameUnit(unitObject, params);
     result->SetColor(GLKVector4Make(_playerInfo._color.r, _playerInfo._color.g, _playerInfo._color.b, 1.0));
     result->SetLocation(CCPoint(posx, posy));
     result->CheckBodyAndShadow();
+    result->_delegate_w = this;
+    
+    
+    
+    
     _units.addObject(result);
     return result;
 }
@@ -101,26 +111,6 @@ void GameMatchPlayer::SetPalette(double time)
 void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
 {
     _landingPosition = landingPosition;
-}
-
-#pragma mark - GameUnitDelegate
-
-void GameMatchPlayer::UnitDidMove(GameUnit *unit, const CCPoint &oldPoint, const CCPoint &newPoint)
-{
-    _fog->UpdateOnUnitDidMove(unit, oldPoint, newPoint);
-    _resourceMapFog->UpdateOnUnitDidMove(unit, oldPoint, newPoint);
-}
-
-void GameMatchPlayer::UnitDidPlaceToMap(GameUnit *unit)
-{
-    _fog->UpdateOnUnitDidPlaceToMap(unit);
-    _resourceMapFog->UpdateOnUnitDidPlaceToMap(unit);
-}
-
-void GameMatchPlayer::UnitDidRemoveFromMap(GameUnit *unit)
-{
-    _fog->UpdateOnUnitDidRemoveFromMap(unit);
-    _resourceMapFog->UpdateOnUnitDidRemoveFromMap(unit);
 }
 
 #pragma mark - GameFogDelegate
@@ -167,6 +157,33 @@ void GameMatchPlayer::CellDidUpdate(const int x, const int y, const GameFog *fog
     }
 }
 
+#pragma mark - GameUnitDelegate
 
+void GameMatchPlayer::GameUnitWillLeaveCell(GameUnit *unit)
+{
+    _fog->UpdateOnUnitDidStartMove(unit);
+    _resourceMapFog->UpdateOnUnitDidStartMove(unit);
+}
+
+void GameMatchPlayer::GameUnitDidEnterCell(GameUnit *unit)
+{
+    _fog->UpdateOnUnitDidEndMove(unit);
+    _resourceMapFog->UpdateOnUnitDidEndMove(unit);
+}
+
+void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
+{}
+
+void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
+{
+    _fog->UpdateOnUnitDidPlaceToMap(unit);
+    _resourceMapFog->UpdateOnUnitDidPlaceToMap(unit);
+}
+
+void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
+{
+    _fog->UpdateOnUnitDidRemoveFromMap(unit);
+    _resourceMapFog->UpdateOnUnitDidRemoveFromMap(unit);
+}
 
 

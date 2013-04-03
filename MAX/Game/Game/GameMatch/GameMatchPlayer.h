@@ -13,6 +13,7 @@
 #include "miniPrefix.h"
 #include "PlayerResearchManager.h"
 #include "GameFogDelegate.h"
+#include "GameUnitDelegate.h"
 
 class Texture;
 class GameUnit;
@@ -28,15 +29,13 @@ class GameFog;
 
 struct GameMatchPlayerInfo {
     
-	int clan;
-    
-    
+	int             _clan;
     unsigned int    _playerId;
     string          _name;
     Color           _color;
 };
 
-class GameMatchPlayer : public GameFogDelegate {
+class GameMatchPlayer : public GameFogDelegate, public GameUnitDelegate {
     
     vector<Texture*> _palettes;
     Texture* _palette;
@@ -69,12 +68,8 @@ public:
     ~GameMatchPlayer();
 
     void SetPalette(double time);
-    
     void LandingTo(const CCPoint &landingPosition);
-    
-    void UnitDidMove(GameUnit *unit, const CCPoint &oldPoint, const CCPoint &newPoint);
-    void UnitDidPlaceToMap(GameUnit* unit);
-    void UnitDidRemoveFromMap(GameUnit* unit);
+
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     GameUnit* GetUnitInPosition(const CCPoint& pos);
@@ -84,6 +79,16 @@ public:
     virtual bool UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const;
     virtual float UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const;
     virtual void CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const;
+    
+#pragma mark - GameUnitDelegate 
+        
+    virtual void GameUnitWillLeaveCell(GameUnit *unit);
+    virtual void GameUnitDidEnterCell(GameUnit *unit);
+        
+    virtual void GameUnitDidDestroy(GameUnit *unit);
+        
+    virtual void GameUnitDidPlaceOnMap(GameUnit *unit);
+    virtual void GameUnitDidRemoveFromMap(GameUnit *unit);
     
 };
 
