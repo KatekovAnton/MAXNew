@@ -191,6 +191,7 @@ void GameUnit::FollowPath(void)
     CCPoint pos = _unitCell;
     int bodyIndex = _unitObject->GetBodyIndex();
     int pi = pathIndex;
+    bool first = true;
     while (pi >= 0)
     {
         PFWaveCell* cell = movePath[pi];
@@ -200,8 +201,8 @@ void GameUnit::FollowPath(void)
         if (neededBodyIndex != bodyIndex)
         {
             MAXAnimationObjectUnit* turn = new MAXAnimationObjectUnit(bodyIndex, neededBodyIndex, _unitObject->GetPureHeadIndex(), _unitObject);
-            if (pi != pathSize - 2) // speed up unit rotation in middle of path
-                turn->_aniTime = 0.07;
+            if (!first) // speed up unit rotation in middle of path
+                turn->_aniTime = 0.01;
             sequence->AddAnimation(turn);
             bodyIndex = neededBodyIndex;
         }
@@ -223,6 +224,7 @@ void GameUnit::FollowPath(void)
         
         pos = destination;
         pi--;
+        first = false;
     }
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
     _currentTopAnimation = sequence;
