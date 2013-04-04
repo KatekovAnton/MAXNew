@@ -47,6 +47,7 @@ public:
     
     CCPoint GetStartLocation () const { return _startLocation; };
     CCPoint GetEndLocation () const { return _endLocation; };
+    void SetMoveFactor(float moveFactor);
     
     MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, MAXUnitObject* object, const MAXANIMATION_CURVE moveCurve);      //creates move action
     MAXAnimationObjectUnit(int bodyIndex, int newBodyIndex, int headIndex, MAXUnitObject* object);                                  //creates rotate action
