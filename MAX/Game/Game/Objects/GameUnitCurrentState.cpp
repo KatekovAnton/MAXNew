@@ -10,11 +10,13 @@
 #include "GameUnitParameters.h"
 
 GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
-:_params_w(params)
+:_unitBaseParameters(params)
 {}
 
 GameUnitCurrentState::~GameUnitCurrentState()
-{}
+{
+    delete _unitBaseParameters;
+}
 
 void GameUnitCurrentState::StartNewTurn()
 {}

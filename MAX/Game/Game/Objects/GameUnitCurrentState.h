@@ -18,7 +18,7 @@ class GameUnitCurrentState {
     
 public:
     
-    GameUnitParameters* _params_w;
+    GameUnitParameters* _unitBaseParameters;
     
     int _pAttack;
     int _pSpeed;

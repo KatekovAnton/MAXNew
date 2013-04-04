@@ -25,21 +25,21 @@
 using namespace cocos2d;
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
-:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _config(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL)
+:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL)
 {
     unitObject->_statusDelegate_w = this;
-    unitObject->_needShadow = !_config->_params_w->GetConfig()->_isUnderwater;
+    unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
     _onMap = false;
     _detected = false;
-    if(_config->_params_w->GetConfig()->_isBuilding && _config->_params_w->GetConfig()->_isNeedUndercover)
+    if(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isNeedUndercover)
     {
-        _effectUnder = GameEffect::CreateBuildingBase(_config->_params_w->GetConfig()->_bSize == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
+        _effectUnder = GameEffect::CreateBuildingBase(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
     }
 }
 
 GameUnit::~GameUnit()
 {
-    delete _config;
+    delete _unitCurrentParameters;
 
     if (_effectUnder) {
         _effectUnder->Hide();
@@ -49,7 +49,7 @@ GameUnit::~GameUnit()
 
 void GameUnit::SetDirection(int dir)
 {
-    if(_config->_params_w->GetConfig()->_isBuilding)
+    if(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
         return;
     MAXUnitObject* _unitObject = GetUnitObject();
     _unitObject->SetBodyDirection(dir);
@@ -58,7 +58,7 @@ void GameUnit::SetDirection(int dir)
 
 void GameUnit::SetRandomDirection()
 {
-    if(_config->_params_w->GetConfig()->_isBuilding)
+    if(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
         return;
     SetDirection(nextIntMax(8));
 }
@@ -113,7 +113,7 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 
 void GameUnit::CheckBodyAndShadow()
 {
-    if (!(_config->_params_w->GetConfig()->_isAmphibious || _config->_params_w->GetConfig()->_isUnderwater || CanStartBuildProcess()))
+    if (!(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || CanStartBuildProcess()))
         return;
     
     
@@ -121,19 +121,19 @@ void GameUnit::CheckBodyAndShadow()
     GROUND_TYPE groundType = game->_match->_map->GroundTypeAtPoint(_unitCell);
     if (groundType == GROUND_TYPE_WATER)
     {
-        if (_config->_params_w->GetConfig()->_isBuilding)
+        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
         {
             _unitObject->SetBodyOffset(_isInProcess?1:0);
         }
         else
         {
-            if (_config->_params_w->GetConfig()->_isUnderwater && !_detected)
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater && !_detected)
             {
                 _unitObject->SetBodyOffset(0);
                 _unitObject->_needShadow = false;
                 return;
             }
-            if (_config->_params_w->GetConfig()->_isAmphibious)
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious)
             {
                 _unitObject->SetBodyOffset(_isInProcess?24:8);
                 return;
@@ -142,19 +142,19 @@ void GameUnit::CheckBodyAndShadow()
     }
     else
     {
-        if (_config->_params_w->GetConfig()->_isBuilding)
+        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
         {
             _unitObject->SetBodyOffset(_isInProcess?1:0);
         }
         else
         {
-            if (_config->_params_w->GetConfig()->_isUnderwater)
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater)
             {
                 _unitObject->SetBodyOffset(8);
-                _unitObject->_needShadow = _config->_params_w->GetConfig()->_haveShadow;
+                _unitObject->_needShadow = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_haveShadow;
                 return;
             }
-            if (_config->_params_w->GetConfig()->_isAmphibious)
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious)
             {
                 _unitObject->SetBodyOffset(_isInProcess?16:0);
                 return;
@@ -276,13 +276,13 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
     MAXUnitObject* _unitObject = GetUnitObject();
-    if(!_config->_params_w->GetConfig()->_isAbleToFire)
+    if(!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAbleToFire)
         return false;
     if(_unitObject->GetFireing())
         return false;
     
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    return IsInFireRadius(targetCenter) && _config->_params_w->_pMaxAmmo != 0 && _config->_params_w->_pMaxShots != 0;
+    return IsInFireRadius(targetCenter) && _unitCurrentParameters->_unitBaseParameters->_pMaxAmmo != 0 && _unitCurrentParameters->_unitBaseParameters->_pMaxShots != 0;
 }
 
 void GameUnit::Fire(const cocos2d::CCPoint &target)
@@ -299,7 +299,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
     BULLET_TYPE type = BULLET_TYPE_ROCKET;
-    GameEffect* effect = GameEffect::CreateBullet(type, _config->_params_w->GetConfig()->_bLevel, BLAST_TYPE_AIR, SECONDARY_TYPE_SMOKE);
+    GameEffect* effect = GameEffect::CreateBullet(type, _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel, BLAST_TYPE_AIR, SECONDARY_TYPE_SMOKE);
     effect->SetLocation(GetUnitCell());
     effect->Show();
     if (type != BULLET_TYPE_PLASMA) {
@@ -313,7 +313,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 
 bool GameUnit::CanStartBuildProcess()
 {
-    return ((!_config->_params_w->GetConfig()->_isAllwaysOn && _config->_params_w->GetConfig()->_isBuilding) || _config->_params_w->GetConfig()->_bSelfCreatorType != 0);
+    return ((!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding) || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSelfCreatorType != 0);
 }
 
 void GameUnit::StartBuildProcess()
@@ -399,12 +399,12 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 
 int GameUnit::GetScan() const
 {
-    return _config->_params_w->_pMaxScan;
+    return _unitCurrentParameters->_unitBaseParameters->_pMaxScan;
 }
 
 int GameUnit::GetRange() const
 {
-    return _config->_params_w->_pMaxRange;
+    return _unitCurrentParameters->_unitBaseParameters->_pMaxRange;
 }
 
 float GameUnit::GetHealStatus() const
@@ -414,6 +414,6 @@ float GameUnit::GetHealStatus() const
 
 float GameUnit::GetShots() const
 {
-    return _config->_params_w->_pMaxShots;
+    return _unitCurrentParameters->_pShots;
 }
 

@@ -49,7 +49,7 @@ public:
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
     
-    GameUnitCurrentState* _config;
+    GameUnitCurrentState* _unitCurrentParameters;
     GameUnitDelegate    *_delegate_w;
     
     bool _detected;

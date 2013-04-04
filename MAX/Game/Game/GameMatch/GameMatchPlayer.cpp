@@ -118,7 +118,7 @@ void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
 bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const
 {
     if (fog == _resourceMapFog) 
-        return unit->_config->_params_w->GetIsSurvivor();
+        return unit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
     
     if (fog == _fog) 
         return true;
@@ -129,7 +129,7 @@ bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *f
 float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const
 {
     if (fog == _fog) 
-        return unit->_config->_params_w->_pMaxScan;
+        return unit->_unitCurrentParameters->_unitBaseParameters->_pMaxScan;
     
     if (fog == _resourceMapFog) 
         return 1.5;

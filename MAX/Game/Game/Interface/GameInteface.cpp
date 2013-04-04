@@ -296,7 +296,7 @@ void GameInterface::OnToggleResources()
 {
     _drawResources = !_drawResources;
     if (_currentUnit) 
-        engine->drawResources = _drawResources || _currentUnit->_config->_params_w->GetIsSurvivor();
+        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
     else
         engine->drawResources = _drawResources;
     UpdateToggleResourcesButton();
@@ -392,7 +392,7 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
     
     
     if (_currentUnit)
-        engine->drawResources = _drawResources || _currentUnit->_config->_params_w->GetIsSurvivor();
+        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
     else
         engine->drawResources = _drawResources;
     
