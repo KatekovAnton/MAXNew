@@ -30,15 +30,16 @@ GameMap::GameMap(const shared_ptr<MAXContentMap>& map)
 GameMap::~GameMap()
 {
     free(_groundType);
-    for (int i = 0; i < _units.GetCount(); i++) {
-        GameUnit* unit = _units.objectAtIndex(i);
-        delete unit;
-    }
 }
 
 GROUND_TYPE GameMap::GroundTypeAtPoint(const CCPoint& point) const
 {
     return (GROUND_TYPE)_groundType[(int)point.y * _w + (int)point.x];
+}
+
+GROUND_TYPE GameMap::GroundTypeAtIndex(const int index) const
+{
+    return (GROUND_TYPE)_groundType[index];
 }
 
 GROUND_TYPE GameMap::GroundTypeAtXY(const int x, const int y) const

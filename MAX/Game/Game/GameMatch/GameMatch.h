@@ -35,6 +35,10 @@ public:
 
     GameMatch(const string& configName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();
+    
+    
+    void GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point);
+    void GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point);
 };
 
 #endif /* defined(__MAX__Game_atch__) */

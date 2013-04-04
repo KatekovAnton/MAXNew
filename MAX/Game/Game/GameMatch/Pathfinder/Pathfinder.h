@@ -39,7 +39,7 @@ class Pathfinder
     int GetCost(const int x, const int y, unsigned char direction);
     void TestNeighbours(void);
     void ExchangeWaves(void);
-    int GetIndexAt(const int x, const int y);
+    int GetIndexAt(const int x, const int y) const;
     void FillPathMap(const int fromX, const int fromY, const int toX, const int toY);
 public:
     Pathfinder(GameMap* _map);

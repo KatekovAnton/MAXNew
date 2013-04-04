@@ -30,6 +30,28 @@ const float interfaceAnimationTime = 0.2;
 
 typedef enum
 {
+    OBJECT_LEVEL_UNDERWATER   = 0,
+    OBJECT_LEVEL_ONGROUND     = 1,
+    OBJECT_LEVEL_OVERGROUND   = 2,
+    OBJECT_LEVEL_BUILDING     = 3,
+    OBJECT_LEVEL_UNITS        = 4,
+    OBJECT_LEVEL_OVERUNITS    = 5,
+    OBJECT_LEVEL_AIR          = 6,
+    OBJECT_LEVEL_OVERAIR      = 7
+} OBJECT_LEVEL;
+
+typedef enum
+{
+    UNIT_MOVETYPE_GROUND = 0,
+    UNIT_MOVETYPE_GROUNDCOAST = 1,
+    UNIT_MOVETYPE_AMHIB = 2,
+    UNIT_MOVETYPE_SEACOAST = 3,
+    UNIT_MOVETYPE_SEA = 4,
+    UNIT_MOVETYPE_AIR = 5
+} UNIT_MOVETYPE;
+
+typedef enum
+{
     //unit parameters
     UNIT_PARAMETER_TYPE_SPEED,
     UNIT_PARAMETER_TYPE_HEALTH,
@@ -106,7 +128,6 @@ struct __MAXCoordinates
     int y;
         
 } typedef MAXCoordinates;
-
     
 typedef enum
 {
@@ -121,7 +142,9 @@ typedef enum
     EXTENDED_GROUND_TYPE_GROUND = 0,
     EXTENDED_GROUND_TYPE_WATER = 1,
     EXTENDED_GROUND_TYPE_COAST = 2,
-    EXTENDED_GROUND_TYPE_UNPASSABLE = 3
+    EXTENDED_GROUND_TYPE_UNPASSABLE = 3,
+    EXTENDED_GROUND_TYPE_ROAD = 4,
+    EXTENDED_GROUND_TYPE_BRIDGE = 5
 } EXTENDED_GROUND_TYPE;
     
 #endif

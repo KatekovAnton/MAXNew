@@ -72,7 +72,6 @@ public:
 
     
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
-    GameUnit* GetUnitInPosition(const CCPoint& pos);
     
 #pragma mark - GameFogDelegate
 

@@ -249,7 +249,7 @@ void Pathfinder::ExchangeWaves(void)
 	newWave->Clear();
 }
 
-int Pathfinder::GetIndexAt(const int x, const int y)
+int Pathfinder::GetIndexAt(const int x, const int y) const
 {
     int result = -1;
     if ((x >= 0) && (y >= 0) && (x < w) && (y < h))

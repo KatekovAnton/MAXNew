@@ -12,28 +12,6 @@
 #include <iostream>
 #include "miniPrefix.h"
 
-typedef enum
-{
-    OBJECT_LEVEL_UNDERWATER   = 0,
-    OBJECT_LEVEL_ONGROUND     = 1,
-    OBJECT_LEVEL_OVERGROUND   = 2,
-    OBJECT_LEVEL_BUILDING     = 3,
-    OBJECT_LEVEL_UNITS        = 4,
-    OBJECT_LEVEL_OVERUNITS    = 5,
-    OBJECT_LEVEL_AIR          = 6,
-    OBJECT_LEVEL_OVERAIR      = 7
-} OBJECT_LEVEL;
-
-typedef enum
-{
-    UNIT_MOVETYPE_GROUND = 0,
-    UNIT_MOVETYPE_GROUNDCOAST = 1,
-    UNIT_MOVETYPE_AMHIB = 2,
-    UNIT_MOVETYPE_SEACOAST = 3,
-    UNIT_MOVETYPE_SEA = 4,
-    UNIT_MOVETYPE_AIR = 5
-} UNIT_MOVETYPE;
-
 class MAXObjectConfig {
     
     void SetResurceConfigValue(string key, string value);

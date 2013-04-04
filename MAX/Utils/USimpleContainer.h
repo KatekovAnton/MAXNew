@@ -71,7 +71,7 @@ namespace Utils {
     template <class T>
     int USimpleContainer<T>::indexOf(const T &object) {
          for (int i = 0; i < _count; i++) {
-            if(_array[index] == object)
+            if(_array[i] == object)
                 return i;
         }
         return -1;

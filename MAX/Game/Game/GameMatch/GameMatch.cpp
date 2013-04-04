@@ -68,3 +68,15 @@ GameMatch::~GameMatch()
     if (_pathfinder)
         delete _pathfinder;
 }
+
+void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
+{
+    _agregator->RemoveUnitFromCell(unit, point.x, point.y);
+}
+
+void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
+{
+    _agregator->AddUnitToCell(unit, point.x, point.y);
+}
+
+

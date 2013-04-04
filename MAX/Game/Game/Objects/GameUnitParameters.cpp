@@ -84,5 +84,14 @@ bool GameUnitParameters::GetIsSurvivor() const
     return _config_w->_isSurvivor;
 }
 
+bool GameUnitParameters::GetIsBuilding() const
+{
+    return _config_w->_isBuilding;
+}
+
+int GameUnitParameters::GetSize() const
+{
+    return _config_w->_bSize;
+}
 
 

@@ -85,21 +85,8 @@ GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned
     result->_delegate_w = this;
     
     
-    
-    
     _units.addObject(result);
     return result;
-}
-
-GameUnit* GameMatchPlayer::GetUnitInPosition(const CCPoint& pos)
-{
-    for (int i = 0; i < _units.GetCount(); i++) {
-        GameUnit* unit = _units.objectAtIndex(i);
-        if (unit->IsUnitInCell(pos)) {
-            return unit;
-        }
-    }
-    return NULL;
 }
 
 void GameMatchPlayer::SetPalette(double time)
@@ -139,11 +126,10 @@ float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog 
 
 void GameMatchPlayer::CellDidUpdate(const int x, const int y, const GameFog *fog, bool visibleFlag) const
 {
-    if (fog == _fog) {
+    if (fog == _fog)
+    {
        if (GetIsCurrentPlayer())
-       {
            engine->AddFogCell(x, y, !visibleFlag);
-       }
     }
     if (fog == _resourceMapFog)
     {
@@ -163,27 +149,33 @@ void GameMatchPlayer::GameUnitWillLeaveCell(GameUnit *unit)
 {
     _fog->UpdateOnUnitDidStartMove(unit);
     _resourceMapFog->UpdateOnUnitDidStartMove(unit);
+    _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidEnterCell(GameUnit *unit)
 {
     _fog->UpdateOnUnitDidEndMove(unit);
     _resourceMapFog->UpdateOnUnitDidEndMove(unit);
+    _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
-{}
+{
+    _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
+}
 
 void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
 {
     _fog->UpdateOnUnitDidPlaceToMap(unit);
     _resourceMapFog->UpdateOnUnitDidPlaceToMap(unit);
+    _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
 {
     _fog->UpdateOnUnitDidRemoveFromMap(unit);
     _resourceMapFog->UpdateOnUnitDidRemoveFromMap(unit);
+    _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 
 

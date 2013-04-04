@@ -18,6 +18,8 @@
 #include "MAXUnitObject.h"
 #include "MAXAnimationPrefix.h"
 
+#include "MatchMapAgregator.h"
+
 #include "GameMap.h"
 #include "GameFog.h"
 #include "GameUnit.h"
@@ -360,10 +362,10 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.y = floorf(p.y);
     
     
-    printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
+ //   printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
     
     
-    GameUnit* newCurrentUnit = _match->_currentPlayer_w->GetUnitInPosition(p);
+    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y);// _currentPlayer_w->GetUnitInPosition(p);
     if (_currentUnit && !_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
     {
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
@@ -408,7 +410,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                 Pathfinder* pf = _match->_pathfinder;
                 pf->MakePathMap(location.x, location.y, unitMoveType);
                 //pf->DumpMap();
-                ShowPathMap();
+                //ShowPathMap();
             }
             
             engine->SelectUnit(_currentUnit->GetUnitObject());

@@ -55,6 +55,8 @@ public:
     void Upgrade();
     
     bool GetIsSurvivor() const;
+    bool GetIsBuilding() const;
+    int GetSize() const;
 };
 
 #endif /* defined(__MAX__GameUnitParameters__) */
