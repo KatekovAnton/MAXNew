@@ -217,6 +217,8 @@ void GameUnit::FollowPath(void)
         
         MAXAnimationObjectUnit* move = new MAXAnimationObjectUnit(pos ,destination, _unitObject, curve);
         move->_delegate = this;
+        float moveFactor = cell->cost * 10.0 / _config->_params_w->GetConfig()->_pSpeed; // change to current max speed
+        move->SetMoveFactor(moveFactor);
         sequence->AddAnimation(move);
         
         pos = destination;

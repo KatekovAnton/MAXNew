@@ -65,7 +65,7 @@ MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, con
     _aniTime = 0.2;
     if (_moveCurve != MAXANIMATION_CURVE_EASE_LINEAR)
     {
-        _aniTime *= 1.5;
+        _aniTime *= M_PI_2;
     }
     _deltaLocation = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
 }
@@ -82,6 +82,14 @@ MAXAnimationObjectUnit::MAXAnimationObjectUnit(float firetime, MAXUnitObject* ob
     _aniTime = firetime;
 }
 
+void MAXAnimationObjectUnit::SetMoveFactor(float moveFactor)
+{
+    _aniTime = 0.02 * moveFactor;
+    if (_moveCurve != MAXANIMATION_CURVE_EASE_LINEAR)
+    {
+        _aniTime *= M_PI_2;
+    }
+}
 
 int MAXAnimationObjectUnit::CalculateInterpolatedIndex(double theta)
 {
