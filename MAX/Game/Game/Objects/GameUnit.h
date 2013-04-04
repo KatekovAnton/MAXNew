@@ -79,14 +79,17 @@ public:
     
     void CheckMovementUpdate();
     
+    
 #pragma mark - Fire methods
     bool IsInProcess() const {return _isInProcess;}
     bool CanFire(const cocos2d::CCPoint &target);
     void Fire(const CCPoint& target);
     
+    
 #pragma mark - Build methods
     bool CanStartBuildProcess();
     void StartBuildProcess();
+    
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);
