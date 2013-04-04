@@ -12,7 +12,7 @@
 #include <iostream>
 #include "PFWaveCell.h"
 #include "cocos2d.h"
-
+#include "USimpleContainer.h"
 using namespace std;
 
 class PFWaveCell;
