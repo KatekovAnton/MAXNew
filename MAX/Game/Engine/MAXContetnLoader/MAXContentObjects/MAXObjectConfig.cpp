@@ -314,7 +314,7 @@ MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfig
     {
         _bMoveType = UNIT_MOVETYPE_SURVEYOR;
     }
-    _isAmphibious = _bMoveType == UNIT_MOVETYPE_AMHIB;
+    _isAmphibious = _bMoveType == UNIT_MOVETYPE_AMHIB || _bMoveType == UNIT_MOVETYPE_SURVEYOR;
     _isShip = _bMoveType == UNIT_MOVETYPE_SEA;
     _haveShadow = _shadowName != "";
 }
