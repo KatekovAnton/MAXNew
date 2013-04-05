@@ -233,10 +233,20 @@ GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
 
 GLKMatrix4 MAXUnitObject::CalculateUnitCenterMatrix() const
 {
-    GLKMatrix4 center = headRenderMatrix;
-    center.m30 +=0.5;
-    center.m31 -=0.5;
-    return center;
+    GLKMatrix4 transform = GetTransformMatrix();
+    GLKMatrix4 translate = GLKMatrix4Identity;
+    if (_needAirOffset)
+    {
+        GLKVector2 offset = CalculateAirOffset();
+        translate = GLKMatrix4MakeTranslation(offset.x, offset.y, 0);
+    }
+    else if (_needShipOffset)
+    {
+        GLKVector2 offset = CalculateShipOffset();
+        translate = GLKMatrix4MakeTranslation(offset.x, offset.y, 0);
+    }
+    
+    return GLKMatrix4Multiply(transform, translate);
 }
 
 RenderObject * MAXUnitObject::GetRenderAspect()
