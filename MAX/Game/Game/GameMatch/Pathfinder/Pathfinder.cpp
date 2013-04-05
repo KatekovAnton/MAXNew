@@ -9,15 +9,15 @@
 #include "Pathfinder.h"
 #include "PFWave.h"
 #include "PFWaveCell.h"
-#include "GameMap.h"
+#include "MatchMapAgregator.h"
 #include "MAXObjectConfig.h"
 
-Pathfinder::Pathfinder(GameMap* _map)
+Pathfinder::Pathfinder(MatchMapAgregator* _map)
 {
     moveType = UNIT_MOVETYPE_GROUND;
     map = _map;
-    w = map->_w;
-    h = map->_h;
+    w = map->Width();
+    h = map->Height();
     pathMap = (PFPathMapCell*)malloc(w * h * sizeof(PFPathMapCell));
     oldWave = new PFWave();
     newWave = new PFWave();
@@ -133,12 +133,17 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
     int result = -1;
     if ((x >= 0) && (y >= 0) && (x < w) && (y < h))
     {
-        GROUND_TYPE groundType = map->GroundTypeAtXY(x, y);
+        EXTENDED_GROUND_TYPE groundType = map->GroundTypeAtXY(x, y);
         switch (moveType)
         {
             case UNIT_MOVETYPE_GROUND:
             {
-                if (groundType == GROUND_TYPE_GROUND)
+                if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
+                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                {
+                    result = 5;
+                }
+                else if (groundType == EXTENDED_GROUND_TYPE_GROUND)
                 {
                     result = 10;
                 }
@@ -146,7 +151,28 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
             }
             case UNIT_MOVETYPE_GROUNDCOAST:
             {
-                if ((groundType == GROUND_TYPE_GROUND) || (groundType == GROUND_TYPE_COAST))
+                if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
+                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                {
+                    result = 5;
+                }
+                else if ((groundType == EXTENDED_GROUND_TYPE_GROUND) ||
+                         (groundType == EXTENDED_GROUND_TYPE_COAST))
+                {
+                    result = 10;
+                }
+                break;
+            }
+            case UNIT_MOVETYPE_SURVEYOR:
+            {
+                if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
+                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                {
+                    result = 5;
+                }
+                else if ((groundType == EXTENDED_GROUND_TYPE_GROUND) ||
+                         (groundType == EXTENDED_GROUND_TYPE_COAST) ||
+                         (groundType == EXTENDED_GROUND_TYPE_WATER))
                 {
                     result = 10;
                 }
@@ -154,11 +180,17 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
             }
             case UNIT_MOVETYPE_AMHIB:
             {
-                if ((groundType == GROUND_TYPE_GROUND) || (groundType == GROUND_TYPE_COAST))
+                if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
+                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                {
+                    result = 5;
+                }
+                else if ((groundType == EXTENDED_GROUND_TYPE_GROUND) ||
+                         (groundType == EXTENDED_GROUND_TYPE_COAST))
                 {
                     result = 10;
                 }
-                else if (groundType == GROUND_TYPE_WATER)
+                else if (groundType == EXTENDED_GROUND_TYPE_WATER)
                 {
                     result = 30;
                 }
@@ -166,7 +198,9 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
             }
             case UNIT_MOVETYPE_SEACOAST:
             {
-                if ((groundType == GROUND_TYPE_WATER) || (groundType == GROUND_TYPE_COAST))
+                if ((groundType == EXTENDED_GROUND_TYPE_WATER) ||
+                    (groundType == EXTENDED_GROUND_TYPE_COAST) ||
+                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
                 {
                     result = 10;
                 }
@@ -174,7 +208,8 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
             }
             case UNIT_MOVETYPE_SEA:
             {
-                if (groundType == GROUND_TYPE_WATER)
+                if ((groundType == EXTENDED_GROUND_TYPE_WATER) ||
+                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
                 {
                     result = 10;
                 }
@@ -191,25 +226,17 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
         {
             if (moveType == UNIT_MOVETYPE_AIR)
             {
-                if (false) // TBD: check if some AIR unit
+                if (map->IsAirUnitInPosition(x, y))
                 {
                     result = -1;
                 }
             }
-            else if (false) // TBD: check if some NON AIR unit or building exist
+            else
             {
-                result = -1;
-            }
-            else if (
-                     (
-                      (moveType == UNIT_MOVETYPE_GROUND) ||
-                      (moveType == UNIT_MOVETYPE_GROUNDCOAST) ||
-                      (moveType == UNIT_MOVETYPE_AMHIB)
-                     ) &&
-                     false // TBD: check if road or bridge exist
-                    )
-            {
-                result /= 2;
+                if (map->IsGroundUnitInPosition(x, y))
+                {
+                    result = -1;
+                }
             }
 
             if (direction % 2 == 1)

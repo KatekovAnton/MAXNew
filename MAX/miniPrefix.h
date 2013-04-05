@@ -47,7 +47,8 @@ typedef enum
     UNIT_MOVETYPE_AMHIB = 2,
     UNIT_MOVETYPE_SEACOAST = 3,
     UNIT_MOVETYPE_SEA = 4,
-    UNIT_MOVETYPE_AIR = 5
+    UNIT_MOVETYPE_AIR = 5,
+    UNIT_MOVETYPE_SURVEYOR = 6 // like UNIT_MOVETYPE_AMHIB but special path cost for sea cells
 } UNIT_MOVETYPE;
 
 typedef enum

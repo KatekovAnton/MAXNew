@@ -48,8 +48,8 @@ GameMatch::GameMatch(const string& configName, const string& mapName, const vect
     
     _currentPlayer_w = _players[0];
     
-    _pathfinder = new Pathfinder(_map);
     _agregator = new MatchMapAgregator(_map);
+    _pathfinder = new Pathfinder(_agregator);
 }
 
 GameMatch::~GameMatch()

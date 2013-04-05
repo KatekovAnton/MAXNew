@@ -310,8 +310,12 @@ MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfig
     _isMultifire = _pFireType == 3;
     _isAnimatedHead = _isAnimHead;
     _level = _bLevel;
-    _isAmphibious = _bMoveType == 2;
-    _isShip = _bMoveType == 4;
+    if (_isSurvivor && (_bMoveType == UNIT_MOVETYPE_AMHIB))
+    {
+        _bMoveType = UNIT_MOVETYPE_SURVEYOR;
+    }
+    _isAmphibious = _bMoveType == UNIT_MOVETYPE_AMHIB;
+    _isShip = _bMoveType == UNIT_MOVETYPE_SEA;
     _haveShadow = _shadowName != "";
 }
 

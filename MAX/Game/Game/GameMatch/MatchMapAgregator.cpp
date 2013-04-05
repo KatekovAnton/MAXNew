@@ -13,6 +13,7 @@
 #include "GameUnitParameters.h"
 #include "GameUnitCurrentState.h"
 #include "GameMatchPlayer.h"
+#include "MAXObjectConfig.h"
 
 inline EXTENDED_GROUND_TYPE TranslateGroundType(GROUND_TYPE t)
 {
@@ -40,6 +41,11 @@ int MatchMapAgregator::GetIndexForCoordinates(const int x, const int y) const
     return y * _map_w->_w + x;
 }
 
+EXTENDED_GROUND_TYPE MatchMapAgregator::GroundTypeAtXY(const int x, const int y) const
+{
+    return _mapOutputBuffer[GetIndexForCoordinates(x, y)];
+}
+
 USimpleContainer<GameUnit*> *MatchMapAgregator::UnitsInCell(const int x, const int y) const
 {
     return _unitsInCells_w[GetIndexForCoordinates(x, y)];
@@ -53,7 +59,7 @@ MatchMapAgregator::MatchMapAgregator(GameMap* map)
         _unitsInCells_w[i] = new USimpleContainer<GameUnit*>(4);
     for (int i = 0; i < size; i++)
         _mapBuffer[i] = TranslateGroundType(_map_w->GroundTypeAtIndex(i));
-    memcpy(_mapBuffer, _mapOutputBuffer, size * sizeof(EXTENDED_GROUND_TYPE));
+    memcpy(_mapOutputBuffer, _mapBuffer, size * sizeof(EXTENDED_GROUND_TYPE));
 }
 
 MatchMapAgregator::~MatchMapAgregator()
@@ -64,6 +70,18 @@ MatchMapAgregator::~MatchMapAgregator()
     delete _mapOutputBuffer;
     delete _mapBuffer;
 }
+
+int MatchMapAgregator::Width()
+{
+    return _map_w->_w;
+}
+
+int MatchMapAgregator::Height()
+{
+    return _map_w->_h;
+}
+
+#pragma mark - unit events
 
 void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const int y)
 {
@@ -103,6 +121,38 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y)
     if (units->GetCount() == 0) 
         return NULL;
     return units->objectAtIndex(0);
+}
+
+bool MatchMapAgregator::IsGroundUnitInPosition(const int x, const int y)
+{
+    bool result = false;
+    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+    for (int i = 0; i < units->GetCount(); i++)
+    {
+        GameUnit* unit = units->objectAtIndex(0);
+        if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType != UNIT_MOVETYPE_AIR)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
+bool MatchMapAgregator::IsAirUnitInPosition(const int x, const int y)
+{
+    bool result = false;
+    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+    for (int i = 0; i < units->GetCount(); i++)
+    {
+        GameUnit* unit = units->objectAtIndex(0);
+        if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType == UNIT_MOVETYPE_AIR)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
 }
 
 EXTENDED_GROUND_TYPE *MatchMapAgregator::CalculateFieldForPlayer(GameMatchPlayer *player, GameUnit *unit)
