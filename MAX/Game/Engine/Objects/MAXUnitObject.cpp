@@ -231,6 +231,14 @@ GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
     return GLKMatrix4Multiply(transform, addtr);
 }
 
+GLKMatrix4 MAXUnitObject::CalculateUnitCenterMatrix() const
+{
+    GLKMatrix4 center = headRenderMatrix;
+    center.m30 +=0.5;
+    center.m31 -=0.5;
+    return center;
+}
+
 RenderObject * MAXUnitObject::GetRenderAspect()
 {
     return _renderAspect;

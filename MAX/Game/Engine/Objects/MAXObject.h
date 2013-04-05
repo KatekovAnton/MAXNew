@@ -30,6 +30,7 @@ public:
     CCPoint GetObjectCell() const;
     CCPoint GetObjectCoordinates() const;
     CCPoint GetObjectCenterCoordinates() const;
+    CCPoint GetObjectCenterCoordinatesFromMatrix(GLKMatrix4 matr) const;
     
     virtual GLKVector2 GetDeltaPosition() const;
     virtual compareFunc GetCompareFunc();

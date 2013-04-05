@@ -105,6 +105,7 @@ public:
     GLKMatrix4 CalculateHeadRenderMatrix();
     GLKVector2 CalculateAirOffset() const;
     GLKVector2 CalculateShipOffset() const;
+    GLKMatrix4 CalculateUnitCenterMatrix() const;
     
     void SetBodyDirection(int state);
     void SetHeadDirection(int state);

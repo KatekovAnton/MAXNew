@@ -88,6 +88,14 @@ CCPoint MAXObject::GetObjectCenterCoordinates() const
     return result;
 }
 
+CCPoint MAXObject::GetObjectCenterCoordinatesFromMatrix(GLKMatrix4 matr) const
+{
+    CCPoint result;
+    result.x = 64.0 * (matr.m30 - 1 + engine->_map->mapW/2) + 32.0;
+    result.y = 64.0 * (-1.0 * (matr.m31 - engine->_map->mapH/2) - 1) + 32.0;
+    return result;
+}
+
 GLKVector2 MAXObject::GetDeltaPosition() const
 {
     return GLKVector2Make(0, 0);
