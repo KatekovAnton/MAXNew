@@ -30,14 +30,20 @@ class MatchMapAgregator {
 public:
     USimpleContainer<GameUnit*> *UnitsInCell(const int x, const int y) const;
     int GetIndexForCoordinates(const int x, const int y) const;
+    EXTENDED_GROUND_TYPE GroundTypeAtXY(const int x, const int y) const;
     
     MatchMapAgregator(GameMap* map);
     ~MatchMapAgregator();
+    
+    int Width();
+    int Height();
     
     //unit events
     void RemoveUnitFromCell(GameUnit *unit, const int x, const int y);
     void AddUnitToCell(GameUnit *unit, const int x, const int y);
     GameUnit* GetUnitInPosition(const int x, const int y);
+    bool IsGroundUnitInPosition(const int x, const int y);
+    bool IsAirUnitInPosition(const int x, const int y);
     EXTENDED_GROUND_TYPE *CalculateFieldForPlayer(GameMatchPlayer *player, GameUnit *unit);
 };
 

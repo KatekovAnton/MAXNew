@@ -21,19 +21,19 @@ typedef struct
 
 class	PFWave;
 class   PFWaveCell;
-class   GameMap;
+class   MatchMapAgregator;
 
 class Pathfinder
 {
-	PFPathMapCell*	pathMap;
-    int             w;
-    int             h;
-	PFWave*			oldWave;
-	PFWave*			newWave;
-    int _fromX, _fromY;
+	PFPathMapCell*      pathMap;
+    int                 w;
+    int                 h;
+	PFWave*             oldWave;
+	PFWave*             newWave;
+    int                 _fromX, _fromY;
     
-    GameMap*        map;
-    UNIT_MOVETYPE   moveType;
+    MatchMapAgregator*  map;
+    UNIT_MOVETYPE       moveType;
     
     void PreparePathMap(void);
     int GetCost(const int x, const int y, unsigned char direction);
@@ -42,7 +42,7 @@ class Pathfinder
     int GetIndexAt(const int x, const int y) const;
     void FillPathMap(const int fromX, const int fromY, const int toX, const int toY);
 public:
-    Pathfinder(GameMap* _map);
+    Pathfinder(MatchMapAgregator* _map);
     ~Pathfinder();
     
     std::vector<PFWaveCell*> FindPath(const int fromX, const int fromY, const int toX, const int toY, UNIT_MOVETYPE unitMoveType);
