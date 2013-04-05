@@ -14,7 +14,7 @@
 #include "GameUnitCurrentState.h"
 #include "GameMatchPlayer.h"
 
-inline EXTENDED_GROUND_TYPE TranslateFroundType(GROUND_TYPE t)
+inline EXTENDED_GROUND_TYPE TranslateGroundType(GROUND_TYPE t)
 {
     switch (t) {
         case GROUND_TYPE_COAST:
@@ -52,7 +52,7 @@ MatchMapAgregator::MatchMapAgregator(GameMap* map)
     for (int i = 0; i < size; i++)
         _unitsInCells_w[i] = new USimpleContainer<GameUnit*>(4);
     for (int i = 0; i < size; i++)
-        _mapBuffer[i] = TranslateFroundType(_map_w->GroundTypeAtIndex(i));
+        _mapBuffer[i] = TranslateGroundType(_map_w->GroundTypeAtIndex(i));
     memcpy(_mapBuffer, _mapOutputBuffer, size * sizeof(EXTENDED_GROUND_TYPE));
 }
 
