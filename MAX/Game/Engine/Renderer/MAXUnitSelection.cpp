@@ -39,7 +39,7 @@ void MAXUnitSelection::SelectUnit(MAXObject* unit)
 {
     if (unit)
     {
-        _animStartTime = engine->FullTime();
+        _animStartTime = 0;
         _unitSelected = true;
         _selectedUnit_w = unit;
     }
@@ -59,6 +59,10 @@ void MAXUnitSelection::Update()
 {
     if(!_unitSelected)
         return;
+    if (_animStartTime == 0)
+    {
+        _animStartTime = engine->FullTime();
+    }
     double time = engine->FullTime()-_animStartTime;
     _part = time/animSelectionTime;
     if(_part > 1)
