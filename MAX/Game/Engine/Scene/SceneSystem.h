@@ -47,9 +47,9 @@ public:
     PivotObject* GetObject(unsigned int objId);
     void AddObject(PivotObject* newObject, bool needUpdate);
     //not imlemented
-    void DeleteObjects(UContainer<PivotObject> *objects);
+    void DeleteObjects(USimpleContainer<PivotObject*> *objects);
     void RemoveObject(PivotObject* object);
-    void AddObject(UContainer<PivotObject> *newObjects);
+    void AddObject(USimpleContainer<PivotObject*> *newObjects);
     void GetAllObjectsInArea(BoundingBox bb, USimpleContainer<PivotObject*> *buffer);
     
     void UpdateScene();

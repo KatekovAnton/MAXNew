@@ -9,7 +9,6 @@
 #ifndef TerminalExtraction_Utils_h
 #define TerminalExtraction_Utils_h
 
-#include "UContainer.h"
 #include "USimpleContainer.h"
 #include "IdGenerator.h"
 #include "Sys.h"

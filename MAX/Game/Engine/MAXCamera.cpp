@@ -133,3 +133,5 @@ void MAXCamera::RecalculateViewMatrix()
 {
     this->view = GLKMatrix4Multiply(GLKMatrix4MakeScale(1.0/scale, 1.0/scale, 1), GLKMatrix4MakeTranslationV(position));
 }
+
+

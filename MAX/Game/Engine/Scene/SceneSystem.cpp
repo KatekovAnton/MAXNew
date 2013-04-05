@@ -161,7 +161,7 @@ PivotObject* SceneSystem::GetObject(unsigned int objId)
     return nullptr;
 }
 
-void SceneSystem::DeleteObjects(UContainer<PivotObject> *objects)
+void SceneSystem::DeleteObjects(USimpleContainer<PivotObject*> *objects)
 {
     
 }

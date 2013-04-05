@@ -672,7 +672,6 @@
 		D18EDBFE1689789C00EE3B4E /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		D18EDBFF1689789C00EE3B4E /* Sys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Sys.c; sourceTree = "<group>"; };
 		D18EDC001689789C00EE3B4E /* Sys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sys.h; sourceTree = "<group>"; };
-		D18EDC011689789C00EE3B4E /* UContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UContainer.h; sourceTree = "<group>"; };
 		D18EDC021689789C00EE3B4E /* GlobalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalConstants.h; sourceTree = "<group>"; };
 		D18EDC031689789C00EE3B4E /* IdGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IdGenerator.cpp; sourceTree = "<group>"; };
 		D18EDC041689789C00EE3B4E /* IdGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdGenerator.h; sourceTree = "<group>"; };
@@ -1352,7 +1351,6 @@
 				D19C065816D530480014A6BE /* MyRandom.h */,
 				D18EDBFF1689789C00EE3B4E /* Sys.c */,
 				D18EDC001689789C00EE3B4E /* Sys.h */,
-				D18EDC011689789C00EE3B4E /* UContainer.h */,
 				D1E62CDB16CBE85F006D55E1 /* USimpleContainer.h */,
 				D18EDC021689789C00EE3B4E /* GlobalConstants.h */,
 				D18EDC031689789C00EE3B4E /* IdGenerator.cpp */,

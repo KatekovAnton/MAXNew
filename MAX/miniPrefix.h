@@ -15,7 +15,6 @@
 #include <stack>
 
 #include "Geometry.h"
-#include "UContainer.h"
 #include "USimpleContainer.h"
 #include "IdGenerator.h"
 #include "Sys.h"
