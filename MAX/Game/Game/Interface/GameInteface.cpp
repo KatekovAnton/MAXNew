@@ -28,6 +28,7 @@ CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fo
     
     
     CCLabelTTF *label = CCLabelTTF::create(title.c_str(), fontName.c_str(), fontSize);
+    label->setTag(11);
     label->setColor(titleColor);
     CCSize sz = result->getContentSize();
     sz.height /= 2;
@@ -72,9 +73,13 @@ CCMenuItemSprite* createMenuItemFromResources(string title, string fontName, int
 bool GameInterface::ShouldReceiveTouch(int x, int y)
 {
     float currentPanelW = _panel->getPosition().x + panelW + 12;
-    
     CCRect r = CCRect(0, 0, currentPanelW, this->getContentSize().height);
-    return !r.containsPoint(CCPoint(x, y));
+    bool result = r.containsPoint(CCPoint(x, y));
+    
+    r = CCRect(getContentSize().width - 213, getContentSize().height - 22, 75,22);
+    result |= r.containsPoint(CCPoint(x, y));
+    
+    return result;
 }
 
 GameInterface::GameInterface()
@@ -100,6 +105,11 @@ GameInterface::~GameInterface()
 void GameInterface::InitBaseInterface()
 {
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
+    CCSprite* turnSprite = CCSprite::create("3blocks.png");
+    turnSprite->setAnchorPoint(ccp(0, 1));
+    turnSprite->setPosition(ccp(getContentSize().width - 213, getContentSize().height));
+    addChild(turnSprite);
+    
     _panel = CCNode::create();
     _panel->setPosition(ccp(0, 0));
     _panel->setAnchorPoint(ccp(0, 0));
@@ -164,13 +174,20 @@ void GameInterface::InitBaseInterface()
     UpdateToggleStatusButton();
     UpdateToggleResourcesButton();
     UpdateToggleFogButton();
-    
-//    CCSprite* spr1 = CCSprite::createWithTexture(MAXSCL->resourceTiles);
-//    spr1->setPosition(ccp(0,0));
-//    spr1->setAnchorPoint(ccp(0, 0));
-//    addChild(spr1);
+
 
     OnToggleFog();
+
+    
+    _buttonEndTurn = createMenuItemFromMaxres("END TURN", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
+    CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(11), ccp(-4, 1));
+    _buttonEndTurn->setPosition(ccp(0, 0));
+    
+    CCMenu *menuTurn = CCMenu::create(_buttonEndTurn, nullptr);
+    menuTurn->setPosition(getContentSize().width - 207, getContentSize().height - 23);
+    menuTurn->setContentSize(CCSize(100, 23));
+    menuTurn->setTouchEnabled(true);
+    addChild(menuTurn);
 }
 
 #pragma mark - Update left buttons
@@ -341,6 +358,11 @@ void GameInterface::OnTogglePanel()
     }
     _buttonTogglePanel->setNormalImage(newSimple);
     _buttonTogglePanel->setSelectedImage(newSelected);
+}
+
+void GameInterface::OnEndTurn()
+{
+    
 }
 
 #pragma mark - Game events

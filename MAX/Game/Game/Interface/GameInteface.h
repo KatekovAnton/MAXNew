@@ -31,6 +31,7 @@ class GameInterface : public CCScene
     CCMenuItemSprite* _toggleFogButton;
     CCNode* _panel;
     CCMenuItemSprite* _buttonTogglePanel;
+    CCMenuItemSprite* _buttonEndTurn;
     
     //locking units
     vector<GameUnit*> _lockedUnits;
@@ -78,6 +79,8 @@ public:
     void OnToggleFog();
     
     void OnTogglePanel();
+    ;
+    void OnEndTurn();
     
 #pragma mark - Game events
     

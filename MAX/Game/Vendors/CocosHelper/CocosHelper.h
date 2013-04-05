@@ -24,6 +24,7 @@ public:
     static void SetPosition(CCNode* node, const CCPoint& point);
     static void SetContentSize(CCNode* node, const CCSize& size);
     
+    static void MoveNode(CCNode* node, const CCPoint &vector);
     
     static CCSize GetContentSize(CCNode* node);
 };

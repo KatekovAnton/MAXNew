@@ -335,7 +335,7 @@ bool MAXGame::CanStartPinch(float x, float y)
         case MAXGAMESTATE_GAME:
         {
             float _y = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale() - y;
-            return _gameInterface->ShouldReceiveTouch(x, _y);
+            return !_gameInterface->ShouldReceiveTouch(x, _y);
         }  break;
             
         default:
