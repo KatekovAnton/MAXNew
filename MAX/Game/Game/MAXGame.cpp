@@ -365,7 +365,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
  //   printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
     
     
-    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y);// _currentPlayer_w->GetUnitInPosition(p);
+    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, _match->_currentPlayer_w);// _currentPlayer_w->GetUnitInPosition(p);
     if (_currentUnit && !_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
     {
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())

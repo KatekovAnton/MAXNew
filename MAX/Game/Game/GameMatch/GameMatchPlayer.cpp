@@ -83,6 +83,7 @@ GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned
     result->SetLocation(CCPoint(posx, posy));
     result->CheckBodyAndShadow();
     result->_delegate_w = this;
+    result->_owner_w = this;
     
     
     _units.addObject(result);

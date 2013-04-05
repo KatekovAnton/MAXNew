@@ -24,11 +24,14 @@ class MAXAnimationBase;
 class MAXAnimationObjectUnit;
 class MAXObjectConfig;
 
+
 class GameUnitCurrentState;
 class GameUnitParameters;
 class GameUnitDelegate;
+class GameMatchPlayer;
 class GameEffect;
 class PFWaveCell;
+
 
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatusRendererUnitDelegate {
     
@@ -36,7 +39,6 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatu
     GameEffect* _effectUnder;
     
     bool _isInProcess;
-    
     bool _isPlacedOnMap;
     
     std::vector<PFWaveCell*> movePath;
@@ -49,9 +51,9 @@ public:
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
     
-    GameUnitCurrentState* _unitCurrentParameters;
-    GameUnitDelegate    *_delegate_w;
-    
+    GameUnitCurrentState    *_unitCurrentParameters;
+    GameUnitDelegate        *_delegate_w;
+    GameMatchPlayer         *_owner_w;
     bool _detected;
     MAXUnitObject* GetUnitObject() const {return (MAXUnitObject*) GetObject(); };
     

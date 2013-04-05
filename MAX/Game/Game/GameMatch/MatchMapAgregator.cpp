@@ -123,6 +123,18 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y)
     return units->objectAtIndex(0);
 }
 
+GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player)
+{
+    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+    if (units->GetCount() == 0)
+        return NULL;
+    for (int i = 0; i < units->GetCount(); i++) {
+        if (units->objectAtIndex(i)->_owner_w == _player)
+            return units->objectAtIndex(i);
+    }
+    return NULL;
+}
+
 bool MatchMapAgregator::IsGroundUnitInPosition(const int x, const int y)
 {
     bool result = false;
