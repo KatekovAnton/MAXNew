@@ -38,6 +38,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     MAXAnimationBase* _currentTopAnimation;
     GameEffect* _effectUnder;
     
+    bool _shouldAnimateBody;
     bool _disabledByInfiltrator;
     bool _isInProcess;
     bool _isPlacedOnMap;
@@ -47,6 +48,8 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
     bool MoveToNextCell(void);
     void FollowPath(void);
+    
+    void ChackForAnimanteBody();
     
 public:
     

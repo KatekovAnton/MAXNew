@@ -274,11 +274,13 @@ void MAXUnitObject::Frame(double time)
             newHeadOffset = 0;
         SetHeadDirection(newHeadOffset);
     }
-    if (params_w->_isActiveBody && _delegate_w->ShouldAnimateBody())
+    if (_delegate_w->ShouldAnimateBody())
     {
         int newBodyOffset = purebodyIndex + 1;
-        if (newBodyOffset == params_w->bodyActiveFrame1 - params_w->bodyActiveFrame0 + 1)
-            newBodyOffset = 0;
+        if (newBodyOffset == params_w->bodyActiveFrame1 + 1)
+            newBodyOffset = params_w->bodyActiveFrame0;
+//        if (params_w->_isAllwaysOn)
+//            bodyOffset = 0;
         SetBodyDirection(newBodyOffset);
     }
 }

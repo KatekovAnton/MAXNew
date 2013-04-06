@@ -253,7 +253,12 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 58, "Dozer", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+     
     
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 45, "Airplant", 0);
@@ -295,7 +300,7 @@ void MAXGame::StartMatch()
         unit1->PlaceUnitOnMap();
     }
 
-    
+   
     
     _gameInterface = new GameInterface();
     _gameInterface->InitBaseInterface();

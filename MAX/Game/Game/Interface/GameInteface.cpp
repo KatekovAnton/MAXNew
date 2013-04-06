@@ -15,6 +15,7 @@
 #include "MAXStatusRenderer.h"
 #include "GameUnitCurrentState.h"
 #include "GameUnitParameters.h"
+#include "GameInterfacePrefix.h"
 
 float Scale = 1.0;
 float panelW = 70;
@@ -122,35 +123,35 @@ void GameInterface::InitBaseInterface()
     spr->setPosition(ccp(panelW - spr->getContentSize().width, 0));
     _panel->addChild(spr);
     
-    _toggleGridButton = createMenuItemFromMaxres("Grid", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
+    _toggleGridButton = createMenuItemFromMaxres("Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
     _toggleGridButton->setPosition(ccp(bx,280));
     CCMenu *menu = CCMenu::create(_toggleGridButton, nullptr);
     
-    _toggleScanButton = createMenuItemFromMaxres("Scan", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleScan));
+    _toggleScanButton = createMenuItemFromMaxres("Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleScan));
     _toggleScanButton->setPosition(ccp(bx,250));
     menu->addChild(_toggleScanButton);
     
-    _toggleRangeButton = createMenuItemFromMaxres("Range", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleRange));
+    _toggleRangeButton = createMenuItemFromMaxres("Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleRange));
     _toggleRangeButton->setPosition(ccp(bx,220));
     menu->addChild(_toggleRangeButton);
     
-    _toggleShotsButton = createMenuItemFromMaxres("Shots", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleShots));
+    _toggleShotsButton = createMenuItemFromMaxres("Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleShots));
     _toggleShotsButton->setPosition(ccp(bx,190));
     menu->addChild(_toggleShotsButton);
     
-    _toggleStatusButton = createMenuItemFromMaxres("Status", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
+    _toggleStatusButton = createMenuItemFromMaxres("Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
     _toggleStatusButton->setPosition(ccp(bx,160));
     menu->addChild(_toggleStatusButton);
     
-    _toggleResourcesButton = createMenuItemFromMaxres("Surv", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleResources));
+    _toggleResourcesButton = createMenuItemFromMaxres("Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleResources));
     _toggleResourcesButton->setPosition(ccp(bx,130));
     menu->addChild(_toggleResourcesButton);
     
-    _toggleFogButton = createMenuItemFromMaxres("Fog", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleFog));
+    _toggleFogButton = createMenuItemFromMaxres("Fog", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleFog));
     _toggleFogButton->setPosition(ccp(bx,100));
     menu->addChild(_toggleFogButton);
     
-    _toggleLockUnitsButton = createMenuItemFromMaxres("", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
+    _toggleLockUnitsButton = createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,300));
     menu->addChild(_toggleLockUnitsButton);
     
@@ -179,7 +180,7 @@ void GameInterface::InitBaseInterface()
     OnToggleFog();
 
     
-    _buttonEndTurn = createMenuItemFromMaxres("END TURN", "HelveticaNeue-Bold", 10, ccc3(255,255,255), "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
+    _buttonEndTurn = createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
     CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(11), ccp(-4, 1));
     _buttonEndTurn->setPosition(ccp(0, 0));
     

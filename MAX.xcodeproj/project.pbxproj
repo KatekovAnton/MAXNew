@@ -396,6 +396,7 @@
 		8B7E22B516D14BC200FE748B /* MAXSceneGraphNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXSceneGraphNode.cpp; sourceTree = "<group>"; };
 		8B7E22B616D14BC200FE748B /* MAXSceneGraphNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXSceneGraphNode.h; sourceTree = "<group>"; };
 		8B8098671710B37B0041FA04 /* MAXUnitObjectDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitObjectDelegate.h; sourceTree = "<group>"; };
+		8B8098681710C5710041FA04 /* GameInterfacePrefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameInterfacePrefix.h; sourceTree = "<group>"; };
 		8B841BEF170CBD1D0001198C /* GameUnitDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameUnitDelegate.h; sourceTree = "<group>"; };
 		8B84DBC616CFDB1C00DD12B8 /* MAXClanConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXClanConfig.cpp; sourceTree = "<group>"; };
 		8B84DBC716CFDB1C00DD12B8 /* MAXClanConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXClanConfig.h; sourceTree = "<group>"; };
@@ -875,6 +876,7 @@
 				8B85506B16F5C104000170D5 /* UnitParameterNode */,
 				8B7CA09016C831EB00282A74 /* GameInteface.cpp */,
 				8B7CA09116C831EB00282A74 /* GameInteface.h */,
+				8B8098681710C5710041FA04 /* GameInterfacePrefix.h */,
 			);
 			path = Interface;
 			sourceTree = "<group>";

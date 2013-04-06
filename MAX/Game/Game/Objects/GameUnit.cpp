@@ -31,13 +31,17 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
     unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
     _onMap = false;
     _detected = false;
-    if (config->GetConfig()->_isBuilding && config->GetConfig()->_isAllwaysOn) 
+    if (config->GetConfig()->_isBuilding && config->GetConfig()->_isAllwaysOn)
+    {
         _isInProcess = true;
+        CheckBodyAndShadow();
+    }
     
     if(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isNeedUndercover)
     {
         _effectUnder = GameEffect::CreateBuildingBase(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
     }
+    ChackForAnimanteBody();
 }
 
 GameUnit::~GameUnit()
@@ -48,6 +52,11 @@ GameUnit::~GameUnit()
         _effectUnder->Hide();
         delete _effectUnder;
     }
+}
+
+void GameUnit::ChackForAnimanteBody()
+{
+    _shouldAnimateBody = (_isInProcess && _unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn) && !_disabledByInfiltrator && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer;
 }
 
 void GameUnit::SetDirection(int dir)
@@ -116,19 +125,26 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 
 void GameUnit::CheckBodyAndShadow()
 {
-    if (!(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || CanStartBuildProcess()))
-        return;
-    
-    
     MAXUnitObject* _unitObject = GetUnitObject();
-    GROUND_TYPE groundType = game->_match->_map->GroundTypeAtPoint(_unitCell);
-    if (groundType == GROUND_TYPE_WATER)
+    if (!(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || CanStartBuildProcess()))
     {
-        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
+        //all passive-worked buildings, which cannot be topped by infiltrator
+        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isActiveBody)
         {
-            _unitObject->SetBodyOffset(_isInProcess?1:0);
+            _unitObject->SetBodyOffset(1);
         }
-        else
+        return;
+    };
+    
+    
+    GROUND_TYPE groundType = game->_match->_map->GroundTypeAtPoint(_unitCell);
+    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
+    {
+        _unitObject->SetBodyOffset((_isInProcess && (!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn || !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isActiveBody))?1:0);
+    }
+    else
+    {
+        if (groundType == GROUND_TYPE_WATER)
         {
             if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater && !_detected)
             {
@@ -142,13 +158,6 @@ void GameUnit::CheckBodyAndShadow()
                 return;
             }
         }
-    }
-    else
-    {
-        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
-        {
-            _unitObject->SetBodyOffset(_isInProcess?1:0);
-        }
         else
         {
             if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater)
@@ -160,6 +169,13 @@ void GameUnit::CheckBodyAndShadow()
             if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious)
             {
                 _unitObject->SetBodyOffset(_isInProcess?16:0);
+                return;
+            }
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer)
+            {
+                int a =0;
+                a++;
+                _unitObject->SetBodyOffset(_isInProcess?8:0);
                 return;
             }
         }
@@ -320,7 +336,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 
 bool GameUnit::CanStartBuildProcess()
 {
-    return ((!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding) || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSelfCreatorType != 0);
+    return ((_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn != _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding ) || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSelfCreatorType != 0 || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer);
 }
 
 void GameUnit::StartBuildProcess()
@@ -329,6 +345,7 @@ void GameUnit::StartBuildProcess()
         return;
     _isInProcess = !_isInProcess;
     CheckBodyAndShadow();
+    ChackForAnimanteBody();
 }
 
 void GameUnit::CheckMovementUpdate()
@@ -426,5 +443,5 @@ float GameUnit::GetShots() const
 
 bool GameUnit::ShouldAnimateBody() const
 {
-    return (_isInProcess && _unitCurrentParameters->_unitBaseParameters->GetIsBuilding()) && !_disabledByInfiltrator;
+    return _shouldAnimateBody;
 }
