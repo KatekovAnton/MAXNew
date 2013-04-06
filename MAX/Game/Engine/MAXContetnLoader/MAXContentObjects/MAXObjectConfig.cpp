@@ -74,7 +74,14 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
         _isAbleToFire = true;
         return;
     }
-    
+    //КадрыРаботы
+    static unsigned char dataHeadWork[] = {0xCA, 0xE0, 0xE4, 0xF0, 0xFB, 0xD0, 0xE0, 0xE1, 0xEE, 0xF2, 0xFB};
+    res = memcmp(dataHeadWork, key.c_str(), 11);
+    if (res == 0)
+    {
+        _haveWorkhead = true;
+        return;
+    }
 }
 
 void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
@@ -271,14 +278,18 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
 }
 
 MAXObjectConfig::MAXObjectConfig()
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false)
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false), _haveWorkhead(false)
 {
     
 }
 
 MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfigName)
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false)
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false), _haveWorkhead(false)
 {
+    if (resourceConfigName == "grp_radar.cfg") {
+        int a = 0;
+        a++;
+    }
     BinaryReader *r = new BinaryReader(resourceConfigName);
     string resourceConfig = r->ReadFullAsString();
     std::remove(resourceConfig.begin(), resourceConfig.end(), '\r');
@@ -309,6 +320,7 @@ MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfig
     _hasHead = _pSeparateCanon == 1 || _isAnimHead;
     _isMultifire = _pFireType == 3;
     _isAnimatedHead = _isAnimHead;
+    _haveWorkhead = (_isAnimHead || _haveWorkhead) && _isBuilding && _hasHead;
     _level = _bLevel;
     if (_isSurvivor && (_bMoveType == UNIT_MOVETYPE_AMHIB))
     {

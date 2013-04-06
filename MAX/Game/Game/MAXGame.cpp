@@ -275,6 +275,11 @@ void MAXGame::StartMatch()
         GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
         unit1->PlaceUnitOnMap();
     }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 42, "Radar", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    
     
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(50, 64, "Scanner", 0);

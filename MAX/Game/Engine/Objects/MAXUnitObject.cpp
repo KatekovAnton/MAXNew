@@ -59,7 +59,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
 
     
     bodyOffset = 0;
-    headOffset = IsHasBody()?8:0;
+    headOffset = params_w->_isBuilding?(IsHasBody()?1:0):(IsHasBody()?8:0);
     if(IsHasBody())
         headFireOffset = 16;
     else
@@ -262,7 +262,7 @@ Material * MAXUnitObject::GetMaterial()
 void MAXUnitObject::Frame(double time)
 {
     _material->DoFrame(time);
-    if (params_w->_isAnimatedHead) {
+    if (params_w->_isAnimatedHead || params_w->_haveWorkhead) {
         _lastHeadAnimTime+=time;
         if (_lastHeadAnimTime>0.05) {
             _lastHeadAnimTime=0;
@@ -271,7 +271,7 @@ void MAXUnitObject::Frame(double time)
                 newHeadOffset = headOffset;
             }
             newHeadOffset-=headOffset;
-            SetHeadDirection(newHeadOffset);
+            SetHeadDirection(newHeadOffset%15);
         }
     }
 }

@@ -71,7 +71,7 @@ void MAXUnitSelection::Update()
     
     
     float deltaD = startD + _part * (endD - startD);
-    if (_selectedUnit_w->params_w->_isBuilding) 
+    if (_selectedUnit_w->params_w->_bSize == 2)
         deltaD *= 2.0;
     
     //deltaD *= 0.5;

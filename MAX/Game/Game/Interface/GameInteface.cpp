@@ -76,7 +76,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
     CCRect r = CCRect(0, 0, currentPanelW, this->getContentSize().height);
     bool result = r.containsPoint(CCPoint(x, y));
     
-    r = CCRect(getContentSize().width - 213, getContentSize().height - 22, 75,22);
+    r = CCRect(getContentSize().width - 212, getContentSize().height - 22, 75,22);
     result |= r.containsPoint(CCPoint(x, y));
     
     return result;
@@ -107,7 +107,7 @@ void GameInterface::InitBaseInterface()
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
     CCSprite* turnSprite = CCSprite::create("3blocks.png");
     turnSprite->setAnchorPoint(ccp(0, 1));
-    turnSprite->setPosition(ccp(getContentSize().width - 213, getContentSize().height));
+    turnSprite->setPosition(ccp(getContentSize().width - 209, getContentSize().height + 4));
     addChild(turnSprite);
     
     _panel = CCNode::create();
@@ -184,7 +184,7 @@ void GameInterface::InitBaseInterface()
     _buttonEndTurn->setPosition(ccp(0, 0));
     
     CCMenu *menuTurn = CCMenu::create(_buttonEndTurn, nullptr);
-    menuTurn->setPosition(getContentSize().width - 207, getContentSize().height - 23);
+    menuTurn->setPosition(getContentSize().width - 203, getContentSize().height - 19);
     menuTurn->setContentSize(CCSize(100, 23));
     menuTurn->setTouchEnabled(true);
     addChild(menuTurn);
