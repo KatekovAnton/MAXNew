@@ -7,7 +7,7 @@
 //
 
 #include "MAXStatusRenderer.h"
-#include "MAXStatusRendererUnitDelegate.h"
+#include "MAXUnitObjectDelegate.h"
 #include "MAXUnitObject.h"
 #include "MAXDrawPrimitives.h"
 #include "MAXEngine.h"
@@ -85,7 +85,7 @@ void MAXStatusRenderer::DrawCircles()
         for (vector<MAXUnitObject*>::iterator obj = _scanRangeUnits_w.begin(); obj != _scanRangeUnits_w.end(); obj ++)
         {
             MAXUnitObject* object = *obj;
-            MAXStatusRendererUnitDelegate* delegate = object->_statusDelegate_w;
+            MAXUnitObjectDelegate* delegate = object->_delegate_w;
             center = engine->WorldCoordinatesToScreenCocos(object->GetObjectCenterCoordinatesFromMatrix(object->CalculateUnitCenterMatrix()));
             
             float scan = delegate->GetScan() - 0.5;
@@ -104,7 +104,7 @@ void MAXStatusRenderer::DrawCircles()
                 continue;
             
             
-            MAXStatusRendererUnitDelegate* delegate = object->_statusDelegate_w;
+            MAXUnitObjectDelegate* delegate = object->_delegate_w;
             
             float range = delegate->GetRange() - 0.5;
             center = engine->WorldCoordinatesToScreenCocos(object->GetObjectCenterCoordinatesFromMatrix(object->CalculateUnitCenterMatrix()));

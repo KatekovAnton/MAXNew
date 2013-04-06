@@ -12,7 +12,7 @@
 #include <iostream>
 #include "GameObject.h"
 #include "MAXAnimationDelegate.h"
-#include "MAXStatusRendererUnitDelegate.h"
+#include "MAXUnitObjectDelegate.h"
 #include "miniPrefix.h"
 
 using namespace std;
@@ -33,11 +33,12 @@ class GameEffect;
 class PFWaveCell;
 
 
-class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXStatusRendererUnitDelegate {
+class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitObjectDelegate {
     
     MAXAnimationBase* _currentTopAnimation;
     GameEffect* _effectUnder;
     
+    bool _disabledByInfiltrator;
     bool _isInProcess;
     bool _isPlacedOnMap;
     
@@ -99,11 +100,12 @@ public:
     virtual void OnAnimationFinish(MAXAnimationBase* animation);
     
     
-#pragma mark - MAXStatusRendererUnitDelegate
+#pragma mark - MAXUnitObjectDelegate
     virtual int GetScan() const;
     virtual int GetRange() const;
     virtual float GetHealStatus() const;
     virtual float GetShots() const;
+    virtual bool ShouldAnimateBody() const;
 };
 
 #endif /* defined(__MAX__Unit__) */

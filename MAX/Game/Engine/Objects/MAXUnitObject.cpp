@@ -46,7 +46,7 @@ GLKVector2 shipOffsets[] = {
 GLKVector2 planeShadowOffset = {1.0, -1.0};
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config)
-:MAXObject(config), _renderAspect(renderObject),_material(material), changed(true), fireing(false), _lastHeadAnimTime(0), _statusDelegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0)
+:MAXObject(config), _renderAspect(renderObject),_material(material), changed(true), fireing(false), _lastHeadAnimTime(0), _delegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0)
 {
     
     _needAirOffset = config->_isPlane;
@@ -261,18 +261,25 @@ Material * MAXUnitObject::GetMaterial()
 
 void MAXUnitObject::Frame(double time)
 {
-    _material->DoFrame(time);
-    if (params_w->_isAnimatedHead || params_w->_haveWorkhead) {
-        _lastHeadAnimTime+=time;
-        if (_lastHeadAnimTime>0.05) {
-            _lastHeadAnimTime=0;
-            int newHeadOffset = headIndex + 1;
-            if (newHeadOffset == _material->_frameCount) {
-                newHeadOffset = headOffset;
-            }
-            newHeadOffset-=headOffset;
-            SetHeadDirection(newHeadOffset%15);
-        }
+    _lastHeadAnimTime+=time;
+    if (_lastHeadAnimTime>0.05)
+        _lastHeadAnimTime=0;
+    else
+        return;
+    
+    if (params_w->_isAnimatedHead)
+    {
+        int newHeadOffset = pureheadIndex + 1;
+        if (newHeadOffset == params_w->bodyAnimFrame1 - params_w->bodyAnimFrame0 + 1)
+            newHeadOffset = 0;
+        SetHeadDirection(newHeadOffset);
+    }
+    if (params_w->_isActiveBody && _delegate_w->ShouldAnimateBody())
+    {
+        int newBodyOffset = purebodyIndex + 1;
+        if (newBodyOffset == params_w->bodyActiveFrame1 - params_w->bodyActiveFrame0 + 1)
+            newBodyOffset = 0;
+        SetBodyDirection(newBodyOffset);
     }
 }
 

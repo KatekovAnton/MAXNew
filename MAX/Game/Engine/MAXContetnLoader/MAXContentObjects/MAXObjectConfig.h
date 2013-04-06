@@ -23,7 +23,16 @@ public:
     //КадрыБазы=0,7,2
     //КадрыПушки=8,15,2
     //КадрыПушкиСтрел=16,23,2
-    bool _haveWorkhead;
+    
+    int bodyAnimFrame0;
+    int bodyAnimFrame1;
+    int bodyAnimFrame2;
+    
+    bool _isActiveBody;
+    int bodyActiveFrame0;
+    int bodyActiveFrame1;
+    int bodyActiveFrame2;
+    
     bool _isAnimBase;
     bool _isAnimHead;
     bool _isAbleToFire;

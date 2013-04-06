@@ -25,12 +25,15 @@
 using namespace cocos2d;
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
-:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL)
+:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL), _disabledByInfiltrator(false)
 {
-    unitObject->_statusDelegate_w = this;
+    unitObject->_delegate_w = this;
     unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
     _onMap = false;
     _detected = false;
+    if (config->GetConfig()->_isBuilding && config->GetConfig()->_isAllwaysOn) 
+        _isInProcess = true;
+    
     if(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isNeedUndercover)
     {
         _effectUnder = GameEffect::CreateBuildingBase(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
@@ -399,7 +402,7 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
     }
 }
 
-#pragma mark - MAXStatusRendererUnitDelegate
+#pragma mark - MAXUnitObjectDelegate
 
 int GameUnit::GetScan() const
 {
@@ -421,3 +424,7 @@ float GameUnit::GetShots() const
     return _unitCurrentParameters->_pShots;
 }
 
+bool GameUnit::ShouldAnimateBody() const
+{
+    return (_isInProcess && _unitCurrentParameters->_unitBaseParameters->GetIsBuilding()) && !_disabledByInfiltrator;
+}

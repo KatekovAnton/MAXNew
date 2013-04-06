@@ -13,7 +13,7 @@
 #include "MAXObject.h"
 #include "cocos2d.h"
 #include "MAXObjectConfig.h"
-#include "MAXStatusRendererUnitDelegate.h"
+#include "MAXUnitObjectDelegate.h"
 
 
 class MAXUnitRenderObject;
@@ -64,7 +64,7 @@ public:
     int headOffset = 8;
     int headFireOffset = 16;
     
-    MAXStatusRendererUnitDelegate* _statusDelegate_w;
+    MAXUnitObjectDelegate* _delegate_w;
     
     Texture** _playerPalette_w;
     int _playerId;

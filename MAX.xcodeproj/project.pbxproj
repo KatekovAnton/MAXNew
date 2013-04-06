@@ -395,6 +395,7 @@
 		8B7E22B316D14B8300FE748B /* MAXSceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXSceneGraph.h; sourceTree = "<group>"; };
 		8B7E22B516D14BC200FE748B /* MAXSceneGraphNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXSceneGraphNode.cpp; sourceTree = "<group>"; };
 		8B7E22B616D14BC200FE748B /* MAXSceneGraphNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXSceneGraphNode.h; sourceTree = "<group>"; };
+		8B8098671710B37B0041FA04 /* MAXUnitObjectDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitObjectDelegate.h; sourceTree = "<group>"; };
 		8B841BEF170CBD1D0001198C /* GameUnitDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameUnitDelegate.h; sourceTree = "<group>"; };
 		8B84DBC616CFDB1C00DD12B8 /* MAXClanConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXClanConfig.cpp; sourceTree = "<group>"; };
 		8B84DBC716CFDB1C00DD12B8 /* MAXClanConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXClanConfig.h; sourceTree = "<group>"; };
@@ -616,7 +617,6 @@
 		D11ABAC5168DEC3000CD29EA /* MAXUnitMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitMaterial.h; sourceTree = "<group>"; };
 		D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXStatusRenderer.cpp; sourceTree = "<group>"; };
 		D132DC6016D7AC9800DEA269 /* MAXStatusRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXStatusRenderer.h; sourceTree = "<group>"; };
-		D132DC6216D7AE5B00DEA269 /* MAXStatusRendererUnitDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXStatusRendererUnitDelegate.h; sourceTree = "<group>"; };
 		D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationWait.cpp; sourceTree = "<group>"; };
 		D14D50CF16EF381000F8A8EC /* MAXAnimationWait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationWait.h; sourceTree = "<group>"; };
 		D16D48D1168B31030055F35D /* MAXContentMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentMap.cpp; sourceTree = "<group>"; };
@@ -1495,7 +1495,6 @@
 				D1E62CE316CE50D1006D55E1 /* Framebuffer.h */,
 				D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */,
 				D132DC6016D7AC9800DEA269 /* MAXStatusRenderer.h */,
-				D132DC6216D7AE5B00DEA269 /* MAXStatusRendererUnitDelegate.h */,
 				8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */,
 				8B88EF7B17021ABE00C0AAB5 /* MAXResourceMapRenderer.h */,
 				8B874296170758B0000B234B /* MAXSolidTileRenderer.cpp */,
@@ -1558,6 +1557,7 @@
 				D1E3D3EF16BC2F1D00E88F2E /* MAXObject.h */,
 				D1992277168E309E0067D6CF /* MAXUnitObject.cpp */,
 				D1992278168E309F0067D6CF /* MAXUnitObject.h */,
+				8B8098671710B37B0041FA04 /* MAXUnitObjectDelegate.h */,
 				D1E3D3F116BC318F00E88F2E /* MAXEffectObject.cpp */,
 				D1E3D3F216BC319000E88F2E /* MAXEffectObject.h */,
 			);

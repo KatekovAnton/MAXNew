@@ -54,6 +54,11 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
     if (res == 0)
     {
         _isAnimHead = true;
+        vector<string> result;
+        split(value, ',' , result);
+        bodyAnimFrame0 = atoi(result[0].c_str());
+        bodyAnimFrame1 = atoi(result[1].c_str());
+        bodyAnimFrame2 = atoi(result[2].c_str());
         return;
     }
     
@@ -79,7 +84,14 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
     res = memcmp(dataHeadWork, key.c_str(), 11);
     if (res == 0)
     {
-        _haveWorkhead = true;
+        _isActiveBody = true;
+        vector<string> result;
+        split(value, ',' , result);
+        bodyActiveFrame0 = atoi(result[0].c_str());
+        bodyActiveFrame1 = atoi(result[1].c_str());
+        bodyActiveFrame2 = atoi(result[2].c_str());
+       
+        
         return;
     }
 }
@@ -278,13 +290,25 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
 }
 
 MAXObjectConfig::MAXObjectConfig()
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false), _haveWorkhead(false)
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false), _isActiveBody(false),
+bodyAnimFrame0(0),
+bodyAnimFrame1(0),
+bodyAnimFrame2(0),
+bodyActiveFrame0(0),
+bodyActiveFrame1(0),
+bodyActiveFrame2(0)
 {
     
 }
 
 MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfigName)
-:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false), _haveWorkhead(false)
+:_bodyName(""), _imageName(""), _shadowName(""), _instoreName(""), _type(""), _name(""), _isAnimBase(false), _isAnimHead(false), _isAbleToFire(false), _isBuilding(false), _isActiveBody(false),
+bodyAnimFrame0(0),
+bodyAnimFrame1(0),
+bodyAnimFrame2(0),
+bodyActiveFrame0(0),
+bodyActiveFrame1(0),
+bodyActiveFrame2(0)
 {
     if (resourceConfigName == "grp_radar.cfg") {
         int a = 0;
@@ -320,7 +344,6 @@ MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfig
     _hasHead = _pSeparateCanon == 1 || _isAnimHead;
     _isMultifire = _pFireType == 3;
     _isAnimatedHead = _isAnimHead;
-    _haveWorkhead = (_isAnimHead || _haveWorkhead) && _isBuilding && _hasHead;
     _level = _bLevel;
     if (_isSurvivor && (_bMoveType == UNIT_MOVETYPE_AMHIB))
     {
@@ -329,6 +352,11 @@ MAXObjectConfig::MAXObjectConfig(string balanceConfigName, string resourceConfig
     _isAmphibious = _bMoveType == UNIT_MOVETYPE_AMHIB || _bMoveType == UNIT_MOVETYPE_SURVEYOR;
     _isShip = _bMoveType == UNIT_MOVETYPE_SEA;
     _haveShadow = _shadowName != "";
+    
+    if (_isAnimated) {
+        int a = 0;
+        a++;
+    }
 }
 
 MAXObjectConfig::~MAXObjectConfig()

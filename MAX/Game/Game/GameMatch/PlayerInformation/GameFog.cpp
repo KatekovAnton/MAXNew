@@ -33,6 +33,16 @@ GameFog::~GameFog()
 void GameFog::Recount(GameUnit *unit, bool withIncreasing, const CCPoint &centerPoint)
 {
     BoundingBox box = unit->GetScanBoundingBox(centerPoint);
+    if (box.min.x < 0)
+        box.min.x = 0;
+    if (box.min.y < 0)
+        box.min.y = 0;
+    if (box.max.x >= _mapWidth-1)
+        box.max.x = _mapWidth-1;
+    if (box.max.y >= _mapHeight-1)
+        box.max.y = _mapHeight-1;
+    
+    
     CCPoint scannedPoint = ccp(box.min.x, box.min.y);
     float radius = 0;
     if(_delegate_w)
