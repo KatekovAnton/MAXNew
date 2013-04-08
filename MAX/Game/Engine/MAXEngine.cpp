@@ -278,7 +278,7 @@ void MAXEngine::Draw()
 
 void MAXEngine::DrawGrid()
 {
-    if(drawGrid)
+    if(drawGrid && _unitSelection->_unitSelected)
         _grid->DrawGrid();
 }
 

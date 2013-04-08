@@ -23,7 +23,6 @@ class MAXUnitSelection {
     
     CCPoint _globalPoints[12];
     CCPoint _screenpoints[12];
-    bool _unitSelected;
     float _part;
     
 public:
@@ -33,6 +32,7 @@ public:
     
     void SelectUnit(MAXObject* unit);
     void DeselectUnit(MAXObject* unit);
+    bool _unitSelected;
     
     void Update();
     void Draw();
