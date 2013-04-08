@@ -86,6 +86,7 @@ public:
     bool IsSingleFire() const;
     bool IsHasBody() const;
     bool CanFire() const;
+    FIRE_TYPE FireType() const;
     
     
     MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config);

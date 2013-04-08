@@ -146,5 +146,14 @@ typedef enum
     EXTENDED_GROUND_TYPE_ROAD = 4,
     EXTENDED_GROUND_TYPE_BRIDGE = 5
 } EXTENDED_GROUND_TYPE;
+
+typedef enum
+{
+    FIRE_TYPE_None = 0,
+    FIRE_TYPE_Ground = 1,
+    FIRE_TYPE_UnderWater = 2,
+    FIRE_TYPE_Air = 3,
+    FIRE_TYPE_All
+}FIRE_TYPE;
     
 #endif

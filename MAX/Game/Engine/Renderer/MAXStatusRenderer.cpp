@@ -96,7 +96,6 @@ void MAXStatusRenderer::DrawCircles()
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     if (_drawRange)
     {
-        drawer->BindColor(GLKVector4Make(1.0, 0, 0, 1.0));
         for (vector<MAXUnitObject*>::iterator obj = _scanRangeUnits_w.begin(); obj != _scanRangeUnits_w.end(); obj ++)
         {
             MAXUnitObject* object = *obj;
@@ -105,6 +104,23 @@ void MAXStatusRenderer::DrawCircles()
             
             
             MAXUnitObjectDelegate* delegate = object->_delegate_w;
+
+            FIRE_TYPE fireType = object->FireType();
+            switch (fireType)
+            {
+                case FIRE_TYPE_Ground:
+                    drawer->BindColor(GLKVector4Make(1.0, 0, 0, 1.0));
+                    break;
+                case FIRE_TYPE_Air:
+                    drawer->BindColor(GLKVector4Make(1.0, 0.65, 0, 1.0));
+                    break;
+                case FIRE_TYPE_UnderWater:
+                    drawer->BindColor(GLKVector4Make(0.0, 0.0, 1.0, 1.0));
+                    break;
+                default:
+                    drawer->BindColor(GLKVector4Make(1.0, 0, 0, 1.0));
+                    break;
+            }
             
             float range = delegate->GetRange() - 0.5;
             center = engine->WorldCoordinatesToScreenCocos(object->GetObjectCenterCoordinatesFromMatrix(object->CalculateUnitCenterMatrix()));

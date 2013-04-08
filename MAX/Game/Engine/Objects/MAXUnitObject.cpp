@@ -290,6 +290,11 @@ bool MAXUnitObject::CanFire() const
     return params_w->_isAbleToFire;
 }
 
+FIRE_TYPE MAXUnitObject::FireType() const
+{
+    return (FIRE_TYPE)params_w->_pFireType;
+}
+
 bool MAXUnitObject::IsSingleFire() const
 {
     return !params_w->_isMultifire;
