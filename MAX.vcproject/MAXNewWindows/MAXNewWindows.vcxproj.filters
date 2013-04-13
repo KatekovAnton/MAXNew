@@ -602,5 +602,35 @@
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ShaderLine.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderMap.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderMap.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderPostQuad.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderPostQuad.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderUnit.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderUnit.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderBackground.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderBackground.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderLine.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>

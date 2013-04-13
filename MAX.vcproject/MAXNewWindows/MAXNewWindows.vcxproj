@@ -244,6 +244,16 @@
     <None Include="libtiff.dll" />
     <None Include="libxml2.dll" />
     <None Include="pthreadVCE2.dll" />
+    <None Include="ShaderBackground.fsh" />
+    <None Include="ShaderBackground.vsh" />
+    <None Include="ShaderLine.fsh" />
+    <None Include="ShaderLine.vsh" />
+    <None Include="ShaderMap.fsh" />
+    <None Include="ShaderMap.vsh" />
+    <None Include="ShaderPostQuad.fsh" />
+    <None Include="ShaderPostQuad.vsh" />
+    <None Include="ShaderUnit.fsh" />
+    <None Include="ShaderUnit.vsh" />
     <None Include="zlib1.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
