@@ -272,7 +272,6 @@ MAXUnitConfig::MAXUnitConfig(string balanceConfigName, string resourceConfigName
 {
     BinaryReader *r = new BinaryReader(resourceConfigName);
     string resourceConfig = r->ReadFullAsString();
-    std::remove(resourceConfig.begin(), resourceConfig.end(), '\r');
     delete r;
     vector<string> lines = splitString(resourceConfig, '\n');
     lines = removeCommentsAndEmptyStrings(lines);

@@ -14,7 +14,7 @@ MAXSceneGraphNode::MAXSceneGraphNode(MAXSceneGraphNode *parentNode, BoundingBox 
     _parentNode_w = parentNode;
     _nestingLevel = level;
     _entities_w = new USimpleContainer<PivotObject*>(100);
-    memset(_childNodes, 4*sizeof(size_t), 0);
+    memset(_childNodes, 0, 4*sizeof(size_t));
 }
 
 MAXSceneGraphNode::~MAXSceneGraphNode()

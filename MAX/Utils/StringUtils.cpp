@@ -104,3 +104,8 @@ vector<string> removeCommentsAndEmptyStrings(vector<string> lines)
     
     return result;
 }
+
+void removeBadCharacters(std::string &param)
+{
+	remove(param.begin(), param.end(), '\r');
+}

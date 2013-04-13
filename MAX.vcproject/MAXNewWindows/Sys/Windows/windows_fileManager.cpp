@@ -45,13 +45,13 @@ string* windows_fileManager::GetContent(string filename)
 
 	// Determine file size
 	fseek(f, 0, SEEK_END);
-	size_t size = ftell(f);
+	size_t size = ftell(f) + 1;
 
 	char* where1 = new char[size];
-
+	memset(where1, 0, size);
     rewind(f);
-    fread(where1, sizeof(char), size, f);
-
+    fread(where1, sizeof(char), size - 1, f);
+	where1[size - 1] = 0;
    
 	string * result = new string(where1);
 	delete[] where1;

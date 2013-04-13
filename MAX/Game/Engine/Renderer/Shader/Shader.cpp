@@ -252,7 +252,7 @@ bool Shader::CompileShader(GLuint *shader, GLenum type, string file) {
     GLint status;
     string *source_str;
     const GLchar *source;
-    
+	
     FileManager * manager = FileManager::CreateManager();
     source_str = manager->GetContent(file);
     source = (GLchar *)source_str->c_str();
@@ -265,20 +265,22 @@ bool Shader::CompileShader(GLuint *shader, GLenum type, string file) {
     *shader = glCreateShader(type);
     glShaderSource(*shader, 1, &source, NULL);
     glCompileShader(*shader);
-    
+
     GLint logLength = 0;
 #ifdef TARGET_OS_IPHONE
     glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
 #endif
 #ifdef TARGET_OS_WIN
-    glGetProgramiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
+    glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
 #endif
-
+	GLenum err = glGetError();
+	err = err;
     if (logLength > 0)
     {
         GLchar *log = (GLchar *)malloc(logLength);
         glGetShaderInfoLog(*shader, logLength, &logLength, log);
-        cout << "Shader compile log: \n " << log << endl;
+		if(log[0]!='\0')
+			cout << "Shader compile log: \n " << log << endl;
         free(log);
     }
     
