@@ -156,7 +156,7 @@ typedef union _GLKVector4 GLKVector4;
  Vector v represents the imaginary values.
  q[0], q[1], and q[2] represent the imaginary values.
  */
-#if defined(__STRICT_ANSI__)
+#if defined(__STRICT_ANSI__) && !defined TARGET_OS_ANDROID
 struct _GLKQuaternion
 {
     float q[4];
