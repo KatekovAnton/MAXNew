@@ -242,6 +242,7 @@ void MAXEngine::DrawUnits()
 
 void MAXEngine::DrawInterface()
 {
+    glActiveTexture(GL_TEXTURE0);
     _director->mainLoop();
 }
 
