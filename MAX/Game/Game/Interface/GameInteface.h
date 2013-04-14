@@ -77,7 +77,7 @@ public:
     void OnToggleStatus(CCMenuItem* sender);
     void OnToggleResources(CCMenuItem* sender);
     void OnToggleFog(CCMenuItem* sender);
-    
+
     void OnTogglePanel(CCMenuItem* sender);
     
     void OnEndTurn(CCMenuItem* sender);
@@ -85,6 +85,7 @@ public:
 #pragma mark - Game events
     
     void OnCurrentUnitChanged(GameUnit* unit);
+
 };
 
 #endif /* defined(__MAX__GameInteface__) */

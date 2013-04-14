@@ -12,6 +12,15 @@
 #include "MAXSceneGraphNode.h"
 #include "PivotObject.h"
 
+#ifdef TARGET_OS_WIN
+
+inline double log2(double d)
+{
+	return log(d)/log(2.0);
+}
+
+#endif
+
 unsigned int nextPOT(unsigned int x)
 {
     x = x - 1;
@@ -25,6 +34,7 @@ unsigned int nextPOT(unsigned int x)
 
 MAXSceneGraph::MAXSceneGraph(SceneSystem* scene)
 {
+	_maxNestingLevel = 3;
     _scene_w = scene;
     _mapSize = nextPOT(MAX(scene->GetMap()->mapW, scene->GetMap()->mapH));
     _maxNestingLevel = log2(_mapSize);

@@ -50,6 +50,7 @@ void MAXConfigManager::LoadConfigsFromFile(string file)
     _clanConfigs.clear();
     BinaryReader* reader = new BinaryReader(file);
     string strContent = reader->ReadFullAsString();
+	removeBadCharacters(strContent);
     delete reader;
     
     vector<string> components1 = splitString(strContent, "#segment=");

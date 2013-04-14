@@ -51,7 +51,6 @@ class MAXUnitObject : public MAXObject {
     GLKMatrix4 bodyRenderMatrix;
     GLKMatrix4 headRenderMatrix;
     
-    
     double _lastHeadAnimTime;
     
 public:

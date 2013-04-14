@@ -10,7 +10,7 @@ attribute vec4 position;
 attribute vec3 normal;
 attribute vec2 tcoord;
 
-varying mediump vec2 tcoordVarying;
+varying vec2 tcoordVarying;
 
 void main()
 {

@@ -105,6 +105,7 @@ vector<string> removeCommentsAndEmptyStrings(vector<string> lines)
     return result;
 }
 
+
 string intToString(int value)
 {
     std::stringstream ss;
@@ -112,4 +113,9 @@ string intToString(int value)
     std::string str;
     ss>>str;
     return str;
+}
+
+void removeBadCharacters(std::string &param)
+{
+	remove(param.begin(), param.end(), '\r');
 }

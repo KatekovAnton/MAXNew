@@ -27,4 +27,7 @@ vector<string> removeCommentsAndEmptyStrings(vector<string> lines);
 
 string intToString(int value);
 
+void removeBadCharacters(std::string &param);
+
+
 #endif /* defined(__MAX__StringUtils__) */

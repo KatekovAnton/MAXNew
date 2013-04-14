@@ -44,7 +44,7 @@ public:
     MAXMapObject *GetMap() const {return _map_w; };
     void Clear();
     
-    PivotObject* GetObject(unsigned int objId);
+    PivotObject* GetSceneObject(unsigned int objId);
     void AddObject(PivotObject* newObject, bool needUpdate);
     //not imlemented
     void DeleteObjects(USimpleContainer<PivotObject*> *objects);

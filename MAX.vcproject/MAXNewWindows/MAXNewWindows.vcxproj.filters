@@ -61,11 +61,38 @@
     <Filter Include="Game\Engine\Renderer\Shader">
       <UniqueIdentifier>{e66f2a03-d456-404e-9d19-d88e244e18e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\Network">
+      <UniqueIdentifier>{34b80ed0-c916-4f92-bf7c-550ecb28853b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\Objects">
+      <UniqueIdentifier>{b05e90fa-654b-4318-b027-47b2075b1cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\Objects\Effects">
+      <UniqueIdentifier>{45fbad8e-0c1e-4054-a428-70670b3fefa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\GameMatch">
+      <UniqueIdentifier>{6f819b37-5b7c-4f65-ac7d-1c72953fb8e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\GameMatch\PlayerInformation">
+      <UniqueIdentifier>{7e875173-d113-44cc-873e-f166025b6adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\Scene">
+      <UniqueIdentifier>{3486ee29-ce03-42c5-bf04-b500315bb3b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\Scene\SceneGraph">
+      <UniqueIdentifier>{2f3cd2d0-a080-4f7c-89dc-5d783e77bc76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Engine\Animation">
+      <UniqueIdentifier>{4fc6cfb0-6418-4a7d-9618-fc5475533c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\Interface">
+      <UniqueIdentifier>{4ff84b5a-89f7-4c2e-abd2-3e21c60d511f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Threads">
+      <UniqueIdentifier>{d66333d9-7167-4db4-9576-ab504e0e6cd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -91,9 +118,6 @@
       <Filter>Sys\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Engine\MAXEngine.cpp">
-      <Filter>Game\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Engine\SceneSystem.cpp">
       <Filter>Game\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Engine\UserInterface.cpp">
@@ -125,9 +149,6 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.cpp">
       <Filter>Game\Engine\ObjectComponents\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapObject.cpp">
-      <Filter>Game\Engine\Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.cpp">
       <Filter>Game\Engine\Objects</Filter>
@@ -161,6 +182,117 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\MAXGame.cpp">
       <Filter>Game\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Utils\Network\Request.cpp">
+      <Filter>Utils\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Utils\Network\RequestManager.cpp">
+      <Filter>Utils\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Utils\Network\Response.cpp">
+      <Filter>Utils\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\Framebuffer.cpp">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\MAXDrawPrimitives.cpp">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Renderer\MAXUnitSelection.cpp">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameObject.cpp">
+      <Filter>Game\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnit.cpp">
+      <Filter>Game\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitCurrentState.cpp">
+      <Filter>Game\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitParameters.cpp">
+      <Filter>Game\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.cpp">
+      <Filter>Game\Game\Objects\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffectBlast.cpp">
+      <Filter>Game\Game\Objects\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffectRocket.cpp">
+      <Filter>Game\Game\Objects\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMap.cpp">
+      <Filter>Game\Game\GameMatch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMatch.cpp">
+      <Filter>Game\Game\GameMatch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayer.cpp">
+      <Filter>Game\Game\GameMatch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerBase.cpp">
+      <Filter>Game\Game\GameMatch\PlayerInformation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerResearchManager.cpp">
+      <Filter>Game\Game\GameMatch\PlayerInformation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerUpgradeManager.cpp">
+      <Filter>Game\Game\GameMatch\PlayerInformation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Utils\StringUtils.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Scene\SceneSystem.cpp">
+      <Filter>Game\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Scene\SceneGraph\MAXSceneGraph.cpp">
+      <Filter>Game\Engine\Scene\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Scene\SceneGraph\MAXSceneGraphNode.cpp">
+      <Filter>Game\Engine\Scene\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXClanConfig.cpp">
+      <Filter>Game\Engine\MAXContetnLoader\MAXContentObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXConfigManager.cpp">
+      <Filter>Game\Engine\MAXContetnLoader\MAXContentObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXUnitConfig.cpp">
+      <Filter>Game\Engine\MAXContetnLoader\MAXContentObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXEffectObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXMapObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXObject.cpp">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationBase.cpp">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationManager.cpp">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationObjectUnit.cpp">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationRepeat.cpp">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationSequence.cpp">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\GameInteface.cpp">
+      <Filter>Game\Game\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Utils\Threads\Thread.cpp">
+      <Filter>Utils\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +386,6 @@
     <ClInclude Include="..\..\MAX\Game\Engine\MAXEngine.h">
       <Filter>Game\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Engine\SceneSystem.h">
-      <Filter>Game\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Engine\UserInterface.h">
       <Filter>Game\Engine</Filter>
     </ClInclude>
@@ -286,9 +415,6 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.h">
       <Filter>Game\Engine\ObjectComponents\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MapObject.h">
-      <Filter>Game\Engine\Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.h">
       <Filter>Game\Engine\Objects</Filter>
@@ -323,6 +449,132 @@
     <ClInclude Include="..\..\MAX\Game\Game\MAXGame.h">
       <Filter>Game\Game</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\Network\Request.h">
+      <Filter>Utils\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\Network\RequestDelegate.h">
+      <Filter>Utils\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\Network\RequestManager.h">
+      <Filter>Utils\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\Network\Response.h">
+      <Filter>Utils\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\Framebuffer.h">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\MAXDrawPrimitives.h">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Renderer\MAXUnitSelection.h">
+      <Filter>Game\Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameObject.h">
+      <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnit.h">
+      <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitCurrentState.h">
+      <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitParameters.h">
+      <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.h">
+      <Filter>Game\Game\Objects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffectBlast.h">
+      <Filter>Game\Game\Objects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffectRocket.h">
+      <Filter>Game\Game\Objects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMap.h">
+      <Filter>Game\Game\GameMatch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatch.h">
+      <Filter>Game\Game\GameMatch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayer.h">
+      <Filter>Game\Game\GameMatch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerBase.h">
+      <Filter>Game\Game\GameMatch\PlayerInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerResearchManager.h">
+      <Filter>Game\Game\GameMatch\PlayerInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerUpgradeManager.h">
+      <Filter>Game\Game\GameMatch\PlayerInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\clist.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\StringUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\t_2.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\USimpleContainer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Scene\SceneSystem.h">
+      <Filter>Game\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Scene\SceneGraph\MAXSceneGraph.h">
+      <Filter>Game\Engine\Scene\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Scene\SceneGraph\MAXSceneGraphNode.h">
+      <Filter>Game\Engine\Scene\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXClanConfig.h">
+      <Filter>Game\Engine\MAXContetnLoader\MAXContentObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXConfigManager.h">
+      <Filter>Game\Engine\MAXContetnLoader\MAXContentObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXUnitConfig.h">
+      <Filter>Game\Engine\MAXContetnLoader\MAXContentObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXEffectObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXMapObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Objects\MAXObject.h">
+      <Filter>Game\Engine\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationBase.h">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationDelegate.h">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationManager.h">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationObjectUnit.h">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationPrefix.h">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationRepeat.h">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationSequence.h">
+      <Filter>Game\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\GameInteface.h">
+      <Filter>Game\Game\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Utils\Threads\Thread.h">
+      <Filter>Utils\Threads</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="iconv.dll">
@@ -350,5 +602,35 @@
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ShaderLine.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderMap.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderMap.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderPostQuad.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderPostQuad.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderUnit.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderUnit.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderBackground.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderBackground.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderLine.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>

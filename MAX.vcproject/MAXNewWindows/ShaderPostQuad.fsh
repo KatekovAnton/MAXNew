@@ -8,10 +8,10 @@
 
 uniform sampler2D colorTexture;
 
-varying mediump vec2 tcoordVarying;
+varying vec2 tcoordVarying;
 
 void main()
 {
-    mediump vec4 colortexturevalue = texture2D(colorTexture, tcoordVarying);
+    vec4 colortexturevalue = texture2D(colorTexture, tcoordVarying);
     gl_FragColor = vec4(colortexturevalue.xyz, 0.0);
 }

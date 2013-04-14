@@ -296,6 +296,7 @@ void MAXEngine::DrawUnits()
 {
     _applyedPaletteIndex = -100;
     _applyedPaletteCount = 0;
+
     
     
     
@@ -361,6 +362,7 @@ void MAXEngine::DrawInterface()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
+
     _director->mainLoop();
 }
 

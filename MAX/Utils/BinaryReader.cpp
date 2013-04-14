@@ -10,6 +10,11 @@
 #include "FileManger.h"
 #include <memory>
 
+#include <string>
+#include <iostream>
+#include "StringUtils.h"
+
+using namespace std;
 
 BinaryReader::BinaryReader(std::string filename):
 _position(0),
@@ -211,6 +216,7 @@ std::string BinaryReader::ReadFullAsString()
     data[length] = '\0';
     std::string result = string(data);
     free(data);
+	removeBadCharacters(result);
     return result;
 }
 
