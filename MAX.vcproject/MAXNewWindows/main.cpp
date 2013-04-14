@@ -25,6 +25,7 @@
 #include <io.h>
 #include <iostream>
 #include <fstream>
+#include "Sys\DisplayPinchDelegate.h"
 
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 
@@ -35,6 +36,9 @@ HINSTANCE	hInstance;		// Holds The Instance Of The Application
 bool	keys[256];			// Array Used For The Keyboard Routine
 bool	active=TRUE;		// Window Active Flag Set To TRUE By Default
 bool	fullscreen=TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
+
+DisplayPinchDelegate* _actionDelegate = NULL;
+
 void RedirectIOToConsole()
 {
 	int hConHandle;
@@ -79,21 +83,6 @@ void RedirectIOToConsole()
 	ios::sync_with_stdio();
 
 }
-//
-//#ifdef DEBUG
-//	RedirectIOToConsole();
-//	#endif
-//	// Create Our OpenGL Window
-//	if (!CreateGLWindow("MAX",1024,768,16,fullscreen))
-//	{
-//		return 0;									// Quit If Window Was Not Created
-//	}
-//
-//	glewInit();
-//	windows_display *display = new windows_display(1024, 768, hDC);
-//	windows_display::SetSharedDisplay(display);
-//	engine->Init();
-//	game->Init();
 
 GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize The GL Window
 {
@@ -123,30 +112,6 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 	return TRUE;										// Initialization Went OK
-}
-
-int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
-	glLoadIdentity();									// Reset The Current Modelview Matrix
-	glTranslatef(-1.5f,0.0f,-6.0f);						// Move Left 1.5 Units And Into The Screen 6.0
-	glBegin(GL_TRIANGLES);								// Drawing Using Triangles
-		glColor3f(1.0f,0.0f,0.0f);						// Set The Color To Red
-		glVertex3f( 0.0f, 1.0f, 0.0f);					// Top
-		glColor3f(0.0f,1.0f,0.0f);						// Set The Color To Green
-		glVertex3f(-1.0f,-1.0f, 0.0f);					// Bottom Left
-		glColor3f(0.0f,0.0f,1.0f);						// Set The Color To Blue
-		glVertex3f( 1.0f,-1.0f, 0.0f);					// Bottom Right
-	glEnd();											// Finished Drawing The Triangle
-	glTranslatef(3.0f,0.0f,0.0f);						// Move Right 3 Units
-	glColor3f(0.5f,0.5f,1.0f);							// Set The Color To Blue One Time Only
-	glBegin(GL_QUADS);									// Draw A Quad
-		glVertex3f(-1.0f, 1.0f, 0.0f);					// Top Left
-		glVertex3f( 1.0f, 1.0f, 0.0f);					// Top Right
-		glVertex3f( 1.0f,-1.0f, 0.0f);					// Bottom Right
-		glVertex3f(-1.0f,-1.0f, 0.0f);					// Bottom Left
-	glEnd();											// Done Drawing The Quad
-	return TRUE;										// Keep Going
 }
 
 GLvoid KillGLWindow(GLvoid)								// Properly Kill The Window
@@ -255,20 +220,20 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 	{
 		dwExStyle=WS_EX_APPWINDOW;								// Window Extended Style
 		dwStyle=WS_POPUP;										// Windows Style
-		ShowCursor(FALSE);										// Hide Mouse Pointer
+	//	ShowCursor(FALSE);										// Hide Mouse Pointer
 	}
 	else
 	{
 		dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;			// Window Extended Style
-		dwStyle=WS_OVERLAPPEDWINDOW;							// Windows Style
+		dwStyle=(WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);							// Windows Style
 	}
 
 	AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle);		// Adjust Window To True Requested Size
 
 	// Create The Window
-	if (!(hWnd=CreateWindowEx(	dwExStyle,							// Extended Style For The Window
+	hWnd=CreateWindowEx(	dwExStyle,							// Extended Style For The Window
 								L"OpenGL",							// Class Name
-								L"",								// Window Title
+								L"M.A.X.",							// Window Title
 								dwStyle |							// Defined Window Style
 								WS_CLIPSIBLINGS |					// Required Window Style
 								WS_CLIPCHILDREN,					// Required Window Style
@@ -278,7 +243,8 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
 								NULL,								// No Parent Window
 								NULL,								// No Menu
 								hInstance,							// Instance
-								NULL)))								// Dont Pass Anything To WM_CREATE
+								NULL);
+	if (!hWnd)								// Dont Pass Anything To WM_CREATE
 	{
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,L"Window Creation Error.",L"ERROR",MB_OK|MB_ICONEXCLAMATION);
@@ -406,10 +372,29 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			return 0;								// Jump Back
 		}
+
+		case WM_LBUTTONDOWN:
+		{
+			POINT p;
+			ScreenToClient(hWnd, &p);
+			p=p;
+		}
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
 	return DefWindowProc(hWnd,uMsg,wParam,lParam);
+}
+
+bool _mouseDown;
+
+POINT getMouseLocation(MSG msg)
+{
+	POINT result;
+
+	result.x = 0;
+	result.y = 0;
+
+	return result;
 }
 
 int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
@@ -419,18 +404,22 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 {
 	MSG		msg;									// Windows Message Structure
 	BOOL	done=FALSE;								// Bool Variable To Exit Loop
-	
+	fullscreen=FALSE;
+	int wx = 1024, wy = 768;
 	// Ask The User Which Screen Mode They Prefer
 	//if (MessageBox(NULL,L"Would You Like To Run In Fullscreen Mode?", L"Start FullScreen?",MB_YESNO|MB_ICONQUESTION)==IDNO)
+	if (fullscreen)
 	{
-		fullscreen=FALSE;							// Windowed Mode
+		wx = GetSystemMetrics(SM_CXSCREEN);
+		wy = GetSystemMetrics(SM_CYSCREEN);
 	}
 	RedirectIOToConsole();
+
 	// Create Our OpenGL Window
-	if (!CreateGLWindow("NeHe's Color Tutorial",1024,768,32,fullscreen))
-	{
-		return 0;									// Quit If Window Was Not Created
-	}
+	if (!CreateGLWindow("NeHe's Color Tutorial",wx,wy,32,fullscreen))
+		return 1;									// Quit If Window Was Not Created
+	
+
 	{
 		GLenum GlewInitResult = glewInit();
 		if (GLEW_OK != GlewInitResult)
@@ -440,76 +429,57 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 		}
 
 		if (GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
-		{
 			cout<<"Start: Ready for GLSL"<<endl;
-		}
 		else
 		{
 			cout<<"Start: Not totally ready :("<<endl;
+			MessageBox(NULL,L"Start: Not totally ready.",L"ERROR",MB_OK|MB_ICONSTOP);
+			return 1;
 		}
 
 		if (glewIsSupported("GL_VERSION_2_0"))
-		{
 			cout<<"Start: Ready for OpenGL 2.0"<<endl;
-		}
 		else
 		{
 			cout<<"Start: OpenGL 2.0 not supported"<<endl;
+			MessageBox(NULL,L"OpenGL 2.0 not supported.",L"ERROR",MB_OK|MB_ICONSTOP);
+			return 1;
 		}
 	}
-	windows_display *display = new windows_display(1024, 768, hDC);
+
+	windows_display *display = new windows_display(wx, wy, hDC, hWnd, &_actionDelegate);
 	windows_display::SetSharedDisplay(display);
 	engine->Init();
 	glUseProgram(0);
 	game->Init();
 	unsigned long startTime_ = timeGetTime();
+	int a =0;
 	while(!done)									// Loop That Runs While done=FALSE
 	{
 		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	// Is There A Message Waiting?
 		{
 			if (msg.message==WM_QUIT)				// Have We Received A Quit Message?
-			{
 				done=TRUE;							// If So done=TRUE
-			}
 			else									// If Not, Deal With Window Messages
 			{
 				TranslateMessage(&msg);				// Translate The Message
 				DispatchMessage(&msg);				// Dispatch The Message
+
+				display->ProceedMessage(msg);
+
 			}
 		}
 		else										// If There Are No Messages
 		{
-			// Draw The Scene.  Watch For ESC Key And Quit Messages From DrawGLScene()
 			unsigned long curTime = timeGetTime();
 			unsigned long diff = curTime - startTime_;
 			startTime_ = curTime;
 			double diffD = ((double)diff)/1000.0;
 
-
 			engine->RunLoop(diffD);
-			//DrawGLScene();
-			//SwapBuffers(hDC);
-
-			if (keys[VK_ESCAPE])	// Active?  Was There A Quit Received?
-			{
-				done=TRUE;							// ESC or DrawGLScene Signalled A Quit
-			}
-
-			if (keys[VK_F1])						// Is F1 Being Pressed?
-			{
-				keys[VK_F1]=FALSE;					// If So Make Key FALSE
-				KillGLWindow();						// Kill Our Current Window
-				fullscreen=!fullscreen;				// Toggle Fullscreen / Windowed Mode
-				// Recreate Our OpenGL Window
-				if (!CreateGLWindow("NeHe's Color Tutorial",1024,768,32,fullscreen))
-				{
-					return 0;						// Quit If Window Was Not Created
-				}
-			}
 		}
 	}
 
-	// Shutdown
 	KillGLWindow();									// Kill The Window
 	return (msg.wParam);							// Exit The Program
 }

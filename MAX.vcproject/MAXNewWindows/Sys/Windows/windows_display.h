@@ -1,6 +1,9 @@
 #pragma once
 #include "display.h"
 #include <windows.h>
+
+class DisplayPinchDelegate;
+
 class windows_display :
 	public Display
 {
@@ -8,9 +11,13 @@ class windows_display :
 	float w;
 	float h;
 	HDC			hDC;
+	HWND		hWND;
+	bool		_mouseDown;
+	POINT		_mouseDownPoint;
+	DisplayPinchDelegate** _delegate;
 public:
 	
-	windows_display(float _w, float _h, HDC _hDC);
+	windows_display(float _w, float _h, HDC _hDC, HWND _hWND, DisplayPinchDelegate **_actionDelegate);
 	windows_display(void);
 	~windows_display(void);
 
@@ -33,8 +40,9 @@ public:
     virtual void    swapBuffers();
     
     virtual void setIMEKeyboardState(bool bOpen);
-    virtual void SetPinchDelegate(DisplayPinchDelegate* _delegate);
+    virtual void SetPinchDelegate(DisplayPinchDelegate* _newDelegate);
 
 	virtual void setDesignResolutionSize(float width, float height, ResolutionPolicy resolutionPolicy);
+	void ProceedMessage(MSG msg);
 };
 
