@@ -70,7 +70,7 @@ public:
     void SetPalette(double time);
     void LandingTo(const CCPoint &landingPosition);
 
-    
+    bool CanSeeUnit(GameUnit* unit);
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     
 #pragma mark - GameFogDelegate

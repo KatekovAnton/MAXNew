@@ -328,6 +328,13 @@ void MAXGame::FlushEffectsWithNew(GameEffect *effect)
     }
 }
 
+#pragma mark - Interface
+#pragma mark Messages
+void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)
+{
+    printf("Enemy %s spotted at %d, %d!\n", unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_name.c_str(), (int)unit->GetUnitCell().x, (int)unit->GetUnitCell().y);
+}
+
 #pragma mark - MAXEngineDelegate
 
 void MAXGame::onFrame()
@@ -443,7 +450,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
-    if (_currentUnit)
+    if (_currentUnit && !_currentUnit->GetIsFreezed())
     {
         if (_currentUnit->CanStartBuildProcess())
         {

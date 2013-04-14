@@ -105,7 +105,7 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
     }
     
     unsigned char nameEng[7] = {0xC8, 0xEC, 0xFF, 0x2D, 0x45, 0x6E, 0x67};
-    if (memcmp(nameEng, key.c_str(), 3) == 0 && false) {
+    if (memcmp(nameEng, key.c_str(), 3) == 0) {
         _name = value;
         return;
     }

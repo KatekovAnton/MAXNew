@@ -29,7 +29,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
 {
     unitObject->_delegate_w = this;
     unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
-    _onMap = false;
+    _onDraw = false;
     _detected = false;
     if (config->GetConfig()->_isBuilding && config->GetConfig()->_isAllwaysOn)
     {

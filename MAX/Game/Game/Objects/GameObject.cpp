@@ -14,7 +14,7 @@
 #include "miniPrefix.h"
 
 GameObject::GameObject(MAXObject *object, MAXObjectConfig *config)
-:_object(object), _onMap(false), _config_w(config)
+:_object(object), _onDraw(false), _config_w(config)
 {}
 
 GameObject::~GameObject()
@@ -24,18 +24,18 @@ GameObject::~GameObject()
 
 void GameObject::Show()
 {
-    if (_onMap)
+    if (_onDraw)
         return;
-    _onMap = true;
+    _onDraw = true;
     
     engine->AddUnit(_object);
 }
 
 void GameObject::Hide()
 {
-    if (!_onMap)
+    if (!_onDraw)
         return;
-    _onMap = false;
+    _onDraw = false;
     
     engine->RemoveUnit(_object);
 }

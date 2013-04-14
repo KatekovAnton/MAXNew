@@ -66,6 +66,10 @@ public:
     
     void StartMatch();
     void FlushEffectsWithNew(GameEffect *effect);
+  
+#pragma mark - Interface
+#pragma mark Messages
+    void ShowUnitSpottedMessage(GameUnit* unit);
     
 #pragma mark - MAXEngineDelegate
     virtual void onFrame();

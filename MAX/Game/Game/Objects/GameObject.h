@@ -29,7 +29,7 @@ protected:
     
 public:
     
-    bool _onMap;
+    bool _onDraw;
     SelectedGameObjectDelegate* selectedGameObjectDelegate;
     
     GameObject(MAXObject *object, MAXObjectConfig *config);

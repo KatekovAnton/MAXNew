@@ -101,6 +101,12 @@ void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
     _landingPosition = landingPosition;
 }
 
+bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
+{
+    //TODO: add invisibility conditions
+    return (_fog->GetValue(unit->GetUnitCell())>0);
+}
+
 #pragma mark - GameFogDelegate
 
 bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const
@@ -127,21 +133,14 @@ float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog 
 
 void GameMatchPlayer::CellDidUpdate(const int x, const int y, const GameFog *fog, bool visibleFlag) const
 {
-    if (fog == _fog)
-    {
-       if (GetIsCurrentPlayer())
-           engine->AddFogCell(x, y, !visibleFlag);
-    }
+    FOG_TYPE type = FOG_TYPE_SIMPLE;
     if (fog == _resourceMapFog)
     {
-        if (visibleFlag)
-        {
-    //        printf("added cell %d %d\n", x, y);
-            _resourceMap->AddCell(x, y);
-            if (GetIsCurrentPlayer()) 
-                engine->AddResourceCell(x, y, _match_w->_resources->GetResourceTypeAt(x, y), _match_w->_resources->GetResourceValueAt(x, y));
-        }
+        _resourceMap->AddCell(x, y);
+        type = FOG_TYPE_RESOURCES;
     }
+    _match_w->CellDidUpdate(x, y, type, visibleFlag, this);
+
 }
 
 #pragma mark - GameUnitDelegate

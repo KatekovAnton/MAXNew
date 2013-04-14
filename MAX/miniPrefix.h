@@ -156,4 +156,14 @@ typedef enum
     FIRE_TYPE_All
 }FIRE_TYPE;
     
+typedef enum
+{
+    FOG_TYPE_SIMPLE = 0,
+    FOG_TYPE_MINES = 1,
+    FOG_TYPE_SEAMINES = 2,
+    FOG_TYPE_UNDERWATER = 3,
+    FOG_TYPE_INFILTRATOR = 4,
+    FOG_TYPE_RESOURCES
+}FOG_TYPE;
+    
 #endif

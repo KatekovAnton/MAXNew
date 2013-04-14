@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
+#include "MAXGame.h"
+#include "GameUnit.h"
 #include "GameMatch.h"
 #include "GameMatchPlayer.h"
 #include "GameMap.h"
@@ -77,6 +79,56 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 {
     _agregator->AddUnitToCell(unit, point.x, point.y);
+    bool needMessage = false;
+    if (_currentPlayer_w->CanSeeUnit(unit))
+    {
+        needMessage = !unit->_onDraw && unit->_owner_w != _currentPlayer_w;
+        unit->Show();
+    }
+    else
+    {
+        unit->Hide();
+    }
+    if (needMessage) {
+        game->ShowUnitSpottedMessage(unit);
+    }
 }
 
+void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, const GameMatchPlayer* _player)
+{
+    if (_player->GetIsCurrentPlayer())
+    {
+        if (type == FOG_TYPE_SIMPLE)
+        {
+            engine->AddFogCell(x, y, !visibleFlag);
+            USimpleContainer<GameUnit*> *units = _agregator->UnitsInCell(x, y);
+            if (visibleFlag)
+            {
+                bool needMessage = false;
+                for (int i = 0; i < units->GetCount(); i++)
+                {
+                    needMessage = ! units->objectAtIndex(i)->_onDraw &&  units->objectAtIndex(i)->_owner_w != _currentPlayer_w;
+                    units->objectAtIndex(i)->Show();
+                    
+                    if (needMessage) {
+                        game->ShowUnitSpottedMessage(units->objectAtIndex(i));
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < units->GetCount(); i++)
+                    units->objectAtIndex(i)->Hide();
+            }
+        }
+        if (type == FOG_TYPE_RESOURCES && visibleFlag)
+        {
+            engine->AddResourceCell(x, y, _resources->GetResourceTypeAt(x, y), _resources->GetResourceValueAt(x, y));
+        }
+    }
+    else
+    {
+        //TODO: drop invisibility from our units if need
+    }
+}
 
