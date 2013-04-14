@@ -116,6 +116,7 @@ void MAXGrid::UpdateInfo(bool needNewSize)
 
 void MAXGrid::DrawGrid()
 {
+	glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
     MAXDrawPrimitives::SharedDrawPrimitives()->Begin();
     MAXDrawPrimitives::SharedDrawPrimitives()->BindColor(GLKVector4Make(14.0/255.0, 58.0/255.0, 0, 0.7));
     //ccDrawColor4F(14.0/255.0, 58.0/255.0, 0, 0.7);
