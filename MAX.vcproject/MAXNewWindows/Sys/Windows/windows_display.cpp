@@ -111,7 +111,7 @@ void windows_display::ProceedMessage(MSG msg)
 {
 	POINT position;
 	
-	ScreenToClient(NULL, &position);
+	ScreenToClient(hWND, &position);
 
 	DisplayPinchDelegate* _delegateC = *_delegate;
 
