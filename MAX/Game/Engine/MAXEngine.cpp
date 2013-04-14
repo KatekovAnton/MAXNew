@@ -226,7 +226,7 @@ void MAXEngine::DrawGround()
 
 void MAXEngine::DrawUnits()
 {
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     _shader = _unitShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
@@ -242,6 +242,7 @@ void MAXEngine::DrawUnits()
 
 void MAXEngine::DrawInterface()
 {
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glActiveTexture(GL_TEXTURE0);
     _director->mainLoop();
 }

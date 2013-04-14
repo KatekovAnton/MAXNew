@@ -111,27 +111,78 @@ void windows_display::ProceedMessage(MSG msg)
 {
 	POINT position;
 	
+	GetCursorPos(&position);
 	ScreenToClient(hWND, &position);
 
 	DisplayPinchDelegate* _delegateC = *_delegate;
-
+	bool lastMouseFlag = _mouseDown;
 	if (msg.message == WM_LBUTTONDOWN && !_mouseDown)
 	{
-		_mouseDown = true;
-		_mouseDownPoint = position;
+		SetCapture(hWND);
+		if (_delegateC->CanStartPinch(position.x,position.y))
+		{
+			_mouseDown = true;
+			_mouseDownPoint = position;
+		}
+		else
+		{
+			//to cocos
+			int ids[1] = {0};
+			float xs[1] = {position.x};
+			float ys[1] = {position.y};
+			this->handleTouchesBegin(1, ids, xs, ys); 
+		}
 	}
-	if (msg.message == WM_LBUTTONUP && _mouseDown)
+	if (msg.message == WM_LBUTTONUP)
 	{
-		_mouseDown = false;
+		if (_mouseDown)
+		{
+			_mouseDown = false;
+			if (_mouseDownPoint.x == position.x && _mouseDownPoint.y == position.y)
+				_delegateC->ProceedTap(position.x, position.y);
+		}
+		else
+		{
+			//to cocos
+			int ids[1] = {0};
+			float xs[1] = {position.x};
+			float ys[1] = {position.y};
+			this->handleTouchesEnd(1, ids, xs, ys); 
+		}
+		ReleaseCapture();
 	}
-	if (msg.message == 522)
+	if (msg.message == WM_MOUSEMOVE )
+	{
+		if (_mouseDown)
+		{
+			POINT delta;
+			delta.x = 0;
+			delta.y = 0;
+			if (lastMouseFlag)
+			{
+				delta.x = _mousePointLast.x - position.x;
+				delta.y = _mousePointLast.y - position.y;
+			}
+			_delegateC->ProceedPan(-delta.x, -delta.y);
+		}
+		else
+		{
+			//to cocos
+			int ids[1] = {0};
+			float xs[1] = {position.x};
+			float ys[1] = {position.y};
+			this->handleTouchesMove(1, ids, xs, ys); 
+		}
+	}
+	if (msg.message == WM_RBUTTONUP && _delegateC->CanStartPinch(position.x,position.y))
+	{
+		_delegateC->ProceedLongTap(position.x, position.y);
+	}
+	if (msg.message == 522 && _delegateC->CanStartPinch(position.x,position.y))
 	{
 		short t = GET_WHEEL_DELTA_WPARAM(msg.wParam);
 		if (_delegate)
 			_delegateC->ProceedPinch(t>0?1.1:0.9);
 	}
-	if (msg.message == WM_MOUSEMOVE && false)
-	{
-
-	}
+	_mousePointLast = position;
 }

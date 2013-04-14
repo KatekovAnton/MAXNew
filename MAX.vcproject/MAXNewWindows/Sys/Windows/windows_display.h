@@ -14,6 +14,7 @@ class windows_display :
 	HWND		hWND;
 	bool		_mouseDown;
 	POINT		_mouseDownPoint;
+	POINT		_mousePointLast;
 	DisplayPinchDelegate** _delegate;
 public:
 	

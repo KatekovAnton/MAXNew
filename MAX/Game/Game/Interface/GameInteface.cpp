@@ -43,7 +43,7 @@ void GameInterface::InitBaseInterface()
 }
 
 #pragma mark - Button events
-void GameInterface::OnToggleGrid()
+void GameInterface::OnToggleGrid(CCMenuItem* sender)
 {
     _drawGrid = !_drawGrid;
     engine->drawGrid = _drawGrid;

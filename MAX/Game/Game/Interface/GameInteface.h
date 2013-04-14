@@ -32,7 +32,7 @@ public:
     void InitBaseInterface();
     
     
-    void OnToggleGrid();
+	void OnToggleGrid(CCMenuItem* sender);
     void UpdateToggleGridButton();
 };
 
