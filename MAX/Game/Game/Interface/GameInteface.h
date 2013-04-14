@@ -69,18 +69,18 @@ public:
 
 #pragma mark - Button events
     
-    void OnToggleLockUnits();
-    void OnToggleGrid();
-    void OnToggleScan();
-    void OnToggleRange();
-    void OnToggleShots();
-    void OnToggleStatus();
-    void OnToggleResources();
-    void OnToggleFog();
+    void OnToggleLockUnits(CCMenuItem* sender);
+    void OnToggleGrid(CCMenuItem* sender);
+    void OnToggleScan(CCMenuItem* sender);
+    void OnToggleRange(CCMenuItem* sender);
+    void OnToggleShots(CCMenuItem* sender);
+    void OnToggleStatus(CCMenuItem* sender);
+    void OnToggleResources(CCMenuItem* sender);
+    void OnToggleFog(CCMenuItem* sender);
     
-    void OnTogglePanel();
-    ;
-    void OnEndTurn();
+    void OnTogglePanel(CCMenuItem* sender);
+    
+    void OnEndTurn(CCMenuItem* sender);
     
 #pragma mark - Game events
     

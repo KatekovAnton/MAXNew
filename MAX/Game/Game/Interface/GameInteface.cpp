@@ -177,7 +177,7 @@ void GameInterface::InitBaseInterface()
     UpdateToggleFogButton();
 
 
-    OnToggleFog();
+    OnToggleFog(nil);
 
     
     _buttonEndTurn = createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
@@ -259,7 +259,7 @@ void GameInterface::UpdateToggleFogButton()
 
 #pragma mark - Button events
 
-void GameInterface::OnToggleLockUnits()
+void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
 {
     _lockUnits = !_lockUnits;
     if (!_lockUnits)
@@ -275,42 +275,42 @@ void GameInterface::OnToggleLockUnits()
     UpdateToggleLockUnitsButton();
 }
 
-void GameInterface::OnToggleGrid()
+void GameInterface::OnToggleGrid(CCMenuItem* sender)
 {
     _drawGrid = !_drawGrid;
     engine->drawGrid = _drawGrid;
     UpdateToggleGridButton();
 }
 
-void GameInterface::OnToggleScan()
+void GameInterface::OnToggleScan(CCMenuItem* sender)
 {
     _drawScan = !_drawScan;
     MAXStatusRenderer::SharedStatusRenderer()->_drawScan = _drawScan;
     UpdateToggleScanButton();
 }
 
-void GameInterface::OnToggleRange()
+void GameInterface::OnToggleRange(CCMenuItem* sender)
 {
     _drawRange = !_drawRange;
     MAXStatusRenderer::SharedStatusRenderer()->_drawRange  = _drawRange;
     UpdateToggleRangeButton();
 }
 
-void GameInterface::OnToggleShots()
+void GameInterface::OnToggleShots(CCMenuItem* sender)
 {
     _drawShots = !_drawShots;
     MAXStatusRenderer::SharedStatusRenderer()->_drawShots = _drawShots;
     UpdateToggleShotsButton();
 }
 
-void GameInterface::OnToggleStatus()
+void GameInterface::OnToggleStatus(CCMenuItem* sender)
 {
     _drawStatus = !_drawStatus;
     MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
     UpdateToggleStatusButton();
 }
 
-void GameInterface::OnToggleResources()
+void GameInterface::OnToggleResources(CCMenuItem* sender)
 {
     _drawResources = !_drawResources;
     if (_currentUnit) 
@@ -320,7 +320,7 @@ void GameInterface::OnToggleResources()
     UpdateToggleResourcesButton();
 }
 
-void GameInterface::OnToggleFog()
+void GameInterface::OnToggleFog(CCMenuItem* sender)
 {
     _drawFog = !_drawFog;
     engine->drawFog = _drawFog;
@@ -328,7 +328,7 @@ void GameInterface::OnToggleFog()
 }
 
 
-void GameInterface::OnTogglePanel()
+void GameInterface::OnTogglePanel(CCMenuItem* sender)
 {
     const static int moveAnimationTag = 0;
     CCAction* currentAction = _panel->getActionByTag(moveAnimationTag);
@@ -361,7 +361,7 @@ void GameInterface::OnTogglePanel()
     _buttonTogglePanel->setSelectedImage(newSelected);
 }
 
-void GameInterface::OnEndTurn()
+void GameInterface::OnEndTurn(CCMenuItem* sender)
 {
     
 }
