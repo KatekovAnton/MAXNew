@@ -397,6 +397,26 @@ POINT getMouseLocation(MSG msg)
 	return result;
 }
 
+class MyCCapplication: public CCApplication
+{
+
+public:
+	MyCCapplication()
+	{
+	}
+
+   virtual bool applicationDidFinishLaunching()
+	{
+		return true;
+   }
+
+   virtual void applicationDidEnterBackground()
+	{}
+
+    virtual void applicationWillEnterForeground()
+	{}
+};
+
 int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 					HINSTANCE	hPrevInstance,		// Previous Instance
 					LPSTR		lpCmdLine,			// Command Line Parameters
@@ -446,7 +466,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 			return 1;
 		}
 	}
-
+	MyCCapplication* app = new MyCCapplication();
 	windows_display *display = new windows_display(wx, wy, hDC, hWnd, &_actionDelegate);
 	windows_display::SetSharedDisplay(display);
 	engine->Init();

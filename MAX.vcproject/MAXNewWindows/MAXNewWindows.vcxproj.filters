@@ -743,5 +743,23 @@
     <None Include="ShaderLine.fsh">
       <Filter>Файлы ресурсов</Filter>
     </None>
+    <None Include="ShaderResourceMap.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderSolidFog.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderSolidFog.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderUnitLow.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderUnitLow.vsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ShaderResourceMap.fsh">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>
