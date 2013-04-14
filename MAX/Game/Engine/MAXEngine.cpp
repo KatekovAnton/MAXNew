@@ -44,7 +44,7 @@ MAXEngine globalEngine;
 MAXEngine * engine = &globalEngine;
 
 MAXEngine::MAXEngine()
-:_delegate(NULL)
+	:_delegate(NULL), _applyedPaletteIndex(-100), _applyedPaletteCount(0)
 {
     _renderSystem = new RenderSystem();
 }
@@ -101,6 +101,14 @@ void MAXEngine::Init() {
     _director = CCDirector::sharedDirector();
     _director->setContentScaleFactor(_renderSystem->GetDisplay()->GetDisplayScale());
     _director->setOpenGLView((CCEGLView *)(_renderSystem->GetDisplay()));
+
+	
+    if (Display::currentDisplay()->GetDisplayScale() == 1.0) {
+        CCFileUtils::sharedFileUtils()->setResourceDirectory("simple");
+    }
+    if (Display::currentDisplay()->GetDisplayScale() == 2.0) {
+        CCFileUtils::sharedFileUtils()->setResourceDirectory("retina");
+    }
       
     float scale = _renderSystem->GetDisplay()->GetDisplayScale();
     _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth()/scale, _renderSystem->GetDisplay()->GetDisplayHeight()/scale, kResolutionNoBorder);

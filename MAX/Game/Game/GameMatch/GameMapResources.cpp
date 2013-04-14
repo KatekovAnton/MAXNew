@@ -249,7 +249,7 @@ void GameMapResources::GenerateInitialResources(void)
     
     for (int i = 0; i < resMax; i++)
     {
-        for (RESOURCE_TYPE type = RESOURCE_TYPE_RAW; type < RESOURCE_TYPE_COUNT; type++)
+        for (int type = RESOURCE_TYPE_RAW; type < RESOURCE_TYPE_COUNT; type++)
         {
             if (resCount[type] > 0)
             {
@@ -303,7 +303,7 @@ void GameMapResources::GenerateInitialResources(void)
                     if (correctPlace)
                     {
                         //check cells around for same res
-                        int diff = GetDiff(type);
+						int diff = GetDiff((RESOURCE_TYPE)type);
                         if (okMax < 20)
                         {
                             diff /= 2;

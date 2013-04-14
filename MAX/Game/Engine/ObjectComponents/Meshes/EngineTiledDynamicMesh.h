@@ -14,7 +14,7 @@
 #include "GlobalConstants.h"
 #include "USimpleContainer.h"
 
-struct Polygon {
+struct MAXPolygon {
     vertexStruct vertexTL;
     vertexStruct vertexBR;
     vertexStruct vertexTR;
@@ -42,7 +42,7 @@ public:
     
     EngineTiledDynamicMeshDelegate *_delegate_w;
     
-    USimpleContainer<Polygon> *_vertices;
+    USimpleContainer<MAXPolygon> *_vertices;
     
     EngineTiledDynamicMeshTextureInfo _textureInfo;
     

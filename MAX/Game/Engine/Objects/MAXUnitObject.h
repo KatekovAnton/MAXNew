@@ -59,9 +59,9 @@ public:
     
     void SetBodyOffset (int offset);
     
-    int bodyOffset = 0;
-    int headOffset = 8;
-    int headFireOffset = 16;
+    int bodyOffset;
+    int headOffset;
+    int headFireOffset;
     
     MAXUnitObjectDelegate* _delegate_w;
     

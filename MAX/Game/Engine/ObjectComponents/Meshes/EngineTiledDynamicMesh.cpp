@@ -16,7 +16,7 @@ const size_t vertexNormalOffset = offsetof(vertexStruct,normal);
 const size_t vertexTcoordOffset = offsetof(vertexStruct,tcoord);
 
 EngineTiledDynamicMesh::EngineTiledDynamicMesh(EngineTiledDynamicMeshTextureInfo textureInfo, int mapW, int mapH)
-:_textureInfo(textureInfo), _vertices(new USimpleContainer<Polygon>(mapH*mapW)), _mapW(mapW), _mapH(mapH), _delegate_w(NULL), meshIndexToCoordianteHash(new int[mapH*mapW])
+:_textureInfo(textureInfo), _vertices(new USimpleContainer<MAXPolygon>(mapH*mapW)), _mapW(mapW), _mapH(mapH), _delegate_w(NULL), meshIndexToCoordianteHash(new int[mapH*mapW])
 {
     for (int i = 0; i < mapH*mapW; i++) 
         meshIndexToCoordianteHash[i] = -1;
@@ -33,7 +33,7 @@ int EngineTiledDynamicMesh::AddPolygon(int x, int y, int tileIndex, int singleAr
 {
     meshIndexToCoordianteHash[_vertices->GetCount()] = singleArrayIndex;
     
-    Polygon poly;
+    MAXPolygon poly;
     
     float minposx = -_mapW/2.0;
     float minposy = _mapH/2.0;

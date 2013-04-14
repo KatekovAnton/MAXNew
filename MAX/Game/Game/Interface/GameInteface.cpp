@@ -177,7 +177,7 @@ void GameInterface::InitBaseInterface()
     UpdateToggleFogButton();
 
 
-    OnToggleFog(nil);
+    OnToggleFog(NULL);
 
     
     _buttonEndTurn = createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));

@@ -15,7 +15,7 @@ namespace Utils {
     
     using namespace std;
     
-    template<class T>
+    template<typename T>
     class USimpleContainer {
         T *_array;
         int         _baseSize;
@@ -41,7 +41,7 @@ namespace Utils {
         int GetCount() const { return _count; };
     };
 
-    template <class T>
+    template <typename T>
     USimpleContainer<T>::USimpleContainer() {
 		_baseSize = 100;
         _array = new T[_baseSize];
@@ -49,20 +49,20 @@ namespace Utils {
 		_count = 0;
     }
     
-    template<class T>
+    template<typename T>
     USimpleContainer<T>::USimpleContainer(int baseSize):_count(0) {
         _baseSize = baseSize;
         _array = new T[baseSize];
         _currentSize = _baseSize;
     }
     
-    template <class T>
+    template <typename T>
     USimpleContainer<T>::~USimpleContainer<T>() {
         clear();
         delete [] _array;
     }
     
-    template <class T>
+    template <typename T>
     void USimpleContainer<T>::remove(int index) {
         if (index < _count) {
 //            T obj  = _array[index];
@@ -72,7 +72,7 @@ namespace Utils {
         }
     }
     
-    template <class T>
+    template <typename T>
     int USimpleContainer<T>::indexOf(const T &object) {
          for (int i = 0; i < _count; i++) {
             if(_array[i] == object)
@@ -81,13 +81,13 @@ namespace Utils {
         return -1;
     }
     
-    template <class T>
+    template <typename T>
     void USimpleContainer<T>::clear() {
         memset(_array, 0, _currentSize*sizeof(T));
         _count = 0;
     }
     
-    template <class T>
+    template <typename T>
     bool USimpleContainer<T>::removeObject(const T& object) {
         for (int i = 0; i < _count; i++) {
             if (_array[i] == object) {
@@ -98,7 +98,7 @@ namespace Utils {
         return false;
     }
     
-    template <class T>
+    template <typename T>
     void USimpleContainer<T>::addObject(const T& object) {
         if (_count == _currentSize) {
             T *tmp = _array;
@@ -112,18 +112,18 @@ namespace Utils {
         _count ++;
     }
     
-    template <class T>
+    template <typename T>
     T USimpleContainer<T>::objectAtIndex(int index) const {
         T result = _array[index];
         return result;
     }
     
-    template <class T>
+    template <typename T>
     void USimpleContainer<T>::sort(int (*pointer)(const void *, const void *)) {
         qsort(_array, _count, sizeof(T), pointer);
     }
     
-    template <class T>
+    template <typename T>
     void USimpleContainer<T>::AddObjects(const USimpleContainer<T>* objects)
     {
         int newCount = _count + objects->GetCount();

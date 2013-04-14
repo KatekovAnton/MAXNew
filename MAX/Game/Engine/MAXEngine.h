@@ -76,8 +76,8 @@ public:
     bool drawResources;
     bool drawFog;
     
-    int _applyedPaletteIndex = -100;
-    int _applyedPaletteCount = 0;
+    int _applyedPaletteIndex;
+    int _applyedPaletteCount;
     
     shared_ptr<MAXMapObject>            _map;
     

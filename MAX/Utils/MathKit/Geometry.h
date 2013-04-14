@@ -27,13 +27,13 @@
 #endif
 
 template <typename T> static __inline__
-T __min(T a, T b)
+T ____min(T a, T b)
 {
     return a<b?a:b;
 }
 
 template <typename T> static __inline__
-T __max(T a, T b)
+T ____max(T a, T b)
 {
     return a>b?a:b;
 }
@@ -43,20 +43,22 @@ struct __GPoint2D {
     GLfloat y;
 };
 
+typedef struct __GPoint2D GPoint2D;
+
 struct __GSize2D {
     GLfloat height;
     GLfloat width;
 };
 
+typedef struct __GSize2D GSize2D;
+
 struct __GRect2D {
-    struct __GPoint2D   origin;
-    struct __GSize2D    size;
+    GPoint2D   origin;
+    GSize2D    size;
 };
 
-
-typedef struct __GPoint2D GPoint2D;
 typedef struct __GRect2D GRect2D;
-typedef struct __GSize2D GSize2D;
+
 
 
 static __inline__ GRect2D GRect2DMake(GLfloat x, GLfloat y, GLfloat width, GLfloat height) {
@@ -81,10 +83,10 @@ struct __BoundingBox {
     
     void AddBoundingBox(__BoundingBox bb)
     {
-        min.x = __min(min.x, bb.min.x);
-        min.y = __min(min.y, bb.min.y);
-        max.x = __max(max.x, bb.max.x);
-        max.y = __max(max.y, bb.max.y);
+        min.x = ____min(min.x, bb.min.x);
+        min.y = ____min(min.y, bb.min.y);
+        max.x = ____max(max.x, bb.max.x);
+        max.y = ____max(max.y, bb.max.y);
     }
     
 };
