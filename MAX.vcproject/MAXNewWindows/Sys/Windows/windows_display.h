@@ -35,7 +35,6 @@ public:
     virtual void setIMEKeyboardState(bool bOpen);
     virtual void SetPinchDelegate(DisplayPinchDelegate* _delegate);
 
-	const CCSize& getDesignResolutionSize() const;
 	virtual void setDesignResolutionSize(float width, float height, ResolutionPolicy resolutionPolicy);
 };
 

@@ -20,13 +20,6 @@ windows_display::windows_display(void)
 {
 }
 
-const CCSize& windows_display::getDesignResolutionSize() const 
-{
-	CCSize result = CCSize(w, h);
-	result.retain();
-	return result;
-}
-
 void windows_display::setDesignResolutionSize(float width, float height, ResolutionPolicy resolutionPolicy)
 {
 	this->setFrameSize(width, height);

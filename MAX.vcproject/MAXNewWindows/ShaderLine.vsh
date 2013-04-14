@@ -12,7 +12,7 @@ uniform mat4 projectionMatrix;
 
 void main()
 {
-    mediump vec4 result = position;
+    vec4 result = position;
     result.z = 0.5;
     result.w = 0.5;
     gl_Position = projectionMatrix * result;
