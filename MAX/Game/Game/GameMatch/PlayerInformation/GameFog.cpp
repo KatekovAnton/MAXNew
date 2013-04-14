@@ -20,8 +20,8 @@ GameFog::GameFog(int mapWidth, int mapHeight)
     // create an empty field
     _gameField = new int[_mapSize];
     _gameFieldLast = new int[_mapSize];
-    memset(_gameField, 0, _mapSize);
-    memset(_gameFieldLast, 0, _mapSize);
+    memset(_gameField, 0, _mapSize * sizeof(int));
+    memset(_gameFieldLast, 0, _mapSize  * sizeof(int));
 }
 
 GameFog::~GameFog()

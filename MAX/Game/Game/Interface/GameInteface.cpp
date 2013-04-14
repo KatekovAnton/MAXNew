@@ -95,6 +95,7 @@ GameInterface::GameInterface()
     _drawShots = false;
     _drawStatus = false;
     _drawFog = false;
+	_drawResources = false;
     
     Scale = Display::currentDisplay()->GetDisplayScale();
 }

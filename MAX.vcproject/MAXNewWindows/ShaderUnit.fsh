@@ -17,6 +17,6 @@ void main()
     vec4 color = texture2D(colorTexture, tcoordVarying);
 	vec2 finalCoords = vec2(color.r - 0.0019, 0.5);
 	vec4 colorFinal = texture2D(colorTexture1, finalCoords);
-	//colorFinal = colorFinal * alpha;
+	colorFinal = colorFinal * alpha;
 	gl_FragColor = colorFinal;
 }
