@@ -13,6 +13,7 @@ class windows_display :
 	HDC			hDC;
 	HWND		hWND;
 	bool		_mouseDown;
+	bool		_mouseDownToCocos;
 	POINT		_mouseDownPoint;
 	POINT		_mousePointLast;
 	DisplayPinchDelegate** _delegate;

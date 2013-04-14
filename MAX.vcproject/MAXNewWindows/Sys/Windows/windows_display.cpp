@@ -20,7 +20,7 @@ void GetWindowPos(HWND hWnd, int *x, int *y)
 }
 
 windows_display::windows_display(float _w, float _h, HDC _hDC, HWND _hWND, DisplayPinchDelegate **_actionDelegate)
-	:_mouseDown(false)
+	:_mouseDown(false), _mouseDownToCocos(false)
 {
     w = _w;
 	h = _h;
@@ -126,6 +126,7 @@ void windows_display::ProceedMessage(MSG msg)
 		}
 		else
 		{
+			_mouseDownToCocos = true;
 			//to cocos
 			int ids[1] = {0};
 			float xs[1] = {position.x};
@@ -141,8 +142,9 @@ void windows_display::ProceedMessage(MSG msg)
 			if (_mouseDownPoint.x == position.x && _mouseDownPoint.y == position.y)
 				_delegateC->ProceedTap(position.x, position.y);
 		}
-		else
+		else if (_mouseDownToCocos)
 		{
+			_mouseDownToCocos = false;
 			//to cocos
 			int ids[1] = {0};
 			float xs[1] = {position.x};
@@ -165,7 +167,7 @@ void windows_display::ProceedMessage(MSG msg)
 			}
 			_delegateC->ProceedPan(-delta.x, -delta.y);
 		}
-		else
+		else if (_mouseDownToCocos)
 		{
 			//to cocos
 			int ids[1] = {0};

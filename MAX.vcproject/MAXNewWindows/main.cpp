@@ -424,7 +424,8 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 {
 	MSG		msg;									// Windows Message Structure
 	BOOL	done=FALSE;								// Bool Variable To Exit Loop
-	fullscreen=FALSE;
+	fullscreen=TRUE
+		;
 	int wx = 1024, wy = 768;
 	// Ask The User Which Screen Mode They Prefer
 	//if (MessageBox(NULL,L"Would You Like To Run In Fullscreen Mode?", L"Start FullScreen?",MB_YESNO|MB_ICONQUESTION)==IDNO)
