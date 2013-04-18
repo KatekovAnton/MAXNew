@@ -34,6 +34,7 @@ class GameMatch;
 class GameEffect;
 class GameInterface;
 class GamePathVisualizer;
+class PFWaveCell;
 
 class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate
 {
@@ -47,7 +48,7 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     void StartTest();
     void ShowPathMap();
     void HidePathMap();
-    
+	void ShowUnitPath(std::vector<PFWaveCell*> path);
 public:
     GameMatch *_match;
     

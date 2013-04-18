@@ -31,6 +31,7 @@
 #include "GamePathVisualizer.h"
 
 #include "Pathfinder.h"
+#include "PFWaveCell.h"
 
 MAXGame globalGame;
 MAXGame * game = &globalGame;
@@ -368,21 +369,28 @@ void MAXGame::ProceedPan(float speedx, float speedy)
     engine->MoveCamera(speedx, speedy);
 }
 
+void MAXGame::ShowUnitPath(std::vector<PFWaveCell*> path)
+{
+	vector<PathElement> testPath;
+	for (int pi = path.size() - 2; pi >= 0; pi--)
+	{
+		PFWaveCell* cell = path[pi];
+		PathElement element;
+		element.x = cell->x;
+		element.y = cell->y;
+		element.unitLevel = OBJECT_LEVEL_OVERAIR;
+		element.image = cell->direction;
+		testPath.push_back(element);
+	}
+	_pathVisualizer->VisualizePath(testPath);
+}
+
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
     bool _unitMoved = false;
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
     p.y = floorf(p.y);
-    
-    vector<PathElement> testPath;
-    PathElement element;
-    element.x = p.x;
-    element.y = p.y;
-    element.unitLevel = OBJECT_LEVEL_OVERAIR;
-    element.image = 0;
-    testPath.push_back(element);
-    _pathVisualizer->VisualizePath(testPath);
     
  //   printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
     
@@ -400,18 +408,27 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {
             if (!_currentUnit->GetIsFreezed())
             {
-                CCPoint location = _currentUnit->GetUnitCell();
-                //UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_config->GetConfig()->_bMoveType;
-                Pathfinder* pf = _match->_pathfinder;
-                //std::vector<PFWaveCell*> path = pf->FindPath(location.x, location.y, p.x, p.y, unitMoveType); // alternative path find
-                //pf->MakePathMap(location.x, location.y, unitMoveType); // need to call when position changed
-                std::vector<PFWaveCell*> path = pf->FindPathOnMap(p.x, p.y); // call after MakePathMap
-                if (path.size() > 1)
-                {
-                    _currentUnit->SetPath(path);
-                    //_currentUnit->SetUnitLocationAnimated(p);
-                    _unitMoved = true;
-                }
+				if (_currentUnit->IsPathTargetedTo(p.x, p.y))
+				{
+					_currentUnit->ConfirmCurrentPath();
+					_pathVisualizer->Clear();
+					_unitMoved = true;
+				} 
+				else
+				{
+					CCPoint location = _currentUnit->GetUnitCell();
+					//UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_config->GetConfig()->_bMoveType;
+					Pathfinder* pf = _match->_pathfinder;
+					//std::vector<PFWaveCell*> path = pf->FindPath(location.x, location.y, p.x, p.y, unitMoveType); // alternative path find
+					//pf->MakePathMap(location.x, location.y, unitMoveType); // need to call when position changed
+					std::vector<PFWaveCell*> path = pf->FindPathOnMap(p.x, p.y); // call after MakePathMap
+					if (path.size() > 1)
+					{
+						_currentUnit->SetPath(path);
+						_unitMoved = true;
+					}
+					ShowUnitPath(path);
+				}
             }
         }
     }
@@ -422,11 +439,14 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             if (_currentUnit)
             {
                 _currentUnit->selectedGameObjectDelegate = NULL;
+				_pathVisualizer->Clear();
             }
             _currentUnit = newCurrentUnit;
             _currentUnit->selectedGameObjectDelegate = this;
             if (!_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
             {
+				ShowUnitPath(_currentUnit->GetPath());
+
                 CCPoint location = _currentUnit->GetUnitCell();
                 UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
                 Pathfinder* pf = _match->_pathfinder;

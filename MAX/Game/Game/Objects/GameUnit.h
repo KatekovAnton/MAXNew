@@ -68,6 +68,9 @@ public:
     void CheckBodyAndShadow();
     void SetUnitLocationAnimated(const CCPoint& destination);
     void SetPath(std::vector<PFWaveCell*> path);
+	std::vector<PFWaveCell*> GetPath();
+	bool IsPathTargetedTo(const int x, const int y);
+	void ConfirmCurrentPath();
     
     void LowerPlane();
     void LiftPlane();

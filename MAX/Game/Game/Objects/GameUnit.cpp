@@ -192,14 +192,46 @@ void GameUnit::LiftPlane()
 void GameUnit::SetPath(std::vector<PFWaveCell*> path)
 {
     movePath = path;
-    pathIndex = movePath.size() - 2; // last value is current position
-    
-    
-    if (selectedGameObjectDelegate)
-        selectedGameObjectDelegate->onUnitStartMove(this);
-    
-    
-    FollowPath();
+	if (movePath.size() > 1)
+	{
+	}
+	else
+	{
+		path.clear();
+	}
+}
+
+std::vector<PFWaveCell*> GameUnit::GetPath()
+{
+	return movePath;
+}
+
+bool GameUnit::IsPathTargetedTo(const int x, const int y)
+{
+	bool result = FALSE;
+	if (movePath.size() > 0)
+	{
+		PFWaveCell* cell = movePath[0];
+		if (cell && (cell->x == x) && (cell->y == y))
+		{
+			result = TRUE;
+		}
+	}
+	return result;
+}
+
+void GameUnit::ConfirmCurrentPath()
+{
+	if (movePath.size() > 1)
+	{
+		pathIndex = movePath.size() - 2; // last value is current position
+
+		if (selectedGameObjectDelegate)
+			selectedGameObjectDelegate->onUnitStartMove(this);
+
+
+		FollowPath();
+	}
 }
 
 void GameUnit::FollowPath(void)
