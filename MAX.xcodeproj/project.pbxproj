@@ -211,6 +211,7 @@
 		8BEE79611703894400F78F1A /* ShaderResourceMap.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */; };
 		8BEE79621703894400F78F1A /* ShaderResourceMap.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */; };
 		D100A842170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */; };
+		D10D78FE17204A0000D13FA0 /* GamePathVisualizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D10D78FC17204A0000D13FA0 /* GamePathVisualizer.cpp */; };
 		D115921E16B8ED5600C1E1C2 /* MAXAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */; };
 		D115922416B8F4C100C1E1C2 /* MAXAnimationBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */; };
 		D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */; };
@@ -604,6 +605,8 @@
 		8BF2E2421706390E002D941B /* GameFogDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameFogDelegate.h; sourceTree = "<group>"; };
 		D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXREsourceMapMaterial.cpp; sourceTree = "<group>"; };
 		D100A841170607E6002ED2D7 /* MAXREsourceMapMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXREsourceMapMaterial.h; sourceTree = "<group>"; };
+		D10D78FC17204A0000D13FA0 /* GamePathVisualizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamePathVisualizer.cpp; sourceTree = "<group>"; };
+		D10D78FD17204A0000D13FA0 /* GamePathVisualizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePathVisualizer.h; sourceTree = "<group>"; };
 		D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationManager.cpp; sourceTree = "<group>"; };
 		D115921D16B8ED5600C1E1C2 /* MAXAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationManager.h; sourceTree = "<group>"; };
 		D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationBase.cpp; sourceTree = "<group>"; };
@@ -1155,6 +1158,8 @@
 				5127D6051700977200486F12 /* GameMapResources.h */,
 				5127D6071701741600486F12 /* GameSettings.cpp */,
 				5127D6081701741600486F12 /* GameSettings.h */,
+				D10D78FC17204A0000D13FA0 /* GamePathVisualizer.cpp */,
+				D10D78FD17204A0000D13FA0 /* GamePathVisualizer.h */,
 			);
 			path = GameMatch;
 			sourceTree = "<group>";
@@ -2125,6 +2130,7 @@
 				5127D6191702C46C00486F12 /* PFWaveCell.cpp in Sources */,
 				D1E07A221709621800344DF2 /* MatchMapAgregator.cpp in Sources */,
 				51BADFE6170AD6410009E37A /* SelectedGameObjectDelegate.cpp in Sources */,
+				D10D78FE17204A0000D13FA0 /* GamePathVisualizer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

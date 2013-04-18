@@ -35,7 +35,7 @@ MAXGame globalGame;
 MAXGame * game = &globalGame;
 
 MAXGame::MAXGame()
-:_testUnit(NULL), iteration(0)
+:_testUnit(NULL), iteration(0), _pathVisualizer(NULL)
 {
     _currentState = MAXGAMESTATE_GAME;
     _effects = new USimpleContainer<GameEffect*>();

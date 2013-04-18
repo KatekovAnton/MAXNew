@@ -33,6 +33,7 @@ class GameUnit;
 class GameMatch;
 class GameEffect;
 class GameInterface;
+class GamePathVisualizer;
 
 class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate
 {
@@ -41,7 +42,7 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     
     
     GameInterface *_gameInterface;
-    
+    GamePathVisualizer *_pathVisualizer;
     int iteration;
     void StartTest();
     void ShowPathMap();
