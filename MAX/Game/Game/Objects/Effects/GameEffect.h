@@ -88,7 +88,7 @@ public:
     bool GetFinished() const {return _finished;}
     int GetFrameCount() const {return _frameCount;}
     
-    GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config);
+    GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config, bool addToEffectList);
     ~GameEffect();
     
     void SetDirection(int index);
@@ -99,6 +99,7 @@ public:
     static GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type, int level);
     static GameEffect* CreateTrash(TRASH_TYPE type, int level);
     static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type, int level);
+    static GameEffect* CreatePathArrow(int azimut, bool isGreen, int level);
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);

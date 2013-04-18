@@ -42,10 +42,11 @@
 //либо такйже точно залупленный но одноразовый для взрывов и дыма,
 //либо просто статика, как для мусора, стрелок пути и оградок вокруг строителей-быльдозеров
 
-GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config)
+GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config, bool addToEffectList)
 :GameObject(effectObject, config), _config(config), _finished(false), _blastType(BLAST_TYPE_NONE), _secondaryType(SECONDARY_TYPE_NONE), _lastSmokeCreationTime(engine->FullTime())
 {
-    game->_effects->addObject(this);
+    if (addToEffectList)
+        game->_effects->addObject(this);
     _frameCount = effectObject->_frameCount;
 }
 
@@ -95,7 +96,7 @@ GameEffect* GameEffect::CreateBlast(BLAST_TYPE type, int level)
     config->_bSize = size;
     config->_isBuilding = false;
     MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, true);
-    GameEffect* result = new GameEffect(effectObject, config);
+    GameEffect* result = new GameEffect(effectObject, config, true);
     result->_effectType = EFFECT_TYPE_BLAST;
     return result;
 }
@@ -125,7 +126,7 @@ GameEffect* GameEffect::CreateBullet(BULLET_TYPE type, int level, BLAST_TYPE bla
     config->_bodyName = effectName;
     config->_bSize = size;
     MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, animated);
-    GameEffect* result = new GameEffect(effectObject, config);
+    GameEffect* result = new GameEffect(effectObject, config, true);
     result->_effectType = EFFECT_TYPE_BULLET;
     result->_blastType = blastType;
     result->_secondaryType = secondarytype;
@@ -150,7 +151,7 @@ GameEffect* GameEffect::CreateSecondaryEffect(SECONDARY_TYPE type, int level)
     config->_bodyName = effectName;
     config->_bSize = size;
     MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, true);
-    GameEffect* result = new GameEffect(effectObject, config);
+    GameEffect* result = new GameEffect(effectObject, config, true);
     result->_effectType = EFFECT_TYPE_SECONDARY;
     return result;
 }
@@ -205,12 +206,62 @@ GameEffect* GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE type, int level)
     config->_bSize = size;
     config->_isBuilding = true;
     MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, size, false);
-    GameEffect* result = new GameEffect(effectObject, config);
+    GameEffect* result = new GameEffect(effectObject, config, false);
     result->_effectType = EFFECT_TYPE_BUILDING_BASE;
     result->_blastType = BLAST_TYPE_NONE;
     result->_secondaryType = SECONDARY_TYPE_NONE;
     return result;
 }
+
+GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
+{
+    string effectName = "";
+    float size = 1.0;
+    
+    switch (azimut%8) {
+        case 0:
+            effectName = "ARROW_N";
+            break;
+        case 1:
+            effectName = "ARROW_NE";
+            break;
+        case 2:
+            effectName = "ARROW_E";
+            break;
+        case 3:
+            effectName = "ARROW_SE";
+            break;
+        case 4:
+            effectName = "ARROW_S";
+            break;
+        case 5:
+            effectName = "ARROW_SW";
+            break;
+        case 6:
+            effectName = "ARROW_W";
+            break;
+        case 7:
+            effectName = "ARROW_NW";
+            break;
+            
+        default:
+            break;
+    }
+    
+    MAXObjectConfig* config = new MAXObjectConfig();
+    config->_bLevel = level;
+    config->_bodyName = effectName;
+    config->_bSize = size;
+    config->_isBuilding = true;
+    MAXEffectObject* effectObject = MAXSCL->CreateSingleEffect(config, size);
+    effectObject->_currentFrame=azimut;
+    GameEffect* result = new GameEffect(effectObject, config, false);
+    result->_effectType = EFFECT_TYPE_BUILDING_BASE;
+    result->_blastType = BLAST_TYPE_NONE;
+    result->_secondaryType = SECONDARY_TYPE_NONE;
+    return result;
+}
+
 
 #pragma mark - MAXAnimationDelegate
 
@@ -261,6 +312,5 @@ void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
             break;
     }
 }
-
 
 

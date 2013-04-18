@@ -98,8 +98,7 @@ public:
 
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     MAXUnitMaterial* LoadEffectMaterial(string name);
-    
-    
+    MAXUnitMaterial* LoadEffectMaterialfromSingleImage(string name);
     MAXRESTextureData CreateTexture2Data(string name);
     
 #pragma mark - memory
@@ -107,6 +106,7 @@ public:
     
 #pragma mark - creation
     MAXEffectObject* CreateEffect(MAXObjectConfig* effectConfig, float size, bool animated);
+    MAXEffectObject* CreateSingleEffect(MAXObjectConfig* effectConfig, float size);
     MAXUnitObject* CreateUnit(MAXObjectConfig* unitConfig);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);

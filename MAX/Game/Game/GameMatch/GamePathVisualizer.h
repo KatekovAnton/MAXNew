@@ -19,6 +19,7 @@ struct __pathElement
     int image; //0 to 15
     int x;
     int y;
+    int unitLevel;
 };
 
 typedef __pathElement PathElement;

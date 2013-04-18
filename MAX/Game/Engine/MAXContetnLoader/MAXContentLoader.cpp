@@ -316,7 +316,7 @@ MAXContentLoader::MAXContentLoader()
         inf->ReadBuffer(8, dir[f].name);
         dir[f].offset = inf->ReadInt();
         dir[f].size = inf->ReadInt();
-       // printf("%s\n", dir[f].name);
+        printf("%s\n", dir[f].name);
     }
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
@@ -896,6 +896,41 @@ MAXUnitMaterial* MAXContentLoader::LoadEffectMaterial(string name)
     return result;
 }
 
+MAXUnitMaterial* MAXContentLoader::LoadEffectMaterialfromSingleImage(string name)
+{
+    int index = FindImage(name);
+    void* cashed = loadedData[index];
+    if(cashed)
+        return (MAXUnitMaterial*)cashed;
+    
+    inf->SetPosition(dir[index].offset);
+    short w = inf->ReadInt16();
+    short h = inf->ReadInt16();
+    
+    short cx = inf->ReadInt16();
+    short cy = inf->ReadInt16();
+    cx = cy;
+    
+    GLubyte* pixels = new GLubyte[w * h];
+    inf->ReadBuffer(w*h, (char*)pixels);
+    
+    Texture* texture = TextureIdexedFromIndex(w, h, pixels);
+    
+    delete [] pixels;
+    
+    
+    MAXUnitMaterial* result  = new MAXUnitMaterial();
+    
+    result ->SetImagesCount(1, 0);
+    result->textures[0] = texture;
+    MAXUnitMaterialFrame frame;
+    frame.center = GLKVector2Make(cx, cy);
+    frame.size = GLKVector2Make(w, h);
+    result->frames[0] = frame;
+    loadedData[index] = result;
+    return result;
+}
+
 #pragma mark - memory
 
 void MAXContentLoader::ClearImageCache()
@@ -927,6 +962,17 @@ MAXEffectObject* MAXContentLoader::CreateEffect(MAXObjectConfig* effectConfig, f
     result->_playerPalette_w = defaultPalette;
     result->_bbsize = GLKVector2Make(size, size);
     material->_autoAnimated = animated;
+    return result;
+}
+
+MAXEffectObject* MAXContentLoader::CreateSingleEffect(MAXObjectConfig* effectConfig, float size)
+{
+    MAXUnitMaterial *material = MAXSCL->LoadEffectMaterialfromSingleImage(effectConfig->_bodyName);
+    MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
+    MAXEffectObject* result = new MAXEffectObject(renderObject, material, effectConfig);
+    result->_playerPalette_w = defaultPalette;
+    result->_bbsize = GLKVector2Make(size, size);
+    material->_autoAnimated = false;
     return result;
 }
 

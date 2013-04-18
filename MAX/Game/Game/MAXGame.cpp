@@ -28,6 +28,7 @@
 #include "GameInteface.h"
 #include "GameUnitParameters.h"
 #include "GameUnitCurrentState.h"
+#include "GamePathVisualizer.h"
 
 #include "Pathfinder.h"
 
@@ -39,6 +40,7 @@ MAXGame::MAXGame()
 {
     _currentState = MAXGAMESTATE_GAME;
     _effects = new USimpleContainer<GameEffect*>();
+    _pathVisualizer = new GamePathVisualizer();
 }
 
 MAXGame::~MAXGame()
@@ -49,6 +51,7 @@ MAXGame::~MAXGame()
         GameEffect *effect = _effects->objectAtIndex(i);
         delete effect;
     }
+    delete _pathVisualizer;
     delete _effects;
 }
 
@@ -135,6 +138,12 @@ void MAXGame::StartMatch()
     
     _currentUnit = NULL;
     
+    
+    
+    
+    _gameInterface = new GameInterface();
+    _gameInterface->InitBaseInterface();
+    CCDirector::sharedDirector()->pushScene(_gameInterface);
 //    for (int x = 0; x < 100; x++)
 //    {
 //        for (int y = 0; y < 100; y++)
@@ -144,7 +153,7 @@ void MAXGame::StartMatch()
 //            unit1->PlaceUnitOnMap();
 //        }
 //    }
-    
+//    return;
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
         unit1->SetRandomDirection();
@@ -293,12 +302,6 @@ void MAXGame::StartMatch()
         GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 53, "Inter", 0);
         unit1->PlaceUnitOnMap();
     }
-
-   
-    
-    _gameInterface = new GameInterface();
-    _gameInterface->InitBaseInterface();
-    CCDirector::sharedDirector()->pushScene(_gameInterface);
 }
 
 void MAXGame::FlushEffectsWithNew(GameEffect *effect)
@@ -372,6 +375,14 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.x = floorf(p.x);
     p.y = floorf(p.y);
     
+    vector<PathElement> testPath;
+    PathElement element;
+    element.x = p.x;
+    element.y = p.y;
+    element.unitLevel = OBJECT_LEVEL_OVERAIR;
+    element.image = 0;
+    testPath.push_back(element);
+    _pathVisualizer->VisualizePath(testPath);
     
  //   printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
     
