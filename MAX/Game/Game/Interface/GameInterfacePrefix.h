@@ -10,7 +10,7 @@
 #define MAX_GameInterfacePrefix_h
 
 #define MAX_DEFAULT_FONT "HelveticaNeue-Bold"
-#define MAX_COLOR_WHITE ccc3(255,255,255)
+#define MAX_COLOR_WHITE ccc3(0,0,0)
 
 
 #define MAX_IMAGE_AIRUNITS_EMPTY "EI_AIR"
