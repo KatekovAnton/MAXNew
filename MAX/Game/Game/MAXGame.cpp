@@ -461,14 +461,22 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         
         if (!newCurrentUnit)
         {
-            _gameInterface->OnCurrentUnitChanged(NULL);
-            engine->SelectUnit(NULL);
-			_pathVisualizer->Clear();
             if (_currentUnit)
             {
-                _currentUnit->selectedGameObjectDelegate = NULL;
+				if (_currentUnit->GetPath().size() > 0)
+				{
+					std::vector<PFWaveCell*> path;
+					_currentUnit->SetPath(path);
+				}
+				else
+				{
+					_gameInterface->OnCurrentUnitChanged(NULL);
+					engine->SelectUnit(NULL);
+					_currentUnit->selectedGameObjectDelegate = NULL;
+					_currentUnit = NULL;
+				}				
+				_pathVisualizer->Clear();
             }
-            _currentUnit = NULL;
         }
     }
     
