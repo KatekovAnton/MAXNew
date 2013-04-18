@@ -424,7 +424,7 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 {
 	MSG		msg;									// Windows Message Structure
 	BOOL	done=FALSE;								// Bool Variable To Exit Loop
-	fullscreen=TRUE
+	fullscreen=FALSE
 		;
 	int wx = 1024, wy = 768;
 	// Ask The User Which Screen Mode They Prefer
