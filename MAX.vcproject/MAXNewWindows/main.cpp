@@ -471,6 +471,8 @@ int WINAPI WinMain(	HINSTANCE	hInstance,			// Instance
 	windows_display *display = new windows_display(wx, wy, hDC, hWnd, &_actionDelegate);
 	windows_display::SetSharedDisplay(display);
 	engine->Init();
+	
+    CCFileUtils::sharedFileUtils()->setResourceDirectory("Resources\\Images\\Interface\\simple");
 	glUseProgram(0);
 	game->Init();
 	unsigned long startTime_ = timeGetTime();
