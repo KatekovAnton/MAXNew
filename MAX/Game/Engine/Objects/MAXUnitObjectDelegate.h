@@ -17,6 +17,8 @@ public:
     virtual float GetHealStatus() const = 0;
     virtual float GetShots() const = 0;
     virtual bool ShouldAnimateBody() const = 0;
+	virtual bool ShoudDrawFakeCircle() const = 0;
+	virtual CCPoint GetFakeCenter() const = 0;
 };
 
 #endif
