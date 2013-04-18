@@ -463,6 +463,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {
             _gameInterface->OnCurrentUnitChanged(NULL);
             engine->SelectUnit(NULL);
+			_pathVisualizer->Clear();
             if (_currentUnit)
             {
                 _currentUnit->selectedGameObjectDelegate = NULL;

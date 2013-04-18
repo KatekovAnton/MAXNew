@@ -477,3 +477,14 @@ bool GameUnit::ShouldAnimateBody() const
 {
     return _shouldAnimateBody;
 }
+
+bool GameUnit::ShoudDrawFakeCircle() const
+{
+	return (movePath.size() > 0) && (!GetIsFreezed());
+}
+
+CCPoint GameUnit::GetFakeCenter() const
+{
+	PFWaveCell* cell = movePath[0];
+	return CCPointMake(cell->x * 64 + 32, cell->y * 64 + 32);
+}

@@ -112,6 +112,8 @@ public:
     virtual float GetHealStatus() const;
     virtual float GetShots() const;
     virtual bool ShouldAnimateBody() const;
+	virtual bool ShoudDrawFakeCircle() const;
+	virtual CCPoint GetFakeCenter() const;
 };
 
 #endif /* defined(__MAX__Unit__) */
