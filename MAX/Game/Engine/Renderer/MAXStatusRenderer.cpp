@@ -17,6 +17,10 @@
 MAXStatusRenderer* _sharedMAXStatusRenderer = NULL;
 
 MAXStatusRenderer::MAXStatusRenderer()
+	:_drawHealStatus(false), 
+	_drawScan(false),
+     _drawRange(false),
+     _drawShots(false)
 {}
 
 MAXStatusRenderer::~MAXStatusRenderer()
