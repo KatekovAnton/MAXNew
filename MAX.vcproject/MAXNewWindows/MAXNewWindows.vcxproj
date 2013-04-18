@@ -120,6 +120,7 @@
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMapResources.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMatch.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayer.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GamePathVisualizer.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameSettings.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\MatchMapAgregator.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\Pathfinder\Pathfinder.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMapResources.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatch.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayer.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GamePathVisualizer.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameSettings.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\MatchMapAgregator.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\Pathfinder\Pathfinder.h" />

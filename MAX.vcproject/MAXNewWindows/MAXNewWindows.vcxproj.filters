@@ -354,6 +354,9 @@
     <ClCompile Include="..\..\MAX\Game\Engine\Animation\MAXAnimationObject.cpp">
       <Filter>Game\Engine\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GamePathVisualizer.cpp">
+      <Filter>Game\Game\GameMatch</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MAX\Utils\BinaryReader.h">
@@ -685,6 +688,9 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Engine\Animation\MAXAnimationObject.h">
       <Filter>Game\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GamePathVisualizer.h">
+      <Filter>Game\Game\GameMatch</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
