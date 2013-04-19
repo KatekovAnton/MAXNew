@@ -215,38 +215,38 @@ GameEffect* GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE type, int level)
 
 GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
 {
-    string effectName = "";
+    string effectName = "arrow_up.png";
     float size = 1.0;
     
-    switch (azimut%8) {
-        case 0:
-            effectName = "ARROW_N";
-            break;
-        case 1:
-            effectName = "ARROW_NE";
-            break;
-        case 2:
-            effectName = "ARROW_E";
-            break;
-        case 3:
-            effectName = "ARROW_SE";
-            break;
-        case 4:
-            effectName = "ARROW_S";
-            break;
-        case 5:
-            effectName = "ARROW_SW";
-            break;
-        case 6:
-            effectName = "ARROW_W";
-            break;
-        case 7:
-            effectName = "ARROW_NW";
-            break;
-            
-        default:
-            break;
-    }
+//    switch (azimut%8) {
+//        case 0:
+//            effectName = "ARROW_N";
+//            break;
+//        case 1:
+//            effectName = "ARROW_NE";
+//            break;
+//        case 2:
+//            effectName = "ARROW_E";
+//            break;
+//        case 3:
+//            effectName = "ARROW_SE";
+//            break;
+//        case 4:
+//            effectName = "ARROW_S";
+//            break;
+//        case 5:
+//            effectName = "ARROW_SW";
+//            break;
+//        case 6:
+//            effectName = "ARROW_W";
+//            break;
+//        case 7:
+//            effectName = "ARROW_NW";
+//            break;
+//            
+//        default:
+//            break;
+//    }
     
     MAXObjectConfig* config = new MAXObjectConfig();
     config->_bLevel = level;

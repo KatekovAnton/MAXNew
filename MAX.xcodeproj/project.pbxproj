@@ -242,6 +242,9 @@
 		D10D79DB1721401500D13FA0 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = D10D79781721401500D13FA0 /* trees.c */; };
 		D10D79DC1721401500D13FA0 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = D10D797A1721401500D13FA0 /* uncompr.c */; };
 		D10D79DD1721401500D13FA0 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = D10D797D1721401500D13FA0 /* zutil.c */; };
+		D10D79E017214D0C00D13FA0 /* arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = D10D79DF17214D0C00D13FA0 /* arrow_up.png */; };
+		D10D79E317214DCA00D13FA0 /* MAXContentUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D10D79E117214DC900D13FA0 /* MAXContentUtils.cpp */; };
+		D10D79E517215C1F00D13FA0 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = D10D79E417215C1E00D13FA0 /* test.png */; };
 		D115921E16B8ED5600C1E1C2 /* MAXAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */; };
 		D115922416B8F4C100C1E1C2 /* MAXAnimationBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */; };
 		D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */; };
@@ -685,6 +688,10 @@
 		D10D797C1721401500D13FA0 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		D10D797D1721401500D13FA0 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		D10D797E1721401500D13FA0 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		D10D79DF17214D0C00D13FA0 /* arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_up.png; sourceTree = "<group>"; };
+		D10D79E117214DC900D13FA0 /* MAXContentUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentUtils.cpp; sourceTree = "<group>"; };
+		D10D79E217214DCA00D13FA0 /* MAXContentUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContentUtils.h; sourceTree = "<group>"; };
+		D10D79E417215C1E00D13FA0 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
 		D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationManager.cpp; sourceTree = "<group>"; };
 		D115921D16B8ED5600C1E1C2 /* MAXAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationManager.h; sourceTree = "<group>"; };
 		D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationBase.cpp; sourceTree = "<group>"; };
@@ -1304,6 +1311,15 @@
 			path = zlib;
 			sourceTree = "<group>";
 		};
+		D10D79DE17214CF900D13FA0 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				D10D79E417215C1E00D13FA0 /* test.png */,
+				D10D79DF17214D0C00D13FA0 /* arrow_up.png */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
 		D115921B16B8ED2B00C1E1C2 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1348,6 +1364,8 @@
 				D16D48CD168B30A00055F35D /* MAXContentObjects */,
 				D199226B168DF75C0067D6CF /* MAXContentLoader.cpp */,
 				D199226C168DF75C0067D6CF /* MAXContentLoader.h */,
+				D10D79E117214DC900D13FA0 /* MAXContentUtils.cpp */,
+				D10D79E217214DCA00D13FA0 /* MAXContentUtils.h */,
 			);
 			name = MAXContentLoader;
 			path = MAXContetnLoader;
@@ -1856,6 +1874,7 @@
 		D1F816AF16F8AFCD00873348 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D10D79DE17214CF900D13FA0 /* Objects */,
 				D1F816B016F8AFE400873348 /* Interface */,
 			);
 			path = Images;
@@ -2153,6 +2172,8 @@
 				D1F8166B16F336F500873348 /* max.pal in Resources */,
 				D1F816DD16F8CD4F00873348 /* retina in Resources */,
 				D1F816DE16F8CD4F00873348 /* simple in Resources */,
+				D10D79E017214D0C00D13FA0 /* arrow_up.png in Resources */,
+				D10D79E517215C1F00D13FA0 /* test.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2303,6 +2324,7 @@
 				D10D79DB1721401500D13FA0 /* trees.c in Sources */,
 				D10D79DC1721401500D13FA0 /* uncompr.c in Sources */,
 				D10D79DD1721401500D13FA0 /* zutil.c in Sources */,
+				D10D79E317214DCA00D13FA0 /* MAXContentUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

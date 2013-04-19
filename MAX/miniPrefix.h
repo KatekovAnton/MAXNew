@@ -27,6 +27,7 @@ using namespace Utils;
 
 const float interfaceAnimationTime = 0.2;
 
+
 typedef enum
 {
     OBJECT_LEVEL_UNDERWATER   = 0,
@@ -122,6 +123,15 @@ struct __Color
     
 } typedef Color;
     
+struct MAXRESTextureData
+{
+    Color* data;
+    short w;
+    short h;
+        
+    void FreeBuffer () {free(data); };        
+};
+    
 struct __MAXCoordinates
 {
     int x;
@@ -165,5 +175,7 @@ typedef enum
     FOG_TYPE_INFILTRATOR = 4,
     FOG_TYPE_RESOURCES
 }FOG_TYPE;
+    
+    
     
 #endif

@@ -378,7 +378,7 @@ void MAXGame::ShowUnitPath(std::vector<PFWaveCell*> path)
 		PathElement element;
 		element.x = cell->x;
 		element.y = cell->y;
-		element.unitLevel = OBJECT_LEVEL_OVERAIR;
+		element.unitLevel = _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel;
 		element.image = cell->direction;
 		testPath.push_back(element);
 	}

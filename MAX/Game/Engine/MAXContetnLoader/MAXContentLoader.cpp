@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 AntonKatekov. All rights reserved.
 //
 
+#include "MAXContentUtils.h"
 #include "MAXContentLoader.h"
 #include "MAXContentMap.h"
 #include "BinaryReader.h"
@@ -527,6 +528,42 @@ Texture* MAXContentLoader::TextureIdexedFromIndex(int w, int h, unsigned char* i
     return result;
 }
 
+
+
+unsigned char IndexForColor(Color tColor)
+{
+    if (tColor.a < 100) {
+        return 0;
+    }
+    unsigned char resIndex = 0;
+    int minD = 1000;
+    for (int i = 1; i < 256; i++) {
+        Color current = default_palette[i];
+        int d = abs(tColor.r - current.r) + abs(tColor.g - current.g) + abs(tColor.b - current.b);
+        if (d < minD) {
+            minD = d;
+            resIndex = i;
+        }
+    }
+    return resIndex+1;
+}
+
+Texture* MAXContentLoader::TextureIdexedFromColors(int w, int h, Color* colors)
+{
+    Color* colorsIndex = (Color*)malloc(w * h * 4);
+    memset(colorsIndex, 0x00000000, w * h * 4);
+    for (int i = 0; i < h; i++)
+        for (int j = 0; j < w; j++)
+        {
+            unsigned char colornumber = IndexForColor(colors[i * w + j]);
+            colorsIndex[i * w + j].r = colornumber;
+            colorsIndex[i * w + j].a = 255;
+        }
+    
+    Texture *result = new Texture(GL_NEAREST, (GLubyte*)colorsIndex, w, h);
+    return result;
+}
+
 Texture* MAXContentLoader::TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette)
 {
     Color* colors = (Color*)malloc(w * h * 4);
@@ -934,38 +971,21 @@ MAXUnitMaterial* MAXContentLoader::LoadEffectMaterialfromSingleImage(string name
 
 MAXUnitMaterial* MAXContentLoader::LoadEffectMaterialfromExternalImage(string name)
 {
-    int index = FindImage(name);
-    void* cashed = loadedData[index];
-    if(cashed)
-        return (MAXUnitMaterial*)cashed;
+    if (externalMaterials.count(name)==1)
+        return externalMaterials[name];
     
-
-    
-    inf->SetPosition(dir[index].offset);
-    short w = inf->ReadInt16();
-    short h = inf->ReadInt16();
-    
-    short cx = inf->ReadInt16();
-    short cy = inf->ReadInt16();
-    cx = cy;
-    
-    GLubyte* pixels = new GLubyte[w * h];
-    inf->ReadBuffer(w*h, (char*)pixels);
-    
-    Texture* texture = TextureIdexedFromIndex(w, h, pixels);
-    
-    delete [] pixels;
-    
-    
+    MAXRESTextureData data = read_png_file(name);
+    Texture* texture = TextureIdexedFromColors((int)data.w, (int)data.h, data.data);
+    data.FreeBuffer();
+  
     MAXUnitMaterial* result  = new MAXUnitMaterial();
-    
     result ->SetImagesCount(1, 0);
     result->textures[0] = texture;
     MAXUnitMaterialFrame frame;
-    frame.center = GLKVector2Make(cx, cy);
-    frame.size = GLKVector2Make(w, h);
+    frame.center = GLKVector2Make(data.w/2, data.h/2);
+    frame.size = GLKVector2Make(data.w, data.h);
     result->frames[0] = frame;
-    loadedData[index] = result;
+    externalMaterials[name] = result;
     return result;
 }
 
@@ -1005,7 +1025,7 @@ MAXEffectObject* MAXContentLoader::CreateEffect(MAXObjectConfig* effectConfig, f
 
 MAXEffectObject* MAXContentLoader::CreateSingleEffect(MAXObjectConfig* effectConfig, float size)
 {
-    MAXUnitMaterial *material = MAXSCL->LoadEffectMaterialfromSingleImage(effectConfig->_bodyName);
+    MAXUnitMaterial *material = MAXSCL->LoadEffectMaterialfromExternalImage(effectConfig->_bodyName);
     MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
     MAXEffectObject* result = new MAXEffectObject(renderObject, material, effectConfig);
     result->_playerPalette_w = defaultPalette;
@@ -1134,7 +1154,6 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
 //    CCImage* image = new CCImage();
 //    image->autorelease();
 //    image->initWithImageData(colors, w * h * 4, kFmtRawData, w, h, 8);
-//
 }
 
 CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name)
