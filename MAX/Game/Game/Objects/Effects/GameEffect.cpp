@@ -218,35 +218,35 @@ GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
     string effectName = "arrow_up.png";
     float size = 1.0;
     
-//    switch (azimut%8) {
-//        case 0:
-//            effectName = "ARROW_N";
-//            break;
-//        case 1:
-//            effectName = "ARROW_NE";
-//            break;
-//        case 2:
-//            effectName = "ARROW_E";
-//            break;
-//        case 3:
-//            effectName = "ARROW_SE";
-//            break;
-//        case 4:
-//            effectName = "ARROW_S";
-//            break;
-//        case 5:
-//            effectName = "ARROW_SW";
-//            break;
-//        case 6:
-//            effectName = "ARROW_W";
-//            break;
-//        case 7:
-//            effectName = "ARROW_NW";
-//            break;
-//            
-//        default:
-//            break;
-//    }
+    switch (azimut%8) {
+        case 0:
+            effectName = "arrow_up_png_2.png";
+            break;
+        case 1:
+            effectName = "arrow_up_right_png_2.png";
+            break;
+        case 2:
+            effectName = "arrow_right_png_2.png";
+            break;
+        case 3:
+            effectName = "arrow_right_down_png_2.png";
+            break;
+        case 4:
+            effectName = "arrow_down_png_2.png";
+            break;
+        case 5:
+            effectName = "arrow_left_down_png_2.png";
+            break;
+        case 6:
+            effectName = "arrow_left_png_2.png";
+            break;
+        case 7:
+            effectName = "arrow_left_top_png_2.png";
+            break;
+            
+        default:
+            break;
+    }
     
     MAXObjectConfig* config = new MAXObjectConfig();
     config->_bLevel = level;
