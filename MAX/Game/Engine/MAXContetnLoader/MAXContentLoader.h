@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include "miniPrefix.h"
 
 #define MAXSCL MAXContentLoader::SharedLoader()
@@ -73,6 +74,7 @@ class MAXContentLoader {
     
 public:
     
+    map<string, Texture*> externalTextures;
     
     shared_ptr<EngineMesh> unitMesh;
     Texture* defaultPalette;
@@ -99,6 +101,7 @@ public:
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     MAXUnitMaterial* LoadEffectMaterial(string name);
     MAXUnitMaterial* LoadEffectMaterialfromSingleImage(string name);
+    MAXUnitMaterial* LoadEffectMaterialfromExternalImage(string name);
     MAXRESTextureData CreateTexture2Data(string name);
     
 #pragma mark - memory

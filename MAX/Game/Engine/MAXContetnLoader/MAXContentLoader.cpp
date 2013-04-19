@@ -22,6 +22,7 @@
 #include "cocos2d.h"
 #include "Display.h"
 #include "StringUtils.h"
+#include "png.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -902,6 +903,43 @@ MAXUnitMaterial* MAXContentLoader::LoadEffectMaterialfromSingleImage(string name
     void* cashed = loadedData[index];
     if(cashed)
         return (MAXUnitMaterial*)cashed;
+    
+    inf->SetPosition(dir[index].offset);
+    short w = inf->ReadInt16();
+    short h = inf->ReadInt16();
+    
+    short cx = inf->ReadInt16();
+    short cy = inf->ReadInt16();
+    cx = cy;
+    
+    GLubyte* pixels = new GLubyte[w * h];
+    inf->ReadBuffer(w*h, (char*)pixels);
+    
+    Texture* texture = TextureIdexedFromIndex(w, h, pixels);
+    
+    delete [] pixels;
+    
+    
+    MAXUnitMaterial* result  = new MAXUnitMaterial();
+    
+    result ->SetImagesCount(1, 0);
+    result->textures[0] = texture;
+    MAXUnitMaterialFrame frame;
+    frame.center = GLKVector2Make(cx, cy);
+    frame.size = GLKVector2Make(w, h);
+    result->frames[0] = frame;
+    loadedData[index] = result;
+    return result;
+}
+
+MAXUnitMaterial* MAXContentLoader::LoadEffectMaterialfromExternalImage(string name)
+{
+    int index = FindImage(name);
+    void* cashed = loadedData[index];
+    if(cashed)
+        return (MAXUnitMaterial*)cashed;
+    
+
     
     inf->SetPosition(dir[index].offset);
     short w = inf->ReadInt16();
