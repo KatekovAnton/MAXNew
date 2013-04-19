@@ -2,37 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="CCBReader">
-      <UniqueIdentifier>{d37545ef-285b-4315-9fca-40da6fc2a6c9}</UniqueIdentifier>
+      <UniqueIdentifier>{7bfc46db-bcae-448e-9a26-dee3675a6cae}</UniqueIdentifier>
     </Filter>
     <Filter Include="GUI">
-      <UniqueIdentifier>{202b519b-b5e0-499f-b3b8-ed5da144b248}</UniqueIdentifier>
+      <UniqueIdentifier>{e936931c-5d1a-4568-af15-722905c50343}</UniqueIdentifier>
     </Filter>
     <Filter Include="GUI\CCControlExtension">
-      <UniqueIdentifier>{c07abd14-e9dd-4e2d-85c4-a180070161b4}</UniqueIdentifier>
+      <UniqueIdentifier>{a8ba7b25-8437-4abb-8274-c50cbfcfd072}</UniqueIdentifier>
     </Filter>
     <Filter Include="GUI\CCScrollView">
-      <UniqueIdentifier>{46797895-f71d-4ddb-b381-d0884e678d39}</UniqueIdentifier>
+      <UniqueIdentifier>{32aba99e-6189-4e85-97e3-e050e7d3b49a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\network">
-      <UniqueIdentifier>{2a7741ff-87a5-41c8-8e51-d7a1cf0c8e4d}</UniqueIdentifier>
+    <Filter Include="network">
+      <UniqueIdentifier>{dfbb3e70-6ab8-4c1c-8846-d48699aaf98f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\GUI\CCScrollView\CCScrollView.cpp">
-      <Filter>GUI\CCScrollView</Filter>
-    </ClCompile>
-    <ClCompile Include="..\network\HttpClient.cpp">
-      <Filter>GUI\network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\GUI\CCScrollView\CCSorting.cpp">
-      <Filter>GUI\CCScrollView</Filter>
-    </ClCompile>
-    <ClCompile Include="..\GUI\CCScrollView\CCTableView.cpp">
-      <Filter>GUI\CCScrollView</Filter>
-    </ClCompile>
-    <ClCompile Include="..\GUI\CCScrollView\CCTableViewCell.cpp">
-      <Filter>GUI\CCScrollView</Filter>
-    </ClCompile>
     <ClCompile Include="..\CCBReader\CCBAnimationManager.cpp">
       <Filter>CCBReader</Filter>
     </ClCompile>
@@ -105,6 +90,12 @@
     <ClCompile Include="..\CCBReader\CCSpriteLoader.cpp">
       <Filter>CCBReader</Filter>
     </ClCompile>
+    <ClCompile Include="..\GUI\CCControlExtension\CCControl.cpp">
+      <Filter>GUI\CCControlExtension</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GUI\CCControlExtension\CCControlButton.cpp">
+      <Filter>GUI\CCControlExtension</Filter>
+    </ClCompile>
     <ClCompile Include="..\GUI\CCControlExtension\CCControlColourPicker.cpp">
       <Filter>GUI\CCControlExtension</Filter>
     </ClCompile>
@@ -135,37 +126,23 @@
     <ClCompile Include="..\GUI\CCControlExtension\CCScale9Sprite.cpp">
       <Filter>GUI\CCControlExtension</Filter>
     </ClCompile>
-    <ClCompile Include="..\GUI\CCControlExtension\CCControl.cpp">
-      <Filter>GUI\CCControlExtension</Filter>
+    <ClCompile Include="..\GUI\CCScrollView\CCScrollView.cpp">
+      <Filter>GUI\CCScrollView</Filter>
     </ClCompile>
-    <ClCompile Include="..\GUI\CCControlExtension\CCControlButton.cpp">
-      <Filter>GUI\CCControlExtension</Filter>
+    <ClCompile Include="..\GUI\CCScrollView\CCSorting.cpp">
+      <Filter>GUI\CCScrollView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GUI\CCScrollView\CCTableView.cpp">
+      <Filter>GUI\CCScrollView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GUI\CCScrollView\CCTableViewCell.cpp">
+      <Filter>GUI\CCScrollView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\network\HttpClient.cpp">
+      <Filter>network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\GUI\CCScrollView\CCScrollView.h">
-      <Filter>GUI\CCScrollView</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cocos-ext.h" />
-    <ClInclude Include="..\ExtensionMacros.h" />
-    <ClInclude Include="..\network\HttpClient.h">
-      <Filter>GUI\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\network\HttpRequest.h">
-      <Filter>GUI\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\network\HttpResponse.h">
-      <Filter>GUI\network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\GUI\CCScrollView\CCSorting.h">
-      <Filter>GUI\CCScrollView</Filter>
-    </ClInclude>
-    <ClInclude Include="..\GUI\CCScrollView\CCTableView.h">
-      <Filter>GUI\CCScrollView</Filter>
-    </ClInclude>
-    <ClInclude Include="..\GUI\CCScrollView\CCTableViewCell.h">
-      <Filter>GUI\CCScrollView</Filter>
-    </ClInclude>
     <ClInclude Include="..\CCBReader\CCBAnimationManager.h">
       <Filter>CCBReader</Filter>
     </ClInclude>
@@ -250,6 +227,9 @@
     <ClInclude Include="..\CCBReader\CCSpriteLoader.h">
       <Filter>CCBReader</Filter>
     </ClInclude>
+    <ClInclude Include="..\GUI\CCControlExtension\CCControl.h">
+      <Filter>GUI\CCControlExtension</Filter>
+    </ClInclude>
     <ClInclude Include="..\GUI\CCControlExtension\CCControlButton.h">
       <Filter>GUI\CCControlExtension</Filter>
     </ClInclude>
@@ -286,8 +266,28 @@
     <ClInclude Include="..\GUI\CCControlExtension\CCScale9Sprite.h">
       <Filter>GUI\CCControlExtension</Filter>
     </ClInclude>
-    <ClInclude Include="..\GUI\CCControlExtension\CCControl.h">
-      <Filter>GUI\CCControlExtension</Filter>
+    <ClInclude Include="..\GUI\CCScrollView\CCScrollView.h">
+      <Filter>GUI\CCScrollView</Filter>
     </ClInclude>
+    <ClInclude Include="..\GUI\CCScrollView\CCSorting.h">
+      <Filter>GUI\CCScrollView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GUI\CCScrollView\CCTableView.h">
+      <Filter>GUI\CCScrollView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GUI\CCScrollView\CCTableViewCell.h">
+      <Filter>GUI\CCScrollView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\network\HttpClient.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\network\HttpRequest.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\network\HttpResponse.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cocos-ext.h" />
+    <ClInclude Include="..\ExtensionMacros.h" />
   </ItemGroup>
 </Project>
