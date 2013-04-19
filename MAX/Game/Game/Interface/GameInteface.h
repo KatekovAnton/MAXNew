@@ -29,6 +29,7 @@ class GameInterface : public CCScene
     CCMenuItemSprite* _toggleStatusButton;
     CCMenuItemSprite* _toggleResourcesButton;
     CCMenuItemSprite* _toggleFogButton;
+    CCMenuItemSprite* _togglePathZone;
     CCNode* _panel;
     CCMenuItemSprite* _buttonTogglePanel;
     CCMenuItemSprite* _buttonEndTurn;
@@ -46,6 +47,7 @@ class GameInterface : public CCScene
     bool _drawStatus;
     bool _drawResources;
     bool _drawFog;
+    bool _drawPathZone;
  
     void UpdateToggleLockUnitsButton();
     void UpdateToggleGridButton();
@@ -55,6 +57,7 @@ class GameInterface : public CCScene
     void UpdateToggleStatusButton();
     void UpdateToggleResourcesButton();
     void UpdateToggleFogButton();
+    void UpdateTogglePathZone();
     
 public:
     
@@ -77,6 +80,7 @@ public:
     void OnToggleStatus(CCMenuItem* sender);
     void OnToggleResources(CCMenuItem* sender);
     void OnToggleFog(CCMenuItem* sender);
+    void OnTogglePathZone(CCMenuItem* sender);
 
     void OnTogglePanel(CCMenuItem* sender);
     

@@ -77,6 +77,7 @@ public:
     bool drawGrid;
     bool drawResources;
     bool drawFog;
+    bool drawPathZone;
     
     int _applyedPaletteIndex;
     int _applyedPaletteCount;

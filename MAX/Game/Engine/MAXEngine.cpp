@@ -83,6 +83,7 @@ void MAXEngine::Init() {
     drawGrid = false;
     drawResources = false;
     drawFog = false;
+    drawPathZone = false;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
@@ -393,6 +394,9 @@ void MAXEngine::DrawFog()
 
 void MAXEngine::DrawPathZone()
 {
+    if (!drawPathZone) 
+        return;
+    
 	_shader = _pathZoneShader;
 	glUseProgram(_shader->GetProgram());
 	_shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
