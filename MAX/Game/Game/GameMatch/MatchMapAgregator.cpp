@@ -129,7 +129,7 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
     if (units->GetCount() == 0)
         return NULL;
     for (int i = 0; i < units->GetCount(); i++) {
-        if (units->objectAtIndex(i)->_owner_w == _player)
+        if ((!_player) || (units->objectAtIndex(i)->_owner_w == _player))
             return units->objectAtIndex(i);
     }
     return NULL;
