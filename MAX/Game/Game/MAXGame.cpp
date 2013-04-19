@@ -369,17 +369,28 @@ void MAXGame::ProceedPan(float speedx, float speedy)
     engine->MoveCamera(speedx, speedy);
 }
 
-void MAXGame::ShowUnitPath(std::vector<PFWaveCell*> path)
+void MAXGame::ShowUnitPath(GameUnit *unit)
 {
+    std::vector<PFWaveCell*> path = unit->GetPath();
+    int pathStep = path.size() - 2; // get step from unit
+    int speed = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10; // rework to current data
 	vector<PathElement> testPath;
-	for (int pi = path.size() - 2; pi >= 0; pi--)
+    int totalCost = 0;
+	for (int pi = pathStep; pi >= 0; pi--)
 	{
 		PFWaveCell* cell = path[pi];
 		PathElement element;
 		element.x = cell->x;
 		element.y = cell->y;
-		element.unitLevel = _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel;
+		element.unitLevel = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel;
 		element.image = cell->direction;
+        totalCost += cell->cost;
+        if ((pi == 0) || (totalCost >= speed))
+        {
+            totalCost -= speed;
+            speed = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10; // rework to max param
+            element.image += 8;
+        }
 		testPath.push_back(element);
 	}
 	_pathVisualizer->VisualizePath(testPath);
@@ -429,7 +440,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                         if (path.size() > 1)
                         {
                             _currentUnit->SetPath(path);
-                            ShowUnitPath(path);
+                            ShowUnitPath(_currentUnit);
                         }
                         else
                         {
@@ -465,7 +476,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             _currentUnit->selectedGameObjectDelegate = this;
             if (!_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
             {
-				ShowUnitPath(_currentUnit->GetPath());
+				ShowUnitPath(_currentUnit);
 
                 CCPoint location = _currentUnit->GetUnitCell();
                 UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;

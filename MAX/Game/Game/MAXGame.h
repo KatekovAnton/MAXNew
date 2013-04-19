@@ -48,7 +48,7 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     void StartTest();
     void ShowPathMap();
     void HidePathMap();
-	void ShowUnitPath(std::vector<PFWaveCell*> path);
+	void ShowUnitPath(GameUnit *unit);
 public:
     GameMatch *_match;
     

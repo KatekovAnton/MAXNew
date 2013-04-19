@@ -31,7 +31,7 @@ void GamePathVisualizer::VisualizePath(vector<PathElement> elements)
     for (int i = 0; i < _elements.size(); i++)
     {
         PathElement element = elements[i];
-        GameEffect* effect = GameEffect::CreatePathArrow(element.image % 8, true, element.unitLevel);
+        GameEffect* effect = GameEffect::CreatePathArrow(element.image, true, element.unitLevel);
         effect->SetLocation(ccp(element.x, element.y));
         _views.push_back(effect);
         effect->Show();

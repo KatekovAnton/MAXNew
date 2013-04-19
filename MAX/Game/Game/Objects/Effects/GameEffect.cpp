@@ -218,7 +218,7 @@ GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
     string effectName = "arrow_up.png";
     float size = 1.0;
     
-    switch (azimut%8) {
+    switch (azimut%16) {
         case 0:
             effectName = "arrow_up_png_2.png";
             break;
@@ -242,6 +242,31 @@ GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
             break;
         case 7:
             effectName = "arrow_left_top_png_2.png";
+            break;
+
+        case 8:
+            effectName = "arrow_up_png.png";
+            break;
+        case 9:
+            effectName = "arrow_up_right_png.png";
+            break;
+        case 10:
+            effectName = "arrow_right_png.png";
+            break;
+        case 11:
+            effectName = "arrow_right_down_png.png";
+            break;
+        case 12:
+            effectName = "arrow_down_png.png";
+            break;
+        case 13:
+            effectName = "arrow_left_down_png.png";
+            break;
+        case 14:
+            effectName = "arrow_left_png.png";
+            break;
+        case 15:
+            effectName = "arrow_left_top_png.png";
             break;
             
         default:
