@@ -69,6 +69,12 @@ void MAXSolidTileRenderer::RemoveCell(const int x, const int y)
     _cells[index] = emptyValue;
 }
 
+void MAXSolidTileRenderer::Clear()
+{
+    memset(_cells, emptyValue, _mapH * _mapW * sizeof(int));
+    _mesh->Clear();
+}
+
 void MAXSolidTileRenderer::Draw(Shader *shader)
 {
     shader->SetVector4Value(UNIFORM_VECTOR1, reinterpret_cast<float*>(&color));

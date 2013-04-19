@@ -103,6 +103,13 @@ void EngineTiledDynamicMesh::RemovePolygon(int index)
     meshIndexToCoordianteHash[_vertices->GetCount()] = -1;
 }
 
+void EngineTiledDynamicMesh::Clear()
+{
+    for (int i = 0; i < _mapH * _mapW; i++)
+        meshIndexToCoordianteHash[i] = -1;
+    _vertices->clear();
+}
+
 void EngineTiledDynamicMesh::Draw()
 {
     glEnableVertexAttribArray(ATTRIB_VERTEX);
