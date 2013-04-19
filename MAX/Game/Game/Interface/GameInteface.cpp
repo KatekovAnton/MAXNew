@@ -405,6 +405,10 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
             MAXStatusRenderer::SharedStatusRenderer()->AddUnitToLock(unit->GetUnitObject());
             _currentUnit = unit;
         }
+        else if (_lockUnits)
+        {
+            RemoveUnitFromLock(unit);
+        }
     }
     else
     {
