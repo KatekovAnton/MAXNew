@@ -90,12 +90,11 @@ GameInterface::GameInterface()
     
     _drawGrid = false;
     _drawScan = false;
-   
     _drawRange = false;
     _drawShots = false;
     _drawStatus = false;
-    _drawFog = false;
 	_drawResources = false;
+    _drawFog = false;
     
     Scale = Display::currentDisplay()->GetDisplayScale();
 }
@@ -179,6 +178,10 @@ void GameInterface::InitBaseInterface()
 
 
     OnToggleFog(NULL);
+    OnToggleGrid(NULL);
+    OnToggleRange(NULL);
+    OnToggleScan(NULL);
+    OnTogglePanel(NULL);
 
     
     _buttonEndTurn = createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
