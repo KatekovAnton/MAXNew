@@ -85,6 +85,7 @@
     <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXConfigManager.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXContentMap.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXObjectConfig.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentUtils.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\MAXEngine.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\Material.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Material\MAXMapMaterial.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXConfigManager.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXContentMap.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects\MAXObjectConfig.h" />
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentUtils.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContetnConstants.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\MAXEngine.h" />
     <ClInclude Include="..\..\MAX\Game\Engine\ObjectComponents\Material\Material.h" />
