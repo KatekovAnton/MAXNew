@@ -58,6 +58,7 @@ class MAXEngine : public RequestDelegate  {
     Shader              *_mapQuadShader;
     Shader              *_resourceMapShader;
     Shader              *_fogShader;
+	Shader				*_pathZoneShader;
     shared_ptr<EngineMesh> _mapQuadMesh;
     float             _color;
     
@@ -66,6 +67,7 @@ public:
     
     MAXResourceMapRenderer  *_resourceRenderer;
     MAXSolidTileRenderer    *_fogRenderer;
+	MAXSolidTileRenderer    *_pathZoneRenderer;
     
     MAXEngineDelegate   *_delegate;
     
@@ -100,6 +102,8 @@ public:
     void RemoveUnit(PivotObject* newUnit);
     void AddResourceCell(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
     void AddFogCell(const int x, const int y, const bool fog);
+	void AddPathZoneCell(const int x, const int y);
+	void ClearPathZone();
     
     void RunLoop(double delta);
     
@@ -113,6 +117,7 @@ public:
     void DrawUnits();
     void DrawResourceMap();
     void DrawFog();
+	void DrawPathZone();
     void DrawGrid();
     void DrawInterface();
     void EndFrame();

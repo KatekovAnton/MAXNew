@@ -107,6 +107,7 @@ void MAXGame::ShowPathMap()
             else if (cost > 0)
             {
                 // valid map cost - highlight with green aquare
+				engine->AddPathZoneCell(x, y);
             }
             else
             {
@@ -118,6 +119,7 @@ void MAXGame::ShowPathMap()
 
 void MAXGame::HidePathMap()
 {
+	engine->ClearPathZone();
     for (int x = 0; x < _match->_map->GetMapWidth(); x++)
     {
         for (int y = 0; y < _match->_map->GetMapHeight(); y++)
@@ -429,6 +431,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                     {
                         _currentUnit->ConfirmCurrentPath();
                         _pathVisualizer->Clear();
+						HidePathMap();
                         _unitMoved = true;
                     }
                     else
@@ -465,6 +468,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             {
                 _currentUnit->selectedGameObjectDelegate = NULL;
 				_pathVisualizer->Clear();
+				HidePathMap();
                 
                 if (_currentUnit->GetPath().size() > 0)
 				{
@@ -507,6 +511,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 					_currentUnit = NULL;
 				}				
 				_pathVisualizer->Clear();
+				HidePathMap();
             }
         }
     }
