@@ -7,3 +7,13 @@
 //
 
 #include "GIUnitParametersNode.h"
+#include "GameUnit.h"
+
+GIUnitParametersNode::GIUnitParametersNode(GameUnit* currentUnit)
+{
+    setContentSize(CCSize(50, 20));
+    
+}
+
+GIUnitParametersNode::~GIUnitParametersNode()
+{}

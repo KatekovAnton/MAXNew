@@ -209,7 +209,7 @@ void GameInterface::InitBaseInterface()
     _panel->addChild(scroll);
     
     CCMenu* menutogglePanel = CCMenu::create();
-    menutogglePanel->setPosition(ccp(panelW - 5, getContentSize().height/2.0 - 20));
+    menutogglePanel->setPosition(ccp(panelW - 4, getContentSize().height/2.0 - 20));
     menutogglePanel->setAnchorPoint(ccp(0.5, 0.5));
     
     _buttonTogglePanel = createMenuItemFromResources("", "", 10, ccc3(0, 0, 0), "left_button.png", "left_button_pressed.png", this, menu_selector(GameInterface::OnTogglePanel));
