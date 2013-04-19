@@ -481,7 +481,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                 CCPoint location = _currentUnit->GetUnitCell();
                 UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
                 Pathfinder* pf = _match->_pathfinder;
-                pf->MakePathMap(location.x, location.y, unitMoveType, 100);
+                pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10);
                 //pf->DumpMap();
                 ShowPathMap();
             }
@@ -547,7 +547,7 @@ void MAXGame::onUnitStopMove(GameUnit* unit)
         CCPoint location = _currentUnit->GetUnitCell();
         UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
         Pathfinder* pf = _match->_pathfinder;
-        pf->MakePathMap(location.x, location.y, unitMoveType, 100);
+        pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10);
         //pf->DumpMap();
         ShowPathMap();
     }
