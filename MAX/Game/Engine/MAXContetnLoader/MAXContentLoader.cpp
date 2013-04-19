@@ -23,7 +23,7 @@
 #include "cocos2d.h"
 #include "Display.h"
 #include "StringUtils.h"
-#include "png.h"
+//#include "png.h"
 
 using namespace std;
 using namespace cocos2d;

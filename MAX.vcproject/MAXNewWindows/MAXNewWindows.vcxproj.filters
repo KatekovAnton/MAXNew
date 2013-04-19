@@ -357,6 +357,9 @@
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GamePathVisualizer.cpp">
       <Filter>Game\Game\GameMatch</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentUtils.cpp">
+      <Filter>Game\Engine\MAXContetnLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MAX\Utils\BinaryReader.h">
@@ -691,6 +694,9 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GamePathVisualizer.h">
       <Filter>Game\Game\GameMatch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentUtils.h">
+      <Filter>Game\Engine\MAXContetnLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

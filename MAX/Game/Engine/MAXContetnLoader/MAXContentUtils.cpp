@@ -7,7 +7,7 @@
 //
 
 #include "MAXContentUtils.h"
-#include "png.h"
+//#include "png.h"
 #include "FileManger.h"
 #include "cocos2d.h"
 
