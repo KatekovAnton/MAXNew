@@ -33,9 +33,10 @@ Pathfinder::~Pathfinder()
         delete newWave;
 }
 
-void Pathfinder::MakePathMap(const int fromX, const int fromY, UNIT_MOVETYPE unitMoveType) // Fill path map. Used if need to get cost for whole map
+void Pathfinder::MakePathMap(const int fromX, const int fromY, UNIT_MOVETYPE unitMoveType, int maxCost) // Fill path map. Used if need to get cost for whole map
 {
     moveType = unitMoveType;
+    _maxCost = maxCost;
     FillPathMap(fromX, fromY, -1, -1);
 }
 
@@ -53,6 +54,7 @@ int Pathfinder::GetCostAt(const int x, const int y) // makePathMap should be cal
 
 std::vector<PFWaveCell*> Pathfinder::FindPath(const int fromX, const int fromY, const int toX, const int toY, UNIT_MOVETYPE unitMoveType)
 {
+    _maxCost = -1;    
     moveType = unitMoveType;
     
     std::vector<PFWaveCell*> result;
@@ -249,7 +251,7 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
     return result;
 }
 
-void Pathfinder::TestNeighbours(void)
+void Pathfinder::TestNeighbours(const int baseCost)
 {
 	CellPoint pos;
 	PFWaveCell* item;
@@ -263,7 +265,10 @@ void Pathfinder::TestNeighbours(void)
 		cost = GetCost(x, y, d);
 		if ((cost >= 0) && (pathMap[x + y * w].distance < 0))
 		{
-			newWave->Add(pos, cost, d);
+            if ((_maxCost < 0) || (baseCost + cost <= _maxCost))
+            {
+                newWave->Add(pos, cost, d);
+            }
 		}
 	}
 }
@@ -306,7 +311,7 @@ void Pathfinder::FillPathMap(const int fromX, const int fromY, const int toX, co
         cell->cost = 0;
     }
     oldWave->Add(fromX, fromY, 0, 0);
-    TestNeighbours();
+    TestNeighbours(0);
     
     bool finished = ((fromX == toX) && (fromY == toY));
     PFWaveCell* item;
@@ -338,14 +343,23 @@ void Pathfinder::FillPathMap(const int fromX, const int fromY, const int toX, co
                             {
                                 PFPathMapCell* cell2 = &(pathMap[ind2]);
                                 cell->distance = cell2->distance + 1;
-                                cell->cost = cell2->cost + GetCost(pos.x, pos.y, item->direction);
-                                cell->direction = item->direction;
-                                finished = ((item->x == toX) && (item->y == toY));
-                                if (finished)
+                                pos.x = item->x;
+                                pos.y = item->y;
+                                int cost = GetCost(pos.x, pos.y, item->direction);
+                                if (cost >= 0)
                                 {
-                                    break;
+                                    cell->cost = cell2->cost + cost;
+                                    cell->direction = item->direction;
+                                    if (_maxCost < 0)
+                                    {
+                                        finished = ((item->x == toX) && (item->y == toY));
+                                        if (finished)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    TestNeighbours(cell->cost);
                                 }
-                                TestNeighbours();
                             }
                         }
                     }
@@ -370,10 +384,19 @@ std::vector<PFWaveCell*> Pathfinder::FindPathOnMap(const int toX, const int toY)
         return result;
     }
     PFPathMapCell* cell = &(pathMap[ind]);
+    if ((cell->distance < 0) && (_maxCost >= 0))
+    {
+        int oldMaxCost = _maxCost;
+        result = FindPath(_fromX, _fromY, toX, toY, moveType);
+        _maxCost = oldMaxCost;
+        return result;
+    }
+    cell = &(pathMap[ind]);
     if (cell->distance < 0)
     {
         return result;
     }
+    
     PFWaveCell* item;
     unsigned char direction;
     int cost;

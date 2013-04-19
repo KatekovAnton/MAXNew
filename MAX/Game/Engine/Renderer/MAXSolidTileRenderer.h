@@ -38,6 +38,7 @@ public:
     void CompletlyFillMap();
     void AddCell(const int x, const int y);
     void RemoveCell(const int x, const int y);
+    void Clear();
     
     void Draw(Shader *shader);
     

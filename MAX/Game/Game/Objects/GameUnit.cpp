@@ -480,7 +480,7 @@ bool GameUnit::ShouldAnimateBody() const
 
 bool GameUnit::ShoudDrawFakeCircle() const
 {
-	return (movePath.size() > 0) && (!GetIsFreezed());
+	return (movePath.size() > 0) && (!GetIsFreezed() && (game->_match->_currentPlayer_w == _owner_w));
 }
 
 CCPoint GameUnit::GetFakeCenter() const

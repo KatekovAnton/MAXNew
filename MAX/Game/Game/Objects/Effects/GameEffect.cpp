@@ -215,33 +215,58 @@ GameEffect* GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE type, int level)
 
 GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
 {
-    string effectName = "";
+    string effectName = "arrow_up.png";
     float size = 1.0;
     
-    switch (azimut%8) {
+    switch (azimut%16) {
         case 0:
-            effectName = "ARROW_N";
+            effectName = "arrow_up_png_2.png";
             break;
         case 1:
-            effectName = "ARROW_NE";
+            effectName = "arrow_up_right_png_2.png";
             break;
         case 2:
-            effectName = "ARROW_E";
+            effectName = "arrow_right_png_2.png";
             break;
         case 3:
-            effectName = "ARROW_SE";
+            effectName = "arrow_right_down_png_2.png";
             break;
         case 4:
-            effectName = "ARROW_S";
+            effectName = "arrow_down_png_2.png";
             break;
         case 5:
-            effectName = "ARROW_SW";
+            effectName = "arrow_left_down_png_2.png";
             break;
         case 6:
-            effectName = "ARROW_W";
+            effectName = "arrow_left_png_2.png";
             break;
         case 7:
-            effectName = "ARROW_NW";
+            effectName = "arrow_left_top_png_2.png";
+            break;
+
+        case 8:
+            effectName = "arrow_up_png.png";
+            break;
+        case 9:
+            effectName = "arrow_up_right_png.png";
+            break;
+        case 10:
+            effectName = "arrow_right_png.png";
+            break;
+        case 11:
+            effectName = "arrow_right_down_png.png";
+            break;
+        case 12:
+            effectName = "arrow_down_png.png";
+            break;
+        case 13:
+            effectName = "arrow_left_down_png.png";
+            break;
+        case 14:
+            effectName = "arrow_left_png.png";
+            break;
+        case 15:
+            effectName = "arrow_left_top_png.png";
             break;
             
         default:

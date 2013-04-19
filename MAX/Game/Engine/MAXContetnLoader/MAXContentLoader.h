@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include "miniPrefix.h"
 
 #define MAXSCL MAXContentLoader::SharedLoader()
@@ -41,16 +42,6 @@ struct typdiritem
     int size;
 };
 
-struct MAXRESTextureData
-{
-    Color* data;
-    short w;
-    short h;
-    
-    void FreeBuffer () {free(data); };
-    
-};
-
 struct TileInformation
 {
     float topX;
@@ -73,6 +64,7 @@ class MAXContentLoader {
     
 public:
     
+    map<string, MAXUnitMaterial*> externalMaterials;
     
     shared_ptr<EngineMesh> unitMesh;
     Texture* defaultPalette;
@@ -88,6 +80,7 @@ public:
     vector<Texture*> CreatePalletes(Color* palette);
     vector<Texture*> CreateUnitPalletes(Color* palette);
     Texture* TextureIdexedFromIndex(int w, int h, unsigned char* indexes);
+    Texture* TextureIdexedFromColors(int w, int h, Color* colors);
     Texture* TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
     Texture* TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
     Texture* TextureForResourceRenderer();
@@ -99,6 +92,7 @@ public:
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     MAXUnitMaterial* LoadEffectMaterial(string name);
     MAXUnitMaterial* LoadEffectMaterialfromSingleImage(string name);
+    MAXUnitMaterial* LoadEffectMaterialfromExternalImage(string name);
     MAXRESTextureData CreateTexture2Data(string name);
     
 #pragma mark - memory

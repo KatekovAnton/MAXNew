@@ -51,6 +51,7 @@ public:
     
     int AddPolygon(int x, int y, int tileIndex, int singleArrayIndex);
     void RemovePolygon(int index);
+    void Clear();
     void Draw();
 };
 

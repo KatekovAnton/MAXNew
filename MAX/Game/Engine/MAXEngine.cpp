@@ -55,6 +55,12 @@ MAXEngine::~MAXEngine()
         delete _fogRenderer;
         _fogRenderer = NULL;
     }
+	if (_pathZoneRenderer)
+	{
+		delete _pathZoneRenderer;
+		_pathZoneRenderer = NULL;
+	}
+	
 
     if (_resourceRenderer) {
         delete _resourceRenderer;
@@ -77,6 +83,7 @@ void MAXEngine::Init() {
     drawGrid = false;
     drawResources = false;
     drawFog = false;
+    drawPathZone = false;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
@@ -92,6 +99,7 @@ void MAXEngine::Init() {
     _mapQuadShader = new Shader("ShaderPostQuad.vsh", "ShaderPostQuad.fsh");
     _resourceMapShader = new Shader("ShaderResourceMap.vsh", "ShaderResourceMap.fsh");
     _fogShader = new Shader("ShaderSolidFog.vsh", "ShaderSolidFog.fsh");
+	_pathZoneShader = new Shader("ShaderSolidFog.vsh", "ShaderSolidFog.fsh");
     _mapQuadMesh = EngineMesh::CreateScaledQuad(2,2);
     MAXDrawPrimitives::SharedDrawPrimitives();
 
@@ -121,6 +129,7 @@ void MAXEngine::Init() {
     _statusRenderer = MAXStatusRenderer::SharedStatusRenderer();
     _scene = NULL;
     _resourceRenderer = NULL;
+	_pathZoneRenderer = NULL;
     _fogRenderer = NULL;
 }
 
@@ -144,6 +153,13 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
     _fogRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
     _fogRenderer->CompletlyFillMap();
     _fogRenderer->color = GLKVector4Make(0, 0, 0, 0.4);
+
+	if (_pathZoneRenderer)
+	{
+		delete _pathZoneRenderer;
+	}
+	_pathZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
+	_pathZoneRenderer->color = GLKVector4Make(0, 1.0, 0, 0.8);
 }
 
 void MAXEngine::ClearMap()
@@ -191,6 +207,16 @@ void MAXEngine::AddFogCell(const int x, const int y, const bool fog)
         _fogRenderer->AddCell(x, y);
     else
         _fogRenderer->RemoveCell(x, y);
+}
+
+void MAXEngine::AddPathZoneCell(const int x, const int y)
+{
+	_pathZoneRenderer->AddCell(x, y);
+}
+
+void MAXEngine::ClearPathZone()
+{
+	_pathZoneRenderer->Clear();
 }
 
 void MAXEngine::GetAllObjectsInArea(BoundingBox bb, USimpleContainer<MAXObject*> *buffer)
@@ -275,6 +301,7 @@ void MAXEngine::Draw()
     DrawGround();
     glEnable(GL_BLEND);
     DrawGrid();
+	DrawPathZone();
     DrawUnits();
     DrawResourceMap();
     DrawFog();
@@ -363,6 +390,18 @@ void MAXEngine::DrawFog()
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
     _fogRenderer->Draw(_shader);
+}
+
+void MAXEngine::DrawPathZone()
+{
+    if (!drawPathZone) 
+        return;
+    
+	_shader = _pathZoneShader;
+	glUseProgram(_shader->GetProgram());
+	_shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
+	_shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+	_pathZoneRenderer->Draw(_shader);
 }
 
 void MAXEngine::DrawInterface()
