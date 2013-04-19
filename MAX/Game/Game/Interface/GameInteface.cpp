@@ -131,18 +131,35 @@ void GameInterface::InitBaseInterface()
     spr->setPosition(ccp(panelW - spr->getContentSize().width, 0));
     _panel->addChild(spr);
     
-    float top = 280 + 20;
-    float scrollH = top;
-    CCScrollView* scroll = CCScrollView::create(CCSize(panelW * Scale, scrollH*Scale));
+    float top = 280 + 111;
+    float scrollH = top;//?????;
+    
+    CCSize sz = CCSize(panelW, scrollH);
+    if (scrollH >= getContentSize().height)
+        sz = CCSize(panelW, getContentSize().height);
+    CCScrollView* scroll = CCScrollView::create(sz);
     scroll->setAnchorPoint(ccp(0, 0));
     scroll->setPosition(ccp(0, 0));
     scroll->setBounceable(true);
     scroll->setDirection(CCScrollViewDirection::kCCScrollViewDirectionVertical);
     scroll->setTouchEnabled(true);
     scroll->setClippingToBounds(false);
-    scroll->setContentSize(CCSize(panelW * Scale, top * Scale));
-    float currentElement = top - 30;
+    scroll->setContentSize(CCSize(panelW, top));
     
+    if (scrollH <= getContentSize().height)
+        scroll->setTouchEnabled(false);
+    else
+        scroll->setContentOffset(ccp(0, getContentSize().height - scrollH));
+    
+    float currentElement = top - 111;
+    
+    CCSprite* statsFrame = CCSprite::create("statsFrame.png");
+    statsFrame->setAnchorPoint(ccp(0, 0));
+    statsFrame->setPosition(ccp(1, currentElement));
+    scroll->addChild(statsFrame);
+    
+    
+    currentElement -= 30;
     _toggleLockUnitsButton = createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,currentElement));
     CCMenu *menu = CCMenu::create(_toggleLockUnitsButton, nullptr);
