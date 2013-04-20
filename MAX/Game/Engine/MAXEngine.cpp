@@ -397,6 +397,7 @@ void MAXEngine::DrawPathZone()
     if (!drawPathZone) 
         return;
     
+    glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
 	_shader = _pathZoneShader;
 	glUseProgram(_shader->GetProgram());
 	_shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
