@@ -28,7 +28,7 @@
 		8B84DBD216CFDC9900DD12B8 /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD016CFDC9900DD12B8 /* StringUtils.cpp */; };
 		8B84DBD516CFE33800DD12B8 /* GameUnitCurrentState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD316CFE33700DD12B8 /* GameUnitCurrentState.cpp */; };
 		8B85506E16F5C165000170D5 /* GIUnitParametersNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */; };
-		8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */; };
+		8B85507116F5C1FD000170D5 /* GIUnitParameterRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506F16F5C1FD000170D5 /* GIUnitParameterRow.cpp */; };
 		8B8742951707445D000B234B /* PlayerResourceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8742931707445D000B234B /* PlayerResourceMap.cpp */; };
 		8B874298170758B0000B234B /* MAXSolidTileRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B874296170758B0000B234B /* MAXSolidTileRenderer.cpp */; };
 		8B87429C1707694A000B234B /* ShaderSolidFog.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 8B87429A1707694A000B234B /* ShaderSolidFog.fsh */; };
@@ -427,8 +427,8 @@
 		8B84DBD416CFE33700DD12B8 /* GameUnitCurrentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnitCurrentState.h; sourceTree = "<group>"; };
 		8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIUnitParametersNode.cpp; sourceTree = "<group>"; };
 		8B85506D16F5C165000170D5 /* GIUnitParametersNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitParametersNode.h; sourceTree = "<group>"; };
-		8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIParameterRow.cpp; sourceTree = "<group>"; };
-		8B85507016F5C1FD000170D5 /* GIParameterRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIParameterRow.h; sourceTree = "<group>"; };
+		8B85506F16F5C1FD000170D5 /* GIUnitParameterRow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIUnitParameterRow.cpp; sourceTree = "<group>"; };
+		8B85507016F5C1FD000170D5 /* GIUnitParameterRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitParameterRow.h; sourceTree = "<group>"; };
 		8B8742931707445D000B234B /* PlayerResourceMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerResourceMap.cpp; sourceTree = "<group>"; };
 		8B8742941707445D000B234B /* PlayerResourceMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerResourceMap.h; sourceTree = "<group>"; };
 		8B874296170758B0000B234B /* MAXSolidTileRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXSolidTileRenderer.cpp; sourceTree = "<group>"; };
@@ -947,8 +947,8 @@
 			children = (
 				8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */,
 				8B85506D16F5C165000170D5 /* GIUnitParametersNode.h */,
-				8B85506F16F5C1FD000170D5 /* GIParameterRow.cpp */,
-				8B85507016F5C1FD000170D5 /* GIParameterRow.h */,
+				8B85506F16F5C1FD000170D5 /* GIUnitParameterRow.cpp */,
+				8B85507016F5C1FD000170D5 /* GIUnitParameterRow.h */,
 			);
 			path = UnitParameterNode;
 			sourceTree = "<group>";
@@ -2191,7 +2191,7 @@
 				8B54D40816ECFD9800935B1A /* MAXAnimationEffect.cpp in Sources */,
 				D14D50D016EF381200F8A8EC /* MAXAnimationWait.cpp in Sources */,
 				8B85506E16F5C165000170D5 /* GIUnitParametersNode.cpp in Sources */,
-				8B85507116F5C1FD000170D5 /* GIParameterRow.cpp in Sources */,
+				8B85507116F5C1FD000170D5 /* GIUnitParameterRow.cpp in Sources */,
 				D1F816E316F9C60B00873348 /* ShaderUnitLow.fsh in Sources */,
 				D1F816E416F9C60B00873348 /* ShaderUnitLow.vsh in Sources */,
 				F1F2880216FE963600887D2D /* GameFog.cpp in Sources */,

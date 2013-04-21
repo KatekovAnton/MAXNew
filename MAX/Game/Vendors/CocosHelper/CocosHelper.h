@@ -14,6 +14,8 @@
 
 using namespace cocos2d;
 
+#define ccz(__X__,__Y__) cocos2d::CCSizeMake((float)(__X__), (float)(__Y__))
+
 class CocosHelper {
     
 public:

@@ -12,17 +12,29 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "MAXEngine.h"
+#include <vector>
 
 using namespace cocos2d;
+using namespace std;
 
 class GameUnit;
+class GIUnitParameterRow;
 
 class GIUnitParametersNode: public CCNode
 {
     
+    vector<GIUnitParameterRow*> _rows;
+    
 public:
-    GIUnitParametersNode(GameUnit* currentUnit);
+    GIUnitParametersNode();
     ~GIUnitParametersNode();
+
+    
+    
+    void SetUnit(GameUnit* unit);
+    void UpdateParameters();
+    
+    static GIUnitParametersNode* create();
 
 };
 

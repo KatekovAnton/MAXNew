@@ -478,7 +478,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
             _currentUnit = newCurrentUnit;
             _currentUnit->selectedGameObjectDelegate = this;
-            if (!_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
+            if (!_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _currentUnit->_owner_w->GetIsCurrentPlayer())
             {
 				ShowUnitPath(_currentUnit);
 

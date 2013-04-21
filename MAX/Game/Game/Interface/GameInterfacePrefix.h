@@ -9,8 +9,13 @@
 #ifndef MAX_GameInterfacePrefix_h
 #define MAX_GameInterfacePrefix_h
 
+#include "cocos2d.h"
+
+using namespace cocos2d;
+
 #define MAX_DEFAULT_FONT "HelveticaNeue-Bold"
 #define MAX_COLOR_BLACK ccc3(0,0,0)
+#define MAX_COLOR_WHITE ccc3(255,255,255)
 
 
 
@@ -31,20 +36,21 @@
 
 
 
-#define MAX_IMAGE_AIRUNITS "SI_AIR"
 #define MAX_IMAGE_AMMO "SI_AMMO"
 #define MAX_IMAGE_FUEL "SI_FUEL"
 #define MAX_IMAGE_GOLD "SI_GOLD"
 #define MAX_IMAGE_HITSB "SI_HITSB"
 #define MAX_IMAGE_HITSR "SI_HITSR"
 #define MAX_IMAGE_HITSY "SI_HITSY"
-#define MAX_IMAGE_LANDUNITS "SI_LAND"
-#define MAX_IMAGE_POWER "SI_POWER"
 #define MAX_IMAGE_RAWMAT "SI_RAW"
-#define MAX_IMAGE_SEAUNITS "SI_SEA"
+#define MAX_IMAGE_WORKERS "SI_WORK"
+#define MAX_IMAGE_POWER "SI_POWER"
 #define MAX_IMAGE_SHOTS "SI_SHOTS"
 #define MAX_IMAGE_SPEED "SI_SPEED"
-#define MAX_IMAGE_WORKERS "SI_WORK"
+
+#define MAX_IMAGE_AIRUNITS "SI_AIR"
+#define MAX_IMAGE_LANDUNITS "SI_LAND"
+#define MAX_IMAGE_SEAUNITS "SI_SEA"
 
 
 

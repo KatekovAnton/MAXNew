@@ -16,10 +16,13 @@
 using namespace cocos2d;
 
 class GameUnit;
+class GIUnitParametersNode;
 
 class GameInterface : public CCScene
 {
     CCNode* _unitInterfaceBattle;
+    
+    GIUnitParametersNode* _unitParameters;
     
     CCMenuItemSprite* _toggleLockUnitsButton;
     CCMenuItemSprite* _toggleGridButton;

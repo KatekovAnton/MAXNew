@@ -1083,6 +1083,28 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name)
     return pTexture;
 }
 
+CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name, Color transparent)
+{
+    int index = FindImage(name);
+    void* cashed = loadedData[index];
+    if(cashed)
+        return (CCTexture2D*)cashed;
+    
+    MAXRESTextureData data = CreateTexture2Data(name);
+    for (int i = 0; i < data.h*data.w; i++) {
+        Color c = data.data[i];
+        if (c.r == transparent.r && c.g == transparent.g && c.b == transparent.b) {
+            data.data[i].a = 0;
+        }
+    }
+    CCTexture2D* pTexture = new CCTexture2D();
+    CCSize sz = CCSize(data.w, data.h);
+    pTexture->initWithData(data.data, kCCTexture2DPixelFormat_RGBA8888, data.w, data.h, sz);
+    data.FreeBuffer();
+    loadedData[index] = (void*)pTexture;
+    return pTexture;
+}
+
 CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
 {
     int index = FindImage(name);
@@ -1153,6 +1175,14 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
 //    CCImage* image = new CCImage();
 //    image->autorelease();
 //    image->initWithImageData(colors, w * h * 4, kFmtRawData, w, h, 8);
+}
+
+CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name, Color transparent)
+{
+    CCTexture2D* texture = CreateTexture2DFromSimpleImage(name, transparent);
+    CCSprite* result = CCSprite::createWithTexture(texture);
+    // result->setScale(Display::currentDisplay()->GetDisplayScale());
+    return result;
 }
 
 CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name)

@@ -17,6 +17,7 @@
 #include "GameUnitParameters.h"
 #include "GameInterfacePrefix.h"
 #include "CCScrollView.h"
+#include "GIUnitParametersNode.h"
 
 using namespace extension;
 
@@ -89,7 +90,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
 }
 
 GameInterface::GameInterface()
-:_currentUnit(NULL)
+:_currentUnit(NULL), _unitParameters(NULL)
 {
     _lockUnits = false;
     
@@ -153,10 +154,9 @@ void GameInterface::InitBaseInterface()
     
     float currentElement = top - 111;
     
-    CCSprite* statsFrame = CCSprite::create("statsFrame.png");
-    statsFrame->setAnchorPoint(ccp(0, 0));
-    statsFrame->setPosition(ccp(1, currentElement));
-    scroll->addChild(statsFrame);
+    _unitParameters = GIUnitParametersNode::create();
+    _unitParameters->setPosition(ccp(1, currentElement));
+    scroll->addChild(_unitParameters);
     
     
     currentElement -= 30;
@@ -507,5 +507,6 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
     else
         engine->drawResources = _drawResources;
     
+    _unitParameters->SetUnit(_currentUnit);
 }
 
