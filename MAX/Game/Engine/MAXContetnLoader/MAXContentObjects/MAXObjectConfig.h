@@ -210,6 +210,8 @@ public:
     
     bool ProduceSmth() const { return _retMaterial != 0 ||_retFuel != 0 || _retGold != 0 || _retMoney != 0 || _retMoney != 0 || _retEnergy != 0; }
     
+    std::vector<UNIT_PARAMETER_TYPE> GetParameterList();
+    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
 };
 
 #endif /* defined(__MAX__MAXObjectConfig__) */

@@ -24,6 +24,7 @@ class GIUnitParametersNode: public CCNode
 {
     
     vector<GIUnitParameterRow*> _rows;
+    CCSprite* statsFrame;
     
 public:
     GIUnitParametersNode();

@@ -88,6 +88,9 @@ public:
     
     void CheckMovementUpdate();
     
+    std::vector<UNIT_PARAMETER_TYPE> GetParameterList();
+    MAXObjectConfig* GetBaseConfig();
+    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
     
 #pragma mark - Fire methods
     bool IsInProcess() const {return _isInProcess;}

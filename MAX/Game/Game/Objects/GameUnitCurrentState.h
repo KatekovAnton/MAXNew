@@ -10,6 +10,7 @@
 #define __MAX__GameUnitCurrentState__
 
 #include <iostream>
+#include "miniPrefix.h"
 
 class GameUnitParameters;
 
@@ -33,6 +34,9 @@ public:
     
     GameUnitCurrentState(GameUnitParameters* params);
     ~GameUnitCurrentState();
+
+    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
+    void SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue);
     
     void StartNewTurn();
     

@@ -399,6 +399,16 @@ void GameUnit::CheckMovementUpdate()
     }
 }
 
+MAXObjectConfig* GameUnit::GetBaseConfig()
+{
+    return _unitCurrentParameters->_unitBaseParameters->GetConfig();
+}
+
+int GameUnit::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
+{
+    return _unitCurrentParameters->GetParameterValue(parameterType);
+}
+
 #pragma mark - MAXAnimationDelegate
 
 void GameUnit::OnAnimationStart(MAXAnimationBase* animation)

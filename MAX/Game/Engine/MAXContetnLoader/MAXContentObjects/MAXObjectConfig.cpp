@@ -369,3 +369,110 @@ bool MAXObjectConfig::IsValid() const
     _shadowName.length()>0  &&
     _imageName.length()>0;
 }
+
+std::vector<UNIT_PARAMETER_TYPE> MAXObjectConfig::GetParameterList()
+{
+    std::vector<UNIT_PARAMETER_TYPE> result;
+    /*
+     //storage
+     UNIT_PARAMETER_TYPE_FUEL,
+     UNIT_PARAMETER_TYPE_GOLD,
+     UNIT_PARAMETER_TYPE_MATERIAL,
+     UNIT_PARAMETER_TYPE_PEOPLE,
+     UNIT_PARAMETER_TYPE_ENERGY,
+     
+     //caro
+     UNIT_PARAMETER_TYPE_CARGO_UNITS,
+     UNIT_PARAMETER_TYPE_CARGO_PLANES,
+     UNIT_PARAMETER_TYPE_CARGO_SHIPS,
+     */
+    UNIT_PARAMETER_TYPE parameterType;
+    parameterType = UNIT_PARAMETER_TYPE_SPEED;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    parameterType = UNIT_PARAMETER_TYPE_HEALTH;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    parameterType = UNIT_PARAMETER_TYPE_ARMOR;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    parameterType = UNIT_PARAMETER_TYPE_ATTACK;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    parameterType = UNIT_PARAMETER_TYPE_SHOTS;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    parameterType = UNIT_PARAMETER_TYPE_GAS;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    parameterType = UNIT_PARAMETER_TYPE_RANGE;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    parameterType = UNIT_PARAMETER_TYPE_SCAN;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    parameterType = UNIT_PARAMETER_TYPE_AMMO;
+    if (GetParameterValue(parameterType) > 0)
+    {
+        result.push_back(parameterType);
+    }
+    return result;
+}
+
+int MAXObjectConfig::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
+{
+    int result = 0;
+    switch (parameterType)
+    {
+        case UNIT_PARAMETER_TYPE_SPEED:
+            result = _pSpeed;
+            break;
+        case UNIT_PARAMETER_TYPE_HEALTH:
+            result = _pHealth;
+            break;
+        case UNIT_PARAMETER_TYPE_ARMOR:
+            result = _pArmor;
+            break;
+        case UNIT_PARAMETER_TYPE_ATTACK:
+            result = _pAttack;
+            break;
+        case UNIT_PARAMETER_TYPE_SHOTS:
+            result = _pShots;
+            break;
+        case UNIT_PARAMETER_TYPE_GAS:
+            result = _pFuel;
+            break;
+        case UNIT_PARAMETER_TYPE_RANGE:
+            result = _pRange;
+            break;
+        case UNIT_PARAMETER_TYPE_SCAN:
+            result = _pScan;
+            break;
+        case UNIT_PARAMETER_TYPE_AMMO:
+            result = _pAmmo;
+            break;
+        case UNIT_PARAMETER_TYPE_COST:
+            result = _pCost;
+            break;
+            
+        default:
+            break;
+    }
+    return result;
+}

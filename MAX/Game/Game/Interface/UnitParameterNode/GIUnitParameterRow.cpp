@@ -99,14 +99,22 @@ void GIUnitParameterRow::SetImageForParameterType(UNIT_PARAMETER_TYPE type, int 
         _labelDiscr = NULL;
     }
     
-    _imageFull = MAXSCL->CreateSpriteFromSimpleImage(name, {0,0,0,0});
-    _imageFull->setScale(Display::currentDisplay()->GetDisplayScale());
-    _imageFull->setAnchorPoint(ccp(0.5, 0.5));
-    _imageFull->setPosition(ccp(12, 8));
-    addChild(_imageFull);
+    if (name.length() > 0)
+    {
+        _imageFull = MAXSCL->CreateSpriteFromSimpleImage(name, {0,0,0,0});
+        _imageFull->setScale(Display::currentDisplay()->GetDisplayScale());
+        _imageFull->setAnchorPoint(ccp(0.5, 0.5));
+        _imageFull->setPosition(ccp(12, 8));
+        addChild(_imageFull);
+    }
     
     float scale = Display::currentDisplay()->GetDisplayScale();
-    _labelValue->setPosition(ccp((10 + _imageFull->getContentSize().width + (scale-1)*2), (3+ (scale-2))));
+    CCPoint labelPos = ccp((10 + 10 + (scale-1)*2), (3+ (scale-2)));
+    if (_imageFull)
+    {
+        labelPos.x = 10 + _imageFull->getContentSize().width + (scale-1)*2;
+    }
+    _labelValue->setPosition(labelPos);
     
     
 //    _labelDiscr = CCLabelTTF::create(text.c_str(), MAX_DEFAULT_FONT, 8);

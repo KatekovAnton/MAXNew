@@ -12,6 +12,7 @@
 #include "GIUnitParameterRow.h"
 #include "CocosHelper.h"
 #include "StringUtils.h"
+#include "MAXObjectConfig.h"
 
 #include "GameUnit.h"
 
@@ -19,7 +20,7 @@ const float _topStart = 100;
 
 GIUnitParametersNode::GIUnitParametersNode()
 {
-    CCSprite* statsFrame = CCSprite::create("statsFrame.png");
+    statsFrame = CCSprite::create("statsFrame.png");
     statsFrame->setAnchorPoint(ccp(0, 0));
     statsFrame->setPosition(ccp(0, 0));
     addChild(statsFrame);
@@ -37,13 +38,24 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
     if (!unit)
         return;
     
-    GIUnitParameterRow* row1 = GIUnitParameterRow::create();
-    addChild(row1);
-    row1->setPosition(ccp(0, _topStart-GIUnitParameterRow::RowHeight()));
-    row1->SetImageForParameterType(UNIT_PARAMETER_TYPE_ENERGY, 0);
-    row1->SetMaxValue(1200);
-    row1->SetCurrentValue(1086);
-    _rows.push_back(row1);
+    MAXObjectConfig* config = unit->GetBaseConfig();
+    std::vector<UNIT_PARAMETER_TYPE> parameters = config->GetParameterList();
+    for (int i = 0; i < parameters.size(); i++)
+    {
+        UNIT_PARAMETER_TYPE param = parameters[i];
+        
+        GIUnitParameterRow* row1 = GIUnitParameterRow::create();
+        addChild(row1);
+        row1->setPosition(ccp(0, _topStart-GIUnitParameterRow::RowHeight() * (i + 1)));
+        row1->SetImageForParameterType(param, 0);
+        row1->SetMaxValue(config->GetParameterValue(param));
+        row1->SetCurrentValue(unit->GetParameterValue(param));
+        _rows.push_back(row1);
+    }
+//    Strached sprite 9 is needed
+//    CCSize s = statsFrame->getContentSize();
+//    s.height = 10 + parameters.size() * GIUnitParameterRow::RowHeight();
+//    statsFrame->setContentSize(s);
 }
 
 void UpdateParameters()
