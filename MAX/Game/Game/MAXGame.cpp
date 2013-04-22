@@ -290,6 +290,10 @@ void MAXGame::StartMatch()
         GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 42, "Radar", 0);
         unit1->PlaceUnitOnMap();
     }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 42, "turret", 0);
+        unit1->PlaceUnitOnMap();
+    }
     
     
     {
@@ -384,10 +388,22 @@ void MAXGame::ShowUnitPath(GameUnit *unit)
 		PathElement element;
 		element.x = cell->x;
 		element.y = cell->y;
-		element.unitLevel = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel;
+		element.unitLevel = OBJECT_LEVEL_OVERAIR;
 		element.image = cell->direction;
         totalCost += cell->cost;
-        if ((pi == 0) || (totalCost >= speed))
+        bool endTurnMarker = false;
+        if (pi > 0)
+        {
+            if (totalCost + path[pi - 1]->cost > speed)
+            {
+                endTurnMarker = true;
+            }
+        }
+        if ((pi == 0) || (totalCost == speed))
+        {
+            endTurnMarker = true;
+        }
+        if (endTurnMarker)
         {
             totalCost -= speed;
             speed = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10; // rework to max param
