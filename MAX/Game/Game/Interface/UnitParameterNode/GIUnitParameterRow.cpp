@@ -101,7 +101,12 @@ void GIUnitParameterRow::SetImageForParameterType(UNIT_PARAMETER_TYPE type, int 
     
     if (name.length() > 0)
     {
-        _imageFull = MAXSCL->CreateSpriteFromSimpleImage(name, {0,0,0,0});
+		Color c;
+		c.r = 0;
+		c.g = 0;
+		c.b = 0;
+		c.a = 0;
+        _imageFull = MAXSCL->CreateSpriteFromSimpleImage(name, c);
         _imageFull->setScale(Display::currentDisplay()->GetDisplayScale());
         _imageFull->setAnchorPoint(ccp(0.5, 0.5));
         _imageFull->setPosition(ccp(12, 8));

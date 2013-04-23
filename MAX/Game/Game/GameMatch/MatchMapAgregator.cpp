@@ -86,6 +86,35 @@ int MatchMapAgregator::Height()
 void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const int y)
 {
     UnitsInCell(x,y)->removeObject(unit);
+	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+	if (config->_isPlatform || config->_isBridge)
+	{
+		int idx = GetIndexForCoordinates(x, y);
+		_mapOutputBuffer[idx] = _mapBuffer[idx];
+	}
+	else if (config->_isRoad)
+	{
+		int idx = GetIndexForCoordinates(x, y);
+		 
+		// Check if no more platform exist in the cell. It is possible construct road above platform
+		bool platformExist = false;
+		USimpleContainer<GameUnit*> *units = _unitsInCells_w[idx];
+		for (int i = 0; i < units->GetCount(); i++)
+		{
+			GameUnit *unit2 = units->objectAtIndex(i);
+			config = unit2->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+			if (config->_isPlatform)
+			{
+				platformExist = true;
+				break;
+			}
+		}
+		if (!platformExist)
+		{
+			_mapOutputBuffer[idx] = _mapBuffer[idx];
+		}
+	}
+
     if (unit->_unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && unit->_unitCurrentParameters->_unitBaseParameters->GetSize() == 2)
     {
         UnitsInCell(x, y+1)->removeObject(unit);
@@ -99,6 +128,18 @@ void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
     if (units->indexOf(unit) == -1)
         units->addObject(unit);
+	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+	if (config->_isRoad || config->_isPlatform)
+	{
+		int idx = GetIndexForCoordinates(x, y);
+		_mapOutputBuffer[idx] = EXTENDED_GROUND_TYPE_ROAD;
+	}
+	else if (config->_isBridge)
+	{
+		int idx = GetIndexForCoordinates(x, y);
+		_mapOutputBuffer[idx] = EXTENDED_GROUND_TYPE_BRIDGE;		
+	}
+	
     if (unit->_unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && unit->_unitCurrentParameters->_unitBaseParameters->GetSize() == 2)
     {
         units = UnitsInCell(x, y+1);
@@ -117,22 +158,43 @@ void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
 
 GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y)
 {
-    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
-    if (units->GetCount() == 0) 
-        return NULL;
-    return units->objectAtIndex(0);
+	USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+	if (units->GetCount() == 0)
+		return NULL;
+	return units->objectAtIndex(0);
 }
 
-GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player)
+GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, bool selectedUnit)
 {
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
     if (units->GetCount() == 0)
         return NULL;
-    for (int i = 0; i < units->GetCount(); i++) {
+	GameUnit* result = NULL;
+    for (int i = 0; i < units->GetCount(); i++) 
+	{
         if ((!_player) || (units->objectAtIndex(i)->_owner_w == _player))
-            return units->objectAtIndex(i);
+		{
+			GameUnit* unit = units->objectAtIndex(i);
+			MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+			if (selectedUnit)
+			{
+				if (!config->_isCantSelect)
+				{
+					result = unit;
+					break;
+				}
+			}
+			else
+			{
+				result = unit;
+				if (!config->_isCantSelect)
+				{
+					break;
+				}
+			}		
+		}
     }
-    return NULL;
+    return result;
 }
 
 bool MatchMapAgregator::IsGroundUnitInPosition(const int x, const int y)
@@ -141,8 +203,9 @@ bool MatchMapAgregator::IsGroundUnitInPosition(const int x, const int y)
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
     for (int i = 0; i < units->GetCount(); i++)
     {
-        GameUnit* unit = units->objectAtIndex(0);
-        if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType != UNIT_MOVETYPE_AIR)
+        GameUnit* unit = units->objectAtIndex(i);
+		MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+        if ((config->_bMoveType != UNIT_MOVETYPE_AIR) && (!config->_isRoad) && (!config->_isBridge) && (!config->_isPlatform) && (!config->_isConnector))
         {
             result = true;
             break;
@@ -157,7 +220,7 @@ bool MatchMapAgregator::IsAirUnitInPosition(const int x, const int y)
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
     for (int i = 0; i < units->GetCount(); i++)
     {
-        GameUnit* unit = units->objectAtIndex(0);
+        GameUnit* unit = units->objectAtIndex(i);
         if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType == UNIT_MOVETYPE_AIR)
         {
             result = true;

@@ -133,7 +133,7 @@
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerResourceMap.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerUpgradeManager.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Interface\GameInteface.cpp" />
-    <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIParameterRow.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParameterRow.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParametersNode.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\MAXGame.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.cpp" />
@@ -224,7 +224,7 @@
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerResourceMap.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\PlayerInformation\PlayerUpgradeManager.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Interface\GameInteface.h" />
-    <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIParameterRow.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParameterRow.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParametersNode.h" />
     <ClInclude Include="..\..\MAX\Game\Game\MAXGame.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.h" />

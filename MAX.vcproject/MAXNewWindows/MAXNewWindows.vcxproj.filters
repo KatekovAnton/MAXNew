@@ -300,9 +300,6 @@
     <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParametersNode.cpp">
       <Filter>Game\Game\Interface\UnitParameterNode</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIParameterRow.cpp">
-      <Filter>Game\Game\Interface\UnitParameterNode</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\Pathfinder\PFWaveCell.cpp">
       <Filter>Game\Game\GameMatch\PathFinder</Filter>
     </ClCompile>
@@ -359,6 +356,9 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentUtils.cpp">
       <Filter>Game\Engine\MAXContetnLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParameterRow.cpp">
+      <Filter>Game\Game\Interface\UnitParameterNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -629,9 +629,6 @@
     <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.h">
       <Filter>Game\Game\Objects\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIParameterRow.h">
-      <Filter>Game\Game\Interface\UnitParameterNode</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParametersNode.h">
       <Filter>Game\Game\Interface\UnitParameterNode</Filter>
     </ClInclude>
@@ -697,6 +694,9 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentUtils.h">
       <Filter>Game\Engine\MAXContetnLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParameterRow.h">
+      <Filter>Game\Game\Interface\UnitParameterNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

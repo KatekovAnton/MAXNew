@@ -108,7 +108,8 @@ public:
     bool _isMine;
     bool _isInfantry;
     bool _isConnector;
-    bool _isCantCreate;
+	bool _isPlatform;
+    bool _canBuildHere;
     bool _isBridge;
     bool _isRoad;
     bool _isRetranslator;

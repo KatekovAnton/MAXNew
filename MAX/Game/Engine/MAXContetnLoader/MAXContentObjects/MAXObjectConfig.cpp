@@ -162,7 +162,7 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
         _isMine             = value[7] == 0x31;
         _isInfantry         = value[8] == 0x31;
         _isConnector        = value[9] == 0x31;
-        _isCantCreate       = value[10] == 0x31;
+        _canBuildHere       = value[10] == 0x31;
         _isBridge           = value[11] == 0x31;
         _isRoad             = value[12] == 0x31;
         _isRetranslator     = value[13] == 0x31;
@@ -186,6 +186,7 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
         _isSeeMines         = value[31] == 0x31;
         return;
     }
+	_isPlatform = _canBuildHere && _isBuilding && !_isConnector;
     
     if (key == "Parameters")
     {

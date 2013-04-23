@@ -313,14 +313,14 @@ void MAXGame::StartMatch()
         }
     }
     {
-        for (int i = 41; i <= 44; i++) {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 42, "Plat", 0);
+        for (int i = 28; i <= 47; i++) {
+            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 32, "Plat", 0);
             unit1->PlaceUnitOnMap();
         }
     }
     {
-        for (int i = 41; i <= 44; i++) {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 45, "Bridge", 0);
+        for (int i = 35; i <= 40; i++) {
+            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 32, "Bridge", 0);
             unit1->PlaceUnitOnMap();
         }
     }
@@ -454,7 +454,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
  //   printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
     
     
-    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL);// _currentPlayer_w->GetUnitInPosition(p);
+    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit != NULL);// _currentPlayer_w->GetUnitInPosition(p);
     if (_currentUnit && !_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
     {
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
@@ -502,7 +502,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
             if (!newCurrentUnit && !_unitMoved)
             {
-                newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL);
+                newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit != NULL);
             }
         }
     }
@@ -562,9 +562,9 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 					engine->SelectUnit(NULL);
 					_currentUnit->selectedGameObjectDelegate = NULL;
 					_currentUnit = NULL;
+					HidePathMap();
 				}				
 				_pathVisualizer->Clear();
-				HidePathMap();
             }
         }
     }

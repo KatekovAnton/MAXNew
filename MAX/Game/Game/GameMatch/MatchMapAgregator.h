@@ -42,7 +42,7 @@ public:
     void RemoveUnitFromCell(GameUnit *unit, const int x, const int y);
     void AddUnitToCell(GameUnit *unit, const int x, const int y);
     GameUnit* GetUnitInPosition(const int x, const int y);
-    GameUnit* GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player);
+    GameUnit* GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, bool selectedUnit);
     bool IsGroundUnitInPosition(const int x, const int y);
     bool IsAirUnitInPosition(const int x, const int y);
     EXTENDED_GROUND_TYPE *CalculateFieldForPlayer(GameMatchPlayer *player, GameUnit *unit);

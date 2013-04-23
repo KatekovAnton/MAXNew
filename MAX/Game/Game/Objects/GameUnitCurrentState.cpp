@@ -13,10 +13,10 @@
 GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
 :_unitBaseParameters(params)
 {
-    for (UNIT_PARAMETER_TYPE pt = UNIT_PARAMETER_TYPE_MIN; pt <= UNIT_PARAMETER_TYPE_MAX; pt++)
+    for (int pt = UNIT_PARAMETER_TYPE_MIN; pt <= UNIT_PARAMETER_TYPE_MAX; pt++)
     {
-        int val = _unitBaseParameters->GetParameterValue(pt);
-        SetParameterValue(pt, val);
+        int val = _unitBaseParameters->GetParameterValue((UNIT_PARAMETER_TYPE)pt);
+        SetParameterValue((UNIT_PARAMETER_TYPE)pt, val);
     }
 }
 
