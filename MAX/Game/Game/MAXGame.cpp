@@ -294,6 +294,18 @@ void MAXGame::StartMatch()
         GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 42, "turret", 0);
         unit1->PlaceUnitOnMap();
     }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(64, 42, "Zenit", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 42, "Arturret", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 42, "misturret", 0);
+        unit1->PlaceUnitOnMap();
+    }
     
     
     {
@@ -474,6 +486,13 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             {
                 newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL);
             }
+        }
+    }
+    else if (_currentUnit && _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
+    {
+        if (_currentUnit == newCurrentUnit)
+        {
+            newCurrentUnit = NULL; // deselect current unit
         }
     }
     if (!_unitMoved)

@@ -59,9 +59,9 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
 
     
     bodyOffset = 0;
-    headOffset = params_w->_isBuilding?(IsHasBody()?1:0):(IsHasBody()?8:0);
+    headOffset = params_w->_isBuilding?((IsHasBody())?1:0):(IsHasBody()?8:0);
     if(IsHasBody())
-        headFireOffset = 16;
+        headFireOffset = params_w->_isBuilding?9:16;
     else
     {
         if (params_w->_isAmphibious)
@@ -69,7 +69,8 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
         else
             headFireOffset = 8;
     }
-    params_w->_isMultifire = IsHasBody() && _material->_frameCount == 32;
+    params_w->_isMultifire = (IsHasBody() && _material->_frameCount == 32) || (params_w->_isBuilding && params_w->_pFireType == 3);
+    SetHeadDirection(0);
 }
 
 MAXUnitObject::~MAXUnitObject()

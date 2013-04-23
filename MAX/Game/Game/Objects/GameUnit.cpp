@@ -56,7 +56,7 @@ GameUnit::~GameUnit()
 
 void GameUnit::ChackForAnimanteBody()
 {
-    _shouldAnimateBody = (_isInProcess && _unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn) && !_disabledByInfiltrator && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer;
+    _shouldAnimateBody = (_isInProcess && _unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn) && !_disabledByInfiltrator && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_hasHead;
 }
 
 void GameUnit::SetDirection(int dir)
@@ -131,7 +131,10 @@ void GameUnit::CheckBodyAndShadow()
         //all passive-worked buildings, which cannot be topped by infiltrator
         if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isActiveBody)
         {
-            _unitObject->SetBodyOffset(1);
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_hasHead) 
+                _unitObject->SetBodyOffset(0);
+            else
+                _unitObject->SetBodyOffset(1);
         }
         return;
     };
