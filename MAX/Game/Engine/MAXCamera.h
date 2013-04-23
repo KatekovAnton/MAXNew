@@ -48,6 +48,8 @@ public:
     
     //set map bounds
     void SetMapSize(int w, int h);
+    
+    void SetPosition(const GLKVector3 &position);
     //scale camera, on touches
     void Scale(float deltaScale);
     //move camera

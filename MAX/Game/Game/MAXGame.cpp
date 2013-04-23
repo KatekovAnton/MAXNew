@@ -325,6 +325,7 @@ void MAXGame::StartMatch()
         }
     }
     
+    engine->SetCameraCenter(ccp(45, 45));
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(50, 64, "Scanner", 0);
         unit1->SetRandomDirection();

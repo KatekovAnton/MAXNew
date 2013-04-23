@@ -54,6 +54,13 @@ void MAXCamera::SetMapSize(int w, int h)
     maxScale = resultscale;
 }
 
+void MAXCamera::SetPosition(const GLKVector3 &position1)
+{
+    position = position1;
+    Move(0, 0);
+    changed = true;
+}
+
 void MAXCamera::Scale(float deltaScale)
 {
     minZoom = false;

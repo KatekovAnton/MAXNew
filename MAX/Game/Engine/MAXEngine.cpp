@@ -47,6 +47,7 @@ MAXEngine::MAXEngine()
 	:_delegate(NULL), _applyedPaletteIndex(-100), _applyedPaletteCount(0)
 {
     _renderSystem = new RenderSystem();
+    _first = true;
 }
 
 MAXEngine::~MAXEngine()
@@ -89,7 +90,6 @@ void MAXEngine::Init() {
     
     GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth()/_renderSystem->GetDisplay()->GetDisplayScale(), _renderSystem->GetDisplay()->GetDisplayHeight()/_renderSystem->GetDisplay()->GetDisplayScale());
     _camera = new MAXCamera(_screenRect,1.0);
-    _camera->position = GLKVector3Make(-10, -10, 0);
     
    
     
@@ -131,6 +131,21 @@ void MAXEngine::Init() {
     _resourceRenderer = NULL;
 	_pathZoneRenderer = NULL;
     _fogRenderer = NULL;
+}
+
+void MAXEngine::SetCameraCenter(const CCPoint &cell)
+{
+    if (!_map) {
+        return;
+    }
+    CCPoint result = ccp(_map->mapH/2, _map->mapW/2);
+    result.x -= cell.x;
+    result.y -= cell.y;
+    
+    result.x += 1;
+    result.y = -result.y;
+    
+    _camera->SetPosition(GLKVector3Make(result.x, result.y, 0));
 }
 
 void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
@@ -263,6 +278,10 @@ void MAXEngine::Update()
     
     _scene->EndFrame();
     _scene->UpdateScene();
+    if (_first) {
+        _camera->Move(0, 0);
+        _first = false;
+    }
     bool updategrid = _camera->changed;
     _camera->Update();
     _animationManager->Update();

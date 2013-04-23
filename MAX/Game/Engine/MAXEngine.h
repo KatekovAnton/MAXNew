@@ -42,7 +42,7 @@ public:
 };
 
 class MAXEngine : public RequestDelegate  {
-    
+    bool _first;
     
     RenderSystem        *_renderSystem;
     double                _elapsedTime;
@@ -110,6 +110,8 @@ public:
     
     double ElapsedTime() const {return _elapsedTime;};
     double FullTime() const {return _fullTime;};
+    
+    void SetCameraCenter(const CCPoint &cell);
     
     void Update();
     void Draw();
