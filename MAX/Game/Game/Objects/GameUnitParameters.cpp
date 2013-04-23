@@ -20,6 +20,7 @@ GameUnitParameters::GameUnitParameters(MAXObjectConfig            *config,
 :_config_w(config), _clanBonuses_w(clanBonuses), _researchManager_w(researchManager), _upgradeManager_w(upgradeManager), _version(1)
 {
     bool iv;
+    _pMaxFuel = config->_pFuel;
     for (int i = 0; i < kNrResearchAreas; i++) 
         CalcParams(i, iv);
 }
@@ -94,4 +95,45 @@ int GameUnitParameters::GetSize() const
     return _config_w->_bSize;
 }
 
+int GameUnitParameters::GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const
+{
+    int result = 0;
+    switch (parameterType)
+    {
+        case UNIT_PARAMETER_TYPE_SPEED:
+            result = _pMaxSpeed;
+            break;
+        case UNIT_PARAMETER_TYPE_HEALTH:
+            result = _pMaxHealth;
+            break;
+        case UNIT_PARAMETER_TYPE_ARMOR:
+            result = _pMaxArmor;
+            break;
+        case UNIT_PARAMETER_TYPE_ATTACK:
+            result = _pMaxAttack;
+            break;
+        case UNIT_PARAMETER_TYPE_SHOTS:
+            result = _pMaxShots;
+            break;
+        case UNIT_PARAMETER_TYPE_GAS:
+            result = _pMaxFuel;
+            break;
+        case UNIT_PARAMETER_TYPE_RANGE:
+            result = _pMaxRange;
+            break;
+        case UNIT_PARAMETER_TYPE_SCAN:
+            result = _pMaxScan;
+            break;
+        case UNIT_PARAMETER_TYPE_AMMO:
+            result = _pMaxAmmo;
+            break;
+        case UNIT_PARAMETER_TYPE_COST:
+            result = _pMaxCost;
+            break;
+            
+        default:
+            break;
+    }
+    return result;
+}
 

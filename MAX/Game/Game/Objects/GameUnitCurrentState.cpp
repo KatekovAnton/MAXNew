@@ -15,7 +15,7 @@ GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
 {
     for (UNIT_PARAMETER_TYPE pt = UNIT_PARAMETER_TYPE_MIN; pt <= UNIT_PARAMETER_TYPE_MAX; pt++)
     {
-        int val = _unitBaseParameters->GetConfig()->GetParameterValue(pt);
+        int val = _unitBaseParameters->GetParameterValue(pt);
         SetParameterValue(pt, val);
     }
 }
@@ -59,6 +59,53 @@ int GameUnitCurrentState::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
             break;
         case UNIT_PARAMETER_TYPE_COST:
             result = _pCost;
+            break;
+            
+        default:
+            break;
+    }
+    return result;
+}
+
+int GameUnitCurrentState::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType)
+{
+    int result = 0;
+    switch (parameterType)
+    {
+        case UNIT_PARAMETER_TYPE_SPEED:
+            result = _unitBaseParameters->_pMaxSpeed;
+            break;
+        case UNIT_PARAMETER_TYPE_HEALTH:
+            result = _unitBaseParameters->_pMaxHealth;
+            break;
+        case UNIT_PARAMETER_TYPE_ARMOR:
+            result = _unitBaseParameters->_pMaxArmor;
+            break;
+        case UNIT_PARAMETER_TYPE_ATTACK:
+            result = _unitBaseParameters->_pMaxAttack;
+            break;
+        case UNIT_PARAMETER_TYPE_SHOTS:
+            result = _unitBaseParameters->_pMaxShots;
+            break;
+        case UNIT_PARAMETER_TYPE_GAS:
+            result = _unitBaseParameters->_pMaxFuel;
+            break;
+        case UNIT_PARAMETER_TYPE_RANGE:
+            result = _unitBaseParameters->_pMaxRange;
+            break;
+        case UNIT_PARAMETER_TYPE_SCAN:
+            result = _unitBaseParameters->_pMaxScan;
+            break;
+        case UNIT_PARAMETER_TYPE_AMMO:
+            result = _unitBaseParameters->_pMaxAmmo;
+            break;
+        case UNIT_PARAMETER_TYPE_COST:
+            result = _unitBaseParameters->_pMaxCost;
+            break;
+        case UNIT_PARAMETER_TYPE_CARGO_PLANES:
+        case UNIT_PARAMETER_TYPE_CARGO_SHIPS:
+        case UNIT_PARAMETER_TYPE_CARGO_UNITS:
+            result = 0;
             break;
             
         default:
@@ -114,10 +161,10 @@ void GameUnitCurrentState::StartNewTurn()
 
     // temporary solution
     parameterType = UNIT_PARAMETER_TYPE_SPEED;
-    val = _unitBaseParameters->GetConfig()->GetParameterValue(parameterType);
+    val = GetMaxParameterValue(parameterType);
     SetParameterValue(parameterType, val);
     
     parameterType = UNIT_PARAMETER_TYPE_SHOTS;
-    val = _unitBaseParameters->GetConfig()->GetParameterValue(parameterType);
+    val = GetMaxParameterValue(parameterType);
     SetParameterValue(parameterType, val);
 }

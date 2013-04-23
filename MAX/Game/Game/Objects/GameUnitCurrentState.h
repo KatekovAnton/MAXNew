@@ -36,6 +36,7 @@ public:
     ~GameUnitCurrentState();
 
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
+    int GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType);
     void SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue);
     
     void StartNewTurn();

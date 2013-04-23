@@ -404,7 +404,12 @@ MAXObjectConfig* GameUnit::GetBaseConfig()
     return _unitCurrentParameters->_unitBaseParameters->GetConfig();
 }
 
-int GameUnit::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
+int GameUnit::GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const
+{
+    return _unitCurrentParameters->GetMaxParameterValue(parameterType);
+}
+ 
+int GameUnit::GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const
 {
     return _unitCurrentParameters->GetParameterValue(parameterType);
 }
@@ -498,3 +503,4 @@ CCPoint GameUnit::GetFakeCenter() const
 	PFWaveCell* cell = movePath[0];
 	return CCPointMake(cell->x * 64 + 32, cell->y * 64 + 32);
 }
+

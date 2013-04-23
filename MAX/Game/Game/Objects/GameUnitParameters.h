@@ -10,6 +10,7 @@
 #define __MAX__GameUnitParameters__
 
 #include <iostream>
+#include "miniPrefix.h"
 
 class MAXObjectConfig;
 class MAXClanConfig;
@@ -57,6 +58,8 @@ public:
     bool GetIsSurvivor() const;
     bool GetIsBuilding() const;
     int GetSize() const;
+    
+    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
 };
 
 #endif /* defined(__MAX__GameUnitParameters__) */

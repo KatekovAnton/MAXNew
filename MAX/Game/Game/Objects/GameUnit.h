@@ -90,7 +90,8 @@ public:
     
     std::vector<UNIT_PARAMETER_TYPE> GetParameterList();
     MAXObjectConfig* GetBaseConfig();
-    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
+    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
+    int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;
     
 #pragma mark - Fire methods
     bool IsInProcess() const {return _isInProcess;}

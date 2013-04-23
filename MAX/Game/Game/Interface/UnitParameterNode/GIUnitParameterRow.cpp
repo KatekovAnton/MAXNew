@@ -63,7 +63,7 @@ void GIUnitParameterRow::SetImageForParameterType(UNIT_PARAMETER_TYPE type, int 
         {name = MAX_IMAGE_AMMO; text = "AMMO";}break;
             
             //storage
-        case UNIT_PARAMETER_TYPE_FUEL:
+        case UNIT_PARAMETER_TYPE_GAS:
         {name = MAX_IMAGE_FUEL; text = "FUEL";}break;
         case UNIT_PARAMETER_TYPE_GOLD:
         {name = MAX_IMAGE_GOLD; text = "GOLD";}break;

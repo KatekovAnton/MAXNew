@@ -39,7 +39,7 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
         return;
     
     MAXObjectConfig* config = unit->GetBaseConfig();
-    std::vector<UNIT_PARAMETER_TYPE> parameters = config->GetParameterList();
+    std::vector<UNIT_PARAMETER_TYPE> parameters = config->GetShortParameterList();
     for (int i = 0; i < parameters.size(); i++)
     {
         UNIT_PARAMETER_TYPE param = parameters[i];
@@ -48,7 +48,7 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
         addChild(row1);
         row1->setPosition(ccp(0, _topStart-GIUnitParameterRow::RowHeight() * (i + 1)));
         row1->SetImageForParameterType(param, 0);
-        row1->SetMaxValue(config->GetParameterValue(param));
+        row1->SetMaxValue(unit->GetParameterMaxValue(param));
         row1->SetCurrentValue(unit->GetParameterValue(param));
         _rows.push_back(row1);
     }
