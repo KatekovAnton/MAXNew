@@ -21,16 +21,12 @@ public:
     
     GameUnitParameters* _unitBaseParameters;
     
-    int _pAttack;
     int _pSpeed;
     int _pHealth;
     int _pArmor;
     int _pShots;
     int _pFuel;
-    int _pRange;
-    int _pScan;
     int _pAmmo;
-    int _pCost;
     
     GameUnitCurrentState(GameUnitParameters* params);
     ~GameUnitCurrentState();

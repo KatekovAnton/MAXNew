@@ -39,26 +39,15 @@ int GameUnitCurrentState::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
         case UNIT_PARAMETER_TYPE_ARMOR:
             result = _pArmor;
             break;
-        case UNIT_PARAMETER_TYPE_ATTACK:
-            result = _pAttack;
-            break;
         case UNIT_PARAMETER_TYPE_SHOTS:
             result = _pShots;
             break;
         case UNIT_PARAMETER_TYPE_GAS:
             result = _pFuel;
             break;
-        case UNIT_PARAMETER_TYPE_RANGE:
-            result = _pRange;
-            break;
-        case UNIT_PARAMETER_TYPE_SCAN:
-            result = _pScan;
-            break;
         case UNIT_PARAMETER_TYPE_AMMO:
             result = _pAmmo;
             break;
-        case UNIT_PARAMETER_TYPE_COST:
-            result = _pCost;
             break;
             
         default:
@@ -127,26 +116,15 @@ void GameUnitCurrentState::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, 
         case UNIT_PARAMETER_TYPE_ARMOR:
             _pArmor = newValue;
             break;
-        case UNIT_PARAMETER_TYPE_ATTACK:
-            _pAttack = newValue;
-            break;
         case UNIT_PARAMETER_TYPE_SHOTS:
             _pShots = newValue;
             break;
         case UNIT_PARAMETER_TYPE_GAS:
             _pFuel = newValue;
             break;
-        case UNIT_PARAMETER_TYPE_RANGE:
-            _pRange = newValue;
-            break;
-        case UNIT_PARAMETER_TYPE_SCAN:
-            _pScan = newValue;
-            break;
         case UNIT_PARAMETER_TYPE_AMMO:
             _pAmmo = newValue;
             break;
-        case UNIT_PARAMETER_TYPE_COST:
-            _pCost = newValue;
             break;
             
         default:
