@@ -174,7 +174,7 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 		delete _pathZoneRenderer;
 	}
 	_pathZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
-	_pathZoneRenderer->color = GLKVector4Make(0., 0.8, 0., 0.3);
+	_pathZoneRenderer->color = GLKVector4Make(0., 0.8, 0., 0.2);
 }
 
 void MAXEngine::ClearMap()
