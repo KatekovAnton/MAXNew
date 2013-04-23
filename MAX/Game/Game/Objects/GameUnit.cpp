@@ -21,6 +21,7 @@
 #include "GameMatch.h"
 #include "GameMap.h"
 #include "PFWaveCell.h"
+#include "MatchMapAgregator.h"
 
 using namespace cocos2d;
 
@@ -140,14 +141,14 @@ void GameUnit::CheckBodyAndShadow()
     };
     
     
-    GROUND_TYPE groundType = game->_match->_map->GroundTypeAtPoint(_unitCell);
+    EXTENDED_GROUND_TYPE groundType = game->_match->_agregator->GroundTypeAtXY(_unitCell.x, _unitCell.y);
     if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
     {
         _unitObject->SetBodyOffset((_isInProcess && (!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn || !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isActiveBody))?1:0);
     }
     else
     {
-        if (groundType == GROUND_TYPE_WATER)
+        if (groundType == EXTENDED_GROUND_TYPE_WATER)
         {
             if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater && !_detected)
             {
