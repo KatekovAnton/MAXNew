@@ -89,7 +89,7 @@ void MAXEngine::Init() {
     
     GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth()/_renderSystem->GetDisplay()->GetDisplayScale(), _renderSystem->GetDisplay()->GetDisplayHeight()/_renderSystem->GetDisplay()->GetDisplayScale());
     _camera = new MAXCamera(_screenRect,1.0);
-    
+    _camera->position = GLKVector3Make(-10, -10, 0);
     
    
     

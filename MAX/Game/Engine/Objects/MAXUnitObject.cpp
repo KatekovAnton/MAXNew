@@ -391,6 +391,9 @@ void MAXUnitObject::SetBodyDirection(int state)
 
 void MAXUnitObject::SetBodyOffset(int offset)
 {
+    if (_material->_frameCount == 1) 
+        return;
+    
     bodyOffset = offset;
     bodyIndex = purebodyIndex + bodyOffset;
     if (!IsHasBody()) 

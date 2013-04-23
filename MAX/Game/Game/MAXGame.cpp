@@ -306,6 +306,12 @@ void MAXGame::StartMatch()
         GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 42, "misturret", 0);
         unit1->PlaceUnitOnMap();
     }
+    {
+        for (int i = 55; i <= 62; i++) {
+            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 43, "Road", 0);
+            unit1->PlaceUnitOnMap();
+        }
+    }
     
     
     {

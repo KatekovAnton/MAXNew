@@ -99,7 +99,8 @@ void MAXStatusRenderer::DrawCircles()
 				center = engine->WorldCoordinatesToScreenCocos(object->GetObjectCenterCoordinatesFromMatrix(object->CalculateUnitCenterMatrix()));
 			}
             float scan = delegate->GetScan() - 0.5;
-            drawer->DrawCircle(center, scan * oneCellRadius + oneCellRadius * 0.49, 0, 30 + delegate->GetScan(), false);
+            if (scan>0)
+                drawer->DrawCircle(center, scan * oneCellRadius + oneCellRadius * 0.49, 0, 30 + delegate->GetScan(), false);
         }
     }
     
