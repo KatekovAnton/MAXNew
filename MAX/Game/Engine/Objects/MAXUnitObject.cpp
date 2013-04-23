@@ -46,7 +46,7 @@ GLKVector2 shipOffsets[] = {
 GLKVector2 planeShadowOffset = {1.0, -1.0};
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config)
-:MAXObject(config), _renderAspect(renderObject),_material(material), changed(true), fireing(false), _lastHeadAnimTime(0), _delegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0)
+:MAXObject(config), _renderAspect(renderObject),_material(material), changed(true), fireing(false), _lastHeadAnimTime(0), _delegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0), _connectorsChanged(false)
 {
     
     _needAirOffset = config->_isPlane;
@@ -78,6 +78,29 @@ MAXUnitObject::~MAXUnitObject()
     delete _renderAspect;
 }
 
+int MAXUnitObject::FrameForConnectorLocation(MAXUNITOBJECT_CONNECTOR connector) const
+{
+    return 0;
+}
+
+void MAXUnitObject::AddConnector(MAXUNITOBJECT_CONNECTOR connector)
+{
+    _connectorsChanged = true;
+}
+
+void MAXUnitObject::RemoveConnector(MAXUNITOBJECT_CONNECTOR connector)
+{
+    _connectorsChanged = true;
+}
+
+void MAXUnitObject::UpdateConnectors()
+{
+    if (!_connectorsChanged)
+        return;
+    _connectorsChanged = false;
+    
+}
+
 void MAXUnitObject::LastUpdate(bool low)
 {
     if (!GetIsOnScreen())
@@ -93,6 +116,7 @@ void MAXUnitObject::LastUpdate(bool low)
         if (params_w->_hasHead)
             bodyRenderMatrix = CalculateBodyRenderMatrix();
         headRenderMatrix = CalculateHeadRenderMatrix();
+        UpdateConnectors();
     }
 }
 

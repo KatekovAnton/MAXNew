@@ -28,7 +28,17 @@ enum
     MAXUnitObjectTypeTurreted
 } typedef MAXUnitObjectType;
 
-
+enum
+{
+    MAXUNITOBJECT_CONNECTOR1,
+    MAXUNITOBJECT_CONNECTOR2,
+    MAXUNITOBJECT_CONNECTOR3,
+    MAXUNITOBJECT_CONNECTOR4,
+    MAXUNITOBJECT_CONNECTOR5,
+    MAXUNITOBJECT_CONNECTOR6,
+    MAXUNITOBJECT_CONNECTOR7,
+    MAXUNITOBJECT_CONNECTOR8
+} typedef MAXUNITOBJECT_CONNECTOR;
 
 class MAXUnitObject : public MAXObject {
 
@@ -53,7 +63,18 @@ class MAXUnitObject : public MAXObject {
     
     double _lastHeadAnimTime;
     
+    
+    vector<int>         _connectorFrames;
+    vector<GLKMatrix4>  _connectorMatrices;
+    bool                _connectorsChanged;
+    
+    
 public:
+    
+    int FrameForConnectorLocation(MAXUNITOBJECT_CONNECTOR connector) const;
+    void AddConnector(MAXUNITOBJECT_CONNECTOR connector);
+    void RemoveConnector(MAXUNITOBJECT_CONNECTOR connector);
+    void UpdateConnectors();
     
     GLKVector4 playerColor;
     

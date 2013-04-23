@@ -159,7 +159,7 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 		delete _pathZoneRenderer;
 	}
 	_pathZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
-	_pathZoneRenderer->color = GLKVector4Make(0, 1.0, 0, 0.8);
+	_pathZoneRenderer->color = GLKVector4Make(0., 0.8, 0., 0.3);
 }
 
 void MAXEngine::ClearMap()
@@ -397,7 +397,7 @@ void MAXEngine::DrawPathZone()
     if (!drawPathZone) 
         return;
     
-    glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	_shader = _pathZoneShader;
 	glUseProgram(_shader->GetProgram());
 	_shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
