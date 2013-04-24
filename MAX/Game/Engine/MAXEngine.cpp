@@ -15,6 +15,7 @@
 #include "MAXUnitSelection.h"
 #include "Utils.h"
 
+#include "miniPrefix.h"
 #include "cocos2d.h"
 #include "EngineMesh.h"
 #include "Framebuffer.h"
@@ -224,6 +225,11 @@ void MAXEngine::AddFogCell(const int x, const int y, const bool fog)
         _fogRenderer->RemoveCell(x, y);
 }
 
+void MAXEngine::SetPathZoneLevel(OBJECT_LEVEL level)
+{
+	//_pathZoneRenderer->AddCell(x, y);
+}
+
 void MAXEngine::AddPathZoneCell(const int x, const int y)
 {
 	_pathZoneRenderer->AddCell(x, y);
@@ -381,6 +387,8 @@ void MAXEngine::DrawUnits(bool highLevel)
         _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
         const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
         
+        OBJECT_LEVEL level = OBJECT_LEVEL_UNDERWATER;
+        
         MAXSCL->unitMesh->Bind();
         for (int i = 0; i < objects->GetCount(); i++)
         {
@@ -392,6 +400,7 @@ void MAXEngine::DrawUnits(bool highLevel)
                 object->Draw(_shader);
                 MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus(object);
             }
+            level = (OBJECT_LEVEL)object->params_w->_bLevel;
         }
         MAXSCL->unitMesh->Unbind();
     }
