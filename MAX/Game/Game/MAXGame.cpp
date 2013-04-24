@@ -313,7 +313,11 @@ void MAXGame::StartMatch()
         }
     }
     {
-        for (int i = 28; i <= 47; i++) {
+        for (int i = 28; i <= 34; i++) {
+            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 32, "Plat", 0);
+            unit1->PlaceUnitOnMap();
+        }
+        for (int i = 41; i <= 47; i++) {
             GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 32, "Plat", 0);
             unit1->PlaceUnitOnMap();
         }
