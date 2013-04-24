@@ -320,8 +320,9 @@ void MAXEngine::Draw()
     DrawGround();
     glEnable(GL_BLEND);
     DrawGrid();
+    DrawUnits(false);
 	DrawPathZone();
-    DrawUnits();
+    DrawUnits(true);
     DrawResourceMap();
     DrawFog();
     _unitSelection->Draw();
@@ -346,8 +347,12 @@ void MAXEngine::DrawGround()
     glActiveTexture(GL_TEXTURE0);
 }
 
-void MAXEngine::DrawUnits()
+void MAXEngine::DrawUnits(bool highLevel)
 {
+#if !DRAW_UNIT_HI_LO
+    if (!highLevel)
+        return;
+#endif
     _applyedPaletteIndex = -100;
     _applyedPaletteCount = 0;
 
@@ -379,8 +384,14 @@ void MAXEngine::DrawUnits()
         MAXSCL->unitMesh->Bind();
         for (int i = 0; i < objects->GetCount(); i++)
         {
-            objects->objectAtIndex(i)->Draw(_shader);
-            MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus((MAXUnitObject*)objects->objectAtIndex(i));
+            MAXUnitObject* object = (MAXUnitObject*)objects->objectAtIndex(i);
+#if DRAW_UNIT_HI_LO
+            if (highLevel == object->_highLevel)
+#endif
+            {
+                object->Draw(_shader);
+                MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus(object);
+            }
         }
         MAXSCL->unitMesh->Unbind();
     }

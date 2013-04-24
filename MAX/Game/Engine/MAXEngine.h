@@ -13,6 +13,8 @@
 #include "RequestDelegate.h"
 #include "miniPrefix.h"
 
+#define DRAW_UNIT_HI_LO 1
+
 using namespace Utils;
 using namespace cocos2d;
 using namespace std;
@@ -117,7 +119,7 @@ public:
     void Draw();
     void DrawLine();
     void DrawGround();
-    void DrawUnits();
+    void DrawUnits(bool highLevel);
     void DrawResourceMap();
     void DrawFog();
 	void DrawPathZone();

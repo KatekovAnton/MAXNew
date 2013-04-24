@@ -93,6 +93,7 @@ public:
     float _airOffsetMult;
     bool _needShipOffset;
     bool _needShadow;
+    bool _highLevel;
     
     virtual GLKVector2 GetDeltaPosition() const;
     

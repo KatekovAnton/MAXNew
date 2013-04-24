@@ -53,6 +53,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     _needShipOffset = config->_isShip && !config->_isBuilding;
     _airOffsetMult = 1.0;
     _needShadow = false;
+    _highLevel = (config->_bLevel >= OBJECT_LEVEL_OVERGROUND);
     
     _random = nextDoubleMax(1000);
     _playerId = 0;
