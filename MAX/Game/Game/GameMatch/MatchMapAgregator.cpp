@@ -81,21 +81,36 @@ int MatchMapAgregator::Height()
     return _map_w->_h;
 }
 
+void MatchMapAgregator::UpdateBridgeAt(const int x, const int y, bool isLift)
+{
+	USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+	for (int i = 0; i < units->GetCount(); i++)
+	{
+		GameUnit *unit2 = units->objectAtIndex(i);
+		if (unit2->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBridge)
+		{
+			if (isLift)
+				unit2->LiftBridge();
+			else
+				unit2->DropBridge();
+			break;
+		}
+	}
+}
+
 #pragma mark - unit events
 
 void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const int y)
 {
     UnitsInCell(x,y)->removeObject(unit);
 	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+	int idx = GetIndexForCoordinates(x, y);
 	if (config->_isPlatform || config->_isBridge)
 	{
-		int idx = GetIndexForCoordinates(x, y);
 		_mapOutputBuffer[idx] = _mapBuffer[idx];
 	}
 	else if (config->_isRoad)
 	{
-		int idx = GetIndexForCoordinates(x, y);
-		 
 		// Check if no more platform exist in the cell. It is possible construct road above platform
 		bool platformExist = false;
 		USimpleContainer<GameUnit*> *units = _unitsInCells_w[idx];
@@ -115,6 +130,11 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 		}
 	}
 
+	if ((_mapOutputBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA))
+	{
+		UpdateBridgeAt(x, y, false);
+	}
+
     if (unit->_unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && unit->_unitCurrentParameters->_unitBaseParameters->GetSize() == 2)
     {
         UnitsInCell(x, y+1)->removeObject(unit);
@@ -126,17 +146,22 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
 {
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
-    if (units->indexOf(unit) == -1)
-        units->addObject(unit);
 	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+	int idx = GetIndexForCoordinates(x, y);
+	if ((_mapOutputBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA))
+	{
+		UpdateBridgeAt(x, y, true);
+	}
+	if (units->indexOf(unit) == -1)
+		units->addObject(unit);
+
 	if (config->_isRoad || config->_isPlatform)
 	{
-		int idx = GetIndexForCoordinates(x, y);
 		_mapOutputBuffer[idx] = EXTENDED_GROUND_TYPE_ROAD;
 	}
 	else if (config->_isBridge)
 	{
-		int idx = GetIndexForCoordinates(x, y);
+		
 		_mapOutputBuffer[idx] = EXTENDED_GROUND_TYPE_BRIDGE;		
 	}
 	

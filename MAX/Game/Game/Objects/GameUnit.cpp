@@ -97,6 +97,16 @@ void GameUnit::Hide()
         _effectUnder->Hide();
 }
 
+void GameUnit::LiftBridge()
+{
+	printf("LiftBridge\n");
+}
+
+void GameUnit::DropBridge()
+{
+	printf("DropBridge\n");
+}
+
 void GameUnit::PlaceUnitOnMap()
 {
     if (_isPlacedOnMap) 

@@ -27,6 +27,8 @@ class MatchMapAgregator {
     EXTENDED_GROUND_TYPE* _mapAirBuffer;
     EXTENDED_GROUND_TYPE* _mapOutputBuffer;
     
+private:
+	void UpdateBridgeAt(const int x, const int y, bool isLift);
 public:
     USimpleContainer<GameUnit*> *UnitsInCell(const int x, const int y) const;
     int GetIndexForCoordinates(const int x, const int y) const;
