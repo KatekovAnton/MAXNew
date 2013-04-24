@@ -572,7 +572,9 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
         }
     }
-    
+    if (_currentUnit) {
+        engine->SetPathZoneLevel((OBJECT_LEVEL)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel);
+    }
 }
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)

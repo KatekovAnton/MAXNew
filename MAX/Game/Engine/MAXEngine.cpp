@@ -132,6 +132,8 @@ void MAXEngine::Init() {
     _resourceRenderer = NULL;
 	_pathZoneRenderer = NULL;
     _fogRenderer = NULL;
+    
+    _pathZoneRendererLevel = OBJECT_LEVEL_OVERAIR;
 }
 
 void MAXEngine::SetCameraCenter(const CCPoint &cell)
@@ -223,11 +225,6 @@ void MAXEngine::AddFogCell(const int x, const int y, const bool fog)
         _fogRenderer->AddCell(x, y);
     else
         _fogRenderer->RemoveCell(x, y);
-}
-
-void MAXEngine::SetPathZoneLevel(OBJECT_LEVEL level)
-{
-	//_pathZoneRenderer->AddCell(x, y);
 }
 
 void MAXEngine::AddPathZoneCell(const int x, const int y)
@@ -326,9 +323,7 @@ void MAXEngine::Draw()
     DrawGround();
     glEnable(GL_BLEND);
     DrawGrid();
-    DrawUnits(false);
-	DrawPathZone();
-    DrawUnits(true);
+    DrawUnits();
     DrawResourceMap();
     DrawFog();
     _unitSelection->Draw();
@@ -353,16 +348,14 @@ void MAXEngine::DrawGround()
     glActiveTexture(GL_TEXTURE0);
 }
 
-void MAXEngine::DrawUnits(bool highLevel)
+void MAXEngine::DrawUnits()
 {
-#if !DRAW_UNIT_HI_LO
-    if (!highLevel)
-        return;
-#endif
     _applyedPaletteIndex = -100;
     _applyedPaletteCount = 0;
-
+    const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
+    bool drawedPathZone = false;
     
+
     
     
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -372,11 +365,27 @@ void MAXEngine::DrawUnits(bool highLevel)
         glUseProgram(_shader->GetProgram());
         _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
         _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-        const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
+        
+        
         
         MAXSCL->unitMesh->Bind();
         for (int i = 0; i < objects->GetCount(); i++)
-            objects->objectAtIndex(i)->DrawLow(_shader);
+        {
+            MAXUnitObject* object = (MAXUnitObject*)objects->objectAtIndex(i);
+            OBJECT_LEVEL currentLevel =(OBJECT_LEVEL)object->params_w->_bLevel;
+            if (currentLevel > _pathZoneRendererLevel && drawPathZone && !drawedPathZone) {
+                MAXSCL->unitMesh->Unbind();
+                DrawPathZone();
+                
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                _shader = _unitLowShader;
+                glUseProgram(_shader->GetProgram());
+                MAXSCL->unitMesh->Bind();
+                drawedPathZone = true;
+            }
+            
+            object->DrawLow(_shader);
+        }
         MAXSCL->unitMesh->Unbind();
     }
     else
@@ -385,7 +394,6 @@ void MAXEngine::DrawUnits(bool highLevel)
         glUseProgram(_shader->GetProgram());
         _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
         _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-        const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
         
         OBJECT_LEVEL level = OBJECT_LEVEL_UNDERWATER;
         
@@ -393,18 +401,31 @@ void MAXEngine::DrawUnits(bool highLevel)
         for (int i = 0; i < objects->GetCount(); i++)
         {
             MAXUnitObject* object = (MAXUnitObject*)objects->objectAtIndex(i);
-#if DRAW_UNIT_HI_LO
-            if (highLevel == object->_highLevel)
-#endif
-            {
-                object->Draw(_shader);
-                MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus(object);
+            OBJECT_LEVEL currentLevel =(OBJECT_LEVEL)object->params_w->_bLevel;
+            //NOTE
+            if (currentLevel > _pathZoneRendererLevel && drawPathZone && !drawedPathZone) {
+                MAXSCL->unitMesh->Unbind();
+                DrawPathZone();
+                
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                _shader = _unitShader;
+                glUseProgram(_shader->GetProgram());
+                MAXSCL->unitMesh->Bind();
+                drawedPathZone = true;
             }
+
+            
+            object->Draw(_shader);
+            MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus(object);
+            
             level = (OBJECT_LEVEL)object->params_w->_bLevel;
         }
         MAXSCL->unitMesh->Unbind();
     }
     glActiveTexture(GL_TEXTURE0);
+    if (!drawedPathZone && drawPathZone) {
+        DrawPathZone();
+    }
    // printf("%d\n",_applyedPaletteCount);
 }
 

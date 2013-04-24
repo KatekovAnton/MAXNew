@@ -13,8 +13,6 @@
 #include "RequestDelegate.h"
 #include "miniPrefix.h"
 
-#define DRAW_UNIT_HI_LO 1
-
 using namespace Utils;
 using namespace cocos2d;
 using namespace std;
@@ -65,11 +63,13 @@ class MAXEngine : public RequestDelegate  {
     float             _color;
     
     bool lowRender;
+    OBJECT_LEVEL _pathZoneRendererLevel;
 public:
     
     MAXResourceMapRenderer  *_resourceRenderer;
     MAXSolidTileRenderer    *_fogRenderer;
 	MAXSolidTileRenderer    *_pathZoneRenderer;
+    
     
     MAXEngineDelegate   *_delegate;
     
@@ -106,7 +106,7 @@ public:
     void AddResourceCell(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
     void AddFogCell(const int x, const int y, const bool fog);
 	void AddPathZoneCell(const int x, const int y);
-    void SetPathZoneLevel(OBJECT_LEVEL level);
+    void SetPathZoneLevel(OBJECT_LEVEL level) { _pathZoneRendererLevel = level; };
 	void ClearPathZone();
     
     void RunLoop(double delta);
@@ -120,7 +120,7 @@ public:
     void Draw();
     void DrawLine();
     void DrawGround();
-    void DrawUnits(bool highLevel);
+    void DrawUnits();
     void DrawResourceMap();
     void DrawFog();
 	void DrawPathZone();
