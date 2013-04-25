@@ -298,9 +298,11 @@ void GameUnit::FollowPath(void)
         {
             if (move)
             {
-                MAXANIMATION_CURVE curve = GetCurveForStep(pathIndex - pi - 1, pathIndex - pi); // debug it
+                MAXANIMATION_CURVE curve = GetCurveForStep(0, pathIndex - pi);
                 move->_moveCurve = curve;
-                // update MoveFactor
+				PFWaveCell* cell2 = movePath[pi + 1];
+				float moveFactor = cell2->cost * 10.0 / _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed; // change to current max speed
+				move->SetMoveFactor(moveFactor);
             }
             break;
         }
