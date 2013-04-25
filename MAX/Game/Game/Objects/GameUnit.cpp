@@ -209,7 +209,7 @@ void GameUnit::SetPath(std::vector<PFWaveCell*> path)
     pathIsTemp = true;
 	if (movePath.size() > 1)
 	{
-        pathIndex = movePath.size() - 2;
+        pathIndex = movePath.size() - 2; // last value is current position
 	}
 	else
 	{
@@ -254,8 +254,6 @@ void GameUnit::ConfirmCurrentPath()
 {
 	if (movePath.size() > 1)
 	{
-		pathIndex = movePath.size() - 2; // last value is current position
-
 		if (selectedGameObjectDelegate)
 			selectedGameObjectDelegate->onUnitStartMove(this);
 
