@@ -26,7 +26,7 @@
 using namespace cocos2d;
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
-:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL), _disabledByInfiltrator(false)
+:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL), _disabledByInfiltrator(false), pathIndex(0), pathIsTemp(true)
 {
     unitObject->_delegate_w = this;
     unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
@@ -206,18 +206,34 @@ void GameUnit::LiftPlane()
 void GameUnit::SetPath(std::vector<PFWaveCell*> path)
 {
     movePath = path;
+    pathIsTemp = true;
 	if (movePath.size() > 1)
 	{
+        pathIndex = movePath.size() - 2;
 	}
 	else
 	{
 		path.clear();
+        pathIndex = 0;
 	}
+}
+
+void GameUnit::ClearTempPath()
+{
+    if (pathIsTemp)
+    {
+        movePath.clear();
+    }
 }
 
 std::vector<PFWaveCell*> GameUnit::GetPath()
 {
 	return movePath;
+}
+
+int GameUnit::GetPathIndex()
+{
+    return pathIndex;
 }
 
 bool GameUnit::IsPathTargetedTo(const int x, const int y)
@@ -243,9 +259,23 @@ void GameUnit::ConfirmCurrentPath()
 		if (selectedGameObjectDelegate)
 			selectedGameObjectDelegate->onUnitStartMove(this);
 
-
+        pathIsTemp = false;
 		FollowPath();
 	}
+}
+
+MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
+{
+    MAXANIMATION_CURVE curve;
+    if (pathSize == 1)
+        curve = MAXANIMATION_CURVE_EASE_IN_OUT;
+    else if (step == pathSize - 1)
+        curve = MAXANIMATION_CURVE_EASE_IN;
+    else if (step == 0)
+        curve = MAXANIMATION_CURVE_EASE_OUT;
+    else
+        curve = MAXANIMATION_CURVE_EASE_LINEAR;
+    return curve;
 }
 
 void GameUnit::FollowPath(void)
@@ -257,10 +287,24 @@ void GameUnit::FollowPath(void)
     int bodyIndex = _unitObject->GetBodyIndex();
     int pi = pathIndex;
     bool first = true;
+    int speed = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10; // rework to current data
+    MAXAnimationObjectUnit* move = NULL;
     while (pi >= 0)
     {
         PFWaveCell* cell = movePath[pi];
-        int pathSize = movePath.size();
+        
+        speed -= cell->cost;
+        if (speed < 0)
+        {
+            if (move)
+            {
+                MAXANIMATION_CURVE curve = GetCurveForStep(pathIndex - pi - 1, pathIndex - pi); // debug it
+                move->_moveCurve = curve;
+                // update MoveFactor
+            }
+            break;
+        }
+        
         CCPoint destination = CCPointMake(cell->x, cell->y);
         int neededBodyIndex = MAXObject::CalculateImageIndex(pos, destination);
         if (neededBodyIndex != bodyIndex)
@@ -271,17 +315,9 @@ void GameUnit::FollowPath(void)
             sequence->AddAnimation(turn);
             bodyIndex = neededBodyIndex;
         }
-        MAXANIMATION_CURVE curve;
-        if (pathSize == 2)
-            curve = MAXANIMATION_CURVE_EASE_IN_OUT;
-        else if (pi == pathSize - 2)
-            curve = MAXANIMATION_CURVE_EASE_IN;
-        else if (pi == 0)
-            curve = MAXANIMATION_CURVE_EASE_OUT;
-        else
-            curve = MAXANIMATION_CURVE_EASE_LINEAR;
-        
-        MAXAnimationObjectUnit* move = new MAXAnimationObjectUnit(pos ,destination, _unitObject, curve);
+        int pathSize = movePath.size() - 1;
+        MAXANIMATION_CURVE curve = GetCurveForStep(pi, pathSize);
+        move = new MAXAnimationObjectUnit(pos ,destination, _unitObject, curve);
         move->_delegate = this;
         float moveFactor = cell->cost * 10.0 / _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed; // change to current max speed
         move->SetMoveFactor(moveFactor);
@@ -475,15 +511,22 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         {
             // move completed succesfully
             movePath.clear();
-            if (selectedGameObjectDelegate)
-                selectedGameObjectDelegate->onUnitStopMove(this);
+            pathIndex = 0;
+            pathIsTemp = true;
         }
+        if (selectedGameObjectDelegate)
+            selectedGameObjectDelegate->onUnitStopMove(this);
         //MoveToNextCell();
         
     }
     else // move
     {
         pathIndex--;
+//        if (pathIndex == 1)
+//        {
+//            // move stop
+//            _currentTopAnimation->Stop();
+//        }
     }
 }
 

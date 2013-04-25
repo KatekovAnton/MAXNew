@@ -21,6 +21,7 @@ using namespace cocos2d;
 
 class MAXUnitObject;
 class MAXAnimationBase;
+class MAXAnimationSequence;
 class MAXAnimationObjectUnit;
 class MAXObjectConfig;
 
@@ -35,7 +36,7 @@ class PFWaveCell;
 
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitObjectDelegate {
     
-    MAXAnimationBase* _currentTopAnimation;
+    MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
     
     bool _shouldAnimateBody;
@@ -45,6 +46,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
     std::vector<PFWaveCell*> movePath;
     int pathIndex;
+    bool pathIsTemp;
     
     bool MoveToNextCell(void);
     void FollowPath(void);
@@ -68,7 +70,9 @@ public:
     void CheckBodyAndShadow();
     void SetUnitLocationAnimated(const CCPoint& destination);
     void SetPath(std::vector<PFWaveCell*> path);
+    void ClearTempPath();
 	std::vector<PFWaveCell*> GetPath();
+    int GetPathIndex();
 	bool IsPathTargetedTo(const int x, const int y);
 	void ConfirmCurrentPath();
     

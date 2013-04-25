@@ -24,12 +24,14 @@ class MAXAnimationSequence : public MAXAnimationBase {
     
     MAXAnimationBase* CurrentAnimaton();
     int IndexOfAnimation(MAXAnimationBase* element);
+    bool _isStoped;
 public:
     
     MAXAnimationSequence();
     ~MAXAnimationSequence();
     
     void AddAnimation(MAXAnimationBase* baseAnim);
+    void Stop();
 
     virtual bool IsFinished();
     virtual void Update(double time);

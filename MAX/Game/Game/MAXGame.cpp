@@ -412,7 +412,10 @@ void MAXGame::ProceedPan(float speedx, float speedy)
 void MAXGame::ShowUnitPath(GameUnit *unit)
 {
     std::vector<PFWaveCell*> path = unit->GetPath();
-    int pathStep = path.size() - 2; // get step from unit
+    int pathStep = unit->GetPathIndex();
+    int pathSize = path.size();
+    if (pathStep > pathSize - 2)
+        pathStep = pathSize - 2;
     int speed = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10; // rework to current data
 	vector<PathElement> testPath;
     int totalCost = 0;
@@ -532,8 +535,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                 
                 if (_currentUnit->GetPath().size() > 0)
 				{
-					std::vector<PFWaveCell*> path;
-					_currentUnit->SetPath(path);
+                    _currentUnit->ClearTempPath();
 				}
             }
             _currentUnit = newCurrentUnit;
@@ -628,6 +630,7 @@ void MAXGame::onUnitStopMove(GameUnit* unit)
         pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10);
         //pf->DumpMap();
         ShowPathMap();
+        ShowUnitPath(_currentUnit);
     }
 }
 

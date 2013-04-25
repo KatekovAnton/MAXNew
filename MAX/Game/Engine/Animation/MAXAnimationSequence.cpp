@@ -9,7 +9,7 @@
 #include "MAXAnimationSequence.h"
 
 MAXAnimationSequence::MAXAnimationSequence()
-:MAXAnimationBase(), _current(NULL)
+:MAXAnimationBase(), _current(NULL), _isStoped(false)
 {
     
 }
@@ -39,9 +39,14 @@ void MAXAnimationSequence::AddAnimation(MAXAnimationBase* baseAnim)
     _animations.push_back(baseAnim);
 }
 
+void MAXAnimationSequence::Stop()
+{
+    _isStoped = true;
+}
+
 bool MAXAnimationSequence::IsFinished()
 {
-    if (_animations.size() == 0)
+    if ((_animations.size() == 0) || _isStoped)
         return true;
 
     for (int i = 0; i < _animations.size(); i++)
@@ -65,11 +70,13 @@ int MAXAnimationSequence::IndexOfAnimation(MAXAnimationBase* element)
 
 void MAXAnimationSequence::Update(double time)
 {
+    if (_isStoped)
+        return;
     if (_current->IsFinished())
     {
         _current->BaseCompletlyFinish();
         int index = IndexOfAnimation(_current);
-        if (index == _animations.size() - 1)
+        if ((index == _animations.size() - 1) || _isStoped)
             return;
         _current = _animations.at(index + 1);
         _current->BaseStart();
@@ -82,10 +89,10 @@ void MAXAnimationSequence::Update(double time)
 
 void MAXAnimationSequence::CompletlyFinish()
 {
-    if (_animations.size() == 0)
+    if ((_animations.size() == 0) || _isStoped)
         return;
     MAXAnimationBase* anim = _animations.at(_animations.size() - 1);
-    return anim->BaseCompletlyFinish();
+    anim->BaseCompletlyFinish();
 }
 
 void MAXAnimationSequence::StartAnimation()
