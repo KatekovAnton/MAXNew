@@ -43,7 +43,7 @@ int MatchMapAgregator::GetIndexForCoordinates(const int x, const int y) const
 
 EXTENDED_GROUND_TYPE MatchMapAgregator::GroundTypeAtXY(const int x, const int y) const
 {
-    return _mapOutputBuffer[GetIndexForCoordinates(x, y)];
+    return _mapBuffer[GetIndexForCoordinates(x, y)];
 }
 
 USimpleContainer<GameUnit*> *MatchMapAgregator::UnitsInCell(const int x, const int y) const
@@ -52,14 +52,13 @@ USimpleContainer<GameUnit*> *MatchMapAgregator::UnitsInCell(const int x, const i
 }
 
 MatchMapAgregator::MatchMapAgregator(GameMap* map)
-:_map_w(map), _unitsInCells_w(new USimpleContainer<GameUnit*>*[map->_w * map->_h]), _mapBuffer(new EXTENDED_GROUND_TYPE[map->_w * map->_h]), _mapOutputBuffer(new EXTENDED_GROUND_TYPE[map->_w * map->_h])
+:_map_w(map), _unitsInCells_w(new USimpleContainer<GameUnit*>*[map->_w * map->_h]), _mapBuffer(new EXTENDED_GROUND_TYPE[map->_w * map->_h])
 {
     int size = map->_w * map->_h;
     for (int i = 0; i < size; i++)
         _unitsInCells_w[i] = new USimpleContainer<GameUnit*>(4);
     for (int i = 0; i < size; i++)
         _mapBuffer[i] = TranslateGroundType(_map_w->GroundTypeAtIndex(i));
-    memcpy(_mapOutputBuffer, _mapBuffer, size * sizeof(EXTENDED_GROUND_TYPE));
 }
 
 MatchMapAgregator::~MatchMapAgregator()
@@ -67,7 +66,6 @@ MatchMapAgregator::~MatchMapAgregator()
     for (int i = 0; i < _map_w->_w * _map_w->_h; i++)
         delete _unitsInCells_w[i];
     delete [] _unitsInCells_w;
-    delete _mapOutputBuffer;
     delete _mapBuffer;
 }
 
@@ -107,7 +105,7 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 	int idx = GetIndexForCoordinates(x, y);
 	if (config->_isPlatform || config->_isBridge)
 	{
-		_mapOutputBuffer[idx] = _mapBuffer[idx];
+		_mapBuffer[idx] = TranslateGroundType(_map_w->GroundTypeAtXY(x, y));// _mapBuffer[idx];
 	}
 	else if (config->_isRoad)
 	{
@@ -126,11 +124,11 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 		}
 		if (!platformExist)
 		{
-			_mapOutputBuffer[idx] = _mapBuffer[idx];
+			_mapBuffer[idx] = TranslateGroundType(_map_w->GroundTypeAtXY(x, y));//_mapBuffer[idx];
 		}
 	}
 
-	if ((_mapOutputBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA))
+	if ((_mapBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA))
 	{
 		UpdateBridgeAt(x, y, false);
 	}
@@ -148,7 +146,7 @@ void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
 	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
 	int idx = GetIndexForCoordinates(x, y);
-	if ((_mapOutputBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA))
+	if ((_mapBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA))
 	{
 		UpdateBridgeAt(x, y, true);
 	}
@@ -157,12 +155,11 @@ void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
 
 	if (config->_isRoad || config->_isPlatform)
 	{
-		_mapOutputBuffer[idx] = EXTENDED_GROUND_TYPE_ROAD;
+		_mapBuffer[idx] = EXTENDED_GROUND_TYPE_ROAD;
 	}
 	else if (config->_isBridge)
 	{
-		
-		_mapOutputBuffer[idx] = EXTENDED_GROUND_TYPE_BRIDGE;		
+		_mapBuffer[idx] = EXTENDED_GROUND_TYPE_BRIDGE;		
 	}
 	
     if (unit->_unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && unit->_unitCurrentParameters->_unitBaseParameters->GetSize() == 2)
@@ -253,10 +250,5 @@ bool MatchMapAgregator::IsAirUnitInPosition(const int x, const int y)
         }
     }
     return result;
-}
-
-EXTENDED_GROUND_TYPE *MatchMapAgregator::CalculateFieldForPlayer(GameMatchPlayer *player, GameUnit *unit)
-{
-    return _mapOutputBuffer;
 }
 

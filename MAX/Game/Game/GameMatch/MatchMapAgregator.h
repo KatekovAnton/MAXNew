@@ -24,8 +24,6 @@ class MatchMapAgregator {
     
     USimpleContainer<GameUnit*> **_unitsInCells_w;
     EXTENDED_GROUND_TYPE* _mapBuffer;
-    EXTENDED_GROUND_TYPE* _mapAirBuffer;
-    EXTENDED_GROUND_TYPE* _mapOutputBuffer;
     
 private:
 	void UpdateBridgeAt(const int x, const int y, bool isLift);
@@ -47,7 +45,6 @@ public:
     GameUnit* GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, bool selectedUnit);
     bool IsGroundUnitInPosition(const int x, const int y);
     bool IsAirUnitInPosition(const int x, const int y);
-    EXTENDED_GROUND_TYPE *CalculateFieldForPlayer(GameMatchPlayer *player, GameUnit *unit);
 };
 
 #endif /* defined(__MAX__MatchMapAgregator__) */
