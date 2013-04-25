@@ -80,6 +80,7 @@ public:
     bool drawResources;
     bool drawFog;
     bool drawPathZone;
+    int hidePathZoneCounter;
     
     int _applyedPaletteIndex;
     int _applyedPaletteCount;

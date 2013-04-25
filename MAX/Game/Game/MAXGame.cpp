@@ -37,7 +37,7 @@ MAXGame globalGame;
 MAXGame * game = &globalGame;
 
 MAXGame::MAXGame()
-:_testUnit(NULL), iteration(0), _pathVisualizer(NULL)
+:_testUnit(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0)
 {
     _currentState = MAXGAMESTATE_GAME;
     _effects = new USimpleContainer<GameEffect*>();
@@ -450,6 +450,9 @@ void MAXGame::ShowUnitPath(GameUnit *unit)
 
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
+    if (_freezeCounter>0) {
+        return;
+    }
     bool _unitMoved = false;
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
@@ -497,7 +500,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                         }
                         else
                         {
-                            engine->SelectUnit(_currentUnit->GetUnitObject());
+                            //engine->SelectUnit(_currentUnit->GetUnitObject());
                             // play error sound and inform player about wrong path
                         }
                         _unitMoved = true;
@@ -579,6 +582,9 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
+    if (_freezeCounter>0) {
+        return;
+    }
     if (_currentUnit && !_currentUnit->GetIsFreezed())
     {
         if (_currentUnit->CanStartBuildProcess())
@@ -588,7 +594,15 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
         else
         {
             CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-            _currentUnit->Fire(p);
+            GameEffect* effect = _currentUnit->Fire(p);
+            if (effect)
+            {
+                effect->_delegate_w = this;
+                effect->_tag = GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER;
+                engine->hidePathZoneCounter ++;
+                _freezeCounter ++;
+            }
+            
         }
         
     }
@@ -617,6 +631,17 @@ void MAXGame::onUnitStopMove(GameUnit* unit)
     }
 }
 
+#pragma mark - GameEffectDelegate
+
+void MAXGame::GameEffectDidFinishExistance(GameEffect* effect)
+{
+    if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER) {
+        engine->hidePathZoneCounter --;
+        _freezeCounter --;
+        
+    }
+    
+}
 
 
 

@@ -14,6 +14,7 @@
 #include "USimpleContainer.h"
 #include "MAXEngine.h"
 #include "SelectedGameObjectDelegate.h"
+#include "GameEffectDelegate.h"
 
 using namespace std;
 using namespace Utils;
@@ -36,7 +37,7 @@ class GameInterface;
 class GamePathVisualizer;
 class PFWaveCell;
 
-class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate
+class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GameEffectDelegate
 {
     
     MAXGAMESTATE _currentState;
@@ -50,6 +51,9 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     void HidePathMap();
 	void ShowUnitPath(GameUnit *unit);
 public:
+    
+    int _freezeCounter;
+    
     GameMatch *_match;
     
     USimpleContainer<GameEffect*> *_effects;
@@ -87,6 +91,8 @@ public:
     virtual void onUnitStartMove(GameUnit* unit);
     virtual void onUnitStopMove(GameUnit* unit);
     
+#pragma mark - GameEffectDelegate
+    virtual void GameEffectDidFinishExistance(GameEffect* effect);
 };
 
 extern MAXGame *  game;

@@ -29,6 +29,8 @@ protected:
     
 public:
     
+    int _tag;
+    
     bool _onDraw;
     SelectedGameObjectDelegate* selectedGameObjectDelegate;
     

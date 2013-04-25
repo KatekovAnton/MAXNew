@@ -86,6 +86,7 @@ void MAXEngine::Init() {
     drawResources = false;
     drawFog = false;
     drawPathZone = false;
+    hidePathZoneCounter = 0;
     _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
@@ -455,7 +456,7 @@ void MAXEngine::DrawFog()
 
 void MAXEngine::DrawPathZone()
 {
-    if (!drawPathZone) 
+    if (!drawPathZone || hidePathZoneCounter > 0)
         return;
     
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

@@ -354,21 +354,27 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
     return IsInFireRadius(targetCenter) && _unitCurrentParameters->_unitBaseParameters->_pMaxAmmo != 0 && _unitCurrentParameters->_unitBaseParameters->_pMaxShots != 0;
 }
 
-void GameUnit::Fire(const cocos2d::CCPoint &target)
+GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
 {
     if (!CanFire(target))
-        return;
+        return NULL;
     MAXUnitObject* _unitObject = GetUnitObject();
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
     if (_unitObject->params_w->_hasHead)
         _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
     else
         _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, target));
+    
+    int level = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel + 1;
+    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pFireType >= FIRE_TYPE_Air) {
+        level = OBJECT_LEVEL_OVERAIR;
+    }
+    
     MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?0.15:0.3, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
     BULLET_TYPE type = BULLET_TYPE_ROCKET;
-    GameEffect* effect = GameEffect::CreateBullet(type, _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel, BLAST_TYPE_AIR, SECONDARY_TYPE_SMOKE);
+    GameEffect* effect = GameEffect::CreateBullet(type, level, BLAST_TYPE_AIR, SECONDARY_TYPE_SMOKE);
     effect->SetLocation(GetUnitCell());
     effect->Show();
     if (type != BULLET_TYPE_PLASMA) {
@@ -378,6 +384,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject());
     anim->_delegate = effect;
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
+    return effect;
 }
 
 bool GameUnit::CanStartBuildProcess()

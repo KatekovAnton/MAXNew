@@ -802,6 +802,7 @@
 		D1AB733616BBD381004D28F2 /* GameEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEffect.cpp; sourceTree = "<group>"; };
 		D1AB733716BBD381004D28F2 /* GameEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEffect.h; sourceTree = "<group>"; };
 		D1AB734216BBD9E7004D28F2 /* MAXAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationDelegate.h; sourceTree = "<group>"; };
+		D1D4CBA617294A57001C0FB0 /* GameEffectDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameEffectDelegate.h; sourceTree = "<group>"; };
 		D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnitListOriginal.txt; sourceTree = "<group>"; };
 		D1DBC4A516C67DCA0096034A /* MAXObjectConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObjectConfig.cpp; sourceTree = "<group>"; };
 		D1DBC4A616C67DCA0096034A /* MAXObjectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXObjectConfig.h; sourceTree = "<group>"; };
@@ -1687,6 +1688,7 @@
 			children = (
 				D1AB733616BBD381004D28F2 /* GameEffect.cpp */,
 				D1AB733716BBD381004D28F2 /* GameEffect.h */,
+				D1D4CBA617294A57001C0FB0 /* GameEffectDelegate.h */,
 			);
 			path = Effects;
 			sourceTree = "<group>";

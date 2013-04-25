@@ -190,6 +190,6 @@ typedef enum
     FOG_TYPE_RESOURCES
 }FOG_TYPE;
     
-    
+#define GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER 1000
     
 #endif

@@ -43,7 +43,7 @@
 //либо просто статика, как для мусора, стрелок пути и оградок вокруг строителей-быльдозеров
 
 GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config, bool addToEffectList)
-:GameObject(effectObject, config), _config(config), _finished(false), _blastType(BLAST_TYPE_NONE), _secondaryType(SECONDARY_TYPE_NONE), _lastSmokeCreationTime(engine->FullTime())
+:GameObject(effectObject, config), _config(config), _finished(false), _blastType(BLAST_TYPE_NONE), _secondaryType(SECONDARY_TYPE_NONE), _lastSmokeCreationTime(engine->FullTime()), _delegate_w(NULL)
 {
     if (addToEffectList)
         game->_effects->addObject(this);
@@ -323,9 +323,26 @@ void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
                 MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
                 wait->_delegate = blast;
                 MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
+                blast->_delegate_w = _delegate_w;
+                blast->_tag = _tag;
+                this->_delegate_w = NULL;
+            }
+            else
+            {
+                if (_delegate_w)
+                    _delegate_w->GameEffectDidFinishExistance(this);
             }
         }   break;
         case EFFECT_TYPE_BLAST:
+        {
+            GameObject::Hide();
+            game->FlushEffectsWithNew(this);
+            _finished = true;
+            if (_delegate_w) 
+                _delegate_w->GameEffectDidFinishExistance(this);
+            
+            
+        }   break;
         case EFFECT_TYPE_SECONDARY:
         {
             GameObject::Hide();

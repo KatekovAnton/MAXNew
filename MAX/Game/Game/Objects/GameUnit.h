@@ -98,7 +98,7 @@ public:
 #pragma mark - Fire methods
     bool IsInProcess() const {return _isInProcess;}
     bool CanFire(const cocos2d::CCPoint &target);
-    void Fire(const CCPoint& target);
+    GameEffect* Fire(const CCPoint& target);
     
     
 #pragma mark - Build methods
@@ -120,6 +120,7 @@ public:
     virtual bool ShouldAnimateBody() const;
 	virtual bool ShoudDrawFakeCircle() const;
 	virtual CCPoint GetFakeCenter() const;
+    
 };
 
 #endif /* defined(__MAX__Unit__) */

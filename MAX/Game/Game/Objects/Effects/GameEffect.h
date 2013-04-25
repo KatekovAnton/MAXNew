@@ -13,6 +13,7 @@
 #include "GameObject.h"
 #include "MAXAnimationDelegate.h"
 #include "MAXObjectConfig.h"
+#include "GameEffectDelegate.h"
 
 typedef enum
 {
@@ -84,6 +85,7 @@ class GameEffect : public GameObject, public MAXAnimationDelegate {
     
 public:
     
+    GameEffectDelegate* _delegate_w;
     
     bool GetFinished() const {return _finished;}
     int GetFrameCount() const {return _frameCount;}
