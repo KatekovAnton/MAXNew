@@ -87,11 +87,13 @@ int MAXUnitObject::FrameForConnectorLocation(MAXUNITOBJECT_CONNECTOR connector) 
 void MAXUnitObject::AddConnector(MAXUNITOBJECT_CONNECTOR connector)
 {
     _connectorsChanged = true;
+//    _connectorFrames.push_back(FrameForConnectorLocation(connector));
 }
 
-void MAXUnitObject::RemoveConnector(MAXUNITOBJECT_CONNECTOR connector)
+void MAXUnitObject::RemoveConnectors()
 {
     _connectorsChanged = true;
+    _connectorFrames.clear();
 }
 
 void MAXUnitObject::UpdateConnectors()
@@ -99,7 +101,26 @@ void MAXUnitObject::UpdateConnectors()
     if (!_connectorsChanged)
         return;
     _connectorsChanged = false;
-    
+    _connectorMatrices.clear();
+
+    for (int i = 0; i < _connectorFrames.size(); i++)
+    {
+        int frame = _connectorFrames[i];
+        
+        GLKMatrix4 transform = GetTransformMatrix();
+        
+        MAXUnitMaterialFrame bodyframe = _material->frames[frame];
+        float scalex = bodyframe.size.x/64.0;
+        float scaley = bodyframe.size.y/64.0;
+        
+        float deltax = -(64.0 - bodyframe.size.x)/128.0 - (bodyframe.center.x/64.0);
+        float deltay = (64.0-bodyframe.size.y)/128.0 + (bodyframe.center.y/64.0);
+        GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
+        GLKMatrix4 translate = GLKMatrix4MakeTranslation(deltax, deltay, 0);
+        GLKMatrix4 addtr = GLKMatrix4Multiply(translate,scale);
+        
+        _connectorMatrices.push_back(GLKMatrix4Multiply(transform, addtr));
+    }
 }
 
 void MAXUnitObject::LastUpdate(bool low)

@@ -27,7 +27,12 @@ enum
     MAXUnitObjectTypeSingle,
     MAXUnitObjectTypeTurreted
 } typedef MAXUnitObjectType;
-
+/*
+ clockwise
+ 
+ 1х1
+ U, R, D, L
+ */
 enum
 {
     MAXUNITOBJECT_CONNECTOR1,
@@ -73,7 +78,7 @@ public:
     
     int FrameForConnectorLocation(MAXUNITOBJECT_CONNECTOR connector) const;
     void AddConnector(MAXUNITOBJECT_CONNECTOR connector);
-    void RemoveConnector(MAXUNITOBJECT_CONNECTOR connector);
+    void RemoveConnectors();
     void UpdateConnectors();
     
     GLKVector4 playerColor;

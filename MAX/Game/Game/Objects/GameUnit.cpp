@@ -383,7 +383,54 @@ bool GameUnit::GetIsConnectored()const
 
 void GameUnit::UpdateConnectors()
 {
-    
+    if (!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
+        return;
+    MAXUnitObject *object = GetUnitObject();
+    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
+    {
+        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
+        if (game->_match->GetIsCellValid(cell))
+        {
+          //  object->UpdateConnectors()
+        }
+        cell = ccp(GetUnitCell().x+1, GetUnitCell().y);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        cell = ccp(GetUnitCell().x, GetUnitCell().y+1);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+    }
+    else
+    {
+        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        cell = ccp(GetUnitCell().x-1, GetUnitCell().y+1);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        cell = ccp(GetUnitCell().x, GetUnitCell().y+2);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        cell = ccp(GetUnitCell().x+1, GetUnitCell().y+2);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        
+        cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        cell = ccp(GetUnitCell().x+1, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        cell = ccp(GetUnitCell().x+2, GetUnitCell().y);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+        cell = ccp(GetUnitCell().x+2, GetUnitCell().y+1);
+        if (game->_match->GetIsCellValid(cell))
+        {}
+    }
 }
 
 vector<CCPoint> GameUnit::GetNerbyCells() const
