@@ -81,6 +81,8 @@ public:
     virtual void SetLocation(const CCPoint& cell);
     virtual void Show();
     virtual void Hide();
+	void LiftBridge();
+	void DropBridge();
     
     //logic methods
     void PlaceUnitOnMap();

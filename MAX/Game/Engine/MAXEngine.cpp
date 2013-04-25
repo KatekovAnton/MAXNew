@@ -133,7 +133,7 @@ void MAXEngine::Init() {
 	_pathZoneRenderer = NULL;
     _fogRenderer = NULL;
     
-    _pathZoneRendererLevel = OBJECT_LEVEL_OVERAIR;
+    _pathZoneRendererLevel = OBJECT_LEVEL_OVERGROUND;
 }
 
 void MAXEngine::SetCameraCenter(const CCPoint &cell)
