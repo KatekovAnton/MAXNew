@@ -638,9 +638,7 @@ void MAXGame::GameEffectDidFinishExistance(GameEffect* effect)
     if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER) {
         engine->hidePathZoneCounter --;
         _freezeCounter --;
-        
     }
-    
 }
 
 
