@@ -33,6 +33,8 @@ public:
     int bodyActiveFrame1;
     int bodyActiveFrame2;
     
+    int connectorFrameStart;
+    
     bool _isAnimBase;
     bool _isAnimHead;
     bool _isAbleToFire;

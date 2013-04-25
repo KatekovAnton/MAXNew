@@ -94,6 +94,19 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
         
         return;
     }
+    //КадрыКон
+    static unsigned char dataConWork[] = {0xCA, 0xE0, 0xE4, 0xF0, 0xFB, 0xCA, 0xEE, 0xED};
+    res = memcmp(dataConWork, key.c_str(), 8);
+    if (res == 0)
+    {
+        _isActiveBody = true;
+        vector<string> result;
+        split(value, ',' , result);
+        connectorFrameStart = atoi(result[0].c_str());
+        
+        
+        return;
+    }
 }
 
 void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
@@ -347,10 +360,7 @@ bodyActiveFrame0(0),
 bodyActiveFrame1(0),
 bodyActiveFrame2(0)
 {
-    if (resourceConfigName == "grp_radar.cfg") {
-        int a = 0;
-        a++;
-    }
+
     BinaryReader *r = new BinaryReader(resourceConfigName);
     string resourceConfig = r->ReadFullAsString();
     delete r;

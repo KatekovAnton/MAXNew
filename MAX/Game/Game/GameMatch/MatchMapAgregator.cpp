@@ -268,3 +268,13 @@ bool MatchMapAgregator::ContainConnectoredBuildingInPosition(const int x, const 
     return result;
 }
 
+void MatchMapAgregator::FindAllConnectoredUnits(const int x, const int y, GameMatchPlayer *_player, USimpleContainer<GameUnit*> *buffer)
+{
+    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+    for (int i = 0; i < units->GetCount(); i++)
+    {
+        GameUnit* unit = units->objectAtIndex(i);
+        if (unit->GetIsConnectored() && unit->_owner_w == _player)
+            buffer->addObject(unit);
+    }
+}

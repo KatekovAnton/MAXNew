@@ -46,6 +46,7 @@ public:
     bool IsGroundUnitInPosition(const int x, const int y);
     bool IsAirUnitInPosition(const int x, const int y);
     bool ContainConnectoredBuildingInPosition(const int x, const int y, GameMatchPlayer *_player) const;
+    void FindAllConnectoredUnits(const int x, const int y, GameMatchPlayer *_player, USimpleContainer<GameUnit*> *buffer);
 };
 
 #endif /* defined(__MAX__MatchMapAgregator__) */

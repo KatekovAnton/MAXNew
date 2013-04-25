@@ -307,6 +307,12 @@ void MAXGame::StartMatch()
         unit1->PlaceUnitOnMap();
     }
     {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(67, 44, "misturret", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    
+    engine->SetCameraCenter(ccp(62, 42));
+    {
         for (int i = 55; i <= 62; i++) {
             GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 43, "Road", 0);
             unit1->PlaceUnitOnMap();
@@ -329,7 +335,6 @@ void MAXGame::StartMatch()
         }
     }
     
-    engine->SetCameraCenter(ccp(45, 45));
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(50, 64, "Scanner", 0);
         unit1->SetRandomDirection();

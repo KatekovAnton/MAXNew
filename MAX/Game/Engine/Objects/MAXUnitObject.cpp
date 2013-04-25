@@ -81,13 +81,13 @@ MAXUnitObject::~MAXUnitObject()
 
 int MAXUnitObject::FrameForConnectorLocation(MAXUNITOBJECT_CONNECTOR connector) const
 {
-    return 0;
+    return params_w->connectorFrameStart + static_cast<int>(connector);
 }
 
 void MAXUnitObject::AddConnector(MAXUNITOBJECT_CONNECTOR connector)
 {
     _connectorsChanged = true;
-//    _connectorFrames.push_back(FrameForConnectorLocation(connector));
+    _connectorFrames.push_back(FrameForConnectorLocation(connector));
 }
 
 void MAXUnitObject::RemoveConnectors()
@@ -382,6 +382,15 @@ void MAXUnitObject::Draw(Shader *shader)
     _material->index = headIndex;
     _material->ApplyLod(0, shader);
     _renderAspect->Render(0, _material);
+    
+    for (int i = 0; i < _connectorFrames.size(); i++) {
+        GLKMatrix4 matr = _connectorMatrices[i];
+        int frame = _connectorFrames[i];
+        shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, matr.m);
+        _material->index = frame;
+        _material->ApplyLod(0, shader);
+        _renderAspect->Render(0, _material);
+    }
     
     //_renderAspect->UnBind();
 }

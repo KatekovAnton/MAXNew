@@ -79,6 +79,12 @@ void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
     unit->UpdateConnectors();
     USimpleContainer<GameUnit*> *neighborUnits = new USimpleContainer<GameUnit*>(10);
     vector<CCPoint> points = unit->GetNerbyCells();
+    for (int i = 0; i < points.size(); i++) {
+        CCPoint point = points[i];
+        _agregator->FindAllConnectoredUnits(point.x, point.y, unit->_owner_w, neighborUnits);
+    }
+    
+    
     for (int i = 0; i < neighborUnits->GetCount(); i++) {
         neighborUnits->objectAtIndex(i)->UpdateConnectors();
     }
