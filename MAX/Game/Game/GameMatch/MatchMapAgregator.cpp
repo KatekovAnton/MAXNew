@@ -252,3 +252,19 @@ bool MatchMapAgregator::IsAirUnitInPosition(const int x, const int y)
     return result;
 }
 
+bool MatchMapAgregator::ContainConnectoredBuildingInPosition(const int x, const int y, GameMatchPlayer *_player) const
+{
+    bool result = false;
+    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+    for (int i = 0; i < units->GetCount(); i++)
+    {
+        GameUnit* unit = units->objectAtIndex(i);
+        if (unit->GetIsConnectored() && unit->_owner_w == _player)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+

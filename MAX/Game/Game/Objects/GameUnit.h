@@ -99,6 +99,12 @@ public:
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
     int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;
     
+    bool GetIsConnectored()const;
+    void UpdateConnectors();
+    
+    
+    vector<CCPoint> GetNerbyCells() const;
+    
 #pragma mark - Fire methods
     bool IsInProcess() const {return _isInProcess;}
     bool CanFire(const cocos2d::CCPoint &target);

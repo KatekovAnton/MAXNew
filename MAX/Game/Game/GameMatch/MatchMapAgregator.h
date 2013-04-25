@@ -45,6 +45,7 @@ public:
     GameUnit* GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, bool selectedUnit);
     bool IsGroundUnitInPosition(const int x, const int y);
     bool IsAirUnitInPosition(const int x, const int y);
+    bool ContainConnectoredBuildingInPosition(const int x, const int y, GameMatchPlayer *_player) const;
 };
 
 #endif /* defined(__MAX__MatchMapAgregator__) */

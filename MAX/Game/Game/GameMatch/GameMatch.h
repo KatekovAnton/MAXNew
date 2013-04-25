@@ -40,6 +40,9 @@ public:
     void GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point);
     void GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point);
     void CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, const GameMatchPlayer* _player);
+    
+    bool GetIsCellValid(CCPoint cell) const;
+    void UpdateConnectorsForUnit(GameUnit* unit);
 };
 
 #endif /* defined(__MAX__Game_atch__) */

@@ -71,9 +71,27 @@ GameMatch::~GameMatch()
         delete _pathfinder;
 }
 
+void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
+{
+    if (!unit->GetIsConnectored())
+        return;
+    
+    unit->UpdateConnectors();
+    USimpleContainer<GameUnit*> *neighborUnits = new USimpleContainer<GameUnit*>(10);
+    vector<CCPoint> points = unit->GetNerbyCells();
+    for (int i = 0; i < neighborUnits->GetCount(); i++) {
+        neighborUnits->objectAtIndex(i)->UpdateConnectors();
+    }
+    delete neighborUnits;
+    
+}
+
 void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 {
     _agregator->RemoveUnitFromCell(unit, point.x, point.y);
+    
+    
+    UpdateConnectorsForUnit(unit);
 }
 
 void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
@@ -92,6 +110,8 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     if (needMessage) {
         game->ShowUnitSpottedMessage(unit);
     }
+    UpdateConnectorsForUnit(unit);
+    
 }
 
 void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, const GameMatchPlayer* _player)
@@ -130,5 +150,14 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
     {
         //TODO: drop invisibility from our units if need
     }
+    
+    
+    
 }
+
+bool GameMatch::GetIsCellValid(CCPoint cell) const
+{
+    return cell.x>=0 && cell.y>=0 && cell.x <_map->_w && cell.y < _map->_h;
+}
+
 

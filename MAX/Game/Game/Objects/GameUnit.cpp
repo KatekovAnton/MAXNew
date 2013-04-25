@@ -376,6 +376,65 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
     _currentTopAnimation = sequence;
 }
 
+bool GameUnit::GetIsConnectored()const
+{
+    return _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isRetranslator || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isConnector;
+}
+
+void GameUnit::UpdateConnectors()
+{
+    
+}
+
+vector<CCPoint> GameUnit::GetNerbyCells() const
+{
+    vector<CCPoint> resuplt;
+    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
+    {
+        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+1, GetUnitCell().y);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x, GetUnitCell().y+1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+    }
+    else
+    {
+        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x-1, GetUnitCell().y+1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x, GetUnitCell().y+2);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+1, GetUnitCell().y+2);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        
+        cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+1, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+2, GetUnitCell().y);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+2, GetUnitCell().y+1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+    }
+    return resuplt;
+}
+
 #pragma mark - Fire methods
 
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
