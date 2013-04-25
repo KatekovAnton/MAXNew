@@ -425,6 +425,7 @@ void MAXEngine::DrawUnits()
     glActiveTexture(GL_TEXTURE0);
     if (!drawedPathZone && drawPathZone) {
         DrawPathZone();
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
    // printf("%d\n",_applyedPaletteCount);
 }
