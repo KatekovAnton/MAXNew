@@ -99,12 +99,12 @@ void GameUnit::Hide()
 
 void GameUnit::LiftBridge()
 {
-	printf("LiftBridge\n");
+    GetUnitObject()->LiftBridge();
 }
 
 void GameUnit::DropBridge()
 {
-	printf("DropBridge\n");
+    GetUnitObject()->DropBridge();
 }
 
 void GameUnit::PlaceUnitOnMap()

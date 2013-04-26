@@ -22,6 +22,8 @@ static bool showShadows = true;
 #define LOOPTIME        4.0 // 8 * 2 * PLANESINGLEANIM
 #define OFFSETSCALE     0.05
 #define OFFSETSCALESHIP 0.01
+#define MAXBRIDGESCALE  1.05
+#define MAXELAPSEDBRIDGESCALE  0.05
 
 GLKVector2 planeOffsets[] = {
     {0 * OFFSETSCALE,       -1 * OFFSETSCALE},
@@ -53,12 +55,13 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     _needShipOffset = config->_isShip && !config->_isBuilding;
     _airOffsetMult = 1.0;
     _needShadow = false;
+    _animRunned = false;
     _highLevel = (config->_bLevel >= OBJECT_LEVEL_OVERGROUND);
     
     _random = nextDoubleMax(1000);
     _playerId = 0;
-
-    
+    _bridgeScale = 1.0;
+    _bridgeAnimDirection = false;
     bodyOffset = 0;
     headOffset = params_w->_isBuilding?((IsHasBody())?1:0):(IsHasBody()?8:0);
     if(IsHasBody())
@@ -188,6 +191,9 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
     float deltax = -(64.0 - shadowFrame.size.x)/128.0 - (shadowFrame.center.x/64.0);
     float deltay = (64.0-shadowFrame.size.y)/128.0 + (shadowFrame.center.y/64.0);
   
+    deltax -= (1.0-_bridgeScale)*2;
+    deltay += (1.0-_bridgeScale)*2;
+    
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
     if (_needAirOffset)
@@ -259,7 +265,7 @@ GLKMatrix4 MAXUnitObject::CalculateHeadRenderMatrix()
     float deltax = -(64.0 - headFrame.size.x)/128.0 - (headFrame.center.x/64.0);
     float deltay = (64.0-headFrame.size.y)/128.0 + (headFrame.center.y/64.0);
     
-    GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
+    GLKMatrix4 scale = GLKMatrix4MakeScale(scalex * _bridgeScale, scaley * _bridgeScale, 1);
     GLKMatrix4 translate;
     if (_needAirOffset)
     {
@@ -306,8 +312,52 @@ Material * MAXUnitObject::GetMaterial()
     return _material;
 }
 
+void MAXUnitObject::LiftBridge()
+{
+    if (!params_w->_isBridge)
+        return;
+    _bridgeStartAnim = 0;
+    _bridgeAnimDirection = true;
+    _animRunned = true;
+}
+
+void MAXUnitObject::DropBridge()
+{
+    if (!params_w->_isBridge)
+        return;
+    _bridgeStartAnim = 0;
+    _bridgeAnimDirection = false;
+    _animRunned = true;
+}
+
 void MAXUnitObject::Frame(double time)
 {
+    if (params_w->_isBridge && _animRunned)
+    {
+        _bridgeStartAnim += time*5.0;
+        double delta = _bridgeStartAnim;
+        if((_bridgeAnimDirection))
+        {
+            _bridgeScale = 1.0 + delta*MAXELAPSEDBRIDGESCALE;
+            if (_bridgeScale>MAXBRIDGESCALE)
+            {
+                _animRunned = false;
+                _bridgeScale = MAXBRIDGESCALE;
+            }
+        }
+        if ((!_bridgeAnimDirection))
+        {
+            
+            _bridgeScale = MAXBRIDGESCALE - delta*MAXELAPSEDBRIDGESCALE;
+            if (_bridgeScale<1.0)
+            {
+                _animRunned = false;
+                _bridgeScale = 1.0;
+            }
+        }
+    }
+    
+    
     _lastHeadAnimTime+=time;
     if (_lastHeadAnimTime>0.05)
         _lastHeadAnimTime=0;

@@ -74,7 +74,13 @@ class MAXUnitObject : public MAXObject {
     bool                _connectorsChanged;
     
     
+    float   _bridgeScale;
+    double  _bridgeStartAnim;
+    bool    _bridgeAnimDirection;
+    bool    _animRunned;
+    
 public:
+    
     
     int FrameForConnectorLocation(MAXUNITOBJECT_CONNECTOR connector) const;
     void AddConnector(MAXUNITOBJECT_CONNECTOR connector);
@@ -107,6 +113,8 @@ public:
     int GetHeadIndex() const {return headIndex;};
     int GetPureHeadIndex() const {return pureheadIndex;};
     
+	void LiftBridge();
+	void DropBridge();
 
 
     bool IsSingleFire() const;
