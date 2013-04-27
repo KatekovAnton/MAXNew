@@ -105,7 +105,7 @@ void MAXUnitObject::UpdateConnectors()
         return;
     _connectorsChanged = false;
     _connectorMatrices.clear();
-
+    _connectorShadowMatrices.clear();
     for (int i = 0; i < _connectorFrames.size(); i++)
     {
         int frame = _connectorFrames[i];
@@ -123,6 +123,27 @@ void MAXUnitObject::UpdateConnectors()
         GLKMatrix4 addtr = GLKMatrix4Multiply(translate,scale);
         
         _connectorMatrices.push_back(GLKMatrix4Multiply(transform, addtr));
+    }
+    if (_material->_shadowframeCount == 0) 
+        return;
+    
+    for (int i = 0; i < _connectorFrames.size(); i++)
+    {
+        int frame = _connectorFrames[i];
+        
+        GLKMatrix4 transform = GetTransformMatrix();
+        
+        MAXUnitMaterialFrame bodyframe = _material->shadowframes[frame];
+        float scalex = bodyframe.size.x/64.0;
+        float scaley = bodyframe.size.y/64.0;
+        
+        float deltax = -(64.0 - bodyframe.size.x)/128.0 - (bodyframe.center.x/64.0);
+        float deltay = (64.0-bodyframe.size.y)/128.0 + (bodyframe.center.y/64.0);
+        GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
+        GLKMatrix4 translate = GLKMatrix4MakeTranslation(deltax, deltay, 0);
+        GLKMatrix4 addtr = GLKMatrix4Multiply(translate,scale);
+        
+        _connectorShadowMatrices.push_back(GLKMatrix4Multiply(transform, addtr));
     }
 }
 
@@ -434,14 +455,30 @@ void MAXUnitObject::Draw(Shader *shader)
     _material->ApplyLod(0, shader);
     _renderAspect->Render(0, _material);
     if (!IsHasBody())
-    DrawConnectors(shader);
+        DrawConnectors(shader);
+    
    
     
     //_renderAspect->UnBind();
 }
 
+void MAXUnitObject::DrawConnectorShadows(Shader* shader)
+{
+    shader->SetFloatValue(UNIFORM_ALPHA, SHADOWALPHA);
+    for (int i = 0; i < _connectorFrames.size(); i++) {
+        GLKMatrix4 matr = _connectorShadowMatrices[i];
+        int frame = _connectorFrames[i];
+        shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, matr.m);
+        _material->index = frame;
+        _material->ApplyShadowLod(0, shader);
+        _renderAspect->RenderShadow(0, _material);
+    }
+}
+
 void MAXUnitObject::DrawConnectors(Shader* shader)
 {
+    DrawConnectorShadows(shader);
+    shader->SetFloatValue(UNIFORM_ALPHA, 1.0);
     for (int i = 0; i < _connectorFrames.size(); i++) {
         GLKMatrix4 matr = _connectorMatrices[i];
         int frame = _connectorFrames[i];

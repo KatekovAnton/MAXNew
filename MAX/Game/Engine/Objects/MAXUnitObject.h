@@ -71,6 +71,7 @@ class MAXUnitObject : public MAXObject {
     
     vector<int>         _connectorFrames;
     vector<GLKMatrix4>  _connectorMatrices;
+    vector<GLKMatrix4>  _connectorShadowMatrices;
     bool                _connectorsChanged;
     
     
@@ -130,6 +131,7 @@ public:
     virtual Material * GetMaterial();
     
     virtual void Draw(Shader *shader);
+    void DrawConnectorShadows(Shader* shader);
     void DrawConnectors(Shader *shader);
     virtual void DrawLow(Shader *shader);
     virtual void Frame(double time);

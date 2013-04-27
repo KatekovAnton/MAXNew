@@ -872,7 +872,6 @@ MAXUnitMaterial* MAXContentLoader::LoadUnitMaterial(string name, string shadowNa
         shadowPicbounds = new int[shadowPicCount];
         shadowDataReader->ReadBuffer(shadowPicCount*4, (char*) shadowPicbounds);
     }
-
     result ->SetImagesCount(picCount, shadowPicCount);
     for (int picIndex = 0; picIndex < picCount; picIndex++)
     {
