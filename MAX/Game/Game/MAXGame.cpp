@@ -567,7 +567,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.y = floorf(p.y);
     
  //   printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
-    
+    bool _removeFromLock = false;
     
     GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit != NULL);// _currentPlayer_w->GetUnitInPosition(p);
     if (_currentUnit && !_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
@@ -577,6 +577,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         else if (_currentUnit == newCurrentUnit)
         {
             newCurrentUnit = NULL; // deselect current unit
+            _removeFromLock = true;
         }
         else
         {
@@ -626,6 +627,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         if (_currentUnit == newCurrentUnit)
         {
             newCurrentUnit = NULL; // deselect current unit
+            _removeFromLock = true;
         }
     }
     if (!_unitMoved)
@@ -658,7 +660,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
             
             engine->SelectUnit(_currentUnit->GetUnitObject());
-            _gameInterface->OnCurrentUnitChanged(newCurrentUnit);
+            _gameInterface->OnCurrentUnitChanged(newCurrentUnit, false);
         }
         
         if (!newCurrentUnit)
@@ -672,7 +674,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 				}
 				else
 				{
-					_gameInterface->OnCurrentUnitChanged(NULL);
+					_gameInterface->OnCurrentUnitChanged(NULL, _removeFromLock);
 					engine->SelectUnit(NULL);
 					_currentUnit->selectedGameObjectDelegate = NULL;
 					_currentUnit = NULL;

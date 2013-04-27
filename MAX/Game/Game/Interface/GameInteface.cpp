@@ -112,7 +112,7 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
-    CCDirector::sharedDirector()->setDisplayStats(false);
+  //  CCDirector::sharedDirector()->setDisplayStats(false);
     
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
     CCSprite* turnSprite = CCSprite::create("3blocks.png");
@@ -478,7 +478,7 @@ void GameInterface::RemoveUnitFromLock(GameUnit* object)
     MAXStatusRenderer::SharedStatusRenderer()->RemoveUnitFromLock(object->GetUnitObject());
 }
 
-void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
+void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock)
 {
     if (unit)
     {
@@ -495,7 +495,7 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit)
     }
     else
     {
-        if (_currentUnit)
+        if ((_currentUnit && _lockUnits && removeFromLock) || (_currentUnit && !_lockUnits))
             RemoveUnitFromLock(_currentUnit);
     
     }
