@@ -145,7 +145,7 @@ void GameUnit::CheckBodyAndShadow()
             if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
                 _unitObject->SetBodyOffset(0);//radar
             else
-                _unitObject->SetBodyOffset(1);//hangar
+                _unitObject->SetBodyOffset(_unitCurrentParameters->_unitBaseParameters->GetConfig()->bodyIdleFrame0);//hangar
         }
         return;
     };
@@ -383,8 +383,6 @@ bool GameUnit::GetIsConnectored()const
 
 void GameUnit::UpdateConnectors()
 {
-    if (!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
-        return;
     MAXUnitObject *object = GetUnitObject();
     object->RemoveConnectors();
     if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)

@@ -264,54 +264,26 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-     
-    
     {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 45, "Airplant", 0);
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 58, "alnasgun", 0);
+        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 43, "Hvplant", 0);
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 57, "alnplane", 0);
+        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 43, "Hang", 0);
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(64, 55, "alntank", 0);
+        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 43, "Powerpl", 0);
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 33, "juger", 0);
+        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 42, "Radar", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 42, "turret", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(64, 42, "Zenit", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 42, "Arturret", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 42, "misturret", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(67, 44, "misturret", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    
-    engine->SetCameraCenter(ccp(62, 42));
     {
         for (int i = 55; i <= 62; i++) {
             GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 43, "Road", 0);
@@ -348,6 +320,134 @@ void MAXGame::StartMatch()
         GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 53, "Inter", 0);
         unit1->PlaceUnitOnMap();
     }
+     
+    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 45, "Airplant", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 45, "gref", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 43, "Powerpl", 0);
+        unit1->PlaceUnitOnMap();
+        unit1->StartBuildProcess();
+    }
+    {
+        _match->_players[0]->CreateUnit(72, 43, "Goldstore", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 44, "landpad", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 45, "Matstore", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 46, "Powergen", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 47, "Fuelstore", 0)->PlaceUnitOnMap();
+    }
+    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 47, "Conn", 0);
+        unit1->PlaceUnitOnMap();
+        unit1 = _match->_players[0]->CreateUnit(68, 48, "Conn", 0);
+        unit1->PlaceUnitOnMap();
+        for (int i = 68; i < 79; i++) {
+            unit1 = _match->_players[0]->CreateUnit(i, 42, "Conn", 0);
+            unit1->PlaceUnitOnMap();
+        }
+    }
+    {
+        for (int i = 60; i < 70; i++) {
+            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 51, "Conblock", 0);
+            unit1->PlaceUnitOnMap();
+        }
+    }
+    
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 43, "Hvplant", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 43, "Hang", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 43, "Powerpl", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
+        unit1->PlaceUnitOnMap();
+        vector<CCPoint> points = unit1->GetNerbyCells();
+        for (int i = 0; i < points.size(); i++) {
+            unit1 = _match->_players[0]->CreateUnit(points[i].x, points[i].y, "Conn", 0);
+            unit1->PlaceUnitOnMap();
+        }
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 38, "Dock", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 42, "Radar", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 42, "turret", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(64, 42, "Zenit", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 42, "Arturret", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 42, "misturret", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        for (int i = 44; i < 49; i++) {
+            GameUnit *unit1 = _match->_players[0]->CreateUnit(67, i, "Conn", 0);
+            unit1->PlaceUnitOnMap();
+        }
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 49, "Lightplant", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 49, "barrak", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(64, 49, "Ecosphere", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 49, "Habitat", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 49, "Store", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 46, "Mining", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 46, "research", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(61, 46, "pehplant", 0);
+        unit1->PlaceUnitOnMap();
+    }
+    
+    
+    
+    engine->SetCameraCenter(ccp(62, 49));
+
 }
 
 void MAXGame::FlushEffectsWithNew(GameEffect *effect)

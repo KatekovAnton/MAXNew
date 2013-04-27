@@ -24,6 +24,8 @@ public:
     //КадрыПушки=8,15,2
     //КадрыПушкиСтрел=16,23,2
     
+    int bodyIdleFrame0;
+    
     int bodyAnimFrame0;
     int bodyAnimFrame1;
     int bodyAnimFrame2;
@@ -32,6 +34,7 @@ public:
     int bodyActiveFrame0;
     int bodyActiveFrame1;
     int bodyActiveFrame2;
+    
     
     int connectorFrameStart;
     

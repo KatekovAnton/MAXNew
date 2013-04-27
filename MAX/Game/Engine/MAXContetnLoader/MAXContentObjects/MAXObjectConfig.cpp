@@ -107,6 +107,19 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
         
         return;
     }
+    
+    
+    
+    //кадрыбазы
+    static unsigned char dataBase[] = {0xCA, 0xE0, 0xE4, 0xF0, 0xFB, 0xC1, 0xE0, 0xE7, 0xFB};
+    res = memcmp(dataBase, key.c_str(), 9);
+    if (res == 0)
+    {
+        vector<string> result;
+        split(value, ',' , result);
+        bodyIdleFrame0 = atoi(result[0].c_str());
+        return;
+    }
 }
 
 void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
