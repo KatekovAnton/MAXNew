@@ -22,7 +22,7 @@ static bool showShadows = true;
 #define LOOPTIME        4.0 // 8 * 2 * PLANESINGLEANIM
 #define OFFSETSCALE     0.05
 #define OFFSETSCALESHIP 0.01
-#define MAXBRIDGESCALE  1.05
+#define MAXBRIDGESCALE  1.1
 #define MAXELAPSEDBRIDGESCALE  0.05
 
 GLKVector2 planeOffsets[] = {
@@ -52,7 +52,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
 {
     
     _needAirOffset = config->_isPlane;
-    _needShipOffset = config->_isShip && !config->_isBuilding;
+    _needShipOffset = (config->_isShip || config->_isBridge || config->_isPlatform);
     _airOffsetMult = 1.0;
     _needShadow = false;
     _animRunned = false;
@@ -191,8 +191,8 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
     float deltax = -(64.0 - shadowFrame.size.x)/128.0 - (shadowFrame.center.x/64.0);
     float deltay = (64.0-shadowFrame.size.y)/128.0 + (shadowFrame.center.y/64.0);
   
-    deltax -= (1.0-_bridgeScale)*2;
-    deltay += (1.0-_bridgeScale)*2;
+    deltax -= (1.0-_bridgeScale)*4;
+    deltay += (1.0-_bridgeScale)*4;
     
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
