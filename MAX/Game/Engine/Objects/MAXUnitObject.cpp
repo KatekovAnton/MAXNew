@@ -52,7 +52,7 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
 {
     
     _needAirOffset = config->_isPlane;
-    _needShipOffset = (config->_isShip || config->_isBridge || config->_isPlatform);
+    _needShipOffset = (config->_isShip);
     _airOffsetMult = 1.0;
     _needShadow = false;
     _animRunned = false;
@@ -212,8 +212,8 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
     float deltax = -(64.0 - shadowFrame.size.x)/128.0 - (shadowFrame.center.x/64.0);
     float deltay = (64.0-shadowFrame.size.y)/128.0 + (shadowFrame.center.y/64.0);
   
-    deltax -= (1.0-_bridgeScale)*4;
-    deltay += (1.0-_bridgeScale)*4;
+    deltax -= (1.0-_bridgeScale)*3;
+    deltay += (1.0-_bridgeScale)*3;
     
     GLKMatrix4 scale = GLKMatrix4MakeScale(scalex, scaley, 1);
     GLKMatrix4 translate;
