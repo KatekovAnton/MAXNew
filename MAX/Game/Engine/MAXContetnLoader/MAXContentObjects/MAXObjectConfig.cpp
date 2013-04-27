@@ -396,7 +396,7 @@ bodyActiveFrame2(0)
         _bMoveType = UNIT_MOVETYPE_SURVEYOR;
     }
     _isAmphibious = _bMoveType == UNIT_MOVETYPE_AMHIB || _bMoveType == UNIT_MOVETYPE_SURVEYOR;
-    _isShip = _bMoveType == UNIT_MOVETYPE_SEA;
+    _isShip = _bMoveType == UNIT_MOVETYPE_SEA && !_isBuilding;
     _haveShadow = _shadowName != "";
     
     if (_isAnimated) {
