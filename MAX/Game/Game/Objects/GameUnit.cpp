@@ -140,12 +140,12 @@ void GameUnit::CheckBodyAndShadow()
     if (!(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || CanStartBuildProcess()))
     {
         //all passive-worked buildings, which cannot be topped by infiltrator
-        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isActiveBody)
+        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isActiveBody)
         {
-            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_hasHead) 
-                _unitObject->SetBodyOffset(0);
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
+                _unitObject->SetBodyOffset(0);//radar
             else
-                _unitObject->SetBodyOffset(1);
+                _unitObject->SetBodyOffset(1);//hangar
         }
         return;
     };

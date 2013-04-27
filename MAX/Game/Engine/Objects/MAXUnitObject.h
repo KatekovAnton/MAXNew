@@ -130,6 +130,7 @@ public:
     virtual Material * GetMaterial();
     
     virtual void Draw(Shader *shader);
+    void DrawConnectors(Shader *shader);
     virtual void DrawLow(Shader *shader);
     virtual void Frame(double time);
     virtual void LastUpdate(bool low);

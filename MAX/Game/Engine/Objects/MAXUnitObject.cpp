@@ -340,7 +340,7 @@ void MAXUnitObject::Frame(double time)
         {
             _bridgeScale = 1.0 + delta*MAXELAPSEDBRIDGESCALE;
             if (_bridgeScale>MAXBRIDGESCALE)
-            {
+            { 
                 _animRunned = false;
                 _bridgeScale = MAXBRIDGESCALE;
             }
@@ -426,13 +426,22 @@ void MAXUnitObject::Draw(Shader *shader)
         _material->index = bodyIndex;
         _material->ApplyLod(0, shader);
         _renderAspect->Render(0, _material);
+        DrawConnectors(shader);
     }
     
     shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, headRenderMatrix.m);
     _material->index = headIndex;
     _material->ApplyLod(0, shader);
     _renderAspect->Render(0, _material);
+    if (!IsHasBody())
+    DrawConnectors(shader);
+   
     
+    //_renderAspect->UnBind();
+}
+
+void MAXUnitObject::DrawConnectors(Shader* shader)
+{
     for (int i = 0; i < _connectorFrames.size(); i++) {
         GLKMatrix4 matr = _connectorMatrices[i];
         int frame = _connectorFrames[i];
@@ -441,8 +450,6 @@ void MAXUnitObject::Draw(Shader *shader)
         _material->ApplyLod(0, shader);
         _renderAspect->Render(0, _material);
     }
-    
-    //_renderAspect->UnBind();
 }
 
 void MAXUnitObject::DrawLow(Shader *shader)
