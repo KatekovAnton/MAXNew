@@ -199,6 +199,7 @@
 		8B8A452F16935951005C4ADA /* util_srope.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44E116935951005C4ADA /* util_srope.cfg */; };
 		8B8A453016935951005C4ADA /* util_syo.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A44E216935951005C4ADA /* util_syo.cfg */; };
 		8B8C0CFC16DA54540077426D /* CocosHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C0CFA16DA54540077426D /* CocosHelper.cpp */; };
+		8B8C1B84172DC0DE000A2FDA /* clans.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8C1B83172DC0DE000A2FDA /* clans.cfg */; };
 		8B8EAA14168A17F30097CA74 /* MAXGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA12168A17F30097CA74 /* MAXGame.cpp */; };
 		8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */; };
 		8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA28168A27900097CA74 /* LevelObject.cpp */; };
@@ -603,6 +604,7 @@
 		8B8A44E216935951005C4ADA /* util_syo.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = util_syo.cfg; sourceTree = "<group>"; };
 		8B8C0CFA16DA54540077426D /* CocosHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CocosHelper.cpp; sourceTree = "<group>"; };
 		8B8C0CFB16DA54540077426D /* CocosHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosHelper.h; sourceTree = "<group>"; };
+		8B8C1B83172DC0DE000A2FDA /* clans.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = clans.cfg; sourceTree = "<group>"; };
 		8B8EAA12168A17F30097CA74 /* MAXGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGame.cpp; sourceTree = "<group>"; };
 		8B8EAA13168A17F30097CA74 /* MAXGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGame.h; sourceTree = "<group>"; };
 		8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisplayPinchDelegate.cpp; sourceTree = "<group>"; };
@@ -957,6 +959,7 @@
 		8B8A43EA16935851005C4ADA /* Units */ = {
 			isa = PBXGroup;
 			children = (
+				8B8C1B82172DC076000A2FDA /* Clans */,
 				D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */,
 				8B8A448E169358C3005C4ADA /* ConfigBalance */,
 				8B8A43EB16935872005C4ADA /* ConfigResources */,
@@ -1163,6 +1166,14 @@
 				8B8C0CFB16DA54540077426D /* CocosHelper.h */,
 			);
 			path = CocosHelper;
+			sourceTree = "<group>";
+		};
+		8B8C1B82172DC076000A2FDA /* Clans */ = {
+			isa = PBXGroup;
+			children = (
+				8B8C1B83172DC0DE000A2FDA /* clans.cfg */,
+			);
+			path = Clans;
 			sourceTree = "<group>";
 		};
 		8B8EAA11168A17D70097CA74 /* Game */ = {
@@ -2094,6 +2105,7 @@
 				D10B8C231721750A00536547 /* arrow_up_png.png in Resources */,
 				D10B8C241721750A00536547 /* arrow_up_right_png_2.png in Resources */,
 				D10B8C251721750A00536547 /* arrow_up_right_png.png in Resources */,
+				8B8C1B84172DC0DE000A2FDA /* clans.cfg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
