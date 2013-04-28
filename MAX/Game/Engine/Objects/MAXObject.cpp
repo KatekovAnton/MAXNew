@@ -21,12 +21,12 @@ int compareMAXUnitObject (const void * a, const void * b)
         float a1y = a1->GetTransformMatrix().m31;
         float b1x = b1->GetTransformMatrix().m30;
         float b1y = b1->GetTransformMatrix().m31;
-        if (a1x <= b1x && a1y >= b1y)
-            return 1;
-        else
+        if (a1x < b1x || a1y > b1y)
             return -1;
+        else
+            return 1;
     }
-    else if(a1->params_w->_bLevel <= b1->params_w->_bLevel)
+    else if(a1->params_w->_bLevel < b1->params_w->_bLevel)
         return -1;
     else
         return 1;
