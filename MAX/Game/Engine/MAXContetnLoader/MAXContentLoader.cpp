@@ -535,14 +535,17 @@ unsigned char IndexForColor(Color tColor)
         return 0;
     }
     unsigned char resIndex = 0;
-    int minD = 1000;
+    int minD = 10000;
     for (int i = 1; i < 256; i++) {
-        Color current = default_palette[i];
-        int d = abs(tColor.r - current.r) + abs(tColor.g - current.g) + abs(tColor.b - current.b);
-        if (d < minD) {
-            minD = d;
-            resIndex = i;
-        }
+		if ((i >= 0 && i <= 6) || (i >= 32 && i < 64) || (i >= 160)) // skip animated colors
+		{
+			Color current = default_palette[i];
+			int d = 30 * abs(tColor.r - current.r) + 59 * abs(tColor.g - current.g) + 11 * abs(tColor.b - current.b); /// 30, 59 and 11 is color sens coefficient
+			if (d < minD) {
+				minD = d;
+				resIndex = i;
+			}
+		}
     }
     return resIndex+1;
 }
