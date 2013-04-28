@@ -147,16 +147,7 @@ void MAXGame::StartMatch()
     _gameInterface = new GameInterface();
     _gameInterface->InitBaseInterface();
     CCDirector::sharedDirector()->pushScene(_gameInterface);
-//    for (int x = 0; x < 100; x++)
-//    {
-//        for (int y = 0; y < 100; y++)
-//        {
-//            GameUnit *unit1 = _match->_players[0]->CreateUnit(x, y, "Inter", 0);
-//            unit1->SetRandomDirection();
-//            unit1->PlaceUnitOnMap();
-//        }
-//    }
-//    return;
+
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
         unit1->SetRandomDirection();
@@ -198,16 +189,24 @@ void MAXGame::StartMatch()
         unit1->PlaceUnitOnMap();
     }
     {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 51, "infantry", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 51, "Infil", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
+    {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 57, "Aagunm", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-    
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 58, "Awac", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
-        _testUnit = unit1;
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(10, 10, "Awac", 0);
@@ -285,55 +284,9 @@ void MAXGame::StartMatch()
         unit1->PlaceUnitOnMap();
     }
     {
-        for (int i = 55; i <= 62; i++) {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 43, "Road", 0);
-            unit1->PlaceUnitOnMap();
-        }
-    }
-    {
-        for (int i = 28; i <= 34; i++) {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 32, "Plat", 0);
-            unit1->PlaceUnitOnMap();
-        }
-        for (int i = 41; i <= 47; i++) {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 32, "Plat", 0);
-            unit1->PlaceUnitOnMap();
-        }
-    }
-    {
-        for (int i = 35; i <= 40; i++) {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 32, "Bridge", 0);
-            unit1->PlaceUnitOnMap();
-        }
-    }
-    
-    {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(50, 64, "Scanner", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 56, "Inter", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[1]->CreateUnit(50, 53, "Inter", 0);
-        unit1->PlaceUnitOnMap();
-    }
-     
-    
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 45, "Airplant", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 45, "gref", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 43, "Powerpl", 0);
-        unit1->PlaceUnitOnMap();
-        unit1->StartBuildProcess();
     }
     {
         _match->_players[0]->CreateUnit(72, 43, "Goldstore", 0)->PlaceUnitOnMap();
@@ -341,110 +294,60 @@ void MAXGame::StartMatch()
         _match->_players[0]->CreateUnit(72, 45, "Matstore", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(72, 46, "Powergen", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(72, 47, "Fuelstore", 0)->PlaceUnitOnMap();
-    }
-    
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 47, "Conn", 0);
-        unit1->PlaceUnitOnMap();
-        unit1 = _match->_players[0]->CreateUnit(68, 48, "Conn", 0);
-        unit1->PlaceUnitOnMap();
-        for (int i = 68; i < 79; i++) {
-            unit1 = _match->_players[0]->CreateUnit(i, 42, "Conn", 0);
+        _match->_players[0]->CreateUnit(68, 43, "Hvplant", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(65, 43, "Hang", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(63, 43, "Powerpl", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 45, "Airplant", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(70, 45, "gref", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 47, "Conn", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 48, "Conn", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(80, 38, "Dock", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(65, 42, "Radar", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(66, 42, "turret", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(64, 42, "Zenit", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(63, 42, "Arturret", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(62, 42, "misturret", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 49, "Lightplant", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(66, 49, "barrak", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(64, 49, "Ecosphere", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(62, 49, "Habitat", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(60, 49, "Store", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(65, 46, "Mining", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(63, 46, "research", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(61, 46, "pehplant", 0)->PlaceUnitOnMap();
+        for (int i = 68; i < 79; i++)
+            _match->_players[0]->CreateUnit(i, 42, "Conn", 0)->PlaceUnitOnMap();
+        for (int i = 60; i < 70; i++)
+            _match->_players[0]->CreateUnit(i, 51, "Conblock", 0)->PlaceUnitOnMap();
+        for (int i = 55; i <= 62; i++)
+            _match->_players[0]->CreateUnit(i, 43, "Road", 0)->PlaceUnitOnMap();
+        for (int i = 28; i <= 34; i++)
+            _match->_players[0]->CreateUnit(i, 32, "Plat", 0)->PlaceUnitOnMap();
+        for (int i = 41; i <= 47; i++)
+            _match->_players[0]->CreateUnit(i, 32, "Plat", 0)->PlaceUnitOnMap();
+        for (int i = 35; i <= 40; i++)
+            _match->_players[0]->CreateUnit(i, 32, "Bridge", 0)->PlaceUnitOnMap();
+        for (int i = 44; i < 49; i++)
+            _match->_players[0]->CreateUnit(67, i, "Conn", 0)->PlaceUnitOnMap();
+        {
+            GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 43, "Powerpl", 0);
             unit1->PlaceUnitOnMap();
+            unit1->StartBuildProcess();
         }
-    }
-    {
-        for (int i = 60; i < 70; i++) {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(i, 51, "Conblock", 0);
+        {
+            GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
             unit1->PlaceUnitOnMap();
+            vector<CCPoint> points = unit1->GetNerbyCells();
+            for (int i = 0; i < points.size(); i++) 
+                _match->_players[0]->CreateUnit(points[i].x, points[i].y, "Conn", 0)->PlaceUnitOnMap();
         }
-    }
-    
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 43, "Hvplant", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 43, "Hang", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 43, "Powerpl", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
-        unit1->PlaceUnitOnMap();
-        vector<CCPoint> points = unit1->GetNerbyCells();
-        for (int i = 0; i < points.size(); i++) {
-            unit1 = _match->_players[0]->CreateUnit(points[i].x, points[i].y, "Conn", 0);
-            unit1->PlaceUnitOnMap();
-        }
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 38, "Dock", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 42, "Radar", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 42, "turret", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(64, 42, "Zenit", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 42, "Arturret", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 42, "misturret", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        for (int i = 44; i < 49; i++) {
-            GameUnit *unit1 = _match->_players[0]->CreateUnit(67, i, "Conn", 0);
-            unit1->PlaceUnitOnMap();
-        }
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(68, 49, "Lightplant", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 49, "barrak", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(64, 49, "Ecosphere", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(62, 49, "Habitat", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 49, "Store", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 46, "Mining", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(63, 46, "research", 0);
-        unit1->PlaceUnitOnMap();
-    }
-    {
-        GameUnit *unit1 = _match->_players[0]->CreateUnit(61, 46, "pehplant", 0);
-        unit1->PlaceUnitOnMap();
     }
     
     
+    {
+        _match->_players[1]->CreateUnit(50, 56, "Inter", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(50, 53, "Inter", 0)->PlaceUnitOnMap();
+    }
     
     engine->SetCameraCenter(ccp(62, 49));
 
