@@ -373,6 +373,21 @@ void MAXUnitObject::Landing()
     _altitudeChange = ALTITUDE_CHANGE_LANDING;
 }
 
+void MAXUnitObject::LiftBridgeInstantly()
+{
+    if (!params_w->_isBridge)
+        return;
+    _animRunned = false;
+    _bridgeLiftPhase = (MAXBRIDGESCALE - 1.0) / MAXELAPSEDBRIDGESCALE;
+    _bridgeScale = 1.0 + _bridgeLiftPhase * MAXELAPSEDBRIDGESCALE;
+}
+
+void MAXUnitObject::LandInstantly()
+{
+    _altitude = 0.0;
+    _altitudeChange = ALTITUDE_CHANGE_NONE;
+}
+
 void MAXUnitObject::Frame(double time)
 {
     if (params_w->_isBridge && _animRunned)

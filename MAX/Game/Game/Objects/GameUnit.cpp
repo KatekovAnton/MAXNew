@@ -125,6 +125,20 @@ void GameUnit::Landing()
     }
 }
 
+void GameUnit::LiftBridgeInstantly()
+{
+    GetUnitObject()->LiftBridgeInstantly();
+}
+
+void GameUnit::LandInstantly()
+{
+    if (!_unitCurrentParameters->_landed)
+    {
+        _unitCurrentParameters->_landed = true;
+        GetUnitObject()->LandInstantly();
+    }
+}
+
 void GameUnit::PlaceUnitOnMap()
 {
     if (_isPlacedOnMap) 

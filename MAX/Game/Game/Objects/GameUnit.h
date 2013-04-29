@@ -87,6 +87,8 @@ public:
 	void DropBridge();
     void TakeOff();
     void Landing();
+    void LiftBridgeInstantly();
+    void LandInstantly();
     
     //logic methods
     void PlaceUnitOnMap();

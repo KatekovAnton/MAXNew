@@ -128,7 +128,8 @@ public:
 	void DropBridge();
     void TakeOff();
     void Landing();
-
+    void LiftBridgeInstantly();
+    void LandInstantly();
 
     bool IsSingleFire() const;
     bool IsHasBody() const;
