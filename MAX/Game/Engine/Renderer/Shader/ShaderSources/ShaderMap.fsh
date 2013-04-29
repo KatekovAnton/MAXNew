@@ -49,6 +49,6 @@ void main()
 //    mediump vec4 finalColor = texture2D(colorTexture3, finalCoords);
 //    gl_FragColor = finalColor;
     mediump vec4 color1 = texture2D(colorTexture, tcoordVarying);
-    mediump vec2 finalCoords = vec2(color1.r, 0);
+    mediump vec2 finalCoords = vec2(color1.r * 0.9961 + 0.0019, 0.5);
     gl_FragColor = texture2D(colorTexture3, finalCoords);
 }

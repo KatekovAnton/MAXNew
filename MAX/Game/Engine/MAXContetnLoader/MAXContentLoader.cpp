@@ -460,7 +460,7 @@ shared_ptr<MAXContentMap> MAXContentLoader::LoadMapWithName(string name)
 
 void MAXContentLoader::SetMapColorsToDefaultPalette(Color* thepal)
 {
-    setColorsToDefaultPalette(thepal, 96, 102);//6
+    setColorsToDefaultPalette(thepal, 96,  102);//6
     setColorsToDefaultPalette(thepal, 103, 109);//6
     setColorsToDefaultPalette(thepal, 110, 116);//6
     setColorsToDefaultPalette(thepal, 117, 122);//5
@@ -521,6 +521,10 @@ Texture* MAXContentLoader::TextureIdexedFromIndex(int w, int h, unsigned char* i
         {
             unsigned char colornumber = indexes[i * w + j];
             colors[i * w + j].r = colornumber;
+            if (colornumber == 0)
+                colors[i * w + j].a = 0;
+            else
+                colors[i * w + j].a = 255;
         }
     
     Texture *result = new Texture(GL_NEAREST, (GLubyte*)colors, w, h);
@@ -531,9 +535,9 @@ Texture* MAXContentLoader::TextureIdexedFromIndex(int w, int h, unsigned char* i
 
 unsigned char IndexForColor(Color tColor)
 {
-    if (tColor.a < 100) {
-        return 0;
-    }
+//    if (tColor.a < 100) {
+//        return 0;
+//    }
     unsigned char resIndex = 0;
     int minD = 1000000;
     for (int i = 1; i < 256; i++) {
@@ -562,7 +566,7 @@ Texture* MAXContentLoader::TextureIdexedFromColors(int w, int h, Color* colors)
         {
             unsigned char colornumber = IndexForColor(colors[i * w + j]);
             colorsIndex[i * w + j].r = colornumber;
-            colorsIndex[i * w + j].a = 255;
+            colorsIndex[i * w + j].a = colors[i * w + j].a;
         }
     
     Texture *result = new Texture(GL_NEAREST, (GLubyte*)colorsIndex, w, h);
@@ -579,7 +583,7 @@ Texture* MAXContentLoader::TextureFromIndexAndPalette(int w, int h, unsigned cha
             colors[j * w + i].r = palette[colornumber * 3];
             colors[j * w + i].g = palette[colornumber * 3 + 1];
             colors[j * w + i].b = palette[colornumber * 3 + 2];
-            colors[j * w + i].a = 1.0;
+            colors[j * w + i].a = 255;
         }
     
     return new Texture(GL_NEAREST, (GLubyte*)colors, w, h);
