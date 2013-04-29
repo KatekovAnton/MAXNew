@@ -609,9 +609,9 @@ vector<Texture*> MAXContentLoader::TexturePalletesFormDefaultPalleteAndPlayerCol
     
     for (int i = 32; i <= 39 ; i++)
     {
-        currentPalette[i].r = color.r*((40.0-(float)i)/6.0);
-        currentPalette[i].g = color.g*((40.0-(float)i)/6.0);
-        currentPalette[i].b = color.b*((40.0-(float)i)/6.0);
+        currentPalette[i].r = color.r*((40.0-(float)i)/8.0);
+        currentPalette[i].g = color.g*((40.0-(float)i)/8.0);
+        currentPalette[i].b = color.b*((40.0-(float)i)/8.0);
     }
     vector<Texture*> result = CreateUnitPalletes(currentPalette);
     free(currentPalette);
