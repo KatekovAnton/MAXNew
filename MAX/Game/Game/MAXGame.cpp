@@ -632,15 +632,29 @@ void MAXGame::onUnitStartMove(GameUnit* unit)
 
 void MAXGame::onUnitStopMove(GameUnit* unit)
 {
+    CCPoint location = unit->GetUnitCell();
     if (unit == _currentUnit)
     {
-        CCPoint location = _currentUnit->GetUnitCell();
         UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
         Pathfinder* pf = _match->_pathfinder;
         pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10);
         //pf->DumpMap();
         ShowPathMap();
         ShowUnitPath(_currentUnit);
+    }
+    // check landing pad
+    if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isPlane)
+    {
+        USimpleContainer<GameUnit*> *units = _match->_agregator->UnitsInCell(location.x, location.y);
+        for (int i = 0; i < units->GetCount(); i++)
+        {
+            GameUnit* u = units->objectAtIndex(i);
+            if (u->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isLanding)
+            {
+                unit->Landing();
+                break;
+            }
+        }
     }
 }
 

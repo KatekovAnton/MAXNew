@@ -27,6 +27,7 @@ public:
     int _pShots;
     int _pFuel;
     int _pAmmo;
+    bool _landed;
     
     GameUnitCurrentState(GameUnitParameters* params);
     ~GameUnitCurrentState();

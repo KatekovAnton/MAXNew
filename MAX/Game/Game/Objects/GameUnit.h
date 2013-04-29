@@ -76,8 +76,6 @@ public:
 	bool IsPathTargetedTo(const int x, const int y);
 	void ConfirmCurrentPath();
     
-    void LowerPlane();
-    void LiftPlane();
     void SetDirection(int dir);
     void SetRandomDirection();
     void SetColor(GLKVector4 color);
@@ -87,6 +85,8 @@ public:
     virtual void Hide();
 	void LiftBridge();
 	void DropBridge();
+    void TakeOff();
+    void Landing();
     
     //logic methods
     void PlaceUnitOnMap();

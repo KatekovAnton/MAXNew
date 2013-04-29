@@ -107,6 +107,24 @@ void GameUnit::DropBridge()
     GetUnitObject()->DropBridge();
 }
 
+void GameUnit::TakeOff()
+{
+    if (_unitCurrentParameters->_landed)
+    {
+        _unitCurrentParameters->_landed = false;
+        GetUnitObject()->TakeOff();
+    }
+}
+
+void GameUnit::Landing()
+{
+    if (!_unitCurrentParameters->_landed)
+    {
+        _unitCurrentParameters->_landed = true;
+        GetUnitObject()->Landing();
+    }
+}
+
 void GameUnit::PlaceUnitOnMap()
 {
     if (_isPlacedOnMap) 
@@ -197,12 +215,6 @@ void GameUnit::CheckBodyAndShadow()
     
 }
 
-void GameUnit::LowerPlane()
-{}
-
-void GameUnit::LiftPlane()
-{}
-
 void GameUnit::SetPath(std::vector<PFWaveCell*> path)
 {
     movePath = path;
@@ -258,6 +270,10 @@ void GameUnit::ConfirmCurrentPath()
 			selectedGameObjectDelegate->onUnitStartMove(this);
 
         pathIsTemp = false;
+        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isPlane)
+        {
+            TakeOff();
+        }
 		FollowPath();
 	}
 }

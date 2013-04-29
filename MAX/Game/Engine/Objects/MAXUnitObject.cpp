@@ -56,12 +56,13 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     _airOffsetMult = 1.0;
     _needShadow = false;
     _animRunned = false;
+    _bridgeLiftPhase = 0;
     _highLevel = (config->_bLevel >= OBJECT_LEVEL_OVERGROUND);
     
     _random = nextDoubleMax(1000);
     _playerId = 0;
     _bridgeScale = 1.0;
-    _bridgeAnimDirection = false;
+    _bridgeLiftDirectionUp = false;
     bodyOffset = 0;
     headOffset = params_w->_isBuilding?((IsHasBody())?1:0):(IsHasBody()?8:0);
     if(IsHasBody())
@@ -337,8 +338,7 @@ void MAXUnitObject::LiftBridge()
 {
     if (!params_w->_isBridge)
         return;
-    _bridgeStartAnim = 0;
-    _bridgeAnimDirection = true;
+    _bridgeLiftDirectionUp = true;
     _animRunned = true;
 }
 
@@ -346,36 +346,47 @@ void MAXUnitObject::DropBridge()
 {
     if (!params_w->_isBridge)
         return;
-    _bridgeStartAnim = 0;
-    _bridgeAnimDirection = false;
+    _bridgeLiftDirectionUp = false;
     _animRunned = true;
+}
+
+void MAXUnitObject::TakeOff()
+{
+    if (!params_w->_isPlane)
+        return;
+    printf("TakeOff");
+}
+
+void MAXUnitObject::Landing()
+{
+    if (!params_w->_isPlane)
+        return;
+    printf("Landing");
 }
 
 void MAXUnitObject::Frame(double time)
 {
     if (params_w->_isBridge && _animRunned)
     {
-        _bridgeStartAnim += time*5.0;
-        double delta = _bridgeStartAnim;
-        if((_bridgeAnimDirection))
+        if (_bridgeLiftDirectionUp)
         {
-            _bridgeScale = 1.0 + delta*MAXELAPSEDBRIDGESCALE;
-            if (_bridgeScale>MAXBRIDGESCALE)
-            { 
-                _animRunned = false;
-                _bridgeScale = MAXBRIDGESCALE;
-            }
-        }
-        if ((!_bridgeAnimDirection))
-        {
-            
-            _bridgeScale = MAXBRIDGESCALE - delta*MAXELAPSEDBRIDGESCALE;
-            if (_bridgeScale<1.0)
+            _bridgeLiftPhase += time * 5.0;
+            if (_bridgeLiftPhase > (MAXBRIDGESCALE - 1.0) / MAXELAPSEDBRIDGESCALE)
             {
                 _animRunned = false;
-                _bridgeScale = 1.0;
+                _bridgeLiftPhase = (MAXBRIDGESCALE - 1.0) / MAXELAPSEDBRIDGESCALE;
             }
         }
+        else
+        {
+            _bridgeLiftPhase -= time * 5.0;
+            if (_bridgeLiftPhase < 0)
+            {
+                _animRunned = false;
+                _bridgeLiftPhase = 0;
+            }
+        }
+        _bridgeScale = 1.0 + _bridgeLiftPhase * MAXELAPSEDBRIDGESCALE;
     }
     
     

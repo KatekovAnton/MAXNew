@@ -76,8 +76,8 @@ class MAXUnitObject : public MAXObject {
     
     
     float   _bridgeScale;
-    double  _bridgeStartAnim;
-    bool    _bridgeAnimDirection;
+    double  _bridgeLiftPhase;
+    bool    _bridgeLiftDirectionUp;
     bool    _animRunned;
     
 public:
@@ -116,6 +116,8 @@ public:
     
 	void LiftBridge();
 	void DropBridge();
+    void TakeOff();
+    void Landing();
 
 
     bool IsSingleFire() const;
