@@ -24,6 +24,8 @@ static bool showShadows = true;
 #define OFFSETSCALESHIP 0.01
 #define MAXBRIDGESCALE  1.1
 #define MAXELAPSEDBRIDGESCALE  0.05
+#define MAXBRIDGELIFTSPEED 5.0
+#define VERTICALSPEED   1
 
 GLKVector2 planeOffsets[] = {
     {0 * OFFSETSCALE,       -1 * OFFSETSCALE},
@@ -58,6 +60,11 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
     _animRunned = false;
     _bridgeLiftPhase = 0;
     _highLevel = (config->_bLevel >= OBJECT_LEVEL_OVERGROUND);
+    if (config->_isPlane)
+        _altitude = 1.0;
+    else
+        _altitude = 0.0;
+    _altitudeChange = ALTITUDE_CHANGE_NONE;
     
     _random = nextDoubleMax(1000);
     _playerId = 0;
@@ -176,7 +183,8 @@ GLKVector2 MAXUnitObject::CalculateAirOffset() const
     
     float deltaMove = _airOffsetMult * ((deltaPhase%2==0)?dt-floorf(dt):1.0 - dt+floorf(dt));
     
-    return GLKVector2Make(planeOffsets[deltaPhase/2].x * deltaMove, planeOffsets[deltaPhase/2].y * deltaMove);
+    return GLKVector2Make(planeOffsets[deltaPhase/2].x * deltaMove * _altitude,
+                          planeOffsets[deltaPhase/2].y * deltaMove * _altitude);
 }
 
 GLKVector2 MAXUnitObject::CalculateShipOffset() const
@@ -221,7 +229,8 @@ GLKMatrix4 MAXUnitObject::CalculateShadowRenderMatrix()
     if (_needAirOffset)
     {
         GLKVector2 offset = CalculateAirOffset();
-        translate = GLKMatrix4MakeTranslation(deltax + planeShadowOffset.x + offset.x, deltay + planeShadowOffset.y + offset.y, 0);
+        translate = GLKMatrix4MakeTranslation(deltax + planeShadowOffset.x * _altitude + offset.x,
+                                              deltay + planeShadowOffset.y * _altitude + offset.y, 0);
     }
     else if (_needShipOffset)
     {
@@ -354,14 +363,14 @@ void MAXUnitObject::TakeOff()
 {
     if (!params_w->_isPlane)
         return;
-    printf("TakeOff");
+    _altitudeChange = ALTITUDE_CHANGE_TAKE_OFF;
 }
 
 void MAXUnitObject::Landing()
 {
     if (!params_w->_isPlane)
         return;
-    printf("Landing");
+    _altitudeChange = ALTITUDE_CHANGE_LANDING;
 }
 
 void MAXUnitObject::Frame(double time)
@@ -370,7 +379,7 @@ void MAXUnitObject::Frame(double time)
     {
         if (_bridgeLiftDirectionUp)
         {
-            _bridgeLiftPhase += time * 5.0;
+            _bridgeLiftPhase += time * MAXBRIDGELIFTSPEED;
             if (_bridgeLiftPhase > (MAXBRIDGESCALE - 1.0) / MAXELAPSEDBRIDGESCALE)
             {
                 _animRunned = false;
@@ -379,7 +388,7 @@ void MAXUnitObject::Frame(double time)
         }
         else
         {
-            _bridgeLiftPhase -= time * 5.0;
+            _bridgeLiftPhase -= time * MAXBRIDGELIFTSPEED;
             if (_bridgeLiftPhase < 0)
             {
                 _animRunned = false;
@@ -389,6 +398,27 @@ void MAXUnitObject::Frame(double time)
         _bridgeScale = 1.0 + _bridgeLiftPhase * MAXELAPSEDBRIDGESCALE;
     }
     
+    if (_altitudeChange != ALTITUDE_CHANGE_NONE)
+    {
+        if (_altitudeChange == ALTITUDE_CHANGE_TAKE_OFF)
+        {
+            _altitude += time * VERTICALSPEED;
+            if (_altitude > 1.0)
+            {
+                _altitude = 1.0;
+                _altitudeChange = ALTITUDE_CHANGE_NONE;
+            }
+        }
+        else
+        {
+            _altitude -= time * VERTICALSPEED;
+            if (_altitude < 0.0)
+            {
+                _altitude = 0.0;
+                _altitudeChange = ALTITUDE_CHANGE_NONE;
+            }
+        }
+    }
     
     _lastHeadAnimTime+=time;
     if (_lastHeadAnimTime>0.05)

@@ -45,6 +45,13 @@ enum
     MAXUNITOBJECT_CONNECTOR8 = 7
 } typedef MAXUNITOBJECT_CONNECTOR;
 
+typedef enum : int
+{
+    ALTITUDE_CHANGE_NONE,
+    ALTITUDE_CHANGE_TAKE_OFF,
+    ALTITUDE_CHANGE_LANDING
+} ALTITUDE_CHANGE;
+
 class MAXUnitObject : public MAXObject {
 
     double _random;
@@ -79,6 +86,9 @@ class MAXUnitObject : public MAXObject {
     double  _bridgeLiftPhase;
     bool    _bridgeLiftDirectionUp;
     bool    _animRunned;
+    
+    float   _altitude; // 0..1
+    ALTITUDE_CHANGE _altitudeChange;
     
 public:
     
