@@ -77,6 +77,13 @@ GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned
     MAXUnitObject *unitObject = MAXSCL->CreateUnit(unit);
     unitObject->_playerId = _playerInfo._playerId;
     unitObject->_playerPalette_w = GetPalettePointer();
+    if (unit->_isMine)
+    {
+        if (_playerInfo._clan >= 0 && _playerInfo._clan <= 7)
+        {
+            unitObject->headOffset += _playerInfo._clan * 2;
+        }
+    }
     
     GameUnit* result = new GameUnit(unitObject, params);
     result->SetColor(GLKVector4Make(_playerInfo._color.r, _playerInfo._color.g, _playerInfo._color.b, 1.0));

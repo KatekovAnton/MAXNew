@@ -615,7 +615,7 @@
 		8B8EAA40168E5AA30097CA74 /* MAXGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGrid.h; sourceTree = "<group>"; };
 		8BB8456F16C8437400B9A007 /* GameMatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMatch.cpp; sourceTree = "<group>"; };
 		8BB8457016C8437400B9A007 /* GameMatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMatch.h; sourceTree = "<group>"; };
-		8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMatchPlayer.cpp; sourceTree = "<group>"; };
+		8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = GameMatchPlayer.cpp; sourceTree = "<group>"; };
 		8BB8457216C8437400B9A007 /* GameMatchPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMatchPlayer.h; sourceTree = "<group>"; };
 		8BB8457916CAD09000B9A007 /* clist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clist.h; sourceTree = "<group>"; };
 		8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderResourceMap.fsh; sourceTree = "<group>"; };

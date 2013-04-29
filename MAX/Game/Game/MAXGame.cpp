@@ -133,7 +133,7 @@ void MAXGame::HidePathMap()
 void MAXGame::StartMatch()
 {
     vector<GameMatchPlayerInfo> infos;
-    GameMatchPlayerInfo player1 = {1, 3, "Test player3", {255,0,0,255}};
+    GameMatchPlayerInfo player1 = {3, 3, "Test player3", {255,0,0,255}};
     GameMatchPlayerInfo player2 = {0, 7, "Test player7", {0,255,0,255}};
     infos.push_back(player1);
     infos.push_back(player2);
