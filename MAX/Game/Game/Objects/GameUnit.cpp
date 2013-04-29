@@ -652,9 +652,14 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
             movePath.clear();
             pathIndex = 0;
             pathIsTemp = true;
+			if (selectedGameObjectDelegate)
+				selectedGameObjectDelegate->onUnitStopMove(this);
         }
-        if (selectedGameObjectDelegate)
-            selectedGameObjectDelegate->onUnitStopMove(this);
+		else
+		{
+			if (selectedGameObjectDelegate)
+				selectedGameObjectDelegate->onUnitPauseMove(this);
+		}
         //MoveToNextCell();
         
     }

@@ -25,7 +25,7 @@ static bool showShadows = true;
 #define MAXBRIDGESCALE  1.1
 #define MAXELAPSEDBRIDGESCALE  0.05
 #define MAXBRIDGELIFTSPEED 5.0
-#define VERTICALSPEED   1
+#define VERTICALSPEED   1.0
 
 GLKVector2 planeOffsets[] = {
     {0 * OFFSETSCALE,       -1 * OFFSETSCALE},

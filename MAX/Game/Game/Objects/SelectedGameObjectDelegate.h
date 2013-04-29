@@ -17,6 +17,7 @@ class SelectedGameObjectDelegate
 {
 public:
     virtual void onUnitStartMove(GameUnit* unit) = 0;
+	virtual void onUnitPauseMove(GameUnit* unit) = 0;
     virtual void onUnitStopMove(GameUnit* unit) = 0;
 };
 

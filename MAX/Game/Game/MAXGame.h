@@ -89,6 +89,7 @@ public:
     
 #pragma mark - SelectedGameObjectDelegate
     virtual void onUnitStartMove(GameUnit* unit);
+	virtual void onUnitPauseMove(GameUnit* unit);
     virtual void onUnitStopMove(GameUnit* unit);
     
 #pragma mark - GameEffectDelegate
