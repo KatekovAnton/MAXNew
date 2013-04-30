@@ -16,7 +16,7 @@ GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
     _landed = false;
     for (int pt = UNIT_PARAMETER_TYPE_MIN; pt <= UNIT_PARAMETER_TYPE_MAX; pt++)
     {
-        int val = _unitBaseParameters->GetParameterValue((UNIT_PARAMETER_TYPE)pt);
+        int val = GetMaxParameterValue((UNIT_PARAMETER_TYPE)pt);
         SetParameterValue((UNIT_PARAMETER_TYPE)pt, val);
     }
 }
@@ -63,7 +63,7 @@ int GameUnitCurrentState::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType
     switch (parameterType)
     {
         case UNIT_PARAMETER_TYPE_SPEED:
-            result = _unitBaseParameters->_pMaxSpeed;
+            result = _unitBaseParameters->_pMaxSpeed * 10;
             break;
         case UNIT_PARAMETER_TYPE_HEALTH:
             result = _unitBaseParameters->_pMaxHealth;
@@ -146,4 +146,25 @@ void GameUnitCurrentState::StartNewTurn()
     parameterType = UNIT_PARAMETER_TYPE_SHOTS;
     val = GetMaxParameterValue(parameterType);
     SetParameterValue(parameterType, val);
+    
+    parameterType = UNIT_PARAMETER_TYPE_GAS;
+    val = GetMaxParameterValue(parameterType);
+    SetParameterValue(parameterType, val);
+}
+
+void GameUnitCurrentState::MoveWithCost(const int cost)
+{
+    int val;
+    UNIT_PARAMETER_TYPE parameterType;
+
+    parameterType = UNIT_PARAMETER_TYPE_SPEED;
+    val = GetParameterValue(parameterType);
+    val -= cost;
+    SetParameterValue(parameterType, val);
+
+    parameterType = UNIT_PARAMETER_TYPE_GAS;
+    val = GetParameterValue(parameterType);
+    val -= cost;
+    SetParameterValue(parameterType, val);
+    
 }

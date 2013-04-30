@@ -28,7 +28,6 @@ protected:
     MAXObjectConfig *_config_w;
     
 public:
-    
     int _tag;
     
     bool _onDraw;

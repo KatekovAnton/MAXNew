@@ -71,6 +71,27 @@ GameMatch::~GameMatch()
         delete _pathfinder;
 }
 
+bool GameMatch::EndTurn()
+{
+    GameMatchPlayer* nextPlayer = _players[0];
+    bool found = false;
+    for (int i = 0; i < _players.size(); i++)
+    {
+        if (found)
+        {
+            nextPlayer = _players[i];
+            break;
+        }
+        else if (_currentPlayer_w == _players[i])
+        {
+            found = true;
+        }
+    }
+//    _currentPlayer_w = nextPlayer; // not ready for change player
+    _currentPlayer_w->BeginTurn();
+    return true;
+}
+
 void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 {
     if (!unit->GetIsConnectored())

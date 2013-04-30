@@ -353,6 +353,27 @@ void MAXGame::StartMatch()
 
 }
 
+bool MAXGame::EndTurn()
+{
+    bool result = false;
+    if (_freezeCounter == 0)
+    {
+        result = _match->EndTurn();
+        if (_currentUnit)
+        {
+            _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+            ShowUnitPath(_currentUnit);
+
+            CCPoint location = _currentUnit->GetUnitCell();
+            UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+            Pathfinder* pf = _match->_pathfinder;
+            pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_pSpeed);
+            ShowPathMap();
+        }
+    }
+    return result;
+}
+
 void MAXGame::FlushEffectsWithNew(GameEffect *effect)
 {
     bool onemorestep = true;
@@ -424,7 +445,7 @@ void MAXGame::ShowUnitPath(GameUnit *unit)
     int pathSize = path.size();
     if (pathStep > pathSize - 2)
         pathStep = pathSize - 2;
-    int speed = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10; // rework to current data
+    int speed = unit->_unitCurrentParameters->_pSpeed;
 	vector<PathElement> testPath;
     int totalCost = 0;
 	for (int pi = pathStep; pi >= 0; pi--)
@@ -451,7 +472,7 @@ void MAXGame::ShowUnitPath(GameUnit *unit)
         if (endTurnMarker)
         {
             totalCost -= speed;
-            speed = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10; // rework to max param
+            speed = unit->_unitCurrentParameters->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
             element.image += 8;
         }
 		testPath.push_back(element);
@@ -571,7 +592,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                 CCPoint location = _currentUnit->GetUnitCell();
                 UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
                 Pathfinder* pf = _match->_pathfinder;
-                pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10);
+                pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_pSpeed);
                 //pf->DumpMap();
                 ShowPathMap();
             }
@@ -651,10 +672,12 @@ void MAXGame::onUnitPauseMove(GameUnit* unit)
 		CCPoint location = unit->GetUnitCell();
 		UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
 		Pathfinder* pf = _match->_pathfinder;
-		pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10);
+		pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->_pSpeed);
 		//pf->DumpMap();
 		ShowPathMap();
 		ShowUnitPath(_currentUnit);
+        
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
 	}
 }
 

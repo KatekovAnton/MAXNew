@@ -58,7 +58,7 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
 //    statsFrame->setContentSize(s);
 }
 
-void UpdateParameters()
+void GIUnitParametersNode::UpdateParameters()
 {}
 
 GIUnitParametersNode* GIUnitParametersNode::create()

@@ -222,6 +222,10 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
                     else if (selectedUnit == unit)
                     {
                         selectedUnitFound = true;
+                        if (result == NULL)
+                        {
+                            result = selectedUnit; // if no more units
+                        }
                     }
                     else if (result == NULL) // first unit
                     {

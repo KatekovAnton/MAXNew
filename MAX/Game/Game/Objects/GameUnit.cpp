@@ -139,6 +139,11 @@ void GameUnit::LandInstantly()
     }
 }
 
+void GameUnit::NewTurn()
+{
+    _unitCurrentParameters->StartNewTurn();
+}
+
 void GameUnit::PlaceUnitOnMap()
 {
     if (_isPlacedOnMap) 
@@ -236,6 +241,7 @@ void GameUnit::SetPath(std::vector<PFWaveCell*> path)
 	if (movePath.size() > 1)
 	{
         pathIndex = movePath.size() - 2; // last value is current position
+        printf("SetPath: %d / %ld\n", pathIndex, movePath.size());
 	}
 	else
 	{
@@ -315,7 +321,7 @@ void GameUnit::FollowPath(void)
     int bodyIndex = _unitObject->GetBodyIndex();
     int pi = pathIndex;
     bool first = true;
-    int speed = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed * 10; // rework to current data
+    int speed = _unitCurrentParameters->_pSpeed;
     MAXAnimationObjectUnit* move = NULL;
     while (pi >= 0)
     {
@@ -357,8 +363,8 @@ void GameUnit::FollowPath(void)
         pi--;
         first = false;
     }
-    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
     _currentTopAnimation = sequence;
+    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
 }
 
 bool GameUnit::MoveToNextCell(void)
@@ -613,7 +619,17 @@ int GameUnit::GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const
 #pragma mark - MAXAnimationDelegate
 
 void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
-{}
+{
+    if (animation == _currentTopAnimation)
+    {
+    }
+    else // move
+    {
+        PFWaveCell* cell = movePath[pathIndex];
+        _unitCurrentParameters->MoveWithCost(cell->cost);
+        pathIndex--;
+    }
+}
 
 void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
@@ -622,24 +638,6 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 
 void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 {
-//    if (animation == _moveAnimation)
-//    {
-//        _unitCell = ((MAXAnimationObjectUnit*)animation)->GetEndLocation();
-//        _moveAnimation->_delegate = NULL;
-//        _moveAnimation = NULL;
-////        CheckBodyAndShadow();
-//
-//        
-//        BoundingBox bb;
-//        bb.min.x = _unitCell.x;
-//        bb.min.y = _unitCell.y;
-//        bb.max.x = _unitCell.x + 1;
-//        bb.max.y = _unitCell.y + 1;
-//        USimpleContainer<MAXObject*> *buffer = new USimpleContainer<MAXObject*>(10);
-//        engine->GetAllObjectsInArea(bb, buffer);
-//        delete buffer;
-//    }
-//    else
     CheckMovementUpdate();
     
     if (animation == _currentTopAnimation)
@@ -665,12 +663,6 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
     }
     else // move
     {
-        pathIndex--;
-//        if (pathIndex == 1)
-//        {
-//            // move stop
-//            _currentTopAnimation->Stop();
-//        }
     }
 }
 

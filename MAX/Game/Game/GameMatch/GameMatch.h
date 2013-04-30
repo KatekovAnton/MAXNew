@@ -36,6 +36,7 @@ public:
     GameMatch(const string& configName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();
     
+    bool EndTurn();
     
     void GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point);
     void GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point);

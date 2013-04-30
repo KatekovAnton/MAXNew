@@ -71,6 +71,7 @@ public:
     
     
     void StartMatch();
+    bool EndTurn();
     void FlushEffectsWithNew(GameEffect *effect);
   
 #pragma mark - Interface

@@ -69,6 +69,7 @@ public:
 
     void SetPalette(double time);
     void LandingTo(const CCPoint &landingPosition);
+    void BeginTurn();
 
     bool CanSeeUnit(GameUnit* unit);
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);

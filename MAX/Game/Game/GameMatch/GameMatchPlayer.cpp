@@ -108,6 +108,15 @@ void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
     _landingPosition = landingPosition;
 }
 
+void GameMatchPlayer::BeginTurn()
+{
+    for (int i = 0; i < _units.GetCount(); i++)
+    {
+        GameUnit* unit = _units.objectAtIndex(i);
+        unit->NewTurn();
+    }
+}
+
 bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
 {
     //TODO: add invisibility conditions

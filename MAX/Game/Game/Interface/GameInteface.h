@@ -92,6 +92,7 @@ public:
 #pragma mark - Game events
     
     void OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock);
+    void OnCurrentUnitDataChanged(GameUnit* unit);
 
 };
 

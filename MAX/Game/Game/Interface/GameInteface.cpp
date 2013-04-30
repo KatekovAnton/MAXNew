@@ -18,6 +18,7 @@
 #include "GameInterfacePrefix.h"
 #include "CCScrollView.h"
 #include "GIUnitParametersNode.h"
+#include "MAXGame.h"
 
 using namespace extension;
 
@@ -451,7 +452,7 @@ void GameInterface::OnTogglePanel(CCMenuItem* sender)
 
 void GameInterface::OnEndTurn(CCMenuItem* sender)
 {
-    
+    game->EndTurn();
 }
 
 #pragma mark - Game events
@@ -510,3 +511,15 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock)
     _unitParameters->SetUnit(_currentUnit);
 }
 
+void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit)
+{
+    if (unit == _currentUnit)
+    {
+        _unitParameters->UpdateParameters();
+        _unitParameters->SetUnit(unit); // TBD: only update data
+    }
+    else
+    {
+        _unitParameters->SetUnit(unit);
+    }
+}

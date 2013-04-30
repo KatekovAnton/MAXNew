@@ -91,6 +91,7 @@ public:
     void LandInstantly();
     
     //logic methods
+    void NewTurn();
     void PlaceUnitOnMap();
     void RemoveUnitFromMap();
     

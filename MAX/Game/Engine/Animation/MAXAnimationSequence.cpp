@@ -98,7 +98,10 @@ void MAXAnimationSequence::CompletlyFinish()
 void MAXAnimationSequence::StartAnimation()
 {
     if (_animations.size() == 0)
+    {
+        _isStoped = true;
         return;
+    }
     MAXAnimationBase* canim = _animations.at(0);
     canim->BaseStart();
     _current = canim;
