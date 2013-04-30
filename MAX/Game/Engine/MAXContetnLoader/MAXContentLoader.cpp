@@ -1111,6 +1111,7 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name, Color
     pTexture->initWithData(data.data, kCCTexture2DPixelFormat_RGBA8888, data.w, data.h, sz);
     data.FreeBuffer();
     loadedData[index] = (void*)pTexture;
+	pTexture->setAliasTexParameters();
     return pTexture;
 }
 

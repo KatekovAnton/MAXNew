@@ -161,12 +161,12 @@ void GameInterface::InitBaseInterface()
     
     
     currentElement -= 30;
-    _toggleLockUnitsButton = createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
+    _toggleLockUnitsButton = createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,currentElement));
     CCMenu *menu = CCMenu::create(_toggleLockUnitsButton, nullptr);
     {
         CCLabelTTF *label = CCLabelTTF::create("Lock\nunits", MAX_DEFAULT_FONT, 10);
-        label->setColor(MAX_COLOR_BLACK);
+        label->setColor(MAX_COLOR_WHITE);
         CCSize sz = label->getContentSize();
         sz.height /= 2;
         label->setPosition(ccp(_toggleLockUnitsButton->getContentSize().width + 1, -1));
@@ -179,42 +179,42 @@ void GameInterface::InitBaseInterface()
     }
     
     currentElement -= 30;
-    _toggleGridButton = createMenuItemFromMaxres("Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
+    _toggleGridButton = createMenuItemFromMaxres("Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
     _toggleGridButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleGridButton);
     
     currentElement -= 30;
-    _toggleScanButton = createMenuItemFromMaxres("Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleScan));
+    _toggleScanButton = createMenuItemFromMaxres("Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleScan));
     _toggleScanButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleScanButton);
     
     currentElement -= 30;
-    _toggleRangeButton = createMenuItemFromMaxres("Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleRange));
+    _toggleRangeButton = createMenuItemFromMaxres("Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleRange));
     _toggleRangeButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleRangeButton);
     
     currentElement -= 30;
-    _toggleShotsButton = createMenuItemFromMaxres("Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleShots));
+    _toggleShotsButton = createMenuItemFromMaxres("Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleShots));
     _toggleShotsButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleShotsButton);
     
     currentElement -= 30;
-    _toggleStatusButton = createMenuItemFromMaxres("Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
+    _toggleStatusButton = createMenuItemFromMaxres("Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
     _toggleStatusButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleStatusButton);
     
     currentElement -= 30;
-    _toggleResourcesButton = createMenuItemFromMaxres("Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleResources));
+    _toggleResourcesButton = createMenuItemFromMaxres("Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleResources));
     _toggleResourcesButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleResourcesButton);
     
     currentElement -= 30;
-    _toggleFogButton = createMenuItemFromMaxres("Fog", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleFog));
+    _toggleFogButton = createMenuItemFromMaxres("Fog", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleFog));
     _toggleFogButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleFogButton);
     
     currentElement -= 30;
-    _togglePathZone = createMenuItemFromMaxres("Path zone", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnTogglePathZone));
+    _togglePathZone = createMenuItemFromMaxres("Path zone", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnTogglePathZone));
     _togglePathZone->setPosition(ccp(bx,currentElement));
     CocosHelper::MoveNode(_togglePathZone->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 0));
     menu->addChild(_togglePathZone);

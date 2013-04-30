@@ -288,7 +288,7 @@ void CCLabelTTF::updateTexture()
                         m_vAlignment,
                         m_pFontName->c_str(),
                         m_fFontSize * CC_CONTENT_SCALE_FACTOR());
-	
+	tex->setAliasTexParameters();
     this->setTexture(tex);
     tex->release();
 	

@@ -17,7 +17,7 @@ GIUnitParameterRow::GIUnitParameterRow()
 :_labelDiscr(NULL), _labelValue(NULL), _imageFull(NULL), _value(6), _maxValue(6)
 {
     string text = intToString(_value) + "/" + intToString(_maxValue);
-    _labelValue = CCLabelTTF::create(text.c_str(), MAX_DEFAULT_FONT, 8);
+    _labelValue = CCLabelTTF::create(text.c_str(), MAX_DEFAULT_FONT, 9);
     _labelValue->setAnchorPoint(ccp(0, 0));
     
     CCSize sz = _labelValue->getContentSize();
