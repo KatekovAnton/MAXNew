@@ -460,7 +460,7 @@ void MAXGame::ShowUnitPath(GameUnit *unit)
         bool endTurnMarker = false;
         if (pi > 0)
         {
-            if (totalCost + path[pi - 1]->cost > speed)
+            if ((totalCost < speed) && (totalCost + path[pi - 1]->cost > speed))
             {
                 endTurnMarker = true;
             }
@@ -471,10 +471,13 @@ void MAXGame::ShowUnitPath(GameUnit *unit)
         }
         if (endTurnMarker)
         {
-            totalCost -= speed;
-            speed = unit->_unitCurrentParameters->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
             element.image += 8;
         }
+		if (totalCost >= speed)
+		{
+			totalCost -= speed;
+			speed = unit->_unitCurrentParameters->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+		}
 		testPath.push_back(element);
 	}
 	_pathVisualizer->VisualizePath(testPath);
