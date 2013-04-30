@@ -186,11 +186,23 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y)
 	return units->objectAtIndex(0);
 }
 
-GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, bool selectedUnit)
+GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, GameUnit* selectedUnit)
 {
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
     if (units->GetCount() == 0)
         return NULL;
+
+    bool findNextUnitInCell = false;
+    if (selectedUnit != NULL)
+    {
+        CCPoint pos = selectedUnit->GetUnitCell();
+        if (((int)pos.x == x) && ((int)pos.y == y))
+        {
+            findNextUnitInCell = true;
+        }
+    }
+    bool selectedUnitFound = false;
+    
 	GameUnit* result = NULL;
     for (int i = 0; i < units->GetCount(); i++) 
 	{
@@ -198,13 +210,33 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
 		{
 			GameUnit* unit = units->objectAtIndex(i);
 			MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
-			if (selectedUnit)
+			if (selectedUnit != NULL)
 			{
-				if (!config->_isCantSelect)
-				{
-					result = unit;
-					break;
-				}
+                if (findNextUnitInCell)
+                {
+                    if (selectedUnitFound) // next unit
+                    {
+                        result = unit;
+                        break;
+                    }
+                    else if (selectedUnit == unit)
+                    {
+                        selectedUnitFound = true;
+                    }
+                    else if (result == NULL) // first unit
+                    {
+                        result = unit;
+                    }
+                }
+                else
+                {
+                    MAXObjectConfig* selectedConfig = selectedUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+                    if ((!config->_isCantSelect) || selectedConfig->_isCantSelect || selectedConfig->_isBuilding)
+                    {
+                        result = unit;
+                        break;
+                    }
+                }
 			}
 			else
 			{

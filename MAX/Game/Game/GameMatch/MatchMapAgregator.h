@@ -42,7 +42,7 @@ public:
     void RemoveUnitFromCell(GameUnit *unit, const int x, const int y);
     void AddUnitToCell(GameUnit *unit, const int x, const int y);
     GameUnit* GetUnitInPosition(const int x, const int y);
-    GameUnit* GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, bool selectedUnit);
+    GameUnit* GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, GameUnit* selectedUnit);
     bool IsGroundUnitInPosition(const int x, const int y);
     bool IsAirUnitInPosition(const int x, const int y);
     bool ContainConnectoredBuildingInPosition(const int x, const int y, GameMatchPlayer *_player) const;

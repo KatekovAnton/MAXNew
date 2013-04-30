@@ -472,7 +472,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
  //   printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
     bool _removeFromLock = false;
     
-    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit != NULL);// _currentPlayer_w->GetUnitInPosition(p);
+    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);// _currentPlayer_w->GetUnitInPosition(p);
     if (_currentUnit && !_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
     {
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
@@ -486,6 +486,20 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {
             if (newCurrentUnit)
             {
+                if ((_currentUnit) && (_currentUnit->GetPath().size() > 0))
+                {
+                    CCPoint location1 = _currentUnit->GetUnitCell();
+                    CCPoint location2 = newCurrentUnit->GetUnitCell();
+                    if ((location1.x == location2.x) && (location1.y == location2.y))
+                    {
+                        // clear path
+                        newCurrentUnit = NULL;
+                        _unitMoved = true;
+                        std::vector<PFWaveCell*> path;
+                        _currentUnit->SetPath(path);
+                        _pathVisualizer->Clear();
+                    }
+                }
                 // force select another unit
             }
             else if (_match->_currentPlayer_w == _currentUnit->_owner_w)
@@ -521,7 +535,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
             if (!newCurrentUnit && !_unitMoved)
             {
-                newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit != NULL);
+                newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
             }
         }
     }
