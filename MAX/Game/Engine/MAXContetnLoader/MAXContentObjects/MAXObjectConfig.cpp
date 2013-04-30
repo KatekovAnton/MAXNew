@@ -107,7 +107,18 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
         
         return;
     }
-    
+    //КадрыХода
+    static unsigned char dataSteps[] = {0xCA, 0xE0, 0xE4, 0xF0, 0xFB, 0xD5, 0xEE, 0xE4, 0xE0};
+    res = memcmp(dataSteps, key.c_str(), 8);
+    if (res == 0)
+    {
+        vector<string> result;
+        split(value, ',' , result);
+        stepFrameStart = atoi(result[0].c_str());
+        stepFrameEnd = atoi(result[1].c_str());
+        
+        return;
+    }
     
     
     //кадрыбазы

@@ -24,6 +24,10 @@ typedef enum
 
 class MAXAnimationObjectUnit : public MAXAnimationBase {
     
+    bool _firstFlag;
+    int _startBodyOffset;
+    
+    
     MAXUnitObject* _unit;
     MAXANIMATION _type;
 

@@ -59,8 +59,9 @@ int GetRotateLengt(int from, int to)
 }
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, const CCPoint& endLocation, MAXUnitObject* object, const MAXANIMATION_CURVE moveCurve)      //creates move action
-:MAXAnimationBase(), _unit(object), _startLocation(startLocation), _endLocation(endLocation), _type(MAXANIMATION_UNITMOVE)
+:MAXAnimationBase(), _unit(object), _startLocation(startLocation), _endLocation(endLocation), _type(MAXANIMATION_UNITMOVE), _firstFlag(true)
 {
+    _startBodyOffset = _unit->headOffset;
     _moveCurve = moveCurve;
     _aniTime = 0.2;
     if (_moveCurve != MAXANIMATION_CURVE_EASE_LINEAR)
@@ -71,13 +72,13 @@ MAXAnimationObjectUnit::MAXAnimationObjectUnit(const CCPoint& startLocation, con
 }
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int newBodyIndex, int headIndex, MAXUnitObject* object)                                  //creates rotate action
-:MAXAnimationBase(), _unit(object), _bodyIndex(newBodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(bodyIndex)
+:MAXAnimationBase(), _unit(object), _bodyIndex(newBodyIndex), _headIndex(headIndex), _type(MAXANIMATION_UNITROTATE), _startHeadIndex(object->GetPureHeadIndex()), _startBodyIndex(bodyIndex), _firstFlag(true)
 {
     _aniTime = 0.08 * GetRotateLengt(_startBodyIndex, _bodyIndex);
 }
 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(float firetime, MAXUnitObject* object)                                               //creates fire action
-:MAXAnimationBase(), _unit(object), _type(MAXANIMATION_UNITFIRE)
+:MAXAnimationBase(), _unit(object), _type(MAXANIMATION_UNITFIRE), _firstFlag(true)
 {
     _aniTime = firetime;
 }
@@ -117,6 +118,20 @@ void MAXAnimationObjectUnit::Update(double time)
         {
             CCPoint result = CCPoint(_startLocation.x + _deltaLocation.x * deltaTime, _startLocation.y + _deltaLocation.y * deltaTime);
             _unit->SetPosition(result);
+            if (_unit->params_w->_isInfantry) {
+                if (_firstFlag) {
+                    _firstFlag = false;
+                    _startBodyOffset = _unit->headOffset;
+                }
+                int stepsFramesCount = _unit->params_w->stepFrameEnd - _unit->params_w->stepFrameStart + 1;
+                stepsFramesCount /= 8;
+                stepsFramesCount = stepsFramesCount;
+                
+                int currentstep = stepsFramesCount * deltaTime;
+                int neededOffsetForCurrentStep = _unit->params_w->stepFrameStart + currentstep * 8;
+                _unit->SetBodyOffset(neededOffsetForCurrentStep);
+                //int steppart =
+            }
         }   break;
             
         case MAXANIMATION_UNITROTATE:
@@ -150,6 +165,7 @@ void MAXAnimationObjectUnit::CompletlyFinish()
         {
             GLKMatrix4 rt = MAXUnitObject::MatrixForCell(_endLocation);
             _unit->SetGlobalPosition(rt, nullptr, nullptr, false);
+            _unit->SetBodyOffset(_startBodyOffset);
         }   break;
             
         case MAXANIMATION_UNITROTATE:

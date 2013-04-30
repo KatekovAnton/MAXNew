@@ -35,6 +35,9 @@ public:
     int bodyActiveFrame1;
     int bodyActiveFrame2;
     
+    int stepFrameStart;
+    int stepFrameEnd;
+    
 //    
 //    Алексей 🐷: Тип=infantry
 //    
