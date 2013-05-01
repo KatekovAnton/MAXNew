@@ -412,7 +412,6 @@ bodyActiveFrame2(0)
     
     _isPlane = _bLevel == OBJECT_LEVEL_AIR;
     _hasHead = _pSeparateCanon == 1 || _isAnimHead;
-    _isMultifire = _pFireType == FIRE_TYPE_Air;
     _isAnimatedHead = _isAnimHead;
     _level = _bLevel;
     if (_isSurvivor && (_bMoveType == UNIT_MOVETYPE_AMHIB))

@@ -557,10 +557,10 @@ GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
     BULLET_TYPE type = BULLET_TYPE_ROCKET;
     SECONDARY_TYPE st = SECONDARY_TYPE_NONE;
     int fireType = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pBulletType;
-    if (fireType == 1) {
+    if (fireType == 1 || fireType == 4) {
         type = BULLET_TYPE_NONE;
     }
-    if (fireType == 3 || fireType == 4 || fireType == 8) {
+    if (fireType == 3  || fireType == 8) {
         type = BULLET_TYPE_ROCKET;
         st = SECONDARY_TYPE_SMOKE;
     }

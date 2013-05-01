@@ -81,7 +81,6 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
         else
             headFireOffset = 8;
     }
-    params_w->_isMultifire = (IsHasBody() && _material->_frameCount == 32) || (params_w->_isBuilding && params_w->_pFireType == 3);
     SetHeadDirection(0);
 }
 
@@ -471,7 +470,7 @@ FIRE_TYPE MAXUnitObject::FireType() const
 
 bool MAXUnitObject::IsSingleFire() const
 {
-    return !params_w->_isMultifire;
+    return params_w->_pBulletType != 4;
 }
 
 bool MAXUnitObject::IsHasBody() const

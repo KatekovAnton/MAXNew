@@ -225,7 +225,6 @@ public:
     int _level;
     bool _hasHead;
     bool _isAnimatedHead;
-    bool _isMultifire;
     bool _isAmphibious;
     
     MAXObjectConfig();
