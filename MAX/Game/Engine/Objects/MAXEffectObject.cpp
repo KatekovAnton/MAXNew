@@ -91,6 +91,6 @@ void MAXEffectObject::LastUpdate(bool low)
 {
     if (!GetIsOnScreen())
         return;
-    if (!low)
+    if (!low || _drawInLowLod)
         bodyRenderMatrix = CalculateBodyRenderMatrix();
 }

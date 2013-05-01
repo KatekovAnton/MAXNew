@@ -49,6 +49,7 @@ MAXEngine::MAXEngine()
 {
     _renderSystem = new RenderSystem();
     _first = true;
+    _lowLodHighDrawObjects = new USimpleContainer<MAXObject*>(100);
 }
 
 MAXEngine::~MAXEngine()
@@ -355,39 +356,51 @@ void MAXEngine::DrawUnits()
     _applyedPaletteCount = 0;
     const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
     bool drawedPathZone = false;
-    
+    _lowLodHighDrawObjects->clear();
 
     
     
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     if (lowRender)
     {
+        DrawPathZone();
+        drawedPathZone = true;
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
         _shader = _unitLowShader;
         glUseProgram(_shader->GetProgram());
         _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
         _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-        
-        
-        
+    
         MAXSCL->unitMesh->Bind();
         for (int i = 0; i < objects->GetCount(); i++)
         {
-            MAXUnitObject* object = (MAXUnitObject*)objects->objectAtIndex(i);
-            OBJECT_LEVEL currentLevel =(OBJECT_LEVEL)object->params_w->_bLevel;
-            if (currentLevel > _pathZoneRendererLevel && drawPathZone && !drawedPathZone) {
-                MAXSCL->unitMesh->Unbind();
-                DrawPathZone();
-                
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                _shader = _unitLowShader;
-                glUseProgram(_shader->GetProgram());
-                MAXSCL->unitMesh->Bind();
-                drawedPathZone = true;
-            }
-            
-            object->DrawLow(_shader);
+            MAXObject* object = (MAXObject*)objects->objectAtIndex(i);
+            if (object->_drawInLowLod)
+                _lowLodHighDrawObjects->addObject(object);
+            else
+                object->DrawLow(_shader);
         }
         MAXSCL->unitMesh->Unbind();
+        
+        
+        if (_lowLodHighDrawObjects->GetCount() > 0)
+        {
+            _shader = _unitShader;
+            glUseProgram(_shader->GetProgram());
+            _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
+            _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
+            _applyedPaletteIndex = -100;
+            
+            MAXSCL->unitMesh->Bind();
+            for (int i = 0; i < _lowLodHighDrawObjects->GetCount(); i++)
+            {
+                MAXObject* object = (MAXObject*)_lowLodHighDrawObjects->objectAtIndex(i);
+                object->Draw(_shader);
+            }
+            MAXSCL->unitMesh->Unbind();
+            
+        }
     }
     else
     {

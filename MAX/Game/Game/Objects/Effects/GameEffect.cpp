@@ -316,6 +316,7 @@ GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
     config->_isBuilding = true;
     MAXEffectObject* effectObject = MAXSCL->CreateSingleEffect(config, size);
     effectObject->_currentFrame=0;
+    effectObject->_drawInLowLod = true;
     GameEffect* result = new GameEffect(effectObject, config, false);
     result->_effectType = EFFECT_TYPE_BUILDING_BASE;
     result->_blastType = BLAST_TYPE_NONE;

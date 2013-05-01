@@ -41,7 +41,7 @@ compareFunc MAXObject::GetCompareFunc()
 }
 
 MAXObject::MAXObject(MAXObjectConfig* params)
-:params_w(params)
+:params_w(params), _drawInLowLod(false)
 {}
 
 MAXObject::~MAXObject()

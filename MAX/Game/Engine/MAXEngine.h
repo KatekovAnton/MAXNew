@@ -64,6 +64,9 @@ class MAXEngine : public RequestDelegate  {
     
     bool lowRender;
     OBJECT_LEVEL _pathZoneRendererLevel;
+    
+    USimpleContainer<MAXObject*> *_lowLodHighDrawObjects;
+    
 public:
     
     MAXResourceMapRenderer  *_resourceRenderer;

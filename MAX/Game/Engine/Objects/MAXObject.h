@@ -21,6 +21,10 @@ class MAXObjectConfig;
 
 class MAXObject : public PivotObject {
 public:
+    
+    bool _drawInLowLod;
+    
+    
     MAXObjectConfig* params_w;
     
     MAXObject(MAXObjectConfig* params);
