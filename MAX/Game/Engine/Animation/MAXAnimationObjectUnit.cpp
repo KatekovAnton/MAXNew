@@ -187,7 +187,8 @@ void MAXAnimationObjectUnit::CompletlyFinish()
         {
             GLKMatrix4 rt = MAXUnitObject::MatrixForCell(_endLocation);
             _unit->SetGlobalPosition(rt, nullptr, nullptr, false);
-            _unit->SetBodyOffset(_startBodyOffset);
+            if (_unit->params_w->_isInfantry)
+                _unit->SetBodyOffset(_startBodyOffset);
         }   break;
             
         case MAXANIMATION_UNITROTATE:
