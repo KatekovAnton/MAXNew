@@ -80,6 +80,7 @@ MAXAnimationObjectUnit::MAXAnimationObjectUnit(int bodyIndex, int newBodyIndex, 
 MAXAnimationObjectUnit::MAXAnimationObjectUnit(float firetime, MAXUnitObject* object)                                               //creates fire action
 :MAXAnimationBase(), _unit(object), _type(MAXANIMATION_UNITFIRE), _firstFlag(true)
 {
+    _startBodyOffset = _unit->headOffset;
     _aniTime = firetime;
 }
 
@@ -110,6 +111,25 @@ void MAXAnimationObjectUnit::Update(double time)
             {
                 int count = deltaTime/0.2;
                 _unit->SetIsFireing(true, count%2 == 1);
+                
+            }
+            else
+            {
+                if (_unit->params_w->_isInfantry) {
+                    if (_firstFlag) {
+                        _firstFlag = false;
+                        _startBodyOffset = _unit->headOffset;
+                    }
+                    
+                    
+                    int stepsFramesCount = 56;
+                    stepsFramesCount /= 8;
+                    
+                    int currentstep = stepsFramesCount * deltaTime;
+                    int neededOffsetForCurrentStep = _unit->params_w->stepFrameEnd + 1 + currentstep * 8;
+                    _unit->SetBodyOffset(neededOffsetForCurrentStep);
+                    
+                }
             }
             
         }   break;
@@ -159,6 +179,7 @@ void MAXAnimationObjectUnit::CompletlyFinish()
         case MAXANIMATION_UNITFIRE:
         {
             _unit->SetIsFireing(false, false);
+            _unit->SetBodyOffset(_startBodyOffset);
         }   break;
     
         case MAXANIMATION_UNITMOVE:
