@@ -43,6 +43,7 @@ public:
     
     int _version;
     
+    GameUnitParameters(MAXObjectConfig       *config);
     GameUnitParameters(MAXObjectConfig       *config,
                        MAXClanConfig         *clanBonuses,
                        PlayerResearchManager *researchManager,

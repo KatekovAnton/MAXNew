@@ -12,6 +12,8 @@
 #include "MAXContentLoader.h"
 #include "MAXAnimationPrefix.h"
 #include "MAXGame.h"
+#include "GameUnit.h"
+#include "GameUnitParameters.h"
 
 //-подложка под большое здание                                                  LRGSLAB	mult
 //-подложка под маленькое здание                                                SMLSLAB	mult
@@ -41,6 +43,10 @@
 //зацикленный многоразовый эфект для например маркеров выхода,
 //либо такйже точно залупленный но одноразовый для взрывов и дыма,
 //либо просто статика, как для мусора, стрелок пути и оградок вокруг строителей-быльдозеров
+
+//ВОТ АЛЕКСЕЙ какие костыли приходится городить чтоб сделать мусор юнитом
+MAXObjectConfig* trash1x1config = NULL;
+MAXObjectConfig* trash2x2config = NULL;
 
 GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config, bool addToEffectList)
 :GameObject(effectObject, config), _config(config), _finished(false), _blastType(BLAST_TYPE_NONE), _secondaryType(SECONDARY_TYPE_NONE), _lastSmokeCreationTime(engine->FullTime()), _delegate_w(NULL)
@@ -156,9 +162,40 @@ GameEffect* GameEffect::CreateSecondaryEffect(SECONDARY_TYPE type, int level)
     return result;
 }
 
-GameEffect* GameEffect::CreateTrash(TRASH_TYPE type, int level)
+GameUnit* GameEffect::CreateTrash(TRASH_TYPE type)
 {
-    return NULL;
+    MAXObjectConfig* config = NULL;
+    if (type == TRASH_TYPE_SMALL)
+    {
+        if (!trash1x1config) {
+            trash1x1config = new MAXObjectConfig();
+            trash1x1config->_bLevel = OBJECT_LEVEL_ONGROUND;
+            trash1x1config->_bodyName = "SMLRUBLE";
+            trash1x1config->_shadowName = "";
+            trash1x1config->_bSize = 1;
+            trash1x1config->_isBuilding = true;
+        }
+        config = trash1x1config;
+    }
+    else
+    {
+        if (!trash2x2config) {
+            trash2x2config = new MAXObjectConfig();
+            trash2x2config->_bLevel = OBJECT_LEVEL_ONGROUND;
+            trash2x2config->_bodyName = "LRGRUBLE";
+            trash2x2config->_shadowName = "";
+            trash2x2config->_bSize = 2;
+            trash2x2config->_isBuilding = true;
+        }
+        config = trash2x2config;
+    }
+    MAXUnitObject* object = MAXSCL->CreateUnit(config);
+    GameUnitParameters* params = new GameUnitParameters(config);
+    GameUnit* result = new GameUnit(object, params);
+    result->SetColor(GLKVector4Make(0, 0, 0, 0));
+    result->_owner_w = NULL;
+    
+    return result;
 }
 
 GameEffect* GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE type, int level)
@@ -286,7 +323,6 @@ GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
     result->_secondaryType = SECONDARY_TYPE_NONE;
     return result;
 }
-
 
 #pragma mark - MAXAnimationDelegate
 

@@ -25,6 +25,12 @@ GameUnitParameters::GameUnitParameters(MAXObjectConfig            *config,
         CalcParams(i, iv);
 }
 
+GameUnitParameters::GameUnitParameters(MAXObjectConfig            *config)
+:_config_w(config), _clanBonuses_w(NULL), _researchManager_w(NULL), _upgradeManager_w(NULL), _version(0)
+{
+
+}
+
 GameUnitParameters::GameUnitParameters(BinaryReader             *saveReader)
 {}
 

@@ -99,7 +99,7 @@ public:
     static GameEffect* CreateBlast(BLAST_TYPE type, int level);
     static GameEffect* CreateBullet(BULLET_TYPE type, int level, BLAST_TYPE blastType, SECONDARY_TYPE secondarytype);
     static GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type, int level);
-    static GameEffect* CreateTrash(TRASH_TYPE type, int level);
+    static GameUnit* CreateTrash(TRASH_TYPE type);
     static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type, int level);
     static GameEffect* CreatePathArrow(int azimut, bool isGreen, int level);
     
