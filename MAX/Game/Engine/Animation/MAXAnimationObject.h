@@ -27,7 +27,7 @@ public:
     CCPoint GetStartLocation () const { return _startLocation; };
     CCPoint GetEndLocation () const { return _endLocation; };
     
-    MAXAnimationObject(const CCPoint& startLocation, const CCPoint& endLocation, MAXObject* object);      //creates move action
+    MAXAnimationObject(const CCPoint& startLocation, const CCPoint& endLocation, MAXObject* object, float speedMultiplier);      //creates move action
     
     virtual void Update(double time);
     virtual void CompletlyFinish();

@@ -554,7 +554,7 @@ GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
     MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?(_unitObject->params_w->_isInfantry?0.4:0.15):0.4, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
-    BULLET_TYPE type = BULLET_TYPE_ROCKET;
+    BULLET_TYPE type = BULLET_TYPE_NONE;
     SECONDARY_TYPE st = SECONDARY_TYPE_NONE;
     int fireType = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pBulletType;
     if (fireType == 1 || fireType == 4) {
@@ -575,10 +575,12 @@ GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
         GameEffect* effect = GameEffect::CreateBullet(type, level, BLAST_TYPE_DAMAGEEFFECT, st);
         effect->SetLocation(GetUnitCell());
         effect->Show();
+        float coeff = 0.75;
         if (type != BULLET_TYPE_PLASMA) {
+            coeff = 1.0;
             effect->SetDirection(MAXObject::CalculateRocketImageIndex(_unitCell, targetCenter));
         }
-        MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject());
+        MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject(), coeff);
         anim->_delegate = effect;
         MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
         return effect;

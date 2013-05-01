@@ -13,10 +13,10 @@
 
 
 
-MAXAnimationObject::MAXAnimationObject(const CCPoint& startLocation, const CCPoint& endLocation, MAXObject* object)
+MAXAnimationObject::MAXAnimationObject(const CCPoint& startLocation, const CCPoint& endLocation, MAXObject* object, float speedMultiplier)
 :MAXAnimationBase(), _unit(object), _startLocation(startLocation), _endLocation(endLocation)
 {
-    _aniTime = 0.05 * sqrtf((startLocation.x - endLocation.x) * (startLocation.x - endLocation.x) + (startLocation.y - endLocation.y) * (startLocation.y - endLocation.y));
+    _aniTime = speedMultiplier * 0.05 * sqrtf((startLocation.x - endLocation.x) * (startLocation.x - endLocation.x) + (startLocation.y - endLocation.y) * (startLocation.y - endLocation.y));
     _moveCurve = MAXANIMATION_CURVE_EASE_LINEAR;
     _deltaLocation = CCPoint(_endLocation.x - _startLocation.x, _endLocation.y - _startLocation.y);
 }
