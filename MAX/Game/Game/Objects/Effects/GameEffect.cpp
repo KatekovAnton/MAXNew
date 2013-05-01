@@ -280,7 +280,6 @@ GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
         case 7:
             effectName = "arrow_left_top_png_2.png";
             break;
-
         case 8:
             effectName = "arrow_up_png.png";
             break;

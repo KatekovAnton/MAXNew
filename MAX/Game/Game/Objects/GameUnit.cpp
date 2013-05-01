@@ -551,21 +551,49 @@ GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
         level = OBJECT_LEVEL_OVERAIR;
     }
     
-    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?(_unitObject->params_w->_isInfantry?0.4:0.15):0.3, _unitObject);
+    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?(_unitObject->params_w->_isInfantry?0.4:0.15):0.4, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
     BULLET_TYPE type = BULLET_TYPE_ROCKET;
-    GameEffect* effect = GameEffect::CreateBullet(type, level, BLAST_TYPE_AIR, SECONDARY_TYPE_SMOKE);
-    effect->SetLocation(GetUnitCell());
-    effect->Show();
-    if (type != BULLET_TYPE_PLASMA) {
-        effect->SetDirection(MAXObject::CalculateRocketImageIndex(_unitCell, targetCenter));
+    SECONDARY_TYPE st = SECONDARY_TYPE_NONE;
+    int fireType = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pBulletType;
+    if (fireType == 1) {
+        type = BULLET_TYPE_NONE;
+    }
+    if (fireType == 3 || fireType == 4 || fireType == 8) {
+        type = BULLET_TYPE_ROCKET;
+        st = SECONDARY_TYPE_SMOKE;
+    }
+    if (fireType == 5) {
+        type = BULLET_TYPE_TORPEDO;
+        st = SECONDARY_TYPE_RIBBLES;
+    }
+    if (fireType == 6) {
+        type = BULLET_TYPE_PLASMA;
+    }
+    if (type != BULLET_TYPE_NONE) {
+        GameEffect* effect = GameEffect::CreateBullet(type, level, BLAST_TYPE_DAMAGEEFFECT, st);
+        effect->SetLocation(GetUnitCell());
+        effect->Show();
+        if (type != BULLET_TYPE_PLASMA) {
+            effect->SetDirection(MAXObject::CalculateRocketImageIndex(_unitCell, targetCenter));
+        }
+        MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject());
+        anim->_delegate = effect;
+        MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
+        return effect;
+    }
+    else
+    {
+        GameEffect* blast = GameEffect::CreateBlast(BLAST_TYPE_DAMAGEEFFECT, level);
+        blast->SetLocation(targetCenter);
+        blast->Show();
+        MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
+        wait->_delegate = blast;
+        MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
+        return blast;
     }
     
-    MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject());
-    anim->_delegate = effect;
-    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
-    return effect;
 }
 
 bool GameUnit::CanStartBuildProcess()
