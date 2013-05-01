@@ -804,8 +804,6 @@
 		D1BC8DEF17316942005184BB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D1BC8DF117316950005184BB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D1BC8DF31731695A005184BB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		D1BC8DF517316965005184BB /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		D1BC8DF7173169AB005184BB /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		D1BC8DF9173169B2005184BB /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		D1BC8DFB17316A0C005184BB /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		D1D4CBA617294A57001C0FB0 /* GameEffectDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameEffectDelegate.h; sourceTree = "<group>"; };
@@ -1351,8 +1349,6 @@
 			children = (
 				D1BC8DFB17316A0C005184BB /* Default-Landscape@2x~ipad.png */,
 				D1BC8DF9173169B2005184BB /* Default-Landscape~ipad.png */,
-				D1BC8DF7173169AB005184BB /* Default-Portrait@2x~ipad.png */,
-				D1BC8DF517316965005184BB /* Default-Portrait~ipad.png */,
 				D1BC8DF31731695A005184BB /* Default-568h@2x.png */,
 				D1BC8DF117316950005184BB /* Default@2x.png */,
 				D1BC8DEF17316942005184BB /* Default.png */,
