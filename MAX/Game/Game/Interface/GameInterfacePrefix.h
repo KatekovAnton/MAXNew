@@ -16,6 +16,9 @@ using namespace cocos2d;
 #define MAX_DEFAULT_FONT "HelveticaNeue-Bold"
 #define MAX_COLOR_BLACK ccc3(0,0,0)
 #define MAX_COLOR_WHITE ccc3(255,255,255)
+#define MAX_COLOR_RED ccc3(255,0,0)
+#define MAX_COLOR_YELLOW ccc3(255,255,0)
+
 
 
 

@@ -24,8 +24,13 @@ class GIUnitParameterRow: public CCNode
     CCLabelTTF* _labelDiscr;
     CCSprite* _imageFull;
     
+    
+    CCSprite* _lineSprite;
+    
     int _value;
     int _maxValue;
+    
+    ccColor3B colorForLabel() const;
     
 public:
     
@@ -36,6 +41,7 @@ public:
     void SetCurrentValue(int value);
     void SetMaxValue(int value);
     void SetTextColor(GIPARAMETER_COLOR color);
+    void SetSeparatorVisible(bool visible);
     
     static GIUnitParameterRow* create();
     

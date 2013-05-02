@@ -24,13 +24,27 @@ GIUnitParameterRow::GIUnitParameterRow()
     float scale = Display::currentDisplay()->GetDisplayScale();
     _labelValue->setPosition(ccp(18, 3+ (scale-2)));
     
-    _labelValue->setColor(MAX_COLOR_WHITE);
+    _labelValue->setColor(this->colorForLabel());
     addChild(_labelValue);
+    
+    _lineSprite = CCSprite::create("parameterSeparator.png");
+    _lineSprite->setScaleX(12);
+    _lineSprite->setScaleY(0.25);
+    _lineSprite->setPosition(ccp(30, 2));
+    addChild(_lineSprite);
 }
 
 GIUnitParameterRow::~GIUnitParameterRow()
 {}
 
+ccColor3B GIUnitParameterRow::colorForLabel() const
+{
+    if(_value <= _maxValue/4)
+        return MAX_COLOR_RED;
+    if(_value <= _maxValue/2)
+        return MAX_COLOR_YELLOW;
+    return MAX_COLOR_WHITE;
+}
 
 void GIUnitParameterRow::SetImageForParameterType(UNIT_PARAMETER_TYPE type, int subtype)//subtype is 0 1 2
 {
@@ -136,6 +150,7 @@ void GIUnitParameterRow::SetCurrentValue(int value)
     _value = value;
     string text = intToString(_value) + "/" + intToString(_maxValue);
     _labelValue->setString(text.c_str());
+    _labelValue->setColor(this->colorForLabel());
 }
 
 void GIUnitParameterRow::SetMaxValue(int value)
@@ -143,10 +158,16 @@ void GIUnitParameterRow::SetMaxValue(int value)
     _maxValue = value;
     string text = intToString(_value) + "/" + intToString(_maxValue);
     _labelValue->setString(text.c_str());
+    _labelValue->setColor(this->colorForLabel());
 }
 
 void GIUnitParameterRow::SetTextColor(GIPARAMETER_COLOR color)
 {}
+
+void GIUnitParameterRow::SetSeparatorVisible(bool visible)
+{
+    _lineSprite->setVisible(visible);
+}
 
 GIUnitParameterRow* GIUnitParameterRow::create()
 {
@@ -154,3 +175,4 @@ GIUnitParameterRow* GIUnitParameterRow::create()
     result->autorelease();
     return result;
 }
+

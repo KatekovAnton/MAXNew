@@ -52,6 +52,9 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
         row1->SetCurrentValue(unit->GetParameterValue(param));
         _rows.push_back(row1);
     }
+    if (_rows.size() > 0) {
+        _rows[_rows.size()-1]->SetSeparatorVisible(false);
+    }
 //    Strached sprite 9 is needed
 //    CCSize s = statsFrame->getContentSize();
 //    s.height = 10 + parameters.size() * GIUnitParameterRow::RowHeight();
