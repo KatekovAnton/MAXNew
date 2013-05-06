@@ -97,7 +97,7 @@ public:
     
     void CheckMovementUpdate();
     
-    std::vector<UNIT_PARAMETER_TYPE> GetParameterList();
+    std::vector<UNIT_MENU_ACTION> GetActionList() const;
     MAXObjectConfig* GetBaseConfig();
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
     int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;

@@ -614,6 +614,16 @@ void GameUnit::StartBuildProcess()
     ChackForAnimanteBody();
 }
 
+vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
+{
+    //TODO: need to implement
+    vector<UNIT_MENU_ACTION> result;
+    result.push_back(UNIT_MENU_ACTION_DONE);
+    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSelfCreatorType != 0)
+        result.push_back(UNIT_MENU_ACTION_BUILD);
+    return result;
+}
+
 void GameUnit::CheckMovementUpdate()
 {
     CCPoint unitCell = GetUnitCell();

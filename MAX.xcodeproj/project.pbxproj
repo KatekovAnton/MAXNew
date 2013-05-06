@@ -204,6 +204,7 @@
 		8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA28168A27900097CA74 /* LevelObject.cpp */; };
 		8B8EAA2C168A28620097CA74 /* MAXCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */; };
 		8B8EAA41168E5AA30097CA74 /* MAXGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */; };
+		8B90ED4F173864D60032205A /* GIUnitActionMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B90ED4D173864D60032205A /* GIUnitActionMenu.cpp */; };
 		8BB8457316C8437400B9A007 /* GameMatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB8456F16C8437400B9A007 /* GameMatch.cpp */; };
 		8BB8457416C8437400B9A007 /* GameMatchPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */; };
 		8BEE795F170388EB00F78F1A /* ShaderResourceMap.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */; };
@@ -615,6 +616,9 @@
 		8B8EAA2B168A28620097CA74 /* MAXCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXCamera.h; sourceTree = "<group>"; };
 		8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGrid.cpp; sourceTree = "<group>"; };
 		8B8EAA40168E5AA30097CA74 /* MAXGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGrid.h; sourceTree = "<group>"; };
+		8B90ED4D173864D60032205A /* GIUnitActionMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIUnitActionMenu.cpp; sourceTree = "<group>"; };
+		8B90ED4E173864D60032205A /* GIUnitActionMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitActionMenu.h; sourceTree = "<group>"; };
+		8B90ED50173866CB0032205A /* GIUnitActionMenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GIUnitActionMenuDelegate.h; sourceTree = "<group>"; };
 		8BB8456F16C8437400B9A007 /* GameMatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMatch.cpp; sourceTree = "<group>"; };
 		8BB8457016C8437400B9A007 /* GameMatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMatch.h; sourceTree = "<group>"; };
 		8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = GameMatchPlayer.cpp; sourceTree = "<group>"; };
@@ -918,6 +922,7 @@
 		8B7CA08F16C831BC00282A74 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				8B90ED4C173864A10032205A /* UnitActionMenu */,
 				8B85506B16F5C104000170D5 /* UnitParameterNode */,
 				8B7CA09016C831EB00282A74 /* GameInteface.cpp */,
 				8B7CA09116C831EB00282A74 /* GameInteface.h */,
@@ -1182,6 +1187,16 @@
 				8B8EAA13168A17F30097CA74 /* MAXGame.h */,
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		8B90ED4C173864A10032205A /* UnitActionMenu */ = {
+			isa = PBXGroup;
+			children = (
+				8B90ED4D173864D60032205A /* GIUnitActionMenu.cpp */,
+				8B90ED4E173864D60032205A /* GIUnitActionMenu.h */,
+				8B90ED50173866CB0032205A /* GIUnitActionMenuDelegate.h */,
+			);
+			name = UnitActionMenu;
 			sourceTree = "<group>";
 		};
 		8BB8456E16C8436400B9A007 /* GameMatch */ = {
@@ -2223,6 +2238,7 @@
 				51BADFE6170AD6410009E37A /* SelectedGameObjectDelegate.cpp in Sources */,
 				D10D78FE17204A0000D13FA0 /* GamePathVisualizer.cpp in Sources */,
 				D10D79E317214DCA00D13FA0 /* MAXContentUtils.cpp in Sources */,
+				8B90ED4F173864D60032205A /* GIUnitActionMenu.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
