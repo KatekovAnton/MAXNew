@@ -199,9 +199,9 @@ void MAXGame::StartMatch()
 		unit1->PlaceUnitOnMap();
 	}
 	{
-		//GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 43, "Seatrans", 0); // Error here
-		//unit1->SetRandomDirection();
-		//unit1->PlaceUnitOnMap();
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 43, "Seatrans", 0); // Error here
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
 	}
 	{
         GameUnit *unit1 = _match->_players[0]->CreateUnit(78, 45, "pcan", 0);
