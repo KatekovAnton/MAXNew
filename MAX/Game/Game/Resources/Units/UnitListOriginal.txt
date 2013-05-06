@@ -67,5 +67,6 @@ sub=grp_submarine.cfg#submarine.cfg
 Surveyor=grp_surveyor.cfg#surveyor.cfg
 Tank=grp_tank.cfg#tank.cfg
 pehplant=grp_training_hall.cfg#training_hall.cfg
+seamine=grp_sea_mine.cfg#sea_mine.cfg
 #segment=clans
 #segment=configs

@@ -178,7 +178,32 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-    {
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 45, "Seacargo", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(46, 45, "Seafuel", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 46, "Rokcr", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 42, "seaminelay", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		//GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 43, "Seatrans", 0); // Error here
+		//unit1->SetRandomDirection();
+		//unit1->PlaceUnitOnMap();
+	}
+	{
         GameUnit *unit1 = _match->_players[0]->CreateUnit(78, 45, "pcan", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
@@ -188,7 +213,17 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-    {
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 52, "Airtrans", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 53, "Crawler", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 51, "infantry", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
@@ -263,7 +298,32 @@ void MAXGame::StartMatch()
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
-    {
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 59, "Fueltruck", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 59, "GTruck", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(67, 59, "Truck", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 60, "Repair", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(73, 52, "Miner", 0);
+		unit1->SetRandomDirection();
+		unit1->PlaceUnitOnMap();
+	}
+	{
         GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 58, "alnasgun", 0);
         unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
@@ -319,7 +379,11 @@ void MAXGame::StartMatch()
             _match->_players[0]->CreateUnit(i, 42, "Conn", 0)->PlaceUnitOnMap();
         for (int i = 60; i < 70; i++)
             _match->_players[0]->CreateUnit(i, 51, "Conblock", 0)->PlaceUnitOnMap();
-        for (int i = 55; i <= 62; i++)
+		for (int i = 59; i < 71; i++)
+			_match->_players[0]->CreateUnit(i, 52, "landmine", 0)->PlaceUnitOnMap();
+		for (int i = 30; i < 46; i+=2)
+			_match->_players[0]->CreateUnit(i, 36 + ((i / 2) % 2), "seamine", 0)->PlaceUnitOnMap();
+		for (int i = 55; i <= 62; i++)
             _match->_players[0]->CreateUnit(i, 43, "Road", 0)->PlaceUnitOnMap();
         for (int i = 28; i <= 34; i++)
             _match->_players[0]->CreateUnit(i, 32, "Plat", 0)->PlaceUnitOnMap();
@@ -329,6 +393,7 @@ void MAXGame::StartMatch()
             _match->_players[0]->CreateUnit(i, 32, "Bridge", 0)->PlaceUnitOnMap();
         for (int i = 44; i < 49; i++)
             _match->_players[0]->CreateUnit(67, i, "Conn", 0)->PlaceUnitOnMap();
+
         {
             GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 43, "Powerpl", 0);
             unit1->PlaceUnitOnMap();
