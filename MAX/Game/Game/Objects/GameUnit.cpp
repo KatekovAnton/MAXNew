@@ -241,7 +241,6 @@ void GameUnit::SetPath(std::vector<PFWaveCell*> path)
 	if (movePath.size() > 1)
 	{
         pathIndex = movePath.size() - 2; // last value is current position
-        printf("SetPath: %d / %ld\n", pathIndex, movePath.size());
 	}
 	else
 	{
@@ -321,7 +320,7 @@ void GameUnit::FollowPath(void)
     int bodyIndex = _unitObject->GetBodyIndex();
     int pi = pathIndex;
     bool first = true;
-    int speed = _unitCurrentParameters->_pSpeed;
+    int speed = _unitCurrentParameters->GetMoveBalance();
     MAXAnimationObjectUnit* move = NULL;
     while (pi >= 0)
     {
@@ -532,13 +531,16 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
         return false;
     
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    return IsInFireRadius(targetCenter) && _unitCurrentParameters->_unitBaseParameters->_pMaxAmmo != 0 && _unitCurrentParameters->_unitBaseParameters->_pMaxShots != 0;
+    return (IsInFireRadius(targetCenter) && _unitCurrentParameters->GetShotBalance() > 0);
 }
 
 GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
 {
     if (!CanFire(target))
         return NULL;
+    
+    _unitCurrentParameters->MakeShot();
+    
     MAXUnitObject* _unitObject = GetUnitObject();
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
     if (_unitObject->params_w->_hasHead)
@@ -638,12 +640,22 @@ MAXObjectConfig* GameUnit::GetBaseConfig()
 
 int GameUnit::GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const
 {
-    return _unitCurrentParameters->GetMaxParameterValue(parameterType);
+    int result = _unitCurrentParameters->GetMaxParameterValue(parameterType);
+    if ((parameterType == UNIT_PARAMETER_TYPE_SPEED) || (parameterType == UNIT_PARAMETER_TYPE_GAS))
+    {
+        result /= 10;
+    }
+    return result;
 }
  
 int GameUnit::GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const
 {
-    return _unitCurrentParameters->GetParameterValue(parameterType);
+    int result = _unitCurrentParameters->GetParameterValue(parameterType);
+    if ((parameterType == UNIT_PARAMETER_TYPE_SPEED) || (parameterType == UNIT_PARAMETER_TYPE_GAS))
+    {
+        result /= 10;
+    }
+    return result;
 }
 
 #pragma mark - MAXAnimationDelegate
@@ -655,9 +667,12 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
     }
     else // move
     {
-        PFWaveCell* cell = movePath[pathIndex];
-        _unitCurrentParameters->MoveWithCost(cell->cost);
-        pathIndex--;
+        if (movePath.size() > 0 && pathIndex >= 0)
+        {
+            PFWaveCell* cell = movePath[pathIndex];
+            _unitCurrentParameters->MoveWithCost(cell->cost);
+            pathIndex--;
+        }
     }
 }
 

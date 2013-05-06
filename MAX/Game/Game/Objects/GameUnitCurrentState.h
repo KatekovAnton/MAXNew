@@ -37,7 +37,10 @@ public:
     void SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue);
     
     void StartNewTurn();
+    int GetMoveBalance();
     void MoveWithCost(const int cost);
+    int GetShotBalance();
+    void MakeShot();
 };
 
 #endif /* defined(__MAX__GameUnitCurrentState__) */

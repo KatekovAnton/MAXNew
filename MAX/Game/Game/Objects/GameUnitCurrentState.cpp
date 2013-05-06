@@ -78,7 +78,7 @@ int GameUnitCurrentState::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType
             result = _unitBaseParameters->_pMaxShots;
             break;
         case UNIT_PARAMETER_TYPE_GAS:
-            result = _unitBaseParameters->_pMaxFuel;
+            result = _unitBaseParameters->_pMaxFuel * 10;
             break;
         case UNIT_PARAMETER_TYPE_RANGE:
             result = _unitBaseParameters->_pMaxRange;
@@ -146,25 +146,149 @@ void GameUnitCurrentState::StartNewTurn()
     parameterType = UNIT_PARAMETER_TYPE_SHOTS;
     val = GetMaxParameterValue(parameterType);
     SetParameterValue(parameterType, val);
-    
+
+    // refuel only when no fuel
     parameterType = UNIT_PARAMETER_TYPE_GAS;
-    val = GetMaxParameterValue(parameterType);
-    SetParameterValue(parameterType, val);
+    val = GetParameterValue(parameterType);
+    if (val <= 0)
+    {
+        val = GetMaxParameterValue(parameterType);
+        SetParameterValue(parameterType, val);
+    }
+    
+    // reload only when no ammo
+    parameterType = UNIT_PARAMETER_TYPE_AMMO;
+    val = GetParameterValue(parameterType);
+    if (val <= 0)
+    {
+        val = GetMaxParameterValue(parameterType);
+        SetParameterValue(parameterType, val);
+    }
+}
+
+int GameUnitCurrentState::GetMoveBalance()
+{
+    int result = GetParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+    if (GetMaxParameterValue(UNIT_PARAMETER_TYPE_GAS) > 0)
+    {
+        int fuel  = GetParameterValue(UNIT_PARAMETER_TYPE_GAS);
+        if (fuel < result)
+        {
+            result = fuel;
+        }
+    }
+    return result;
 }
 
 void GameUnitCurrentState::MoveWithCost(const int cost)
 {
+    if (GetMoveBalance() < cost)
+    {
+        return;
+    }
+    
     int val;
     UNIT_PARAMETER_TYPE parameterType;
 
     parameterType = UNIT_PARAMETER_TYPE_SPEED;
     val = GetParameterValue(parameterType);
     val -= cost;
+    if (val < 0)
+    {
+        val = 0;
+    }
     SetParameterValue(parameterType, val);
 
     parameterType = UNIT_PARAMETER_TYPE_GAS;
     val = GetParameterValue(parameterType);
     val -= cost;
+    if (val < 0)
+    {
+        val = 0;
+    }
     SetParameterValue(parameterType, val);
     
+    
+    if (!_unitBaseParameters->GetConfig()->_pMoveAndShot)
+    {
+        int maxShots = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
+        int maxSpeed = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+        if (maxShots > 0 && maxSpeed > 0)
+        {
+            float speedPerShot = maxSpeed / maxShots;
+            int speed = GetParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+            
+            parameterType = UNIT_PARAMETER_TYPE_SHOTS;
+            val = GetParameterValue(parameterType);
+            int shots = speed / speedPerShot;
+            if (shots < val)
+            {
+                val = shots;
+            }
+            if (val < 0)
+            {
+                val = 0;
+            }
+            SetParameterValue(parameterType, val);
+        }
+    }
+}
+
+int GameUnitCurrentState::GetShotBalance()
+{
+    int result = GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
+    if (GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO) > 0)
+    {
+        int ammo  = GetParameterValue(UNIT_PARAMETER_TYPE_AMMO);
+        if (ammo < result)
+        {
+            result = ammo;
+        }
+    }
+    return result;
+}
+
+void GameUnitCurrentState::MakeShot()
+{
+    if (GetShotBalance() < 1)
+    {
+        return;
+    }
+    
+    int val;
+    UNIT_PARAMETER_TYPE parameterType;
+    
+    parameterType = UNIT_PARAMETER_TYPE_SHOTS;
+    val = GetParameterValue(parameterType);
+    val -= 1;
+    if (val < 0)
+    {
+        val = 0;
+    }
+    SetParameterValue(parameterType, val);
+    
+    parameterType = UNIT_PARAMETER_TYPE_AMMO;
+    val = GetParameterValue(parameterType);
+    val -= 1;
+    if (val < 0)
+    {
+        val = 0;
+    }
+    SetParameterValue(parameterType, val);
+    
+    if (!_unitBaseParameters->GetConfig()->_pMoveAndShot)
+    {
+        int maxShots = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
+        int maxSpeed = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+        int speedPerShot = maxSpeed / maxShots;
+        
+        parameterType = UNIT_PARAMETER_TYPE_SPEED;
+        val = GetParameterValue(parameterType);
+        val -= speedPerShot;
+        if (val < 0)
+        {
+            val = 0;
+        }
+        SetParameterValue(parameterType, val);
+    }
 }
