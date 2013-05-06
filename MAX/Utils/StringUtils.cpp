@@ -43,8 +43,11 @@ void split1(const string& str, const string& delimiters , vector<string>& tokens
         startPos += delimiters.length();
         string::size_type endPos = str.find(delimiters.c_str(), startPos+2);
         if (endPos == std::string::npos)
+        {
+            tokens.push_back(str.substr(0, startPos));
+            tokens.push_back(str.substr(startPos, str.length() - startPos));
             break;
-        
+        }
         
         tokens.push_back(str.substr(startPos, endPos - startPos));
         pos = endPos;
@@ -118,4 +121,11 @@ string intToString(int value)
 void removeBadCharacters(std::string &param)
 {
 	remove(param.begin(), param.end(), '\r');
+}
+
+string toLower(string value)
+{
+    string result = value;
+    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+    return result;
 }

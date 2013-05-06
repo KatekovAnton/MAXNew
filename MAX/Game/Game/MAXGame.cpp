@@ -137,7 +137,7 @@ void MAXGame::StartMatch()
     GameMatchPlayerInfo player2 = {0, 7, "Test player7", {0,255,0,255}};
     infos.push_back(player1);
     infos.push_back(player2);
-    _match = new GameMatch("UnitListOriginal.txt", "Green_6.wrl", infos);
+    _match = new GameMatch("UnitListOriginal.txt", "clansOriginal.cfg", "Green_6.wrl", infos);
     
     _currentUnit = NULL;
     

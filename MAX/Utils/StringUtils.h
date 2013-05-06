@@ -29,5 +29,6 @@ string intToString(int value);
 
 void removeBadCharacters(std::string &param);
 
+string toLower(string value);
 
 #endif /* defined(__MAX__StringUtils__) */

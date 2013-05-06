@@ -27,9 +27,10 @@ void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
     _resources->LandPlayerAt((int)player->_landingPosition.x, (int)player->_landingPosition.y);
 }
 
-GameMatch::GameMatch(const string& configName, const string& mapName, const vector<GameMatchPlayerInfo>& players)
+GameMatch::GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players)
 {
     MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile(configName);
+    MAXConfigManager::SharedMAXConfigManager()->LoadClanConfigsFromFile(clanConfigName);
     
     _gameSettings = new GameSettings();
     

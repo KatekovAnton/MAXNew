@@ -18,18 +18,22 @@ class MAXClanConfig;
 class MAXConfigManager {
     
     map<string, MAXObjectConfig*> _unitConfigs;
-    map<string, MAXObjectConfig*> _clanConfigs;
+    map<string, MAXClanConfig*> _clanConfigs;
     
-    void LoadUnitSegment(string source);
+    void LoadUnitSegment(const string&  source);
     
 public:
     
     static MAXConfigManager* SharedMAXConfigManager();
     
-    void LoadConfigsFromFile(string file);
-    void LoadConfigsFromString(string file);
-    MAXObjectConfig* GetConfig(string type);
+    void LoadConfigsFromFile(const string& file);
+    void LoadConfigsFromString(const string& strContent);
     
+    void LoadClanConfigsFromFile(const string& file);
+    void LoadClanConfigsFromString(const string& strContent);
+    
+    MAXObjectConfig* GetConfig(const string& type);
+    bool ContainsUnit(const string& type) const;
 };
 
 #endif /* defined(__MAX__MAXConfigManager__) */

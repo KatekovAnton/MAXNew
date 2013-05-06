@@ -33,7 +33,7 @@ public:
     GameMatchPlayer*            _currentPlayer_w;
     MatchMapAgregator*          _agregator;
 
-    GameMatch(const string& configName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
+    GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();
     
     bool EndTurn();
