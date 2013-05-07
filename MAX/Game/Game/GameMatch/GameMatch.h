@@ -23,7 +23,7 @@ class Pathfinder;
 class GameMatch {
 
     void DebugLandPlayer(GameMatchPlayer* player, const int i);
-    USimpleContainer<GameUnit*> GetAllUnitsInCell(const int x, const int y);
+    vector<GameUnit*> GetAllUnitsInCell(const int x, const int y);
 public:
     
     GameSettings*               _gameSettings;
