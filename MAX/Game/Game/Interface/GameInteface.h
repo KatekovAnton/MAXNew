@@ -17,6 +17,8 @@ using namespace cocos2d;
 
 class GameUnit;
 class GIUnitParametersNode;
+class GIUnitActionMenu;
+class GIUnitActionMenuDelegate;
 
 class GameInterface : public CCScene
 {
@@ -62,7 +64,14 @@ class GameInterface : public CCScene
     void UpdateToggleFogButton();
     void UpdateTogglePathZone();
     
+   
+    GIUnitActionMenu* _unitMenu;
+    
 public:
+    
+    bool GetUnitMenuOpened() const {return _unitMenu != NULL;};
+    void ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate);
+    void HideUnitMenu();
     
     bool GetDrawGrid() const {return _drawGrid;}
     bool ShouldReceiveTouch(int x, int y);

@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
+#include "miniPrefix.h"
 #include "GameInteface.h"
 #include "MAXContentLoader.h"
 #include "Display.h"
@@ -18,6 +19,7 @@
 #include "GameInterfacePrefix.h"
 #include "CCScrollView.h"
 #include "GIUnitParametersNode.h"
+#include "GIUnitActionMenu.h"
 #include "MAXGame.h"
 
 using namespace extension;
@@ -91,7 +93,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
 }
 
 GameInterface::GameInterface()
-:_currentUnit(NULL), _unitParameters(NULL)
+:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL)
 {
     _lockUnits = false;
     
@@ -523,3 +525,40 @@ void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit)
         _unitParameters->SetUnit(unit);
     }
 }
+
+void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
+{
+    if (!_currentUnit) {
+        return;
+    }
+    if (_unitMenu) {
+        return;
+    }
+    
+    printf("menu showed\n");
+    vector<UNIT_MENU_ACTION> actions = _currentUnit->GetActionList();
+    _unitMenu = new GIUnitActionMenu(actions);
+    _unitMenu->_delegate_w = delegate;
+    
+    CCPoint point = _currentUnit->GetUnitCell();
+    point.x *= 64;
+    point.y *= 64;
+    point = engine->WorldCoordinatesToScreenCocos(point);
+    
+    _unitMenu->setPosition(point);
+    addChild(_unitMenu);
+}
+
+void GameInterface::HideUnitMenu()
+{
+    if (!_unitMenu) {
+        return;
+    }
+    
+    printf("menu hided\n");
+    
+    _unitMenu->removeFromParentAndCleanup(true);
+    _unitMenu = NULL;
+
+}
+

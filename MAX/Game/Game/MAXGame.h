@@ -14,6 +14,7 @@
 #include "USimpleContainer.h"
 #include "MAXEngine.h"
 #include "SelectedGameObjectDelegate.h"
+#include "GIUnitActionMenuDelegate.h"
 
 using namespace std;
 using namespace Utils;
@@ -36,7 +37,7 @@ class GameInterface;
 class GamePathVisualizer;
 class PFWaveCell;
 
-class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate
+class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GIUnitActionMenuDelegate
 {
     
     MAXGAMESTATE _currentState;
@@ -53,6 +54,9 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     void RefreshCurrentUnitPath();
     bool CheckIfNextCellOk(GameUnit* unit);
     void RecalculateUnitPath(GameUnit* unit);
+    
+    bool _needToOpenMenuOnNextTapToSameUnit;
+    
 public:
     
     int _freezeCounter;
@@ -99,6 +103,9 @@ public:
     virtual void onUnitMoveStop(GameUnit* unit);
     virtual void onUnitFireStart(GameUnit* unit);
     virtual void onUnitFireStop(GameUnit* unit);
+
+#pragma mark - GIUnitActionMenuDelegate
+    virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);
     
 };
 

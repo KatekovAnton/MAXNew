@@ -562,6 +562,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         return;
     }
     bool _unitMoved = false;
+    bool _unitMenuShowed = false;
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
     p.y = floorf(p.y);
@@ -576,8 +577,18 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {}
         else if (_currentUnit == newCurrentUnit)
         {
-            newCurrentUnit = NULL; // deselect current unit
-            _removeFromLock = true;
+            if (_needToOpenMenuOnNextTapToSameUnit)
+            {
+                _gameInterface->ShowMenuForCurrentUni(this);
+                _unitMenuShowed = true;
+                _needToOpenMenuOnNextTapToSameUnit = false;
+            }
+            else
+            {
+                _gameInterface->HideUnitMenu();
+                newCurrentUnit = NULL; // deselect current unit
+                _removeFromLock = true;
+            }
         }
         else
         {
@@ -601,6 +612,8 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
             else if (_match->_currentPlayer_w == _currentUnit->_owner_w)
             {
+                _gameInterface->HideUnitMenu();
+                _needToOpenMenuOnNextTapToSameUnit = true;
                 if (!_currentUnit->GetIsFreezed())
                 {
                     if (_currentUnit->IsPathTargetedTo(p.x, p.y))
@@ -639,7 +652,9 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
             if (!newCurrentUnit && !_unitMoved)
             {
+                _gameInterface->HideUnitMenu();
                 newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
+                _needToOpenMenuOnNextTapToSameUnit = true;
             }
         }
     }
@@ -647,11 +662,21 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     {
         if (_currentUnit == newCurrentUnit)
         {
-            newCurrentUnit = NULL; // deselect current unit
-            _removeFromLock = true;
+            if (_needToOpenMenuOnNextTapToSameUnit)
+            {
+                _gameInterface->ShowMenuForCurrentUni(this);
+                _unitMenuShowed = true;
+                _needToOpenMenuOnNextTapToSameUnit = false;
+            }
+            else
+            {
+                _gameInterface->HideUnitMenu();
+                newCurrentUnit = NULL; // deselect current unit
+                _removeFromLock = true;
+            }
         }
     }
-    if (!_unitMoved)
+    if (!_unitMoved && ! _unitMenuShowed)
     {
         if (newCurrentUnit && _currentUnit != newCurrentUnit)
         {
@@ -667,6 +692,8 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 				}
             }
             _currentUnit = newCurrentUnit;
+            _needToOpenMenuOnNextTapToSameUnit = true;
+            _gameInterface->HideUnitMenu();
             _currentUnit->selectedGameObjectDelegate = this;
             if (!_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _currentUnit->_owner_w->GetIsCurrentPlayer())
             {
@@ -688,7 +715,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {
             if (_currentUnit)
             {
-				if (_currentUnit->GetPath().size() > 0)
+				if (_currentUnit->GetPath().size() > 0 && !_removeFromLock)
 				{
 					_currentUnit->GetPath().clear();
 				}
@@ -861,5 +888,13 @@ void MAXGame::onUnitFireStop(GameUnit* unit)
     RefreshCurrentUnitPath();
 
     // Do here damage calculation?
+    // yes please
+}
+
+#pragma mark - GIUnitActionMenuDelegate
+
+void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
+{
+    _needToOpenMenuOnNextTapToSameUnit = true;
 }
 

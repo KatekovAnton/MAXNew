@@ -13,7 +13,7 @@ class GIUnitActionMenuDelegate {
     
 public:
     
-    virtual void OnItemSelected(UNIT_MENU_ACTION action) = 0;
+    virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action) = 0;
     
 };
 
