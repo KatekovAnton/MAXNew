@@ -490,7 +490,7 @@ void MAXUnitObject::Draw(Shader *shader)
         _material->ApplyPalette(shader, *_playerPalette_w);
     }
     
-    if(_needShadow)
+    if(_needShadow && _material->_shadowframeCount>0)
     {
         shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
         shader->SetFloatValue(UNIFORM_ALPHA, SHADOWALPHA);

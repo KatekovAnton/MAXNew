@@ -29,7 +29,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
 :GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL), _disabledByInfiltrator(false), pathIndex(0), pathIsTemp(true)
 {
     unitObject->_delegate_w = this;
-    unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBombMine;
+    unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
     _onDraw = false;
     _detected = false;
     if (config->GetConfig()->_isBuilding && config->GetConfig()->_isAllwaysOn)

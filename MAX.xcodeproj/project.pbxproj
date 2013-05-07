@@ -238,6 +238,7 @@
 		D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */; };
 		D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */; };
 		D132DC6116D7AC9800DEA269 /* MAXStatusRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */; };
+		D13BACA517399351007FF35C /* creators.txt in Resources */ = {isa = PBXBuildFile; fileRef = D13BACA417399351007FF35C /* creators.txt */; };
 		D14D50D016EF381200F8A8EC /* MAXAnimationWait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */; };
 		D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48D1168B31030055F35D /* MAXContentMap.cpp */; };
 		D16D48F9168B381D0055F35D /* 112x112.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48DF168B381D0055F35D /* 112x112.wrl */; };
@@ -664,6 +665,7 @@
 		D11ABAC5168DEC3000CD29EA /* MAXUnitMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXUnitMaterial.h; sourceTree = "<group>"; };
 		D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXStatusRenderer.cpp; sourceTree = "<group>"; };
 		D132DC6016D7AC9800DEA269 /* MAXStatusRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXStatusRenderer.h; sourceTree = "<group>"; };
+		D13BACA417399351007FF35C /* creators.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = creators.txt; sourceTree = "<group>"; };
 		D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationWait.cpp; sourceTree = "<group>"; };
 		D14D50CF16EF381000F8A8EC /* MAXAnimationWait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationWait.h; sourceTree = "<group>"; };
 		D16D48D1168B31030055F35D /* MAXContentMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentMap.cpp; sourceTree = "<group>"; };
@@ -1283,6 +1285,14 @@
 			path = Objects;
 			sourceTree = "<group>";
 		};
+		D13BACA117398E47007FF35C /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				D13BACA417399351007FF35C /* creators.txt */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		D16D48C9168B306C0055F35D /* MAXContentLoader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1314,6 +1324,7 @@
 		D16D48DD168B37F20055F35D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D13BACA117398E47007FF35C /* Utility */,
 				D1F816AF16F8AFCD00873348 /* Images */,
 				8B8A43EA16935851005C4ADA /* Units */,
 				D16D48DE168B38080055F35D /* Maps */,
@@ -2117,6 +2128,7 @@
 				D1BC8DFA173169B3005184BB /* Default-Landscape~ipad.png in Resources */,
 				D1BC8DFC17316A0D005184BB /* Default-Landscape@2x~ipad.png in Resources */,
 				D1BC8DFD17316A34005184BB /* Default.png in Resources */,
+				D13BACA517399351007FF35C /* creators.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
