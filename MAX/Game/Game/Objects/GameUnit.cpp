@@ -267,6 +267,19 @@ int GameUnit::GetPathIndex()
     return pathIndex;
 }
 
+PFWaveCell* GameUnit::GetNextPathCell()
+{
+    PFWaveCell* result = NULL;
+    
+    int pi = pathIndex;
+    if (pi >= 0)
+    {
+        result = movePath[pi];
+    }
+    
+    return result;
+}
+
 bool GameUnit::IsPathTargetedTo(const int x, const int y)
 {
 	bool result = FALSE;
@@ -295,6 +308,14 @@ void GameUnit::ConfirmCurrentPath()
         }
 		FollowPath();
 	}
+}
+
+void GameUnit::AbortCurrentPath()
+{
+    if (_currentTopAnimation)
+    {
+        _currentTopAnimation->Stop();
+    }
 }
 
 MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
@@ -741,6 +762,8 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
     }
     else // move
     {
+        if (selectedGameObjectDelegate)
+            selectedGameObjectDelegate->onUnitMoveStepEnd(this);
     }
 }
 

@@ -550,6 +550,12 @@ void MAXGame::ShowUnitPath(GameUnit *unit)
 	_pathVisualizer->VisualizePath(testPath);
 }
 
+void MAXGame::HideUnitPath()
+{
+    _pathVisualizer->Clear();
+}
+
+
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
     if (_freezeCounter>0) {
@@ -588,7 +594,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                         _unitMoved = true;
                         std::vector<PFWaveCell*> path;
                         _currentUnit->SetPath(path);
-                        _pathVisualizer->Clear();
+                        HideUnitPath();
                     }
                 }
                 // force select another unit
@@ -599,10 +605,17 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                 {
                     if (_currentUnit->IsPathTargetedTo(p.x, p.y))
                     {
-                        _currentUnit->ConfirmCurrentPath();
-                        _pathVisualizer->Clear();
-						HidePathMap();
-                        _unitMoved = true;
+                        if (CheckIfNextCellOk(_currentUnit))
+                        {
+                            _currentUnit->ConfirmCurrentPath();
+                            HideUnitPath();
+                            _unitMoved = true;
+                        }
+                        else
+                        {
+                            RecalculateUnitPath(_currentUnit);
+                            _unitMoved = true;
+                        }
                     }
                     else
                     {
@@ -645,7 +658,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             if (_currentUnit)
             {
                 _currentUnit->selectedGameObjectDelegate = NULL;
-				_pathVisualizer->Clear();
+				HideUnitPath();
 				HidePathMap();
                 
                 if (_currentUnit->GetPath().size() > 0)
@@ -677,8 +690,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             {
 				if (_currentUnit->GetPath().size() > 0)
 				{
-					std::vector<PFWaveCell*> path;
-					_currentUnit->SetPath(path);
+					_currentUnit->GetPath().clear();
 				}
 				else
 				{
@@ -688,7 +700,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 					_currentUnit = NULL;
 					HidePathMap();
 				}				
-				_pathVisualizer->Clear();
+				HideUnitPath();
             }
         }
     }
@@ -727,6 +739,48 @@ void MAXGame::RefreshCurrentUnitPath()
     ShowUnitPath(_currentUnit);
 }
 
+bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
+{
+    bool result = true;
+    
+    PFWaveCell* cell = unit->GetNextPathCell();
+    if (cell)
+    {
+        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+        Pathfinder* pf = _match->_pathfinder;
+        int pfCost = pf->GetMapCostAt(cell->x, cell->y, cell->direction, unitMoveType);
+        if (cell->cost != pfCost)
+        {
+            result = false;
+        }
+    }
+    
+    return result;
+}
+
+void MAXGame::RecalculateUnitPath(GameUnit* unit)
+{
+    CCPoint location = unit->GetUnitCell();
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+    Pathfinder* pf = _match->_pathfinder;
+    pf->MakePathMap(location.x, location.y, unitMoveType, unit->_unitCurrentParameters->GetMoveBalance());
+    //pf->DumpMap();
+    ShowPathMap();
+    
+    HidePathMap();
+    PFWaveCell* cell = unit->GetPath()[0];
+    std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y); // call after MakePathMap
+    if (path.size() > 1)
+    {
+        unit->SetPath(path);
+        ShowUnitPath(unit);
+    }
+    else
+    {
+        unit->GetPath().clear();
+    }
+}
+
 #pragma mark - SelectedGameObjectDelegate
 
 void MAXGame::onUnitMoveStart(GameUnit* unit)
@@ -750,6 +804,16 @@ void MAXGame::onUnitMoveStepBegin(GameUnit* unit)
     if (unit == _currentUnit)
     {
         _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+    }
+}
+
+void MAXGame::onUnitMoveStepEnd(GameUnit* unit)
+{
+    // check if unit path changed
+    if (!CheckIfNextCellOk(unit))
+    {
+        unit->AbortCurrentPath();
+        RecalculateUnitPath(unit);
     }
 }
 

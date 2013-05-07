@@ -37,7 +37,7 @@ class Pathfinder
     UNIT_MOVETYPE       moveType;
     
     void PreparePathMap(void);
-    int GetCost(const int x, const int y, unsigned char direction);
+    int GetCost(const int x, const int y, unsigned char direction, UNIT_MOVETYPE unitMoveType);
     void TestNeighbours(const int baseCost);
     void ExchangeWaves(void);
     int GetIndexAt(const int x, const int y) const;
@@ -51,6 +51,7 @@ public:
     void MakePathMap(const int fromX, const int fromY, UNIT_MOVETYPE unitMoveType, int maxCost); // Fill path map. Used if need to get cost for whole map
     std::vector<PFWaveCell*> FindPathOnMap(const int toX, const int toY); // MakePathMap should be called first
     int GetCostAt(const int x, const int y); // MakePathMap should be called first
+    int GetMapCostAt(const int x, const int y, unsigned char direction, UNIT_MOVETYPE unitMoveType);
     void DumpMap(void); // MakePathMap should be called first
 };
 
