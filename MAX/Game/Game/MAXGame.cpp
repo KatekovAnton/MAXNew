@@ -711,7 +711,7 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
             CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
             GameEffect* effect = _currentUnit->Fire(p);
             HidePathMap();
-            onUnitPauseMove(_currentUnit);
+            onUnitMovePause(_currentUnit);
             //_gameInterface->OnCurrentUnitDataChanged(_currentUnit);
             if (effect)
             {
@@ -727,12 +727,12 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
 
 #pragma mark - SelectedGameObjectDelegate
 
-void MAXGame::onUnitStartMove(GameUnit* unit)
+void MAXGame::onUnitMoveStart(GameUnit* unit)
 {
     HidePathMap();
 }
 
-void MAXGame::onUnitPauseMove(GameUnit* unit)
+void MAXGame::onUnitMovePause(GameUnit* unit)
 {
     CCPoint location = _currentUnit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
@@ -747,9 +747,17 @@ void MAXGame::onUnitPauseMove(GameUnit* unit)
     }
 }
 
-void MAXGame::onUnitStopMove(GameUnit* unit)
+void MAXGame::onUnitMoveStepBegin(GameUnit* unit)
 {
-	onUnitPauseMove(unit);
+    if (unit == _currentUnit)
+    {
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+    }
+}
+
+void MAXGame::onUnitMoveStop(GameUnit* unit)
+{
+	onUnitMovePause(unit);
 
 	// check landing pad
 	if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isPlane)

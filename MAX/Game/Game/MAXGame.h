@@ -89,9 +89,10 @@ public:
     virtual void ProceedLongTap(float tapx, float tapy);
     
 #pragma mark - SelectedGameObjectDelegate
-    virtual void onUnitStartMove(GameUnit* unit);
-	virtual void onUnitPauseMove(GameUnit* unit);
-    virtual void onUnitStopMove(GameUnit* unit);
+    virtual void onUnitMoveStart(GameUnit* unit);
+	virtual void onUnitMovePause(GameUnit* unit);
+	virtual void onUnitMoveStepBegin(GameUnit* unit);
+    virtual void onUnitMoveStop(GameUnit* unit);
     
 #pragma mark - GameEffectDelegate
     virtual void GameEffectDidFinishExistance(GameEffect* effect);

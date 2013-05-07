@@ -286,7 +286,7 @@ void GameUnit::ConfirmCurrentPath()
 	if (movePath.size() > 1)
 	{
 		if (selectedGameObjectDelegate)
-			selectedGameObjectDelegate->onUnitStartMove(this);
+			selectedGameObjectDelegate->onUnitMoveStart(this);
 
         pathIsTemp = false;
         if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isPlane)
@@ -682,6 +682,8 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
             PFWaveCell* cell = movePath[pathIndex];
             _unitCurrentParameters->MoveWithCost(cell->cost);
             pathIndex--;
+            if (selectedGameObjectDelegate)
+                selectedGameObjectDelegate->onUnitMoveStepBegin(this);
         }
     }
 }
@@ -706,12 +708,12 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
             pathIndex = 0;
             pathIsTemp = true;
 			if (selectedGameObjectDelegate)
-				selectedGameObjectDelegate->onUnitStopMove(this);
+				selectedGameObjectDelegate->onUnitMoveStop(this);
         }
 		else
 		{
 			if (selectedGameObjectDelegate)
-				selectedGameObjectDelegate->onUnitPauseMove(this);
+				selectedGameObjectDelegate->onUnitMovePause(this);
 		}
         //MoveToNextCell();
         

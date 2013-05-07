@@ -16,9 +16,10 @@ class GameUnit;
 class SelectedGameObjectDelegate
 {
 public:
-    virtual void onUnitStartMove(GameUnit* unit) = 0;
-	virtual void onUnitPauseMove(GameUnit* unit) = 0;
-    virtual void onUnitStopMove(GameUnit* unit) = 0;
+    virtual void onUnitMoveStart(GameUnit* unit) = 0;
+	virtual void onUnitMovePause(GameUnit* unit) = 0;
+	virtual void onUnitMoveStepBegin(GameUnit* unit) = 0;
+    virtual void onUnitMoveStop(GameUnit* unit) = 0;
 };
 
 #endif /* defined(__MAX__SelectedGameObjectDelegate__) */
