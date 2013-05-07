@@ -14,6 +14,7 @@
 #include "MAXAnimationDelegate.h"
 #include "MAXUnitObjectDelegate.h"
 #include "miniPrefix.h"
+#include "GameEffectDelegate.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -34,7 +35,8 @@ class GameEffect;
 class PFWaveCell;
 
 
-class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitObjectDelegate {
+class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitObjectDelegate, public GameEffectDelegate
+{
     
     MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
@@ -111,7 +113,9 @@ public:
 #pragma mark - Fire methods
     bool IsInProcess() const {return _isInProcess;}
     bool CanFire(const cocos2d::CCPoint &target);
-    GameEffect* Fire(const CCPoint& target);
+    GameEffect* MakeWeaponAnimationEffect(const cocos2d::CCPoint &target);
+    void Fire(const CCPoint& target);
+    CCPoint fireTarget;
     
     
 #pragma mark - Build methods
@@ -133,6 +137,9 @@ public:
     virtual bool ShouldAnimateBody() const;
 	virtual bool ShoudDrawFakeCircle() const;
 	virtual CCPoint GetFakeCenter() const;
+    
+#pragma mark - GameEffectDelegate
+    virtual void GameEffectDidFinishExistance(GameEffect* effect);
     
 };
 

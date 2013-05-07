@@ -534,25 +534,13 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
     return (IsInFireRadius(targetCenter) && _unitCurrentParameters->GetShotBalance() > 0);
 }
 
-GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
+GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target)
 {
-    if (!CanFire(target))
-        return NULL;
-    
-    _unitCurrentParameters->MakeShot();
+    int level = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel + 1; // get level from target
+    if (level > OBJECT_LEVEL_OVERAIR)
+        level = OBJECT_LEVEL_OVERAIR;
     
     MAXUnitObject* _unitObject = GetUnitObject();
-    CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    if (_unitObject->params_w->_hasHead)
-        _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
-    else
-        _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, target));
-    
-    int level = _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bLevel + 1;
-    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_pFireType >= FIRE_TYPE_Air) {
-        level = OBJECT_LEVEL_OVERAIR;
-    }
-    
     MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?(_unitObject->params_w->_isInfantry?0.4:0.15):0.4, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
@@ -573,16 +561,17 @@ GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
     if (fireType == 6) {
         type = BULLET_TYPE_PLASMA;
     }
-    if (type != BULLET_TYPE_NONE) {
+    if (type != BULLET_TYPE_NONE)
+    {
         GameEffect* effect = GameEffect::CreateBullet(type, level, BLAST_TYPE_DAMAGEEFFECT, st);
         effect->SetLocation(GetUnitCell());
         effect->Show();
         float coeff = 0.75;
         if (type != BULLET_TYPE_PLASMA) {
             coeff = 1.0;
-            effect->SetDirection(MAXObject::CalculateRocketImageIndex(_unitCell, targetCenter));
+            effect->SetDirection(MAXObject::CalculateRocketImageIndex(_unitCell, target));
         }
-        MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), targetCenter, effect->GetObject(), coeff);
+        MAXAnimationObject* anim = new MAXAnimationObject(GetUnitCell(), target, effect->GetObject(), coeff);
         anim->_delegate = effect;
         MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
         return effect;
@@ -590,15 +579,47 @@ GameEffect* GameUnit::Fire(const cocos2d::CCPoint &target)
     else
     {
         GameEffect* blast = GameEffect::CreateBlast(BLAST_TYPE_DAMAGEEFFECT, level);
-        blast->SetLocation(targetCenter);
+        blast->SetLocation(target);
         blast->Show();
         MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
         wait->_delegate = blast;
         MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
         return blast;
     }
-    
 }
+
+void GameUnit::Fire(const cocos2d::CCPoint &target)
+{
+    if (!CanFire(target))
+        return;
+    
+    _unitCurrentParameters->MakeShot();
+    
+    MAXUnitObject* _unitObject = GetUnitObject();
+    CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
+    fireTarget = targetCenter;
+    if (_unitObject->params_w->_hasHead)
+        _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
+    else
+        _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, target));
+
+    if (selectedGameObjectDelegate)
+        selectedGameObjectDelegate->onUnitFireStart(this);
+    
+    GameEffect* effect = MakeWeaponAnimationEffect(targetCenter);
+    if (effect)
+    {
+        effect->_delegate_w = this;
+        effect->_tag = GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER;
+    }
+    else
+    {
+        if (selectedGameObjectDelegate)
+            selectedGameObjectDelegate->onUnitFireStop(this);
+    }
+}
+
+#pragma mark - Build methods
 
 bool GameUnit::CanStartBuildProcess()
 {
@@ -761,3 +782,13 @@ CCPoint GameUnit::GetFakeCenter() const
 	return CCPointMake(cell->x * 64 + 32, cell->y * 64 + 32);
 }
 
+#pragma mark - GameEffectDelegate
+
+void GameUnit::GameEffectDidFinishExistance(GameEffect* effect)
+{
+    if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER)
+    {
+        if (selectedGameObjectDelegate)
+            selectedGameObjectDelegate->onUnitFireStop(this);
+    }
+}

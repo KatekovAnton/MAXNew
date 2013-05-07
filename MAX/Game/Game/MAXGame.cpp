@@ -711,30 +711,12 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
         else
         {
             CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-            GameEffect* effect = _currentUnit->Fire(p);
-            HidePathMap();
-            onUnitMovePause(_currentUnit);
-            //_gameInterface->OnCurrentUnitDataChanged(_currentUnit);
-            if (effect)
-            {
-                effect->_delegate_w = this;
-                effect->_tag = GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER;
-                engine->hidePathZoneCounter ++;
-                _freezeCounter ++;
-            }
+            _currentUnit->Fire(p);
         }
-        
     }
 }
 
-#pragma mark - SelectedGameObjectDelegate
-
-void MAXGame::onUnitMoveStart(GameUnit* unit)
-{
-    HidePathMap();
-}
-
-void MAXGame::onUnitMovePause(GameUnit* unit)
+void MAXGame::RefreshCurrentUnitPath()
 {
     CCPoint location = _currentUnit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
@@ -743,8 +725,22 @@ void MAXGame::onUnitMovePause(GameUnit* unit)
     //pf->DumpMap();
     ShowPathMap();
     ShowUnitPath(_currentUnit);
+}
+
+#pragma mark - SelectedGameObjectDelegate
+
+void MAXGame::onUnitMoveStart(GameUnit* unit)
+{
+    _freezeCounter++;
+    HidePathMap();
+}
+
+void MAXGame::onUnitMovePause(GameUnit* unit)
+{
+    RefreshCurrentUnitPath();
     if (unit == _currentUnit)
     {
+        _freezeCounter--;
         _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
     }
 }
@@ -759,7 +755,12 @@ void MAXGame::onUnitMoveStepBegin(GameUnit* unit)
 
 void MAXGame::onUnitMoveStop(GameUnit* unit)
 {
-	onUnitMovePause(unit);
+    RefreshCurrentUnitPath();
+    if (unit == _currentUnit)
+    {
+        _freezeCounter--;
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+    }
 
 	// check landing pad
 	if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isPlane)
@@ -778,17 +779,23 @@ void MAXGame::onUnitMoveStop(GameUnit* unit)
 	}
 }
 
-#pragma mark - GameEffectDelegate
-
-void MAXGame::GameEffectDidFinishExistance(GameEffect* effect)
+void MAXGame::onUnitFireStart(GameUnit* unit)
 {
-    if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER) {
-        engine->hidePathZoneCounter --;
-        _freezeCounter --;
+    _freezeCounter++;
+    HidePathMap();
+
+    RefreshCurrentUnitPath();
+    if (unit == _currentUnit)
+    {
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
     }
 }
 
+void MAXGame::onUnitFireStop(GameUnit* unit)
+{
+    _freezeCounter--;
+    RefreshCurrentUnitPath();
 
-
-
+    // Do here damage calculation?
+}
 
