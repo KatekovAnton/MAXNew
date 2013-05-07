@@ -18,7 +18,7 @@ class MAXClanConfig;
 class MAXConfigManager {
     
     map<string, MAXObjectConfig*> _unitConfigs;
-    map<string, MAXClanConfig*> _clanConfigs;
+    map<int, MAXClanConfig*> _clanConfigs;
     
     void LoadUnitSegment(const string&  source);
     

@@ -87,10 +87,10 @@ void MAXConfigManager::LoadClanConfigsFromString(const string& strContent)
     {
         string clanComponent = components1[i];
         vector<string> clan = splitString(clanComponent, "]\n");
-        
+        int number = atoi(clan[0].c_str());
         clanComponent = clan[1];
-        MAXClanConfig* clanConfig = new MAXClanConfig(clanComponent, i);
-        
+        MAXClanConfig* clanConfig = new MAXClanConfig(clanComponent, number);
+        _clanConfigs[number] = clanConfig;
     }
 }
 
