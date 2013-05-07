@@ -141,9 +141,9 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     }
 }
 
-USimpleContainer<GameUnit*> GameMatch::GetAllUnitsInCell(const int x, const int y)
+vector<GameUnit*> GameMatch::GetAllUnitsInCell(const int x, const int y)
 {
-    USimpleContainer<GameUnit*> units;
+    vector<GameUnit*> units;
     
     for (int i = 0; i < _players.size(); i++)
     {
@@ -156,7 +156,7 @@ USimpleContainer<GameUnit*> GameMatch::GetAllUnitsInCell(const int x, const int 
                 CCPoint pos = unit->GetUnitCell();
                 if (((int)pos.x == x) && ((int)pos.y == y))
                 {
-                    units.addObject(unit);
+                    units.push_back(unit);
                 }
             }
         }
@@ -172,13 +172,14 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
         if (type == FOG_TYPE_SIMPLE)
         {
             engine->AddFogCell(x, y, !visibleFlag);
-            USimpleContainer<GameUnit*> units = GetAllUnitsInCell(x, y);
+
+            vector<GameUnit*> units = GetAllUnitsInCell(x, y);
             if (visibleFlag)
             {
                 bool needMessage = false;
-                for (int i = 0; i < units.GetCount(); i++)
+                for (int i = 0; i < units.size(); i++)
                 {
-                    GameUnit *unit = units.objectAtIndex(i);
+                    GameUnit *unit = units[i];
                     needMessage = ! unit->_onDraw &&  unit->_owner_w != _currentPlayer_w;
                     unit->Show();
                     _agregator->AddUnitToCell(unit, x, y);
@@ -190,9 +191,9 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
             }
             else
             {
-                for (int i = 0; i < units.GetCount(); i++)
+                for (int i = 0; i < units.size(); i++)
                 {
-                    GameUnit *unit = units.objectAtIndex(i);
+                    GameUnit *unit = units[i];
                     unit->Hide();
                     _agregator->RemoveUnitFromCell(unit, x, y);
                 }
