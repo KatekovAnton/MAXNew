@@ -412,6 +412,8 @@ void MAXGame::StartMatch()
     {
         _match->_players[1]->CreateUnit(50, 56, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(50, 53, "Inter", 0)->PlaceUnitOnMap();
+        for (int i = 61; i < 69; i++)
+            _match->_players[1]->CreateUnit(i, 65, "landmine", 0)->PlaceUnitOnMap();
     }
     
     engine->SetCameraCenter(ccp(62, 49));

@@ -263,7 +263,13 @@ bool MatchMapAgregator::IsGroundUnitInPosition(const int x, const int y)
     {
         GameUnit* unit = units->objectAtIndex(i);
 		MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
-        if ((config->_bMoveType != UNIT_MOVETYPE_AIR) && (!config->_isRoad) && (!config->_isBridge) && (!config->_isPlatform) && (!config->_isConnector))
+        if ((config->_bMoveType != UNIT_MOVETYPE_AIR) &&
+            (!config->_isRoad) &&
+            (!config->_isBridge) &&
+            (!config->_isPlatform) &&
+            (!config->_isConnector) &&
+            (!config->_isBombMine)
+           )
         {
             result = true;
             break;
