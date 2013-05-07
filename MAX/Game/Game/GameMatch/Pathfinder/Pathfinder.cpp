@@ -52,6 +52,12 @@ int Pathfinder::GetCostAt(const int x, const int y) // makePathMap should be cal
     return result;
 }
 
+int Pathfinder::GetMapCostAt(const int x, const int y, unsigned char direction, UNIT_MOVETYPE unitMoveType)
+{
+    int result = GetCost(x, y, direction, unitMoveType);
+    return result;
+}
+
 std::vector<PFWaveCell*> Pathfinder::FindPath(const int fromX, const int fromY, const int toX, const int toY, UNIT_MOVETYPE unitMoveType)
 {
     _maxCost = -1;    
@@ -130,13 +136,13 @@ void Pathfinder::PreparePathMap(void)
     }
 }
 
-int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
+int Pathfinder::GetCost(const int x, const int y, unsigned char direction, UNIT_MOVETYPE unitMoveType)
 {
     int result = -1;
     if ((x >= 0) && (y >= 0) && (x < w) && (y < h))
     {
         EXTENDED_GROUND_TYPE groundType = map->GroundTypeAtXY(x, y);
-        switch (moveType)
+        switch (unitMoveType)
         {
             case UNIT_MOVETYPE_GROUND:
             {
@@ -226,7 +232,7 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction)
         
         if (result >= 0)
         {
-            if (moveType == UNIT_MOVETYPE_AIR)
+            if (unitMoveType == UNIT_MOVETYPE_AIR)
             {
                 if (map->IsAirUnitInPosition(x, y))
                 {
@@ -262,7 +268,7 @@ void Pathfinder::TestNeighbours(const int baseCost)
 		pos = item->GetPosForDirection(d);
         x = pos.x;
         y = pos.y;
-		cost = GetCost(x, y, d);
+		cost = GetCost(x, y, d, moveType);
 		if ((cost >= 0) && (pathMap[x + y * w].distance < 0))
 		{
             if ((_maxCost < 0) || (baseCost + cost <= _maxCost))
@@ -345,7 +351,7 @@ void Pathfinder::FillPathMap(const int fromX, const int fromY, const int toX, co
                                 cell->distance = cell2->distance + 1;
                                 pos.x = item->x;
                                 pos.y = item->y;
-                                int cost = GetCost(pos.x, pos.y, item->direction);
+                                int cost = GetCost(pos.x, pos.y, item->direction, moveType);
                                 if (cost >= 0)
                                 {
                                     cell->cost = cell2->cost + cost;
@@ -403,7 +409,7 @@ std::vector<PFWaveCell*> Pathfinder::FindPathOnMap(const int toX, const int toY)
     while ((ind >= 0) && (cell->distance > 0))
     {
         direction = cell->direction;
-        cost = GetCost(x, y, direction);
+        cost = GetCost(x, y, direction, moveType);
         item = new PFWaveCell(x, y, cost, direction);
         result.push_back(item);
         x -= PFWaveCell::DirToDX(direction);

@@ -19,6 +19,7 @@ public:
     virtual void onUnitMoveStart(GameUnit* unit) = 0;
 	virtual void onUnitMovePause(GameUnit* unit) = 0;
 	virtual void onUnitMoveStepBegin(GameUnit* unit) = 0;
+	virtual void onUnitMoveStepEnd(GameUnit* unit) = 0;
     virtual void onUnitMoveStop(GameUnit* unit) = 0;
     virtual void onUnitFireStart(GameUnit* unit) = 0;
     virtual void onUnitFireStop(GameUnit* unit) = 0;

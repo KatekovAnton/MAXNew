@@ -75,8 +75,10 @@ public:
     void ClearTempPath();
 	std::vector<PFWaveCell*> GetPath();
     int GetPathIndex();
+    PFWaveCell* GetNextPathCell();
 	bool IsPathTargetedTo(const int x, const int y);
 	void ConfirmCurrentPath();
+    void AbortCurrentPath();
     
     void SetDirection(int dir);
     void SetRandomDirection();

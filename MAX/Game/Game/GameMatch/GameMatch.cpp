@@ -124,10 +124,11 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 
 void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 {
-    _agregator->AddUnitToCell(unit, point.x, point.y);
     bool needMessage = false;
     if (_currentPlayer_w->CanSeeUnit(unit))
     {
+        _agregator->AddUnitToCell(unit, point.x, point.y);
+        UpdateConnectorsForUnit(unit);
         needMessage = !unit->_onDraw && unit->_owner_w != _currentPlayer_w;
         unit->Show();
     }
@@ -138,8 +139,30 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     if (needMessage) {
         game->ShowUnitSpottedMessage(unit);
     }
-    UpdateConnectorsForUnit(unit);
+}
+
+USimpleContainer<GameUnit*> GameMatch::GetAllUnitsInCell(const int x, const int y)
+{
+    USimpleContainer<GameUnit*> units;
     
+    for (int i = 0; i < _players.size(); i++)
+    {
+        GameMatchPlayer* player = _players[i];
+        if (player != _currentPlayer_w)
+        {
+            for (int i = 0; i < player->_units.GetCount(); i++)
+            {
+                GameUnit* unit = player->_units.objectAtIndex(i);
+                CCPoint pos = unit->GetUnitCell();
+                if (((int)pos.x == x) && ((int)pos.y == y))
+                {
+                    units.addObject(unit);
+                }
+            }
+        }
+    }
+    
+    return units;
 }
 
 void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, const GameMatchPlayer* _player)
@@ -149,24 +172,30 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
         if (type == FOG_TYPE_SIMPLE)
         {
             engine->AddFogCell(x, y, !visibleFlag);
-            USimpleContainer<GameUnit*> *units = _agregator->UnitsInCell(x, y);
+            USimpleContainer<GameUnit*> units = GetAllUnitsInCell(x, y);
             if (visibleFlag)
             {
                 bool needMessage = false;
-                for (int i = 0; i < units->GetCount(); i++)
+                for (int i = 0; i < units.GetCount(); i++)
                 {
-                    needMessage = ! units->objectAtIndex(i)->_onDraw &&  units->objectAtIndex(i)->_owner_w != _currentPlayer_w;
-                    units->objectAtIndex(i)->Show();
+                    GameUnit *unit = units.objectAtIndex(i);
+                    needMessage = ! unit->_onDraw &&  unit->_owner_w != _currentPlayer_w;
+                    unit->Show();
+                    _agregator->AddUnitToCell(unit, x, y);
                     
                     if (needMessage) {
-                        game->ShowUnitSpottedMessage(units->objectAtIndex(i));
+                        game->ShowUnitSpottedMessage(unit);
                     }
                 }
             }
             else
             {
-                for (int i = 0; i < units->GetCount(); i++)
-                    units->objectAtIndex(i)->Hide();
+                for (int i = 0; i < units.GetCount(); i++)
+                {
+                    GameUnit *unit = units.objectAtIndex(i);
+                    unit->Hide();
+                    _agregator->RemoveUnitFromCell(unit, x, y);
+                }
             }
         }
         if (type == FOG_TYPE_RESOURCES && visibleFlag)

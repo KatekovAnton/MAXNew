@@ -49,7 +49,10 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     void ShowPathMap();
     void HidePathMap();
 	void ShowUnitPath(GameUnit *unit);
+	void HideUnitPath();
     void RefreshCurrentUnitPath();
+    bool CheckIfNextCellOk(GameUnit* unit);
+    void RecalculateUnitPath(GameUnit* unit);
 public:
     
     int _freezeCounter;
@@ -92,6 +95,7 @@ public:
     virtual void onUnitMoveStart(GameUnit* unit);
 	virtual void onUnitMovePause(GameUnit* unit);
 	virtual void onUnitMoveStepBegin(GameUnit* unit);
+	virtual void onUnitMoveStepEnd(GameUnit* unit);
     virtual void onUnitMoveStop(GameUnit* unit);
     virtual void onUnitFireStart(GameUnit* unit);
     virtual void onUnitFireStop(GameUnit* unit);
