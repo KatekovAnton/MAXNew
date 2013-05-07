@@ -363,6 +363,7 @@ void MAXUnitObject::TakeOff()
     if (!params_w->_isPlane)
         return;
     _altitudeChange = ALTITUDE_CHANGE_TAKE_OFF;
+    _currentLevel = params_w->_bLevel;
 }
 
 void MAXUnitObject::Landing()
@@ -370,6 +371,7 @@ void MAXUnitObject::Landing()
     if (!params_w->_isPlane)
         return;
     _altitudeChange = ALTITUDE_CHANGE_LANDING;
+    _currentLevel = OBJECT_LEVEL_UNITS;
 }
 
 void MAXUnitObject::LiftBridgeInstantly()
@@ -385,6 +387,7 @@ void MAXUnitObject::LandInstantly()
 {
     _altitude = 0.0;
     _altitudeChange = ALTITUDE_CHANGE_NONE;
+    _currentLevel = OBJECT_LEVEL_UNITS;
 }
 
 void MAXUnitObject::Frame(double time)

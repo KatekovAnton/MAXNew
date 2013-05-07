@@ -16,7 +16,7 @@ int compareMAXUnitObject (const void * a, const void * b)
     MAXObject* a1 = *((MAXObject**)a);
     MAXObject* b1 = *((MAXObject**)b);
     
-    if (a1->params_w->_bLevel == b1->params_w->_bLevel) {
+    if (a1->_currentLevel == b1->_currentLevel) {
         float a1x = a1->GetTransformMatrix().m30;
         float a1y = a1->GetTransformMatrix().m31;
         float b1x = b1->GetTransformMatrix().m30;
@@ -26,7 +26,7 @@ int compareMAXUnitObject (const void * a, const void * b)
         else
             return 1;
     }
-    else if(a1->params_w->_bLevel < b1->params_w->_bLevel)
+    else if(a1->_currentLevel < b1->_currentLevel)
         return -1;
     else
         return 1;
@@ -41,7 +41,7 @@ compareFunc MAXObject::GetCompareFunc()
 }
 
 MAXObject::MAXObject(MAXObjectConfig* params)
-:params_w(params), _drawInLowLod(false)
+:params_w(params), _drawInLowLod(false), _currentLevel(params->_bLevel)
 {}
 
 MAXObject::~MAXObject()

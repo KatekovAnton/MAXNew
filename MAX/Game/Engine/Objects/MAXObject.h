@@ -20,8 +20,10 @@ using namespace cocos2d;
 class MAXObjectConfig;
 
 class MAXObject : public PivotObject {
+    
 public:
     
+    int _currentLevel;
     bool _drawInLowLod;
     
     
