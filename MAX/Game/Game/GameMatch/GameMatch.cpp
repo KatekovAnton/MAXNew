@@ -130,6 +130,10 @@ void GameMatch::GameUnitDidUndetected(GameUnit *unit, const CCPoint &point)
         unit->Hide();
         _agregator->RemoveUnitFromCell(unit, point.x, point.y);
     }
+    else
+    {
+        unit->DetectedByPlayer(_currentPlayer_w->_playerInfo._playerId);
+    }
 }
 
 void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
