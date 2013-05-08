@@ -905,5 +905,57 @@ void MAXGame::onUnitFireStop(GameUnit* unit)
 void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 {
     _needToOpenMenuOnNextTapToSameUnit = true;
+    _gameInterface->HideUnitMenu();
+    if (action == UNIT_MENU_ACTION_DONE) 
+        return;
+    bool _interfaceAction = false;
+    switch (action) {
+        case UNIT_MENU_ACTION_ALLOCATE:
+        case UNIT_MENU_ACTION_BUILD:
+        case UNIT_MENU_ACTION_BUYUPGRADES:
+        case UNIT_MENU_ACTION_REMOVE:
+        case UNIT_MENU_ACTION_RESEARCH:
+            _interfaceAction = true;
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (_interfaceAction) {
+        //show suitable screen
+        return;
+    }
+    bool _needTargetUnit = false;
+    switch (action) {
+        case UNIT_MENU_ACTION_ATTACK:
+        case UNIT_MENU_ACTION_DISABLE:
+        case UNIT_MENU_ACTION_ENTER:
+        case UNIT_MENU_ACTION_LOAD:
+        case UNIT_MENU_ACTION_RECHARGE:
+        case UNIT_MENU_ACTION_REPAIR:
+        case UNIT_MENU_ACTION_RELOAD:
+        case UNIT_MENU_ACTION_STEAL:
+        case UNIT_MENU_ACTION_XFER:
+            _needTargetUnit = false;
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (_needTargetUnit) {
+        //select suitable target unit and perform action
+        return;
+    }
+    //UNIT_MENU_ACTION_XFORM
+    //UNIT_MENU_ACTION_WAIT
+    //UNIT_MENU_ACTION_UPGRADE
+    //UNIT_MENU_ACTION_STOP
+    //UNIT_MENU_ACTION_START
+    //UNIT_MENU_ACTION_SENTRY
+    //UNIT_MENU_ACTION_PLACE
+    //UNIT_MENU_ACTION_FOLLOW
+    //UNIT_MENU_ACTION_ACTIVATE
 }
 

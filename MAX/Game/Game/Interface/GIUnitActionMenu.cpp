@@ -177,7 +177,7 @@ CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type)
 
 void GIUnitActionMenu::OnButton(CCMenuItem* sender)
 {
-    
+    _delegate_w->OnUnitMenuItemSelected((UNIT_MENU_ACTION)sender->getTag());
 }
 
 
