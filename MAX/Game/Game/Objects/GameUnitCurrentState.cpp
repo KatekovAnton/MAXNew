@@ -19,6 +19,10 @@ GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
         int val = GetMaxParameterValue((UNIT_PARAMETER_TYPE)pt);
         SetParameterValue((UNIT_PARAMETER_TYPE)pt, val);
     }
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        _detected[i] = false;
+    }
 }
 
 GameUnitCurrentState::~GameUnitCurrentState()
@@ -48,7 +52,6 @@ int GameUnitCurrentState::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
             break;
         case UNIT_PARAMETER_TYPE_AMMO:
             result = _pAmmo;
-            break;
             break;
             
         default:
@@ -125,7 +128,6 @@ void GameUnitCurrentState::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, 
             break;
         case UNIT_PARAMETER_TYPE_AMMO:
             _pAmmo = newValue;
-            break;
             break;
             
         default:

@@ -141,6 +141,14 @@ void GameUnit::LandInstantly()
 
 void GameUnit::NewTurn()
 {
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (_unitCurrentParameters->_detected[i])
+        {
+            _unitCurrentParameters->_detected[i] = false;
+            _delegate_w->GameUnitDidUndetected(this);
+        }
+    }
     _unitCurrentParameters->StartNewTurn();
 }
 
@@ -491,6 +499,25 @@ void GameUnit::UpdateConnectors()
             object->AddConnector(MAXUNITOBJECT_CONNECTOR6);
     }
 }
+
+void GameUnit::DetectedByPlayer(unsigned int playerId)
+{
+    if (playerId < MAX_PLAYERS)
+    {
+        _unitCurrentParameters->_detected[playerId] = true;
+    }
+}
+
+bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
+{
+    bool result = false;
+    if (playerId < MAX_PLAYERS)
+    {
+        result = _unitCurrentParameters->_detected[playerId];
+    }
+    return result;
+}
+
 
 vector<CCPoint> GameUnit::GetNerbyCells() const
 {

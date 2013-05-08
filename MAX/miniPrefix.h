@@ -27,6 +27,7 @@ using namespace Utils;
 
 const float interfaceAnimationTime = 0.2;
 
+#define MAX_PLAYERS 32
 
 typedef enum
 {
@@ -210,15 +211,16 @@ typedef enum
     FIRE_TYPE_All
 }FIRE_TYPE;
     
-typedef enum
+typedef enum : unsigned char
 {
-    FOG_TYPE_SIMPLE = 0,
-    FOG_TYPE_MINES = 1,
-    FOG_TYPE_SEAMINES = 2,
-    FOG_TYPE_UNDERWATER = 3,
-    FOG_TYPE_INFILTRATOR = 4,
-    FOG_TYPE_RESOURCES
-}FOG_TYPE;
+    FOG_TYPE_MIN = 0,
+    FOG_TYPE_SCAN = FOG_TYPE_MIN,
+    FOG_TYPE_RESOURCES,
+    FOG_TYPE_MINES,
+    FOG_TYPE_UNDERWATER,
+    FOG_TYPE_INFILTRATOR,
+    FOG_TYPE_MAX
+} FOG_TYPE;
     
 #define GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER 1000
     

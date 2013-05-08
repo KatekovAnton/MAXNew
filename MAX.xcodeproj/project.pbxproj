@@ -867,7 +867,7 @@
 		D1F816DC16F8CD4F00873348 /* simple */ = {isa = PBXFileReference; lastKnownFileType = folder; path = simple; sourceTree = "<group>"; };
 		D1F816E116F9C60B00873348 /* ShaderUnitLow.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnitLow.fsh; sourceTree = "<group>"; };
 		D1F816E216F9C60B00873348 /* ShaderUnitLow.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ShaderUnitLow.vsh; sourceTree = "<group>"; };
-		F1F2880016FE962C00887D2D /* GameFog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameFog.cpp; sourceTree = "<group>"; };
+		F1F2880016FE962C00887D2D /* GameFog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = GameFog.cpp; sourceTree = "<group>"; };
 		F1F2880116FE962F00887D2D /* GameFog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameFog.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

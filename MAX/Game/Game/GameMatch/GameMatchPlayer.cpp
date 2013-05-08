@@ -37,11 +37,16 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     
     _researchManager = new PlayerResearchManager(this);
     _upgradeManager = new PlayerUpgradeManager(this);
-    _fog = new GameFog(match->_map->GetMapWidth(), match->_map->GetMapHeight());
-    _fog->_delegate_w = this;
-    _resourceMapFog = new GameFog(match->_map->GetMapWidth(), match->_map->GetMapHeight());
-    _resourceMapFog->_delegate_w = this;
-    _resourceMap = new PlayerResourceMap(match->_map->GetMapWidth(), match->_map->GetMapHeight());
+    int w = match->_map->GetMapWidth();
+    int h = match->_map->GetMapHeight();
+    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    {
+        fogs[i] = new GameFog(w, h);
+        fogs[i]->_delegate_w = this;
+        fogs[i]->type = i;
+    }
+    
+    _resourceMap = new PlayerResourceMap(w, h);
 }
 
 GameMatchPlayer::~GameMatchPlayer()
@@ -55,8 +60,10 @@ GameMatchPlayer::~GameMatchPlayer()
         delete t;
     }
     
-    delete _fog;
-    delete _resourceMapFog;
+    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    {
+        delete fogs[i];
+    }
 
     for (int i = 0; i < _units.GetCount(); i++) {
         GameUnit* unit = _units.objectAtIndex(i);
@@ -119,79 +126,181 @@ void GameMatchPlayer::BeginTurn()
 
 bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
 {
-    //TODO: add invisibility conditions
-    return (_fog->GetValue(unit->GetUnitCell())>0);
+    bool result = true;
+    if (unit->_owner_w != this)
+    {
+        CCPoint unitCell = unit->GetUnitCell();
+        for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+        {
+            if ((i == FOG_TYPE_SCAN) || (!unit->IsDetectedByPlayer(_playerInfo._playerId)))
+            {
+                if (UnitCoveredByFog(unit, fogs[i]))
+                {
+                    if (fogs[i]->GetValue(unitCell) == 0)
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+
+bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const
+{
+    bool result = false;
+    switch (fog->type)
+    {
+        case FOG_TYPE_SCAN:
+            result = (unit->_unitCurrentParameters->_unitBaseParameters->_pMaxScan > 0);
+            break;
+        case FOG_TYPE_RESOURCES:
+            result = unit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
+            break;
+        case FOG_TYPE_MINES:
+            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isSeeMines;
+            break;
+        case FOG_TYPE_UNDERWATER:
+            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isSeeUnderwater;
+            break;
+        case FOG_TYPE_INFILTRATOR:
+            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAntiStealth;
+            break;
+
+        case FOG_TYPE_MAX:
+            break;
+    }
+    return result;
+}
+
+bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog) const
+{
+    bool result = false;
+    switch (fog->type)
+    {
+        case FOG_TYPE_SCAN:
+            result = true;
+            break;
+        case FOG_TYPE_RESOURCES:
+            result = false;
+            break;
+        case FOG_TYPE_MINES:
+            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBombMine;
+            break;
+        case FOG_TYPE_UNDERWATER:
+            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
+            break;
+        case FOG_TYPE_INFILTRATOR:
+            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isStealth;
+            break;
+            
+        case FOG_TYPE_MAX:
+            break;
+    }
+    return result;
 }
 
 #pragma mark - GameFogDelegate
 
-bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const
-{
-    if (fog == _resourceMapFog) 
-        return unit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
-    
-    if (fog == _fog) 
-        return true;
-    
-    return false;
-}
-
 float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const
 {
-    if (fog == _fog) 
-        return unit->_unitCurrentParameters->_unitBaseParameters->_pMaxScan;
-    
-    if (fog == _resourceMapFog) 
-        return 1.5;
-    
-    return 0;
+    float result = 0;
+    switch (fog->type)
+    {
+        case FOG_TYPE_SCAN:
+        case FOG_TYPE_UNDERWATER:
+        case FOG_TYPE_INFILTRATOR:
+            result = unit->_unitCurrentParameters->_unitBaseParameters->_pMaxScan;
+            break;
+        case FOG_TYPE_RESOURCES:
+        case FOG_TYPE_MINES:
+            result = 1.5;
+            break;
+        case FOG_TYPE_MAX:
+            break;
+    }
+    return result;
 }
 
 void GameMatchPlayer::CellDidUpdate(const int x, const int y, const GameFog *fog, bool visibleFlag) const
 {
-    FOG_TYPE type = FOG_TYPE_SIMPLE;
-    if (fog == _resourceMapFog)
+    switch (fog->type)
     {
-        _resourceMap->AddCell(x, y);
-        type = FOG_TYPE_RESOURCES;
+        case FOG_TYPE_RESOURCES:
+            _resourceMap->AddCell(x, y);
+            break;
+        default:
+            break;
     }
-    _match_w->CellDidUpdate(x, y, type, visibleFlag, this);
-
+    _match_w->CellDidUpdate(x, y, fog->type, visibleFlag, this);
 }
 
 #pragma mark - GameUnitDelegate
 
 void GameMatchPlayer::GameUnitWillLeaveCell(GameUnit *unit)
 {
-    _fog->UpdateOnUnitDidStartMove(unit);
-    _resourceMapFog->UpdateOnUnitDidStartMove(unit);
+    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    {
+        if (UnitShouldUpdateFog(unit, fogs[i]))
+        {
+            fogs[i]->UpdateOnUnitDidStartMove(unit);
+        }
+    }
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidEnterCell(GameUnit *unit)
 {
-    _fog->UpdateOnUnitDidEndMove(unit);
-    _resourceMapFog->UpdateOnUnitDidEndMove(unit);
+    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    {
+        if (UnitShouldUpdateFog(unit, fogs[i]))
+        {
+            fogs[i]->UpdateOnUnitDidEndMove(unit);
+        }
+    }
     _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
 {
+    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    {
+        if (UnitShouldUpdateFog(unit, fogs[i]))
+        {
+            fogs[i]->UpdateOnUnitDidRemoveFromMap(unit);
+        }
+    }
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
 {
-    _fog->UpdateOnUnitDidPlaceToMap(unit);
-    _resourceMapFog->UpdateOnUnitDidPlaceToMap(unit);
+    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    {
+        if (UnitShouldUpdateFog(unit, fogs[i]))
+        {
+            fogs[i]->UpdateOnUnitDidPlaceToMap(unit);
+        }
+    }
     _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
 {
-    _fog->UpdateOnUnitDidRemoveFromMap(unit);
-    _resourceMapFog->UpdateOnUnitDidRemoveFromMap(unit);
+    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    {
+        if (UnitShouldUpdateFog(unit, fogs[i]))
+        {
+            fogs[i]->UpdateOnUnitDidRemoveFromMap(unit);
+        }
+    }
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 
+void GameMatchPlayer::GameUnitDidUndetected(GameUnit *unit)
+{
+    _match_w->GameUnitDidUndetected(unit, unit->GetUnitCell());
+}
 

@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include "Geometry.h"
+#include "miniPrefix.h"
 
 using namespace cocos2d;
 
@@ -45,7 +46,7 @@ class GameFog {
 public:
     
     GameFogDelegate *_delegate_w;
-    
+    FOG_TYPE type;
     
     bool IsInTouchZone(GameUnit *unit) const;
     int GetValue(const CCPoint &point) const;

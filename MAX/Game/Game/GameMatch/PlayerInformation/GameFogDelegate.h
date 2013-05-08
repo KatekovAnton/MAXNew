@@ -18,7 +18,6 @@ class GameFogDelegate {
     
 public:
     
-    virtual bool UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const = 0;
     virtual float UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const = 0;
     virtual void CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const = 0;
     

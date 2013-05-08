@@ -81,6 +81,7 @@ bool GameMatch::EndTurn()
         if (found)
         {
             nextPlayer = _players[i];
+            nextPlayer->BeginTurn(); // temporary solution
             break;
         }
         else if (_currentPlayer_w == _players[i])
@@ -120,6 +121,15 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
     
     
     UpdateConnectorsForUnit(unit);
+}
+
+void GameMatch::GameUnitDidUndetected(GameUnit *unit, const CCPoint &point)
+{
+    if (!_currentPlayer_w->CanSeeUnit(unit))
+    {
+        unit->Hide();
+        _agregator->RemoveUnitFromCell(unit, point.x, point.y);
+    }
 }
 
 void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
@@ -169,9 +179,16 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
 {
     if (_player->GetIsCurrentPlayer())
     {
-        if (type == FOG_TYPE_SIMPLE)
+        if (type == FOG_TYPE_RESOURCES && visibleFlag)
         {
-            engine->AddFogCell(x, y, !visibleFlag);
+            engine->AddResourceCell(x, y, _resources->GetResourceTypeAt(x, y), _resources->GetResourceValueAt(x, y));
+        }
+        else
+        {
+            if (type == FOG_TYPE_SCAN)
+            {
+                engine->AddFogCell(x, y, !visibleFlag);
+            }
 
             vector<GameUnit*> units = GetAllUnitsInCell(x, y);
             if (visibleFlag)
@@ -180,12 +197,21 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                 for (int i = 0; i < units.size(); i++)
                 {
                     GameUnit *unit = units[i];
-                    needMessage = ! unit->_onDraw &&  unit->_owner_w != _currentPlayer_w;
-                    unit->Show();
-                    _agregator->AddUnitToCell(unit, x, y);
-                    
-                    if (needMessage) {
-                        game->ShowUnitSpottedMessage(unit);
+                    if (_currentPlayer_w->CanSeeUnit(unit))
+                    {
+                        needMessage = ! unit->_onDraw &&  unit->_owner_w != _currentPlayer_w;
+                        if (needMessage)
+                        {
+                            game->ShowUnitSpottedMessage(unit);
+                        }
+                        
+                        if (type != FOG_TYPE_SCAN)
+                        {
+                            unit->DetectedByPlayer(_currentPlayer_w->_playerInfo._playerId);
+                        }
+                        
+                        unit->Show();
+                        _agregator->AddUnitToCell(unit, x, y);
                     }
                 }
             }
@@ -194,14 +220,13 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                 for (int i = 0; i < units.size(); i++)
                 {
                     GameUnit *unit = units[i];
-                    unit->Hide();
-                    _agregator->RemoveUnitFromCell(unit, x, y);
+                    if (!_currentPlayer_w->CanSeeUnit(unit))
+                    {
+                        unit->Hide();
+                        _agregator->RemoveUnitFromCell(unit, x, y);
+                    }
                 }
             }
-        }
-        if (type == FOG_TYPE_RESOURCES && visibleFlag)
-        {
-            engine->AddResourceCell(x, y, _resources->GetResourceTypeAt(x, y), _resources->GetResourceValueAt(x, y));
         }
     }
     else

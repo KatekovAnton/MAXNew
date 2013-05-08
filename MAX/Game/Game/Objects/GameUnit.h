@@ -108,7 +108,8 @@ public:
     
     bool GetIsConnectored()const;
     void UpdateConnectors();
-    
+    void DetectedByPlayer(unsigned int playerId);
+    bool IsDetectedByPlayer(unsigned int playerId);
     
     vector<CCPoint> GetNerbyCells() const;
     

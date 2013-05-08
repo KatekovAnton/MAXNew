@@ -40,6 +40,7 @@ public:
     bool EndTurn();
     
     void GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point);
+    void GameUnitDidUndetected(GameUnit *unit, const CCPoint &point);
     void GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point);
     void CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, const GameMatchPlayer* _player);
     

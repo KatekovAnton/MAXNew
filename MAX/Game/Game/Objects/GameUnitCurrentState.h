@@ -16,7 +16,6 @@ class GameUnitParameters;
 
 class GameUnitCurrentState {
     
-    
 public:
     
     GameUnitParameters* _unitBaseParameters;
@@ -28,6 +27,7 @@ public:
     int _pFuel;
     int _pAmmo;
     bool _landed;
+    bool _detected[MAX_PLAYERS];
     
     GameUnitCurrentState(GameUnitParameters* params);
     ~GameUnitCurrentState();

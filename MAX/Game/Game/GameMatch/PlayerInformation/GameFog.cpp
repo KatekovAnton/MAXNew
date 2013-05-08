@@ -114,11 +114,13 @@ void GameFog::EndUpdates()
     {
         for (int y = _updatingBox.min.y; y <= _updatingBox.max.y; y++)
         {
-            if ((_gameField[IndexOf(x, y)] == 0) != (_gameFieldLast[IndexOf(x, y)] == 0) && _delegate_w)
+            int idx = IndexOf(x, y);
+            if ((_gameField[idx] == 0) != (_gameFieldLast[idx] == 0) && _delegate_w)
             {
-                int value = _gameField[IndexOf(x, y)];
+                int value = _gameField[idx];
                 bool flag = value != 0;
-                _delegate_w->CellDidUpdate(x, y, this, flag);
+                if (_delegate_w)
+                    _delegate_w->CellDidUpdate(x, y, this, flag);
             }
         }
     }
@@ -126,44 +128,32 @@ void GameFog::EndUpdates()
 
 void GameFog::UpdateOnUnitDidStartMove(GameUnit* unit)
 {
-    if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
-    {
-        BeginUpdates();
-        _updatingBox = unit->GetScanBoundingBox(unit->GetUnitCell());
-        Reset(unit, unit->GetUnitCell());
-    }
+    BeginUpdates();
+    _updatingBox = unit->GetScanBoundingBox(unit->GetUnitCell());
+    Reset(unit, unit->GetUnitCell());
 }
 
 void GameFog::UpdateOnUnitDidEndMove(GameUnit* unit)
 {
-    if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
-    {
-        Update(unit, unit->GetUnitCell());
-        _updatingBox.AddBoundingBox(unit->GetScanBoundingBox(unit->GetUnitCell()));
-        EndUpdates();
-    }
+    Update(unit, unit->GetUnitCell());
+    _updatingBox.AddBoundingBox(unit->GetScanBoundingBox(unit->GetUnitCell()));
+    EndUpdates();
 }
 
 void GameFog::UpdateOnUnitDidPlaceToMap(GameUnit* unit)
 {
-    if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
-    {
-        BeginUpdates();
-        _updatingBox = unit->GetScanBoundingBox();
-        Update(unit, unit->GetUnitCell());
-        EndUpdates();
-    }
+    BeginUpdates();
+    _updatingBox = unit->GetScanBoundingBox();
+    Update(unit, unit->GetUnitCell());
+    EndUpdates();
 }
 
 void GameFog::UpdateOnUnitDidRemoveFromMap(GameUnit* unit)
 {
-    if (!_delegate_w || _delegate_w->UnitShouldUpdateFog(unit, this))
-    {
-        BeginUpdates();
-        _updatingBox = unit->GetScanBoundingBox();
-        Reset(unit, unit->GetUnitCell());
-        EndUpdates();
-    }
+    BeginUpdates();
+    _updatingBox = unit->GetScanBoundingBox();
+    Reset(unit, unit->GetUnitCell());
+    EndUpdates();
 }
 
 

@@ -40,6 +40,8 @@ class GameMatchPlayer : public GameFogDelegate, public GameUnitDelegate {
     vector<Texture*> _palettes;
     Texture* _palette;
     
+    bool UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const;
+    bool UnitCoveredByFog(const GameUnit *unit, const GameFog *fog) const;
 public:
     
     bool GetIsCurrentPlayer() const;
@@ -57,9 +59,7 @@ public:
     CCPoint _landingPosition;
     
     GameMatchPlayerInfo _playerInfo;
-    GameFog* _fog;
-    GameFog* _resourceMapFog;
-
+    GameFog* fogs[FOG_TYPE_MAX];
     
     USimpleContainer<GameUnit*> _units;
     PlayerBase* _base;
@@ -76,7 +76,6 @@ public:
     
 #pragma mark - GameFogDelegate
 
-    virtual bool UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const;
     virtual float UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const;
     virtual void CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const;
     
@@ -90,6 +89,7 @@ public:
     virtual void GameUnitDidPlaceOnMap(GameUnit *unit);
     virtual void GameUnitDidRemoveFromMap(GameUnit *unit);
     
+    virtual void GameUnitDidUndetected(GameUnit *unit);
 };
 
 #endif /* defined(__MAX__Game_MatchPlayer__) */
