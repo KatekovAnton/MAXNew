@@ -40,11 +40,11 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     _upgradeManager = new PlayerUpgradeManager(this);
     int w = match->_map->GetMapWidth();
     int h = match->_map->GetMapHeight();
-    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         fogs[i] = new GameFog(w, h);
         fogs[i]->_delegate_w = this;
-        fogs[i]->type = i;
+        fogs[i]->type = (FOG_TYPE)i;
     }
     
     _resourceMap = new PlayerResourceMap(w, h);
@@ -61,7 +61,7 @@ GameMatchPlayer::~GameMatchPlayer()
         delete t;
     }
     
-    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         delete fogs[i];
     }
@@ -131,7 +131,7 @@ bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
     if (unit->_owner_w != this)
     {
         CCPoint unitCell = unit->GetUnitCell();
-        for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+        for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
         {
             if ((i == FOG_TYPE_SCAN) || (!unit->IsDetectedByPlayer(_playerInfo._playerId)))
             {
@@ -261,7 +261,7 @@ void GameMatchPlayer::CellDidUpdate(const int x, const int y, const GameFog *fog
 
 void GameMatchPlayer::GameUnitWillLeaveCell(GameUnit *unit)
 {
-    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
         {
@@ -273,7 +273,7 @@ void GameMatchPlayer::GameUnitWillLeaveCell(GameUnit *unit)
 
 void GameMatchPlayer::GameUnitDidEnterCell(GameUnit *unit)
 {
-    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
         {
@@ -285,7 +285,7 @@ void GameMatchPlayer::GameUnitDidEnterCell(GameUnit *unit)
 
 void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
 {
-    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
         {
@@ -297,7 +297,7 @@ void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
 
 void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
 {
-    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
         {
@@ -309,7 +309,7 @@ void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
 
 void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
 {
-    for (FOG_TYPE i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
         {

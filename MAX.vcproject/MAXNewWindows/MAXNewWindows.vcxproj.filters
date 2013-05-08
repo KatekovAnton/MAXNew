@@ -360,6 +360,9 @@
     <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParameterRow.cpp">
       <Filter>Game\Game\Interface\UnitParameterNode</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\GIUnitActionMenu.cpp">
+      <Filter>Game\Game\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MAX\Utils\BinaryReader.h">
@@ -697,6 +700,12 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParameterRow.h">
       <Filter>Game\Game\Interface\UnitParameterNode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\GIUnitActionMenu.h">
+      <Filter>Game\Game\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\GIUnitActionMenuDelegate.h">
+      <Filter>Game\Game\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
