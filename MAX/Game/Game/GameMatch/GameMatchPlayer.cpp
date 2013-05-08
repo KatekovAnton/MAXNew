@@ -27,6 +27,7 @@
 
 #include "GameMap.h"
 #include "GameFog.h"
+#include "MatchMapAgregator.h"
 
 GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
 :_match_w(match)
@@ -190,8 +191,27 @@ bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog)
             result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBombMine;
             break;
         case FOG_TYPE_UNDERWATER:
-            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
+        {
+            MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+            if (config->_isShip)
+            {
+                result = config->_isUnderwater;
+            }
+            else if (config->_isAmphibious)
+            {
+                result = config->_isUnderwater;
+                if (result)
+                {
+                    // check if unit in water
+                    EXTENDED_GROUND_TYPE groundType = _match_w->_agregator->GroundTypeAtXY(unit->GetUnitCell().x, unit->GetUnitCell().y);
+                    if (groundType != GROUND_TYPE_WATER)
+                    {
+                        result = false;
+                    }
+                }
+            }
             break;
+        }
         case FOG_TYPE_INFILTRATOR:
             result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isStealth;
             break;
