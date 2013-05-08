@@ -30,7 +30,7 @@ public:
     ~GIUnitActionMenu();
   
     
-    void OnButton(CCMenuItem* sender);
+    void OnButton(CCObject* sender);
 };
 
 

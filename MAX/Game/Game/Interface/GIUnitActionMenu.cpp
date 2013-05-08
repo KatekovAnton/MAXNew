@@ -128,8 +128,8 @@ string imageNameFormType(UNIT_MENU_ACTION action)
 }
 
 GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons)
-:CCMenu::CCMenu(), _delegate_w(NULL)
 {
+	_delegate_w = NULL;
     CCArray* arr = CCArray::create();
     initWithArray(arr);
     float delta = 5;
@@ -175,9 +175,10 @@ CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type)
     return spr;
 }
 
-void GIUnitActionMenu::OnButton(CCMenuItem* sender)
+void GIUnitActionMenu::OnButton(CCObject* sender)
 {
-    _delegate_w->OnUnitMenuItemSelected((UNIT_MENU_ACTION)sender->getTag());
+	UNIT_MENU_ACTION action = (UNIT_MENU_ACTION)((CCMenuItem*)sender)->getTag();
+    _delegate_w->OnUnitMenuItemSelected(action);
 }
 
 
