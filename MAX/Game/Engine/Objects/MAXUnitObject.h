@@ -130,6 +130,8 @@ public:
     void Landing();
     void LiftBridgeInstantly();
     void LandInstantly();
+    void StealthActivated();
+    void StealthDeactivated();
 
     bool IsSingleFire() const;
     bool IsHasBody() const;

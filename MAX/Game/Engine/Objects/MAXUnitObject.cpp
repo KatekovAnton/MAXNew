@@ -390,6 +390,16 @@ void MAXUnitObject::LandInstantly()
     _currentLevel = OBJECT_LEVEL_UNITS;
 }
 
+void MAXUnitObject::StealthActivated()
+{
+    printf("StealthActivated\n");
+}
+
+void MAXUnitObject::StealthDeactivated()
+{
+    printf("StealthDeactivated\n");
+}
+
 void MAXUnitObject::Frame(double time)
 {
     if (params_w->_isBridge && _animRunned)

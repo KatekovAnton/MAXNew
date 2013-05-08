@@ -146,6 +146,7 @@ void GameUnit::NewTurn()
         if (_unitCurrentParameters->_detected[i])
         {
             _unitCurrentParameters->_detected[i] = false;
+            GetUnitObject()->StealthActivated();
             _delegate_w->GameUnitDidUndetected(this);
         }
     }
@@ -504,7 +505,11 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
 {
     if (playerId < MAX_PLAYERS)
     {
-        _unitCurrentParameters->_detected[playerId] = true;
+        if (!_unitCurrentParameters->_detected[playerId])
+        {
+            _unitCurrentParameters->_detected[playerId] = true;
+            GetUnitObject()->StealthDeactivated();
+        }
     }
 }
 
