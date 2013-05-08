@@ -505,11 +505,13 @@ bool MAXGame::CanStartPinch(float x, float y)
 void MAXGame::ProceedPinch(float scale)
 {
     engine->ScaleCamera(scale);
+    _gameInterface->HideUnitMenu();
 }
 
 void MAXGame::ProceedPan(float speedx, float speedy)
 {
     engine->MoveCamera(speedx, speedy);
+    _gameInterface->HideUnitMenu();
 }
 
 void MAXGame::ShowUnitPath(GameUnit *unit)

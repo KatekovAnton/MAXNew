@@ -72,6 +72,7 @@ public:
     bool GetUnitMenuOpened() const {return _unitMenu != NULL;};
     void ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate);
     void HideUnitMenu();
+    void UpdateUnitMenuPosition();
     
     bool GetDrawGrid() const {return _drawGrid;}
     bool ShouldReceiveTouch(int x, int y);
@@ -97,6 +98,8 @@ public:
     void OnTogglePanel(CCMenuItem* sender);
     
     void OnEndTurn(CCMenuItem* sender);
+    
+    void OnMenuItemButton(CCMenuItem* sender);
     
 #pragma mark - Game events
     

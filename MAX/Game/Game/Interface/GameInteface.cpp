@@ -21,7 +21,7 @@
 #include "GIUnitParametersNode.h"
 #include "GIUnitActionMenu.h"
 #include "MAXGame.h"
-
+#include "MAXObjectConfig.h"
 using namespace extension;
 
 #define BUTTON_LABEL_TAG 11
@@ -88,6 +88,11 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
     
     r = CCRect(getContentSize().width - 212, getContentSize().height - 22, 75,22);
     result |= r.containsPoint(CCPoint(x, y));
+    if (GetUnitMenuOpened()) {
+        
+        r = CCRect(_unitMenu->getPosition().x, _unitMenu->getPosition().y, _unitMenu->getContentSize().width, _unitMenu->getContentSize().height);
+        result |= r.containsPoint(CCPoint(x, y));
+    }
     
     return result;
 }
@@ -115,7 +120,7 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
-  //  CCDirector::sharedDirector()->setDisplayStats(false);
+    CCDirector::sharedDirector()->setDisplayStats(false);
     
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
     CCSprite* turnSprite = CCSprite::create("3blocks.png");
@@ -526,6 +531,39 @@ void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit)
     }
 }
 
+void GameInterface::UpdateUnitMenuPosition()
+{
+    if (!_unitMenu) {
+        return;
+    }
+    CCPoint point = _currentUnit->GetUnitCell();
+    CCPoint point1 = point;
+    point.x *= 64;
+    point.y *= 64;
+    if (_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize < 2)
+    {
+        point.x += 64;
+        point.y += 64;
+    }
+    else
+    {
+        point.x += 128;
+        point.y += 128;
+    }
+    point1.x *= 64;
+    point1.y *= 64;
+    point = engine->WorldCoordinatesToScreenCocos(point);
+    point1 = engine->WorldCoordinatesToScreenCocos(point1);
+    
+    
+    float sideH = point1.y - point.y;
+    float menuH = _unitMenu->getContentSize().height;
+    
+    float bottomM = point.y + sideH/2 - menuH/2;
+    point.y = bottomM;
+    _unitMenu->setPosition(point);
+}
+
 void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
 {
     if (!_currentUnit) {
@@ -540,12 +578,7 @@ void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
     _unitMenu = new GIUnitActionMenu(actions);
     _unitMenu->_delegate_w = delegate;
     
-    CCPoint point = _currentUnit->GetUnitCell();
-    point.x *= 64;
-    point.y *= 64;
-    point = engine->WorldCoordinatesToScreenCocos(point);
-    
-    _unitMenu->setPosition(point);
+    UpdateUnitMenuPosition();
     addChild(_unitMenu);
 }
 
@@ -561,4 +594,10 @@ void GameInterface::HideUnitMenu()
     _unitMenu = NULL;
 
 }
+
+void GameInterface::OnMenuItemButton(CCMenuItem* sender)
+{
+    
+}
+
 

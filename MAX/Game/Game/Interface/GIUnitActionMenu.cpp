@@ -7,8 +7,10 @@
 //
 
 #include "GIUnitActionMenu.h"
+#include "MAXContentLoader.h"
 #include <vector>
 #include "miniPrefix.h"
+#include "CocosHelper.h"
 
 #define BUTTON_UNIT_MENU_ACTION_ACTIVATE    "ACTVT"
 #define BUTTON_UNIT_MENU_ACTION_ALLOCATE    "ALLOC"
@@ -36,9 +38,147 @@
 #define BUTTON_UNIT_MENU_ACTION_XFER        "XFER"
 #define BUTTON_UNIT_MENU_ACTION_XFORM       "XFORM"
 
+#define BUTTON_W 38
+#define BUTTON_H 21
+
+string imageNameFormType(UNIT_MENU_ACTION action)
+{
+    string baseName = "";
+    switch (action) {
+        case UNIT_MENU_ACTION_ACTIVATE:
+            baseName = BUTTON_UNIT_MENU_ACTION_ACTIVATE;
+            break;
+        case UNIT_MENU_ACTION_ALLOCATE:
+            baseName = BUTTON_UNIT_MENU_ACTION_ALLOCATE;
+            break;
+        case UNIT_MENU_ACTION_ATTACK:
+            baseName = BUTTON_UNIT_MENU_ACTION_ATTACK;
+            break;
+        case UNIT_MENU_ACTION_BUILD:
+            baseName = BUTTON_UNIT_MENU_ACTION_BUILD;
+            break;
+        case UNIT_MENU_ACTION_BUYUPGRADES:
+            baseName = BUTTON_UNIT_MENU_ACTION_BUYUPGRADES;
+            break;
+        case UNIT_MENU_ACTION_CLEAR:
+            baseName = BUTTON_UNIT_MENU_ACTION_CLEAR;
+            break;
+        case UNIT_MENU_ACTION_DISABLE:
+            baseName = BUTTON_UNIT_MENU_ACTION_DISABLE;
+            break;
+        case UNIT_MENU_ACTION_DONE:
+            baseName = BUTTON_UNIT_MENU_ACTION_DONE;
+            break;
+        case UNIT_MENU_ACTION_ENTER:
+            baseName = BUTTON_UNIT_MENU_ACTION_ENTER;
+            break;
+        case UNIT_MENU_ACTION_FOLLOW:
+            baseName = BUTTON_UNIT_MENU_ACTION_FOLLOW;
+            break;
+        case UNIT_MENU_ACTION_LOAD:
+            baseName = BUTTON_UNIT_MENU_ACTION_LOAD;
+            break;
+        case UNIT_MENU_ACTION_PLACE:
+            baseName = BUTTON_UNIT_MENU_ACTION_PLACE;
+            break;
+        case UNIT_MENU_ACTION_RECHARGE:
+            baseName = BUTTON_UNIT_MENU_ACTION_RECHARGE;
+            break;
+        case UNIT_MENU_ACTION_REMOVE:
+            baseName = BUTTON_UNIT_MENU_ACTION_REMOVE;
+            break;
+        case UNIT_MENU_ACTION_REPAIR:
+            baseName = BUTTON_UNIT_MENU_ACTION_REPAIR;
+            break;
+        case UNIT_MENU_ACTION_RELOAD:
+            baseName = BUTTON_UNIT_MENU_ACTION_RELOAD;
+            break;
+        case UNIT_MENU_ACTION_RESEARCH:
+            baseName = BUTTON_UNIT_MENU_ACTION_RESEARCH;
+            break;
+        case UNIT_MENU_ACTION_SENTRY:
+            baseName = BUTTON_UNIT_MENU_ACTION_SENTRY;
+            break;
+        case UNIT_MENU_ACTION_START:
+            baseName = BUTTON_UNIT_MENU_ACTION_START;
+            break;
+        case UNIT_MENU_ACTION_STEAL:
+            baseName = BUTTON_UNIT_MENU_ACTION_STEAL;
+            break;
+        case UNIT_MENU_ACTION_STOP:
+            baseName = BUTTON_UNIT_MENU_ACTION_STOP;
+            break;
+        case UNIT_MENU_ACTION_UPGRADE:
+            baseName = BUTTON_UNIT_MENU_ACTION_UPGRADE;
+            break;
+        case UNIT_MENU_ACTION_WAIT:
+            baseName = BUTTON_UNIT_MENU_ACTION_WAIT;
+            break;
+        case UNIT_MENU_ACTION_XFER:
+            baseName = BUTTON_UNIT_MENU_ACTION_XFER;
+            break;
+        case UNIT_MENU_ACTION_XFORM:
+            baseName = BUTTON_UNIT_MENU_ACTION_XFORM;
+            break;
+            
+        default:
+            break;
+    }
+    return baseName;
+}
+
 GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons)
-:_delegate_w(NULL)
-{}
+:CCMenu::CCMenu(), _delegate_w(NULL)
+{
+    CCArray* arr = CCArray::create();
+    initWithArray(arr);
+    float delta = 5;
+    
+    float fullH = buttons.size() * BUTTON_H + (buttons.size()-1)*delta;
+    float cH = 0;
+    setContentSize(ccz(BUTTON_W, fullH));
+    for (int i = 0; i < buttons.size(); i++) {
+        UNIT_MENU_ACTION bt = buttons[buttons.size() - i - 1];
+        CCMenuItem* item = CreateMenuItemWithType(bt);
+        item->setPosition(ccp(0, cH));
+        addChild(item);
+        cH += BUTTON_H;
+        cH += delta;
+    }
+    setTouchEnabled(true);
+    setEnabled(true);
+    printf("Created menu: %p\n", this );
+}
 
 GIUnitActionMenu::~GIUnitActionMenu()
 {}
+
+CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type)
+{
+    string baseName = imageNameFormType(type);
+    
+    Color transparent;
+    transparent.r = 0;
+    transparent.g = 0;
+    transparent.b = 0;
+    
+    CCSprite* _onSprite = MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
+    CCSprite* _ofSprite = MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
+    
+    CCMenuItemSprite* spr = CCMenuItemSprite::create(_ofSprite, _onSprite, this, menu_selector(GIUnitActionMenu::OnButton));
+    spr->setContentSize(CCSize(BUTTON_W, BUTTON_H));
+    spr->setAnchorPoint(ccp(0, 0));
+    spr->setTag(type);
+    spr->setEnabled(true);
+    CocosHelper::ProceedCCNode(spr);
+    
+    return spr;
+}
+
+void GIUnitActionMenu::OnButton(CCMenuItem* sender)
+{
+    
+}
+
+
+

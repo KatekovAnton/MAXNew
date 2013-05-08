@@ -20,6 +20,7 @@ using namespace cocos2d;
 
 class GIUnitActionMenu : public CCMenu {
     
+    CCMenuItem *CreateMenuItemWithType(UNIT_MENU_ACTION type);
     
 public:
     
@@ -27,7 +28,9 @@ public:
     
     GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons);
     ~GIUnitActionMenu();
+  
     
+    void OnButton(CCMenuItem* sender);
 };
 
 
