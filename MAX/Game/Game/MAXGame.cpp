@@ -915,6 +915,7 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         case UNIT_MENU_ACTION_BUYUPGRADES:
         case UNIT_MENU_ACTION_REMOVE:
         case UNIT_MENU_ACTION_RESEARCH:
+        case UNIT_MENU_ACTION_ACTIVATE:
             _interfaceAction = true;
             break;
             
@@ -948,14 +949,15 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         //select suitable target unit and perform action
         return;
     }
-    //UNIT_MENU_ACTION_XFORM
-    //UNIT_MENU_ACTION_WAIT
     //UNIT_MENU_ACTION_UPGRADE
     //UNIT_MENU_ACTION_STOP
     //UNIT_MENU_ACTION_START
     //UNIT_MENU_ACTION_SENTRY
-    //UNIT_MENU_ACTION_PLACE
+    
+    
+    //UNIT_MENU_ACTION_XFORM
     //UNIT_MENU_ACTION_FOLLOW
-    //UNIT_MENU_ACTION_ACTIVATE
+    //UNIT_MENU_ACTION_PLACE
+    //UNIT_MENU_ACTION_WAIT
 }
 
