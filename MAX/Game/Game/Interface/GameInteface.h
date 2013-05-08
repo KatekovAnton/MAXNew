@@ -67,6 +67,8 @@ class GameInterface : public CCScene
    
     GIUnitActionMenu* _unitMenu;
     
+    bool _inited;
+    
 public:
     
     bool GetUnitMenuOpened() const {return _unitMenu != NULL;};
@@ -82,6 +84,8 @@ public:
     ~GameInterface();
     
     void InitBaseInterface();
+    
+    void ShowUnitSpottedMessage(GameUnit* unit);
 
 #pragma mark - Button events
     

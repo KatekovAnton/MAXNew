@@ -22,7 +22,10 @@
 #include "GIUnitActionMenu.h"
 #include "MAXGame.h"
 #include "MAXObjectConfig.h"
+#include "SimpleAudioEngine.h"
+
 using namespace extension;
+using namespace CocosDenshion;
 
 #define BUTTON_LABEL_TAG 11
 
@@ -102,14 +105,28 @@ GameInterface::GameInterface()
 {
     _lockUnits = false;
     
-    _drawGrid = false;
-    _drawScan = false;
-    _drawRange = false;
+    _drawGrid = true;
+    _drawScan = true;
+    _drawRange = true;
     _drawShots = false;
     _drawStatus = false;
 	_drawResources = false;
-    _drawFog = false;
+    _drawFog = true;
     _drawPathZone = true;
+    
+    engine->drawGrid = _drawGrid;
+    engine->drawPathZone = _drawPathZone;
+    if (_currentUnit)
+        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
+    else
+        engine->drawResources = _drawResources;
+    engine->drawFog = _drawFog;
+    
+    MAXStatusRenderer::SharedStatusRenderer()->_drawScan = _drawScan;
+    MAXStatusRenderer::SharedStatusRenderer()->_drawRange  = _drawRange;
+    MAXStatusRenderer::SharedStatusRenderer()->_drawShots = _drawShots;
+    MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
+    
     
     Scale = Display::currentDisplay()->GetDisplayScale();
 }
@@ -120,6 +137,8 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
+    SimpleAudioEngine::sharedEngine()->setEffectsVolume(1.0);
+    _inited = false;
     CCDirector::sharedDirector()->setDisplayStats(false);
     
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
@@ -254,11 +273,7 @@ void GameInterface::InitBaseInterface()
     UpdateTogglePathZone();
 
 
-    OnToggleFog(NULL);
-    OnToggleGrid(NULL);
-    OnToggleRange(NULL);
-    OnToggleScan(NULL);
-
+    _inited = true;
     
     _buttonEndTurn = createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
     CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(BUTTON_LABEL_TAG), ccp(-4, 1));
@@ -269,6 +284,12 @@ void GameInterface::InitBaseInterface()
     menuTurn->setContentSize(CCSize(100, 23));
     menuTurn->setTouchEnabled(true);
     addChild(menuTurn);
+    
+}
+
+void GameInterface::ShowUnitSpottedMessage(GameUnit* unit)
+{
+    SimpleAudioEngine::sharedEngine()->playEffect("f070.wav", false);
 }
 
 #pragma mark - Update left buttons
@@ -351,6 +372,7 @@ void GameInterface::UpdateTogglePathZone()
 
 void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("mengens3.wav", false);
     _lockUnits = !_lockUnits;
     if (!_lockUnits)
     {
@@ -367,12 +389,14 @@ void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
 
 void GameInterface::OnToggleGrid(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     _drawGrid = !_drawGrid;
     UpdateToggleGridButton();
 }
 
 void GameInterface::OnToggleScan(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     _drawScan = !_drawScan;
     MAXStatusRenderer::SharedStatusRenderer()->_drawScan = _drawScan;
     UpdateToggleScanButton();
@@ -380,6 +404,7 @@ void GameInterface::OnToggleScan(CCMenuItem* sender)
 
 void GameInterface::OnToggleRange(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     _drawRange = !_drawRange;
     MAXStatusRenderer::SharedStatusRenderer()->_drawRange  = _drawRange;
     UpdateToggleRangeButton();
@@ -387,6 +412,7 @@ void GameInterface::OnToggleRange(CCMenuItem* sender)
 
 void GameInterface::OnToggleShots(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     _drawShots = !_drawShots;
     MAXStatusRenderer::SharedStatusRenderer()->_drawShots = _drawShots;
     UpdateToggleShotsButton();
@@ -394,6 +420,7 @@ void GameInterface::OnToggleShots(CCMenuItem* sender)
 
 void GameInterface::OnToggleStatus(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     _drawStatus = !_drawStatus;
     MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
     UpdateToggleStatusButton();
@@ -401,6 +428,7 @@ void GameInterface::OnToggleStatus(CCMenuItem* sender)
 
 void GameInterface::OnToggleResources(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     _drawResources = !_drawResources;
     if (_currentUnit) 
         engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
@@ -411,6 +439,7 @@ void GameInterface::OnToggleResources(CCMenuItem* sender)
 
 void GameInterface::OnToggleFog(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     _drawFog = !_drawFog;
     engine->drawFog = _drawFog;
     UpdateToggleFogButton();
@@ -418,6 +447,7 @@ void GameInterface::OnToggleFog(CCMenuItem* sender)
 
 void GameInterface::OnTogglePathZone(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     _drawPathZone = !_drawPathZone;
     engine->drawPathZone = _drawPathZone;
     UpdateTogglePathZone();
@@ -426,6 +456,7 @@ void GameInterface::OnTogglePathZone(CCMenuItem* sender)
 
 void GameInterface::OnTogglePanel(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
     const static int moveAnimationTag = 0;
     CCAction* currentAction = _panel->getActionByTag(moveAnimationTag);
     if (currentAction)
@@ -459,6 +490,9 @@ void GameInterface::OnTogglePanel(CCMenuItem* sender)
 
 void GameInterface::OnEndTurn(CCMenuItem* sender)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SimpleAudioEngine::sharedEngine()->playEffect("f053.wav", false);
+    
     game->EndTurn();
 }
 

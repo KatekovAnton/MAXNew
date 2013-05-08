@@ -474,6 +474,7 @@ void MAXGame::FlushEffectsWithNew(GameEffect *effect)
 void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)
 {
     printf("Enemy %s spotted at %d, %d!\n", unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_name.c_str(), (int)unit->GetUnitCell().x, (int)unit->GetUnitCell().y);
+    _gameInterface->ShowUnitSpottedMessage(unit);
 }
 
 #pragma mark - MAXEngineDelegate
