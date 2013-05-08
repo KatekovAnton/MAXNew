@@ -726,7 +726,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             {
 				if (_currentUnit->GetPath().size() > 0 && !_removeFromLock)
 				{
-					_currentUnit->GetPath().clear();
+					_currentUnit->ClearPath();
 				}
 				else
 				{
@@ -813,7 +813,7 @@ void MAXGame::RecalculateUnitPath(GameUnit* unit)
     }
     else
     {
-        unit->GetPath().clear();
+        unit->ClearPath();
     }
 }
 
@@ -904,12 +904,40 @@ void MAXGame::onUnitFireStop(GameUnit* unit)
 
 void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 {
+	if (!_currentUnit)
+	{
+		return;
+	}
+	
     _needToOpenMenuOnNextTapToSameUnit = true;
     _gameInterface->HideUnitMenu();
-    if (action == UNIT_MENU_ACTION_DONE) 
+    if (action == UNIT_MENU_ACTION_DONE)
+	{
+		_currentUnit->ConfirmCurrentPath();
+		HideUnitPath();
         return;
+	}
+	else if (action == UNIT_MENU_ACTION_STOP)
+	{
+		if (_currentUnit->CanStartBuildProcess())
+		{
+			_currentUnit->StartBuildProcess();
+		}
+		else
+		{
+			_currentUnit->ClearPath();
+			HideUnitPath();
+		}
+		return;
+	}
+	else if (action == UNIT_MENU_ACTION_START)
+	{
+		_currentUnit->StartBuildProcess();
+		return;
+	}
     bool _interfaceAction = false;
     switch (action) {
+		case UNIT_MENU_ACTION_INFO:
         case UNIT_MENU_ACTION_ALLOCATE:
         case UNIT_MENU_ACTION_BUILD:
         case UNIT_MENU_ACTION_BUYUPGRADES:

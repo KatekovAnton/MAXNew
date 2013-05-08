@@ -258,9 +258,16 @@ void GameUnit::SetPath(std::vector<PFWaveCell*> path)
 	}
 	else
 	{
-		path.clear();
+		movePath.clear();
         pathIndex = 0;
 	}
+}
+
+void GameUnit::ClearPath()
+{
+	movePath.clear();
+	pathIndex = 0;
+	pathIsTemp = true;
 }
 
 void GameUnit::ClearTempPath()
@@ -700,7 +707,8 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 
 bool GameUnit::CanStartBuildProcess()
 {
-    return ((_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn != _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding ) || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSelfCreatorType != 0 || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer);
+	MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
+    return ((config->_isAllwaysOn != config->_isBuilding ) || config->_bSelfCreatorType != 0 || config->_isBuldozer);
 }
 
 void GameUnit::StartBuildProcess()
@@ -715,10 +723,64 @@ void GameUnit::StartBuildProcess()
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 {
     //TODO: need to implement
+	MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
     vector<UNIT_MENU_ACTION> result;
-    result.push_back(UNIT_MENU_ACTION_DONE);
-    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSelfCreatorType != 0)
+	result.push_back(UNIT_MENU_ACTION_INFO);
+	if (movePath.size() > 0)
+	{
+		result.push_back(UNIT_MENU_ACTION_DONE);
+		result.push_back(UNIT_MENU_ACTION_STOP);
+	}
+	if (config->_isAbleToFire && (_unitCurrentParameters->_pShots > 0))
+	{
+		result.push_back(UNIT_MENU_ACTION_ATTACK);
+	}
+	if (config->_isReloader) // check if resource exist
+	{
+		result.push_back(UNIT_MENU_ACTION_RELOAD);
+	}
+	if (config->_isRepair) // check if resource exist
+	{
+		result.push_back(UNIT_MENU_ACTION_REPAIR);
+	}
+	if (config->_isBuldozer) // check if trash exist under the unit
+	{
+		result.push_back(UNIT_MENU_ACTION_CLEAR);
+	}
+	if (config->_isResearch)
+	{
+		result.push_back(UNIT_MENU_ACTION_RESEARCH);
+	}	
+	if (config->_isUpgrades)
+	{
+		result.push_back(UNIT_MENU_ACTION_UPGRADE);
+	}	
+	if ((config->_isAllwaysOn != config->_isBuilding ) || config->_bSelfCreatorType != 0 || config->_isBuldozer)
+	{
+		if (_isInProcess)
+		{
+			result.push_back(UNIT_MENU_ACTION_STOP);
+		}
+		else
+		{
+			result.push_back(UNIT_MENU_ACTION_START);
+		}
+	}
+
+    if (config->_bSelfCreatorType != 0)
+	{
         result.push_back(UNIT_MENU_ACTION_BUILD);
+	}
+	if (config->_isInfiltrator && (_unitCurrentParameters->_pShots > 0))
+	{
+		result.push_back(UNIT_MENU_ACTION_DISABLE);
+		result.push_back(UNIT_MENU_ACTION_STEAL);
+	}
+
+	if (config->_isBuilding)
+	{
+		result.push_back(UNIT_MENU_ACTION_REMOVE);
+	}
     return result;
 }
 

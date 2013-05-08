@@ -37,6 +37,7 @@
 #define BUTTON_UNIT_MENU_ACTION_WAIT        "WAIT"
 #define BUTTON_UNIT_MENU_ACTION_XFER        "XFER"
 #define BUTTON_UNIT_MENU_ACTION_XFORM       "XFORM"
+#define BUTTON_UNIT_MENU_ACTION_INFO        "XFORM"
 
 #define BUTTON_W 38
 #define BUTTON_H 21
@@ -120,6 +121,9 @@ string imageNameFormType(UNIT_MENU_ACTION action)
         case UNIT_MENU_ACTION_XFORM:
             baseName = BUTTON_UNIT_MENU_ACTION_XFORM;
             break;
+		case UNIT_MENU_ACTION_INFO:
+			baseName = BUTTON_UNIT_MENU_ACTION_INFO;
+			break;
             
         default:
             break;

@@ -72,6 +72,7 @@ public:
     void CheckBodyAndShadow();
     void SetUnitLocationAnimated(const CCPoint& destination);
     void SetPath(std::vector<PFWaveCell*> path);
+	void ClearPath();
     void ClearTempPath();
 	std::vector<PFWaveCell*> GetPath();
     int GetPathIndex();
