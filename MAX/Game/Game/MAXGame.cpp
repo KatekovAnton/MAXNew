@@ -199,7 +199,7 @@ void MAXGame::StartMatch()
 		unit1->PlaceUnitOnMap();
 	}
 	{
-		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 43, "Seatrans", 0); // Error here
+		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 43, "Seatrans", 0);
 		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
@@ -410,7 +410,8 @@ void MAXGame::StartMatch()
     
     
     {
-        _match->_players[1]->CreateUnit(50, 56, "Inter", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(38, 55, "Awac", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(50, 53, "Inter", 0)->PlaceUnitOnMap();
         for (int i = 61; i < 69; i++)
             _match->_players[1]->CreateUnit(i, 65, "landmine", 0)->PlaceUnitOnMap();
@@ -418,6 +419,8 @@ void MAXGame::StartMatch()
         _match->_players[1]->CreateUnit(42, 42, "sub", 0)->PlaceUnitOnMap();
 		for (int i = 32; i < 40; i+=2)
 			_match->_players[1]->CreateUnit(i, 31, "seamine", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(43, 41, "pcan", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(46, 38, "pcan", 0)->PlaceUnitOnMap();
     }
     
     engine->SetCameraCenter(ccp(62, 49));
