@@ -421,6 +421,7 @@ bodyActiveFrame2(0)
     _isAmphibious = _bMoveType == UNIT_MOVETYPE_AMHIB || _bMoveType == UNIT_MOVETYPE_SURVEYOR;
     _isShip = ((_bMoveType == UNIT_MOVETYPE_SEA || _bMoveType == UNIT_MOVETYPE_SEACOAST)&& !_isBuilding) ||
     ((_bMoveType == UNIT_MOVETYPE_SEA || _bMoveType == UNIT_MOVETYPE_SEACOAST) && _isBuilding && _isBombMine);
+    _isStealthable = _isStealth || _isUnderwater || _isBombMine;
     _haveShadow = _shadowName != "";
 }
 
