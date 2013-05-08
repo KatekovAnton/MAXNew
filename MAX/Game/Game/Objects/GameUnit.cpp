@@ -141,13 +141,18 @@ void GameUnit::LandInstantly()
 
 void GameUnit::NewTurn()
 {
+    bool processed = false;
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
         if (_unitCurrentParameters->_detected[i])
         {
             _unitCurrentParameters->_detected[i] = false;
-            GetUnitObject()->StealthActivated();
-            _delegate_w->GameUnitDidUndetected(this);
+            if (!processed)
+            {
+                processed = true;
+                GetUnitObject()->StealthActivated();
+                _delegate_w->GameUnitDidUndetected(this);
+            }
         }
     }
     _unitCurrentParameters->StartNewTurn();
@@ -669,6 +674,25 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     {
         if (selectedGameObjectDelegate)
             selectedGameObjectDelegate->onUnitFireStop(this);
+    }
+    
+    MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
+    if (config->_isStealthable)
+    {
+        bool processed = false;
+        for (int i = 0; i < MAX_PLAYERS; i++)
+        {
+            if (!_unitCurrentParameters->_detected[i])
+            {
+                _unitCurrentParameters->_detected[i] = true;
+                if (!processed)
+                {
+                    processed = true;
+                    GetUnitObject()->StealthDeactivated();
+                    _delegate_w->GameUnitDidDetected(this);
+                }
+            }
+        }
     }
 }
 

@@ -136,6 +136,15 @@ void GameMatch::GameUnitDidUndetected(GameUnit *unit, const CCPoint &point)
     }
 }
 
+void GameMatch::GameUnitDidDetected(GameUnit *unit, const CCPoint &point)
+{
+    if (_currentPlayer_w->CanSeeUnit(unit))
+    {
+        unit->Show();
+        _agregator->AddUnitToCell(unit, point.x, point.y);
+    }
+}
+
 void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 {
     bool needMessage = false;

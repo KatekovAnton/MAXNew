@@ -324,3 +324,7 @@ void GameMatchPlayer::GameUnitDidUndetected(GameUnit *unit)
     _match_w->GameUnitDidUndetected(unit, unit->GetUnitCell());
 }
 
+void GameMatchPlayer::GameUnitDidDetected(GameUnit *unit)
+{
+    _match_w->GameUnitDidDetected(unit, unit->GetUnitCell());
+}
