@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 #include "MciPlayer.h"
+#include "windows_fileManager.h"
 
 using namespace std;
 
@@ -255,6 +256,9 @@ void SimpleAudioEngine::setEffectsVolume(float volume)
 
 const char * _FullPath(const char * szPath)
 {
+
+	
+
     if (! s_szRootPath[0])
     {
         WCHAR  wszPath[MAX_PATH];
@@ -269,7 +273,11 @@ const char * _FullPath(const char * szPath)
 
     if (0 != szPath[0] && ':' != szPath[1])
     {
-        strcpy_s(s_szFullPath + s_dwRootLen, sizeof(s_szFullPath) - s_dwRootLen, szPath);
+        //strcpy_s(s_szFullPath + s_dwRootLen, sizeof(s_szFullPath) - s_dwRootLen, szPath);
+		FileManager * manager = FileManager::CreateManager();
+		string str = manager->GetFilePath(szPath);
+		strcpy_s(s_szFullPath + s_dwRootLen, sizeof(s_szFullPath) - s_dwRootLen, str.c_str()+2);
+		delete manager;
         return s_szFullPath;
     }
     else

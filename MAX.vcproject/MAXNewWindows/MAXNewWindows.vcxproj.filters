@@ -106,6 +106,9 @@
     <Filter Include="Game\Game\GameMatch\MatchInformation">
       <UniqueIdentifier>{b3c844ec-70d9-40b1-bcff-3b8b527ca817}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Vendors\CocosDenshions">
+      <UniqueIdentifier>{e0e42243-1495-4650-97c5-a743e8d270fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp">
@@ -362,6 +365,12 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\Interface\GIUnitActionMenu.cpp">
       <Filter>Game\Game\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\win32\SimpleAudioEngine.cpp">
+      <Filter>Game\Vendors\CocosDenshions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\win32\MciPlayer.cpp">
+      <Filter>Game\Vendors\CocosDenshions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -706,6 +715,12 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Interface\GIUnitActionMenuDelegate.h">
       <Filter>Game\Game\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\win32\MciPlayer.h">
+      <Filter>Game\Vendors\CocosDenshions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\include\SimpleAudioEngine.h">
+      <Filter>Game\Vendors\CocosDenshions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
