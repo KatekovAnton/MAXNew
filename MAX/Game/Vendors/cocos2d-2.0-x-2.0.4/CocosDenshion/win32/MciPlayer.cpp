@@ -84,8 +84,10 @@ void MciPlayer::Open(const char* pFileName, UINT uId)
         MCIERROR mciError;
         mciOpen.lpstrDeviceType = (LPCTSTR)MCI_ALL_DEVICE_ID;
 
-		wchar_t* w = new wchar_t[strlen(pFileName)];
-		mbstowcs(w,pFileName,strlen(pFileName));
+		int len = strlen(pFileName);
+		wchar_t* w = new wchar_t[len + 1];
+		memset(w, 0, (len + 1) * sizeof(wchar_t));
+		mbstowcs(w,pFileName,len);
         mciOpen.lpstrElementName = w;
 
         mciError = mciSendCommand(0,MCI_OPEN, MCI_OPEN_ELEMENT, (DWORD)&mciOpen);
