@@ -94,6 +94,14 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
     if (GetUnitMenuOpened()) {
         
         r = CCRect(_unitMenu->getPosition().x, _unitMenu->getPosition().y, _unitMenu->getContentSize().width, _unitMenu->getContentSize().height);
+        
+        float scale = _unitMenu->getScale() - 1.0;
+        r.origin.x += _unitMenu->getContentSize().width * scale * 0.5;
+        r.origin.y -= _unitMenu->getContentSize().height * scale * 0.5;
+    
+        r.size.width *= _unitMenu->getScale();
+        r.size.height *= _unitMenu->getScale();
+        
         result |= r.containsPoint(CCPoint(x, y));
     }
     
@@ -137,7 +145,7 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
-    SimpleAudioEngine::sharedEngine()->setEffectsVolume(1.0);
+    SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
     _inited = false;
     CCDirector::sharedDirector()->setDisplayStats(false);
     
@@ -595,6 +603,13 @@ void GameInterface::UpdateUnitMenuPosition()
     
     float bottomM = point.y + sideH/2 - menuH/2;
     point.y = bottomM;
+    
+    //point is for 1 scale;
+    
+    float scale = _unitMenu->getScale() - 1.0;
+    point.x += _unitMenu->getContentSize().width * scale * 0.5;
+    //point.y += _unitMenu->getContentSize().height * scale * 0.25;
+    
     _unitMenu->setPosition(point);
 }
 
@@ -610,6 +625,7 @@ void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
     printf("menu showed\n");
     vector<UNIT_MENU_ACTION> actions = _currentUnit->GetActionList();
     _unitMenu = new GIUnitActionMenu(actions);
+    _unitMenu->setScale(1.2);
     _unitMenu->_delegate_w = delegate;
     
     UpdateUnitMenuPosition();

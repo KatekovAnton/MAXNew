@@ -7,11 +7,29 @@
 //
 
 #include "SoundEngine.h"
+#include "MAXEngine.h"
 #include "SimpleAudioEngine.h"
+
+#define SOUND_ENEMY_DETECTED 0
+#define SOUND_END_OF_TURN 1
 
 using namespace CocosDenshion;
 
-void SoundEngine::PlaySound(string filename, bool looped)
+static SoundEngine* _sharedSoundengineInstance = NULL;
+
+SoundEngine* SoundEngine::sharedInstance()
 {
-    
+    if (!_sharedSoundengineInstance) {
+        _sharedSoundengineInstance = new SoundEngine();
+    }
+    return _sharedSoundengineInstance;
 }
+
+void PlayEndOfTurnSound()
+{}
+
+void PlayButtonSound()
+{}
+
+void PlayEnemyDetectedSound()
+{}
