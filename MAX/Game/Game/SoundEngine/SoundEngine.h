@@ -40,7 +40,7 @@ public:
     
     void PlaySystemSound(SOUND_TYPE type);
     
-    int PlayGameSound(string fileName);
+    int PlayGameSound(string fileName, SoundEngineDelegate* delegate);
     void StopGameSound(int sound);
     
     void CheckStoppedSound();
