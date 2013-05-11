@@ -35,7 +35,7 @@ SoundEngine::~SoundEngine()
 void SoundEngine::PlaySystemSound(SOUND_TYPE type)
 {}
 
-int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate)
+int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped)
 {
     return 0;
 }

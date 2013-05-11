@@ -16,17 +16,17 @@ class SoundEngineDelegate;
 
 struct _SoundElement
 {
-    string _name;
-    int _id;
-    float _length;
-    double _startTime;
+    string  _name;
+    int     _id;
+    float   _length;
+    double  _startTime;
+    bool    _looped;
     
     SoundEngineDelegate *_delegate_w;
 };
 typedef _SoundElement SoundElement;
 
 class SoundEngine {
-    
     
     map<SOUND_TYPE, vector<string>> _systemSoundNames;
     vector<SoundElement>            _playedSound;
@@ -40,7 +40,7 @@ public:
     
     void PlaySystemSound(SOUND_TYPE type);
     
-    int PlayGameSound(string fileName, SoundEngineDelegate* delegate);
+    int PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped);
     void StopGameSound(int sound);
     
     void CheckStoppedSound();
