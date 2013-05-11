@@ -151,7 +151,6 @@ GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons)
     }
     setTouchEnabled(true);
     setEnabled(true);
-    printf("Created menu: %p\n", this );
 }
 
 GIUnitActionMenu::~GIUnitActionMenu()

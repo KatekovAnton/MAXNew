@@ -40,6 +40,11 @@ static void static_playBackgroundMusic(const char* pszFilePath, bool bLoop)
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic: [NSString stringWithUTF8String: pszFilePath] loop: bLoop];
 }
 
+static float static_lengthOfEffect(const char* pszFilePath)
+{
+    return [[SimpleAudioEngine sharedEngine] lengthOfEffect:[NSString stringWithUTF8String: pszFilePath]];
+}
+
 static void static_stopBackgroundMusic()
 {
     [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
@@ -235,6 +240,11 @@ void SimpleAudioEngine::setEffectsVolume(float volume)
 unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
 {
             return static_playEffect(pszFilePath, bLoop);
+}
+    
+unsigned int SimpleAudioEngine::lengthOfEffect(const char* pszFilePath)
+{
+    return static_lengthOfEffect(pszFilePath);
 }
 
 void SimpleAudioEngine::stopEffect(unsigned int nSoundId)

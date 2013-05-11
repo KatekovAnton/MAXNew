@@ -128,6 +128,13 @@ static CDBufferManager *bufferManager = nil;
     return [self playEffect:filePath loop:loop pitch:1.0f pan:0.0f gain:1.0f];
 }
 
+-(float) lengthOfEffect:(NSString*) filePath
+{
+    int soundId = [bufferManager bufferForFile:filePath create:YES];
+    float result = [soundEngine getLength:soundId];
+    return result;
+}
+
 -(ALuint) playEffect:(NSString*) filePath loop:(BOOL) loop pitch:(Float32) pitch pan:(Float32) pan gain:(Float32) gain
 {
     int soundId = [bufferManager bufferForFile:filePath create:YES];
