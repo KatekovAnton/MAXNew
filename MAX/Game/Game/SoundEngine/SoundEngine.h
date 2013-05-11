@@ -12,13 +12,26 @@
 #include <iostream>
 #include "miniPrefix.h"
 
+struct _SoundElement
+{
+    string _name;
+    int _id;
+    float _length;
+    double _startTime;
+};
+typedef _SoundElement SoundElement;
+
 class SoundEngine {
     
-    //map<string, ALUn> playedSound;
+    map<string, SoundElement> playedSound;
     
 public:
     
-    void PlaySound(string filename, bool looped);
+    static SoundEngine* sharedInstance();
+    
+    void PlayEndOfTurnSound();
+    void PlayButtonSound();
+    void PlayEnemyDetectedSound();
     
 };
 

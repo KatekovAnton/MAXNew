@@ -609,7 +609,6 @@
 		D1A95DED173AD3EA0068F53F /* truckmve.wav in Resources */ = {isa = PBXBuildFile; fileRef = D1A95CDB173AD3EA0068F53F /* truckmve.wav */; };
 		D1A95DEE173AD3EA0068F53F /* truckstp.wav in Resources */ = {isa = PBXBuildFile; fileRef = D1A95CDC173AD3EA0068F53F /* truckstp.wav */; };
 		D1A95DF2173ADB430068F53F /* SoundEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A95DF0173ADB430068F53F /* SoundEngine.cpp */; };
-		D1A95DF5173AE28B0068F53F /* SoundElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1A95DF3173AE28B0068F53F /* SoundElement.cpp */; };
 		D1AB732516B93C16004D28F2 /* MAXAnimationSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */; };
 		D1AB733416BBCAEF004D28F2 /* MAXAnimationRepeat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733216BBCAEC004D28F2 /* MAXAnimationRepeat.cpp */; };
 		D1AB733C16BBD381004D28F2 /* GameEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1AB733616BBD381004D28F2 /* GameEffect.cpp */; };
@@ -1373,8 +1372,6 @@
 		D1A95CDC173AD3EA0068F53F /* truckstp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = truckstp.wav; sourceTree = "<group>"; };
 		D1A95DF0173ADB430068F53F /* SoundEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundEngine.cpp; sourceTree = "<group>"; };
 		D1A95DF1173ADB430068F53F /* SoundEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundEngine.h; sourceTree = "<group>"; };
-		D1A95DF3173AE28B0068F53F /* SoundElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundElement.cpp; sourceTree = "<group>"; };
-		D1A95DF4173AE28B0068F53F /* SoundElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundElement.h; sourceTree = "<group>"; };
 		D1AB732216B93467004D28F2 /* miniPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniPrefix.h; sourceTree = "<group>"; };
 		D1AB732316B93C15004D28F2 /* MAXAnimationSequence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = MAXAnimationSequence.cpp; sourceTree = "<group>"; };
 		D1AB732416B93C15004D28F2 /* MAXAnimationSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationSequence.h; sourceTree = "<group>"; };
@@ -2059,7 +2056,7 @@
 				8B7CA08C16C81FFD00282A74 /* cocos-ext.h */,
 				8B7CA08D16C81FFD00282A74 /* ExtensionMacros.h */,
 				8B8C0CF916DA54080077426D /* CocosHelper */,
-				D1A95BB2173AD29F0068F53F /* CocosSound */,
+				D1A95BB2173AD29F0068F53F /* CocosDenshions */,
 				8B7CA07F16C81F9F00282A74 /* CCScrollView */,
 				D18EDC5B168980E600EE3B4E /* cocos2dx.xcodeproj */,
 				D18EDC271689799400EE3B4E /* aharren-LibComponentLogging-Core-17e2940 */,
@@ -2301,7 +2298,7 @@
 			path = Textures;
 			sourceTree = "<group>";
 		};
-		D1A95BB2173AD29F0068F53F /* CocosSound */ = {
+		D1A95BB2173AD29F0068F53F /* CocosDenshions */ = {
 			isa = PBXGroup;
 			children = (
 				D1A95BC2173AD2DA0068F53F /* Export.h */,
@@ -2317,7 +2314,7 @@
 				D1A95BBB173AD2B20068F53F /* SimpleAudioEngine_objc.m */,
 				D1A95BBC173AD2B20068F53F /* SimpleAudioEngine.mm */,
 			);
-			name = CocosSound;
+			name = CocosDenshions;
 			sourceTree = "<group>";
 		};
 		D1A95BCA173AD3CC0068F53F /* Sounds */ = {
@@ -2606,8 +2603,6 @@
 			children = (
 				D1A95DF0173ADB430068F53F /* SoundEngine.cpp */,
 				D1A95DF1173ADB430068F53F /* SoundEngine.h */,
-				D1A95DF3173AE28B0068F53F /* SoundElement.cpp */,
-				D1A95DF4173AE28B0068F53F /* SoundElement.h */,
 			);
 			path = SoundEngine;
 			sourceTree = "<group>";
@@ -3428,7 +3423,6 @@
 				D1A95BC0173AD2B20068F53F /* SimpleAudioEngine_objc.m in Sources */,
 				D1A95BC1173AD2B20068F53F /* SimpleAudioEngine.mm in Sources */,
 				D1A95DF2173ADB430068F53F /* SoundEngine.cpp in Sources */,
-				D1A95DF5173AE28B0068F53F /* SoundElement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

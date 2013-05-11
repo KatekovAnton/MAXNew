@@ -805,6 +805,13 @@ static BOOL _mixerRateSet = NO;
     
 }    
 
+- (float)getLength:(int)sourceId
+{
+    float result;
+    alGetSourcef(sourceId, AL_SEC_OFFSET, &result);
+    return result;
+}
+
 /**
  * Play a sound.
  * @param soundId the id of the sound to play (buffer id).
