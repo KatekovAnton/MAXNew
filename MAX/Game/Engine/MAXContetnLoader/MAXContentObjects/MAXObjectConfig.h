@@ -81,13 +81,21 @@ public:
     
     ////Sound//
     //Взрывзвук=blast-15.wav
+    string _soundBlastName;
     //Выстзвук=shoot-0.wav
+    string _soundShotName;
     //Запзвук=on.wav
+    string _soundStartName;
     //Рабзвук=hld.wav
+    string _soundWorkName;
     //Стрзвук=-1
+    string _soundBuildName;
     //Стопзвук=off.wav
+    string _soundStopName;
     //Двигзвук=run.wav
+    string _soundEngineName;
     //Степзвук=off.wav
+    string _soundStepName;
     
     
     string _name;
