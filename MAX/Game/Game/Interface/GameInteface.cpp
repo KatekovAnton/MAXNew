@@ -96,7 +96,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
         r = CCRect(_unitMenu->getPosition().x, _unitMenu->getPosition().y, _unitMenu->getContentSize().width, _unitMenu->getContentSize().height);
         
         float scale = _unitMenu->getScale() - 1.0;
-        r.origin.x += _unitMenu->getContentSize().width * scale * 0.5;
+        r.origin.x -= _unitMenu->getContentSize().width * scale * 0.5;
         r.origin.y -= _unitMenu->getContentSize().height * scale * 0.5;
     
         r.size.width *= _unitMenu->getScale();
@@ -625,7 +625,7 @@ void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
     printf("menu showed\n");
     vector<UNIT_MENU_ACTION> actions = _currentUnit->GetActionList();
     _unitMenu = new GIUnitActionMenu(actions);
-    _unitMenu->setScale(1.2);
+    _unitMenu->setScale(1);
     _unitMenu->_delegate_w = delegate;
     
     UpdateUnitMenuPosition();
