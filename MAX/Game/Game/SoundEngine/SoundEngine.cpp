@@ -10,6 +10,7 @@
 #include "MAXEngine.h"
 #include "SimpleAudioEngine.h"
 #include "SoundEngineDelegate.h"
+#include "MyRandom.h"
 
 #define SOUND_ENEMY_DETECTED 0
 #define SOUND_END_OF_TURN 1
@@ -27,13 +28,67 @@ SoundEngine* SoundEngine::sharedInstance()
 }
 
 SoundEngine::SoundEngine()
-{}
+{
+    SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
+    {
+        vector<string> names;
+        names.push_back("f001.wav");
+        names.push_back("f001.wav");
+        names.push_back("f005.wav");
+        names.push_back("f006.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_READY, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f053.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_START_OF_TURN, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("mengens3.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_BUTTON_LARGE, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("menu38.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_BUTTON_AVERAGE, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("mengens4.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_BUTTON_SMALL, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f070.wav");
+        names.push_back("f071.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_ENEMY_DETECTED, names));
+    }
+}
 
 SoundEngine::~SoundEngine()
 {}
 
 void SoundEngine::PlaySystemSound(SOUND_TYPE type)
-{}
+{
+    if (_systemSoundNames.count(type) == 0) 
+        return;
+    
+    for (int i = 0; i < _playedSound.size(); i++) 
+        if (_playedSound[i]._type == type) 
+            return;
+        
+    vector<string> soundNames = _systemSoundNames[type];
+    string name = soundNames[nextIntMax(soundNames.size())];
+    SoundElement element;
+    element._type = type;
+    element._looped = false;
+    element._length = SimpleAudioEngine::sharedEngine()->lengthOfEffect(name.c_str());
+    element._id = SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false);
+    element._delegate_w = NULL;
+    element._startTime = engine->FullTime();
+    _playedSound.push_back(element);
+}
 
 int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped)
 {
@@ -53,13 +108,17 @@ void SoundEngine::CheckStoppedSound()
     {
         finded = false;
         element = _playedSound.begin();
-        for (; element != _playedSound.end(); element++) {
+        for (; element != _playedSound.end(); element++)
+        {
             SoundElement *item = &(*element);
-            if (item->_startTime + item->_length > engine->FullTime()) {
+            double fifnishTime = item->_startTime + item->_length;
+            double currentTime = engine->FullTime();
+            if (fifnishTime < currentTime)
+            {
                 finded = true;
-                if (item->_delegate_w) {
+                if (item->_delegate_w)
                     item->_delegate_w->SoundDidFinishPlaying(item->_id);
-                }
+                
                 _playedSound.erase(element);
                 break;
             }

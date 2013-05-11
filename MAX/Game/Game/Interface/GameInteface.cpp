@@ -22,10 +22,10 @@
 #include "GIUnitActionMenu.h"
 #include "MAXGame.h"
 #include "MAXObjectConfig.h"
-#include "SimpleAudioEngine.h"
+
+#include "SoundEngine.h"
 
 using namespace extension;
-using namespace CocosDenshion;
 
 #define BUTTON_LABEL_TAG 11
 
@@ -145,7 +145,7 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
-    SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
+    
     _inited = false;
     CCDirector::sharedDirector()->setDisplayStats(false);
     
@@ -297,7 +297,7 @@ void GameInterface::InitBaseInterface()
 
 void GameInterface::ShowUnitSpottedMessage(GameUnit* unit)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("f070.wav", false);
+    SoundEngine::sharedInstance()->PlaySystemSound(SOUND_TYPE_ENEMY_DETECTED);
 }
 
 #pragma mark - Update left buttons
@@ -380,7 +380,7 @@ void GameInterface::UpdateTogglePathZone()
 
 void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("mengens3.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_SMALL);
     _lockUnits = !_lockUnits;
     if (!_lockUnits)
     {
@@ -397,14 +397,14 @@ void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
 
 void GameInterface::OnToggleGrid(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawGrid = !_drawGrid;
     UpdateToggleGridButton();
 }
 
 void GameInterface::OnToggleScan(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawScan = !_drawScan;
     MAXStatusRenderer::SharedStatusRenderer()->_drawScan = _drawScan;
     UpdateToggleScanButton();
@@ -412,7 +412,7 @@ void GameInterface::OnToggleScan(CCMenuItem* sender)
 
 void GameInterface::OnToggleRange(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawRange = !_drawRange;
     MAXStatusRenderer::SharedStatusRenderer()->_drawRange  = _drawRange;
     UpdateToggleRangeButton();
@@ -420,7 +420,7 @@ void GameInterface::OnToggleRange(CCMenuItem* sender)
 
 void GameInterface::OnToggleShots(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawShots = !_drawShots;
     MAXStatusRenderer::SharedStatusRenderer()->_drawShots = _drawShots;
     UpdateToggleShotsButton();
@@ -428,7 +428,7 @@ void GameInterface::OnToggleShots(CCMenuItem* sender)
 
 void GameInterface::OnToggleStatus(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawStatus = !_drawStatus;
     MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
     UpdateToggleStatusButton();
@@ -436,7 +436,7 @@ void GameInterface::OnToggleStatus(CCMenuItem* sender)
 
 void GameInterface::OnToggleResources(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawResources = !_drawResources;
     if (_currentUnit) 
         engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
@@ -447,7 +447,7 @@ void GameInterface::OnToggleResources(CCMenuItem* sender)
 
 void GameInterface::OnToggleFog(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawFog = !_drawFog;
     engine->drawFog = _drawFog;
     UpdateToggleFogButton();
@@ -455,7 +455,7 @@ void GameInterface::OnToggleFog(CCMenuItem* sender)
 
 void GameInterface::OnTogglePathZone(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawPathZone = !_drawPathZone;
     engine->drawPathZone = _drawPathZone;
     UpdateTogglePathZone();
@@ -464,7 +464,7 @@ void GameInterface::OnTogglePathZone(CCMenuItem* sender)
 
 void GameInterface::OnTogglePanel(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     const static int moveAnimationTag = 0;
     CCAction* currentAction = _panel->getActionByTag(moveAnimationTag);
     if (currentAction)
@@ -498,8 +498,8 @@ void GameInterface::OnTogglePanel(CCMenuItem* sender)
 
 void GameInterface::OnEndTurn(CCMenuItem* sender)
 {
-    SimpleAudioEngine::sharedEngine()->playEffect("menu38.wav", false);
-    SimpleAudioEngine::sharedEngine()->playEffect("f053.wav", false);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+    SOUND->PlaySystemSound(SOUND_TYPE_START_OF_TURN);
     
     game->EndTurn();
 }

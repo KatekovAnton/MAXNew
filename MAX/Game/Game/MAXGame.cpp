@@ -9,6 +9,7 @@
 #include "MAXGame.h"
 #include "MAXEngine.h"
 #include "SceneSystem.h"
+#include "SoundEngine.h"
 #include "Display.h"
 #include "cocos2d.h"
 
@@ -481,6 +482,7 @@ void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)
 
 void MAXGame::onFrame()
 {
+    SoundEngine::sharedInstance()->CheckStoppedSound();
     for(int i = 0; i < _match->_players.size(); i++)
         _match->_players[i]->SetPalette(engine->FullTime());
 }

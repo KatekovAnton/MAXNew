@@ -12,17 +12,20 @@
 #include <iostream>
 #include "miniPrefix.h"
 
+#define SOUND SoundEngine::sharedInstance()
+
 class SoundEngineDelegate;
 
 struct _SoundElement
 {
-    string  _name;
     int     _id;
-    float   _length;
+    double  _length;
     double  _startTime;
     bool    _looped;
     
     SoundEngineDelegate *_delegate_w;
+    
+    SOUND_TYPE _type;
 };
 typedef _SoundElement SoundElement;
 
