@@ -9,6 +9,7 @@
 #include "SoundEngine.h"
 #include "MAXEngine.h"
 #include "SimpleAudioEngine.h"
+#include "SoundEngineDelegate.h"
 
 #define SOUND_ENEMY_DETECTED 0
 #define SOUND_END_OF_TURN 1
@@ -25,11 +26,45 @@ SoundEngine* SoundEngine::sharedInstance()
     return _sharedSoundengineInstance;
 }
 
-void PlayEndOfTurnSound()
+SoundEngine::SoundEngine()
 {}
 
-void PlayButtonSound()
+SoundEngine::~SoundEngine()
 {}
 
-void PlayEnemyDetectedSound()
+void SoundEngine::PlaySystemSound(SOUND_TYPE type)
 {}
+
+int SoundEngine::PlayGameSound(string fileName)
+{
+    return 0;
+}
+
+void SoundEngine::StopGameSound(int sound)
+{
+    
+}
+
+void SoundEngine::CheckStoppedSound()
+{
+    std::vector<SoundElement>::iterator element;
+    bool finded = true;
+    while (finded)
+    {
+        finded = false;
+        element = _playedSound.begin();
+        for (; element != _playedSound.end(); element++) {
+            SoundElement *item = &(*element);
+            if (item->_startTime + item->_length > engine->FullTime()) {
+                finded = true;
+                if (item->_delegate_w) {
+                    item->_delegate_w->SoundDidFinishPlaying(item->_id);
+                }
+                _playedSound.erase(element);
+                break;
+            }
+        }
+    }
+}
+
+
