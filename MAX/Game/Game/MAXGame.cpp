@@ -37,7 +37,7 @@
 MAXGame globalGame;
 MAXGame * game = &globalGame;
 
-MAXAnimationWait* prepareUnitToMoveToPoint(GameUnit* unit, CCPoint point)
+MAXAnimationWait* prepareUnitToMoveToPoint(GameUnit* unit, CCPoint point, float delay)
 {
     CCPoint location = unit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
@@ -50,19 +50,19 @@ MAXAnimationWait* prepareUnitToMoveToPoint(GameUnit* unit, CCPoint point)
         unit->SetPath(path);
         game->ShowUnitPath(unit);
     }
-    MAXAnimationWait* animWait = new MAXAnimationWait(2.0);
+    MAXAnimationWait* animWait = new MAXAnimationWait(delay);
     animWait->_delegate = game;
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(animWait);
     return animWait;
 }
 
-MAXAnimationWait* moveUnit(GameUnit* unit)
+MAXAnimationWait* moveUnit(GameUnit* unit, float delay)
 {
     if (game->CheckIfNextCellOk(unit))
     {
         unit->ConfirmCurrentPath();
         game->HideUnitPath();
-        MAXAnimationWait* animWait = new MAXAnimationWait(2.0);
+        MAXAnimationWait* animWait = new MAXAnimationWait(delay);
         animWait->_delegate = game;
         MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(animWait);
         return animWait;
@@ -109,7 +109,7 @@ void MAXGame::StartTest()
     
     _testUnitCorvette->SetDirection(1);
     
-    _waitTestAnimCorvette = prepareUnitToMoveToPoint(_testUnitCorvette, ccp(26, 44));
+    _waitTestAnimCorvette = prepareUnitToMoveToPoint(_testUnitCorvette, ccp(26, 44), 2.5);
     _freezeCounter ++;
     
 
@@ -1069,17 +1069,17 @@ void MAXGame::OnAnimationFinish(MAXAnimationBase* animation)
     if (animation == _waitTestAnimCorvette)
     {
         _waitTestAnimCorvette = NULL;
-        _waitTestAnimCorvetteMovement = moveUnit(_testUnitCorvette);
+        _waitTestAnimCorvetteMovement = moveUnit(_testUnitCorvette, 1.5);
     }
     if (animation == _waitTestAnimCorvetteMovement)
     {
         _waitTestAnimCorvetteMovement = NULL;
-        _waitTestAnimSubmarine = prepareUnitToMoveToPoint(_testUnitSubmarine, ccp(28, 41));
+        _waitTestAnimSubmarine = prepareUnitToMoveToPoint(_testUnitSubmarine, ccp(28, 41), 1.5);
     }
     if (animation == _waitTestAnimSubmarine)
     {
         _waitTestAnimCorvette = NULL;
-        _waitTestAnimSubmarineMovement = moveUnit(_testUnitSubmarine);
+        _waitTestAnimSubmarineMovement = moveUnit(_testUnitSubmarine, 2);
     }
     if (animation == _waitTestAnimSubmarineMovement) {
         _waitTestAnimSubmarineMovement = NULL;
