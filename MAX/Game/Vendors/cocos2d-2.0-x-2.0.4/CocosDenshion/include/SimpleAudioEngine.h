@@ -166,7 +166,7 @@ public:
     @brief get effect's length
     @param pszFilePath The path of the effect file,or the FileName of T_SoundResInfo
     */
-    unsigned int lengthOfEffect(const char* pszFilePath);
+    float lengthOfEffect(const char* pszFilePath);
 
     /**
     @brief Pause playing sound effect

@@ -109,6 +109,9 @@
     <Filter Include="Game\Vendors\CocosDenshions">
       <UniqueIdentifier>{e0e42243-1495-4650-97c5-a743e8d270fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game\SoundEngine">
+      <UniqueIdentifier>{7f369d3d-7df2-4912-899a-34c4fa964146}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp">
@@ -371,6 +374,9 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\win32\MciPlayer.cpp">
       <Filter>Game\Vendors\CocosDenshions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\SoundEngine\SoundEngine.cpp">
+      <Filter>Game\Game\SoundEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -721,6 +727,12 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\include\SimpleAudioEngine.h">
       <Filter>Game\Vendors\CocosDenshions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\SoundEngine\SoundEngineDelegate.h">
+      <Filter>Game\Game\SoundEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\SoundEngine\SoundEngine.h">
+      <Filter>Game\Game\SoundEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

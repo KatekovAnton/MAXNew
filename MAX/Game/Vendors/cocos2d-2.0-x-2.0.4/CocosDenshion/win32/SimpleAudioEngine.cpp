@@ -134,6 +134,11 @@ unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
     return nRet;
 }
 
+float SimpleAudioEngine::lengthOfEffect(const char* pszFilePath)
+{
+	return 1.0;
+}
+
 void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
 {
     EffectList::iterator p = sharedList().find(nSoundId);
