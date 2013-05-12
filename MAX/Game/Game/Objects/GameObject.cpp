@@ -14,7 +14,7 @@
 #include "miniPrefix.h"
 
 GameObject::GameObject(MAXObject *object, MAXObjectConfig *config)
-:_object(object), _onDraw(false), _config_w(config)
+:_object(object), _onDraw(false), _config_w(config), selectedGameObjectDelegate(NULL)
 {}
 
 GameObject::~GameObject()

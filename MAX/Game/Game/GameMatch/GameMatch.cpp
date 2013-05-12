@@ -159,9 +159,11 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     {
         unit->Hide();
     }
-    if (needMessage) {
+    if (needMessage)
+    {
         game->ShowUnitSpottedMessage(unit);
     }
+    
 }
 
 vector<GameUnit*> GameMatch::GetAllUnitsInCell(const int x, const int y)

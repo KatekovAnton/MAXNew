@@ -16,6 +16,7 @@
 #include "MAXObjectConfig.h"
 
 #include "GameUnitCurrentState.h"
+#include "GameMatchPlayer.h"
 #include "GameUnitParameters.h"
 #include "GameEffect.h"
 #include "GameMatch.h"
@@ -25,13 +26,26 @@
 
 using namespace cocos2d;
 
+MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
+{
+    MAXANIMATION_CURVE curve;
+    if (pathSize == 1)
+        curve = MAXANIMATION_CURVE_EASE_IN_OUT;
+    else if (step == pathSize - 1)
+        curve = MAXANIMATION_CURVE_EASE_IN;
+    else if (step == 0)
+        curve = MAXANIMATION_CURVE_EASE_OUT;
+    else
+        curve = MAXANIMATION_CURVE_EASE_LINEAR;
+    return curve;
+}
+
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
 :GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL), _disabledByInfiltrator(false), pathIndex(0), pathIsTemp(true)
 {
     unitObject->_delegate_w = this;
     unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
     _onDraw = false;
-    _detected = false;
     if (config->GetConfig()->_isBuilding && config->GetConfig()->_isAllwaysOn)
     {
         _isInProcess = true;
@@ -57,7 +71,7 @@ GameUnit::~GameUnit()
 
 void GameUnit::ChackForAnimanteBody()
 {
-    _shouldAnimateBody = (_isInProcess && _unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn) && !_disabledByInfiltrator && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_hasHead;
+    _shouldAnimateBody = _unitCurrentParameters->_unitBaseParameters->GetConfig()->bodyActiveFrame0 != _unitCurrentParameters->_unitBaseParameters->GetConfig()->bodyActiveFrame1 && !_disabledByInfiltrator;//(_isInProcess && _unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn) && !_disabledByInfiltrator && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_hasHead;
 }
 
 void GameUnit::SetDirection(int dir)
@@ -84,6 +98,8 @@ void GameUnit::SetColor(GLKVector4 color)
 
 void GameUnit::Show()
 {
+    if (_onDraw)
+        return;
     GameObject::Show();
     if (_effectUnder)
         _effectUnder->Show();
@@ -92,6 +108,9 @@ void GameUnit::Show()
 
 void GameUnit::Hide()
 {
+    if (!_onDraw)
+        return;
+    
     GameObject::Hide();
     if (_effectUnder)
         _effectUnder->Hide();
@@ -188,10 +207,10 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 void GameUnit::CheckBodyAndShadow()
 {
     MAXUnitObject* _unitObject = GetUnitObject();
-    if (!(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || CanStartBuildProcess()))
+    if (!(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAmphibious || _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || CanStartBuildProcess()) && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
     {
         //all passive-worked buildings, which cannot be topped by infiltrator
-        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isActiveBody)
+        if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
         {
             if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
                 _unitObject->SetBodyOffset(0);//radar
@@ -211,9 +230,10 @@ void GameUnit::CheckBodyAndShadow()
     {
         if (groundType == EXTENDED_GROUND_TYPE_WATER)
         {
-            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater && !_detected)
+            _unitObject->_currentLevel = OBJECT_LEVEL_ONGROUND;
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater)
             {
-                _unitObject->SetBodyOffset(0);
+                _unitObject->SetBodyOffset(IsDetectedByPlayer(game->_match->_currentPlayer_w->_playerInfo._playerId)?8:0);
                 _unitObject->_needShadow = false;
                 return;
             }
@@ -225,6 +245,7 @@ void GameUnit::CheckBodyAndShadow()
         }
         else
         {
+            _unitObject->_currentLevel = _unitObject->params_w->_bLevel;
             if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater)
             {
                 _unitObject->SetBodyOffset(8);
@@ -238,8 +259,6 @@ void GameUnit::CheckBodyAndShadow()
             }
             if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer)
             {
-                int a =0;
-                a++;
                 _unitObject->SetBodyOffset(_isInProcess?8:0);
                 return;
             }
@@ -337,20 +356,6 @@ void GameUnit::AbortCurrentPath()
     {
         _currentTopAnimation->Stop();
     }
-}
-
-MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
-{
-    MAXANIMATION_CURVE curve;
-    if (pathSize == 1)
-        curve = MAXANIMATION_CURVE_EASE_IN_OUT;
-    else if (step == pathSize - 1)
-        curve = MAXANIMATION_CURVE_EASE_IN;
-    else if (step == 0)
-        curve = MAXANIMATION_CURVE_EASE_OUT;
-    else
-        curve = MAXANIMATION_CURVE_EASE_LINEAR;
-    return curve;
 }
 
 void GameUnit::FollowPath(void)
@@ -513,29 +518,6 @@ void GameUnit::UpdateConnectors()
     }
 }
 
-void GameUnit::DetectedByPlayer(unsigned int playerId)
-{
-    if (playerId < MAX_PLAYERS)
-    {
-        if (!_unitCurrentParameters->_detected[playerId])
-        {
-            _unitCurrentParameters->_detected[playerId] = true;
-            GetUnitObject()->StealthDeactivated();
-        }
-    }
-}
-
-bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
-{
-    bool result = false;
-    if (playerId < MAX_PLAYERS)
-    {
-        result = _unitCurrentParameters->_detected[playerId];
-    }
-    return result;
-}
-
-
 vector<CCPoint> GameUnit::GetNerbyCells() const
 {
     vector<CCPoint> resuplt;
@@ -583,6 +565,31 @@ vector<CCPoint> GameUnit::GetNerbyCells() const
             resuplt.push_back(cell);
     }
     return resuplt;
+}
+
+#pragma mark - Stealth methods
+
+void GameUnit::DetectedByPlayer(unsigned int playerId)
+{
+    if (playerId < MAX_PLAYERS)
+    {
+        if (!_unitCurrentParameters->_detected[playerId])
+        {
+            _unitCurrentParameters->_detected[playerId] = true;
+            if (game->_match->GetIsCurrentPlayer(playerId))
+                GetUnitObject()->StealthDeactivated();
+        }
+    }
+}
+
+bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
+{
+    bool result = false;
+    if (playerId < MAX_PLAYERS)
+    {
+        result = _unitCurrentParameters->_detected[playerId];
+    }
+    return result;
 }
 
 #pragma mark - Fire methods
@@ -722,7 +729,6 @@ void GameUnit::StartBuildProcess()
 
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 {
-    //TODO: need to implement
 	MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
     vector<UNIT_MENU_ACTION> result;
 	result.push_back(UNIT_MENU_ACTION_INFO);

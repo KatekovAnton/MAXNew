@@ -12,26 +12,41 @@
 #include <iostream>
 #include "miniPrefix.h"
 
+#define SOUND SoundEngine::sharedInstance()
+
+class SoundEngineDelegate;
+
 struct _SoundElement
 {
-    string _name;
-    int _id;
-    float _length;
-    double _startTime;
+    int     _id;
+    double  _length;
+    double  _startTime;
+    bool    _looped;
+    
+    SoundEngineDelegate *_delegate_w;
+    
+    SOUND_TYPE _type;
 };
 typedef _SoundElement SoundElement;
 
 class SoundEngine {
     
-    map<string, SoundElement> playedSound;
+    map<SOUND_TYPE, vector<string>> _systemSoundNames;
+    vector<SoundElement>            _playedSound;
     
 public:
     
+    SoundEngine();
+    ~SoundEngine();
+    
     static SoundEngine* sharedInstance();
     
-    void PlayEndOfTurnSound();
-    void PlayButtonSound();
-    void PlayEnemyDetectedSound();
+    void PlaySystemSound(SOUND_TYPE type);
+    
+    int PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped);
+    void StopGameSound(int sound);
+    
+    void CheckStoppedSound();
     
 };
 

@@ -54,6 +54,10 @@ MyClass::~MyClass()
 }
 
 - (void)frameCallback:(CADisplayLink *)link {
+    UIApplicationState s = [UIApplication sharedApplication].applicationState;
+    if (s != UIApplicationStateActive) {
+        return;
+    }
     NSTimeInterval time = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
     NSTimeInterval delta = time - lastTime;
     lastTime = time;

@@ -12,7 +12,6 @@
 		5127D6101702C3FB00486F12 /* Pathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D60E1702C3FB00486F12 /* Pathfinder.cpp */; };
 		5127D6131702C42B00486F12 /* PFWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6111702C42B00486F12 /* PFWave.cpp */; };
 		5127D6191702C46C00486F12 /* PFWaveCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6171702C46800486F12 /* PFWaveCell.cpp */; };
-		51BADFE6170AD6410009E37A /* SelectedGameObjectDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51BADFE4170AD6410009E37A /* SelectedGameObjectDelegate.cpp */; };
 		8B54D40516ECFBFC00935B1A /* MAXAnimationObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */; };
 		8B54D40816ECFD9800935B1A /* MAXAnimationEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B54D40616ECFD9700935B1A /* MAXAnimationEffect.cpp */; };
 		8B7CA08816C81F9F00282A74 /* CCScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B7CA08016C81F9F00282A74 /* CCScrollView.cpp */; };
@@ -677,7 +676,6 @@
 		5127D6121702C42B00486F12 /* PFWave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWave.h; path = Pathfinder/PFWave.h; sourceTree = "<group>"; };
 		5127D6171702C46800486F12 /* PFWaveCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PFWaveCell.cpp; path = Pathfinder/PFWaveCell.cpp; sourceTree = "<group>"; };
 		5127D6181702C46900486F12 /* PFWaveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWaveCell.h; path = Pathfinder/PFWaveCell.h; sourceTree = "<group>"; };
-		51BADFE4170AD6410009E37A /* SelectedGameObjectDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SelectedGameObjectDelegate.cpp; sourceTree = "<group>"; };
 		51BADFE5170AD6410009E37A /* SelectedGameObjectDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedGameObjectDelegate.h; sourceTree = "<group>"; };
 		8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObject.cpp; sourceTree = "<group>"; };
 		8B54D40416ECFBFC00935B1A /* MAXAnimationObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationObject.h; sourceTree = "<group>"; };
@@ -1081,6 +1079,7 @@
 		D19C065816D530480014A6BE /* MyRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRandom.h; sourceTree = "<group>"; };
 		D19C065916D531A30014A6BE /* MAXGameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGameController.cpp; sourceTree = "<group>"; };
 		D19C065A16D531A40014A6BE /* MAXGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGameController.h; sourceTree = "<group>"; };
+		D19E44D0173EB60900A93FD9 /* SoundEngineDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundEngineDelegate.h; sourceTree = "<group>"; };
 		D1A95BB3173AD2B20068F53F /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDAudioManager.h; path = "cocos2d-2.0-x-2.0.4/CocosDenshion/ios/CDAudioManager.h"; sourceTree = "<group>"; };
 		D1A95BB4173AD2B20068F53F /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDAudioManager.m; path = "cocos2d-2.0-x-2.0.4/CocosDenshion/ios/CDAudioManager.m"; sourceTree = "<group>"; };
 		D1A95BB5173AD2B20068F53F /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDConfig.h; path = "cocos2d-2.0-x-2.0.4/CocosDenshion/ios/CDConfig.h"; sourceTree = "<group>"; };
@@ -1857,7 +1856,6 @@
 				D1AB733516BBD35B004D28F2 /* Effects */,
 				D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */,
 				D11ABAA3168DDB0A00CD29EA /* GameObject.h */,
-				51BADFE4170AD6410009E37A /* SelectedGameObjectDelegate.cpp */,
 				51BADFE5170AD6410009E37A /* SelectedGameObjectDelegate.h */,
 			);
 			path = Objects;
@@ -2603,6 +2601,7 @@
 			children = (
 				D1A95DF0173ADB430068F53F /* SoundEngine.cpp */,
 				D1A95DF1173ADB430068F53F /* SoundEngine.h */,
+				D19E44D0173EB60900A93FD9 /* SoundEngineDelegate.h */,
 			);
 			path = SoundEngine;
 			sourceTree = "<group>";
@@ -3413,7 +3412,6 @@
 				5127D6131702C42B00486F12 /* PFWave.cpp in Sources */,
 				5127D6191702C46C00486F12 /* PFWaveCell.cpp in Sources */,
 				D1E07A221709621800344DF2 /* MatchMapAgregator.cpp in Sources */,
-				51BADFE6170AD6410009E37A /* SelectedGameObjectDelegate.cpp in Sources */,
 				D10D78FE17204A0000D13FA0 /* GamePathVisualizer.cpp in Sources */,
 				D10D79E317214DCA00D13FA0 /* MAXContentUtils.cpp in Sources */,
 				8B90ED4F173864D60032205A /* GIUnitActionMenu.cpp in Sources */,

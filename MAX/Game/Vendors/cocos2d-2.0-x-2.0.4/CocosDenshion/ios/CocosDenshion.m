@@ -807,9 +807,19 @@ static BOOL _mixerRateSet = NO;
 
 - (float)getLength:(int)sourceId
 {
-    float result;
-    alGetSourcef(sourceId, AL_SEC_OFFSET, &result);
-    return result;
+    ALuint buffer = _buffers[sourceId].bufferId;
+    
+    ALint size, bits, channels, freq;
+    
+    alGetBufferi(buffer, AL_SIZE, &size);
+    alGetBufferi(buffer, AL_BITS, &bits);
+    alGetBufferi(buffer, AL_CHANNELS, &channels);
+    alGetBufferi(buffer, AL_FREQUENCY, &freq);
+    if(alGetError() != AL_NO_ERROR)
+        return -1.0f;
+    
+    return (ALfloat)((ALuint)size/channels/(bits/8)) / (ALfloat)freq;
+    
 }
 
 /**
