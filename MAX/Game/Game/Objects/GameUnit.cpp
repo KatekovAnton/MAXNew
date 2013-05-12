@@ -175,6 +175,7 @@ void GameUnit::NewTurn()
         }
     }
     _unitCurrentParameters->StartNewTurn();
+    game->_match->GameUnitDidEnterCell(this, GetUnitCell());
 }
 
 void GameUnit::PlaceUnitOnMap()

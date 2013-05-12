@@ -8,6 +8,7 @@
 
 #include "MAXGame.h"
 #include "GameUnit.h"
+#include "GameFog.h"
 #include "GameMatch.h"
 #include "GameMatchPlayer.h"
 #include "GameMap.h"
@@ -89,9 +90,23 @@ bool GameMatch::EndTurn()
             found = true;
         }
     }
-//    _currentPlayer_w = nextPlayer; // not ready for change player
+    
+    _currentPlayer_w = nextPlayer; // not ready for change player
+    //update fog
+    //update units
     _currentPlayer_w->BeginTurn();
     return true;
+}
+
+void GameMatch::UnfillFogOnStartTurn()
+{
+    for (int i = 0; i < _map->_w; i++) {
+        for (int j = 0; j < _map->_h; j++) {
+            bool see = _currentPlayer_w->fogs[FOG_TYPE_SCAN]->GetValue(ccp(i, j))>0;
+            if (see) 
+                engine->AddFogCell(i, j, false);
+        }
+    }
 }
 
 void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
@@ -118,8 +133,6 @@ void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 {
     _agregator->RemoveUnitFromCell(unit, point.x, point.y);
-    
-    
     UpdateConnectorsForUnit(unit);
 }
 
@@ -248,9 +261,6 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
     {
         //TODO: drop invisibility from our units if need
     }
-    
-    
-    
 }
 
 bool GameMatch::GetIsCellValid(CCPoint cell) const

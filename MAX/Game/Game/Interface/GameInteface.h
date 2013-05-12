@@ -79,6 +79,13 @@ public:
     bool GetDrawGrid() const {return _drawGrid;}
     bool ShouldReceiveTouch(int x, int y);
     
+    void ClearLockedUnits();
+    void SetLockedUnits(vector<GameUnit*> units);
+    vector<GameUnit*> GetLockedUnits() const {return _lockedUnits;};
+    void SetLockUnits(bool flag) {_lockUnits = flag; UpdateToggleLockUnitsButton();}
+    
+    CCPoint GetCenter();
+    
     
     GameInterface();
     ~GameInterface();

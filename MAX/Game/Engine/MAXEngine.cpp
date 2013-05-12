@@ -229,6 +229,11 @@ void MAXEngine::AddFogCell(const int x, const int y, const bool fog)
         _fogRenderer->RemoveCell(x, y);
 }
 
+void MAXEngine::FillFog()
+{
+    _fogRenderer->CompletlyFillMap();
+}
+
 void MAXEngine::AddPathZoneCell(const int x, const int y)
 {
 	_pathZoneRenderer->AddCell(x, y);

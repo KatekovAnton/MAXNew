@@ -300,6 +300,21 @@ void GameInterface::ShowUnitSpottedMessage(GameUnit* unit)
     SoundEngine::sharedInstance()->PlaySystemSound(SOUND_TYPE_ENEMY_DETECTED);
 }
 
+void GameInterface::ClearLockedUnits()
+{
+    _lockedUnits.clear();
+    MAXStatusRenderer::SharedStatusRenderer()->ClearLockedUnits();
+}
+
+void GameInterface::SetLockedUnits(vector<GameUnit*> units)
+{
+    ClearLockedUnits();
+    _lockedUnits = units;
+    for (int i = 0; i < _lockedUnits.size(); i++) {
+        MAXStatusRenderer::SharedStatusRenderer()->AddUnitToLock(_lockedUnits[i]->GetUnitObject());
+    }
+}
+
 #pragma mark - Update left buttons
 
 void GameInterface::UpdateToggleLockUnitsButton()
@@ -496,12 +511,17 @@ void GameInterface::OnTogglePanel(CCMenuItem* sender)
     _buttonTogglePanel->setSelectedImage(newSelected);
 }
 
+CCPoint GameInterface::GetCenter()
+{
+    return ccp(getContentSize().width/2, getContentSize().height/2);
+}
+
 void GameInterface::OnEndTurn(CCMenuItem* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
-    SOUND->PlaySystemSound(SOUND_TYPE_START_OF_TURN);
     
-    game->EndTurn();
+    if (game->EndTurn())
+        SOUND->PlaySystemSound(SOUND_TYPE_START_OF_TURN);
 }
 
 #pragma mark - Game events

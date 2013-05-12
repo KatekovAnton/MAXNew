@@ -104,9 +104,9 @@ void MAXGame::StartTest()
     _waitTestAnimSubmarine = NULL;
     _waitTestAnimCorvetteMovement = NULL;
     _waitTestAnimSubmarineMovement = NULL;
-    if (!_testUnitCorvette) {
+    //if (!_testUnitCorvette)
         return;
-    }
+    
     _testUnitCorvette->SetDirection(1);
     
     _waitTestAnimCorvette = prepareUnitToMoveToPoint(_testUnitCorvette, ccp(26, 44));
@@ -461,27 +461,50 @@ void MAXGame::StartMatch()
 //    }
     
     engine->SetCameraCenter(ccp(30, 44));
+    _match->_players[0]->cameraPosition = ccp(30, 44);
+    _match->_players[1]->cameraPosition = ccp(30, 44);
 
 }
 
 bool MAXGame::EndTurn()
 {
     bool result = false;
-    if (_freezeCounter == 0)
-    {
-        result = _match->EndTurn();
-        if (_currentUnit)
-        {
-            _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+    if (_freezeCounter != 0)
+        return false;
+    _match->_currentPlayer_w->cameraPosition = engine->ScreenToWorldCell( _gameInterface->GetCenter());
+    result = _match->EndTurn();
+    if (!result) 
+        return result;
+    
+    _gameInterface->SetLockUnits(false);
+    _gameInterface->ClearLockedUnits();
+    GameUnit* _oldSelectedUnit = _currentUnit;
+    if (_oldSelectedUnit)
+        HidePathMap();
+        
+    
+    
+    _currentUnit = NULL;
+    engine->SelectUnit(_currentUnit?_currentUnit->GetUnitObject():NULL);
+    _gameInterface->OnCurrentUnitChanged(_currentUnit, false);
+    _needToOpenMenuOnNextTapToSameUnit = true;
+    _gameInterface->HideUnitMenu();
+    _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+    if (_currentUnit) {
+        if (_currentUnit->_owner_w->GetIsCurrentPlayer()) {
             ShowUnitPath(_currentUnit);
-
+            
             CCPoint location = _currentUnit->GetUnitCell();
             UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
             Pathfinder* pf = _match->_pathfinder;
             pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->GetMoveBalance());
             ShowPathMap();
         }
+        else
+            HidePathMap();
     }
+    
+    engine->SetCameraCenter(_match->_currentPlayer_w->cameraPosition);
     return result;
 }
 
@@ -647,7 +670,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {
             if (newCurrentUnit)
             {
-                if ((_currentUnit) && (_currentUnit->GetPath().size() > 0))
+                if (_currentUnit->GetPath().size() > 0)
                 {
                     CCPoint location1 = _currentUnit->GetUnitCell();
                     CCPoint location2 = newCurrentUnit->GetUnitCell();

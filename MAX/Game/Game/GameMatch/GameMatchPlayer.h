@@ -47,6 +47,8 @@ public:
     bool GetIsCurrentPlayer() const;
     Texture** GetPalettePointer() {return &_palette;};
     
+    CCPoint cameraPosition;
+    
     GameMatch *_match_w;
     
     int researchCentersWorkingOnArea[kNrResearchAreas]; ///< counts the number of research centers that are currently working on each area

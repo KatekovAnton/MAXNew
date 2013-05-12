@@ -38,6 +38,7 @@ public:
     ~GameMatch();
     
     bool EndTurn();
+    void UnfillFogOnStartTurn();
     
     bool GetIsCurrentPlayer(const unsigned int playerId) const { return _currentPlayer_w != NULL && _currentPlayer_w->_playerInfo._playerId == playerId; }
     

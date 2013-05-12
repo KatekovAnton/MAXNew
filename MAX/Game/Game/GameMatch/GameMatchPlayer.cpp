@@ -123,6 +123,9 @@ void GameMatchPlayer::BeginTurn()
         GameUnit* unit = _units.objectAtIndex(i);
         unit->NewTurn();
     }
+    engine->FillFog();
+    _match_w->UnfillFogOnStartTurn();
+   
 }
 
 bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
