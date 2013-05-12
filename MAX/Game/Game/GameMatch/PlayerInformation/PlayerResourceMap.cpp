@@ -23,3 +23,9 @@ void PlayerResourceMap::AddCell(const int x, const int y)
 {
     _resScan[IndexOf(x, y)] = true;
 }
+
+bool PlayerResourceMap::GetValue(const int x, const int y) const
+{
+    return _resScan[IndexOf(x, y)];
+}
+

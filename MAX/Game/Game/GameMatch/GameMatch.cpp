@@ -21,6 +21,7 @@
 #include "GameSettings.h"
 #include "Pathfinder.h"
 #include "MatchMapAgregator.h"
+#include "PlayerResourceMap.h"
 
 void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
 {
@@ -103,8 +104,19 @@ void GameMatch::UnfillFogOnStartTurn()
     for (int i = 0; i < _map->_w; i++) {
         for (int j = 0; j < _map->_h; j++) {
             bool see = _currentPlayer_w->fogs[FOG_TYPE_SCAN]->GetValue(ccp(i, j))>0;
-            if (see) 
+            if (see)
                 engine->AddFogCell(i, j, false);
+        }
+    }
+}
+
+void GameMatch::FillResourceFogOnStartTurn()
+{
+    for (int x = 0; x < _map->_w; x++) {
+        for (int y = 0; y < _map->_h; y++) {
+            bool see = _currentPlayer_w->_resourceMap->GetValue(x, y);
+            if (see)
+                engine->AddResourceCell(x, y, _resources->GetResourceTypeAt(x, y), _resources->GetResourceValueAt(x, y));
         }
     }
 }

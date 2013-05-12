@@ -39,7 +39,7 @@ public:
     void AddCellToScan(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
     
     void Draw(Shader *shader);
-
+    void Clear();
 };
 
 #endif /* defined(__MAX__MAXResourceMapRenderer__) */

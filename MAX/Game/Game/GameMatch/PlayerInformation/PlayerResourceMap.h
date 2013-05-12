@@ -27,7 +27,7 @@ public:
     ~PlayerResourceMap();
     
     void AddCell(const int x, const int y);
-    
+    bool GetValue(const int x, const int y) const;
 };
 
 #endif /* defined(__MAX__PlayerResourceMap__) */

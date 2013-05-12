@@ -196,11 +196,11 @@ void MAXGame::StartMatch()
 //        unit1->SetRandomDirection();
 //        unit1->PlaceUnitOnMap();
 //    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 44, "sub", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 44, "sub", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
 //	{
 //		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 45, "Seacargo", 0);
 //		unit1->SetRandomDirection();
@@ -311,11 +311,11 @@ void MAXGame::StartMatch()
 //        unit1->SetRandomDirection();
 //        unit1->PlaceUnitOnMap();
 //    }
-//    {
-//        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 58, "Surveyor", 0);
-//        unit1->SetRandomDirection();
-//        unit1->PlaceUnitOnMap();
-//    }
+    {
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 58, "Surveyor", 0);
+        unit1->SetRandomDirection();
+        unit1->PlaceUnitOnMap();
+    }
 //    {
 //        GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 58, "Dozer", 0);
 //        unit1->SetRandomDirection();
@@ -371,7 +371,8 @@ void MAXGame::StartMatch()
 //        unit1->SetRandomDirection();
 //        unit1->PlaceUnitOnMap();
 //    }
-//    {
+    //    {
+    _match->_players[1]->CreateUnit(25, 58, "Surveyor", 0)->PlaceUnitOnMap();
 //        _match->_players[0]->CreateUnit(72, 43, "Goldstore", 0)->PlaceUnitOnMap();
 //        _match->_players[0]->CreateUnit(72, 44, "landpad", 0)->PlaceUnitOnMap();
 //        _match->_players[0]->CreateUnit(72, 45, "Matstore", 0)->PlaceUnitOnMap();

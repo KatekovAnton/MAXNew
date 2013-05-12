@@ -642,7 +642,6 @@ void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
         return;
     }
     
-    printf("menu showed\n");
     vector<UNIT_MENU_ACTION> actions = _currentUnit->GetActionList();
     _unitMenu = new GIUnitActionMenu(actions);
     _unitMenu->setScale(1);
@@ -657,8 +656,6 @@ void GameInterface::HideUnitMenu()
     if (!_unitMenu) {
         return;
     }
-    
-    printf("menu hided\n");
     
     _unitMenu->removeFromParentAndCleanup(true);
     _unitMenu = NULL;

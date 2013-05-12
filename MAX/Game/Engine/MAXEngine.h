@@ -110,6 +110,7 @@ public:
     void AddResourceCell(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
     void AddFogCell(const int x, const int y, const bool fog);
     void FillFog();
+    void ClearResourceFog();
 	void AddPathZoneCell(const int x, const int y);
     void SetPathZoneLevel(OBJECT_LEVEL level) { _pathZoneRendererLevel = level; };
 	void ClearPathZone();

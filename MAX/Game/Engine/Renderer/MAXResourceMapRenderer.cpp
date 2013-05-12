@@ -65,3 +65,9 @@ void MAXResourceMapRenderer::Draw(Shader *shader)
     _mesh->Draw();
 }
 
+void MAXResourceMapRenderer::Clear()
+{
+    memset(_cells, 0, _mapH * _mapW * sizeof(bool));
+    _mesh->Clear();
+}
+

@@ -39,6 +39,7 @@ class GameMatchPlayer : public GameFogDelegate, public GameUnitDelegate {
     
     vector<Texture*> _palettes;
     Texture* _palette;
+    bool *_resourceCover;
     
     bool UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const;
     bool UnitCoveredByFog(const GameUnit *unit, const GameFog *fog) const;

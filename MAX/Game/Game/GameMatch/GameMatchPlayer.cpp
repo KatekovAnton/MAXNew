@@ -125,6 +125,8 @@ void GameMatchPlayer::BeginTurn()
     }
     engine->FillFog();
     _match_w->UnfillFogOnStartTurn();
+    engine->ClearResourceFog();
+    _match_w->FillResourceFogOnStartTurn();
    
 }
 

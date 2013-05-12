@@ -234,6 +234,11 @@ void MAXEngine::FillFog()
     _fogRenderer->CompletlyFillMap();
 }
 
+void MAXEngine::ClearResourceFog()
+{
+    _resourceRenderer->Clear();
+}
+
 void MAXEngine::AddPathZoneCell(const int x, const int y)
 {
 	_pathZoneRenderer->AddCell(x, y);
