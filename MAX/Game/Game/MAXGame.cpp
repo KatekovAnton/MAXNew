@@ -104,7 +104,7 @@ void MAXGame::StartTest()
     _waitTestAnimSubmarine = NULL;
     _waitTestAnimCorvetteMovement = NULL;
     _waitTestAnimSubmarineMovement = NULL;
-    //if (!_testUnitCorvette)
+    if (!_testUnitCorvette)
         return;
     
     _testUnitCorvette->SetDirection(1);
