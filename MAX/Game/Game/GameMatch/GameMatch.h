@@ -39,6 +39,8 @@ public:
     
     bool EndTurn();
     
+    bool GetIsCurrentPlayer(const unsigned int playerId) const { return _currentPlayer_w != NULL && _currentPlayer_w->_playerInfo._playerId == playerId; }
+    
     void GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point);
     void GameUnitDidUndetected(GameUnit *unit, const CCPoint &point);
     void GameUnitDidDetected(GameUnit *unit, const CCPoint &point);

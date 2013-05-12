@@ -37,8 +37,41 @@
 MAXGame globalGame;
 MAXGame * game = &globalGame;
 
+MAXAnimationWait* prepareUnitToMoveToPoint(GameUnit* unit, CCPoint point)
+{
+    CCPoint location = unit->GetUnitCell();
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+    Pathfinder* pf = game->_match->_pathfinder;
+    pf->MakePathMap(location.x, location.y, unitMoveType, unit->_unitCurrentParameters->GetMoveBalance());
+    std::vector<PFWaveCell*> path = pf->FindPathOnMap(point.x, point.y); // call after MakePathMap
+    
+    if (path.size() > 1)
+    {
+        unit->SetPath(path);
+        game->ShowUnitPath(unit);
+    }
+    MAXAnimationWait* animWait = new MAXAnimationWait(2.0);
+    animWait->_delegate = game;
+    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(animWait);
+    return animWait;
+}
+
+MAXAnimationWait* moveUnit(GameUnit* unit)
+{
+    if (game->CheckIfNextCellOk(unit))
+    {
+        unit->ConfirmCurrentPath();
+        game->HideUnitPath();
+        MAXAnimationWait* animWait = new MAXAnimationWait(2.0);
+        animWait->_delegate = game;
+        MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(animWait);
+        return animWait;
+    }
+    return NULL;
+}
+
 MAXGame::MAXGame()
-:_testUnit(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0)
+:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0)
 {
     _currentState = MAXGAMESTATE_GAME;
     _effects = new USimpleContainer<GameEffect*>();
@@ -62,35 +95,24 @@ void MAXGame::Init()
     Display::currentDisplay()->SetPinchDelegate(this);
     engine->_delegate = this;
     StartMatch();
-//    StartTest();
+    StartTest();
 }
 
 void MAXGame::StartTest()
 {
-    if (!_testUnit) {
+    _waitTestAnimCorvette = NULL;
+    _waitTestAnimSubmarine = NULL;
+    _waitTestAnimCorvetteMovement = NULL;
+    _waitTestAnimSubmarineMovement = NULL;
+    if (!_testUnitCorvette) {
         return;
     }
-    _testUnit->SetDirection(3);
+    _testUnitCorvette->SetDirection(1);
+    
+    _waitTestAnimCorvette = prepareUnitToMoveToPoint(_testUnitCorvette, ccp(26, 44));
+    _freezeCounter ++;
+    
 
-    MAXAnimationSequence* sequence = new MAXAnimationSequence();
-    CCPoint _unitCell = _testUnit->GetUnitCell();
-    for (int i = 0; i < 30; i++) {
-        CCPoint destination = ccp(_unitCell.x + 1, _unitCell.y + 1);
-        MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _testUnit->GetUnitObject(), MAXANIMATION_CURVE_EASE_LINEAR);
-        _unitCell = destination;
-        step2->_delegate = _testUnit;
-        sequence->AddAnimation(step2);
-    }
-    MAXAnimationObjectUnit* step1 = new MAXAnimationObjectUnit(_testUnit->GetUnitObject()->GetBodyIndex(), 7, _testUnit->GetUnitObject()->GetPureHeadIndex(), _testUnit->GetUnitObject());
-    sequence->AddAnimation(step1);
-    for (int i = 0; i < 5; i++) {
-        CCPoint destination = ccp(_unitCell.x - 1, _unitCell.y - 1);
-        MAXAnimationObjectUnit* step2 = new MAXAnimationObjectUnit(_unitCell ,destination, _testUnit->GetUnitObject(), MAXANIMATION_CURVE_EASE_LINEAR);
-        _unitCell = destination;
-        step2->_delegate = _testUnit;
-        sequence->AddAnimation(step2);
-    }
-    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
 }
 
 void MAXGame::ShowPathMap()
@@ -409,8 +431,22 @@ void MAXGame::StartMatch()
         }
     }
     
+    {
+        _match->_players[0]->CreateUnit(30, 44, "sub", 0)->PlaceUnitOnMap();
+        
+        _testUnitSubmarine = _match->_players[0]->CreateUnit(32, 40, "sub", 0);
+        _testUnitSubmarine->PlaceUnitOnMap();
+        
+        _testUnitCorvette = _match->_players[1]->CreateUnit(24, 44, "Corvette", 0);
+        _testUnitCorvette->PlaceUnitOnMap();
+    }
+    
     
     {
+        
+        _match->_players[1]->CreateUnit(40, 50, "Corvette", 0)->PlaceUnitOnMap();
+            
+        
         _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(38, 55, "Awac", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(50, 53, "Inter", 0)->PlaceUnitOnMap();
@@ -424,7 +460,7 @@ void MAXGame::StartMatch()
         _match->_players[1]->CreateUnit(46, 38, "pcan", 0)->PlaceUnitOnMap();
     }
     
-    engine->SetCameraCenter(ccp(62, 49));
+    engine->SetCameraCenter(ccp(30, 44));
 
 }
 
@@ -572,7 +608,6 @@ void MAXGame::HideUnitPath()
 {
     _pathVisualizer->Clear();
 }
-
 
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
@@ -791,7 +826,7 @@ bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
     PFWaveCell* cell = unit->GetNextPathCell();
     if (cell)
     {
-        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
         Pathfinder* pf = _match->_pathfinder;
         int pfCost = pf->GetMapCostAt(cell->x, cell->y, cell->direction, unitMoveType);
         if (cell->cost != pfCost)
@@ -996,5 +1031,39 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
     //UNIT_MENU_ACTION_FOLLOW
     //UNIT_MENU_ACTION_PLACE
     //UNIT_MENU_ACTION_WAIT
+}
+
+#pragma mark - MAXAnimationDelegate
+
+void MAXGame::OnAnimationStart(MAXAnimationBase* animation)
+{}
+
+void MAXGame::OnAnimationUpdate(MAXAnimationBase* animation)
+{}
+
+void MAXGame::OnAnimationFinish(MAXAnimationBase* animation)
+{
+    if (animation == _waitTestAnimCorvette)
+    {
+        _waitTestAnimCorvette = NULL;
+        _waitTestAnimCorvetteMovement = moveUnit(_testUnitCorvette);
+    }
+    if (animation == _waitTestAnimCorvetteMovement)
+    {
+        _waitTestAnimCorvetteMovement = NULL;
+        _waitTestAnimSubmarine = prepareUnitToMoveToPoint(_testUnitSubmarine, ccp(28, 41));
+    }
+    if (animation == _waitTestAnimSubmarine)
+    {
+        _waitTestAnimCorvette = NULL;
+        _waitTestAnimSubmarineMovement = moveUnit(_testUnitSubmarine);
+    }
+    if (animation == _waitTestAnimSubmarineMovement) {
+        _waitTestAnimSubmarineMovement = NULL;
+        _freezeCounter --;
+        
+        _testUnitSubmarine = NULL;
+        _testUnitCorvette = NULL;
+    }
 }
 

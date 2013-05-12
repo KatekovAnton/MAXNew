@@ -15,6 +15,7 @@
 #include "MAXEngine.h"
 #include "SelectedGameObjectDelegate.h"
 #include "GIUnitActionMenuDelegate.h"
+#include "MAXAnimationDelegate.h"
 
 using namespace std;
 using namespace Utils;
@@ -37,11 +38,16 @@ class GameInterface;
 class GamePathVisualizer;
 class PFWaveCell;
 
-class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GIUnitActionMenuDelegate
+class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate
 {
     
     MAXGAMESTATE _currentState;
-    
+    MAXAnimationBase* _waitTestAnimCorvette;
+    MAXAnimationBase* _waitTestAnimCorvetteMovement;
+    MAXAnimationBase* _waitTestAnimSubmarine;
+    MAXAnimationBase* _waitTestAnimSubmarineMovement;
+    GameUnit *_testUnitCorvette;
+    GameUnit *_testUnitSubmarine;
     
     GameInterface *_gameInterface;
     GamePathVisualizer *_pathVisualizer;
@@ -49,15 +55,16 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     void StartTest();
     void ShowPathMap();
     void HidePathMap();
-	void ShowUnitPath(GameUnit *unit);
-	void HideUnitPath();
     void RefreshCurrentUnitPath();
-    bool CheckIfNextCellOk(GameUnit* unit);
     void RecalculateUnitPath(GameUnit* unit);
     
     bool _needToOpenMenuOnNextTapToSameUnit;
     
 public:
+    
+    bool CheckIfNextCellOk(GameUnit* unit);
+	void ShowUnitPath(GameUnit *unit);
+	void HideUnitPath();
     
     int _freezeCounter;
     
@@ -69,7 +76,6 @@ public:
     GameMatch *GetCurrentMatch() const {return _match;}
     GameUnit *_currentUnit;
     
-    GameUnit *_testUnit;
     
     MAXGame();
     ~MAXGame();
@@ -106,6 +112,11 @@ public:
 
 #pragma mark - GIUnitActionMenuDelegate
     virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);
+    
+#pragma mark - MAXAnimationDelegate 
+    virtual void OnAnimationStart(MAXAnimationBase* animation);
+    virtual void OnAnimationUpdate(MAXAnimationBase* animation);
+    virtual void OnAnimationFinish(MAXAnimationBase* animation);
     
 };
 

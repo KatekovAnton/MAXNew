@@ -223,7 +223,6 @@ public:
     bool _isShip;
     bool _isStealthable;
     GLKVector2 _shadowOffset;
-    int _level;
     bool _hasHead;
     bool _isAnimatedHead;
     bool _isAmphibious;

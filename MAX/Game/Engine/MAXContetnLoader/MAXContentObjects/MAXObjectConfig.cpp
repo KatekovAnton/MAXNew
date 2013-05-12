@@ -99,7 +99,7 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
     res = memcmp(dataConWork, key.c_str(), 8);
     if (res == 0)
     {
-        _isActiveBody = true;
+        //_isActiveBody = true;
         vector<string> result;
         split(value, ',' , result);
         connectorFrameStart = atoi(result[0].c_str());
@@ -413,7 +413,6 @@ bodyActiveFrame2(0)
     _isPlane = _bLevel == OBJECT_LEVEL_AIR;
     _hasHead = _pSeparateCanon == 1 || _isAnimHead;
     _isAnimatedHead = _isAnimHead;
-    _level = _bLevel;
     if (_isSurvivor && (_bMoveType == UNIT_MOVETYPE_AMHIB))
     {
         _bMoveType = UNIT_MOVETYPE_SURVEYOR;
