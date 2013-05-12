@@ -242,7 +242,7 @@ unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
             return static_playEffect(pszFilePath, bLoop);
 }
     
-unsigned int SimpleAudioEngine::lengthOfEffect(const char* pszFilePath)
+float SimpleAudioEngine::lengthOfEffect(const char* pszFilePath)
 {
     return static_lengthOfEffect(pszFilePath);
 }
