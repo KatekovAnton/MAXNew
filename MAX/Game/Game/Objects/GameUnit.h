@@ -62,7 +62,7 @@ public:
     GameUnitCurrentState    *_unitCurrentParameters;
     GameUnitDelegate        *_delegate_w;
     GameMatchPlayer         *_owner_w;
-    bool _detected;
+    
     MAXUnitObject* GetUnitObject() const {return (MAXUnitObject*) GetObject(); };
     
     GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config);

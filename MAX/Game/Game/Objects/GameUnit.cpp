@@ -16,6 +16,7 @@
 #include "MAXObjectConfig.h"
 
 #include "GameUnitCurrentState.h"
+#include "GameMatchPlayer.h"
 #include "GameUnitParameters.h"
 #include "GameEffect.h"
 #include "GameMatch.h"
@@ -45,7 +46,6 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
     unitObject->_delegate_w = this;
     unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
     _onDraw = false;
-    _detected = false;
     if (config->GetConfig()->_isBuilding && config->GetConfig()->_isAllwaysOn)
     {
         _isInProcess = true;
@@ -231,9 +231,9 @@ void GameUnit::CheckBodyAndShadow()
         if (groundType == EXTENDED_GROUND_TYPE_WATER)
         {
             _unitObject->_currentLevel = OBJECT_LEVEL_ONGROUND;
-            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater && !_detected)
+            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater)
             {
-                _unitObject->SetBodyOffset(0);
+                _unitObject->SetBodyOffset(IsDetectedByPlayer(game->_match->_currentPlayer_w->_playerInfo._playerId)?8:0);
                 _unitObject->_needShadow = false;
                 return;
             }

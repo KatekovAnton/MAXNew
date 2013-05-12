@@ -81,6 +81,9 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
         else
             headFireOffset = 8;
     }
+    if (params_w->_isUnderwater) 
+        headFireOffset = 0;
+    
     SetHeadDirection(0);
 }
 
@@ -393,8 +396,7 @@ void MAXUnitObject::LandInstantly()
 void MAXUnitObject::StealthActivated()
 {
     if (params_w->_isUnderwater) {
-        headOffset = 0;
-        bodyOffset = 0;
+        SetBodyOffset(8);
         
         printf("StealthActivated\n");
     }
@@ -403,8 +405,7 @@ void MAXUnitObject::StealthActivated()
 void MAXUnitObject::StealthDeactivated()
 {
     if (params_w->_isUnderwater) {
-        headOffset = 8;
-        bodyOffset = 8;
+        SetBodyOffset(8);
         printf("StealthDeactivated\n");
         
     }
@@ -618,8 +619,8 @@ void MAXUnitObject::SetIsFireing(bool fire, bool ligthFrame)
     
     int offset = fire?headFireOffset:headOffset;
     offset+=(ligthFrame&&!IsSingleFire())?8:0;
-   
-    headIndex = pureheadIndex + offset;
+    if (!params_w->_isUnderwater) 
+        headIndex = pureheadIndex + offset;
     fireing = fire;
     changed = true;
 }
