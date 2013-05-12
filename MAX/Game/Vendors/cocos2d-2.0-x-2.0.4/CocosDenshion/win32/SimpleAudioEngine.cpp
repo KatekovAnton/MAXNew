@@ -136,7 +136,33 @@ unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
 
 float SimpleAudioEngine::lengthOfEffect(const char* pszFilePath)
 {
-	return 1.0;
+	FileManager * manager = FileManager::CreateManager();
+	string str = manager->GetFilePath(pszFilePath);
+	strcpy_s(s_szFullPath + s_dwRootLen, sizeof(s_szFullPath) - s_dwRootLen, str.c_str()+2);
+	delete manager;
+
+
+	char mcicmd[256];
+	wchar_t mcicmdw[256];
+	wchar_t mcidata[129];
+	memset(mcicmd, 0, 256);
+	memset(mcidata, 0, 129);
+	int  mcimsglen = 128;
+	sprintf(mcicmd,"open %s alias MEDIAFILE", str.c_str());
+	mbstowcs(mcicmdw,mcicmd,256);
+	int rc = mciSendString(mcicmdw,mcidata,256,NULL);
+		
+	wchar_t result[256];
+	memset(result, 0, 256 * sizeof(wchar_t));
+	int i = 128;
+	char resultS[256];
+	memset(resultS, 0, 256 * sizeof(char));
+	rc = mciSendString(L"set MEDIAFILE time format ms",mcidata,256,NULL);
+	rc = mciSendString(L"Status MediaFile length", result, i, NULL);
+	wcstombs (resultS, result,256);
+	float m_lenght = atof(resultS) / 1000.0;
+	rc = mciSendString(L"close MediaFile", result, i, NULL);
+	return m_lenght;
 }
 
 void SimpleAudioEngine::stopEffect(unsigned int nSoundId)

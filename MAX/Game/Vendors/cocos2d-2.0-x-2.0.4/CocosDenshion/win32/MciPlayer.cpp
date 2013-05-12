@@ -96,6 +96,7 @@ void MciPlayer::Open(const char* pFileName, UINT uId)
         m_hDev = mciOpen.wDeviceID;
         m_nSoundID = uId;
         m_bPlaying = false;
+		
     } while (0);
 }
 
@@ -215,3 +216,4 @@ LRESULT WINAPI _SoundPlayProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 }
 
 } // end of namespace CocosDenshion
+

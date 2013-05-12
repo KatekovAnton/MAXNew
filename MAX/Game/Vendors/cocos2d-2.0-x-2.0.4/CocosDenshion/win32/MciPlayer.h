@@ -43,6 +43,9 @@ public:
     */
     void Rewind();
 
+
+	float Length() {return m_lenght;};
+
     /**
     @brief 获取播放器当前是否正在播放中
     */
@@ -55,6 +58,8 @@ public:
     UINT GetSoundID();
 
 private:
+	float m_lenght;
+
     friend LRESULT WINAPI _SoundPlayProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
     void _SendGenericCommand(int nCommand);
