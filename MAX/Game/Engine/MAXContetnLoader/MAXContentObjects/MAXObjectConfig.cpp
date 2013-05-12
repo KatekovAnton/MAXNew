@@ -12,6 +12,9 @@
 
 void MAXObjectConfig::SetResurceConfigValue(string key, string value)
 {
+    
+    if (value.at(value.size()-1) == '\r')
+        value.resize(value.length()-1);
     //Файл
     unsigned char data[5];
     data[0] = 0xD4;data[1] = 0xE0;data[2] = 0xE9;data[3] = 0xEB;
@@ -129,6 +132,63 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
         vector<string> result;
         split(value, ',' , result);
         bodyIdleFrame0 = atoi(result[0].c_str());
+        return;
+    }
+    
+    //Взрывзвук=blast-15.wav
+    static unsigned char dataSoundBlast[] = {0xC2, 0xE7, 0xF0, 0xFB, 0xE2, 0xE7, 0xE2, 0xF3, 0xEA};
+    res = memcmp(dataSoundBlast, key.c_str(), 9);
+    if (res == 0) {
+        _soundBlastName = value;
+        return;
+    } 
+    //Выстзвук=shoot-0.wav
+    static unsigned char dataSoundShot[] = {0xC2, 0xFB, 0xF1, 0xF2, 0xE7, 0xE2, 0xF3, 0xEA};
+    res = memcmp(dataSoundShot, key.c_str(), 8);
+    if (res == 0) {
+        _soundShotName = value;
+        return;
+    }
+    //Запзвук=on.wav
+    static unsigned char dataSoundStart[] = {0xC7, 0xE0, 0xEF, 0xE7, 0xE2, 0xF3, 0xEA};
+    res = memcmp(dataSoundStart, key.c_str(), 7);
+    if (res == 0) {
+        _soundStartName = value;
+        return;
+    }
+    //Рабзвук=hld.wav
+    static unsigned char dataSoundWork[] = {0xD0, 0xE0, 0xE1, 0xE7, 0xE2, 0xF3, 0xEA};
+    res = memcmp(dataSoundWork, key.c_str(), 7);
+    if (res == 0) {
+        _soundWorkName = value;
+        return;
+    }
+    //Стрзвук=-1
+    static unsigned char dataSoundBuild[] = {0xD1, 0xF2, 0xF0, 0xE7, 0xE2, 0xF3, 0xEA};
+    res = memcmp(dataSoundBuild, key.c_str(), 7);
+    if (res == 0) {
+        _soundBuildName = value;
+        return;
+    }
+    //Стопзвук=off.wav
+    static unsigned char dataSoundStop[] = {0xD1, 0xF2, 0xEE, 0xEF, 0xE7, 0xE2, 0xF3, 0xEA};
+    res = memcmp(dataSoundStop, key.c_str(), 8);
+    if (res == 0) {
+        _soundStopName = value;
+        return;
+    }
+    //Двигзвук=run.wav
+    static unsigned char dataSoundEngine[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xE7, 0xE2, 0xF3, 0xEA};
+    res = memcmp(dataSoundEngine, key.c_str(), 8);
+    if (res == 0) {
+        _soundEngineName = value;
+        return;
+    }
+    //Степзвук=off.wav
+    static unsigned char dataSoundStep[] = {0xD1, 0xF2, 0xE5, 0xEF, 0xE7, 0xE2, 0xF3, 0xEA};
+    res = memcmp(dataSoundStep, key.c_str(), 8);
+    if (res == 0) {
+        _soundStepName = value;
         return;
     }
 }
@@ -382,7 +442,16 @@ bodyAnimFrame1(0),
 bodyAnimFrame2(0),
 bodyActiveFrame0(0),
 bodyActiveFrame1(0),
-bodyActiveFrame2(0)
+bodyActiveFrame2(0),
+
+_soundBlastName(""),
+_soundShotName(""),
+_soundStartName(""),
+_soundWorkName(""),
+_soundBuildName(""),
+_soundStopName(""),
+_soundEngineName(""),
+_soundStepName("")
 {
 
     BinaryReader *r = new BinaryReader(resourceConfigName);
