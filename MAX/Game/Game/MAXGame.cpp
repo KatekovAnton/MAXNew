@@ -546,7 +546,7 @@ void MAXGame::ProceedPinch(float scale)
     engine->ScaleCamera(scale);
     if (_gameInterface->GetUnitMenuOpened()) {
         _gameInterface->HideUnitMenu();
-        _needToOpenMenuOnNextTapToSameUnit = true;
+        _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
     }
 }
 
@@ -555,7 +555,7 @@ void MAXGame::ProceedPan(float speedx, float speedy)
     engine->MoveCamera(speedx, speedy);
     if (_gameInterface->GetUnitMenuOpened()) {
         _gameInterface->HideUnitMenu();
-        _needToOpenMenuOnNextTapToSameUnit = true;
+        _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
     }
 }
 
@@ -663,7 +663,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                 }
                 // force select another unit
             }
-            else if (_match->_currentPlayer_w == _currentUnit->_owner_w)
+            else if (_currentUnit->_owner_w->GetIsCurrentPlayer())
             {
                 _gameInterface->HideUnitMenu();
                 _needToOpenMenuOnNextTapToSameUnit = true;
@@ -707,7 +707,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             {
                 _gameInterface->HideUnitMenu();
                 newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
-                _needToOpenMenuOnNextTapToSameUnit = true;
+                _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
             }
         }
     }
@@ -745,7 +745,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
 				}
             }
             _currentUnit = newCurrentUnit;
-            _needToOpenMenuOnNextTapToSameUnit = true;
+            _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
             _gameInterface->HideUnitMenu();
             _currentUnit->selectedGameObjectDelegate = this;
             if (!_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _currentUnit->_owner_w->GetIsCurrentPlayer())
