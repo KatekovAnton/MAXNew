@@ -629,7 +629,8 @@ void GameInterface::UpdateUnitMenuPosition()
     float scale = _unitMenu->getScale() - 1.0;
     point.x += _unitMenu->getContentSize().width * scale * 0.5;
     //point.y += _unitMenu->getContentSize().height * scale * 0.25;
-    
+    point.x = (int)point.x;
+    point.y = (int)point.y;
     _unitMenu->setPosition(point);
 }
 
