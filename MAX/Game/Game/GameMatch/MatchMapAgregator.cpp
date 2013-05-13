@@ -79,6 +79,23 @@ int MatchMapAgregator::Height()
     return _map_w->_h;
 }
 
+void MatchMapAgregator::ClearAllData()
+{
+    int size = _map_w->_w * _map_w->_h;
+    for (int i = 0; i < size; i++)
+    {
+        USimpleContainer<GameUnit*> *units = _unitsInCells_w[i];
+        for (int j = 0; j < units->GetCount(); j++)
+        {
+            GameUnit* unit = units->objectAtIndex(j);
+            unit->Hide();
+        }
+        units->clear();
+    }
+    for (int i = 0; i < size; i++)
+        _mapBuffer[i] = TranslateGroundType(_map_w->GroundTypeAtIndex(i));
+}
+
 void MatchMapAgregator::UpdateBridgeAt(const int x, const int y, bool isLift)
 {
 	USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
@@ -249,7 +266,7 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
 				{
 					break;
 				}
-			}		
+			}
 		}
     }
     return result;

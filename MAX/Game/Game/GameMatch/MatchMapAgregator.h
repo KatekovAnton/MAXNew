@@ -38,6 +38,8 @@ public:
     int Width();
     int Height();
     
+    void ClearAllData();
+    
     //unit events
     void RemoveUnitFromCell(GameUnit *unit, const int x, const int y);
     void AddUnitToCell(GameUnit *unit, const int x, const int y);

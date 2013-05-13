@@ -76,6 +76,8 @@ GameMatch::~GameMatch()
 
 bool GameMatch::EndTurn()
 {
+    _currentPlayer_w->EndTurn();
+    
     GameMatchPlayer* nextPlayer = _players[0];
     bool found = false;
     for (int i = 0; i < _players.size(); i++)
@@ -83,7 +85,7 @@ bool GameMatch::EndTurn()
         if (found)
         {
             nextPlayer = _players[i];
-            nextPlayer->BeginTurn(); // temporary solution
+            //nextPlayer->BeginTurn(); // temporary solution
             break;
         }
         else if (_currentPlayer_w == _players[i])
@@ -92,10 +94,40 @@ bool GameMatch::EndTurn()
         }
     }
     
-    _currentPlayer_w = nextPlayer; // not ready for change player
-    //update fog
+    
+    _currentPlayer_w = nextPlayer;
+    
+    _agregator->ClearAllData();
+    
     //update units
     _currentPlayer_w->BeginTurn();
+
+    for (int i = 0; i < _players.size(); i++)
+    {
+        if (_currentPlayer_w != _players[i])
+        {
+            USimpleContainer<GameUnit*> *units = &_players[i]->_units;
+            for (int i = 0; i < units->GetCount(); i++)
+            {
+                GameUnit* unit = units->objectAtIndex(i);
+                //GameUnitDidEnterCell(unit, unit->GetUnitCell());
+                CCPoint point = unit->GetUnitCell();
+                if (_currentPlayer_w->CanSeeUnit(unit))
+                {
+                    _agregator->AddUnitToCell(unit, point.x, point.y);
+                    UpdateConnectorsForUnit(unit);
+                    unit->Show();
+                }
+            }
+        }
+    }
+    
+    //update fog
+    engine->FillFog();
+    UnfillFogOnStartTurn();
+    engine->ClearResourceFog();
+    FillResourceFogOnStartTurn();
+    
     return true;
 }
 

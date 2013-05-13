@@ -122,12 +122,13 @@ void GameMatchPlayer::BeginTurn()
     {
         GameUnit* unit = _units.objectAtIndex(i);
         unit->NewTurn();
+        _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
     }
-    engine->FillFog();
-    _match_w->UnfillFogOnStartTurn();
-    engine->ClearResourceFog();
-    _match_w->FillResourceFogOnStartTurn();
-   
+}
+
+void GameMatchPlayer::EndTurn()
+{
+
 }
 
 bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
