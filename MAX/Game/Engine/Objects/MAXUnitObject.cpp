@@ -395,20 +395,20 @@ void MAXUnitObject::LandInstantly()
 
 void MAXUnitObject::StealthActivated()
 {
-    if (params_w->_isUnderwater) {
+    if (params_w->_isUnderwater)
+    {
         SetBodyOffset(8);
-        
-        printf("StealthActivated\n");
     }
+    printf("StealthActivated\n");
 }
 
 void MAXUnitObject::StealthDeactivated()
 {
-    if (params_w->_isUnderwater) {
+    if (params_w->_isUnderwater)
+    {
         SetBodyOffset(8);
-        printf("StealthDeactivated\n");
-        
     }
+    printf("StealthDeactivated\n");
 }
 
 void MAXUnitObject::Frame(double time)

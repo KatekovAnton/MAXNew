@@ -579,9 +579,13 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
         if (_isStealthable && !_unitCurrentParameters->_detected[playerId])
         {
             _unitCurrentParameters->_detected[playerId] = true;
+            _unitCurrentParameters->_detected[_owner_w->_playerInfo._playerId] = true;
             if (game->_match->GetIsCurrentPlayer(playerId) ||
                 game->_match->GetIsCurrentPlayer(_owner_w->_playerInfo._playerId))
+            {
                 GetUnitObject()->StealthDeactivated();
+                _delegate_w->GameUnitDidDetected(this);
+            }
         }
     }
 }
