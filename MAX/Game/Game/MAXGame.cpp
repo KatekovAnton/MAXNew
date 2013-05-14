@@ -456,6 +456,7 @@ void MAXGame::StartMatch()
         _match->_players[1]->CreateUnit(50, 53, "Inter", 0)->PlaceUnitOnMap();
         for (int i = 61; i < 69; i++)
             _match->_players[1]->CreateUnit(i, 65, "landmine", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(50, 47, "pcan", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(52, 48, "Infil", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(42, 42, "sub", 0)->PlaceUnitOnMap();
 		for (int i = 32; i < 40; i+=2)
@@ -464,7 +465,7 @@ void MAXGame::StartMatch()
         _match->_players[1]->CreateUnit(46, 38, "pcan", 0)->PlaceUnitOnMap();
     }
     
-    engine->SetCameraCenter(ccp(30, 44));
+    engine->SetCameraCenter(ccp(50, 47));
     _match->_players[0]->cameraPosition = ccp(30, 44);
     _match->_players[1]->cameraPosition = ccp(30, 44);
 

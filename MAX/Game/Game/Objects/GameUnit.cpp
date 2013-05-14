@@ -15,6 +15,8 @@
 #include "MAXEngine.h"
 #include "MAXObjectConfig.h"
 
+#include "SoundEngine.h"
+
 #include "GameUnitCurrentState.h"
 #include "GameMatchPlayer.h"
 #include "GameUnitParameters.h"
@@ -604,6 +606,9 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
             {
                 GetUnitObject()->StealthDeactivated();
                 _delegate_w->GameUnitDidDetected(this);
+            }
+            if (game->_match->GetIsCurrentPlayer(_owner_w->_playerInfo._playerId) && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater) {
+                SOUND->PlaySystemSound(SOUND_TYPE_SUBMARINE_DETECTED);
             }
         }
     }

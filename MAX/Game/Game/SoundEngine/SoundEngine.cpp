@@ -64,6 +64,11 @@ SoundEngine::SoundEngine()
         names.push_back("f071.wav");
         _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_ENEMY_DETECTED, names));
     }
+    {
+        vector<string> names;
+        names.push_back("f201.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_SUBMARINE_DETECTED, names));
+    }
 }
 
 SoundEngine::~SoundEngine()
