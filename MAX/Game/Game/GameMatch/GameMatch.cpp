@@ -220,7 +220,20 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     {
         game->ShowUnitSpottedMessage(unit);
     }
-    
+    for (int i = 0; i < _players.size(); i++)
+    {
+        GameMatchPlayer* player = _players[i];
+        if (player != _currentPlayer_w)
+        {
+            if (unit->GetIsStealthable() && player->CanSeeUnit(unit))
+            {
+                if (!unit->IsDetectedByPlayer(player->_playerInfo._playerId))
+                {
+                    unit->DetectedByPlayer(player->_playerInfo._playerId);
+                }
+            }
+        }
+    }
 }
 
 vector<GameUnit*> GameMatch::GetAllUnitsInCell(const int x, const int y)

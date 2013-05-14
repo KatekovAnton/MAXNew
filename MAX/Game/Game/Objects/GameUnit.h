@@ -49,6 +49,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     std::vector<PFWaveCell*> movePath;
     int pathIndex;
     bool pathIsTemp;
+    bool _isStealthable;
     
     bool MoveToNextCell(void);
     void FollowPath(void);
@@ -58,6 +59,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
 public:
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
+    bool GetIsStealthable() const { return _isStealthable; }
     
     GameUnitCurrentState    *_unitCurrentParameters;
     GameUnitDelegate        *_delegate_w;
@@ -65,7 +67,7 @@ public:
     
     MAXUnitObject* GetUnitObject() const {return (MAXUnitObject*) GetObject(); };
     
-    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config);
+    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params);
     ~GameUnit();
     
     

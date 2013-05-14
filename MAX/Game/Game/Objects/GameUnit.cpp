@@ -40,17 +40,20 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
     return curve;
 }
 
-GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* config)
-:GameObject(unitObject, config->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(config)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL), _disabledByInfiltrator(false), pathIndex(0), pathIsTemp(true)
+GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(params)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL), _disabledByInfiltrator(false), pathIndex(0), pathIsTemp(true)
 {
     unitObject->_delegate_w = this;
-    unitObject->_needShadow = !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater;
+    MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
+    unitObject->_needShadow = !config->_isUnderwater;
     _onDraw = false;
-    if (config->GetConfig()->_isBuilding && config->GetConfig()->_isAllwaysOn)
+    if (config->_isBuilding && config->_isAllwaysOn)
     {
         _isInProcess = true;
         CheckBodyAndShadow();
     }
+    
+    _isStealthable = config->_isStealthable;
     
     if(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isNeedUndercover)
     {
@@ -573,10 +576,11 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
 {
     if (playerId < MAX_PLAYERS)
     {
-        if (!_unitCurrentParameters->_detected[playerId])
+        if (_isStealthable && !_unitCurrentParameters->_detected[playerId])
         {
             _unitCurrentParameters->_detected[playerId] = true;
-            if (game->_match->GetIsCurrentPlayer(playerId))
+            if (game->_match->GetIsCurrentPlayer(playerId) ||
+                game->_match->GetIsCurrentPlayer(_owner_w->_playerInfo._playerId))
                 GetUnitObject()->StealthDeactivated();
         }
     }
@@ -587,7 +591,7 @@ bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
     bool result = false;
     if (playerId < MAX_PLAYERS)
     {
-        result = _unitCurrentParameters->_detected[playerId];
+        result = _isStealthable && _unitCurrentParameters->_detected[playerId];
     }
     return result;
 }
