@@ -161,6 +161,23 @@ void GameUnit::LandInstantly()
     }
 }
 
+void GameUnit::EscapeToLocation(const int x, const int y, const int cost)
+{
+    movePath.clear();
+    pathIndex = 0;
+    pathIsTemp = true;
+
+    _unitCurrentParameters->MoveWithCost(cost);
+
+    CCPoint destination = CCPointMake(x, y);
+    int direction = MAXObject::CalculateImageIndex(_unitCell, destination);
+    _delegate_w->GameUnitWillLeaveCell(this);
+    SetLocation(destination);
+    _delegate_w->GameUnitDidEnterCell(this);
+    
+    SetDirection(direction);
+}
+
 void GameUnit::NewTurn()
 {
     bool processed = false;
@@ -203,6 +220,8 @@ void GameUnit::RemoveUnitFromMap()
 void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 {
     GameObject::SetLocation(cell);
+    movePath.clear();
+    pathIndex = 0;
     if (_effectUnder) 
         _effectUnder->SetLocation(_unitCell);
 }

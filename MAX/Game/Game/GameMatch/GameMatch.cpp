@@ -22,8 +22,7 @@
 #include "Pathfinder.h"
 #include "MatchMapAgregator.h"
 #include "PlayerResourceMap.h"
-#include "GameUnitCurrentState.h"
-#include "GameUnitParameters.h"
+#include "PFWaveCell.h"
 
 void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
 {
@@ -225,7 +224,7 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     for (int i = 0; i < _players.size(); i++)
     {
         GameMatchPlayer* player = _players[i];
-        if (player != _currentPlayer_w)
+        if (player != unit->_owner_w)
         {
             if (unit->GetIsStealthable() && player->CanSeeUnit(unit))
             {
@@ -336,12 +335,11 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
 		for (int i = 0; i < player->_units.GetCount(); i++)
 		{
 			GameUnit* unit = player->_units.objectAtIndex(i);
-			if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isStealthable)
+			if (unit->GetIsStealthable())
 			{
 				CCPoint pos = unit->GetUnitCell();
 				if (((int)pos.x == x) && ((int)pos.y == y))
 				{
-					result = true;
 					if (checkOnly)
 					{
 						result = true;
@@ -349,12 +347,9 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
 					}
 					else
 					{
-						// try to quick move if possible to prevent detecting!
-						// 1. get map cost around the unit and compare with unit speed;
-						// 2. call IsHiddenUnitInPos for each cell around with param checkOnly = true;
-						// 3. Move unit to this cell and spend current speed.
-						// 4. Continue for loop with result = false
-						if (true)
+						// try to quick move if possible to prevent detecting
+                        bool escaped = game->EscapeStealthUnitFromPos(unit, x, y);
+						if (!escaped)
 						{
 							result = true;
 							game->ShowUnitSpottedMessage(unit);

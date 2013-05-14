@@ -533,6 +533,52 @@ void MAXGame::FlushEffectsWithNew(GameEffect *effect)
     }
 }
 
+bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y)
+{
+    bool result = false;
+    MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+    if (config->_isBuilding)
+    {
+        if (config->_isBombMine)
+        {
+            result = true; // bomb always escaped! Unit - welcomme to bomb cell!
+        }
+    }
+    else
+    {
+        int startDirection = random() % 8;
+        int direction = startDirection;
+        Pathfinder* pf = _match->_pathfinder;
+        UNIT_MOVETYPE movetype = (UNIT_MOVETYPE)config->_bMoveType;
+        for (;;)
+        {
+            int newX = x + PFWaveCell::DirToDX(direction);
+            int newY = y + PFWaveCell::DirToDY(direction);
+            int cost = pf->GetMapCostAt(newX, newY, direction, movetype);
+            if ((cost >= 0) && (cost <= unit->_unitCurrentParameters->GetMoveBalance()))
+            {
+                if (!_match->IsHiddenUnitInPos(newX, newY, true))
+                {
+                    unit->EscapeToLocation(newX, newY, cost);
+                    result = true;
+                    break;
+                }
+            }
+            
+            direction++;
+            if (direction >= 8)
+            {
+                direction -= 8;
+            }
+            if (direction == startDirection)
+            {
+                break;
+            }
+        }
+    }
+    return result;
+}
+
 #pragma mark - Interface
 #pragma mark Messages
 void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)

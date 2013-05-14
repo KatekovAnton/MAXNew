@@ -96,6 +96,7 @@ public:
     void Landing();
     void LiftBridgeInstantly();
     void LandInstantly();
+    void EscapeToLocation(const int x, const int y, const int cost);
     
     //logic methods
     void NewTurn();

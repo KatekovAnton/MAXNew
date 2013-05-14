@@ -86,6 +86,8 @@ public:
     void StartMatch();
     bool EndTurn();
     void FlushEffectsWithNew(GameEffect *effect);
+    
+    bool EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y);
   
 #pragma mark - Interface
 #pragma mark Messages
