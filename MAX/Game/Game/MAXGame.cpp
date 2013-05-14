@@ -143,13 +143,6 @@ void MAXGame::ShowPathMap()
 void MAXGame::HidePathMap()
 {
 	engine->ClearPathZone();
-    for (int x = 0; x < _match->_map->GetMapWidth(); x++)
-    {
-        for (int y = 0; y < _match->_map->GetMapHeight(); y++)
-        {
-            // remove highlight at x, y
-        }
-    }
 }
 
 
@@ -867,6 +860,13 @@ bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
         {
             result = false;
         }
+		else if (!unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isPlane)
+		{
+			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false))
+			{
+				result = false;
+			}
+		}
     }
     
     return result;
@@ -881,7 +881,7 @@ void MAXGame::RecalculateUnitPath(GameUnit* unit)
     //pf->DumpMap();
     ShowPathMap();
     
-    HidePathMap();
+    //HidePathMap();
     PFWaveCell* cell = unit->GetPath()[0];
     std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y); // call after MakePathMap
     if (path.size() > 1)
@@ -892,6 +892,7 @@ void MAXGame::RecalculateUnitPath(GameUnit* unit)
     else
     {
         unit->ClearPath();
+		HideUnitPath();
     }
 }
 
