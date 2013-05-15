@@ -740,6 +740,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
             }
         }
     }
+    SOUND->PlayGameSound(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_soundShotName, NULL, false);
 }
 
 #pragma mark - Build methods

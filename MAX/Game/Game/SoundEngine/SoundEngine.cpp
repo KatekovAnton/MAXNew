@@ -104,7 +104,15 @@ void SoundEngine::PlayExplodeSound(EXPLODE_SOUND_TYPE type)
 
 int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped)
 {
-    return 0;
+    SoundElement element;
+    element._type = SOUND_TYPE_NONE;
+    element._looped = false;
+    element._id = SimpleAudioEngine::sharedEngine()->playEffect(fileName.c_str(), false);
+    element._length = 0;
+    element._delegate_w = NULL;
+    element._startTime = engine->FullTime();
+    _playedSound.push_back(element);
+    return element._id;
 }
 
 void SoundEngine::StopGameSound(int sound)
