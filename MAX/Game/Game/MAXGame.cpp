@@ -547,7 +547,7 @@ bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y)
     }
     else
     {
-        int startDirection = random() % 8;
+        int startDirection = nextIntMax(8);
         int direction = startDirection;
         Pathfinder* pf = _match->_pathfinder;
         UNIT_MOVETYPE movetype = (UNIT_MOVETYPE)config->_bMoveType;
