@@ -239,6 +239,8 @@
 		D132DC6116D7AC9800DEA269 /* MAXStatusRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */; };
 		D13BACA517399351007FF35C /* creators.txt in Resources */ = {isa = PBXBuildFile; fileRef = D13BACA417399351007FF35C /* creators.txt */; };
 		D14D50D016EF381200F8A8EC /* MAXAnimationWait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */; };
+		D16B3EB51743E87500729D73 /* MatchFireAggregator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16B3EB31743E87500729D73 /* MatchFireAggregator.cpp */; };
+		D16B3EB81743E8A800729D73 /* GameUnitBaseParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16B3EB61743E8A800729D73 /* GameUnitBaseParameters.cpp */; };
 		D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48D1168B31030055F35D /* MAXContentMap.cpp */; };
 		D16D48F9168B381D0055F35D /* 112x112.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48DF168B381D0055F35D /* 112x112.wrl */; };
 		D16D48FA168B381D0055F35D /* Crater_1.wrl in Resources */ = {isa = PBXBuildFile; fileRef = D16D48E0168B381D0055F35D /* Crater_1.wrl */; };
@@ -949,6 +951,10 @@
 		D13BACA417399351007FF35C /* creators.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = creators.txt; sourceTree = "<group>"; };
 		D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationWait.cpp; sourceTree = "<group>"; };
 		D14D50CF16EF381000F8A8EC /* MAXAnimationWait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationWait.h; sourceTree = "<group>"; };
+		D16B3EB31743E87500729D73 /* MatchFireAggregator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatchFireAggregator.cpp; sourceTree = "<group>"; };
+		D16B3EB41743E87500729D73 /* MatchFireAggregator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchFireAggregator.h; sourceTree = "<group>"; };
+		D16B3EB61743E8A800729D73 /* GameUnitBaseParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnitBaseParameters.cpp; sourceTree = "<group>"; };
+		D16B3EB71743E8A800729D73 /* GameUnitBaseParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnitBaseParameters.h; sourceTree = "<group>"; };
 		D16D48D1168B31030055F35D /* MAXContentMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXContentMap.cpp; sourceTree = "<group>"; };
 		D16D48D2168B31030055F35D /* MAXContentMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXContentMap.h; sourceTree = "<group>"; };
 		D16D48DF168B381D0055F35D /* 112x112.wrl */ = {isa = PBXFileReference; lastKnownFileType = file; path = 112x112.wrl; sourceTree = "<group>"; };
@@ -2656,6 +2662,8 @@
 			children = (
 				D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */,
 				D11ABAA6168DDB2A00CD29EA /* GameUnit.h */,
+				D16B3EB61743E8A800729D73 /* GameUnitBaseParameters.cpp */,
+				D16B3EB71743E8A800729D73 /* GameUnitBaseParameters.h */,
 				D1DBC4CF16CA53590096034A /* GameUnitParameters.cpp */,
 				D1DBC4D016CA53590096034A /* GameUnitParameters.h */,
 				8B84DBD316CFE33700DD12B8 /* GameUnitCurrentState.cpp */,
@@ -2668,6 +2676,8 @@
 		D1E07A1F170961E600344DF2 /* MatchInformation */ = {
 			isa = PBXGroup;
 			children = (
+				D16B3EB31743E87500729D73 /* MatchFireAggregator.cpp */,
+				D16B3EB41743E87500729D73 /* MatchFireAggregator.h */,
 				D1E07A201709621800344DF2 /* MatchMapAgregator.cpp */,
 				D1E07A211709621800344DF2 /* MatchMapAgregator.h */,
 			);
@@ -3438,6 +3448,8 @@
 				D1A95BC0173AD2B20068F53F /* SimpleAudioEngine_objc.m in Sources */,
 				D1A95BC1173AD2B20068F53F /* SimpleAudioEngine.mm in Sources */,
 				D1A95DF2173ADB430068F53F /* SoundEngine.cpp in Sources */,
+				D16B3EB51743E87500729D73 /* MatchFireAggregator.cpp in Sources */,
+				D16B3EB81743E8A800729D73 /* GameUnitBaseParameters.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
