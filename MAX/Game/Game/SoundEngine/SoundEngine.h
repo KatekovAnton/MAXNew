@@ -42,6 +42,7 @@ public:
     static SoundEngine* sharedInstance();
     
     void PlaySystemSound(SOUND_TYPE type);
+    void PlayExplodeSound(EXPLODE_SOUND_TYPE type);
     
     int PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped);
     void StopGameSound(int sound);

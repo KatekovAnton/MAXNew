@@ -276,10 +276,28 @@ typedef enum
     SOUND_TYPE_STARTGAME_SELECT_LAND_POSITION,
     SOUND_TYPE_MISSION_SUCCESSFULL,
     SOUND_TYPE_BUILDING,
+    SOUND_TYPE_CANT_START,//mstat18.wav
     SOUND_TYPE_MAX = SOUND_TYPE_BUILDING,
     SOUND_TYPE_NONE
     
 }SOUND_TYPE;
+    
+typedef enum
+{
+    EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT = 0,
+    EXPLODE_SOUND_TYPE_LAND_SMALL_BUILD,//bldexplg.wav expllrge.wav
+    EXPLODE_SOUND_TYPE_BLOCK,//block16.wav
+    EXPLODE_SOUND_TYPE_LAND_LARGE_BUILD,//expllrge.wav  expbuld5.wav expbuld6.wav explbld1.wav explbld2.wav 
+    EXPLODE_SOUND_TYPE_SEA_SMALL_UNIT,//boatexp1.wav  
+    EXPLODE_SOUND_TYPE_SEA_SMALL_BUILD,//eplowet1.wav eplowet2.wav explmed.wav
+    EXPLODE_SOUND_TYPE_SEA_LARGE_BUILD,//cbldexp1.wav cbldexp2.wav
+    EXPLODE_SOUND_TYPE_UNDERWATER_UNIT,//sub14.wav sub16.wav
+    EXPLODE_SOUND_TYPE_MINE,//cmine16.wav
+    EXPLODE_SOUND_TYPE_DIRT,//expsdirt.wav
+    EXPLODE_SOUND_TYPE_AIR,//explsmal.wavexplsmal.wav
+    EXPLODE_SOUND_TYPE_INFANTRY,//infan15 infan16
+    EXPLODE_SOUND_TYPE_INFILTRATOR,//infil15 infil16
+}EXPLODE_SOUND_TYPE;
     
 #define GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER 1000
     

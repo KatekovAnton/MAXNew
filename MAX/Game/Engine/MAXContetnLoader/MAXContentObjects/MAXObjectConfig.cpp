@@ -177,7 +177,7 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
         _soundStopName = value;
         return;
     }
-    //Двигзвук=run.wav
+    //Двигзвукзем=run.wav
     static unsigned char dataSoundEngine[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xE7, 0xE2, 0xF3, 0xEA};
     res = memcmp(dataSoundEngine, key.c_str(), 8);
     if (res == 0) {

@@ -69,6 +69,10 @@ SoundEngine::SoundEngine()
         names.push_back("f201.wav");
         _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_SUBMARINE_DETECTED, names));
     }
+    //button buy upg kbuy0.wav
+    //load unit to airtrans load.wav
+    //building idle mastr17.wav
+    //unload all scale.wav
 }
 
 SoundEngine::~SoundEngine()
@@ -94,6 +98,9 @@ void SoundEngine::PlaySystemSound(SOUND_TYPE type)
     element._startTime = engine->FullTime();
     _playedSound.push_back(element);
 }
+
+void SoundEngine::PlayExplodeSound(EXPLODE_SOUND_TYPE type)
+{}
 
 int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped)
 {
