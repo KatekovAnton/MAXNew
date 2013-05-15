@@ -177,20 +177,50 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
         _soundStopName = value;
         return;
     }
+    
+    //Двигстартзем=engin5.wav
+    static unsigned char data_soundEngineStartName[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xF1, 0xF2, 0xE0, 0xF0, 0xF2, 0xE7, 0xE5, 0xEC};
+    res = memcmp(data_soundEngineStartName, key.c_str(), 12);
+    if (res == 0) {
+        _soundEngineStartName = value;
+        return;
+    }
+    //Двигстартвод=engin6.wav
+    static unsigned char data_soundEngineStartWaterName[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xF1, 0xF2, 0xE0, 0xF0, 0xF2, 0xE2, 0xEE, 0xE4};
+    res = memcmp(data_soundEngineStartWaterName, key.c_str(), 12);
+    if (res == 0) {
+        _soundEngineStartWaterName = value;
+        return;
+    }
+    //Двигстопзем=engin7.wav
+    static unsigned char data_soundEngineStopName[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xF1, 0xF2, 0xEE, 0xEF, 0xE7, 0xE5, 0xEC};
+    res = memcmp(data_soundEngineStopName, key.c_str(), 11);
+    if (res == 0) {
+        _soundEngineStopName = value;
+        return;
+    }
+    //Двигстопвод=engin8.wav
+    static unsigned char data_soundEngineStopWaterName[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xF1, 0xF2, 0xEE, 0xEF, 0xE2, 0xEE, 0xE4};
+    res = memcmp(data_soundEngineStopWaterName, key.c_str(), 11);
+    if (res == 0) {
+        _soundEngineStopWaterName = value;
+        return;
+    }
     //Двигзвукзем=run.wav
-    static unsigned char dataSoundEngine[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xE7, 0xE2, 0xF3, 0xEA};
-    res = memcmp(dataSoundEngine, key.c_str(), 8);
+    static unsigned char data_soundEngineName[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xE7, 0xE2, 0xF3, 0xEA, 0xE7, 0xE5, 0xEC};
+    res = memcmp(data_soundEngineName, key.c_str(), 11);
     if (res == 0) {
         _soundEngineName = value;
         return;
     }
-    //Степзвук=off.wav
-    static unsigned char dataSoundStep[] = {0xD1, 0xF2, 0xE5, 0xEF, 0xE7, 0xE2, 0xF3, 0xEA};
-    res = memcmp(dataSoundStep, key.c_str(), 8);
+    //Двигзвуквод=engin2.wav
+    static unsigned char data_soundEngineWaterName[] = {0xC4, 0xE2, 0xE8, 0xE3, 0xE7, 0xE2, 0xF3, 0xEA, 0xE2, 0xEE, 0xE4};
+    res = memcmp(data_soundEngineWaterName, key.c_str(), 11);
     if (res == 0) {
-        _soundStepName = value;
+        _soundEngineWaterName = value;
         return;
     }
+    
 }
 
 void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
@@ -450,8 +480,12 @@ _soundStartName(""),
 _soundWorkName(""),
 _soundBuildName(""),
 _soundStopName(""),
+_soundEngineStartName(""),
+_soundEngineStartWaterName(""),
+_soundEngineStopName(""),
+_soundEngineStopWaterName(""),
 _soundEngineName(""),
-_soundStepName("")
+_soundEngineWaterName("")
 {
 
     BinaryReader *r = new BinaryReader(resourceConfigName);

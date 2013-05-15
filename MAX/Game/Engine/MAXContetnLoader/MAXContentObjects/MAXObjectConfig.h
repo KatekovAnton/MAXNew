@@ -92,10 +92,21 @@ public:
     string _soundBuildName;
     //Стопзвук=off.wav
     string _soundStopName;
+    
+    //Двигстартзем=engin5.wav
+    string _soundEngineStartName;
+    //Двигстартвод=engin6.wav
+    string _soundEngineStartWaterName;
+    //Двигстопзем=engin7.wav
+    string _soundEngineStopName;
+    //Двигстопвод=engin8.wav
+    string _soundEngineStopWaterName;
     //Двигзвукзем=run.wav
     string _soundEngineName;
-    //Степзвук=off.wav
-    string _soundStepName;
+    //Двигзвуквод=engin2.wav
+    string _soundEngineWaterName;
+    
+    
     
     
     string _name;
