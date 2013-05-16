@@ -120,8 +120,8 @@ bool GameObject::IsInRadius(const CCPoint &point, const float radius, const CCPo
     // find the center for big objects
     if (_config_w->_bSize > 1)
     {
-        centerX += 0.5 * _config_w->_bSize;
-        centerY += 0.5 * _config_w->_bSize;
+        centerX += 0.5 * _config_w->_bSize - 0.5;
+        centerY += 0.5 * _config_w->_bSize - 0.5;
     }
     
     float distance = (point.x - centerX) * (point.x - centerX)

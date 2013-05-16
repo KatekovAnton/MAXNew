@@ -109,7 +109,7 @@ void MAXAnimationObjectUnit::Update(double time)
         {
             if (!_unit->IsSingleFire())
             {
-                int count = deltaTime/0.2;
+                int count = elapsed/0.07;
                 _unit->SetIsFireing(true, count%2 == 1);
                 
             }

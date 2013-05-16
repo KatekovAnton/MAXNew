@@ -133,25 +133,43 @@ void GameMatchPlayer::EndTurn()
 
 bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
 {
-    bool result = true;
+    bool result = false;
     if (unit->_owner_w != this)
     {
-        CCPoint unitCell = unit->GetUnitCell();
         for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
         {
             if ((i == FOG_TYPE_SCAN) || (!unit->IsDetectedByPlayer(_playerInfo._playerId)))
             {
                 if (UnitCoveredByFog(unit, fogs[i]))
                 {
-                    if (fogs[i]->GetValue(unitCell) == 0)
+                    CCPoint unitCell = unit->GetUnitCell();
+                    if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
                     {
-                        result = false;
-                        break;
+                        if (fogs[i]->GetValue(unitCell) > 0)
+                            return true;
+                    }
+                    else
+                    {
+                        CCPoint unitCell = unit->GetUnitCell();
+                        if (fogs[i]->GetValue(unitCell) > 0)
+                            return true;
+                        unitCell.x += 1;
+                        if (fogs[i]->GetValue(unitCell) > 0)
+                            return true;
+                        unitCell.x -= 1;
+                        unitCell.y += 1;
+                        if (fogs[i]->GetValue(unitCell) > 0)
+                            return true;
+                        unitCell.x += 1;
+                        if (fogs[i]->GetValue(unitCell) > 0)
+                            return true;
                     }
                 }
             }
         }
     }
+    else
+        return true;
     return result;
 }
 
@@ -188,7 +206,7 @@ bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog)
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = true;
+            result = !(unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isStealth || unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBombMine);
             break;
         case FOG_TYPE_RESOURCES:
             result = false;

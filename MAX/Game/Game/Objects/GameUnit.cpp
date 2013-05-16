@@ -717,7 +717,7 @@ GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target)
         level = OBJECT_LEVEL_OVERAIR;
     
     MAXUnitObject* _unitObject = GetUnitObject();
-    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?(_unitObject->params_w->_isInfantry?0.4:0.15):0.4, _unitObject);
+    MAXAnimationObjectUnit* fireAnim = new MAXAnimationObjectUnit(_unitObject->IsSingleFire()?(_unitObject->params_w->_isInfantry?0.4:0.15):0.5, _unitObject);
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(fireAnim);
     
     BULLET_TYPE type = BULLET_TYPE_NONE;

@@ -48,7 +48,12 @@ EXTENDED_GROUND_TYPE MatchMapAgregator::GroundTypeAtXY(const int x, const int y)
 
 USimpleContainer<GameUnit*> *MatchMapAgregator::UnitsInCell(const int x, const int y) const
 {
-    return _unitsInCells_w[GetIndexForCoordinates(x, y)];
+    if (x == 62 && y == 50) {
+        int a = 0;
+        a++;
+    }
+    USimpleContainer<GameUnit*> *results = _unitsInCells_w[GetIndexForCoordinates(x, y)];
+    return results;
 }
 
 MatchMapAgregator::MatchMapAgregator(GameMap* map)
@@ -145,7 +150,7 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 		}
 	}
 
-	if ((_mapBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA))
+	if ((_mapBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA) && !config->_isBridge)
 	{
 		UpdateBridgeAt(x, y, false);
 	}
@@ -163,7 +168,7 @@ void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
 	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
 	int idx = GetIndexForCoordinates(x, y);
-	if ((_mapBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA))
+	if ((_mapBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA) && !config->_isBridge)
 	{
 		UpdateBridgeAt(x, y, true);
 	}
