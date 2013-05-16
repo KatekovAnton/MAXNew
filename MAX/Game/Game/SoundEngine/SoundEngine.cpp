@@ -33,7 +33,7 @@ SoundEngine::SoundEngine()
     {
         vector<string> names;
         names.push_back("f001.wav");
-        names.push_back("f001.wav");
+        names.push_back("f004.wav");
         names.push_back("f005.wav");
         names.push_back("f006.wav");
         _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_READY, names));
