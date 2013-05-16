@@ -71,8 +71,7 @@ SoundEngine::SoundEngine()
     }
     //button buy upg kbuy0.wav
     //load unit to airtrans load.wav
-    //building idle mastr17.wav
-    //unload all scale.wav
+    //load/unlod/create scale.wav
 }
 
 SoundEngine::~SoundEngine()

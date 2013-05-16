@@ -284,12 +284,12 @@ typedef enum
     
 typedef enum
 {
-    EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT = 0,
+    EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT = 0,//explmed.wav explsmal.wav
     EXPLODE_SOUND_TYPE_LAND_SMALL_BUILD,//bldexplg.wav expllrge.wav
     EXPLODE_SOUND_TYPE_BLOCK,//block16.wav
     EXPLODE_SOUND_TYPE_LAND_LARGE_BUILD,//expllrge.wav  expbuld5.wav expbuld6.wav explbld1.wav explbld2.wav 
     EXPLODE_SOUND_TYPE_SEA_SMALL_UNIT,//boatexp1.wav  
-    EXPLODE_SOUND_TYPE_SEA_SMALL_BUILD,//eplowet1.wav eplowet2.wav explmed.wav
+    EXPLODE_SOUND_TYPE_SEA_SMALL_BUILD,//eplowet1.wav eplowet2.wav 
     EXPLODE_SOUND_TYPE_SEA_LARGE_BUILD,//cbldexp1.wav cbldexp2.wav
     EXPLODE_SOUND_TYPE_UNDERWATER_UNIT,//sub14.wav sub16.wav
     EXPLODE_SOUND_TYPE_MINE,//cmine16.wav
