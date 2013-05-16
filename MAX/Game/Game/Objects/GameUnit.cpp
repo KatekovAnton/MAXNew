@@ -133,7 +133,8 @@ void GameUnit::StopCurrentSound()
 void GameUnit::UnitDidSelect()
 {
     StopCurrentSound();
-    SOUND->PlaySystemSound(SOUND_TYPE_READY); // SOUND_TYPE_UNIT_READY
+    if (_owner_w->GetIsCurrentPlayer())    
+        SOUND->PlaySystemSound(SOUND_TYPE_READY); // SOUND_TYPE_UNIT_READY
     currentSound = PlaySound(UNIT_SOUND_ENGINE);
 }
 
