@@ -472,7 +472,11 @@ void GameUnit::FollowPath(void)
                 MAXANIMATION_CURVE curve = GetCurveForStep(0, pathIndex - pi);
                 move->_moveCurve = curve;
 				PFWaveCell* cell2 = movePath[pi + 1];
-				float moveFactor = cell2->cost * 10.0 / config->_pSpeed; // change to current max speed
+                float speedMult = config->_pSpeed;
+                if (config->_isPlane) 
+                    speedMult = 18;
+                
+				float moveFactor = cell2->cost * 10.0 / speedMult; // change to current max speed
 				move->SetMoveFactor(moveFactor);
             }
             break;
@@ -492,7 +496,10 @@ void GameUnit::FollowPath(void)
         MAXANIMATION_CURVE curve = GetCurveForStep(pi, pathSize);
         move = new MAXAnimationObjectUnit(pos ,destination, _unitObject, curve);
         move->_delegate = this;
-        float moveFactor = cell->cost * 10.0 / config->_pSpeed; // change to current max speed
+        float speedMult = config->_pSpeed;
+        if (config->_isPlane)
+            speedMult = 18;
+        float moveFactor = cell->cost * 10.0 / speedMult; // change to current max speed
         move->SetMoveFactor(moveFactor);
         sequence->AddAnimation(move);
         
