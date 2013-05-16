@@ -29,7 +29,7 @@ SoundEngine* SoundEngine::sharedInstance()
 
 SoundEngine::SoundEngine()
 {
-    SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.5);
+    SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.4);
     {
         vector<string> names;
         names.push_back("f001.wav");
@@ -91,7 +91,7 @@ void SoundEngine::PlaySystemSound(SOUND_TYPE type)
     SoundElement element;
     element._type = type;
     element._looped = false;
-    element._id = SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false);
+    element._id = SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false );
     element._length = SimpleAudioEngine::sharedEngine()->lengthOfEffect(name.c_str());
     element._delegate_w = NULL;
     element._startTime = engine->FullTime();
