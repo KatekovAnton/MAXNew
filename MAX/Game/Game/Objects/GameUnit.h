@@ -34,12 +34,12 @@ class GameMatchPlayer;
 class GameEffect;
 class PFWaveCell;
 
-
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitObjectDelegate, public GameEffectDelegate
 {
     
     MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
+    int currentSound;
     
     bool _shouldAnimateBody;
     bool _disabledByInfiltrator;
@@ -48,6 +48,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
     std::vector<PFWaveCell*> movePath;
     int pathIndex;
+    int movePathIndex;
     bool pathIsTemp;
     bool _isStealthable;
     
@@ -71,6 +72,10 @@ public:
     ~GameUnit();
     
     
+    int PlaySound(UNIT_SOUND unitSound);
+    void StopCurrentSound();
+    void UnitDidSelect();
+    void UnitDidDeselect();
     void CheckBodyAndShadow();
     void SetUnitLocationAnimated(const CCPoint& destination);
     void SetPath(std::vector<PFWaveCell*> path);

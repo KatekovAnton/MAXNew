@@ -150,6 +150,17 @@ typedef enum
     RES_MODE_COUNT
 } RES_MODE_TYPE;
 
+typedef enum : int
+{
+    UNIT_SOUND_SHOT,
+    UNIT_SOUND_BLAST,
+    UNIT_SOUND_ENGINE,
+    UNIT_SOUND_ENGINE_START,
+    UNIT_SOUND_ENGINE_STOP,
+    UNIT_SOUND_ENGINE_START_WATER,
+    UNIT_SOUND_ENGINE_STOP_WATER
+} UNIT_SOUND;
+
 struct __Color
 {
     unsigned char r;

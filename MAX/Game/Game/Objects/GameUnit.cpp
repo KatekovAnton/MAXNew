@@ -55,6 +55,8 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
         CheckBodyAndShadow();
     }
     
+    currentSound = -1;
+    
     _isStealthable = config->_isStealthable;
     
     if(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isNeedUndercover)
@@ -77,6 +79,67 @@ GameUnit::~GameUnit()
 void GameUnit::ChackForAnimanteBody()
 {
     _shouldAnimateBody = _unitCurrentParameters->_unitBaseParameters->GetConfig()->bodyActiveFrame0 != _unitCurrentParameters->_unitBaseParameters->GetConfig()->bodyActiveFrame1 && !_disabledByInfiltrator;//(_isInProcess && _unitCurrentParameters->_unitBaseParameters->GetIsBuilding() && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn) && !_disabledByInfiltrator && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuldozer && !_unitCurrentParameters->_unitBaseParameters->GetConfig()->_hasHead;
+}
+
+int GameUnit::PlaySound(UNIT_SOUND unitSound)
+{
+    MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
+    string* soundStr = NULL;
+    bool loop = false;
+    SoundEngineDelegate* delegate = NULL;
+    
+    switch (unitSound)
+    {
+        case UNIT_SOUND_BLAST:
+            soundStr = &(config->_soundBlastName);
+            break;
+        case UNIT_SOUND_SHOT:
+            soundStr = &(config->_soundShotName);
+            break;
+        case UNIT_SOUND_ENGINE:
+            soundStr = &(config->_soundEngineName);
+            loop = true;
+            break;
+        case UNIT_SOUND_ENGINE_START:
+            soundStr = &(config->_soundEngineStartName);
+            break;
+        case UNIT_SOUND_ENGINE_STOP:
+            soundStr = &(config->_soundEngineStopName);
+            break;
+        case UNIT_SOUND_ENGINE_START_WATER:
+            soundStr = &(config->_soundEngineStartWaterName);
+            break;
+        case UNIT_SOUND_ENGINE_STOP_WATER:
+            soundStr = &(config->_soundEngineStopWaterName);
+            break;
+    }
+    int soundId = -1;
+    if (soundStr->length() > 2)
+    {
+        soundId = SOUND->PlayGameSound(*soundStr, delegate, loop);
+    }
+    return soundId;
+}
+
+void GameUnit::StopCurrentSound()
+{
+    if (currentSound > 0)
+    {
+        SOUND->StopGameSound(currentSound);
+        currentSound = -1;
+    }
+}
+
+void GameUnit::UnitDidSelect()
+{
+    StopCurrentSound();
+    SOUND->PlaySystemSound(SOUND_TYPE_READY); // SOUND_TYPE_UNIT_READY
+    currentSound = PlaySound(UNIT_SOUND_ENGINE);
+}
+
+void GameUnit::UnitDidDeselect()
+{
+    StopCurrentSound();
 }
 
 void GameUnit::SetDirection(int dir)
@@ -384,6 +447,8 @@ void GameUnit::AbortCurrentPath()
 
 void GameUnit::FollowPath(void)
 {
+    MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
+
     MAXUnitObject* _unitObject = GetUnitObject();
     MAXAnimationSequence* sequence = new MAXAnimationSequence();
     sequence->_delegate = this;
@@ -396,6 +461,7 @@ void GameUnit::FollowPath(void)
     while (pi >= 0)
     {
         PFWaveCell* cell = movePath[pi];
+        movePathIndex = pi;
         
         speed -= cell->cost;
         if (speed < 0)
@@ -405,7 +471,7 @@ void GameUnit::FollowPath(void)
                 MAXANIMATION_CURVE curve = GetCurveForStep(0, pathIndex - pi);
                 move->_moveCurve = curve;
 				PFWaveCell* cell2 = movePath[pi + 1];
-				float moveFactor = cell2->cost * 10.0 / _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed; // change to current max speed
+				float moveFactor = cell2->cost * 10.0 / config->_pSpeed; // change to current max speed
 				move->SetMoveFactor(moveFactor);
             }
             break;
@@ -425,9 +491,15 @@ void GameUnit::FollowPath(void)
         MAXANIMATION_CURVE curve = GetCurveForStep(pi, pathSize);
         move = new MAXAnimationObjectUnit(pos ,destination, _unitObject, curve);
         move->_delegate = this;
-        float moveFactor = cell->cost * 10.0 / _unitCurrentParameters->_unitBaseParameters->GetConfig()->_pSpeed; // change to current max speed
+        float moveFactor = cell->cost * 10.0 / config->_pSpeed; // change to current max speed
         move->SetMoveFactor(moveFactor);
         sequence->AddAnimation(move);
+        
+        if (first)
+        {
+            StopCurrentSound();
+            currentSound = PlaySound(UNIT_SOUND_ENGINE_START);
+        }
         
         pos = destination;
         pi--;
@@ -710,6 +782,8 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     if (selectedGameObjectDelegate)
         selectedGameObjectDelegate->onUnitFireStart(this);
     
+    PlaySound(UNIT_SOUND_SHOT);
+
     GameEffect* effect = MakeWeaponAnimationEffect(targetCenter);
     if (effect)
     {
@@ -718,6 +792,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     }
     else
     {
+        PlaySound(UNIT_SOUND_BLAST);
         if (selectedGameObjectDelegate)
             selectedGameObjectDelegate->onUnitFireStop(this);
     }
@@ -740,7 +815,6 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
             }
         }
     }
-    SOUND->PlayGameSound(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_soundShotName, NULL, false);
 }
 
 #pragma mark - Build methods
@@ -880,6 +954,16 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
         {
             PFWaveCell* cell = movePath[pathIndex];
             _unitCurrentParameters->MoveWithCost(cell->cost);
+            
+            if (movePathIndex == pathIndex)
+            {
+                int soundId = PlaySound(UNIT_SOUND_ENGINE_STOP);
+                if (soundId > 0)
+                {
+                    StopCurrentSound();
+                }
+            }
+            
             pathIndex--;
             if (selectedGameObjectDelegate)
                 selectedGameObjectDelegate->onUnitMoveStepBegin(this);
@@ -914,6 +998,9 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 			if (selectedGameObjectDelegate)
 				selectedGameObjectDelegate->onUnitMovePause(this);
 		}
+        StopCurrentSound();
+        currentSound = PlaySound(UNIT_SOUND_ENGINE);
+        
         //MoveToNextCell();
         
     }
@@ -968,6 +1055,7 @@ void GameUnit::GameEffectDidFinishExistance(GameEffect* effect)
 {
     if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER)
     {
+        PlaySound(UNIT_SOUND_BLAST);
         if (selectedGameObjectDelegate)
             selectedGameObjectDelegate->onUnitFireStop(this);
     }

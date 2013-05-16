@@ -106,10 +106,10 @@ int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, b
 {
     SoundElement element;
     element._type = SOUND_TYPE_NONE;
-    element._looped = false;
-    element._id = SimpleAudioEngine::sharedEngine()->playEffect(fileName.c_str(), false);
+    element._looped = looped;
+    element._id = SimpleAudioEngine::sharedEngine()->playEffect(fileName.c_str(), looped);
     element._length = 0;
-    element._delegate_w = NULL;
+    element._delegate_w = delegate;
     element._startTime = engine->FullTime();
     _playedSound.push_back(element);
     return element._id;
@@ -117,7 +117,21 @@ int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, b
 
 void SoundEngine::StopGameSound(int sound)
 {
-    
+    SimpleAudioEngine::sharedEngine()->stopEffect(sound);
+    std::vector<SoundElement>::iterator element;
+    element = _playedSound.begin();
+    for (; element != _playedSound.end(); element++)
+    {
+        SoundElement *item = &(*element);
+        if (item->_id == sound && !item->_looped)
+        {
+            if (item->_delegate_w)
+                item->_delegate_w->SoundDidFinishPlaying(item->_id);
+            
+            _playedSound.erase(element);
+            break;
+        }
+    }
 }
 
 void SoundEngine::CheckStoppedSound()

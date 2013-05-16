@@ -488,8 +488,13 @@ bool MAXGame::EndTurn()
         HidePathMap();
         
     
-    
-    _currentUnit = NULL;
+    if (_currentUnit)
+    {
+        _currentUnit->UnitDidDeselect();
+        HidePathMap();
+        HideUnitPath();
+    }
+    _currentUnit = NULL; // get current unit for current player
     engine->SelectUnit(_currentUnit?_currentUnit->GetUnitObject():NULL);
     _gameInterface->OnCurrentUnitChanged(_currentUnit, false);
     _needToOpenMenuOnNextTapToSameUnit = true;
@@ -809,6 +814,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {
             if (_currentUnit)
             {
+                _currentUnit->UnitDidDeselect();
                 _currentUnit->selectedGameObjectDelegate = NULL;
 				HideUnitPath();
 				HidePathMap();
@@ -822,6 +828,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
             _gameInterface->HideUnitMenu();
             _currentUnit->selectedGameObjectDelegate = this;
+            _currentUnit->UnitDidSelect();
             if (!_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _currentUnit->_owner_w->GetIsCurrentPlayer())
             {
 				ShowUnitPath(_currentUnit);
@@ -842,6 +849,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         {
             if (_currentUnit)
             {
+                _currentUnit->UnitDidDeselect();
 				if (_currentUnit->GetPath().size() > 0 && !_removeFromLock)
 				{
 					_currentUnit->ClearPath();
