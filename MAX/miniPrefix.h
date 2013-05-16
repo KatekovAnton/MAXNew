@@ -294,7 +294,7 @@ typedef enum
     EXPLODE_SOUND_TYPE_UNDERWATER_UNIT,//sub14.wav sub16.wav
     EXPLODE_SOUND_TYPE_MINE,//cmine16.wav
     EXPLODE_SOUND_TYPE_DIRT,//expsdirt.wav
-    EXPLODE_SOUND_TYPE_AIR,//explsmal.wavexplsmal.wav
+    EXPLODE_SOUND_TYPE_AIR,//explsmal.wav
     EXPLODE_SOUND_TYPE_INFANTRY,//infan15 infan16
     EXPLODE_SOUND_TYPE_INFILTRATOR,//infil15 infil16
 }EXPLODE_SOUND_TYPE;
