@@ -136,9 +136,8 @@ bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
     bool result = false;
     if (unit->_owner_w != this)
     {
-      //  for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
+        for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
         {
-            int i = FOG_TYPE_SCAN;
             if ((i == FOG_TYPE_SCAN) || (!unit->IsDetectedByPlayer(_playerInfo._playerId)))
             {
                 if (UnitCoveredByFog(unit, fogs[i]))
@@ -207,7 +206,7 @@ bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog)
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = true;
+            result = !(unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isStealth || unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBombMine);
             break;
         case FOG_TYPE_RESOURCES:
             result = false;

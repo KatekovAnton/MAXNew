@@ -868,7 +868,7 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     if (_freezeCounter>0) {
         return;
     }
-    if (_currentUnit && !_currentUnit->GetIsFreezed())
+    if (_currentUnit && !_currentUnit->GetIsFreezed() && _currentUnit->_owner_w->GetIsCurrentPlayer())
     {
         if (_currentUnit->CanStartBuildProcess())
         {
