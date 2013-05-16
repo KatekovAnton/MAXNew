@@ -55,6 +55,7 @@ GameMatch::GameMatch(const string& configName, const string& clanConfigName, con
     _currentPlayer_w = _players[0];
     
     _agregator = new MatchMapAgregator(_map);
+    _fullAgregator = new MatchMapAgregator(_map);
     _pathfinder = new Pathfinder(_agregator);
 }
 
@@ -177,6 +178,7 @@ void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 
 void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 {
+    _fullAgregator->RemoveUnitFromCell(unit, point.x, point.y);
     _agregator->RemoveUnitFromCell(unit, point.x, point.y);
     UpdateConnectorsForUnit(unit);
 }
@@ -205,6 +207,7 @@ void GameMatch::GameUnitDidDetected(GameUnit *unit, const CCPoint &point)
 
 void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 {
+    _fullAgregator->AddUnitToCell(unit, point.x, point.y);
     bool needMessage = false;
     if (_currentPlayer_w->CanSeeUnit(unit))
     {
@@ -275,14 +278,17 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
             {
                 engine->AddFogCell(x, y, !visibleFlag);
             }
-
-            vector<GameUnit*> units = GetAllUnitsInCell(x, y);
+            if (x==62 && y == 50 && visibleFlag && type == FOG_TYPE_SCAN) {
+                int a = 0;
+                a++;
+            }
+            USimpleContainer<GameUnit*> *units = _fullAgregator->UnitsInCell(x, y);
             if (visibleFlag)
             {
                 bool needMessage = false;
-                for (int i = 0; i < units.size(); i++)
+                for (int i = 0; i < units->GetCount(); i++)
                 {
-                    GameUnit *unit = units[i];
+                    GameUnit *unit = units->objectAtIndex(i);
                     if (_currentPlayer_w->CanSeeUnit(unit))
                     {
                         needMessage = ! unit->_onDraw &&  unit->_owner_w != _currentPlayer_w;
@@ -303,9 +309,9 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
             }
             else
             {
-                for (int i = 0; i < units.size(); i++)
+                for (int i = 0; i < units->GetCount(); i++)
                 {
-                    GameUnit *unit = units[i];
+                    GameUnit *unit = units->objectAtIndex(i);
                     if (!_currentPlayer_w->CanSeeUnit(unit))
                     {
                         unit->Hide();

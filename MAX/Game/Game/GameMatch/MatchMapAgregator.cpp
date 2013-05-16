@@ -48,7 +48,12 @@ EXTENDED_GROUND_TYPE MatchMapAgregator::GroundTypeAtXY(const int x, const int y)
 
 USimpleContainer<GameUnit*> *MatchMapAgregator::UnitsInCell(const int x, const int y) const
 {
-    return _unitsInCells_w[GetIndexForCoordinates(x, y)];
+    if (x == 62 && y == 50) {
+        int a = 0;
+        a++;
+    }
+    USimpleContainer<GameUnit*> *results = _unitsInCells_w[GetIndexForCoordinates(x, y)];
+    return results;
 }
 
 MatchMapAgregator::MatchMapAgregator(GameMap* map)

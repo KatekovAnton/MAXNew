@@ -33,6 +33,7 @@ public:
     vector<GameMatchPlayer*>    _players;
     GameMatchPlayer*            _currentPlayer_w;
     MatchMapAgregator*          _agregator;
+    MatchMapAgregator*          _fullAgregator;
 
     GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();

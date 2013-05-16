@@ -101,6 +101,8 @@ void GameFog::BeginUpdates()
 
 void GameFog::EndUpdates()
 {
+    if (!_delegate_w)
+        return;
     if (_updatingBox.min.x < 0) 
         _updatingBox.min.x = 0;
     if (_updatingBox.min.y < 0)
@@ -119,8 +121,8 @@ void GameFog::EndUpdates()
             {
                 int value = _gameField[idx];
                 bool flag = value != 0;
-                if (_delegate_w)
-                    _delegate_w->CellDidUpdate(x, y, this, flag);
+                
+                _delegate_w->CellDidUpdate(x, y, this, flag);
             }
         }
     }

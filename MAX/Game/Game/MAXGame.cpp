@@ -424,7 +424,7 @@ void MAXGame::StartMatch()
                 _match->_players[0]->CreateUnit(points[i].x, points[i].y, "Conn", 0)->PlaceUnitOnMap();
         }
     }
-    
+
     {
         _match->_players[0]->CreateUnit(30, 44, "sub", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(31, 43, "sub", 0)->PlaceUnitOnMap();
@@ -452,7 +452,7 @@ void MAXGame::StartMatch()
             
         
         _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(38, 55, "Awac", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(62, 62, "Awac", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(50, 53, "Inter", 0)->PlaceUnitOnMap();
         for (int i = 61; i < 69; i++)
             _match->_players[1]->CreateUnit(i, 65, "landmine", 0)->PlaceUnitOnMap();
@@ -465,9 +465,9 @@ void MAXGame::StartMatch()
         _match->_players[1]->CreateUnit(46, 38, "pcan", 0)->PlaceUnitOnMap();
     }
     
-    engine->SetCameraCenter(ccp(50, 47));
-    _match->_players[0]->cameraPosition = ccp(30, 44);
-    _match->_players[1]->cameraPosition = ccp(30, 44);
+    engine->SetCameraCenter(ccp(62, 57));
+    _match->_players[0]->cameraPosition = ccp(62, 57);
+    _match->_players[1]->cameraPosition = ccp(62, 57);
 
 }
 
@@ -488,7 +488,7 @@ bool MAXGame::EndTurn()
         HidePathMap();
         
     
-    
+    HideUnitPath();
     _currentUnit = NULL;
     engine->SelectUnit(_currentUnit?_currentUnit->GetUnitObject():NULL);
     _gameInterface->OnCurrentUnitChanged(_currentUnit, false);

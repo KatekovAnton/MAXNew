@@ -102,6 +102,12 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
         r.size.width *= _unitMenu->getScale();
         r.size.height *= _unitMenu->getScale();
         
+        const float enlargeValue = 20;
+        r.origin.x -= enlargeValue;
+        r.origin.y -= enlargeValue;
+        r.size.width += enlargeValue * 2;
+        r.size.height += enlargeValue * 2;
+        
         result |= r.containsPoint(CCPoint(x, y));
     }
     
