@@ -86,7 +86,7 @@ MAXAnimationObjectUnit::MAXAnimationObjectUnit(float firetime, MAXUnitObject* ob
 
 void MAXAnimationObjectUnit::SetMoveFactor(float moveFactor)
 {
-    _aniTime = 0.02 * moveFactor;
+    _aniTime = 0.014 * moveFactor;
     if (_moveCurve != MAXANIMATION_CURVE_EASE_LINEAR)
     {
         _aniTime *= M_PI_2;
