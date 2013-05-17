@@ -40,6 +40,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
     int currentSound;
+    int workSound;
     
     bool _shouldAnimateBody;
     bool _disabledByInfiltrator;
@@ -74,6 +75,7 @@ public:
     
     int PlaySound(UNIT_SOUND unitSound);
     void StopCurrentSound();
+    void StopWorkSound();
     void UnitDidSelect();
     void UnitDidDeselect();
     void CheckBodyAndShadow();

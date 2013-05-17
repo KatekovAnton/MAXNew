@@ -56,6 +56,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
     }
     
     currentSound = -1;
+    workSound = -1;
     
     _isStealthable = config->_isStealthable;
     
@@ -88,6 +89,13 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
     bool loop = false;
     SoundEngineDelegate* delegate = NULL;
     
+    if (config->_isShip)
+    {
+        if (unitSound == UNIT_SOUND_ENGINE)            unitSound = UNIT_SOUND_ENGINE_WATER;
+        else if (unitSound == UNIT_SOUND_ENGINE_START) unitSound = UNIT_SOUND_ENGINE_START_WATER;
+        else if (unitSound == UNIT_SOUND_ENGINE_STOP)  unitSound = UNIT_SOUND_ENGINE_STOP_WATER;
+    }
+    
     switch (unitSound)
     {
         case UNIT_SOUND_BLAST:
@@ -96,6 +104,7 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
         case UNIT_SOUND_SHOT:
             soundStr = &(config->_soundShotName);
             break;
+            
         case UNIT_SOUND_ENGINE:
             soundStr = &(config->_soundEngineName);
             loop = true;
@@ -106,11 +115,29 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
         case UNIT_SOUND_ENGINE_STOP:
             soundStr = &(config->_soundEngineStopName);
             break;
+        case UNIT_SOUND_ENGINE_WATER:
+            soundStr = &(config->_soundEngineWaterName);
+            loop = true;
+            break;
         case UNIT_SOUND_ENGINE_START_WATER:
             soundStr = &(config->_soundEngineStartWaterName);
             break;
         case UNIT_SOUND_ENGINE_STOP_WATER:
             soundStr = &(config->_soundEngineStopWaterName);
+            break;
+            
+        case UNIT_SOUND_START:
+            soundStr = &(config->_soundStartName);
+            break;
+        case UNIT_SOUND_STOP:
+            soundStr = &(config->_soundStopName);
+            break;
+        case UNIT_SOUND_WORK:
+            soundStr = &(config->_soundWorkName);
+            loop = true;
+            break;
+        case UNIT_SOUND_BUILD:
+            soundStr = &(config->_soundBuildName);
             break;
     }
     int soundId = -1;
@@ -130,12 +157,30 @@ void GameUnit::StopCurrentSound()
     }
 }
 
+void GameUnit::StopWorkSound()
+{
+    if (workSound > 0)
+    {
+        SOUND->StopGameSound(workSound);
+        workSound = -1;
+    }
+}
+
 void GameUnit::UnitDidSelect()
 {
     StopCurrentSound();
     if (_owner_w->GetIsCurrentPlayer() && !_unitCurrentParameters->_unitBaseParameters->GetIsBuilding())
         SOUND->PlaySystemSound(SOUND_TYPE_READY); // SOUND_TYPE_UNIT_READY
-    currentSound = PlaySound(UNIT_SOUND_ENGINE);
+    
+    MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
+    if ((!config->_isBuilding) && (config->_bSelfCreatorType != 0 || config->_isBuldozer) && _isInProcess)
+    {
+        currentSound = PlaySound(UNIT_SOUND_WORK);
+    }
+    else
+    {
+        currentSound = PlaySound(UNIT_SOUND_ENGINE);
+    }
 }
 
 void GameUnit::UnitDidDeselect()
@@ -177,6 +222,9 @@ void GameUnit::Show()
 
 void GameUnit::Hide()
 {
+    StopCurrentSound();
+    StopWorkSound();
+    
     if (!_onDraw)
         return;
     
@@ -201,6 +249,9 @@ void GameUnit::TakeOff()
     {
         _unitCurrentParameters->_landed = false;
         GetUnitObject()->TakeOff();
+
+        StopWorkSound();
+        workSound = PlaySound(UNIT_SOUND_START);
     }
 }
 
@@ -210,6 +261,9 @@ void GameUnit::Landing()
     {
         _unitCurrentParameters->_landed = true;
         GetUnitObject()->Landing();
+        
+        StopWorkSound();
+        workSound = PlaySound(UNIT_SOUND_STOP);
     }
 }
 
@@ -246,6 +300,8 @@ void GameUnit::EscapeToLocation(const int x, const int y, const int cost)
 
 void GameUnit::NewTurn()
 {
+    StopCurrentSound();
+    StopWorkSound();
     bool processed = false;
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
@@ -838,6 +894,25 @@ void GameUnit::StartBuildProcess()
     if (!CanStartBuildProcess())
         return;
     _isInProcess = !_isInProcess;
+    
+    MAXObjectConfig* config = _unitCurrentParameters->_unitBaseParameters->GetConfig();
+    StopWorkSound();
+    if (_isInProcess)
+    {
+        if (config->_isBuilding && config->_retEnergy == 0)
+        {
+            workSound = PlaySound(UNIT_SOUND_BUILD);
+        }
+        else
+        {
+            workSound = PlaySound(UNIT_SOUND_START);
+        }
+    }
+    else
+    {
+        workSound = PlaySound(UNIT_SOUND_STOP);
+    }
+    
     CheckBodyAndShadow();
     ChackForAnimanteBody();
 }
@@ -1007,7 +1082,17 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 				selectedGameObjectDelegate->onUnitMovePause(this);
 		}
         StopCurrentSound();
-        currentSound = PlaySound(UNIT_SOUND_ENGINE);
+        if (GetBaseConfig()->_isPlane)
+        {
+            if (!_unitCurrentParameters->_landed)
+            {
+                currentSound = PlaySound(UNIT_SOUND_ENGINE);
+            }
+        }
+        else
+        {
+            currentSound = PlaySound(UNIT_SOUND_ENGINE);
+        }
         
         //MoveToNextCell();
         
