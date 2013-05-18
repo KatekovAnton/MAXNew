@@ -94,7 +94,9 @@ void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
     engine->_delegate = this;
+    SOUND->SetHoldEffects(true);
     StartMatch();
+    SOUND->SetHoldEffects(false);
     //StartTest();
 }
 

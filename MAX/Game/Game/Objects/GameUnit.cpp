@@ -95,7 +95,11 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
         else if (unitSound == UNIT_SOUND_ENGINE_START) unitSound = UNIT_SOUND_ENGINE_START_WATER;
         else if (unitSound == UNIT_SOUND_ENGINE_STOP)  unitSound = UNIT_SOUND_ENGINE_STOP_WATER;
     }
-    
+    float vol = 1.0;
+    float engVol = 0.5;
+    if (config->_isPlane) {
+        engVol = 0.3;
+    }
     switch (unitSound)
     {
         case UNIT_SOUND_BLAST:
@@ -106,23 +110,29 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
             break;
             
         case UNIT_SOUND_ENGINE:
+            vol = engVol;
             soundStr = &(config->_soundEngineName);
             loop = true;
             break;
         case UNIT_SOUND_ENGINE_START:
+            vol = engVol;
             soundStr = &(config->_soundEngineStartName);
             break;
         case UNIT_SOUND_ENGINE_STOP:
+            vol = engVol;
             soundStr = &(config->_soundEngineStopName);
             break;
         case UNIT_SOUND_ENGINE_WATER:
+            vol = engVol;
             soundStr = &(config->_soundEngineWaterName);
             loop = true;
             break;
         case UNIT_SOUND_ENGINE_START_WATER:
+            vol = engVol;
             soundStr = &(config->_soundEngineStartWaterName);
             break;
         case UNIT_SOUND_ENGINE_STOP_WATER:
+            vol = engVol;
             soundStr = &(config->_soundEngineStopWaterName);
             break;
             
@@ -143,7 +153,7 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
     int soundId = -1;
     if (soundStr->length() > 2)
     {
-        soundId = SOUND->PlayGameSound(*soundStr, delegate, loop);
+        soundId = SOUND->PlayGameSound(*soundStr, delegate, loop, vol);
     }
     return soundId;
 }

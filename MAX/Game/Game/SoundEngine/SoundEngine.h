@@ -34,6 +34,8 @@ class SoundEngine {
     map<SOUND_TYPE, vector<string>> _systemSoundNames;
     vector<SoundElement>            _playedSound;
     
+    bool _holdEffects;
+    
 public:
     
     SoundEngine();
@@ -44,10 +46,12 @@ public:
     void PlaySystemSound(SOUND_TYPE type);
     void PlayExplodeSound(EXPLODE_SOUND_TYPE type);
     
-    int PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped);
+    int PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped, float volume);
     void StopGameSound(int sound);
     
     void CheckStoppedSound();
+    
+    void SetHoldEffects(bool hold);
     
 };
 

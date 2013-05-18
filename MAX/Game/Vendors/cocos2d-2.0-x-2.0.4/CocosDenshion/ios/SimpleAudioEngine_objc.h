@@ -72,7 +72,7 @@
 -(BOOL) isBackgroundMusicPlaying;
 
 /** plays an audio effect with a file path*/
--(ALuint) playEffect:(NSString*) filePath loop:(BOOL) loop;
+-(ALuint) playEffect:(NSString*) filePath loop:(BOOL) loop volume:(float)volume;
 /** */
 -(float) lengthOfEffect:(NSString*) filePath;
 /** stop a sound that is playing, note you must pass in the soundId that is returned when you started playing the sound with playEffect */

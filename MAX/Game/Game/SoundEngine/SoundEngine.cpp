@@ -29,6 +29,7 @@ SoundEngine* SoundEngine::sharedInstance()
 
 SoundEngine::SoundEngine()
 {
+    _holdEffects = false;
     SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.4);
     {
         vector<string> names;
@@ -91,7 +92,7 @@ void SoundEngine::PlaySystemSound(SOUND_TYPE type)
     SoundElement element;
     element._type = type;
     element._looped = false;
-    element._id = SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false );
+    element._id = SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false, 0.8);
     element._length = SimpleAudioEngine::sharedEngine()->lengthOfEffect(name.c_str());
     element._delegate_w = NULL;
     element._startTime = engine->FullTime();
@@ -101,12 +102,15 @@ void SoundEngine::PlaySystemSound(SOUND_TYPE type)
 void SoundEngine::PlayExplodeSound(EXPLODE_SOUND_TYPE type)
 {}
 
-int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped)
+int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped, float volume)
 {
+    if (_holdEffects) {
+        return -1;
+    }
     SoundElement element;
     element._type = SOUND_TYPE_NONE;
     element._looped = looped;
-    element._id = SimpleAudioEngine::sharedEngine()->playEffect(fileName.c_str(), looped);
+    element._id = SimpleAudioEngine::sharedEngine()->playEffect(fileName.c_str(), looped, volume);
     element._length = 0;
     element._delegate_w = delegate;
     element._startTime = engine->FullTime();
@@ -159,4 +163,7 @@ void SoundEngine::CheckStoppedSound()
     }
 }
 
-
+void SoundEngine::SetHoldEffects(bool hold)
+{
+    _holdEffects = hold;
+}

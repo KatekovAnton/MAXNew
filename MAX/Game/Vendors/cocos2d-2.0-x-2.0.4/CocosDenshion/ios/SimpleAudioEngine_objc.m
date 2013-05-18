@@ -123,9 +123,9 @@ static CDBufferManager *bufferManager = nil;
 
 #pragma mark SimpleAudioEngine - sound effects
 
--(ALuint) playEffect:(NSString*) filePath loop:(BOOL) loop
+-(ALuint) playEffect:(NSString*) filePath loop:(BOOL) loop volume:(float)volume
 {
-    return [self playEffect:filePath loop:loop pitch:1.0f pan:0.0f gain:1.0f];
+    return [self playEffect:filePath loop:loop pitch:1.0f pan:0.0f gain:volume];
 }
 
 -(float) lengthOfEffect:(NSString*) filePath
