@@ -188,7 +188,7 @@ void GameMatch::GameUnitDidUndetected(GameUnit *unit, const CCPoint &point)
     if (!_currentPlayer_w->CanSeeUnit(unit))
     {
         unit->Hide();
-        _agregator->RemoveUnitFromCell(unit, point.x, point.y);
+        _agregator->RemoveUnitFromCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
     }
     else if (unit->_owner_w != _currentPlayer_w)
     {
@@ -201,7 +201,7 @@ void GameMatch::GameUnitDidDetected(GameUnit *unit, const CCPoint &point)
     if (_currentPlayer_w->CanSeeUnit(unit))
     {
         unit->Show();
-        _agregator->AddUnitToCell(unit, point.x, point.y);
+        _agregator->AddUnitToCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
     }
 }
 
@@ -303,7 +303,8 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                         }
                         
                         unit->Show();
-                        _agregator->AddUnitToCell(unit, x, y);
+                        CCPoint p = unit->GetUnitCell();
+                        _agregator->AddUnitToCell(unit, p.x, p.y);
                     }
                 }
             }

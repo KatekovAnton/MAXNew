@@ -161,6 +161,7 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 
 void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
 {
+    printf("AddUnitToCell %s in %d,%d\n", unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_type.c_str(), x, y);
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
 	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
 	int idx = GetIndexForCoordinates(x, y);
