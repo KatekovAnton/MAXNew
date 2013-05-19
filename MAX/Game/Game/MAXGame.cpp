@@ -40,7 +40,7 @@ MAXGame * game = &globalGame;
 MAXAnimationWait* prepareUnitToMoveToPoint(GameUnit* unit, CCPoint point, float delay)
 {
     CCPoint location = unit->GetUnitCell();
-    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitParameters->GetConfig()->_bMoveType;
     Pathfinder* pf = game->_match->_pathfinder;
     pf->MakePathMap(location.x, location.y, unitMoveType, unit->_unitCurrentParameters->GetMoveBalance());
     std::vector<PFWaveCell*> path = pf->FindPathOnMap(point.x, point.y); // call after MakePathMap
@@ -503,7 +503,7 @@ bool MAXGame::EndTurn()
             ShowUnitPath(_currentUnit);
             
             CCPoint location = _currentUnit->GetUnitCell();
-            UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+            UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitParameters->GetConfig()->_bMoveType;
             Pathfinder* pf = _match->_pathfinder;
             pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->GetMoveBalance());
             ShowPathMap();
@@ -540,7 +540,7 @@ void MAXGame::FlushEffectsWithNew(GameEffect *effect)
 bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y)
 {
     bool result = false;
-    MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+    MAXObjectConfig* config = unit->_unitCurrentParameters->_unitParameters->GetConfig();
     if (config->_isBuilding)
     {
         if (config->_isBombMine)
@@ -587,7 +587,7 @@ bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y)
 #pragma mark Messages
 void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)
 {
-    printf("Enemy %s spotted at %d, %d!\n", unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_name.c_str(), (int)unit->GetUnitCell().x, (int)unit->GetUnitCell().y);
+    printf("Enemy %s spotted at %d, %d!\n", unit->_unitCurrentParameters->_unitParameters->GetConfig()->_name.c_str(), (int)unit->GetUnitCell().x, (int)unit->GetUnitCell().y);
     _gameInterface->ShowUnitSpottedMessage(unit);
 }
 
@@ -701,7 +701,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     bool _removeFromLock = false;
     
     GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);// _currentPlayer_w->GetUnitInPosition(p);
-    if (_currentUnit && !_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
+    if (_currentUnit && !_currentUnit->_unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding)
     {
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
         {}
@@ -788,7 +788,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
         }
     }
-    else if (_currentUnit && _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
+    else if (_currentUnit && _currentUnit->_unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding)
     {
         if (_currentUnit == newCurrentUnit)
         {
@@ -827,12 +827,12 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             _gameInterface->HideUnitMenu();
             _currentUnit->selectedGameObjectDelegate = this;
             _currentUnit->UnitDidSelect();
-            if (!_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _currentUnit->_owner_w->GetIsCurrentPlayer())
+            if (!_currentUnit->_unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding && _currentUnit->_owner_w->GetIsCurrentPlayer())
             {
 				ShowUnitPath(_currentUnit);
 
                 CCPoint location = _currentUnit->GetUnitCell();
-                UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+                UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitParameters->GetConfig()->_bMoveType;
                 Pathfinder* pf = _match->_pathfinder;
                 pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->GetMoveBalance());
                 //pf->DumpMap();
@@ -891,7 +891,7 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
 void MAXGame::RefreshCurrentUnitPath()
 {
     CCPoint location = _currentUnit->GetUnitCell();
-    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitCurrentParameters->_unitParameters->GetConfig()->_bMoveType;
     Pathfinder* pf = _match->_pathfinder;
     pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitCurrentParameters->GetMoveBalance());
     //pf->DumpMap();
@@ -906,14 +906,14 @@ bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
     PFWaveCell* cell = unit->GetNextPathCell();
     if (cell)
     {
-        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitParameters->GetConfig()->_bMoveType;
         Pathfinder* pf = _match->_pathfinder;
         int pfCost = pf->GetMapCostAt(cell->x, cell->y, cell->direction, unitMoveType);
         if (cell->cost != pfCost)
         {
             result = false;
         }
-		else if (!unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isPlane)
+		else if (!unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isPlane)
 		{
 			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false))
 			{
@@ -928,7 +928,7 @@ bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
 void MAXGame::RecalculateUnitPath(GameUnit* unit)
 {
     CCPoint location = unit->GetUnitCell();
-    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bMoveType;
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitCurrentParameters->_unitParameters->GetConfig()->_bMoveType;
     Pathfinder* pf = _match->_pathfinder;
     pf->MakePathMap(location.x, location.y, unitMoveType, unit->_unitCurrentParameters->GetMoveBalance());
     //pf->DumpMap();
@@ -995,14 +995,14 @@ void MAXGame::onUnitMoveStop(GameUnit* unit)
     }
 
 	// check landing pad
-	if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isPlane)
+	if (unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isPlane)
 	{
 		CCPoint location = unit->GetUnitCell();
 		USimpleContainer<GameUnit*> *units = _match->_agregator->UnitsInCell(location.x, location.y);
 		for (int i = 0; i < units->GetCount(); i++)
 		{
 			GameUnit* u = units->objectAtIndex(i);
-			if (u->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isLanding)
+			if (u->_unitCurrentParameters->_unitParameters->GetConfig()->_isLanding)
 			{
 				unit->Landing();
 				break;

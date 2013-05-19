@@ -131,7 +131,7 @@ GameInterface::GameInterface()
     engine->drawGrid = _drawGrid;
     engine->drawPathZone = _drawPathZone;
     if (_currentUnit)
-        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
+        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitParameters->GetIsSurvivor();
     else
         engine->drawResources = _drawResources;
     engine->drawFog = _drawFog;
@@ -460,7 +460,7 @@ void GameInterface::OnToggleResources(CCMenuItem* sender)
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawResources = !_drawResources;
     if (_currentUnit) 
-        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
+        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitParameters->GetIsSurvivor();
     else
         engine->drawResources = _drawResources;
     UpdateToggleResourcesButton();
@@ -579,7 +579,7 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock)
     
     
     if (_currentUnit)
-        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
+        engine->drawResources = _drawResources || _currentUnit->_unitCurrentParameters->_unitParameters->GetIsSurvivor();
     else
         engine->drawResources = _drawResources;
     
@@ -608,7 +608,7 @@ void GameInterface::UpdateUnitMenuPosition()
     CCPoint point1 = point;
     point.x *= 64;
     point.y *= 64;
-    if (_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetSize() < 2)
+    if (_currentUnit->_unitCurrentParameters->_unitParameters->GetSize() < 2)
     {
         point.x += 64;
         point.y += 64;

@@ -92,7 +92,7 @@ void SoundEngine::PlaySystemSound(SOUND_TYPE type)
     SoundElement element;
     element._type = type;
     element._looped = false;
-    element._id = SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false, 0.8);
+    element._id = SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false, 0.6);
     element._length = SimpleAudioEngine::sharedEngine()->lengthOfEffect(name.c_str());
     element._delegate_w = NULL;
     element._startTime = engine->FullTime();

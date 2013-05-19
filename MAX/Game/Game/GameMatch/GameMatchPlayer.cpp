@@ -165,7 +165,7 @@ bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
                 if (UnitCoveredByFog(unit, fogs[i]))
                 {
                     CCPoint unitCell = unit->GetUnitCell();
-                    if (unit->_unitCurrentParameters->_unitBaseParameters->GetSize() == 1)
+                    if (unit->_unitCurrentParameters->_unitParameters->GetSize() == 1)
                     {
                         if (fogs[i]->GetValue(unitCell) > 0)
                             return true;
@@ -201,19 +201,19 @@ bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *f
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = (unit->_unitCurrentParameters->_unitBaseParameters->_pMaxScan > 0);
+            result = (unit->_unitCurrentParameters->_unitParameters->_pMaxScan > 0);
             break;
         case FOG_TYPE_RESOURCES:
-            result = unit->_unitCurrentParameters->_unitBaseParameters->GetIsSurvivor();
+            result = unit->_unitCurrentParameters->_unitParameters->GetIsSurvivor();
             break;
         case FOG_TYPE_MINES:
-            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isSeeMines;
+            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isSeeMines;
             break;
         case FOG_TYPE_UNDERWATER:
-            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isSeeUnderwater;
+            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isSeeUnderwater;
             break;
         case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAntiStealth;
+            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isAntiStealth;
             break;
 
         case FOG_TYPE_MAX:
@@ -228,17 +228,17 @@ bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog)
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = !(unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isStealth || unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isUnderwater || unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBombMine);
+            result = !(unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isStealth || unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isUnderwater || unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isBombMine);
             break;
         case FOG_TYPE_RESOURCES:
             result = false;
             break;
         case FOG_TYPE_MINES:
-            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBombMine;
+            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isBombMine;
             break;
         case FOG_TYPE_UNDERWATER:
         {
-            MAXObjectConfig* config = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig();
+            MAXObjectConfig* config = unit->_unitCurrentParameters->_unitParameters->GetConfig();
             if (config->_isShip)
             {
                 result = config->_isUnderwater;
@@ -259,7 +259,7 @@ bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog)
             break;
         }
         case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isStealth;
+            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isStealth;
             break;
             
         case FOG_TYPE_MAX:
@@ -278,7 +278,7 @@ float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog 
         case FOG_TYPE_SCAN:
         case FOG_TYPE_UNDERWATER:
         case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitCurrentParameters->_unitBaseParameters->_pMaxScan;
+            result = unit->_unitCurrentParameters->_unitParameters->_pMaxScan;
             break;
         case FOG_TYPE_RESOURCES:
         case FOG_TYPE_MINES:

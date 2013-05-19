@@ -22,7 +22,7 @@ class BinaryReader;
 
 class GameUnitParameters {
     
-    GameUnitBaseParameters   *_config_w;
+    GameUnitBaseParameters   *_unitBaseParameters_w;
     PlayerResearchManager *_researchManager_w;
     PlayerUpgradeManager  *_upgradeManager_w;
     

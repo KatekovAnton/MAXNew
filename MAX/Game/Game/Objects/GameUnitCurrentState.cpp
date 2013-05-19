@@ -11,7 +11,7 @@
 #include "MAXObjectConfig.h"
 
 GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
-:_unitBaseParameters(params), _landed(false)
+:_unitParameters(params), _landed(false)
 {
     for (int pt = UNIT_PARAMETER_TYPE_MIN; pt <= UNIT_PARAMETER_TYPE_MAX; pt++)
     {
@@ -26,7 +26,7 @@ GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
 
 GameUnitCurrentState::~GameUnitCurrentState()
 {
-    delete _unitBaseParameters;
+    delete _unitParameters;
 }
 
 int GameUnitCurrentState::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
@@ -65,34 +65,34 @@ int GameUnitCurrentState::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType
     switch (parameterType)
     {
         case UNIT_PARAMETER_TYPE_SPEED:
-            result = _unitBaseParameters->_pMaxSpeed * 10;
+            result = _unitParameters->_pMaxSpeed * 10;
             break;
         case UNIT_PARAMETER_TYPE_HEALTH:
-            result = _unitBaseParameters->_pMaxHealth;
+            result = _unitParameters->_pMaxHealth;
             break;
         case UNIT_PARAMETER_TYPE_ARMOR:
-            result = _unitBaseParameters->_pMaxArmor;
+            result = _unitParameters->_pMaxArmor;
             break;
         case UNIT_PARAMETER_TYPE_ATTACK:
-            result = _unitBaseParameters->_pMaxAttack;
+            result = _unitParameters->_pMaxAttack;
             break;
         case UNIT_PARAMETER_TYPE_SHOTS:
-            result = _unitBaseParameters->_pMaxShots;
+            result = _unitParameters->_pMaxShots;
             break;
         case UNIT_PARAMETER_TYPE_GAS:
-            result = _unitBaseParameters->_pMaxFuel * 10;
+            result = _unitParameters->_pMaxFuel * 10;
             break;
         case UNIT_PARAMETER_TYPE_RANGE:
-            result = _unitBaseParameters->_pMaxRange;
+            result = _unitParameters->_pMaxRange;
             break;
         case UNIT_PARAMETER_TYPE_SCAN:
-            result = _unitBaseParameters->_pMaxScan;
+            result = _unitParameters->_pMaxScan;
             break;
         case UNIT_PARAMETER_TYPE_AMMO:
-            result = _unitBaseParameters->_pMaxAmmo;
+            result = _unitParameters->_pMaxAmmo;
             break;
         case UNIT_PARAMETER_TYPE_COST:
-            result = _unitBaseParameters->_pMaxCost;
+            result = _unitParameters->_pMaxCost;
             break;
         case UNIT_PARAMETER_TYPE_CARGO_PLANES:
         case UNIT_PARAMETER_TYPE_CARGO_SHIPS:
@@ -210,7 +210,7 @@ void GameUnitCurrentState::MoveWithCost(const int cost)
     SetParameterValue(parameterType, val);
     
     
-    if (!_unitBaseParameters->GetConfig()->_pMoveAndShot)
+    if (!_unitParameters->GetConfig()->_pMoveAndShot)
     {
         int maxShots = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
         int maxSpeed = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
@@ -277,7 +277,7 @@ void GameUnitCurrentState::MakeShot()
     }
     SetParameterValue(parameterType, val);
     
-    if (!_unitBaseParameters->GetConfig()->_pMoveAndShot)
+    if (!_unitParameters->GetConfig()->_pMoveAndShot)
     {
         int maxShots = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
         int maxSpeed = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
