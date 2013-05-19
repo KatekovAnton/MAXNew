@@ -963,7 +963,7 @@ vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 	}	
 	if (config->_isUpgrades)
 	{
-		result.push_back(UNIT_MENU_ACTION_UPGRADE);
+		result.push_back(UNIT_MENU_ACTION_BUYUPGRADES);
 	}	
 	if ((config->_isAllwaysOn != config->_isBuilding ) || config->_bSelfCreatorType != 0 || config->_isBuldozer)
 	{
