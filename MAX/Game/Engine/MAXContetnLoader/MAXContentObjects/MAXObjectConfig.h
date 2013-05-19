@@ -241,7 +241,6 @@ public:
     bool _isPlane;
     bool _isShip;
     bool _isStealthable;
-    GLKVector2 _shadowOffset;
     bool _hasHead;
     bool _isAnimatedHead;
     bool _isAmphibious;

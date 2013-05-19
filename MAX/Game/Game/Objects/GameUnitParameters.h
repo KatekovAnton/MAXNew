@@ -14,6 +14,7 @@
 
 class MAXObjectConfig;
 class MAXClanConfig;
+class GameUnitBaseParameters;
 class PlayerResearchManager;
 class PlayerUpgradeManager;
 
@@ -21,14 +22,13 @@ class BinaryReader;
 
 class GameUnitParameters {
     
-    MAXObjectConfig       *_config_w;
-    MAXClanConfig         *_clanBonuses_w;
+    GameUnitBaseParameters   *_config_w;
     PlayerResearchManager *_researchManager_w;
     PlayerUpgradeManager  *_upgradeManager_w;
     
 public:
     
-    MAXObjectConfig* GetConfig() const {return _config_w;}
+    MAXObjectConfig* GetConfig() const;
     
     int _pMaxAttack;
     int _pMaxSpeed;
@@ -43,9 +43,8 @@ public:
     
     int _version;
     
-    GameUnitParameters(MAXObjectConfig       *config);
-    GameUnitParameters(MAXObjectConfig       *config,
-                       MAXClanConfig         *clanBonuses,
+    GameUnitParameters(GameUnitBaseParameters *config);
+    GameUnitParameters(GameUnitBaseParameters *config,
                        PlayerResearchManager *researchManager,
                        PlayerUpgradeManager  *upgradeManager);
     
@@ -61,6 +60,7 @@ public:
     int GetSize() const;
     
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
+    
 };
 
 #endif /* defined(__MAX__GameUnitParameters__) */

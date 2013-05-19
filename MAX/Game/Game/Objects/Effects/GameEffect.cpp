@@ -13,6 +13,7 @@
 #include "MAXAnimationPrefix.h"
 #include "MAXGame.h"
 #include "GameUnit.h"
+#include "GameUnitBaseParameters.h"
 #include "GameUnitParameters.h"
 
 //-подложка под большое здание                                                  LRGSLAB	mult
@@ -47,6 +48,8 @@
 //ВОТ АЛЕКСЕЙ какие костыли приходится городить чтоб сделать мусор юнитом
 MAXObjectConfig* trash1x1config = NULL;
 MAXObjectConfig* trash2x2config = NULL;
+GameUnitBaseParameters* trash1x1params = NULL;
+GameUnitBaseParameters* trash2x2params = NULL;
 
 GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config, bool addToEffectList)
 :GameObject(effectObject, config), _config(config), _finished(false), _blastType(BLAST_TYPE_NONE), _secondaryType(SECONDARY_TYPE_NONE), _lastSmokeCreationTime(engine->FullTime()), _delegate_w(NULL)
@@ -164,7 +167,8 @@ GameEffect* GameEffect::CreateSecondaryEffect(SECONDARY_TYPE type, int level)
 
 GameUnit* GameEffect::CreateTrash(TRASH_TYPE type)
 {
-    MAXObjectConfig* config = NULL;
+    GameUnitBaseParameters* config = NULL;
+    
     if (type == TRASH_TYPE_SMALL)
     {
         if (!trash1x1config) {
@@ -174,8 +178,11 @@ GameUnit* GameEffect::CreateTrash(TRASH_TYPE type)
             trash1x1config->_shadowName = "";
             trash1x1config->_bSize = 1;
             trash1x1config->_isBuilding = true;
+            
+            trash1x1params = new GameUnitBaseParameters(trash1x1config);
         }
-        config = trash1x1config;
+        config = trash1x1params;
+        
     }
     else
     {
@@ -186,10 +193,13 @@ GameUnit* GameEffect::CreateTrash(TRASH_TYPE type)
             trash2x2config->_shadowName = "";
             trash2x2config->_bSize = 2;
             trash2x2config->_isBuilding = true;
+            
+            trash2x2params = new GameUnitBaseParameters(trash2x2config);
         }
-        config = trash2x2config;
+        config = trash2x2params;
     }
-    MAXUnitObject* object = MAXSCL->CreateUnit(config);
+    MAXUnitObject* object = MAXSCL->CreateUnit(config->_configObject);
+    
     GameUnitParameters* params = new GameUnitParameters(config);
     GameUnit* result = new GameUnit(object, params);
     result->SetColor(GLKVector4Make(0, 0, 0, 0));

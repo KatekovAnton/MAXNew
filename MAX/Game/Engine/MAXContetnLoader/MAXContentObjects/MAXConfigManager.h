@@ -18,7 +18,9 @@ class MAXClanConfig;
 class MAXConfigManager {
     
     map<string, MAXObjectConfig*> _unitConfigs;
+    vector<string> _allUnits;
     map<int, MAXClanConfig*> _clanConfigs;
+    vector<int> _allClans;
     
     void LoadUnitSegment(const string&  source);
     
@@ -32,7 +34,10 @@ public:
     void LoadClanConfigsFromFile(const string& file);
     void LoadClanConfigsFromString(const string& strContent);
     
-    MAXObjectConfig* GetConfig(const string& type);
+    vector<string> GetAllUnits() const { return _allUnits; };
+    MAXObjectConfig* GetUnitConfig(const string& type);
+    MAXClanConfig* GetClanConfig(const int type);
+    
     bool ContainsUnit(const string& type) const;
 };
 

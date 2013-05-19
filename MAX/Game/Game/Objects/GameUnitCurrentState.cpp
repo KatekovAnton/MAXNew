@@ -11,9 +11,8 @@
 #include "MAXObjectConfig.h"
 
 GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
-:_unitBaseParameters(params)
+:_unitBaseParameters(params), _landed(false)
 {
-    _landed = false;
     for (int pt = UNIT_PARAMETER_TYPE_MIN; pt <= UNIT_PARAMETER_TYPE_MAX; pt++)
     {
         int val = GetMaxParameterValue((UNIT_PARAMETER_TYPE)pt);

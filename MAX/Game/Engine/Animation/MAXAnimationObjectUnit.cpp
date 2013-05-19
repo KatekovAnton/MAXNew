@@ -181,6 +181,7 @@ void MAXAnimationObjectUnit::CompletlyFinish()
             _unit->SetIsFireing(false, false);
             if (_unit->params_w->_isInfantry)
                 _unit->SetBodyOffset(_startBodyOffset);
+            _unit->_currentLevel--;
         }   break;
     
         case MAXANIMATION_UNITMOVE:
@@ -209,6 +210,7 @@ void MAXAnimationObjectUnit::StartAnimation()
         case MAXANIMATION_UNITFIRE:
         {
             _unit->SetIsFireing(true, true);
+            _unit->_currentLevel++;
         }   break;
             
         case MAXANIMATION_UNITMOVE:

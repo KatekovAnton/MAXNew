@@ -61,7 +61,6 @@ void MAXClanConfig::SetConfigValue(string key, string value)
     if (MAXConfigManager::SharedMAXConfigManager()->ContainsUnit(key))
     {
         string unitType = toLower(key);
-        _modifiedUnits.push_back(unitType);
         vector<string> params = splitString(value, ", ");
         if (params.size() > 0)
         {
@@ -73,8 +72,8 @@ void MAXClanConfig::SetConfigValue(string key, string value)
                     continue;
                 
                 MAXClanUnitParameters params;
-                params._paramName = keyValue[0].c_str();
-                params._modValue = atoi(keyValue[1].c_str());
+                params._paramName = keyValue[1];
+                params._modValue = atoi(keyValue[0].c_str());
                 unitMods.push_back(params);
             }
             
@@ -87,8 +86,8 @@ void MAXClanConfig::SetConfigValue(string key, string value)
             
             vector<string> keyValue = splitString(value, ' ');
             MAXClanUnitParameters params;
-            params._paramName = keyValue[0].c_str();
-            params._modValue = atoi(keyValue[1].c_str());
+            params._paramName = keyValue[1];
+            params._modValue = atoi(keyValue[0].c_str());
             
             unitMods.push_back(params);
             

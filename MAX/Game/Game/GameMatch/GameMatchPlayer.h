@@ -26,6 +26,7 @@ class PlayerResourceMap;
 
 class GameMatch;
 class GameFog;
+class GameUnitBaseParameters;
 
 struct GameMatchPlayerInfo {
     
@@ -38,6 +39,8 @@ struct GameMatchPlayerInfo {
 class GameMatchPlayer : public GameFogDelegate, public GameUnitDelegate {
     
     vector<Texture*> _palettes;
+    map<string, GameUnitBaseParameters*> _unitConfigs;
+    
     Texture* _palette;
     bool *_resourceCover;
     

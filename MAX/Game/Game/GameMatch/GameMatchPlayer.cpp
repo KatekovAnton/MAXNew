@@ -10,6 +10,7 @@
 #include "Texture.h"
 
 #include "GameUnit.h"
+#include "GameUnitBaseParameters.h"
 #include "GameUnitParameters.h"
 #include "GameUnitCurrentState.h"
 #include "GameMatch.h"
@@ -48,13 +49,20 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     }
     
     _resourceMap = new PlayerResourceMap(w, h);
+    
+    vector<string> allUnits = MAXConfigManager::SharedMAXConfigManager()->GetAllUnits();
+    MAXClanConfig *clanConfig = MAXConfigManager::SharedMAXConfigManager()->GetClanConfig(info._clan);
+    for (int i = 0; i < allUnits.size(); i++)
+    {
+        string type = allUnits[i];
+        MAXObjectConfig *unitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
+        GameUnitBaseParameters *params = new GameUnitBaseParameters(unitConfig, clanConfig);
+        _unitConfigs.insert(pair<string, GameUnitBaseParameters*>(toLower(type), params));
+    }
 }
 
 GameMatchPlayer::~GameMatchPlayer()
 {
-    delete _upgradeManager;
-    delete _researchManager;
-    delete _resourceMap;
 
     for (int i = 0; i < _palettes.size(); i++) {
         Texture* t = _palettes[i];
@@ -68,9 +76,22 @@ GameMatchPlayer::~GameMatchPlayer()
 
     for (int i = 0; i < _units.GetCount(); i++) {
         GameUnit* unit = _units.objectAtIndex(i);
-        unit->Hide();
+        unit->RemoveUnitFromMap();
         delete unit;
     }
+    
+    
+    delete _upgradeManager;
+    delete _researchManager;
+    delete _resourceMap;
+    
+    
+    vector<string> allUnits = MAXConfigManager::SharedMAXConfigManager()->GetAllUnits();
+    for (int i = 0; i < allUnits.size(); i++) {
+        GameUnitBaseParameters *params = _unitConfigs[allUnits[i]];
+        delete params;
+    }
+    _unitConfigs.clear();
 }
 
 bool GameMatchPlayer::GetIsCurrentPlayer() const
@@ -80,12 +101,13 @@ bool GameMatchPlayer::GetIsCurrentPlayer() const
 
 GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned int ID)
 {
-    MAXObjectConfig* unit = MAXConfigManager::SharedMAXConfigManager()->GetConfig(type);
-    GameUnitParameters* params = new GameUnitParameters(unit, _clanConfig, _researchManager, _upgradeManager);
-    MAXUnitObject *unitObject = MAXSCL->CreateUnit(unit);
+    string lowerType = toLower(type);
+    GameUnitBaseParameters* unit = _unitConfigs[lowerType];
+    GameUnitParameters* params = new GameUnitParameters(unit, _researchManager, _upgradeManager);
+    MAXUnitObject *unitObject = MAXSCL->CreateUnit(unit->_configObject);
     unitObject->_playerId = _playerInfo._playerId;
     unitObject->_playerPalette_w = GetPalettePointer();
-    if (unit->_isMine)
+    if (unit->GetIsMine())
     {
         if (_playerInfo._clan >= 0 && _playerInfo._clan <= 7)
         {

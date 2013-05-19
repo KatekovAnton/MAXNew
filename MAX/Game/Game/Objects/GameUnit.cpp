@@ -775,9 +775,12 @@ bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
     MAXUnitObject* _unitObject = GetUnitObject();
-    if(!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAbleToFire)
+    if (!_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAbleToFire)
         return false;
-    if(_unitObject->GetFireing())
+    if (_unitCurrentParameters->_landed) 
+        return false;
+    
+    if (_unitObject->GetFireing())
         return false;
     
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));

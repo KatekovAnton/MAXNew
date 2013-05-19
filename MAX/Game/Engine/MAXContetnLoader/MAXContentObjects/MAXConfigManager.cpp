@@ -36,14 +36,23 @@ void MAXConfigManager::LoadUnitSegment(const string& source)
         vector<string> data = splitString(typeData[1], '#');
         string resourceConfig = data[0];
         string balanceConfig = data[1];
+
         MAXObjectConfig* config = new MAXObjectConfig(balanceConfig, resourceConfig);
+        config->_type = type;
         _unitConfigs.insert(pair<string, MAXObjectConfig*>(toLower(type), config));
+        _allUnits.push_back(toLower(type));
     }
 }
 
 void MAXConfigManager::LoadConfigsFromFile(const string& file)
 {
+    for (int i = 0; i < _allUnits.size(); i++) {
+        MAXObjectConfig* config = _unitConfigs[_allUnits[i]];
+        delete config;
+    }
     _unitConfigs.clear();
+    _allUnits.clear();
+    
     BinaryReader* reader = new BinaryReader(file);
     string strContent = reader->ReadFullAsString();
 	removeBadCharacters(strContent);
@@ -71,7 +80,13 @@ void MAXConfigManager::LoadConfigsFromString(const string& strContent)
 
 void MAXConfigManager::LoadClanConfigsFromFile(const string& file)
 {
+    for (int i = 0; i < _allClans.size(); i++) {
+        MAXClanConfig* config = _clanConfigs[_allClans[i]];
+        delete config;
+    }
     _clanConfigs.clear();
+    _allClans.clear();
+    
     BinaryReader* reader = new BinaryReader(file);
     string strContent = reader->ReadFullAsString();
 	removeBadCharacters(strContent);
@@ -91,17 +106,24 @@ void MAXConfigManager::LoadClanConfigsFromString(const string& strContent)
         clanComponent = clan[1];
         MAXClanConfig* clanConfig = new MAXClanConfig(clanComponent, number);
         _clanConfigs[number] = clanConfig;
+        _allClans.push_back(number);
     }
 }
 
-MAXObjectConfig* MAXConfigManager::GetConfig(const string& type)
+MAXObjectConfig* MAXConfigManager::GetUnitConfig(const string& type)
 {
-    MAXObjectConfig* result = NULL;
     string realType = toLower(type);
-    if (_unitConfigs.count(realType) == 1) {
-        result = _unitConfigs[realType];
-        return result;
-    }
+    if (_unitConfigs.count(realType) == 1) 
+        return _unitConfigs[realType];
+    
+    return NULL;
+}
+
+MAXClanConfig* MAXConfigManager::GetClanConfig(const int type)
+{
+    if (_clanConfigs.count(type) == 1) 
+        return _clanConfigs[type];
+    
     return NULL;
 }
 

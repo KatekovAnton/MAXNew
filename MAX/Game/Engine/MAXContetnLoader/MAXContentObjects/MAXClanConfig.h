@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "StringUtils.h"
 
 using namespace std;
 
@@ -30,7 +31,6 @@ class MAXClanConfig {
     string _engText;
     int _flags;
     
-    vector<string> _modifiedUnits;
     map<string, vector<MAXClanUnitParameters>> _modifications;
     
     void SetConfigValue(string key, string value);
@@ -41,8 +41,7 @@ public:
     string GetName() const {return _name;};
     string GetEngText() const {return _engText;};
     int GetFlags() const {return _flags;};
-    const vector<string> GetModifiedUnits() const {return _modifiedUnits;};
-    vector<MAXClanUnitParameters> GetModificationsForType(string type) {return _modifications.count(type) == 1 ? _modifications[type]:vector<MAXClanUnitParameters>();};
+    vector<MAXClanUnitParameters> GetModificationsForType(string type) {string lowType = toLower(type); return _modifications.count(lowType) == 1 ? _modifications[lowType]:vector<MAXClanUnitParameters>();};
     
     MAXClanConfig(string clanConfig, int number);
     ~MAXClanConfig();
