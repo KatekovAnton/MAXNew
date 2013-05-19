@@ -608,7 +608,7 @@ void GameInterface::UpdateUnitMenuPosition()
     CCPoint point1 = point;
     point.x *= 64;
     point.y *= 64;
-    if (_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize < 2)
+    if (_currentUnit->_unitCurrentParameters->_unitBaseParameters->GetSize() < 2)
     {
         point.x += 64;
         point.y += 64;

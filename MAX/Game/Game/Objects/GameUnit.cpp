@@ -62,7 +62,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
     
     if(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isNeedUndercover)
     {
-        _effectUnder = GameEffect::CreateBuildingBase(_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
+        _effectUnder = GameEffect::CreateBuildingBase(_unitCurrentParameters->_unitBaseParameters->GetSize() == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
     }
     ChackForAnimanteBody();
 }
@@ -366,7 +366,7 @@ void GameUnit::CheckBodyAndShadow()
         //all passive-worked buildings, which cannot be topped by infiltrator
         if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitBaseParameters->GetConfig()->_isBuilding)
         {
-            if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
+            if (_unitCurrentParameters->_unitBaseParameters->GetSize() == 1)
                 _unitObject->SetBodyOffset(0);//radar
             else
                 _unitObject->SetBodyOffset(_unitCurrentParameters->_unitBaseParameters->GetConfig()->bodyIdleFrame0);//hangar
@@ -637,7 +637,7 @@ void GameUnit::UpdateConnectors()
 {
     MAXUnitObject *object = GetUnitObject();
     object->RemoveConnectors();
-    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
+    if (_unitCurrentParameters->_unitBaseParameters->GetSize() == 1)
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
         if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
@@ -691,7 +691,7 @@ void GameUnit::UpdateConnectors()
 vector<CCPoint> GameUnit::GetNerbyCells() const
 {
     vector<CCPoint> resuplt;
-    if (_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
+    if (_unitCurrentParameters->_unitBaseParameters->GetSize() == 1)
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
         if (game->_match->GetIsCellValid(cell))

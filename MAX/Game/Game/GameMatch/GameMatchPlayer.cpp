@@ -165,7 +165,7 @@ bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
                 if (UnitCoveredByFog(unit, fogs[i]))
                 {
                     CCPoint unitCell = unit->GetUnitCell();
-                    if (unit->_unitCurrentParameters->_unitBaseParameters->GetConfig()->_bSize == 1)
+                    if (unit->_unitCurrentParameters->_unitBaseParameters->GetSize() == 1)
                     {
                         if (fogs[i]->GetValue(unitCell) > 0)
                             return true;
