@@ -25,7 +25,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -48,7 +48,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\win32;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\include;$(ProjectDir)..\..\MAX\Game\Game\SoundEngine;$(ProjectDir)..\..\MAX\Game\Game\Interface\UnitParameterNode\;$(ProjectDir)..\..\MAX\Game\Game\Interface;$(ProjectDir)..\..\MAX\Game\Game\GameMatch\PathFinder\;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\extensions\;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\extensions\GUI\CCScrollView;$(ProjectDir)..\..\MAX\Game\Game\GameMatch\PlayerInformation\;$(ProjectDir)..\..\MAX\Game\Game\GameMatch\;$(ProjectDir)..\..\MAX\Game\Vendors\CocosHelper\;$(ProjectDir)..\..\MAX\Game\Game\Objects\Effects\;$(ProjectDir)..\..\MAX\Game\Game\Objects\;$(ProjectDir)..\..\MAX\Game\Game;$(ProjectDir)..\..\MAX\Game\Engine\Animation;$(ProjectDir)..\..\MAX\Game\Engine\Scene\SceneGraph;$(ProjectDir)..\..\MAX\Game\Engine\Scene;$(ProjectDir)..\..\MAX\Utils;$(ProjectDir)..\..\MAX\Utils\MathKit;$(ProjectDir)..\..\MAX\Utils\Threads;$(ProjectDir)..\..\MAX\Utils\Network;$(ProjectDir)..\..\MAX\Utils\Network\curlWindows;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects;$(ProjectDir)..\..\MAX\Game\Engine\Renderer\Shader;$(ProjectDir)..\..\MAX\Game\Engine\Renderer;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Textures;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Meshes;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Material;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader;$(ProjectDir)..\..\MAX\Game\Engine\Objects;$(ProjectDir)..\..\MAX\Game\Engine;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\kazmath\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\effects;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32\compat;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\third_party\win32\pthread;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\third_party\win32\curl;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\shaders\;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx;$(ProjectDir)..\..\MAX\Game\Vendors\aharren-LibComponentLogging-Core-17e2940;$(ProjectDir)..\..\MAX\Sys;$(ProjectDir)..\..\MAX;$(ProjectDir)Sys\Windows;$(ProjectDir);$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\Debug.win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\Release.win32;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\win32;$(ProjectDir)..\..\MAX\Game\Game\Interface;$(ProjectDir)..\..\MAX\Game\Game\GameMatch\;$(ProjectDir)..\..\MAX\Game\Game\Objects\;$(ProjectDir)..\..\MAX\Game\Game;$(ProjectDir)..\..\MAX\Game\Engine\Animation;$(ProjectDir)..\..\MAX\Game\Engine\Scene\SceneGraph;$(ProjectDir)..\..\MAX\Game\Engine\Scene;$(ProjectDir)..\..\MAX\Utils;$(ProjectDir)..\..\MAX\Utils\MathKit;$(ProjectDir)..\..\MAX\Utils\Threads;$(ProjectDir)..\..\MAX\Utils\Network;$(ProjectDir)..\..\MAX\Utils\Network\curlWindows;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader\MAXContentObjects;$(ProjectDir)..\..\MAX\Game\Engine\Renderer\Shader;$(ProjectDir)..\..\MAX\Game\Engine\Renderer;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Textures;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Meshes;$(ProjectDir)..\..\MAX\Game\Engine\ObjectComponents\Material;$(ProjectDir)..\..\MAX\Game\Engine\MAXContetnLoader;$(ProjectDir)..\..\MAX\Game\Engine\Objects;$(ProjectDir)..\..\MAX\Game\Engine;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\kazmath\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\effects;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32\compat;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\third_party\win32\pthread;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\third_party\win32\curl;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\platform\win32;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\include;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx\shaders\;$(ProjectDir)..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\cocos2dx;$(ProjectDir)..\..\MAX\Game\Vendors\aharren-LibComponentLogging-Core-17e2940;$(ProjectDir)..\..\MAX\Sys;$(ProjectDir)..\..\MAX;$(ProjectDir)Sys\Windows;$(ProjectDir);$(IncludePath);$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -69,11 +69,15 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ForcedIncludeFiles>header.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;libcocos2d.lib;winmm.lib;libExtensions.lib;pthreadVCE2.lib;libcurl_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -145,6 +149,7 @@
     <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnit.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitBaseParameters.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitCurrentState.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitParameters.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\SoundEngine\SoundEngine.cpp" />
@@ -241,6 +246,7 @@
     <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameObject.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnit.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitBaseParameters.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitCurrentState.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitParameters.h" />
     <ClInclude Include="..\..\MAX\Game\Game\SoundEngine\SoundEngine.h" />

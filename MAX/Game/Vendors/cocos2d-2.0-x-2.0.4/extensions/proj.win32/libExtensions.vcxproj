@@ -48,7 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir>$(Configuration).win32\</IntDir>
-    <IncludePath>$(ProjectDir)..\;$(ProjectDir)..\..\;$(ProjectDir)..\..\cocos2dx;$(ProjectDir)..\..\cocos2dx\include;$(ProjectDir)..\..\cocos2dx\actions;$(ProjectDir)..\..\cocos2dx\cocoa;$(ProjectDir)..\..\cocos2dx\effect;$(ProjectDir)..\..\cocos2dx\kazmath\src;$(ProjectDir)..\..\cocos2dx\kazmath\include;$(ProjectDir)..\..\cocos2dx\platform\win32;$(ProjectDir)..\..\cocos2dx\platform\third_party\win32;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\;$(ProjectDir)..\..\;$(ProjectDir)..\..\cocos2dx;$(ProjectDir)..\..\cocos2dx\include;$(ProjectDir)..\..\cocos2dx\actions;$(ProjectDir)..\..\cocos2dx\cocoa;$(ProjectDir)..\..\cocos2dx\effect;$(ProjectDir)..\..\cocos2dx\kazmath\src;$(ProjectDir)..\..\cocos2dx\kazmath\include;$(ProjectDir)..\..\cocos2dx\platform\win32;$(ProjectDir)..\..\cocos2dx\platform\third_party\win32\pthread;$(ProjectDir)..\..\cocos2dx\platform\third_party\win32\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

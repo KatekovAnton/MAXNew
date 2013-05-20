@@ -54,6 +54,10 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)..\..;$(ProjectDir)..\..\platform\win32\compat;$(ProjectDir)..\..\platform\win32;$(ProjectDir)..\..\include;$(ProjectDir)..\..\cocoa;$(ProjectDir)..\shaders;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include;$(IncludePath)</IncludePath>
     <SourcePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectPath)..\..\platform\win32\compat;$(ProjectPath)..\..\platform\win32;$(ProjectPath)..\..\include;$(SourcePath)</SourcePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir)..\..;$(ProjectDir)..\..\platform\win32\compat;$(ProjectDir)..\..\platform\win32;$(ProjectDir)..\..\include;$(ProjectDir)..\..\cocoa;$(ProjectDir)..\shaders;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectPath)..\..\platform\win32\compat;$(ProjectPath)..\..\platform\win32;$(ProjectPath)..\..\include;$(SourcePath)</SourcePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
       <Command>
