@@ -578,7 +578,6 @@ static EAGLView *view = 0;
 #pragma mark UITextInput - Working with Marked and Selected Text
 
 
-
 /* If text can be selected, it can be marked. Marked text represents provisionally
  * inserted text that has yet to be confirmed by the user.  It requires unique visual
  * treatment in its display.  If there is any marked text, the selection, whether a
@@ -697,6 +696,10 @@ static EAGLView *view = 0;
 {
     CCLOG("caretRectForPosition");
     return caretRect_;
+}
+- (NSArray *)selectionRectsForRange:(UITextRange *)range
+{
+    return nil;
 }
 
 #pragma mark Hit testing
