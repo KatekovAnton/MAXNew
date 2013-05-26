@@ -49,19 +49,6 @@ void GameObject::SetLocation(const CCPoint &destination)
         _object->SetPosition(_unitCell);
 }
 
-bool GameObject::IsUnitInCell(const CCPoint &cell) const
-{
-    if (_config_w->_bSize == 1)
-        return (int)cell.x == (int)_unitCell.x && (int)cell.y == (int)_unitCell.y;
-    else
-    {
-        return (cell.x>=_unitCell.x) &&
-        (cell.y>=_unitCell.y) &&
-        (cell.x - _unitCell.x <= _config_w->_bSize-1.0) &&
-        (cell.y - _unitCell.y <= _config_w->_bSize-1.0);
-    }
-}
-
 // return some box for the object if the one is located in the point
 BoundingBox GameObject::GetBoundingBox(const CCPoint &point, const float radius) const
 {

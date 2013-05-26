@@ -16,7 +16,7 @@
 
 using namespace cocos2d;
 
-class GameUnitCurrentState;
+class GameUnitData;
 
 class GIUnitParameterRow: public CCNode
 {

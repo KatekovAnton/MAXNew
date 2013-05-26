@@ -12,7 +12,7 @@
 #include "GameUnit.h"
 #include "GameUnitBaseParameters.h"
 #include "GameUnitParameters.h"
-#include "GameUnitCurrentState.h"
+#include "GameUnitData.h"
 #include "GameMatch.h"
 
 #include "MAXEngine.h"
@@ -165,7 +165,7 @@ bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
                 if (UnitCoveredByFog(unit, fogs[i]))
                 {
                     CCPoint unitCell = unit->GetUnitCell();
-                    if (unit->_unitCurrentParameters->_unitParameters->GetSize() == 1)
+                    if (unit->_unitData->GetSize() == 1)
                     {
                         if (fogs[i]->GetValue(unitCell) > 0)
                             return true;
@@ -201,19 +201,19 @@ bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *f
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = (unit->_unitCurrentParameters->_unitParameters->_pMaxScan > 0);
+            result = (unit->_unitData->_unitParameters->_pMaxScan > 0);
             break;
         case FOG_TYPE_RESOURCES:
-            result = unit->_unitCurrentParameters->_unitParameters->GetIsSurvivor();
+            result = unit->_unitData->GetIsSurvivor();
             break;
         case FOG_TYPE_MINES:
-            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isSeeMines;
+            result = unit->_unitData->GetConfig()->_isSeeMines;
             break;
         case FOG_TYPE_UNDERWATER:
-            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isSeeUnderwater;
+            result = unit->_unitData->GetConfig()->_isSeeUnderwater;
             break;
         case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isAntiStealth;
+            result = unit->_unitData->GetConfig()->_isAntiStealth;
             break;
 
         case FOG_TYPE_MAX:
@@ -228,17 +228,17 @@ bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog)
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = !(unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isStealth || unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isUnderwater || unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isBombMine);
+            result = !(unit->_unitData->GetConfig()->_isStealth || unit->_unitData->GetIsUnderwater() || unit->_unitData->GetConfig()->_isBombMine);
             break;
         case FOG_TYPE_RESOURCES:
             result = false;
             break;
         case FOG_TYPE_MINES:
-            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isBombMine;
+            result = unit->_unitData->GetConfig()->_isBombMine;
             break;
         case FOG_TYPE_UNDERWATER:
         {
-            MAXObjectConfig* config = unit->_unitCurrentParameters->_unitParameters->GetConfig();
+            MAXObjectConfig* config = unit->_unitData->GetConfig();
             if (config->_isShip)
             {
                 result = config->_isUnderwater;
@@ -259,7 +259,7 @@ bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog)
             break;
         }
         case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitCurrentParameters->_unitParameters->GetConfig()->_isStealth;
+            result = unit->_unitData->GetConfig()->_isStealth;
             break;
             
         case FOG_TYPE_MAX:
@@ -278,7 +278,7 @@ float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog 
         case FOG_TYPE_SCAN:
         case FOG_TYPE_UNDERWATER:
         case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitCurrentParameters->_unitParameters->_pMaxScan;
+            result = unit->_unitData->_unitParameters->_pMaxScan;
             break;
         case FOG_TYPE_RESOURCES:
         case FOG_TYPE_MINES:

@@ -17,7 +17,7 @@
 
 #include "SoundEngine.h"
 
-#include "GameUnitCurrentState.h"
+#include "GameUnitData.h"
 #include "GameMatchPlayer.h"
 #include "GameUnitParameters.h"
 #include "GameEffect.h"
@@ -43,35 +43,37 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitCurrentParameters(new GameUnitCurrentState(params)), _effectUnder(NULL), _isInProcess(false), _isPlacedOnMap(false), _delegate_w(NULL), _disabledByInfiltrator(false), pathIndex(0), pathIsTemp(true)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true)
 {
     unitObject->_delegate_w = this;
-    MAXObjectConfig* config = _unitCurrentParameters->_unitParameters->GetConfig();
+    MAXObjectConfig* config = _unitData->GetConfig();
     unitObject->_needShadow = !config->_isUnderwater;
     _onDraw = false;
-    if (config->_isBuilding && config->_isAllwaysOn)
-    {
-        _isInProcess = true;
+    if (_unitData->_isInProcess)
         CheckBodyAndShadow();
-    }
+    
     
     currentSound = -1;
     workSound = -1;
     
-    _isStealthable = config->_isStealthable;
-    
-    if(_unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding && _unitCurrentParameters->_unitParameters->GetConfig()->_isNeedUndercover)
+    if(_unitData->GetIsBuilding() && _unitData->GetConfig()->_isNeedUndercover)
     {
-        _effectUnder = GameEffect::CreateBuildingBase(_unitCurrentParameters->_unitParameters->GetSize() == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
+        _effectUnder = GameEffect::CreateBuildingBase(_unitData->GetSize() == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
     }
     ChackForAnimanteBody();
 }
 
+bool GameUnit::GetIsStealthable() const
+{
+    return _config_w->_isStealthable;
+}
+
 GameUnit::~GameUnit()
 {
-    delete _unitCurrentParameters;
+    delete _unitData;
 
-    if (_effectUnder) {
+    if (_effectUnder)
+    {
         _effectUnder->Hide();
         delete _effectUnder;
     }
@@ -79,12 +81,12 @@ GameUnit::~GameUnit()
 
 void GameUnit::ChackForAnimanteBody()
 {
-    _shouldAnimateBody = _unitCurrentParameters->_unitParameters->GetConfig()->bodyActiveFrame0 != _unitCurrentParameters->_unitParameters->GetConfig()->bodyActiveFrame1 && !_disabledByInfiltrator;
+    _shouldAnimateBody = _unitData->GetConfig()->bodyActiveFrame0 != _unitData->GetConfig()->bodyActiveFrame1 && !_unitData->_disabledByInfiltrator;
 }
 
 int GameUnit::PlaySound(UNIT_SOUND unitSound)
 {
-    MAXObjectConfig* config = _unitCurrentParameters->_unitParameters->GetConfig();
+    MAXObjectConfig* config = _unitData->GetConfig();
     string* soundStr = NULL;
     bool loop = false;
     SoundEngineDelegate* delegate = NULL;
@@ -180,11 +182,11 @@ void GameUnit::StopWorkSound()
 void GameUnit::UnitDidSelect()
 {
     StopCurrentSound();
-    if (_owner_w->GetIsCurrentPlayer() && !_unitCurrentParameters->_unitParameters->GetIsBuilding())
+    if (_owner_w->GetIsCurrentPlayer() && !_unitData->GetIsBuilding())
         SOUND->PlaySystemSound(SOUND_TYPE_READY); // SOUND_TYPE_UNIT_READY
     
-    MAXObjectConfig* config = _unitCurrentParameters->_unitParameters->GetConfig();
-    if ((!config->_isBuilding) && (config->_bSelfCreatorType != 0 || config->_isBuldozer) && _isInProcess)
+    MAXObjectConfig* config = _unitData->GetConfig();
+    if ((!config->_isBuilding) && (config->_bSelfCreatorType != 0 || config->_isBuldozer) && IsInProcess())
     {
         currentSound = PlaySound(UNIT_SOUND_WORK);
     }
@@ -201,7 +203,7 @@ void GameUnit::UnitDidDeselect()
 
 void GameUnit::SetDirection(int dir)
 {
-    if(_unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding)
+    if(_unitData->GetIsBuilding())
         return;
     MAXUnitObject* _unitObject = GetUnitObject();
     _unitObject->SetBodyDirection(dir);
@@ -210,7 +212,7 @@ void GameUnit::SetDirection(int dir)
 
 void GameUnit::SetRandomDirection()
 {
-    if(_unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding)
+    if(_unitData->GetIsBuilding())
         return;
     SetDirection(nextIntMax(8));
 }
@@ -256,9 +258,9 @@ void GameUnit::DropBridge()
 
 void GameUnit::TakeOff()
 {
-    if (_unitCurrentParameters->_landed)
+    if (_unitData->_landed)
     {
-        _unitCurrentParameters->_landed = false;
+        _unitData->_landed = false;
         GetUnitObject()->TakeOff();
 
         StopWorkSound();
@@ -268,9 +270,9 @@ void GameUnit::TakeOff()
 
 void GameUnit::Landing()
 {
-    if (!_unitCurrentParameters->_landed)
+    if (!_unitData->_landed)
     {
-        _unitCurrentParameters->_landed = true;
+        _unitData->_landed = true;
         GetUnitObject()->Landing();
         
         StopWorkSound();
@@ -285,9 +287,9 @@ void GameUnit::LiftBridgeInstantly()
 
 void GameUnit::LandInstantly()
 {
-    if (!_unitCurrentParameters->_landed)
+    if (!_unitData->_landed)
     {
-        _unitCurrentParameters->_landed = true;
+        _unitData->_landed = true;
         GetUnitObject()->LandInstantly();
     }
 }
@@ -298,7 +300,7 @@ void GameUnit::EscapeToLocation(const int x, const int y, const int cost)
     pathIndex = 0;
     pathIsTemp = true;
 
-    _unitCurrentParameters->MoveWithCost(cost);
+    _unitData->MoveWithCost(cost);
 
     CCPoint destination = CCPointMake(x, y);
     int direction = MAXObject::CalculateImageIndex(_unitCell, destination);
@@ -316,9 +318,9 @@ void GameUnit::NewTurn()
     bool processed = false;
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
-        if (_unitCurrentParameters->_detected[i])
+        if (_unitData->_detected[i])
         {
-            _unitCurrentParameters->_detected[i] = false;
+            _unitData->_detected[i] = false;
             if (!processed)
             {
                 processed = true;
@@ -327,14 +329,14 @@ void GameUnit::NewTurn()
             }
         }
     }
-    _unitCurrentParameters->StartNewTurn();
+    _unitData->StartNewTurn();
 }
 
 void GameUnit::PlaceUnitOnMap()
 {
-    if (_isPlacedOnMap) 
+    if (_unitData->_isPlacedOnMap)
         return;
-    _isPlacedOnMap = true;
+    _unitData->_isPlacedOnMap = true;
     Show();
     // update the fog of war for the current gamer
     _delegate_w->GameUnitDidPlaceOnMap(this);
@@ -342,9 +344,9 @@ void GameUnit::PlaceUnitOnMap()
 
 void GameUnit::RemoveUnitFromMap()
 {
-    if (!_isPlacedOnMap)
+    if (!_unitData->_isPlacedOnMap)
         return;
-    _isPlacedOnMap = false;
+    _unitData->_isPlacedOnMap = false;
     Hide();
     // update the fog of war for the current gamer
     _delegate_w->GameUnitDidRemoveFromMap(this);
@@ -362,59 +364,59 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 void GameUnit::CheckBodyAndShadow()
 {
     MAXUnitObject* _unitObject = GetUnitObject();
-    if (!(_unitCurrentParameters->_unitParameters->GetConfig()->_isAmphibious || _unitCurrentParameters->_unitParameters->GetConfig()->_isUnderwater || CanStartBuildProcess()) && _unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding)
+    if (!(_unitData->GetIsAmphibious() || _unitData->GetIsUnderwater() || CanStartBuildProcess()) && _unitData->GetIsBuilding())
     {
         //all passive-worked buildings, which cannot be topped by infiltrator
-        if (_unitCurrentParameters->_unitParameters->GetConfig()->_isAllwaysOn && _unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding)
+        if (_unitData->GetConfig()->_isAllwaysOn && _unitData->GetIsBuilding())
         {
-            if (_unitCurrentParameters->_unitParameters->GetSize() == 1)
+            if (_unitData->GetSize() == 1)
                 _unitObject->SetBodyOffset(0);//radar
             else
-                _unitObject->SetBodyOffset(_unitCurrentParameters->_unitParameters->GetConfig()->bodyIdleFrame0);//hangar
+                _unitObject->SetBodyOffset(_unitData->GetConfig()->bodyIdleFrame0);//hangar
         }
         return;
     };
     
     
     EXTENDED_GROUND_TYPE groundType = game->_match->_agregator->GroundTypeAtXY(_unitCell.x, _unitCell.y);
-    if (_unitCurrentParameters->_unitParameters->GetConfig()->_isBuilding)
+    if (_unitData->GetConfig()->_isBuilding)
     {
-        _unitObject->SetBodyOffset((_isInProcess && (!_unitCurrentParameters->_unitParameters->GetConfig()->_isAllwaysOn || !_unitCurrentParameters->_unitParameters->GetConfig()->_isActiveBody))?1:0);
+        _unitObject->SetBodyOffset((IsInProcess() && (!_unitData->GetConfig()->_isAllwaysOn || !_unitData->GetConfig()->_isActiveBody))?1:0);
     }
     else
     {
         if (groundType == EXTENDED_GROUND_TYPE_WATER)
         {
             _unitObject->_currentLevel = OBJECT_LEVEL_ONGROUND;
-            if (_unitCurrentParameters->_unitParameters->GetConfig()->_isUnderwater)
+            if (_unitData->GetConfig()->_isUnderwater)
             {
                 _unitObject->SetBodyOffset(IsDetectedByPlayer(game->_match->_currentPlayer_w->_playerInfo._playerId)?8:0);
                 _unitObject->_needShadow = false;
                 return;
             }
-            if (_unitCurrentParameters->_unitParameters->GetConfig()->_isAmphibious)
+            if (_unitData->GetIsAmphibious())
             {
-                _unitObject->SetBodyOffset(_isInProcess?24:8);
+                _unitObject->SetBodyOffset(IsInProcess()?24:8);
                 return;
             }
         }
         else
         {
             _unitObject->_currentLevel = _unitObject->params_w->_bLevel;
-            if (_unitCurrentParameters->_unitParameters->GetConfig()->_isUnderwater)
+            if (_unitData->GetIsUnderwater())
             {
                 _unitObject->SetBodyOffset(8);
-                _unitObject->_needShadow = _unitCurrentParameters->_unitParameters->GetConfig()->_haveShadow;
+                _unitObject->_needShadow = _unitData->GetConfig()->_haveShadow;
                 return;
             }
-            if (_unitCurrentParameters->_unitParameters->GetConfig()->_isAmphibious)
+            if (_unitData->GetIsAmphibious())
             {
-                _unitObject->SetBodyOffset(_isInProcess?16:0);
+                _unitObject->SetBodyOffset(IsInProcess()?16:0);
                 return;
             }
-            if (_unitCurrentParameters->_unitParameters->GetConfig()->_isBuldozer)
+            if (_unitData->GetIsBuldozer())
             {
-                _unitObject->SetBodyOffset(_isInProcess?8:0);
+                _unitObject->SetBodyOffset(IsInProcess()?8:0);
                 return;
             }
         }
@@ -497,7 +499,7 @@ void GameUnit::ConfirmCurrentPath()
 			selectedGameObjectDelegate->onUnitMoveStart(this);
 
         pathIsTemp = false;
-        if (_unitCurrentParameters->_unitParameters->GetConfig()->_isPlane)
+        if (_unitData->GetConfig()->_isPlane)
         {
             TakeOff();
         }
@@ -515,7 +517,7 @@ void GameUnit::AbortCurrentPath()
 
 void GameUnit::FollowPath(void)
 {
-    MAXObjectConfig* config = _unitCurrentParameters->_unitParameters->GetConfig();
+    MAXObjectConfig* config = _unitData->GetConfig();
 
     MAXUnitObject* _unitObject = GetUnitObject();
     MAXAnimationSequence* sequence = new MAXAnimationSequence();
@@ -524,7 +526,7 @@ void GameUnit::FollowPath(void)
     int bodyIndex = _unitObject->GetBodyIndex();
     int pi = pathIndex;
     bool first = true;
-    int speed = _unitCurrentParameters->GetMoveBalance();
+    int speed = _unitData->GetMoveBalance();
     MAXAnimationObjectUnit* move = NULL;
     while (pi >= 0)
     {
@@ -629,16 +631,11 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
     _currentTopAnimation = sequence;
 }
 
-bool GameUnit::GetIsConnectored()const
-{
-    return _unitCurrentParameters->_unitParameters->GetConfig()->_isRetranslator || _unitCurrentParameters->_unitParameters->GetConfig()->_isConnector;
-}
-
 void GameUnit::UpdateConnectors()
 {
     MAXUnitObject *object = GetUnitObject();
     object->RemoveConnectors();
-    if (_unitCurrentParameters->_unitParameters->GetSize() == 1)
+    if (_unitData->GetSize() == 1)
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
         if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
@@ -692,7 +689,7 @@ void GameUnit::UpdateConnectors()
 vector<CCPoint> GameUnit::GetNerbyCells() const
 {
     vector<CCPoint> resuplt;
-    if (_unitCurrentParameters->_unitParameters->GetSize() == 1)
+    if (_unitData->GetSize() == 1)
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
         if (game->_match->GetIsCellValid(cell))
@@ -744,17 +741,17 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
 {
     if (playerId < MAX_PLAYERS)
     {
-        if (_isStealthable && !_unitCurrentParameters->_detected[playerId])
+        if (_config_w->_isStealthable && !_unitData->_detected[playerId])
         {
-            _unitCurrentParameters->_detected[playerId] = true;
-            _unitCurrentParameters->_detected[_owner_w->_playerInfo._playerId] = true;
+            _unitData->_detected[playerId] = true;
+            _unitData->_detected[_owner_w->_playerInfo._playerId] = true;
             if (game->_match->GetIsCurrentPlayer(playerId) ||
                 game->_match->GetIsCurrentPlayer(_owner_w->_playerInfo._playerId))
             {
                 GetUnitObject()->StealthDeactivated();
                 _delegate_w->GameUnitDidDetected(this);
             }
-            if (game->_match->GetIsCurrentPlayer(_owner_w->_playerInfo._playerId) && _unitCurrentParameters->_unitParameters->GetConfig()->_isUnderwater) {
+            if (game->_match->GetIsCurrentPlayer(_owner_w->_playerInfo._playerId) && _unitData->GetIsUnderwater()) {
                 SOUND->PlaySystemSound(SOUND_TYPE_SUBMARINE_DETECTED);
             }
         }
@@ -766,31 +763,36 @@ bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
     bool result = false;
     if (playerId < MAX_PLAYERS)
     {
-        result = _isStealthable && _unitCurrentParameters->_detected[playerId];
+        result = _config_w->_isStealthable && _unitData->_detected[playerId];
     }
     return result;
 }
 
 #pragma mark - Fire methods
 
+bool GameUnit::IsInProcess() const
+{
+    return _unitData->_isInProcess;
+}
+
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
     MAXUnitObject* _unitObject = GetUnitObject();
-    if (!_unitCurrentParameters->_unitParameters->GetConfig()->_isAbleToFire)
+    if (!_unitData->GetConfig()->_isAbleToFire)
         return false;
-    if (_unitCurrentParameters->_landed) 
+    if (_unitData->_landed) 
         return false;
     
     if (_unitObject->GetFireing())
         return false;
     
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    return (IsInFireRadius(targetCenter) && _unitCurrentParameters->GetShotBalance() > 0);
+    return (IsInFireRadius(targetCenter) && _unitData->GetShotBalance() > 0);
 }
 
 GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target)
 {
-    int level = _unitCurrentParameters->_unitParameters->GetConfig()->_bLevel + 1; // get level from target
+    int level = _unitData->GetConfig()->_bLevel + 1; // get level from target
     if (level > OBJECT_LEVEL_OVERAIR)
         level = OBJECT_LEVEL_OVERAIR;
     
@@ -800,7 +802,7 @@ GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target)
     
     BULLET_TYPE type = BULLET_TYPE_NONE;
     SECONDARY_TYPE st = SECONDARY_TYPE_NONE;
-    int fireType = _unitCurrentParameters->_unitParameters->GetConfig()->_pBulletType;
+    int fireType = _unitData->GetConfig()->_pBulletType;
     if (fireType == 1 || fireType == 4) {
         type = BULLET_TYPE_NONE;
     }
@@ -847,7 +849,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     if (!CanFire(target))
         return;
     
-    _unitCurrentParameters->MakeShot();
+    _unitData->MakeShot();
     
     MAXUnitObject* _unitObject = GetUnitObject();
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
@@ -875,15 +877,15 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
             selectedGameObjectDelegate->onUnitFireStop(this);
     }
     
-    MAXObjectConfig* config = _unitCurrentParameters->_unitParameters->GetConfig();
+    MAXObjectConfig* config = _unitData->GetConfig();
     if (config->_isStealthable)
     {
         bool processed = false;
         for (int i = 0; i < MAX_PLAYERS; i++)
         {
-            if (!_unitCurrentParameters->_detected[i])
+            if (!_unitData->_detected[i])
             {
-                _unitCurrentParameters->_detected[i] = true;
+                _unitData->_detected[i] = true;
                 if (!processed)
                 {
                     processed = true;
@@ -899,19 +901,20 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 
 bool GameUnit::CanStartBuildProcess()
 {
-	MAXObjectConfig* config = _unitCurrentParameters->_unitParameters->GetConfig();
-    return ((config->_isAllwaysOn != config->_isBuilding ) || config->_bSelfCreatorType != 0 || config->_isBuldozer);
+	MAXObjectConfig* config = _unitData->GetConfig();
+    return ((config->_isAllwaysOn != _unitData->GetIsBuilding()) || config->_bSelfCreatorType != 0 || _unitData->GetIsBuldozer());
 }
 
 void GameUnit::StartBuildProcess()
 {
     if (!CanStartBuildProcess())
         return;
-    _isInProcess = !_isInProcess;
     
-    MAXObjectConfig* config = _unitCurrentParameters->_unitParameters->GetConfig();
+    _unitData->_isInProcess = !IsInProcess();
+    
+    MAXObjectConfig* config = _unitData->GetConfig();
     StopWorkSound();
-    if (_isInProcess)
+    if (IsInProcess())
     {
         if (config->_isBuilding && config->_retEnergy == 0)
         {
@@ -933,7 +936,7 @@ void GameUnit::StartBuildProcess()
 
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 {
-	MAXObjectConfig* config = _unitCurrentParameters->_unitParameters->GetConfig();
+	MAXObjectConfig* config = _unitData->GetConfig();
     vector<UNIT_MENU_ACTION> result;
 	result.push_back(UNIT_MENU_ACTION_INFO);
 	if (movePath.size() > 0)
@@ -941,7 +944,7 @@ vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 		result.push_back(UNIT_MENU_ACTION_DONE);
 		result.push_back(UNIT_MENU_ACTION_STOP);
 	}
-	if (config->_isAbleToFire && (_unitCurrentParameters->_pShots > 0))
+	if (config->_isAbleToFire && (_unitData->_pShots > 0))
 	{
 		result.push_back(UNIT_MENU_ACTION_ATTACK);
 	}
@@ -967,7 +970,7 @@ vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 	}	
 	if ((config->_isAllwaysOn != config->_isBuilding ) || config->_bSelfCreatorType != 0 || config->_isBuldozer)
 	{
-		if (_isInProcess)
+		if (IsInProcess())
 		{
 			result.push_back(UNIT_MENU_ACTION_STOP);
 		}
@@ -981,7 +984,7 @@ vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 	{
         result.push_back(UNIT_MENU_ACTION_BUILD);
 	}
-	if (config->_isInfiltrator && (_unitCurrentParameters->_pShots > 0))
+	if (config->_isInfiltrator && (_unitData->_pShots > 0))
 	{
 		result.push_back(UNIT_MENU_ACTION_DISABLE);
 		result.push_back(UNIT_MENU_ACTION_STEAL);
@@ -1015,12 +1018,12 @@ void GameUnit::CheckMovementUpdate()
 
 MAXObjectConfig* GameUnit::GetBaseConfig()
 {
-    return _unitCurrentParameters->_unitParameters->GetConfig();
+    return _unitData->GetConfig();
 }
 
 int GameUnit::GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const
 {
-    int result = _unitCurrentParameters->GetMaxParameterValue(parameterType);
+    int result = _unitData->GetMaxParameterValue(parameterType);
     if ((parameterType == UNIT_PARAMETER_TYPE_SPEED) || (parameterType == UNIT_PARAMETER_TYPE_GAS))
     {
         result /= 10;
@@ -1030,7 +1033,7 @@ int GameUnit::GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const
  
 int GameUnit::GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const
 {
-    int result = _unitCurrentParameters->GetParameterValue(parameterType);
+    int result = _unitData->GetParameterValue(parameterType);
     if ((parameterType == UNIT_PARAMETER_TYPE_SPEED) || (parameterType == UNIT_PARAMETER_TYPE_GAS))
     {
         result /= 10;
@@ -1050,7 +1053,7 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
         if (movePath.size() > 0 && pathIndex >= 0)
         {
             PFWaveCell* cell = movePath[pathIndex];
-            _unitCurrentParameters->MoveWithCost(cell->cost);
+            _unitData->MoveWithCost(cell->cost);
             
             if (movePathIndex == pathIndex)
             {
@@ -1096,9 +1099,9 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 				selectedGameObjectDelegate->onUnitMovePause(this);
 		}
         StopCurrentSound();
-        if (GetBaseConfig()->_isPlane)
+        if (_unitData->GetConfig()->_isPlane)
         {
-            if (!_unitCurrentParameters->_landed)
+            if (!_unitData->_landed)
             {
                 currentSound = PlaySound(UNIT_SOUND_ENGINE);
             }
@@ -1122,12 +1125,12 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 
 int GameUnit::GetScan() const
 {
-    return _unitCurrentParameters->_unitParameters->_pMaxScan;
+    return _unitData->_unitParameters->_pMaxScan;
 }
 
 int GameUnit::GetRange() const
 {
-    return _unitCurrentParameters->_unitParameters->_pMaxRange;
+    return _unitData->_unitParameters->_pMaxRange;
 }
 
 float GameUnit::GetHealStatus() const
@@ -1137,7 +1140,7 @@ float GameUnit::GetHealStatus() const
 
 float GameUnit::GetShots() const
 {
-    return _unitCurrentParameters->_pShots;
+    return _unitData->_pShots;
 }
 
 bool GameUnit::ShouldAnimateBody() const

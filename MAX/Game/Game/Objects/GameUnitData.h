@@ -1,24 +1,31 @@
 //
-//  GameUnitCurrentState.h
+//  GameUnitData.h
 //  MAX
 //
 //  Created by  Developer on 16.02.13.
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
-#ifndef __MAX__GameUnitCurrentState__
-#define __MAX__GameUnitCurrentState__
+#ifndef __MAX__GameUnitData__
+#define __MAX__GameUnitData__
 
 #include <iostream>
 #include "miniPrefix.h"
 
+class MAXObjectConfig;
 class GameUnitParameters;
 
-class GameUnitCurrentState {
+class GameUnitData {
     
 public:
     
+    CCPoint _unitCell;
+    
     GameUnitParameters* _unitParameters;
+    
+    bool _disabledByInfiltrator;
+    bool _isInProcess;
+    bool _isPlacedOnMap;
     
     int _pSpeed;
     int _pHealth;
@@ -29,8 +36,16 @@ public:
     bool _landed;
     bool _detected[MAX_PLAYERS];
     
-    GameUnitCurrentState(GameUnitParameters* params);
-    ~GameUnitCurrentState();
+    GameUnitData(GameUnitParameters* params);
+    ~GameUnitData();
+    
+    bool GetIsSurvivor() const;
+    bool GetIsBuilding() const;
+    int GetSize() const;
+    bool GetIsAmphibious() const;
+    bool GetIsUnderwater() const;
+    bool GetIsBuldozer() const;
+    bool GetIsConnectored() const;
 
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
     int GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType);
@@ -41,6 +56,8 @@ public:
     void MoveWithCost(const int cost);
     int GetShotBalance();
     void MakeShot();
+    
+    MAXObjectConfig* GetConfig() const;
 };
 
-#endif /* defined(__MAX__GameUnitCurrentState__) */
+#endif /* defined(__MAX__GameUnitData__) */

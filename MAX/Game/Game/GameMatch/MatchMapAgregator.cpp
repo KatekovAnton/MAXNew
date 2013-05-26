@@ -11,7 +11,7 @@
 #include "GameFog.h"
 #include "GameUnit.h"
 #include "GameUnitParameters.h"
-#include "GameUnitCurrentState.h"
+#include "GameUnitData.h"
 #include "GameMatchPlayer.h"
 #include "MAXObjectConfig.h"
 
@@ -103,7 +103,7 @@ void MatchMapAgregator::UpdateBridgeAt(const int x, const int y, bool isLift)
 	for (int i = 0; i < units->GetCount(); i++)
 	{
 		GameUnit *unit2 = units->objectAtIndex(i);
-		if (unit2->_unitCurrentParameters->_unitParameters->GetConfig()->_isBridge)
+		if (unit2->_unitData->GetConfig()->_isBridge)
 		{
 			if (isLift)
 				unit2->LiftBridge();
@@ -119,7 +119,7 @@ void MatchMapAgregator::UpdateBridgeAt(const int x, const int y, bool isLift)
 void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const int y)
 {
     UnitsInCell(x,y)->removeObject(unit);
-	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitParameters->GetConfig();
+	MAXObjectConfig* config = unit->_unitData->GetConfig();
 	int idx = GetIndexForCoordinates(x, y);
 	if (config->_isPlatform || config->_isBridge)
 	{
@@ -133,7 +133,7 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 		for (int i = 0; i < units->GetCount(); i++)
 		{
 			GameUnit *unit2 = units->objectAtIndex(i);
-			config = unit2->_unitCurrentParameters->_unitParameters->GetConfig();
+			config = unit2->_unitData->GetConfig();
 			if (config->_isPlatform)
 			{
 				platformExist = true;
@@ -151,7 +151,7 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 		UpdateBridgeAt(x, y, false);
 	}
 
-    if (unit->_unitCurrentParameters->_unitParameters->GetIsBuilding() && unit->_unitCurrentParameters->_unitParameters->GetSize() == 2)
+    if (unit->_unitData->GetIsBuilding() && unit->_unitData->GetSize() == 2)
     {
         UnitsInCell(x, y+1)->removeObject(unit);
         UnitsInCell(x+1, y)->removeObject(unit);
@@ -162,7 +162,7 @@ void MatchMapAgregator::RemoveUnitFromCell(GameUnit *unit, const int x, const in
 void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
 {
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
-	MAXObjectConfig* config = unit->_unitCurrentParameters->_unitParameters->GetConfig();
+	MAXObjectConfig* config = unit->_unitData->GetConfig();
 	int idx = GetIndexForCoordinates(x, y);
 	if ((_mapBuffer[idx] == EXTENDED_GROUND_TYPE_BRIDGE) && (config->_bMoveType == UNIT_MOVETYPE_SEACOAST || config->_bMoveType == UNIT_MOVETYPE_SEA) && !config->_isBridge)
 	{
@@ -180,7 +180,7 @@ void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
 		_mapBuffer[idx] = EXTENDED_GROUND_TYPE_BRIDGE;		
 	}
 	
-    if (unit->_unitCurrentParameters->_unitParameters->GetIsBuilding() && unit->_unitCurrentParameters->_unitParameters->GetSize() == 2)
+    if (unit->_unitData->GetIsBuilding() && unit->_unitData->GetSize() == 2)
     {
         units = UnitsInCell(x, y+1);
         if (units->indexOf(unit) == -1)
@@ -227,7 +227,7 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
         if ((!_player) || (units->objectAtIndex(i)->_owner_w == _player))
 		{
 			GameUnit* unit = units->objectAtIndex(i);
-			MAXObjectConfig* config = unit->_unitCurrentParameters->_unitParameters->GetConfig();
+			MAXObjectConfig* config = unit->_unitData->GetConfig();
 			if (selectedUnit != NULL)
 			{
                 if (findNextUnitInCell)
@@ -252,7 +252,7 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
                 }
                 else
                 {
-                    MAXObjectConfig* selectedConfig = selectedUnit->_unitCurrentParameters->_unitParameters->GetConfig();
+                    MAXObjectConfig* selectedConfig = selectedUnit->_unitData->GetConfig();
                     if ((!config->_isCantSelect) || selectedConfig->_isCantSelect || selectedConfig->_isBuilding)
                     {
                         result = unit;
@@ -280,7 +280,7 @@ bool MatchMapAgregator::IsGroundUnitInPosition(const int x, const int y)
     for (int i = 0; i < units->GetCount(); i++)
     {
         GameUnit* unit = units->objectAtIndex(i);
-		MAXObjectConfig* config = unit->_unitCurrentParameters->_unitParameters->GetConfig();
+		MAXObjectConfig* config = unit->_unitData->GetConfig();
         if ((config->_bMoveType != UNIT_MOVETYPE_AIR) &&
             (!config->_isRoad) &&
             (!config->_isBridge) &&
@@ -303,7 +303,7 @@ bool MatchMapAgregator::IsAirUnitInPosition(const int x, const int y)
     for (int i = 0; i < units->GetCount(); i++)
     {
         GameUnit* unit = units->objectAtIndex(i);
-        if (unit->_unitCurrentParameters->_unitParameters->GetConfig()->_bMoveType == UNIT_MOVETYPE_AIR)
+        if (unit->_unitData->GetConfig()->_bMoveType == UNIT_MOVETYPE_AIR)
         {
             result = true;
             break;
@@ -319,7 +319,7 @@ bool MatchMapAgregator::ContainConnectoredBuildingInPosition(const int x, const 
     for (int i = 0; i < units->GetCount(); i++)
     {
         GameUnit* unit = units->objectAtIndex(i);
-        if (unit->GetIsConnectored() && unit->_owner_w == _player)
+        if (unit->_unitData->GetIsConnectored() && unit->_owner_w == _player)
         {
             result = true;
             break;
@@ -334,7 +334,7 @@ void MatchMapAgregator::FindAllConnectoredUnits(const int x, const int y, GameMa
     for (int i = 0; i < units->GetCount(); i++)
     {
         GameUnit* unit = units->objectAtIndex(i);
-        if (unit->GetIsConnectored() && unit->_owner_w == _player)
+        if (unit->_unitData->GetIsConnectored() && unit->_owner_w == _player)
             buffer->addObject(unit);
     }
 }

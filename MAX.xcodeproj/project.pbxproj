@@ -25,7 +25,7 @@
 		8B84DBC816CFDB1E00DD12B8 /* MAXClanConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBC616CFDB1C00DD12B8 /* MAXClanConfig.cpp */; };
 		8B84DBCE16CFDBAF00DD12B8 /* MAXConfigManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBCC16CFDBA500DD12B8 /* MAXConfigManager.cpp */; };
 		8B84DBD216CFDC9900DD12B8 /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD016CFDC9900DD12B8 /* StringUtils.cpp */; };
-		8B84DBD516CFE33800DD12B8 /* GameUnitCurrentState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD316CFE33700DD12B8 /* GameUnitCurrentState.cpp */; };
+		8B84DBD516CFE33800DD12B8 /* GameUnitData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B84DBD316CFE33700DD12B8 /* GameUnitData.cpp */; };
 		8B85506E16F5C165000170D5 /* GIUnitParametersNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */; };
 		8B85507116F5C1FD000170D5 /* GIUnitParameterRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B85506F16F5C1FD000170D5 /* GIUnitParameterRow.cpp */; };
 		8B8742951707445D000B234B /* PlayerResourceMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8742931707445D000B234B /* PlayerResourceMap.cpp */; };
@@ -694,8 +694,8 @@
 		8B84DBCD16CFDBA700DD12B8 /* MAXConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXConfigManager.h; sourceTree = "<group>"; };
 		8B84DBD016CFDC9900DD12B8 /* StringUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringUtils.cpp; sourceTree = "<group>"; };
 		8B84DBD116CFDC9900DD12B8 /* StringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtils.h; sourceTree = "<group>"; };
-		8B84DBD316CFE33700DD12B8 /* GameUnitCurrentState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnitCurrentState.cpp; sourceTree = "<group>"; };
-		8B84DBD416CFE33700DD12B8 /* GameUnitCurrentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnitCurrentState.h; sourceTree = "<group>"; };
+		8B84DBD316CFE33700DD12B8 /* GameUnitData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnitData.cpp; sourceTree = "<group>"; };
+		8B84DBD416CFE33700DD12B8 /* GameUnitData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUnitData.h; sourceTree = "<group>"; };
 		8B85506C16F5C165000170D5 /* GIUnitParametersNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIUnitParametersNode.cpp; sourceTree = "<group>"; };
 		8B85506D16F5C165000170D5 /* GIUnitParametersNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitParametersNode.h; sourceTree = "<group>"; };
 		8B85506F16F5C1FD000170D5 /* GIUnitParameterRow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIUnitParameterRow.cpp; sourceTree = "<group>"; };
@@ -2650,8 +2650,8 @@
 				D16B3EB71743E8A800729D73 /* GameUnitBaseParameters.h */,
 				D1DBC4CF16CA53590096034A /* GameUnitParameters.cpp */,
 				D1DBC4D016CA53590096034A /* GameUnitParameters.h */,
-				8B84DBD316CFE33700DD12B8 /* GameUnitCurrentState.cpp */,
-				8B84DBD416CFE33700DD12B8 /* GameUnitCurrentState.h */,
+				8B84DBD316CFE33700DD12B8 /* GameUnitData.cpp */,
+				8B84DBD416CFE33700DD12B8 /* GameUnitData.h */,
 				8B841BEF170CBD1D0001198C /* GameUnitDelegate.h */,
 			);
 			name = Unit;
@@ -3382,7 +3382,7 @@
 				8B84DBC816CFDB1E00DD12B8 /* MAXClanConfig.cpp in Sources */,
 				8B84DBCE16CFDBAF00DD12B8 /* MAXConfigManager.cpp in Sources */,
 				8B84DBD216CFDC9900DD12B8 /* StringUtils.cpp in Sources */,
-				8B84DBD516CFE33800DD12B8 /* GameUnitCurrentState.cpp in Sources */,
+				8B84DBD516CFE33800DD12B8 /* GameUnitData.cpp in Sources */,
 				D1E62CF516D13FF5006D55E1 /* PlayerBase.cpp in Sources */,
 				8B7E22B016D149CB00FE748B /* SceneSystem.cpp in Sources */,
 				8B7E22B416D14B8300FE748B /* MAXSceneGraph.cpp in Sources */,

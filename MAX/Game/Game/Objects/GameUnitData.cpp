@@ -1,18 +1,20 @@
 //
-//  GameUnitCurrentState.cpp
+//  GameUnitData.cpp
 //  MAX
 //
 //  Created by  Developer on 16.02.13.
 //  Copyright (c) 2013 AntonKatekov. All rights reserved.
 //
 
-#include "GameUnitCurrentState.h"
+#include "GameUnitData.h"
 #include "GameUnitParameters.h"
 #include "MAXObjectConfig.h"
 
-GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
-:_unitParameters(params), _landed(false)
+GameUnitData::GameUnitData(GameUnitParameters* params)
+:_unitParameters(params), _landed(false), _isInProcess(false), _isPlacedOnMap(false), _disabledByInfiltrator(false)
 {
+    _isInProcess = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
+    
     for (int pt = UNIT_PARAMETER_TYPE_MIN; pt <= UNIT_PARAMETER_TYPE_MAX; pt++)
     {
         int val = GetMaxParameterValue((UNIT_PARAMETER_TYPE)pt);
@@ -24,12 +26,53 @@ GameUnitCurrentState::GameUnitCurrentState(GameUnitParameters* params)
     }
 }
 
-GameUnitCurrentState::~GameUnitCurrentState()
+GameUnitData::~GameUnitData()
 {
     delete _unitParameters;
 }
 
-int GameUnitCurrentState::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
+bool GameUnitData::GetIsSurvivor() const
+{
+    return _unitParameters->GetIsSurvivor();
+}
+
+bool GameUnitData::GetIsBuilding() const
+{
+    return _unitParameters->GetIsBuilding();
+}
+
+int GameUnitData::GetSize() const
+{
+    return _unitParameters->GetSize();
+}
+
+bool GameUnitData::GetIsAmphibious() const
+{
+    return GetConfig()->_isAmphibious;
+}
+
+bool GameUnitData::GetIsUnderwater() const
+{
+    return GetConfig()->_isUnderwater;
+}
+
+bool GameUnitData::GetIsBuldozer() const
+{
+    return GetConfig()->_isBuldozer;
+}
+
+bool GameUnitData::GetIsConnectored() const
+{
+    return GetConfig()->_isRetranslator || GetConfig()->_isConnector;
+    
+}
+
+MAXObjectConfig* GameUnitData::GetConfig() const
+{
+    return _unitParameters->GetConfig();
+}
+
+int GameUnitData::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
 {
     int result = 0;
     switch (parameterType)
@@ -59,7 +102,7 @@ int GameUnitCurrentState::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
     return result;
 }
 
-int GameUnitCurrentState::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType)
+int GameUnitData::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType)
 {
     int result = 0;
     switch (parameterType)
@@ -106,7 +149,7 @@ int GameUnitCurrentState::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType
     return result;
 }
 
-void GameUnitCurrentState::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue)
+void GameUnitData::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue)
 {
     switch (parameterType)
     {
@@ -134,7 +177,7 @@ void GameUnitCurrentState::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, 
     }
 }
 
-void GameUnitCurrentState::StartNewTurn()
+void GameUnitData::StartNewTurn()
 {
     int val;
     UNIT_PARAMETER_TYPE parameterType;
@@ -167,7 +210,7 @@ void GameUnitCurrentState::StartNewTurn()
     }
 }
 
-int GameUnitCurrentState::GetMoveBalance()
+int GameUnitData::GetMoveBalance()
 {
     int result = GetParameterValue(UNIT_PARAMETER_TYPE_SPEED);
     if (GetMaxParameterValue(UNIT_PARAMETER_TYPE_GAS) > 0)
@@ -181,7 +224,7 @@ int GameUnitCurrentState::GetMoveBalance()
     return result;
 }
 
-void GameUnitCurrentState::MoveWithCost(const int cost)
+void GameUnitData::MoveWithCost(const int cost)
 {
     if (GetMoveBalance() < cost)
     {
@@ -235,7 +278,7 @@ void GameUnitCurrentState::MoveWithCost(const int cost)
     }
 }
 
-int GameUnitCurrentState::GetShotBalance()
+int GameUnitData::GetShotBalance()
 {
     int result = GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
     if (GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO) > 0)
@@ -249,7 +292,7 @@ int GameUnitCurrentState::GetShotBalance()
     return result;
 }
 
-void GameUnitCurrentState::MakeShot()
+void GameUnitData::MakeShot()
 {
     if (GetShotBalance() < 1)
     {

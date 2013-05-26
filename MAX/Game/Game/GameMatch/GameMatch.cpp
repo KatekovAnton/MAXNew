@@ -12,6 +12,7 @@
 #include "GameMatch.h"
 #include "GameMatchPlayer.h"
 #include "GameMap.h"
+#include "GameUnitData.h"
 #include "MAXContentLoader.h"
 #include "MAXConfigManager.h"
 #include "MAXEngine.h"
@@ -157,7 +158,7 @@ void GameMatch::FillResourceFogOnStartTurn()
 
 void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 {
-    if (!unit->GetIsConnectored())
+    if (!unit->_unitData->GetIsConnectored())
         return;
     
     unit->UpdateConnectors();

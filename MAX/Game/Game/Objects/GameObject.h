@@ -39,8 +39,6 @@ public:
     MAXObject *GetObject() const {return _object;};
     CCPoint GetUnitCell() const {return _unitCell;};
     
-    bool IsUnitInCell(const CCPoint &cell) const;
-    
     BoundingBox GetBoundingBox(const CCPoint &point, const float radius) const;
     BoundingBox GetCurrentBoundingBox(const float radius) const;
     BoundingBox GetScanBoundingBox(const CCPoint &centerPoint) const;

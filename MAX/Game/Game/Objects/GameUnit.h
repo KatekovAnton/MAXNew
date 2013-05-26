@@ -27,7 +27,7 @@ class MAXAnimationObjectUnit;
 class MAXObjectConfig;
 
 
-class GameUnitCurrentState;
+class GameUnitData;
 class GameUnitParameters;
 class GameUnitDelegate;
 class GameMatchPlayer;
@@ -43,15 +43,11 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     int workSound;
     
     bool _shouldAnimateBody;
-    bool _disabledByInfiltrator;
-    bool _isInProcess;
-    bool _isPlacedOnMap;
     
     std::vector<PFWaveCell*> movePath;
     int pathIndex;
     int movePathIndex;
     bool pathIsTemp;
-    bool _isStealthable;
     
     bool MoveToNextCell(void);
     void FollowPath(void);
@@ -61,9 +57,9 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
 public:
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
-    bool GetIsStealthable() const { return _isStealthable; }
+    bool GetIsStealthable() const;
     
-    GameUnitCurrentState    *_unitCurrentParameters;
+    GameUnitData    *_unitData;
     GameUnitDelegate        *_delegate_w;
     GameMatchPlayer         *_owner_w;
     
@@ -117,7 +113,6 @@ public:
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
     int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;
     
-    bool GetIsConnectored()const;
     void UpdateConnectors();
     void DetectedByPlayer(unsigned int playerId);
     bool IsDetectedByPlayer(unsigned int playerId);
@@ -125,7 +120,7 @@ public:
     vector<CCPoint> GetNerbyCells() const;
     
 #pragma mark - Fire methods
-    bool IsInProcess() const {return _isInProcess;}
+    bool IsInProcess() const;
     bool CanFire(const cocos2d::CCPoint &target);
     GameEffect* MakeWeaponAnimationEffect(const cocos2d::CCPoint &target);
     void Fire(const CCPoint& target);
