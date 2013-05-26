@@ -356,6 +356,7 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 {
     GameObject::SetLocation(cell);
     movePath.clear();
+    _unitData->_unitCell = cell;
     pathIndex = 0;
     if (_effectUnder) 
         _effectUnder->SetLocation(_unitCell);
@@ -1008,9 +1009,9 @@ void GameUnit::CheckMovementUpdate()
     
     if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
     {
-        //            printf("Update radar!\n");
         _delegate_w->GameUnitWillLeaveCell(this);
         _unitCell = realCell;
+        _unitData->_unitCell = realCell;
         _delegate_w->GameUnitDidEnterCell(this);
         CheckBodyAndShadow();
     }

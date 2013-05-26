@@ -201,7 +201,7 @@ bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *f
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = (unit->_unitData->_unitParameters->_pMaxScan > 0);
+            result = (unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SCAN) > 0);
             break;
         case FOG_TYPE_RESOURCES:
             result = unit->_unitData->GetIsSurvivor();
@@ -278,7 +278,7 @@ float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog 
         case FOG_TYPE_SCAN:
         case FOG_TYPE_UNDERWATER:
         case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitData->_unitParameters->_pMaxScan;
+            result = unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SCAN);
             break;
         case FOG_TYPE_RESOURCES:
         case FOG_TYPE_MINES:
