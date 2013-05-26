@@ -27,8 +27,29 @@ _pCost(unitConfig->_pCost)
     if (modifications.size()>0)
     {
         //implement this
-        int a = 0;
-        a++;
+        for (int i = 0; i < modifications.size(); i++)
+        {
+            MAXClanUnitParameters param = modifications[i];
+            //printf("%s\n", param._paramName.c_str());
+            if (param._paramName == "attack") 
+                _pAttack += param._modValue;
+            if (param._paramName == "cost")
+                _pCost += param._modValue;
+            if (param._paramName == "speed")
+                _pSpeed += param._modValue;
+            if (param._paramName == "armor")
+                _pArmor += param._modValue;
+            if (param._paramName == "scan")
+                _pScan += param._modValue;
+            if (param._paramName == "hits")
+                _pHealth += param._modValue;
+            if (param._paramName == "range")
+                _pRange += param._modValue;
+            
+//            if (param._paramName == "scan") {
+//                
+//            }
+        }
     }
 }
 

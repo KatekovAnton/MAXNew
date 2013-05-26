@@ -119,6 +119,13 @@ public:
     
     vector<CCPoint> GetNerbyCells() const;
     
+    BoundingBox GetScanBoundingBox(const CCPoint &centerPoint) const;
+    BoundingBox GetScanBoundingBox() const;
+    bool IsInScanRadius(const CCPoint &point) const;
+    bool IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const;
+    bool IsInFireRadius(const CCPoint &point) const;
+    bool IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const;
+    
 #pragma mark - Fire methods
     bool IsInProcess() const;
     bool CanFire(const cocos2d::CCPoint &target);

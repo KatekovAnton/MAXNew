@@ -632,6 +632,42 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
     _currentTopAnimation = sequence;
 }
 
+BoundingBox GameUnit::GetScanBoundingBox(const CCPoint &centerPoint) const
+{
+    return GetBoundingBox(centerPoint, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
+}
+
+BoundingBox GameUnit::GetScanBoundingBox() const
+{
+    return GetBoundingBox(GetUnitCell(), _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
+}
+
+// check if point is in scan radius around the object
+bool GameUnit::IsInScanRadius(const CCPoint &point) const
+{
+    return IsInRadius(point, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
+}
+
+// check if point is in scan radius around the object
+bool GameUnit::IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const
+{
+    return IsInRadius(point, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN), currentCenter);
+}
+
+// check if point is in fire radius around the object
+bool GameUnit::IsInFireRadius(const CCPoint &point) const
+{
+    return IsInRadius(point, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_RANGE));
+}
+
+// check if point is in fire radius around the object
+bool GameUnit::IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const
+{
+    return IsInRadius(point, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_RANGE), currentCenter);
+}
+
+#pragma mark - Connectors
+
 void GameUnit::UpdateConnectors()
 {
     MAXUnitObject *object = GetUnitObject();
