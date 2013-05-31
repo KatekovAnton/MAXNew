@@ -27,12 +27,19 @@ public:
     bool _isInProcess;
     bool _isPlacedOnMap;
     
+    int _bodyDirection;
+    int _headDirection;
+    
     int _pSpeed;
     int _pHealth;
     int _pArmor;
     int _pShots;
-    int _pFuel;
     int _pAmmo;
+    
+    int _pFuel;
+    int _pRawMat;
+    int _pGold;
+    
     bool _landed;
     bool _detected[MAX_PLAYERS];
     

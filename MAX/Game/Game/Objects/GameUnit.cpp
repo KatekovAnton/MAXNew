@@ -43,7 +43,7 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _currentTask(NULL)
 {
     unitObject->_delegate_w = this;
     MAXObjectConfig* config = _unitData->GetConfig();
@@ -208,6 +208,9 @@ void GameUnit::SetDirection(int dir)
     MAXUnitObject* _unitObject = GetUnitObject();
     _unitObject->SetBodyDirection(dir);
     _unitObject->SetHeadDirection(dir);
+    
+    _unitData->_bodyDirection = dir;
+    _unitData->_headDirection = dir;
 }
 
 void GameUnit::SetRandomDirection()
@@ -896,6 +899,9 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     else
         _unitObject->SetBodyDirection(MAXObject::CalculateImageIndex(_unitCell, target));
 
+    _unitData->_headDirection = _unitObject->pureheadIndex;
+    _unitData->_bodyDirection = _unitObject->purebodyIndex;
+    
     if (selectedGameObjectDelegate)
         selectedGameObjectDelegate->onUnitFireStart(this);
     
@@ -1111,6 +1117,9 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
 void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
     CheckMovementUpdate();
+    MAXUnitObject* _unitObject = GetUnitObject();
+    _unitData->_headDirection = _unitObject->pureheadIndex;
+    _unitData->_bodyDirection = _unitObject->purebodyIndex;
 }
 
 void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)

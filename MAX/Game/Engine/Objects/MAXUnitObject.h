@@ -61,9 +61,7 @@ class MAXUnitObject : public MAXObject {
     
     int bodyIndex;
     int headIndex;
-    
-    int purebodyIndex;
-    int pureheadIndex;
+
     
     bool fireing;
     
@@ -92,6 +90,8 @@ class MAXUnitObject : public MAXObject {
     
 public:
     
+    int purebodyIndex;
+    int pureheadIndex;
     
     int FrameForConnectorLocation(MAXUNITOBJECT_CONNECTOR connector) const;
     void AddConnector(MAXUNITOBJECT_CONNECTOR connector);

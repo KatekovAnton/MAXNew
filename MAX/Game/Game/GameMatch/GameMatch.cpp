@@ -32,6 +32,7 @@ void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
 }
 
 GameMatch::GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players)
+:_currentTurn(1)
 {
     MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile(configName);
     MAXConfigManager::SharedMAXConfigManager()->LoadClanConfigsFromFile(clanConfigName);
@@ -80,22 +81,20 @@ GameMatch::~GameMatch()
 bool GameMatch::EndTurn()
 {
     _currentPlayer_w->EndTurn();
+    _playersCompleteTurn.push_back(_currentPlayer_w);
+    
     
     GameMatchPlayer* nextPlayer = _players[0];
-    bool found = false;
-    for (int i = 0; i < _players.size(); i++)
+    if (_playersCompleteTurn.size() == _players.size())
     {
-        if (found)
-        {
-            nextPlayer = _players[i];
-            //nextPlayer->BeginTurn(); // temporary solution
-            break;
-        }
-        else if (_currentPlayer_w == _players[i])
-        {
-            found = true;
-        }
+        _playersCompleteTurn.clear();
     }
+    else
+    {
+        nextPlayer = _players[_playersCompleteTurn.size()];
+    }
+    
+    
     
     
     _currentPlayer_w = nextPlayer;

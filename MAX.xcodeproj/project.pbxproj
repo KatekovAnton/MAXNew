@@ -12,6 +12,9 @@
 		5127D6101702C3FB00486F12 /* Pathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D60E1702C3FB00486F12 /* Pathfinder.cpp */; };
 		5127D6131702C42B00486F12 /* PFWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6111702C42B00486F12 /* PFWave.cpp */; };
 		5127D6191702C46C00486F12 /* PFWaveCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6171702C46800486F12 /* PFWaveCell.cpp */; };
+		8B20D89A17594B500058890D /* GUTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89817594B500058890D /* GUTask.cpp */; };
+		8B20D89D175952590058890D /* GUConstructBuildingTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89B175952590058890D /* GUConstructBuildingTask.cpp */; };
+		8B20D8A0175952700058890D /* GUConstructUnitTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89E175952700058890D /* GUConstructUnitTask.cpp */; };
 		8B44BBB71752BCD700A9D382 /* GIWindowsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B44BBB51752BCD700A9D382 /* GIWindowsManager.cpp */; };
 		8B54D40516ECFBFC00935B1A /* MAXAnimationObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */; };
 		8B54D40816ECFD9800935B1A /* MAXAnimationEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B54D40616ECFD9700935B1A /* MAXAnimationEffect.cpp */; };
@@ -664,6 +667,12 @@
 		5127D6171702C46800486F12 /* PFWaveCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PFWaveCell.cpp; path = Pathfinder/PFWaveCell.cpp; sourceTree = "<group>"; };
 		5127D6181702C46900486F12 /* PFWaveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWaveCell.h; path = Pathfinder/PFWaveCell.h; sourceTree = "<group>"; };
 		51BADFE5170AD6410009E37A /* SelectedGameObjectDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedGameObjectDelegate.h; sourceTree = "<group>"; };
+		8B20D89817594B500058890D /* GUTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUTask.cpp; sourceTree = "<group>"; };
+		8B20D89917594B500058890D /* GUTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUTask.h; sourceTree = "<group>"; };
+		8B20D89B175952590058890D /* GUConstructBuildingTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUConstructBuildingTask.cpp; sourceTree = "<group>"; };
+		8B20D89C175952590058890D /* GUConstructBuildingTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUConstructBuildingTask.h; sourceTree = "<group>"; };
+		8B20D89E175952700058890D /* GUConstructUnitTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUConstructUnitTask.cpp; sourceTree = "<group>"; };
+		8B20D89F175952700058890D /* GUConstructUnitTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUConstructUnitTask.h; sourceTree = "<group>"; };
 		8B44BBB51752BCD700A9D382 /* GIWindowsManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIWindowsManager.cpp; sourceTree = "<group>"; };
 		8B44BBB61752BCD700A9D382 /* GIWindowsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIWindowsManager.h; sourceTree = "<group>"; };
 		8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObject.cpp; sourceTree = "<group>"; };
@@ -1472,6 +1481,19 @@
 				5127D6181702C46900486F12 /* PFWaveCell.h */,
 			);
 			name = PathFinder;
+			sourceTree = "<group>";
+		};
+		8B20D89717594B3A0058890D /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				8B20D89817594B500058890D /* GUTask.cpp */,
+				8B20D89917594B500058890D /* GUTask.h */,
+				8B20D89B175952590058890D /* GUConstructBuildingTask.cpp */,
+				8B20D89C175952590058890D /* GUConstructBuildingTask.h */,
+				8B20D89E175952700058890D /* GUConstructUnitTask.cpp */,
+				8B20D89F175952700058890D /* GUConstructUnitTask.h */,
+			);
+			name = Tasks;
 			sourceTree = "<group>";
 		};
 		8B7CA07F16C81F9F00282A74 /* CCScrollView */ = {
@@ -2649,6 +2671,7 @@
 		D1DBC4C716CA51AC0096034A /* Unit */ = {
 			isa = PBXGroup;
 			children = (
+				8B20D89717594B3A0058890D /* Tasks */,
 				D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */,
 				D11ABAA6168DDB2A00CD29EA /* GameUnit.h */,
 				D16B3EB61743E8A800729D73 /* GameUnitBaseParameters.cpp */,
@@ -3424,6 +3447,9 @@
 				D16B3EB51743E87500729D73 /* MatchFireAggregator.cpp in Sources */,
 				D16B3EB81743E8A800729D73 /* GameUnitBaseParameters.cpp in Sources */,
 				8B44BBB71752BCD700A9D382 /* GIWindowsManager.cpp in Sources */,
+				8B20D89A17594B500058890D /* GUTask.cpp in Sources */,
+				8B20D89D175952590058890D /* GUConstructBuildingTask.cpp in Sources */,
+				8B20D8A0175952700058890D /* GUConstructUnitTask.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

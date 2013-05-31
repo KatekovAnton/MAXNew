@@ -31,9 +31,12 @@ public:
     GameMapResources*           _resources;
     Pathfinder*                 _pathfinder;
     vector<GameMatchPlayer*>    _players;
+    vector<GameMatchPlayer*>    _playersCompleteTurn;
     GameMatchPlayer*            _currentPlayer_w;
     MatchMapAgregator*          _agregator;
     MatchMapAgregator*          _fullAgregator;
+    
+    int _currentTurn;
 
     GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();
