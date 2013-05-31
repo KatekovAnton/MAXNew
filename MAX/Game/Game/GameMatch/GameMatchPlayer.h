@@ -49,7 +49,6 @@ class GameMatchPlayer : public GameFogDelegate, public GameUnitDelegate {
     
 public:
     
-    
     bool GetIsCurrentPlayer() const;
     Texture** GetPalettePointer() {return &_palette;};
     

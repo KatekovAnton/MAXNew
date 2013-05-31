@@ -39,6 +39,8 @@ public:
     MAXClanConfig* GetClanConfig(const int type);
     
     bool ContainsUnit(const string& type) const;
+    
+    vector<string> ConstructableUnitsForConstructorType(int type);
 };
 
 #endif /* defined(__MAX__MAXConfigManager__) */

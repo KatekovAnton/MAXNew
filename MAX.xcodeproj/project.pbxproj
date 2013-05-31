@@ -15,6 +15,7 @@
 		8B20D89A17594B500058890D /* GUTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89817594B500058890D /* GUTask.cpp */; };
 		8B20D89D175952590058890D /* GUConstructBuildingTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89B175952590058890D /* GUConstructBuildingTask.cpp */; };
 		8B20D8A0175952700058890D /* GUConstructUnitTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89E175952700058890D /* GUConstructUnitTask.cpp */; };
+		8B20D8A317595D220058890D /* GUClearzoneTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D8A117595D220058890D /* GUClearzoneTask.cpp */; };
 		8B44BBB71752BCD700A9D382 /* GIWindowsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B44BBB51752BCD700A9D382 /* GIWindowsManager.cpp */; };
 		8B54D40516ECFBFC00935B1A /* MAXAnimationObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */; };
 		8B54D40816ECFD9800935B1A /* MAXAnimationEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B54D40616ECFD9700935B1A /* MAXAnimationEffect.cpp */; };
@@ -673,6 +674,8 @@
 		8B20D89C175952590058890D /* GUConstructBuildingTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUConstructBuildingTask.h; sourceTree = "<group>"; };
 		8B20D89E175952700058890D /* GUConstructUnitTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUConstructUnitTask.cpp; sourceTree = "<group>"; };
 		8B20D89F175952700058890D /* GUConstructUnitTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUConstructUnitTask.h; sourceTree = "<group>"; };
+		8B20D8A117595D220058890D /* GUClearzoneTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUClearzoneTask.cpp; sourceTree = "<group>"; };
+		8B20D8A217595D220058890D /* GUClearzoneTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUClearzoneTask.h; sourceTree = "<group>"; };
 		8B44BBB51752BCD700A9D382 /* GIWindowsManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIWindowsManager.cpp; sourceTree = "<group>"; };
 		8B44BBB61752BCD700A9D382 /* GIWindowsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIWindowsManager.h; sourceTree = "<group>"; };
 		8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObject.cpp; sourceTree = "<group>"; };
@@ -1492,6 +1495,8 @@
 				8B20D89C175952590058890D /* GUConstructBuildingTask.h */,
 				8B20D89E175952700058890D /* GUConstructUnitTask.cpp */,
 				8B20D89F175952700058890D /* GUConstructUnitTask.h */,
+				8B20D8A117595D220058890D /* GUClearzoneTask.cpp */,
+				8B20D8A217595D220058890D /* GUClearzoneTask.h */,
 			);
 			name = Tasks;
 			sourceTree = "<group>";
@@ -3450,6 +3455,7 @@
 				8B20D89A17594B500058890D /* GUTask.cpp in Sources */,
 				8B20D89D175952590058890D /* GUConstructBuildingTask.cpp in Sources */,
 				8B20D8A0175952700058890D /* GUConstructUnitTask.cpp in Sources */,
+				8B20D8A317595D220058890D /* GUClearzoneTask.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -876,7 +876,12 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     }
     if (_currentUnit && !_currentUnit->GetIsFreezed() && _currentUnit->_owner_w->GetIsCurrentPlayer())
     {
-        if (_currentUnit->CanStartBuildProcess())
+        vector<string> ableToConstruct = MAXConfigManager::SharedMAXConfigManager()->ConstructableUnitsForConstructorType(_currentUnit->GetBaseConfig()->_bSelfCreatorType);
+        if (ableToConstruct.size() > 0) 
+        {
+            _currentUnit->StartConstructingUnit(ableToConstruct[0]);// StartBuildProcess();
+        }
+        else if (_currentUnit->GetBaseConfig()->_isBuldozer)
         {
             _currentUnit->StartBuildProcess();
         }

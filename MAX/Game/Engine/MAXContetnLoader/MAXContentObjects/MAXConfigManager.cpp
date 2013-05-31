@@ -133,4 +133,22 @@ bool MAXConfigManager::ContainsUnit(const string& type) const
     return _unitConfigs.count(realType) == 1;
 }
 
+vector<string> MAXConfigManager::ConstructableUnitsForConstructorType(int type)
+{
+    vector<string> result;
+    if (type == 0)
+        return result;
+    
+    vector<string> allUnits =GetAllUnits();
+    for (int i = 0; i < allUnits.size(); i++)
+    {
+        string unittype = allUnits[i];
+        MAXObjectConfig* params = _unitConfigs[unittype];
+        if (params->_bSelfCreatedType == type)
+            result.push_back(unittype);
+    }
+    
+    return result;
+}
+
 

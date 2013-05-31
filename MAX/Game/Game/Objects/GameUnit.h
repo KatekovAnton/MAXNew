@@ -41,6 +41,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
     MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
+    GameEffect* _effectUnderBuildingTape;
     int currentSound;
     int workSound;
     
@@ -141,6 +142,12 @@ public:
     
     
 #pragma mark - Build methods
+    void StartConstructingUnit(const string &type);
+    void StartConstructingUnitInPlace(const CCPoint &topLeftCell, const string &type);
+    void PauseConstructingUnit();
+    void CancelConstructingUnit();
+    void EscapeConstructedUnit(const CCPoint &cell);
+    
     bool CanStartBuildProcess();
     void StartBuildProcess();
     

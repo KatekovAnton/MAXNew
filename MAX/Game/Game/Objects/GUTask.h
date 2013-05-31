@@ -17,6 +17,8 @@ class GUTask {
     
 public:
     
+    int _turnsLeft;
+    
     GameUnit* _unitWorker_w;
     
     virtual bool IsFinished() = 0;

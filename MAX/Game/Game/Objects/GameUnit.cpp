@@ -14,6 +14,7 @@
 #include "MAXAnimationPrefix.h"
 #include "MAXEngine.h"
 #include "MAXObjectConfig.h"
+#include "MAXConfigManager.h"
 
 #include "SoundEngine.h"
 
@@ -43,7 +44,7 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _currentTask(NULL)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _effectUnderBuildingTape(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _currentTask(NULL)
 {
     unitObject->_delegate_w = this;
     MAXObjectConfig* config = _unitData->GetConfig();
@@ -76,6 +77,12 @@ GameUnit::~GameUnit()
     {
         _effectUnder->Hide();
         delete _effectUnder;
+    }
+    
+    if (_effectUnderBuildingTape)
+    {
+        _effectUnderBuildingTape->Hide();
+        delete _effectUnderBuildingTape;
     }
 }
 
@@ -942,6 +949,65 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 
 #pragma mark - Build methods
 
+void GameUnit::StartConstructingUnit(const string &type)
+{
+    MAXObjectConfig* newUnitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
+    if (_unitData->GetIsBuilding())
+    {
+        
+    }
+    else
+    {
+        if (newUnitConfig->_bSize == 1)
+        {
+            StartConstructingUnitInPlace(GetUnitCell(), type);
+        }
+        else
+        {
+            //force MAXGAME to select suitable place
+            StartConstructingUnitInPlace(GetUnitCell(), type);
+        }
+    }
+}
+
+void GameUnit::StartConstructingUnitInPlace(const CCPoint &topLeftCell, const string &type)
+{
+    MAXObjectConfig* newUnitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
+    if (newUnitConfig->_bSize == 1)
+    {
+        _effectUnder = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_SMALL, GetObject()->_currentLevel - 2);
+        _effectUnder->SetLocation(topLeftCell);
+        _effectUnder->Show();
+        _effectUnderBuildingTape = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_PROGRESS_SMALL, GetObject()->_currentLevel - 1);
+        _effectUnderBuildingTape->SetLocation(topLeftCell);
+        _effectUnderBuildingTape->Show();
+    }
+    else
+    {
+        _effectUnder = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_LARGE, GetObject()->_currentLevel - 2);
+        _effectUnder->SetLocation(topLeftCell);
+        _effectUnder->Show();
+        _effectUnderBuildingTape = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_PROGRESS_LARGE, GetObject()->_currentLevel - 1);
+        _effectUnderBuildingTape->SetLocation(topLeftCell);
+        _effectUnderBuildingTape->Show();
+    }
+    StartBuildProcess();
+}
+
+void GameUnit::PauseConstructingUnit()
+{
+    //if it constructs building - we cant to pause
+}
+
+void GameUnit::CancelConstructingUnit()
+{}
+
+void GameUnit::EscapeConstructedUnit(const CCPoint &cell)
+{
+    //if it constructs unit - escape new unit
+    //if it constructs building - escape self
+}
+
 bool GameUnit::CanStartBuildProcess()
 {
 	MAXObjectConfig* config = _unitData->GetConfig();
@@ -952,6 +1018,7 @@ void GameUnit::StartBuildProcess()
 {
     if (!CanStartBuildProcess())
         return;
+    
     
     _unitData->_isInProcess = !IsInProcess();
     

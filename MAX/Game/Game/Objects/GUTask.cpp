@@ -10,7 +10,7 @@
 #include "GameUnit.h"
 
 GUTask::GUTask(GameUnit* unit):
-_unitWorker_w(unit)
+_unitWorker_w(unit), _turnsLeft(0)
 {}
 
 GUTask::~GUTask()
