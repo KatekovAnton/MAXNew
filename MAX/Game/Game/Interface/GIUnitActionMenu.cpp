@@ -10,6 +10,7 @@
 #include "MAXContentLoader.h"
 #include <vector>
 #include "miniPrefix.h"
+#include "GameInterfacePrefix.h"
 #include "CocosHelper.h"
 
 #define BUTTON_UNIT_MENU_ACTION_ACTIVATE    "ACTVT"
@@ -39,8 +40,9 @@
 #define BUTTON_UNIT_MENU_ACTION_XFORM       "XFORM"
 #define BUTTON_UNIT_MENU_ACTION_INFO        "XFORM"
 
-#define BUTTON_W 38
-#define BUTTON_H 21
+#define BUTTON_W 78
+#define BUTTON_H 25
+#define BUTTON_LABEL_TAG 11
 
 string imageNameFormType(UNIT_MENU_ACTION action)
 {
@@ -131,6 +133,95 @@ string imageNameFormType(UNIT_MENU_ACTION action)
     return baseName;
 }
 
+string titleForType(UNIT_MENU_ACTION action)
+{
+    string baseName = "";
+    switch (action) {
+        case UNIT_MENU_ACTION_ACTIVATE:
+            baseName = "ACTIVATE";
+            break;
+        case UNIT_MENU_ACTION_ALLOCATE:
+            baseName = "ALLOCATE";
+            break;
+        case UNIT_MENU_ACTION_ATTACK:
+            baseName = "ATTACK";
+            break;
+        case UNIT_MENU_ACTION_BUILD:
+            baseName = "BUILD";
+            break;
+        case UNIT_MENU_ACTION_BUYUPGRADES:
+            baseName = "BUY UPG";
+            break;
+        case UNIT_MENU_ACTION_CLEAR:
+            baseName = "CLEAR";
+            break;
+        case UNIT_MENU_ACTION_DISABLE:
+            baseName = "DISABLE";
+            break;
+        case UNIT_MENU_ACTION_DONE:
+            baseName = "DONE";
+            break;
+        case UNIT_MENU_ACTION_ENTER:
+            baseName = "ENTER";
+            break;
+        case UNIT_MENU_ACTION_FOLLOW:
+            baseName = "FOLLOW";
+            break;
+        case UNIT_MENU_ACTION_LOAD:
+            baseName = "LOAD";
+            break;
+        case UNIT_MENU_ACTION_PLACE:
+            baseName = "PLACE";
+            break;
+        case UNIT_MENU_ACTION_RECHARGE:
+            baseName = "RECHARGE";
+            break;
+        case UNIT_MENU_ACTION_REMOVE:
+            baseName = "REMOVE";
+            break;
+        case UNIT_MENU_ACTION_REPAIR:
+            baseName = "REPAIR";
+            break;
+        case UNIT_MENU_ACTION_RELOAD:
+            baseName = "RELOAD";
+            break;
+        case UNIT_MENU_ACTION_RESEARCH:
+            baseName = "RESRCH";
+            break;
+        case UNIT_MENU_ACTION_SENTRY:
+            baseName = "SENTRY";
+            break;
+        case UNIT_MENU_ACTION_START:
+            baseName = "START";
+            break;
+        case UNIT_MENU_ACTION_STEAL:
+            baseName = "STEAL";
+            break;
+        case UNIT_MENU_ACTION_STOP:
+            baseName = "STOP";
+            break;
+        case UNIT_MENU_ACTION_UPGRADE:
+            baseName = "UPGRADE";
+            break;
+        case UNIT_MENU_ACTION_WAIT:
+            baseName = "WAIT";
+            break;
+        case UNIT_MENU_ACTION_XFER:
+            baseName = "X-FER";
+            break;
+        case UNIT_MENU_ACTION_XFORM:
+            baseName = "X-FORM";
+            break;
+		case UNIT_MENU_ACTION_INFO:
+			baseName = "INFO";
+			break;
+            
+        default:
+            break;
+    }
+    return baseName;
+}
+
 GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons)
 {
 	_delegate_w = NULL;
@@ -158,22 +249,30 @@ GIUnitActionMenu::~GIUnitActionMenu()
 
 CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type)
 {
-    string baseName = imageNameFormType(type);
-    
+    //string baseName = imageNameFormType(type);
+    string title = titleForType(type);
     Color transparent;
     transparent.r = 0;
     transparent.g = 0;
     transparent.b = 0;
     
-    CCSprite* _onSprite = MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
-    CCSprite* _ofSprite = MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
+    CCSprite* _onSprite = CCSprite::create("button_test_gr.png");// MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
+    CCSprite* _ofSprite = CCSprite::create("button_test.png");//MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
     
     CCMenuItemSprite* spr = CCMenuItemSprite::create(_ofSprite, _onSprite, this, menu_selector(GIUnitActionMenu::OnButton));
     spr->setContentSize(CCSize(BUTTON_W, BUTTON_H));
     spr->setAnchorPoint(ccp(0, 0));
     spr->setTag(type);
     spr->setEnabled(true);
-    CocosHelper::ProceedCCNode(spr);
+    
+    CCLabelTTF *label = CCLabelTTF::create(title.c_str(), MAX_DEFAULT_FONT, 12);
+    label->setTag(BUTTON_LABEL_TAG);
+    label->setColor(MAX_COLOR_BROWN);
+    spr->addChild(label, 1);
+    label->setContentSize(ccz(BUTTON_W, BUTTON_H));
+    label->setPosition(ccp(13, 5));
+    label->setAnchorPoint(ccp(0, 0));
+   // CocosHelper::ProceedCCNode(spr);
     
     return spr;
 }
