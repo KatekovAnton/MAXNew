@@ -53,6 +53,7 @@ public:
     Texture** GetPalettePointer() {return &_palette;};
     
     CCPoint cameraPosition;
+    float cameraZoom;
     
     GameMatch *_match_w;
     

@@ -31,7 +31,7 @@
 #include "MatchMapAgregator.h"
 
 GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
-:_match_w(match)
+:_match_w(match), cameraZoom(1)
 {
     _playerInfo = info;
     _palettes = MAXSCL->TexturePalletesFormDefaultPalleteAndPlayerColor(_playerInfo._color);

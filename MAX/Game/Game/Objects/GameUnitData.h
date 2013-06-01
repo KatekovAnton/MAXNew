@@ -15,9 +15,13 @@
 class MAXObjectConfig;
 class GameUnitParameters;
 
+class GUTask;
+
 class GameUnitData {
     
 public:
+    
+    GUTask *_currentTask;
     
     CCPoint _unitCell;
     

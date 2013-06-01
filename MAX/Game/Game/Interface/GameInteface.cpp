@@ -522,6 +522,12 @@ CCPoint GameInterface::GetCenter()
     return ccp(getContentSize().width/2, getContentSize().height/2);
 }
 
+void GameInterface::SetCurrentTurnNumber(int number)
+{}
+
+void GameInterface::SetCurrentPlayerColor(Color color)
+{}
+
 void GameInterface::OnEndTurn(CCMenuItem* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);

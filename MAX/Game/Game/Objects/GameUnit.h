@@ -34,7 +34,6 @@ class GameMatchPlayer;
 class GameEffect;
 class PFWaveCell;
 
-class GUTask;
 
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitObjectDelegate, public GameEffectDelegate
 {
@@ -58,8 +57,6 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     void ChackForAnimanteBody();
     
 public:
-    
-    GUTask *_currentTask;
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
     bool GetIsStealthable() const;

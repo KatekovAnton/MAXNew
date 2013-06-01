@@ -85,7 +85,8 @@ public:
     void SetLockUnits(bool flag) {_lockUnits = flag; UpdateToggleLockUnitsButton();}
     
     CCPoint GetCenter();
-    
+    void SetCurrentTurnNumber(int number);
+    void SetCurrentPlayerColor(Color color);
     
     GameInterface();
     ~GameInterface();

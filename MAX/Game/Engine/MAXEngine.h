@@ -121,6 +121,8 @@ public:
     double FullTime() const {return _fullTime;};
     
     void SetCameraCenter(const CCPoint &cell);
+    void SetZoom(float zoom);
+    float CameraZoom();
     
     void Update();
     void Draw();

@@ -229,6 +229,16 @@ void MAXEngine::AddFogCell(const int x, const int y, const bool fog)
         _fogRenderer->RemoveCell(x, y);
 }
 
+void MAXEngine::SetZoom(float zoom)
+{
+    _camera->Scale(_camera->scale/ zoom);
+}
+
+float MAXEngine::CameraZoom()
+{
+    return _camera->scale;
+}
+
 void MAXEngine::FillFog()
 {
     _fogRenderer->CompletlyFillMap();

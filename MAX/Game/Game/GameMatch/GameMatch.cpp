@@ -88,6 +88,7 @@ bool GameMatch::EndTurn()
     if (_playersCompleteTurn.size() == _players.size())
     {
         _playersCompleteTurn.clear();
+        _currentTurn ++;
     }
     else
     {

@@ -479,6 +479,7 @@ bool MAXGame::EndTurn()
     if (_freezeCounter != 0)
         return false;
     _match->_currentPlayer_w->cameraPosition = engine->ScreenToWorldCell( _gameInterface->GetCenter());
+    _match->_currentPlayer_w->cameraZoom = engine->CameraZoom();
     result = _match->EndTurn();
     if (!result) 
         return result;
@@ -512,6 +513,7 @@ bool MAXGame::EndTurn()
             HidePathMap();
     }
     
+    engine->SetZoom(_match->_currentPlayer_w->cameraZoom);
     engine->SetCameraCenter(_match->_currentPlayer_w->cameraPosition);
     return result;
 }
