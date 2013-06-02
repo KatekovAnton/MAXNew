@@ -40,6 +40,7 @@ public:
     bool GetRunedSpecialAction() const {return _actionType == -1;};
     
     bool StartSelectLargeBuildingConstructionPlaceAction(GameUnit* constructor, MAXObjectConfig *buildingConfig);
+    bool StartSelectSmallBuildingConstructionPathAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig);
     
     void ProceedPan(int speedx, int speedy);
     void ProceedTap(float tapx, float tapy);

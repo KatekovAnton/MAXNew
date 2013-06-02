@@ -43,9 +43,8 @@ MAXAnimationWait* prepareUnitToMoveToPoint(GameUnit* unit, CCPoint point, float 
 {
     CCPoint location = unit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
-    Pathfinder* pf = game->_match->_pathfinder;
-    pf->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
-    std::vector<PFWaveCell*> path = pf->FindPathOnMap(point.x, point.y); // call after MakePathMap
+    game->_match->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
+    std::vector<PFWaveCell*> path = game->_match->_pathfinder->FindPathOnMap(point.x, point.y);
     
     if (path.size() > 1)
     {
@@ -420,7 +419,6 @@ void MAXGame::StartMatch()
         {
             GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 43, "Powerpl", 0);
             unit1->PlaceUnitOnMap();
-            unit1->StartBuildProcess();
         }
         {
             GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
@@ -507,10 +505,7 @@ bool MAXGame::EndTurn()
         if (_currentUnit->_owner_w->GetIsCurrentPlayer()) {
             ShowUnitPath(_currentUnit);
             
-            CCPoint location = _currentUnit->GetUnitCell();
-            UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitData->GetConfig()->_bMoveType;
-            Pathfinder* pf = _match->_pathfinder;
-            pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
+            RecalculateUnitPathMap(_currentUnit);
             ShowPathMap();
         }
         else
@@ -601,8 +596,16 @@ void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)
 
 void MAXGame::SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig)
 {
-    _currentUnit->StartConstructingUnitInPlace(result, buildingConfig->_type);
+    _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
     UpdateCurrentUnitPath();
+    _gameInterface->HideUnitMenu();
+}
+
+void MAXGame::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig)
+{
+    _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
+    UpdateCurrentUnitPath();
+    _gameInterface->HideUnitMenu();
 }
 
 #pragma mark - MAXEngineDelegate
@@ -787,9 +790,8 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                     else
                     {
                         CCPoint location = _currentUnit->GetUnitCell();
-                        Pathfinder* pf = _match->_pathfinder;
-                        std::vector<PFWaveCell*> path = pf->FindPathOnMap(p.x, p.y); // call after MakePathMap
-                        //pf->DumpMap();
+                        std::vector<PFWaveCell*> path = _match->_pathfinder->FindPathOnMap(p.x, p.y);
+                    
                         if (path.size() > 1)
                         {
                             _currentUnit->SetPath(path);
@@ -855,11 +857,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             {
 				ShowUnitPath(_currentUnit);
 
-                CCPoint location = _currentUnit->GetUnitCell();
-                UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitData->GetConfig()->_bMoveType;
-                Pathfinder* pf = _match->_pathfinder;
-                pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
-                //pf->DumpMap();
+                RecalculateUnitPathMap(_currentUnit);
                 ShowPathMap();
             }
             
@@ -918,7 +916,7 @@ void MAXGame::UpdateCurrentUnitPath()
 
 void MAXGame::TryStartConstruction(string type)
 {
-    if (!_currentUnit->_unitData->CanStartConstructionBuilding() && !_gameController->GetRunedSpecialAction())
+    if (_currentUnit->_unitData->ContainsCurrentTask() || !_gameController->GetRunedSpecialAction())
         return;
     _currentUnit->ClearPath();
     MAXObjectConfig* newUnitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
@@ -930,8 +928,8 @@ void MAXGame::TryStartConstruction(string type)
     {
         if (newUnitConfig->_bSize == 1)
         {
-            //force MAXGAME to select path
-            _currentUnit->StartConstructingUnitInPlace(_currentUnit->GetUnitCell(), type);
+            //TODO: force MAXGAME to select path
+            _gameController->StartSelectSmallBuildingConstructionPathAction(_currentUnit, newUnitConfig);
         }
         else
         {
@@ -941,6 +939,7 @@ void MAXGame::TryStartConstruction(string type)
     }
     
     UpdateCurrentUnitPath();
+    _gameInterface->HideUnitMenu();
 }
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)
@@ -950,14 +949,8 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     
     if (_currentUnit && !_currentUnit->GetIsFreezed() && _currentUnit->_owner_w->GetIsCurrentPlayer())
     {
-        vector<string> ableToConstruct = MAXConfigManager::SharedMAXConfigManager()->ConstructableUnitsForConstructorType(_currentUnit->GetBaseConfig()->_bSelfCreatorType);
-        if (ableToConstruct.size() > 0)
+        if (_currentUnit->GetBaseConfig()->_isBuldozer)
         {
-            TryStartConstruction(ableToConstruct[0]);
-        }
-        else if (_currentUnit->GetBaseConfig()->_isBuldozer)
-        {
-            _currentUnit->StartBuildProcess();
             UpdateCurrentUnitPath();
         }
         else
@@ -972,8 +965,7 @@ void MAXGame::RefreshCurrentUnitPath()
 {
     CCPoint location = _currentUnit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitData->GetConfig()->_bMoveType;
-    Pathfinder* pf = _match->_pathfinder;
-    pf->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
+    _match->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
     //pf->DumpMap();
     ShowPathMap();
     ShowUnitPath(_currentUnit);
@@ -1005,18 +997,22 @@ bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
     return result;
 }
 
-void MAXGame::RecalculateUnitPath(GameUnit* unit)
+void MAXGame::RecalculateUnitPathMap(GameUnit *unit)
 {
     CCPoint location = unit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
-    Pathfinder* pf = _match->_pathfinder;
-    pf->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
-    //pf->DumpMap();
+    _match->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
+}
+
+void MAXGame::RecalculateUnitPath(GameUnit* unit)
+{
+    RecalculateUnitPathMap(unit);
     ShowPathMap();
     
     //HidePathMap();
     PFWaveCell* cell = unit->GetPath()[0];
-    std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y); // call after MakePathMap
+    Pathfinder* pf = _match->_pathfinder;
+    std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y);
     if (path.size() > 1)
     {
         unit->SetPath(path);
@@ -1131,27 +1127,39 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 	}
 	else if (action == UNIT_MENU_ACTION_STOP)
 	{
-		if (_currentUnit->CanStartBuildProcess())
-		{
-			_currentUnit->StartBuildProcess();
-		}
-		else
-		{
-			_currentUnit->ClearPath();
-			HideUnitPath();
-		}
+        if (_currentUnit->GetPath().size() > 0) {
+            _currentUnit->ClearPath();
+            HideUnitPath();
+        }
+        else
+        {
+            _currentUnit->StopBuildProcess();
+            RecalculateUnitPathMap(_currentUnit);
+            ShowPathMap();
+        }
+		
 		return;
 	}
 	else if (action == UNIT_MENU_ACTION_START)
 	{
-		_currentUnit->StartBuildProcess();
+		//_currentUnit->StartBuildProcess();
 		return;
 	}
     bool _interfaceAction = false;
     switch (action) {
+        case UNIT_MENU_ACTION_BUILD:
+        {
+            if (!_currentUnit->_unitData->GetIsBuilding())
+            {
+                vector<string> ableToConstruct = MAXConfigManager::SharedMAXConfigManager()->ConstructableUnitsForConstructorType(_currentUnit->GetBaseConfig()->_bSelfCreatorType);
+                TryStartConstruction(ableToConstruct[0]);
+                _interfaceAction = true;
+            }
+            
+        }break;
+            
 		case UNIT_MENU_ACTION_INFO:
         case UNIT_MENU_ACTION_ALLOCATE:
-        case UNIT_MENU_ACTION_BUILD:
         case UNIT_MENU_ACTION_BUYUPGRADES:
         case UNIT_MENU_ACTION_REMOVE:
         case UNIT_MENU_ACTION_RESEARCH:

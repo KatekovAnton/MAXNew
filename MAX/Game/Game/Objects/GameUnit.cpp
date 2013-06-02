@@ -55,12 +55,11 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
     MAXObjectConfig* config = _unitData->GetConfig();
     unitObject->_needShadow = !config->_isUnderwater;
     _onDraw = false;
-    if (_unitData->_isInProcess)
+    if (IsInProcess())
         CheckBodyAndShadow();
     
     
     currentSound = -1;
-    workSound = -1;
     
     if(_unitData->GetIsBuilding() && _unitData->GetConfig()->_isNeedUndercover)
     {
@@ -176,15 +175,6 @@ void GameUnit::StopCurrentSound()
     }
 }
 
-void GameUnit::StopWorkSound()
-{
-    if (workSound > 0)
-    {
-        SOUND->StopGameSound(workSound);
-        workSound = -1;
-    }
-}
-
 void GameUnit::UnitDidSelect()
 {
     StopCurrentSound();
@@ -244,7 +234,6 @@ void GameUnit::Show()
 void GameUnit::Hide()
 {
     StopCurrentSound();
-    StopWorkSound();
     
    
     
@@ -270,8 +259,8 @@ void GameUnit::TakeOff()
         _unitData->_landed = false;
         GetUnitObject()->TakeOff();
 
-        StopWorkSound();
-        workSound = PlaySound(UNIT_SOUND_START);
+        StopCurrentSound();
+        currentSound = PlaySound(UNIT_SOUND_START);
     }
 }
 
@@ -282,8 +271,8 @@ void GameUnit::Landing()
         _unitData->_landed = true;
         GetUnitObject()->Landing();
         
-        StopWorkSound();
-        workSound = PlaySound(UNIT_SOUND_STOP);
+        StopCurrentSound();
+        PlaySound(UNIT_SOUND_STOP);
     }
 }
 
@@ -321,7 +310,6 @@ void GameUnit::EscapeToLocation(const int x, const int y, const int cost)
 void GameUnit::NewTurn()
 {
     StopCurrentSound();
-    StopWorkSound();
     bool processed = false;
     for (int i = 0; i < MAX_PLAYERS; i++)
     {
@@ -823,12 +811,12 @@ bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
     return result;
 }
 
-#pragma mark - Fire methods
-
 bool GameUnit::IsInProcess() const
 {
-    return _unitData->_isInProcess;
+    return _unitData->GetIsInProcess();
 }
+
+#pragma mark - Fire methods
 
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
@@ -879,6 +867,7 @@ GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target)
     {
         GameEffect* effect = GameEffect::CreateBullet(type, level, BLAST_TYPE_DAMAGEEFFECT, st);
         effect->SetLocation(GetUnitCell());
+        effect->_targetCell = target;
         effect->Show();
         float coeff = 0.75;
         if (type != BULLET_TYPE_PLASMA) {
@@ -994,26 +983,13 @@ void GameUnit::DestroyBuildingTape()
     _effectUnder = NULL;
 }
 
-void GameUnit::StartConstructingUnitInPlace(const CCPoint &topLeftCell, const string &type)
+void GameUnit::StartConstructingUnitInPlace(const CCPoint &topLeftCell, MAXObjectConfig *buildingConfig)
 {
-    MAXObjectConfig* newUnitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
-    if (newUnitConfig->_bSize == 1)
-    {
-        _effectUnder = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_PROGRESS_SMALL, GetObject()->_currentLevel - 1);
-        _effectUnder->SetLocation(topLeftCell);
-        _effectUnder->Show();
-    }
-    else
-    {
-        _effectUnder = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_PROGRESS_LARGE, GetObject()->_currentLevel - 1);
-        _effectUnder->SetLocation(topLeftCell);
-        _effectUnder->Show();
-    }
     GUTask* task = NULL;
-    if (newUnitConfig->_isBuilding)
+    if (buildingConfig->_isBuilding)
     {
-        task = new GUConstructBuildingTask(this, newUnitConfig->_type, 0, 1, topLeftCell);
-        if (newUnitConfig->_bSize == 2)
+        task = new GUConstructBuildingTask(this, buildingConfig->_type, 0, 1, topLeftCell);
+        if (buildingConfig->_bSize == 2)
             SetDirection((GetUnitObject()->purebodyIndex/2) * 2);
     }
     
@@ -1025,6 +1001,9 @@ void GameUnit::PauseConstructingUnit()
 {
     //if it constructs building - we cant to pause
 }
+
+void GameUnit::CancelConstructingUnit()
+{}
 
 void GameUnit::BeginConstructionSequence()
 {
@@ -1039,9 +1018,6 @@ void GameUnit::EndConstructionSequense()
     PlaceUnitOnMap();
 }
 
-void GameUnit::CancelConstructingUnit()
-{}
-
 void GameUnit::EscapeConstructedUnit(const CCPoint &cell)
 {
     //if it constructs unit - escape new unit
@@ -1054,31 +1030,32 @@ bool GameUnit::CanStartBuildProcess()
     return ((config->_isAllwaysOn != _unitData->GetIsBuilding()) || config->_bSelfCreatorType != 0 || _unitData->GetIsBuldozer());
 }
 
+void GameUnit::StopBuildProcess()
+{
+    _unitData->AbortTask();
+    DestroyBuildingTape();
+    CheckBodyAndShadow();
+    StopCurrentSound();
+    currentSound = PlaySound(UNIT_SOUND_ENGINE);
+}
+
 void GameUnit::StartBuildProcess()
 {
     if (!CanStartBuildProcess())
         return;
-    
-    
-    _unitData->_isInProcess = !IsInProcess();
+
     
     MAXObjectConfig* config = _unitData->GetConfig();
-    StopWorkSound();
+    StopCurrentSound();
     if (IsInProcess())
     {
         if (config->_isBuilding && config->_retEnergy == 0)
-        {
-            workSound = PlaySound(UNIT_SOUND_BUILD);
-        }
+            currentSound = PlaySound(UNIT_SOUND_BUILD);
         else
-        {
-            workSound = PlaySound(UNIT_SOUND_START);
-        }
+            currentSound = PlaySound(UNIT_SOUND_WORK);
     }
     else
-    {
-        workSound = PlaySound(UNIT_SOUND_STOP);
-    }
+        currentSound = PlaySound(UNIT_SOUND_STOP);
     
     CheckBodyAndShadow();
     ChackForAnimanteBody();
@@ -1121,7 +1098,7 @@ vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 	{
 		result.push_back(UNIT_MENU_ACTION_BUYUPGRADES);
 	}	
-	if ((config->_isAllwaysOn != config->_isBuilding ) || config->_bSelfCreatorType != 0 || config->_isBuldozer)
+	if ((config->_isAllwaysOn != config->_isBuilding ) || _unitData->ContainsCurrentTask())
 	{
 		if (IsInProcess())
 		{
@@ -1129,11 +1106,12 @@ vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 		}
 		else
 		{
+            //TODO: only for start without task
 			result.push_back(UNIT_MENU_ACTION_START);
 		}
 	}
 
-    if (config->_bSelfCreatorType != 0)
+    if (config->_bSelfCreatorType != 0 && !_unitData->ContainsCurrentTask())
 	{
         result.push_back(UNIT_MENU_ACTION_BUILD);
 	}

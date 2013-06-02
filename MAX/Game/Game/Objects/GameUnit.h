@@ -41,7 +41,6 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
     int currentSound;
-    int workSound;
     
     bool _shouldAnimateBody;
     
@@ -78,7 +77,6 @@ public:
     
     int PlaySound(UNIT_SOUND unitSound);
     void StopCurrentSound();
-    void StopWorkSound();
     void UnitDidSelect();
     void UnitDidDeselect();
     void CheckBodyAndShadow();
@@ -136,9 +134,9 @@ public:
     bool IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const;
     bool IsInFireRadius(const CCPoint &point) const;
     bool IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const;
+    bool IsInProcess() const;
     
 #pragma mark - Fire methods
-    bool IsInProcess() const;
     bool CanFire(const cocos2d::CCPoint &target);
     GameEffect* MakeWeaponAnimationEffect(const cocos2d::CCPoint &target);
     void Fire(const CCPoint& target);
@@ -151,7 +149,7 @@ public:
     void CreateLargeBuildingTape();
     void DestroyBuildingTape();
     
-    void StartConstructingUnitInPlace(const CCPoint &topLeftCell, const string &type);
+    void StartConstructingUnitInPlace(const CCPoint &topLeftCell, MAXObjectConfig *buildingConfig);
     void PauseConstructingUnit();
     void CancelConstructingUnit();
     void EscapeConstructedUnit(const CCPoint &cell);
@@ -161,6 +159,8 @@ public:
     bool GetIsConstruction() const {return _isConstruction;}
     
     bool CanStartBuildProcess();
+    
+    void StopBuildProcess();
     void StartBuildProcess();
     
     

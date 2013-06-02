@@ -16,6 +16,7 @@ class MAXObjectConfig;
 class MAXGameControllerDelegate {
 public:
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig) = 0;
+    virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig) = 0;
 };
 
 #endif

@@ -66,6 +66,15 @@ bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit
     return true;
 }
 
+bool MAXGameController::StartSelectSmallBuildingConstructionPathAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
+{
+    CCPoint newCell = constructor->GetUnitCell();
+    constructor->CreateSmallBuildingTape();
+    
+    _delegate_w->SelectSmallBuildingConstructionPathActionFinished(newCell, buildingConfig);
+    return true;
+}
+
 void MAXGameController::ProceedPan(int speedx, int speedy)
 {
     if (speedx == 0 && speedy == 0) 

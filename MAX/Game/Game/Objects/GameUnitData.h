@@ -19,16 +19,18 @@ class GUTask;
 
 class GameUnitData {
     
+    bool _isInProcess;
+    GUTask *_currentTask;
+    bool _paused;
+    
 public:
     
-    GUTask *_currentTask;
     
     CCPoint _unitCell;
     
     GameUnitParameters* _unitParameters;
     
     bool _disabledByInfiltrator;
-    bool _isInProcess;
     bool _isPlacedOnMap;
     
     int _bodyDirection;
@@ -68,9 +70,14 @@ public:
     int GetShotBalance();
     void MakeShot();
     
-    void SetTask(GUTask *newTask);
+    bool GetIsInProcess() const {return _isInProcess;}
     
-    bool CanStartConstructionBuilding() const {return _currentTask == NULL;}
+    void SetTask(GUTask *newTask);
+    void AbortTask();
+    void PauseTask();
+    void ContinuePausedTask();
+    
+    bool ContainsCurrentTask() const {return _currentTask != NULL;}
     bool CanMove() const;
     MAXObjectConfig* GetConfig() const;
 };

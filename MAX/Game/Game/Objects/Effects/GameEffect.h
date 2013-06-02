@@ -83,9 +83,11 @@ class GameEffect : public GameObject, public MAXAnimationDelegate {
     SECONDARY_TYPE _secondaryType;
     
     double _lastSmokeCreationTime;
-    
+    CCPoint _lastSmokeCreationPosition;
 public:
-    
+    CCPoint _startCell;
+    CCPoint _targetCell;
+    float _rangeToTarget;
     GameEffectDelegate* _delegate_w;
     
     bool GetFinished() const {return _finished;}
@@ -95,12 +97,16 @@ public:
     ~GameEffect();
     
     void SetDirection(int index);
+    
+    
+    virtual void Show();
+    virtual void Hide();
      
 #pragma mark - creation
     static GameEffect* CreateBlast(BLAST_TYPE type, int level);
     static GameEffect* CreateBullet(BULLET_TYPE type, int level, BLAST_TYPE blastType, SECONDARY_TYPE secondarytype);
     static GameEffect* CreateSecondaryEffect(SECONDARY_TYPE type, int level);
-    static GameUnit* CreateTrash(TRASH_TYPE type);
+    static GameEffect* CreateTrash(TRASH_TYPE type);
     static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type, int level);
     static GameEffect* CreatePathArrow(int azimut, bool isGreen, int level);
     

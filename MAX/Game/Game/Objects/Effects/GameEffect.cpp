@@ -48,8 +48,8 @@
 //ВОТ АЛЕКСЕЙ какие костыли приходится городить чтоб сделать мусор юнитом
 MAXObjectConfig* trash1x1config = NULL;
 MAXObjectConfig* trash2x2config = NULL;
-GameUnitBaseParameters* trash1x1params = NULL;
-GameUnitBaseParameters* trash2x2params = NULL;
+//GameUnitBaseParameters* trash1x1params = NULL;
+//GameUnitBaseParameters* trash2x2params = NULL;
 
 GameEffect::GameEffect(MAXEffectObject* effectObject, MAXObjectConfig* config, bool addToEffectList)
 :GameObject(effectObject, config), _config(config), _finished(false), _blastType(BLAST_TYPE_NONE), _secondaryType(SECONDARY_TYPE_NONE), _lastSmokeCreationTime(engine->FullTime()), _delegate_w(NULL)
@@ -68,6 +68,23 @@ void GameEffect::SetDirection(int index)
 {
     MAXEffectObject* obj = (MAXEffectObject*)GetObject();
     obj->_currentFrame = index;
+}
+
+void GameEffect::Show()
+{
+    GameObject::Show();
+    
+    if (_effectType == EFFECT_TYPE_BULLET)
+    {
+        _lastSmokeCreationPosition = GetObject()->GetObjectCell();
+        _rangeToTarget = sqrtf(powf(_targetCell.x - _lastSmokeCreationPosition.x, 2) + powf(_targetCell.y - _lastSmokeCreationPosition.y, 2));
+        _startCell = _lastSmokeCreationPosition;
+    }
+}
+
+void GameEffect::Hide()
+{
+    GameObject::Hide();
 }
 
 #pragma mark - creation
@@ -165,9 +182,9 @@ GameEffect* GameEffect::CreateSecondaryEffect(SECONDARY_TYPE type, int level)
     return result;
 }
 
-GameUnit* GameEffect::CreateTrash(TRASH_TYPE type)
+GameEffect* GameEffect::CreateTrash(TRASH_TYPE type)
 {
-    GameUnitBaseParameters* config = NULL;
+    MAXObjectConfig* config = NULL;
     
     if (type == TRASH_TYPE_SMALL)
     {
@@ -179,9 +196,9 @@ GameUnit* GameEffect::CreateTrash(TRASH_TYPE type)
             trash1x1config->_bSize = 1;
             trash1x1config->_isBuilding = true;
             
-            trash1x1params = new GameUnitBaseParameters(trash1x1config);
+           // trash1x1params = new GameUnitBaseParameters(trash1x1config);
         }
-        config = trash1x1params;
+        config = trash1x1config;
         
     }
     else
@@ -194,16 +211,18 @@ GameUnit* GameEffect::CreateTrash(TRASH_TYPE type)
             trash2x2config->_bSize = 2;
             trash2x2config->_isBuilding = true;
             
-            trash2x2params = new GameUnitBaseParameters(trash2x2config);
+            //trash2x2params = new GameUnitBaseParameters(trash2x2config);
         }
-        config = trash2x2params;
+        config = trash2x2config;
     }
-    MAXUnitObject* object = MAXSCL->CreateUnit(config->_configObject);
     
-    GameUnitParameters* params = new GameUnitParameters(config);
-    GameUnit* result = new GameUnit(object, params);
-    result->SetColor(GLKVector4Make(0, 0, 0, 0));
-    result->_owner_w = NULL;
+    MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, config->_bSize, false);// CreateUnit(config->_configObject);
+    GameEffect* result = new GameEffect(effectObject, config, true);
+    result->_effectType = EFFECT_TYPE_TRASH;
+    //GameUnitParameters* params = new GameUnitParameters(config);
+    //GameUnit* result = new GameUnit(object, params);
+    //result->SetColor(GLKVector4Make(0, 0, 0, 0));
+    //result->_owner_w = NULL;
     
     return result;
 }
@@ -343,13 +362,34 @@ void GameEffect::OnAnimationUpdate(MAXAnimationBase* animation)
 {
     if (_secondaryType != SECONDARY_TYPE_NONE && _lastSmokeCreationTime + 0.005 < engine->FullTime())
     {
+        CCPoint currentPosition = GetObject()->GetObjectCell();
+        float minDelta = 0.3;
+        
+        float range = sqrtf(powf(currentPosition.x - _lastSmokeCreationPosition.x, 2) + powf(currentPosition.y - _lastSmokeCreationPosition.y, 2));
+        int times = range/minDelta;
+        CCPoint direction = ccp(currentPosition.x - _lastSmokeCreationPosition.x, currentPosition.y - _lastSmokeCreationPosition.y);
+        direction.x /= range;
+        direction.y /= range;
+        for (int i = 0; i < times; i++)
+        {
+            _lastSmokeCreationPosition.x += direction.x * minDelta;
+            _lastSmokeCreationPosition.y += direction.y * minDelta;
+            
+            float thisRange = sqrtf(powf(_lastSmokeCreationPosition.x - _startCell.x, 2) + powf(_lastSmokeCreationPosition.y - _startCell.y, 2));
+            if (thisRange > _rangeToTarget) 
+                break;
+            
+            
+            GameEffect* blast = GameEffect::CreateSecondaryEffect(_secondaryType, _config->_bLevel);
+            blast->SetLocation(_lastSmokeCreationPosition);
+            blast->Show();
+            MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
+            wait->_delegate = blast;
+            MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
+            
+        }
+        
         _lastSmokeCreationTime = engine->FullTime();
-        GameEffect* blast = GameEffect::CreateSecondaryEffect(_secondaryType, _config->_bLevel);
-        blast->SetLocation(GetObject()->GetObjectCell());
-        blast->Show();
-        MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
-        wait->_delegate = blast;
-        MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
     }
 }
 

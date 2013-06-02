@@ -217,6 +217,11 @@ void GameUnitData::StartNewTurn()
         val = GetMaxParameterValue(parameterType);
         SetParameterValue(parameterType, val);
     }
+    
+    if (_currentTask && !_paused)
+    {
+        _currentTask->UpdateOnStartTurn();
+    }
 }
 
 int GameUnitData::GetMoveBalance()
@@ -351,7 +356,33 @@ void GameUnitData::SetTask(GUTask *newTask)
     if (_currentTask) 
         throw "GameUnitData::SetTask(GUTask *newTask): try to start new task but another one already exist!!";
     
+    _isInProcess = true;
     _currentTask = newTask;
     _currentTask->StartTask();
+    _paused = false;
 }
+
+void GameUnitData::AbortTask()
+{
+    _currentTask->AbortTask();
+    _isInProcess = false;
+    delete _currentTask;
+    _currentTask = NULL;
+}
+
+void GameUnitData::PauseTask()
+{
+    _paused = true;
+    _isInProcess = false;
+}
+
+void GameUnitData::ContinuePausedTask()
+{
+    _paused = false;
+    _isInProcess = false;
+}
+
+
+
+
 

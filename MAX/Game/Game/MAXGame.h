@@ -59,6 +59,7 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     void ShowPathMap();
     void HidePathMap();
     void RefreshCurrentUnitPath();
+    void RecalculateUnitPathMap(GameUnit *unit);
     void RecalculateUnitPath(GameUnit* unit);
     
     bool _needToOpenMenuOnNextTapToSameUnit;
@@ -102,6 +103,7 @@ public:
     
 #pragma mark - MAXGameControllerDelegate
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
+    virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     
 #pragma mark - MAXEngineDelegate
     virtual void onFrame();
