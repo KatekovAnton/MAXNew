@@ -19,11 +19,12 @@ class GameSettings;
 class GameMatchPlayer;
 class MatchMapAgregator;
 class Pathfinder;
+class MAXObjectConfig;
 
 class GameMatch {
 
     void DebugLandPlayer(GameMatchPlayer* player, const int i);
-    vector<GameUnit*> GetAllUnitsInCell(const int x, const int y);
+    
 public:
     
     GameSettings*               _gameSettings;
@@ -44,6 +45,8 @@ public:
     bool EndTurn();
     void UnfillFogOnStartTurn();
     void FillResourceFogOnStartTurn();
+    
+    bool GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType);
     
     bool GetIsCurrentPlayer(const unsigned int playerId) const { return _currentPlayer_w != NULL && _currentPlayer_w->_playerInfo._playerId == playerId; }
     

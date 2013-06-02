@@ -16,6 +16,7 @@
 #include "SelectedGameObjectDelegate.h"
 #include "GIUnitActionMenuDelegate.h"
 #include "MAXAnimationDelegate.h"
+#include "MAXGameControllerDelegate.h"
 
 using namespace std;
 using namespace Utils;
@@ -38,7 +39,9 @@ class GameInterface;
 class GamePathVisualizer;
 class PFWaveCell;
 
-class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate
+class MAXGameController;
+
+class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameControllerDelegate
 {
     
     MAXGAMESTATE _currentState;
@@ -62,6 +65,8 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     
 public:
     
+    MAXGameController *_gameController;
+    
     bool CheckIfNextCellOk(GameUnit* unit);
 	void ShowUnitPath(GameUnit *unit);
 	void HideUnitPath();
@@ -82,6 +87,8 @@ public:
     
     void Init();
     
+    void UpdateCurrentUnitPath();
+    void TryStartConstruction(string type);
     
     void StartMatch();
     bool EndTurn();
@@ -92,6 +99,9 @@ public:
 #pragma mark - Interface
 #pragma mark Messages
     void ShowUnitSpottedMessage(GameUnit* unit);
+    
+#pragma mark - MAXGameControllerDelegate
+    virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     
 #pragma mark - MAXEngineDelegate
     virtual void onFrame();

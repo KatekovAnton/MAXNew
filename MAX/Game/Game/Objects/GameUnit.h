@@ -40,7 +40,6 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
     MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
-    GameEffect* _effectUnderBuildingTape;
     int currentSound;
     int workSound;
     
@@ -56,7 +55,11 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
     void ChackForAnimanteBody();
     
+    bool _isConstruction;
+    
 public:
+    
+    GameEffect* GetEffectUnder() {return _effectUnder;}
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
     bool GetIsStealthable() const;
@@ -110,6 +113,10 @@ public:
     void PlaceUnitOnMap();
     void RemoveUnitFromMap();
     
+    void Destroy();
+    
+    bool CanMove() const;
+    
     void CheckMovementUpdate();
     
     std::vector<UNIT_MENU_ACTION> GetActionList() const;
@@ -139,11 +146,19 @@ public:
     
     
 #pragma mark - Build methods
-    void StartConstructingUnit(const string &type);
+    
+    void CreateSmallBuildingTape();
+    void CreateLargeBuildingTape();
+    void DestroyBuildingTape();
+    
     void StartConstructingUnitInPlace(const CCPoint &topLeftCell, const string &type);
     void PauseConstructingUnit();
     void CancelConstructingUnit();
     void EscapeConstructedUnit(const CCPoint &cell);
+    
+    void BeginConstructionSequence();
+    void EndConstructionSequense();
+    bool GetIsConstruction() const {return _isConstruction;}
     
     bool CanStartBuildProcess();
     void StartBuildProcess();
@@ -156,6 +171,7 @@ public:
     
     
 #pragma mark - MAXUnitObjectDelegate
+    virtual bool ShouldSkipThisUnit() const;
     virtual int GetScan() const;
     virtual int GetRange() const;
     virtual float GetHealStatus() const;
@@ -163,6 +179,7 @@ public:
     virtual bool ShouldAnimateBody() const;
 	virtual bool ShoudDrawFakeCircle() const;
 	virtual CCPoint GetFakeCenter() const;
+    
     
 #pragma mark - GameEffectDelegate
     virtual void GameEffectDidFinishExistance(GameEffect* effect);

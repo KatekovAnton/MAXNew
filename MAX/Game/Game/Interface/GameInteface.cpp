@@ -579,6 +579,7 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock)
     {
         if ((_currentUnit && _lockUnits && removeFromLock) || (_currentUnit && !_lockUnits))
             RemoveUnitFromLock(_currentUnit);
+        HideUnitMenu();
     
     }
     _currentUnit = unit;

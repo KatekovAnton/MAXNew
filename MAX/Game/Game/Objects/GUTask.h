@@ -23,9 +23,12 @@ public:
     
     virtual bool IsFinished() = 0;
     virtual void UpdateOnStartTurn() = 0;
+    virtual void AbortTask() = 0;
+    virtual void StartTask() = 0;
+    virtual void FinishTask() = 0;
     
     GUTask(GameUnit* unit);
-    ~GUTask();
+    virtual ~GUTask();
 };
 
 #endif /* defined(__MAX__GUTask__) */

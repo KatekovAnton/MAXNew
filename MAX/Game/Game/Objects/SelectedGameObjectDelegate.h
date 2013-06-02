@@ -23,6 +23,7 @@ public:
     virtual void onUnitMoveStop(GameUnit* unit) = 0;
     virtual void onUnitFireStart(GameUnit* unit) = 0;
     virtual void onUnitFireStop(GameUnit* unit) = 0;
+    
 };
 
 #endif /* defined(__MAX__SelectedGameObjectDelegate__) */

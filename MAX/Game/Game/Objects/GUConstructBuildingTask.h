@@ -24,13 +24,19 @@ public:
     int _pathDirection;
     int _pathLength;
     
+    GameUnit* _constructionUnit;
+    
+    CCPoint _cell;
     
     virtual bool IsFinished();
     virtual void UpdateOnStartTurn();
+    virtual void AbortTask();
+    virtual void StartTask();
+    virtual void FinishTask();
     
     
-    GUConstructBuildingTask(GameUnit *unit, string buildingType, int pathDirectionn, int pathLenth);
-    ~GUConstructBuildingTask();
+    GUConstructBuildingTask(GameUnit *unit, string buildingType, int pathDirectionn, int pathLenth, CCPoint cell);
+    virtual ~GUConstructBuildingTask();
 
 };
 

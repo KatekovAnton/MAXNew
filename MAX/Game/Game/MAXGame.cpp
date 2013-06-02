@@ -19,6 +19,8 @@
 #include "MAXUnitObject.h"
 #include "MAXAnimationPrefix.h"
 
+#include "MAXGameController.h"
+
 #include "MatchMapAgregator.h"
 
 #include "GameMap.h"
@@ -71,8 +73,9 @@ MAXAnimationWait* moveUnit(GameUnit* unit, float delay)
 }
 
 MAXGame::MAXGame()
-:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0)
+:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0), _gameController(new MAXGameController())
 {
+    _gameController->_delegate_w = this;
     _currentState = MAXGAMESTATE_GAME;
     _effects = new USimpleContainer<GameEffect*>();
     _pathVisualizer = new GamePathVisualizer();
@@ -80,6 +83,7 @@ MAXGame::MAXGame()
 
 MAXGame::~MAXGame()
 {
+    delete _gameController;
     engine->_delegate = NULL;
     delete _gameInterface;
     for (int i = 0; i < _effects->GetCount(); i++) {
@@ -119,6 +123,7 @@ void MAXGame::StartTest()
 
 void MAXGame::ShowPathMap()
 {
+    HidePathMap();
     Pathfinder* pf = _match->_pathfinder;
     for (int x = 0; x < _match->_map->GetMapWidth(); x++)
     {
@@ -146,7 +151,6 @@ void MAXGame::HidePathMap()
 {
 	engine->ClearPathZone();
 }
-
 
 void MAXGame::StartMatch()
 {
@@ -593,6 +597,14 @@ void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)
     _gameInterface->ShowUnitSpottedMessage(unit);
 }
 
+#pragma mark - MAXGameControllerDelegate
+
+void MAXGame::SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig)
+{
+    _currentUnit->StartConstructingUnitInPlace(result, buildingConfig->_type);
+    UpdateCurrentUnitPath();
+}
+
 #pragma mark - MAXEngineDelegate
 
 void MAXGame::onFrame()
@@ -631,6 +643,10 @@ void MAXGame::ProceedPinch(float scale)
 
 void MAXGame::ProceedPan(float speedx, float speedy)
 {
+    if (_gameController->ShoulTakePan()) {
+        _gameController->ProceedPan(speedx, speedy);
+        return;
+    }
     engine->MoveCamera(speedx, speedy);
     if (_gameInterface->GetUnitMenuOpened()) {
         _gameInterface->HideUnitMenu();
@@ -640,6 +656,7 @@ void MAXGame::ProceedPan(float speedx, float speedy)
 
 void MAXGame::ShowUnitPath(GameUnit *unit)
 {
+    HideUnitPath();
     std::vector<PFWaveCell*> path = unit->GetPath();
     int pathStep = unit->GetPathIndex();
     int pathSize = path.size();
@@ -693,6 +710,11 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     if (_freezeCounter>0) {
         return;
     }
+    if (_gameController->ShoulTakeTap()) {
+        _gameController->ProceedTap(tapx, tapy);
+        return;
+    }
+    
     bool _unitMoved = false;
     bool _unitMenuShowed = false;
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
@@ -703,7 +725,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     bool _removeFromLock = false;
     
     GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);// _currentPlayer_w->GetUnitInPosition(p);
-    if (_currentUnit && !_currentUnit->_unitData->GetIsBuilding())
+    if (_currentUnit && _currentUnit->CanMove())
     {
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
         {}
@@ -790,7 +812,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             }
         }
     }
-    else if (_currentUnit && _currentUnit->_unitData->GetIsBuilding())
+    else if (_currentUnit && !_currentUnit->CanMove())
     {
         if (_currentUnit == newCurrentUnit)
         {
@@ -829,7 +851,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             _gameInterface->HideUnitMenu();
             _currentUnit->selectedGameObjectDelegate = this;
             _currentUnit->UnitDidSelect();
-            if (!_currentUnit->_unitData->GetIsBuilding() && _currentUnit->_owner_w->GetIsCurrentPlayer())
+            if (_currentUnit->CanMove() && _currentUnit->_owner_w->GetIsCurrentPlayer())
             {
 				ShowUnitPath(_currentUnit);
 
@@ -871,21 +893,72 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     //}
 }
 
+void MAXGame::UpdateCurrentUnitPath()
+{
+    if (_currentUnit)
+    {
+        if (_currentUnit->CanMove()) {
+            ShowPathMap();
+            ShowUnitPath(_currentUnit);
+        }
+        else
+        {
+            _currentUnit->ClearPath();
+            _currentUnit->ClearTempPath();
+            HidePathMap();
+            HideUnitPath();
+        }
+    }
+    else
+    {
+        HidePathMap();
+        HideUnitPath();
+    }
+}
+
+void MAXGame::TryStartConstruction(string type)
+{
+    if (!_currentUnit->_unitData->CanStartConstructionBuilding() && !_gameController->GetRunedSpecialAction())
+        return;
+    _currentUnit->ClearPath();
+    MAXObjectConfig* newUnitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
+    if (_currentUnit->_unitData->GetIsBuilding())
+    {
+        
+    }
+    else
+    {
+        if (newUnitConfig->_bSize == 1)
+        {
+            //force MAXGAME to select path
+            _currentUnit->StartConstructingUnitInPlace(_currentUnit->GetUnitCell(), type);
+        }
+        else
+        {
+            //force MAXGAME to select suitable place
+            _gameController->StartSelectLargeBuildingConstructionPlaceAction(_currentUnit, newUnitConfig);
+        }
+    }
+    
+    UpdateCurrentUnitPath();
+}
+
 void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
-    if (_freezeCounter>0) {
+    if (_freezeCounter>0) 
         return;
-    }
+    
     if (_currentUnit && !_currentUnit->GetIsFreezed() && _currentUnit->_owner_w->GetIsCurrentPlayer())
     {
         vector<string> ableToConstruct = MAXConfigManager::SharedMAXConfigManager()->ConstructableUnitsForConstructorType(_currentUnit->GetBaseConfig()->_bSelfCreatorType);
-        if (ableToConstruct.size() > 0) 
+        if (ableToConstruct.size() > 0)
         {
-            _currentUnit->StartConstructingUnit(ableToConstruct[0]);// StartBuildProcess();
+            TryStartConstruction(ableToConstruct[0]);
         }
         else if (_currentUnit->GetBaseConfig()->_isBuldozer)
         {
             _currentUnit->StartBuildProcess();
+            UpdateCurrentUnitPath();
         }
         else
         {

@@ -24,7 +24,7 @@ public:
     
     
     GUClearzoneTask(GameUnit *unit);
-    ~GUClearzoneTask();
+    virtual ~GUClearzoneTask();
     
 };
 

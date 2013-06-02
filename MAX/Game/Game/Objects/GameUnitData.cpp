@@ -7,6 +7,7 @@
 //
 
 #include "GameUnitData.h"
+#include "GUTask.h"
 #include "GameUnitParameters.h"
 #include "MAXObjectConfig.h"
 
@@ -29,6 +30,10 @@ GameUnitData::GameUnitData(GameUnitParameters* params)
 GameUnitData::~GameUnitData()
 {
     delete _unitParameters;
+    if (_currentTask) {
+        _currentTask->AbortTask();
+        delete _currentTask;
+    }
 }
 
 bool GameUnitData::GetIsSurvivor() const
@@ -64,7 +69,11 @@ bool GameUnitData::GetIsBuldozer() const
 bool GameUnitData::GetIsConnectored() const
 {
     return GetConfig()->_isRetranslator || GetConfig()->_isConnector;
-    
+}
+
+bool GameUnitData::CanMove() const
+{
+    return !GetIsBuilding() && (_currentTask == NULL || _currentTask->IsFinished());
 }
 
 MAXObjectConfig* GameUnitData::GetConfig() const
@@ -336,3 +345,13 @@ void GameUnitData::MakeShot()
         SetParameterValue(parameterType, val);
     }
 }
+
+void GameUnitData::SetTask(GUTask *newTask)
+{
+    if (_currentTask) 
+        throw "GameUnitData::SetTask(GUTask *newTask): try to start new task but another one already exist!!";
+    
+    _currentTask = newTask;
+    _currentTask->StartTask();
+}
+

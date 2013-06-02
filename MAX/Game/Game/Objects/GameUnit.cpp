@@ -27,6 +27,11 @@
 #include "PFWaveCell.h"
 #include "MatchMapAgregator.h"
 
+#include "GUTask.h"
+#include "GUConstructBuildingTask.h"
+#include "GUConstructUnitTask.h"
+#include "GUClearzoneTask.h"
+
 using namespace cocos2d;
 
 MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
@@ -44,7 +49,7 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _effectUnderBuildingTape(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _isConstruction(false)
 {
     unitObject->_delegate_w = this;
     MAXObjectConfig* config = _unitData->GetConfig();
@@ -77,12 +82,6 @@ GameUnit::~GameUnit()
     {
         _effectUnder->Hide();
         delete _effectUnder;
-    }
-    
-    if (_effectUnderBuildingTape)
-    {
-        _effectUnderBuildingTape->Hide();
-        delete _effectUnderBuildingTape;
     }
 }
 
@@ -235,9 +234,8 @@ void GameUnit::SetColor(GLKVector4 color)
 
 void GameUnit::Show()
 {
-    if (_onDraw)
-        return;
-    GameObject::Show();
+    if (!_isConstruction)
+        GameObject::Show();
     if (_effectUnder)
         _effectUnder->Show();
     CheckBodyAndShadow();
@@ -248,8 +246,7 @@ void GameUnit::Hide()
     StopCurrentSound();
     StopWorkSound();
     
-    if (!_onDraw)
-        return;
+   
     
     GameObject::Hide();
     if (_effectUnder)
@@ -362,6 +359,12 @@ void GameUnit::RemoveUnitFromMap()
     _delegate_w->GameUnitDidRemoveFromMap(this);
 }
 
+void GameUnit::Destroy()
+{
+    RemoveUnitFromMap();
+    _delegate_w->GameUnitDidDestroy(this);
+}
+
 void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 {
     GameObject::SetLocation(cell);
@@ -433,6 +436,11 @@ void GameUnit::CheckBodyAndShadow()
         }
     }
     
+}
+
+bool GameUnit::CanMove() const
+{
+    return _unitData->CanMove();
 }
 
 void GameUnit::SetPath(std::vector<PFWaveCell*> path)
@@ -824,6 +832,9 @@ bool GameUnit::IsInProcess() const
 
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
+    if (GetIsConstruction()) 
+        return false;
+    
     MAXUnitObject* _unitObject = GetUnitObject();
     if (!_unitData->GetConfig()->_isAbleToFire)
         return false;
@@ -949,25 +960,38 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 
 #pragma mark - Build methods
 
-void GameUnit::StartConstructingUnit(const string &type)
+void GameUnit::CreateSmallBuildingTape()
 {
-    MAXObjectConfig* newUnitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
-    if (_unitData->GetIsBuilding())
-    {
-        
-    }
-    else
-    {
-        if (newUnitConfig->_bSize == 1)
-        {
-            StartConstructingUnitInPlace(GetUnitCell(), type);
-        }
-        else
-        {
-            //force MAXGAME to select suitable place
-            StartConstructingUnitInPlace(GetUnitCell(), type);
-        }
-    }
+    if (_effectUnder)
+        DestroyBuildingTape();
+    
+    CCPoint p = GetUnitCell();
+    EXTENDED_GROUND_TYPE gt = _owner_w->_match_w->_agregator->GroundTypeAtXY(p.x, p.y);
+    _effectUnder = GameEffect::CreateBuildingBase(gt == EXTENDED_GROUND_TYPE_GROUND?BUILDING_BASE_TYPE_PROGRESS_SMALL:BUILDING_BASE_TYPE_PROGRESS_SEA_SMALL, GetObject()->_currentLevel - 1);
+    _effectUnder->SetLocation(GetUnitCell());
+    _effectUnder->Show();
+}
+
+void GameUnit::CreateLargeBuildingTape()
+{
+    if (_effectUnder)
+        DestroyBuildingTape();
+    
+    CCPoint p = GetUnitCell();
+    EXTENDED_GROUND_TYPE gt = _owner_w->_match_w->_agregator->GroundTypeAtXY(p.x, p.y);
+    _effectUnder = GameEffect::CreateBuildingBase(gt == EXTENDED_GROUND_TYPE_GROUND?BUILDING_BASE_TYPE_PROGRESS_LARGE:BUILDING_BASE_TYPE_PROGRESS_SEA_LARGE, GetObject()->_currentLevel - 1);
+    _effectUnder->SetLocation(GetUnitCell());
+    _effectUnder->Show();
+}
+
+void GameUnit::DestroyBuildingTape()
+{
+    if (!_effectUnder) 
+        return;
+    
+    _effectUnder->Hide();
+    delete _effectUnder;
+    _effectUnder = NULL;
 }
 
 void GameUnit::StartConstructingUnitInPlace(const CCPoint &topLeftCell, const string &type)
@@ -975,28 +999,44 @@ void GameUnit::StartConstructingUnitInPlace(const CCPoint &topLeftCell, const st
     MAXObjectConfig* newUnitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
     if (newUnitConfig->_bSize == 1)
     {
-        _effectUnder = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_SMALL, GetObject()->_currentLevel - 2);
+        _effectUnder = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_PROGRESS_SMALL, GetObject()->_currentLevel - 1);
         _effectUnder->SetLocation(topLeftCell);
         _effectUnder->Show();
-        _effectUnderBuildingTape = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_PROGRESS_SMALL, GetObject()->_currentLevel - 1);
-        _effectUnderBuildingTape->SetLocation(topLeftCell);
-        _effectUnderBuildingTape->Show();
     }
     else
     {
-        _effectUnder = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_LARGE, GetObject()->_currentLevel - 2);
+        _effectUnder = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_PROGRESS_LARGE, GetObject()->_currentLevel - 1);
         _effectUnder->SetLocation(topLeftCell);
         _effectUnder->Show();
-        _effectUnderBuildingTape = GameEffect::CreateBuildingBase(BUILDING_BASE_TYPE_PROGRESS_LARGE, GetObject()->_currentLevel - 1);
-        _effectUnderBuildingTape->SetLocation(topLeftCell);
-        _effectUnderBuildingTape->Show();
     }
+    GUTask* task = NULL;
+    if (newUnitConfig->_isBuilding)
+    {
+        task = new GUConstructBuildingTask(this, newUnitConfig->_type, 0, 1, topLeftCell);
+        if (newUnitConfig->_bSize == 2)
+            SetDirection((GetUnitObject()->purebodyIndex/2) * 2);
+    }
+    
+    _unitData->SetTask(task);
     StartBuildProcess();
 }
 
 void GameUnit::PauseConstructingUnit()
 {
     //if it constructs building - we cant to pause
+}
+
+void GameUnit::BeginConstructionSequence()
+{
+    _isConstruction = true;
+}
+
+void GameUnit::EndConstructionSequense()
+{
+    _delegate_w->GameUnitDidRemoveFromMap(this);
+    _isConstruction = false;
+    _delegate_w->GameUnitDidPlaceOnMap(this);
+    PlaceUnitOnMap();
 }
 
 void GameUnit::CancelConstructingUnit()
@@ -1048,6 +1088,9 @@ vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 {
 	MAXObjectConfig* config = _unitData->GetConfig();
     vector<UNIT_MENU_ACTION> result;
+    if (GetIsConstruction())
+        return result;
+    
 	result.push_back(UNIT_MENU_ACTION_INFO);
 	if (movePath.size() > 0)
 	{
@@ -1235,6 +1278,11 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 }
 
 #pragma mark - MAXUnitObjectDelegate
+
+bool GameUnit::ShouldSkipThisUnit() const
+{
+    return GetIsConstruction();
+}
 
 int GameUnit::GetScan() const
 {

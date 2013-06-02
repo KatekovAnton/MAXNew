@@ -227,6 +227,9 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
         if ((!_player) || (units->objectAtIndex(i)->_owner_w == _player))
 		{
 			GameUnit* unit = units->objectAtIndex(i);
+            if (unit->GetIsConstruction()) 
+                continue;
+            
 			MAXObjectConfig* config = unit->_unitData->GetConfig();
 			if (selectedUnit != NULL)
 			{
@@ -319,7 +322,7 @@ bool MatchMapAgregator::ContainConnectoredBuildingInPosition(const int x, const 
     for (int i = 0; i < units->GetCount(); i++)
     {
         GameUnit* unit = units->objectAtIndex(i);
-        if (unit->_unitData->GetIsConnectored() && unit->_owner_w == _player)
+        if (unit->_unitData->GetIsConnectored() && !unit->GetIsConstruction() && unit->_owner_w == _player)
         {
             result = true;
             break;

@@ -68,6 +68,10 @@ public:
     int GetShotBalance();
     void MakeShot();
     
+    void SetTask(GUTask *newTask);
+    
+    bool CanStartConstructionBuilding() const {return _currentTask == NULL;}
+    bool CanMove() const;
     MAXObjectConfig* GetConfig() const;
 };
 

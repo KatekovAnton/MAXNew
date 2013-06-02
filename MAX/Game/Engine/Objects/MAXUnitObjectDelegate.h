@@ -12,6 +12,10 @@
 class MAXUnitObjectDelegate
 {
 public:
+    
+    
+    virtual bool ShouldSkipThisUnit() const = 0;
+    
     virtual int GetScan() const = 0;
     virtual int GetRange() const = 0;
     virtual float GetHealStatus() const = 0;

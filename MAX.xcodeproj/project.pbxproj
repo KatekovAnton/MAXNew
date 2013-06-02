@@ -676,6 +676,7 @@
 		8B20D89F175952700058890D /* GUConstructUnitTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUConstructUnitTask.h; sourceTree = "<group>"; };
 		8B20D8A117595D220058890D /* GUClearzoneTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUClearzoneTask.cpp; sourceTree = "<group>"; };
 		8B20D8A217595D220058890D /* GUClearzoneTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUClearzoneTask.h; sourceTree = "<group>"; };
+		8B20D8A5175BCE8F0058890D /* MAXGameControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXGameControllerDelegate.h; sourceTree = "<group>"; };
 		8B44BBB51752BCD700A9D382 /* GIWindowsManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIWindowsManager.cpp; sourceTree = "<group>"; };
 		8B44BBB61752BCD700A9D382 /* GIWindowsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIWindowsManager.h; sourceTree = "<group>"; };
 		8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObject.cpp; sourceTree = "<group>"; };
@@ -1784,6 +1785,7 @@
 				D16D48DD168B37F20055F35D /* Resources */,
 				D19C065916D531A30014A6BE /* MAXGameController.cpp */,
 				D19C065A16D531A40014A6BE /* MAXGameController.h */,
+				8B20D8A5175BCE8F0058890D /* MAXGameControllerDelegate.h */,
 				8B8EAA12168A17F30097CA74 /* MAXGame.cpp */,
 				8B8EAA13168A17F30097CA74 /* MAXGame.h */,
 			);

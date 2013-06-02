@@ -90,6 +90,8 @@ void MAXStatusRenderer::DrawCircles()
         {
             MAXUnitObject* object = *obj;
             MAXUnitObjectDelegate* delegate = object->_delegate_w;
+            if (delegate->ShouldSkipThisUnit())
+                continue;
 			if (delegate->ShoudDrawFakeCircle())
 			{
 				center = engine->WorldCoordinatesToScreenCocos(delegate->GetFakeCenter());
@@ -115,7 +117,10 @@ void MAXStatusRenderer::DrawCircles()
             
             
             MAXUnitObjectDelegate* delegate = object->_delegate_w;
-
+            
+            if (delegate->ShouldSkipThisUnit())
+                continue;
+            
             FIRE_TYPE fireType = object->FireType();
             switch (fireType)
             {
