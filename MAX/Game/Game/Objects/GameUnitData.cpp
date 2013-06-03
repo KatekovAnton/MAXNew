@@ -81,6 +81,71 @@ MAXObjectConfig* GameUnitData::GetConfig() const
     return _unitParameters->GetConfig();
 }
 
+vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
+{
+	MAXObjectConfig* config = GetConfig();
+    vector<UNIT_MENU_ACTION> result;
+    
+	result.push_back(UNIT_MENU_ACTION_INFO);
+	if (havePath)
+	{
+		result.push_back(UNIT_MENU_ACTION_DONE);
+		result.push_back(UNIT_MENU_ACTION_STOP);
+	}
+	if (config->_isAbleToFire && (_pShots > 0))
+	{
+		result.push_back(UNIT_MENU_ACTION_ATTACK);
+	}
+	if (config->_isReloader) // check if resource exist
+	{
+		result.push_back(UNIT_MENU_ACTION_RELOAD);
+	}
+	if (config->_isRepair) // check if resource exist
+	{
+		result.push_back(UNIT_MENU_ACTION_REPAIR);
+	}
+	if (config->_isBuldozer) // check if trash exist under the unit
+	{
+		result.push_back(UNIT_MENU_ACTION_CLEAR);
+	}
+	if (config->_isResearch)
+	{
+		result.push_back(UNIT_MENU_ACTION_RESEARCH);
+	}
+	if (config->_isUpgrades)
+	{
+		result.push_back(UNIT_MENU_ACTION_BUYUPGRADES);
+	}
+	if ((config->_isAllwaysOn != config->_isBuilding ) || ContainsCurrentTask())
+	{
+		if (_isInProcess)
+		{
+			result.push_back(UNIT_MENU_ACTION_STOP);
+		}
+		else
+		{
+            //TODO: only for start without task
+			result.push_back(UNIT_MENU_ACTION_START);
+		}
+	}
+    
+    if (config->_bSelfCreatorType != 0 && !ContainsCurrentTask())
+	{
+        result.push_back(UNIT_MENU_ACTION_BUILD);
+	}
+	if (config->_isInfiltrator && (_pShots > 0))
+	{
+		result.push_back(UNIT_MENU_ACTION_DISABLE);
+		result.push_back(UNIT_MENU_ACTION_STEAL);
+	}
+    
+	if (config->_isBuilding)
+	{
+		result.push_back(UNIT_MENU_ACTION_REMOVE);
+	}
+    return result;
+}
+
 int GameUnitData::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
 {
     int result = 0;

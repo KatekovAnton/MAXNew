@@ -60,6 +60,8 @@ public:
     bool GetIsBuldozer() const;
     bool GetIsConnectored() const;
 
+    vector<UNIT_MENU_ACTION> GetActionList(bool havePath) const;
+    
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
     int GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType);
     void SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue);

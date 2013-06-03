@@ -1063,69 +1063,12 @@ void GameUnit::StartBuildProcess()
 
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 {
-	MAXObjectConfig* config = _unitData->GetConfig();
-    vector<UNIT_MENU_ACTION> result;
     if (GetIsConstruction())
+    {
+        vector<UNIT_MENU_ACTION> result;
         return result;
-    
-	result.push_back(UNIT_MENU_ACTION_INFO);
-	if (movePath.size() > 0)
-	{
-		result.push_back(UNIT_MENU_ACTION_DONE);
-		result.push_back(UNIT_MENU_ACTION_STOP);
-	}
-	if (config->_isAbleToFire && (_unitData->_pShots > 0))
-	{
-		result.push_back(UNIT_MENU_ACTION_ATTACK);
-	}
-	if (config->_isReloader) // check if resource exist
-	{
-		result.push_back(UNIT_MENU_ACTION_RELOAD);
-	}
-	if (config->_isRepair) // check if resource exist
-	{
-		result.push_back(UNIT_MENU_ACTION_REPAIR);
-	}
-	if (config->_isBuldozer) // check if trash exist under the unit
-	{
-		result.push_back(UNIT_MENU_ACTION_CLEAR);
-	}
-	if (config->_isResearch)
-	{
-		result.push_back(UNIT_MENU_ACTION_RESEARCH);
-	}	
-	if (config->_isUpgrades)
-	{
-		result.push_back(UNIT_MENU_ACTION_BUYUPGRADES);
-	}	
-	if ((config->_isAllwaysOn != config->_isBuilding ) || _unitData->ContainsCurrentTask())
-	{
-		if (IsInProcess())
-		{
-			result.push_back(UNIT_MENU_ACTION_STOP);
-		}
-		else
-		{
-            //TODO: only for start without task
-			result.push_back(UNIT_MENU_ACTION_START);
-		}
-	}
-
-    if (config->_bSelfCreatorType != 0 && !_unitData->ContainsCurrentTask())
-	{
-        result.push_back(UNIT_MENU_ACTION_BUILD);
-	}
-	if (config->_isInfiltrator && (_unitData->_pShots > 0))
-	{
-		result.push_back(UNIT_MENU_ACTION_DISABLE);
-		result.push_back(UNIT_MENU_ACTION_STEAL);
-	}
-
-	if (config->_isBuilding)
-	{
-		result.push_back(UNIT_MENU_ACTION_REMOVE);
-	}
-    return result;
+    }
+    return _unitData->GetActionList(movePath.size()>0);
 }
 
 void GameUnit::CheckMovementUpdate()
@@ -1134,8 +1077,6 @@ void GameUnit::CheckMovementUpdate()
     CCPoint realCell = GetUnitObject()->GetObjectCell();
     realCell.x = (int)(realCell.x + 0.5);
     realCell.y = (int)(realCell.y + 0.5);
-    //        printf("unitcell = %f, %f\n", unitCell.x, unitCell.y);
-    //        printf("realcell = %f, %f\n\n", realCell.x, realCell.y);
     
     if ((int)unitCell.x != (int)realCell.x || (int)unitCell.y != (int)realCell.y)
     {
@@ -1156,9 +1097,7 @@ int GameUnit::GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const
 {
     int result = _unitData->GetMaxParameterValue(parameterType);
     if ((parameterType == UNIT_PARAMETER_TYPE_SPEED) || (parameterType == UNIT_PARAMETER_TYPE_GAS))
-    {
         result /= 10;
-    }
     return result;
 }
  
@@ -1166,9 +1105,7 @@ int GameUnit::GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const
 {
     int result = _unitData->GetParameterValue(parameterType);
     if ((parameterType == UNIT_PARAMETER_TYPE_SPEED) || (parameterType == UNIT_PARAMETER_TYPE_GAS))
-    {
         result /= 10;
-    }
     return result;
 }
 
@@ -1190,9 +1127,7 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
             {
                 int soundId = PlaySound(UNIT_SOUND_ENGINE_STOP);
                 if (soundId > 0)
-                {
                     StopCurrentSound();
-                }
             }
             
             pathIndex--;
@@ -1236,17 +1171,10 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         if (_unitData->GetConfig()->_isPlane)
         {
             if (!_unitData->_landed)
-            {
                 currentSound = PlaySound(UNIT_SOUND_ENGINE);
-            }
         }
         else
-        {
             currentSound = PlaySound(UNIT_SOUND_ENGINE);
-        }
-        
-        //MoveToNextCell();
-        
     }
     else // move
     {
