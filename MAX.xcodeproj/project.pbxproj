@@ -240,6 +240,7 @@
 		D132DC6116D7AC9800DEA269 /* MAXStatusRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D132DC5F16D7AC9800DEA269 /* MAXStatusRenderer.cpp */; };
 		D13BACA517399351007FF35C /* creators.txt in Resources */ = {isa = PBXBuildFile; fileRef = D13BACA417399351007FF35C /* creators.txt */; };
 		D14D50D016EF381200F8A8EC /* MAXAnimationWait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */; };
+		D16623BB175CEC4400044666 /* glk.png in Resources */ = {isa = PBXBuildFile; fileRef = D16623BA175CEC4400044666 /* glk.png */; };
 		D16B3EB51743E87500729D73 /* MatchFireAggregator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16B3EB31743E87500729D73 /* MatchFireAggregator.cpp */; };
 		D16B3EB81743E8A800729D73 /* GameUnitBaseParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16B3EB61743E8A800729D73 /* GameUnitBaseParameters.cpp */; };
 		D16D48D3168B31030055F35D /* MAXContentMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D16D48D1168B31030055F35D /* MAXContentMap.cpp */; };
@@ -951,6 +952,7 @@
 		D13BACA417399351007FF35C /* creators.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = creators.txt; sourceTree = "<group>"; };
 		D14D50CE16EF380F00F8A8EC /* MAXAnimationWait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationWait.cpp; sourceTree = "<group>"; };
 		D14D50CF16EF381000F8A8EC /* MAXAnimationWait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationWait.h; sourceTree = "<group>"; };
+		D16623BA175CEC4400044666 /* glk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glk.png; sourceTree = "<group>"; };
 		D16B3EB31743E87500729D73 /* MatchFireAggregator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatchFireAggregator.cpp; sourceTree = "<group>"; };
 		D16B3EB41743E87500729D73 /* MatchFireAggregator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchFireAggregator.h; sourceTree = "<group>"; };
 		D16B3EB61743E8A800729D73 /* GameUnitBaseParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnitBaseParameters.cpp; sourceTree = "<group>"; };
@@ -1860,6 +1862,7 @@
 				D10B8C091721750A00536547 /* arrow_left_down_png.png */,
 				D10B8C0B1721750A00536547 /* arrow_left_png.png */,
 				D10B8C0D1721750A00536547 /* arrow_left_top_png.png */,
+				D16623BA175CEC4400044666 /* glk.png */,
 				D10D79E417215C1E00D13FA0 /* test.png */,
 			);
 			name = Objects;
@@ -3340,6 +3343,7 @@
 				D1A95DEC173AD3EA0068F53F /* truckidl.wav in Resources */,
 				D1A95DED173AD3EA0068F53F /* truckmve.wav in Resources */,
 				D1A95DEE173AD3EA0068F53F /* truckstp.wav in Resources */,
+				D16623BB175CEC4400044666 /* glk.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
