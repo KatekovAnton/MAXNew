@@ -178,8 +178,9 @@ void GameUnit::StopCurrentSound()
 void GameUnit::UnitDidSelect()
 {
     StopCurrentSound();
-    if (_owner_w->GetIsCurrentPlayer() && !_unitData->GetIsBuilding())
-        SOUND->PlaySystemSound(SOUND_TYPE_READY); // SOUND_TYPE_UNIT_READY
+    if (_owner_w->GetIsCurrentPlayer())
+        SOUND->PlaySystemSound(_unitData->GetOnSelectSoundType());
+    
     
     MAXObjectConfig* config = _unitData->GetConfig();
     if ((!config->_isBuilding) && (config->_bSelfCreatorType != 0 || config->_isBuldozer) && IsInProcess())

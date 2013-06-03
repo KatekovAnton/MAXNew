@@ -146,6 +146,16 @@ vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
     return result;
 }
 
+SOUND_TYPE GameUnitData::GetOnSelectSoundType() const
+{
+    if (GetConfig()->_isBuilding)
+        return SOUND_TYPE_NONE;
+    if (ContainsCurrentTask())
+        return SOUND_TYPE_BUILDING;
+    
+    return SOUND_TYPE_READY;
+}
+
 int GameUnitData::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
 {
     int result = 0;

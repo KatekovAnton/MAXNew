@@ -61,6 +61,7 @@ public:
     bool GetIsConnectored() const;
 
     vector<UNIT_MENU_ACTION> GetActionList(bool havePath) const;
+    SOUND_TYPE GetOnSelectSoundType() const;
     
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
     int GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType);
