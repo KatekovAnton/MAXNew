@@ -227,6 +227,7 @@ public:
     int _nMaterial;
     int _nFuel;
     int _nGold;
+    int _nMoney;
     int _nEnergy;
     int _nPeoples;
     

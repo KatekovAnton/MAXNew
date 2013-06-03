@@ -227,6 +227,24 @@ int GameUnitData::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType)
             result = 0;
             break;
             
+            //stored resources
+        case UNIT_PARAMETER_TYPE_FUEL:
+            result = GetConfig()->_rFuel;
+            break;
+        case UNIT_PARAMETER_TYPE_GOLD:
+            result = GetConfig()->_rGold;
+            break;
+        case UNIT_PARAMETER_TYPE_MATERIAL:
+            result = GetConfig()->_rMaterial;
+            break;
+            
+            
+        case UNIT_PARAMETER_TYPE_MATERIAL_BASE:
+        {
+            //TODO: calc at all base
+            result = 0;
+        }break;
+            
         default:
             break;
     }

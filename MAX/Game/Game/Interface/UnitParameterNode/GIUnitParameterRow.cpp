@@ -78,14 +78,20 @@ void GIUnitParameterRow::SetImageForParameterType(UNIT_PARAMETER_TYPE type, int 
             
             //storage
         case UNIT_PARAMETER_TYPE_GAS:
+        case UNIT_PARAMETER_TYPE_FUEL:
+        case UNIT_PARAMETER_TYPE_FUEL_BASE:
         {name = MAX_IMAGE_FUEL; text = "FUEL";}break;
         case UNIT_PARAMETER_TYPE_GOLD:
+        case UNIT_PARAMETER_TYPE_GOLD_BASE:
         {name = MAX_IMAGE_GOLD; text = "GOLD";}break;
         case UNIT_PARAMETER_TYPE_MATERIAL:
+        case UNIT_PARAMETER_TYPE_MATERIAL_BASE:
         {name = MAX_IMAGE_RAWMAT; text = "MATR";}break;
         case UNIT_PARAMETER_TYPE_PEOPLE:
+        case UNIT_PARAMETER_TYPE_PEOPLE_BASE:
         {name = MAX_IMAGE_WORKERS; text = "WORK";}break;
         case UNIT_PARAMETER_TYPE_ENERGY:
+        case UNIT_PARAMETER_TYPE_ENERGY_BASE:
         {name = MAX_IMAGE_POWER; text = "POWR";}break;
             
             //caro

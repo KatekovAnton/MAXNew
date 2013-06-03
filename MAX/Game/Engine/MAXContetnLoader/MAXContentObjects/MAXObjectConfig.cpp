@@ -376,16 +376,16 @@ void MAXObjectConfig::SetBalanceConfigValue(string key, string value)
         return;
     }
     
-    if (key == "Needs")
+    if (key == "Needs  ")
     {
         //Needs  =0   0   0   0   0   0
         vector<string> elements = getElements(value);
         _nMaterial          = atoi(elements[0].c_str());
         _nFuel              = atoi(elements[1].c_str());
         _nGold              = atoi(elements[2].c_str());
-        _nEnergy            = atoi(elements[3].c_str());
-        _nPeoples           = atoi(elements[4].c_str());
-        
+        _nMoney             = atoi(elements[3].c_str());
+        _nEnergy            = atoi(elements[4].c_str());
+        _nPeoples           = atoi(elements[5].c_str());
         return;
     }
     
@@ -464,8 +464,16 @@ _pFuel(0),
 _nMaterial(0),
 _nFuel(0),
 _nGold(0),
+_nMoney(0),
 _nEnergy(0),
 _nPeoples(0),
+
+_retMaterial(0),
+_retFuel(0),
+_retGold(0),
+_retMoney(0),
+_retEnergy(0),
+_retPeoples(0),
 
 bodyAnimFrame0(0),
 bodyAnimFrame1(0),
@@ -513,9 +521,15 @@ _soundEngineWaterName("")
             SetBalanceConfigValue(typeData[0], typeData[1]);
     }
     
+    
+    
     _isPlane = _bLevel == OBJECT_LEVEL_AIR;
     _hasHead = _pSeparateCanon == 1 || _isAnimHead;
     _isAnimatedHead = _isAnimHead;
+//    if (_retMaterial > 0) {
+//        int a = 0;
+//        a++;
+//    }
     if (_isSurvivor && (_bMoveType == UNIT_MOVETYPE_AMHIB))
     {
         _bMoveType = UNIT_MOVETYPE_SURVEYOR;
@@ -542,65 +556,68 @@ bool MAXObjectConfig::IsValid() const
 std::vector<UNIT_PARAMETER_TYPE> MAXObjectConfig::GetShortParameterList()
 {
     std::vector<UNIT_PARAMETER_TYPE> result;
-    /*
-     //storage
-     UNIT_PARAMETER_TYPE_FUEL,
-     UNIT_PARAMETER_TYPE_GOLD,
-     UNIT_PARAMETER_TYPE_MATERIAL,
-     UNIT_PARAMETER_TYPE_PEOPLE,
-     UNIT_PARAMETER_TYPE_ENERGY,
-     
-     //caro
-     UNIT_PARAMETER_TYPE_CARGO_UNITS,
-     UNIT_PARAMETER_TYPE_CARGO_PLANES,
-     UNIT_PARAMETER_TYPE_CARGO_SHIPS,
-     */
-    UNIT_PARAMETER_TYPE parameterType;
-    parameterType = UNIT_PARAMETER_TYPE_HEALTH;
+    
     if (_pHealth > 0)
-    {
-        result.push_back(parameterType);
-    }
-//    parameterType = UNIT_PARAMETER_TYPE_ARMOR;
-//    if (_pArmor > 0)
-//    {
-//        result.push_back(parameterType);
-//    }
-//    parameterType = UNIT_PARAMETER_TYPE_ATTACK;
-//    if (_pAttack > 0)
-//    {
-//        result.push_back(parameterType);
-//    }
-    parameterType = UNIT_PARAMETER_TYPE_GAS;
+        result.push_back(UNIT_PARAMETER_TYPE_HEALTH);
     if (_pFuel > 0)
-    {
-        result.push_back(parameterType);
-    }
-//    parameterType = UNIT_PARAMETER_TYPE_RANGE;
-//    if (_pRange > 0)
-//    {
-//        result.push_back(parameterType);
-//    }
-//    parameterType = UNIT_PARAMETER_TYPE_SCAN;
-//    if (_pScan > 0)
-//    {
-//        result.push_back(parameterType);
-//    }
-    parameterType = UNIT_PARAMETER_TYPE_AMMO;
+        result.push_back(UNIT_PARAMETER_TYPE_GAS);
     if (_pAmmo > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_SPEED;
+        result.push_back(UNIT_PARAMETER_TYPE_AMMO);
     if (_pSpeed > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_SHOTS;
+        result.push_back(UNIT_PARAMETER_TYPE_SPEED);
     if (_pShots > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_SHOTS);
+    
+    
+    
+    if (_isBuilding)
     {
-        result.push_back(parameterType);
+        if (_retEnergy > 0)
+        {
+            result.push_back(UNIT_PARAMETER_TYPE_ENERGY);
+            result.push_back(UNIT_PARAMETER_TYPE_ENERGY_BASE);
+        }
+        
+        if (_retPeoples > 0)
+        {
+            result.push_back(UNIT_PARAMETER_TYPE_PEOPLE);
+            result.push_back(UNIT_PARAMETER_TYPE_PEOPLE_BASE);
+        }
+        
+        if (_nMaterial > 0 && _rMaterial == 0)
+            result.push_back(UNIT_PARAMETER_TYPE_MATERIAL_BASE);
+        if (_nFuel > 0)
+            result.push_back(UNIT_PARAMETER_TYPE_FUEL_BASE);
+        if (_nGold > 0)
+            result.push_back(UNIT_PARAMETER_TYPE_GOLD_BASE);
+        if (_nEnergy > 0 && _retEnergy == 0)
+            result.push_back(UNIT_PARAMETER_TYPE_ENERGY_BASE);
+        if (_nPeoples > 0)
+            result.push_back(UNIT_PARAMETER_TYPE_PEOPLE_BASE);
     }
+
+    
+    if (_rMaterial > 0)
+    {
+        result.push_back(UNIT_PARAMETER_TYPE_MATERIAL);
+        if (_isBuilding) 
+            result.push_back(UNIT_PARAMETER_TYPE_MATERIAL_BASE);
+    }
+    
+    if (_rFuel > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_FUEL);
+    
+    if (_rGold > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_GOLD);
+    
+        
+    
+    /*
+    //caro
+    UNIT_PARAMETER_TYPE_CARGO_UNITS,
+    UNIT_PARAMETER_TYPE_CARGO_PLANES,
+    UNIT_PARAMETER_TYPE_CARGO_SHIPS,
+    */
     return result;
 }
 
@@ -620,52 +637,32 @@ std::vector<UNIT_PARAMETER_TYPE> MAXObjectConfig::GetFullParameterList()
      UNIT_PARAMETER_TYPE_CARGO_PLANES,
      UNIT_PARAMETER_TYPE_CARGO_SHIPS,
      */
-    UNIT_PARAMETER_TYPE parameterType;
-    parameterType = UNIT_PARAMETER_TYPE_HEALTH;
     if (_pHealth > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_ARMOR;
+        result.push_back(UNIT_PARAMETER_TYPE_HEALTH);
     if (_pArmor > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_ATTACK;
+        result.push_back(UNIT_PARAMETER_TYPE_ARMOR);
     if (_pAttack > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_GAS;
+        result.push_back(UNIT_PARAMETER_TYPE_ATTACK);
     if (_pFuel > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_RANGE;
+        result.push_back(UNIT_PARAMETER_TYPE_GAS);
     if (_pRange > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_SCAN;
+        result.push_back(UNIT_PARAMETER_TYPE_RANGE);
     if (_pScan > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_AMMO;
+        result.push_back(UNIT_PARAMETER_TYPE_SCAN);
     if (_pAmmo > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_SPEED;
+        result.push_back(UNIT_PARAMETER_TYPE_AMMO);
     if (_pSpeed > 0)
-    {
-        result.push_back(parameterType);
-    }
-    parameterType = UNIT_PARAMETER_TYPE_SHOTS;
+        result.push_back(UNIT_PARAMETER_TYPE_SPEED);
     if (_pShots > 0)
-    {
-        result.push_back(parameterType);
-    }
+        result.push_back(UNIT_PARAMETER_TYPE_SHOTS);
+    
+    if (_rMaterial > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_MATERIAL);
+    if (_rFuel > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_FUEL);
+    if (_rGold > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_GOLD);
+    
     return result;
 }
 
