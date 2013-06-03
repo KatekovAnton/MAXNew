@@ -353,6 +353,27 @@ GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
     return result;
 }
 
+GameEffect* GameEffect::CreateTaskCompletedChack(int level)
+{
+    string effectName = "arrow_left_png.png";
+    float size = 1.0;
+    
+        
+    MAXObjectConfig* config = new MAXObjectConfig();
+    config->_bLevel = level;
+    config->_bodyName = effectName;
+    config->_bSize = size;
+    config->_isBuilding = true;
+    MAXEffectObject* effectObject = MAXSCL->CreateSingleEffect(config, size);
+    effectObject->_currentFrame=0;
+    effectObject->_drawInLowLod = true;
+    GameEffect* result = new GameEffect(effectObject, config, false);
+    result->_effectType = EFFECT_TYPE_BUILDING_BASE;
+    result->_blastType = BLAST_TYPE_NONE;
+    result->_secondaryType = SECONDARY_TYPE_NONE;
+    return result;
+}
+
 #pragma mark - MAXAnimationDelegate
 
 void GameEffect::OnAnimationStart(MAXAnimationBase* animation)

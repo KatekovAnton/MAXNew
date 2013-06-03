@@ -80,7 +80,6 @@ void MAXGameController::ProceedPan(int speedx, int speedy)
     if (speedx == 0 && speedy == 0) 
         return;
     
-    printf("%d, %d\n", speedx, speedy);
     switch (_actionType)
     {
         case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:

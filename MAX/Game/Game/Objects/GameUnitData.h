@@ -79,6 +79,8 @@ public:
     void AbortTask();
     void PauseTask();
     void ContinuePausedTask();
+    bool GetIsTaskFinished();
+    bool GetIsTaskWaitForUserFinish();
     
     bool ContainsCurrentTask() const {return _currentTask != NULL;}
     bool CanMove() const;

@@ -109,6 +109,7 @@ public:
     static GameEffect* CreateTrash(TRASH_TYPE type);
     static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type, int level);
     static GameEffect* CreatePathArrow(int azimut, bool isGreen, int level);
+    static GameEffect* CreateTaskCompletedChack(int level);
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);

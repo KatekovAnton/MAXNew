@@ -24,7 +24,9 @@ public:
     int _pathDirection;
     int _pathLength;
     
-    GameUnit* _constructionUnit;
+    int _turns;
+    
+    GameUnit* _constructionUnit_w;
     
     CCPoint _cell;
     
@@ -34,6 +36,7 @@ public:
     virtual void StartTask();
     virtual void FinishTask();
     
+    virtual bool NeedUserInteractionToFinish();
     
     GUConstructBuildingTask(GameUnit *unit, string buildingType, int pathDirectionn, int pathLenth, CCPoint cell);
     virtual ~GUConstructBuildingTask();
