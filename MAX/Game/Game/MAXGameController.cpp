@@ -17,6 +17,19 @@
 #include "MAXAnimationPrefix.h"
 
 #include "MAXUnitObject.h"
+#include "PFWaveCell.h"
+#include "Pathfinder.h"
+
+
+CCPoint findInterimPointWithLargeBuilding(CCPoint buildingLocation, CCPoint exitCell)
+{
+    CCPoint result = ccp(buildingLocation.x + 1, buildingLocation.y + 1);
+    if (exitCell.x <= buildingLocation.x)
+        result.x = buildingLocation.x;
+    if (exitCell.y <= buildingLocation.y)
+        result.y = buildingLocation.y;
+    return result;
+}
 
 MAXGameController::MAXGameController()
 :_selectedUnit_w(NULL), _actionType(-1), _buildingConfig_w(NULL)
@@ -119,7 +132,8 @@ void MAXGameController::AbortCurrentAction()
         } break;
         case MAXGameControllerAction_SelectConstructorExitCell:
         {
-            _selectedUnit_w->CreateCheckIcon();
+            if (_selectedUnit_w->_unitData->ContainsCurrentTask()) 
+                _selectedUnit_w->CreateCheckIcon();
         } break;
         default:
             break;
@@ -214,17 +228,42 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                     if (createdUnit->GetConfig()->_bSize == 1)
                     {
                         _selectedUnit_w->SetUnitLocationAnimated(cell);
+                     
+                        std::vector<PFWaveCell*> path;
+                        Pathfinder* p = game->_match->_pathfinder;
+                        path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, p->GetMapCostAt(_unitCell.x, _unitCell.y, _unitObject->GetBodyIndex(), (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), _unitObject->GetBodyIndex()));
+                        
+                        int direction = MAXObject::CalculateImageIndex(_unitCell, cell);
+                        path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), direction));
+                        
+                        _selectedUnit_w->SetPath(path);
+                        _selectedUnit_w->ConfirmCurrentPath();
+                        
                     }
                     else
                     {
-                        MAXAnimationSequence* sequence = new MAXAnimationSequence();
-//                        MAXAnimationObjectUnit* step1 = new MAXAnimationObjectUnit(_unitObject->GetBodyIndex(), MAXObject::CalculateImageIndex(_unitCell, destination), _unitObject->GetPureHeadIndex(), _unitObject);
-                        //                        sequence->AddAnimation(step1);
-                        _selectedUnit_w->RunAnimation(sequence);
+                        CCPoint wayPoit = findInterimPointWithLargeBuilding(createdUnit->GetUnitCell(), cell);
+                        
+                        std::vector<PFWaveCell*> path;
+                        Pathfinder* p = game->_match->_pathfinder;
+                        path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, p->GetMapCostAt(_unitCell.x, _unitCell.y, _unitObject->GetBodyIndex(), (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), _unitObject->GetBodyIndex()));
+                        
+                        int direction = MAXObject::CalculateImageIndex(_unitCell, wayPoit);
+                        path.push_back(new PFWaveCell(wayPoit.x, wayPoit.y, p->GetMapCostAt(wayPoit.x, wayPoit.y, direction, (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), direction));
+                        
+                        direction = MAXObject::CalculateImageIndex(wayPoit, cell);
+                        path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), direction));
+                        
+                        _selectedUnit_w->SetPath(path);
+                        _selectedUnit_w->ConfirmCurrentPath();
                     }
                     
-                    
-                    
+                    _selectedUnit_w->_unitData->CompletlyFinishTask();
+                    createdUnit->RemoveUnitFromMap();
+                    createdUnit->EndConstructionSequense();
+                    createdUnit->PlaceUnitOnMap();
+                    _selectedUnit_w->DestroyCheckIcon();
+                    _selectedUnit_w->DestroyBuildingTape();
                     shouldDeselectUnit = false;
                 }
             }

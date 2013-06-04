@@ -497,6 +497,16 @@ bool GameUnitData::GetIsTaskWaitForUserFinish()
     return _currentTask && _currentTask->IsFinished() && _currentTask->NeedUserInteractionToFinish();
 }
 
+void GameUnitData::CompletlyFinishTask()
+{
+    _currentTask->FinishTask();
+    delete _currentTask;
+    _currentTask = NULL;
+    _isInProcess = false;
+    _paused = false;
+}
+
+
 
 
 

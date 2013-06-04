@@ -81,6 +81,7 @@ public:
     void AbortTask();
     void PauseTask();
     void ContinuePausedTask();
+    void CompletlyFinishTask();
     bool GetIsTaskFinished();
     bool GetIsTaskWaitForUserFinish();
     
