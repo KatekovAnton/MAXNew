@@ -46,8 +46,10 @@ bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit
 {
     AbortCurrentAction();
     
+    _buildingConfig_w = buildingConfig;
     CCPoint newCell = constructor->GetUnitCell();
     do {
+        constructor->_currentlyProcesedConstructor = true;
         bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
         if (canConstrutHere)
             break;
@@ -63,9 +65,9 @@ bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit
         if (canConstrutHere)
             break;
         
-        
         newCell.x -= 1;
         canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
+        constructor->_currentlyProcesedConstructor = false;
         if (canConstrutHere)
             break;
         else
@@ -73,9 +75,9 @@ bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit
         
     } while (false);
     
+    constructor->_currentlyProcesedConstructor = false;
     _actionType = MAXGameControllerAction_SelectLargeBuildingConstructionPlace;
     
-    _buildingConfig_w = buildingConfig;
     _selectedUnit_w = constructor;
     constructor->CreateLargeBuildingTape();
     _largeBuildingConstructionPlace = _selectedUnit_w->GetUnitCell();
@@ -173,7 +175,9 @@ void MAXGameController::ProceedPan(int speedx, int speedy)
                 newCell.x = lastSelectedCell.x;
             
             
+            _selectedUnit_w->_currentlyProcesedConstructor = true;
             bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
+            _selectedUnit_w->_currentlyProcesedConstructor = false;
             if (canConstrutHere)
                 _secondaryObject_w->SetLocation(newCell);
             

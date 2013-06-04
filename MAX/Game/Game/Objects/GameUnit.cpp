@@ -49,7 +49,7 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _isConstruction(false), _effectOver(NULL)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _isConstruction(false), _effectOver(NULL), _currentlyProcesedConstructor(false)
 {
     unitObject->_delegate_w = this;
     MAXObjectConfig* config = _unitData->GetConfig();

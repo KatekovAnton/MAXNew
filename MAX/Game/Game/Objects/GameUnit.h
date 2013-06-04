@@ -59,6 +59,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
 public:
     
+    bool _currentlyProcesedConstructor;
     void RunAnimation(MAXAnimationSequence* animation);
     GameEffect* GetEffectUnder() {return _effectUnder;}
     

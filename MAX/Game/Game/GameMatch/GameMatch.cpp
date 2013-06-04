@@ -313,6 +313,18 @@ bool GameMatch::GetIsCellValid(CCPoint cell) const
 bool GameMatch::GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType)
 {
     //TODO:
+    vector<CCPoint>cells;
+    cells.push_back(cell);
+    cells.push_back(ccp(cell.x+1, cell.y));
+    cells.push_back(ccp(cell.x, cell.y+1));
+    cells.push_back(ccp(cell.x+1, cell.y+1));
+    for (int i = 0; i < cells.size(); i++) {
+        CCPoint cell1 = cells[i];
+        if (!UnitCanBePlacedToCell(cell1.x, cell1.y, (UNIT_MOVETYPE)buildingType->_bMoveType))
+            return false;
+        
+    }
+    
     return true;
 }
 

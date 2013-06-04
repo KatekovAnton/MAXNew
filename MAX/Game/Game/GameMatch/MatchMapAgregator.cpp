@@ -289,7 +289,8 @@ bool MatchMapAgregator::IsGroundUnitInPosition(const int x, const int y)
             (!config->_isBridge) &&
             (!config->_isPlatform) &&
             (!config->_isConnector) &&
-            (!config->_isBombMine)
+            (!config->_isBombMine) &&
+            (!unit->_currentlyProcesedConstructor)
            )
         {
             result = true;
