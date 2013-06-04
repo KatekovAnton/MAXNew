@@ -256,8 +256,10 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                         int direction = MAXObject::CalculateImageIndex(wayPoit, cell);
                         path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, moveType), direction));
                         
-                        direction = MAXObject::CalculateImageIndex(_unitCell, wayPoit);
-                        path.push_back(new PFWaveCell(wayPoit.x, wayPoit.y, p->GetMapCostAt(wayPoit.x, wayPoit.y, direction, moveType), direction));
+                        if (_unitCell.x != wayPoit.x || _unitCell.y != wayPoit.y) {
+                            direction = MAXObject::CalculateImageIndex(_unitCell, wayPoit);
+                            path.push_back(new PFWaveCell(wayPoit.x, wayPoit.y, p->GetMapCostAt(wayPoit.x, wayPoit.y, direction, moveType), direction));
+                        }
                         
                         path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, 0, 0));
                     
