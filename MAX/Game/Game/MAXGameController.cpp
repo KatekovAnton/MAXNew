@@ -14,6 +14,9 @@
 #include "GameEffect.h"
 #include "GameUnit.h"
 #include "GameUnitData.h"
+#include "MAXAnimationPrefix.h"
+
+#include "MAXUnitObject.h"
 
 MAXGameController::MAXGameController()
 :_selectedUnit_w(NULL), _actionType(-1), _buildingConfig_w(NULL)
@@ -99,6 +102,7 @@ bool MAXGameController::StartSelectConstructorExitCell(GameUnit* constructor, Ga
             _additionalEffects.push_back(e);
         }
     }
+    _selectedUnit_w->DestroyCheckIcon();
     return true;
 }
 
@@ -113,7 +117,10 @@ void MAXGameController::AbortCurrentAction()
             _selectedUnit_w = NULL;
             _secondaryObject_w = NULL;
         } break;
-            
+        case MAXGameControllerAction_SelectConstructorExitCell:
+        {
+            _selectedUnit_w->CreateCheckIcon();
+        } break;
         default:
             break;
     }
@@ -196,9 +203,28 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
             for (int i = 0; i < suitableCells.size(); i++)
             {
                 CCPoint cell = suitableCells[i];
-                if (cell.x == p.x && cell.y == p.y) {
-                    int a = 0;
-                    a++;
+                if (cell.x == p.x && cell.y == p.y)
+                {
+                    MAXUnitObject* _unitObject = _selectedUnit_w->GetUnitObject();
+                    CCPoint _unitCell = _unitObject->GetObjectCell();
+                    
+                    GameUnit* createdUnit = _selectedUnit_w->_unitData->GetTaskSecondUnit();
+                    
+                    
+                    if (createdUnit->GetConfig()->_bSize == 1)
+                    {
+                        _selectedUnit_w->SetUnitLocationAnimated(cell);
+                    }
+                    else
+                    {
+                        MAXAnimationSequence* sequence = new MAXAnimationSequence();
+//                        MAXAnimationObjectUnit* step1 = new MAXAnimationObjectUnit(_unitObject->GetBodyIndex(), MAXObject::CalculateImageIndex(_unitCell, destination), _unitObject->GetPureHeadIndex(), _unitObject);
+                        //                        sequence->AddAnimation(step1);
+                        _selectedUnit_w->RunAnimation(sequence);
+                    }
+                    
+                    
+                    
                     shouldDeselectUnit = false;
                 }
             }

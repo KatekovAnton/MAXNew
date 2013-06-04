@@ -605,6 +605,18 @@ void GameUnit::FollowPath(void)
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
 }
 
+void GameUnit::RunAnimation(MAXAnimationSequence* animation)
+{
+    if (_currentTopAnimation) {
+        throw "void GameUnit::RunAnimation(MAXAnimationBase* animation) but _currentTopAnimation already exists!";
+    }
+    
+    animation->_delegate = this;
+    _currentTopAnimation = animation;
+    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(animation);
+    
+}
+
 bool GameUnit::MoveToNextCell(void)
 {
     bool result = false;

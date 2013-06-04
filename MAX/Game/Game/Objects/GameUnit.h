@@ -59,6 +59,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
 public:
     
+    void RunAnimation(MAXAnimationSequence* animation);
     GameEffect* GetEffectUnder() {return _effectUnder;}
     
     bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
