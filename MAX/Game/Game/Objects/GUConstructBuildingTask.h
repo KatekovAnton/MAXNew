@@ -38,6 +38,8 @@ public:
     
     virtual bool NeedUserInteractionToFinish();
     
+    virtual GameUnit* GetSecondObject();
+    
     GUConstructBuildingTask(GameUnit *unit, string buildingType, int pathDirectionn, int pathLenth, CCPoint cell);
     virtual ~GUConstructBuildingTask();
 

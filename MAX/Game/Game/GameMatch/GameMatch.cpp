@@ -359,3 +359,70 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
 	}
 	return result;
 }
+
+bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType)
+{
+    EXTENDED_GROUND_TYPE groundType = _agregator->GroundTypeAtXY(x, y);
+    
+    switch (unitMoveType)
+    {
+        case UNIT_MOVETYPE_GROUND:
+        {
+            if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
+                (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
+                (groundType == EXTENDED_GROUND_TYPE_GROUND))
+                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+            break;
+        }
+        case UNIT_MOVETYPE_GROUNDCOAST:
+        {
+            if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
+                (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
+                (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
+                (groundType == EXTENDED_GROUND_TYPE_COAST))
+                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+            break;
+        }
+        case UNIT_MOVETYPE_SURVEYOR:
+        {
+            if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
+                (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
+                (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
+                (groundType == EXTENDED_GROUND_TYPE_COAST) ||
+                (groundType == EXTENDED_GROUND_TYPE_WATER))
+                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+            break;
+        }
+        case UNIT_MOVETYPE_AMHIB:
+        {
+            if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
+                (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
+                (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
+                (groundType == EXTENDED_GROUND_TYPE_COAST)||
+                (groundType == EXTENDED_GROUND_TYPE_WATER))
+                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+            break;
+        }
+        case UNIT_MOVETYPE_SEACOAST:
+        {
+            if ((groundType == EXTENDED_GROUND_TYPE_WATER) ||
+                (groundType == EXTENDED_GROUND_TYPE_COAST) ||
+                (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+            break;
+        }
+        case UNIT_MOVETYPE_SEA:
+        {
+            if ((groundType == EXTENDED_GROUND_TYPE_WATER) ||
+                (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+            break;
+        }
+        case UNIT_MOVETYPE_AIR:
+        {
+            return !_fullAgregator->IsAirUnitInPosition(x, y);
+            break;
+        }
+    }
+    return false;
+}

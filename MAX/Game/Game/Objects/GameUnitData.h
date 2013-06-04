@@ -16,6 +16,7 @@ class MAXObjectConfig;
 class GameUnitParameters;
 
 class GUTask;
+class GameUnit;
 
 class GameUnitData {
     
@@ -59,7 +60,8 @@ public:
     bool GetIsUnderwater() const;
     bool GetIsBuldozer() const;
     bool GetIsConnectored() const;
-
+    bool GetCanStartBuildProcess() const;
+    
     vector<UNIT_MENU_ACTION> GetActionList(bool havePath) const;
     SOUND_TYPE GetOnSelectSoundType() const;
     
@@ -83,6 +85,7 @@ public:
     bool GetIsTaskWaitForUserFinish();
     
     bool ContainsCurrentTask() const {return _currentTask != NULL;}
+    GameUnit* GetTaskSecondUnit();
     bool CanMove() const;
     MAXObjectConfig* GetConfig() const;
 };

@@ -355,7 +355,7 @@ GameEffect* GameEffect::CreatePathArrow(int azimut, bool isGreen, int level)
 
 GameEffect* GameEffect::CreateTaskCompletedChack(int level)
 {
-    string effectName = "arrow_left_png.png";
+    string effectName = "glk.png";
     float size = 1.0;
     
         

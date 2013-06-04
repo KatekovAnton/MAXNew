@@ -81,6 +81,7 @@ public:
     void UnitDidSelect();
     void UnitDidDeselect();
     void CheckBodyAndShadow();
+    void CheckBuildProcess();
     void SetUnitLocationAnimated(const CCPoint& destination);
     void SetPath(std::vector<PFWaveCell*> path);
 	void ClearPath();
@@ -119,7 +120,7 @@ public:
     void CheckMovementUpdate();
     
     std::vector<UNIT_MENU_ACTION> GetActionList() const;
-    MAXObjectConfig* GetBaseConfig();
+    MAXObjectConfig* GetConfig();
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
     int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;
     
@@ -128,6 +129,7 @@ public:
     bool IsDetectedByPlayer(unsigned int playerId);
     
     vector<CCPoint> GetNerbyCells() const;
+    vector<CCPoint> GetFullNearbyCells() const;
     
     BoundingBox GetScanBoundingBox(const CCPoint &centerPoint) const;
     BoundingBox GetScanBoundingBox() const;
@@ -161,10 +163,8 @@ public:
     void EndConstructionSequense();
     bool GetIsConstruction() const {return _isConstruction;}
     
-    bool CanStartBuildProcess();
     
-    void StopBuildProcess();
-    void StartBuildProcess();
+    void AbortBuildProcess();
     
     
 #pragma mark - MAXAnimationDelegate

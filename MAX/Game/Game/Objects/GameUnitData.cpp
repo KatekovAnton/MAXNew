@@ -81,6 +81,11 @@ MAXObjectConfig* GameUnitData::GetConfig() const
     return _unitParameters->GetConfig();
 }
 
+bool GameUnitData::GetCanStartBuildProcess() const
+{
+    return GetConfig()->_containProcessState;
+}
+
 vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
 {
 	MAXObjectConfig* config = GetConfig();
@@ -477,6 +482,14 @@ void GameUnitData::ContinuePausedTask()
 bool GameUnitData::GetIsTaskFinished()
 {
     return _currentTask && _currentTask->IsFinished();
+}
+
+GameUnit* GameUnitData::GetTaskSecondUnit()
+{
+    if (!_currentTask)
+        return NULL;
+    
+    return _currentTask->GetSecondObject();
 }
 
 bool GameUnitData::GetIsTaskWaitForUserFinish()

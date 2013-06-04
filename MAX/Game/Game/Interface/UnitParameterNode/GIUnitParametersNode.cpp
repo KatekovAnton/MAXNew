@@ -38,7 +38,7 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
     if (!unit)
         return;
     
-    MAXObjectConfig* config = unit->GetBaseConfig();
+    MAXObjectConfig* config = unit->GetConfig();
     std::vector<UNIT_PARAMETER_TYPE> parameters = config->GetShortParameterList();
     for (int i = 0; i < parameters.size(); i++)
     {

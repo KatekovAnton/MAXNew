@@ -90,6 +90,7 @@ public:
     
     void UpdateCurrentUnitPath();
     void TryStartConstruction(string type);
+    void DeselectCurrentUnit(bool _removeFromLock);
     
     void StartMatch();
     bool EndTurn();

@@ -59,6 +59,7 @@ public:
     bool GetIsCellValid(CCPoint cell) const;
     void UpdateConnectorsForUnit(GameUnit* unit);
 	bool IsHiddenUnitInPos(const int x, const int y, const bool checkOnly);
+    bool UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType);
 };
 
 #endif /* defined(__MAX__Game_atch__) */

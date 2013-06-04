@@ -13,6 +13,7 @@
 #include "PlayerResearchManager.h"
 #include "PlayerUpgradeManager.h"
 #include "BinaryReader.h"
+#include "MAXObjectConfig.h"
 
 GameUnitParameters::GameUnitParameters(GameUnitBaseParameters   *config,
                                        PlayerResearchManager    *researchManager,

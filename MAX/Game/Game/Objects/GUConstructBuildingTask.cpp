@@ -59,4 +59,8 @@ bool GUConstructBuildingTask::NeedUserInteractionToFinish()
     return true;
 }
 
+GameUnit* GUConstructBuildingTask::GetSecondObject()
+{
+    return _constructionUnit_w;
+}
 

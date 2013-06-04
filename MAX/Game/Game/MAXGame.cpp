@@ -715,6 +715,10 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     }
     if (_gameController->ShoulTakeTap()) {
         _gameController->ProceedTap(tapx, tapy);
+        if (_gameController->shouldDeselectUnit) {
+            DeselectCurrentUnit(true);
+        }
+        
         return;
     }
     
@@ -853,42 +857,53 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             _gameInterface->HideUnitMenu();
             _currentUnit->selectedGameObjectDelegate = this;
             _currentUnit->UnitDidSelect();
-            if (_currentUnit->CanMove() && _currentUnit->_owner_w->GetIsCurrentPlayer())
-            {
-				ShowUnitPath(_currentUnit);
-
-                RecalculateUnitPathMap(_currentUnit);
-                ShowPathMap();
-            }
-            
             engine->SelectUnit(_currentUnit->GetUnitObject());
             _gameInterface->OnCurrentUnitChanged(newCurrentUnit, false);
+            
+            if (_currentUnit->_owner_w->GetIsCurrentPlayer())
+            {
+                if (_currentUnit->CanMove())
+                {
+                    ShowUnitPath(_currentUnit);
+                    RecalculateUnitPathMap(_currentUnit);
+                    ShowPathMap();
+                }
+                else if (_currentUnit->_unitData->GetIsTaskWaitForUserFinish())
+                {
+                    GameUnitData* data = _currentUnit->_unitData;
+                    _gameController->StartSelectConstructorExitCell(_currentUnit, data->GetTaskSecondUnit());
+                }
+            }
         }
         
         if (!newCurrentUnit)
-        {
-            if (_currentUnit)
-            {
-                _currentUnit->UnitDidDeselect();
-				if (_currentUnit->GetPath().size() > 0 && !_removeFromLock)
-				{
-					_currentUnit->ClearPath();
-				}
-				else
-				{
-					_gameInterface->OnCurrentUnitChanged(NULL, _removeFromLock);
-					engine->SelectUnit(NULL);
-					_currentUnit->selectedGameObjectDelegate = NULL;
-					_currentUnit = NULL;
-					HidePathMap();
-				}				
-				HideUnitPath();
-            }
-        }
+            DeselectCurrentUnit(_removeFromLock);
+        
     }
     //if (_currentUnit) {
     //    engine->SetPathZoneLevel(OBJECT_LEVEL_OVERGROUND);
     //}
+}
+
+void MAXGame::DeselectCurrentUnit(bool _removeFromLock)
+{
+    if (_currentUnit)
+    {
+        _currentUnit->UnitDidDeselect();
+        if (_currentUnit->GetPath().size() > 0 && !_removeFromLock)
+        {
+            _currentUnit->ClearPath();
+        }
+        else
+        {
+            _gameInterface->OnCurrentUnitChanged(NULL, _removeFromLock);
+            engine->SelectUnit(NULL);
+            _currentUnit->selectedGameObjectDelegate = NULL;
+            _currentUnit = NULL;
+            HidePathMap();
+        }				
+        HideUnitPath();
+    }
 }
 
 void MAXGame::UpdateCurrentUnitPath()
@@ -947,17 +962,10 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     if (_freezeCounter>0) 
         return;
     
-    if (_currentUnit && !_currentUnit->GetIsFreezed() && _currentUnit->_owner_w->GetIsCurrentPlayer())
+    if (_currentUnit && !_currentUnit->GetIsFreezed() && _currentUnit->_owner_w->GetIsCurrentPlayer() && !_currentUnit->GetConfig()->_isBuldozer)
     {
-        if (_currentUnit->GetBaseConfig()->_isBuldozer)
-        {
-            UpdateCurrentUnitPath();
-        }
-        else
-        {
-            CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-            _currentUnit->Fire(p);
-        }
+        CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
+        _currentUnit->Fire(p);
     }
 }
 
@@ -1133,7 +1141,7 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         }
         else
         {
-            _currentUnit->StopBuildProcess();
+            _currentUnit->AbortBuildProcess();
             RecalculateUnitPathMap(_currentUnit);
             ShowPathMap();
         }
@@ -1151,7 +1159,7 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         {
             if (!_currentUnit->_unitData->GetIsBuilding())
             {
-                vector<string> ableToConstruct = MAXConfigManager::SharedMAXConfigManager()->ConstructableUnitsForConstructorType(_currentUnit->GetBaseConfig()->_bSelfCreatorType);
+                vector<string> ableToConstruct = MAXConfigManager::SharedMAXConfigManager()->ConstructableUnitsForConstructorType(_currentUnit->GetConfig()->_bSelfCreatorType);
                 TryStartConstruction(ableToConstruct[0]);
                 _interfaceAction = true;
             }

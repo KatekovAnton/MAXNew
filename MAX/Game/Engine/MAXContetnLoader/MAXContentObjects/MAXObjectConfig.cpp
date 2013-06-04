@@ -539,6 +539,8 @@ _soundEngineWaterName("")
     ((_bMoveType == UNIT_MOVETYPE_SEA || _bMoveType == UNIT_MOVETYPE_SEACOAST) && _isBuilding && _isBombMine);
     _isStealthable = _isStealth || _isUnderwater || _isBombMine;
     _haveShadow = _shadowName != "";
+    
+    _containProcessState = ((_isAllwaysOn != _isBuilding) || _bSelfCreatorType != 0 || _isBuldozer);
 }
 
 MAXObjectConfig::~MAXObjectConfig()

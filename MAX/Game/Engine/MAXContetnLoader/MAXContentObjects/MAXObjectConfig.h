@@ -252,6 +252,8 @@ public:
     ~MAXObjectConfig();
     bool IsValid() const;
     
+    bool _containProcessState;
+    
     bool _haveShadow;
     
     bool ProduceSmth() const { return _retMaterial != 0 ||_retFuel != 0 || _retGold != 0 || _retMoney != 0 || _retMoney != 0 || _retEnergy != 0; }

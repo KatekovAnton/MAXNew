@@ -323,6 +323,7 @@ void GameUnit::NewTurn()
     if (_unitData->GetIsTaskWaitForUserFinish())
     {
         CreateCheckIcon();
+        CheckBuildProcess();
     }
     
 }
@@ -366,7 +367,7 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
 void GameUnit::CheckBodyAndShadow()
 {
     MAXUnitObject* _unitObject = GetUnitObject();
-    if (!(_unitData->GetIsAmphibious() || _unitData->GetIsUnderwater() || CanStartBuildProcess()) && _unitData->GetIsBuilding())
+    if (!(_unitData->GetIsAmphibious() || _unitData->GetIsUnderwater() || _unitData->GetCanStartBuildProcess()) && _unitData->GetIsBuilding())
     {
         //all passive-worked buildings, which cannot be topped by infiltrator
         if (_unitData->GetConfig()->_isAllwaysOn && _unitData->GetIsBuilding())
@@ -379,11 +380,11 @@ void GameUnit::CheckBodyAndShadow()
         return;
     };
     
-    
+    bool constructingNow = _unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskWaitForUserFinish());
     EXTENDED_GROUND_TYPE groundType = game->_match->_agregator->GroundTypeAtXY(_unitCell.x, _unitCell.y);
     if (_unitData->GetConfig()->_isBuilding)
     {
-        _unitObject->SetBodyOffset((IsInProcess() && (!_unitData->GetConfig()->_isAllwaysOn || !_unitData->GetConfig()->_isActiveBody))?1:0);
+        _unitObject->SetBodyOffset((constructingNow && (!_unitData->GetConfig()->_isAllwaysOn || !_unitData->GetConfig()->_isActiveBody))?1:0);
     }
     else
     {
@@ -398,7 +399,7 @@ void GameUnit::CheckBodyAndShadow()
             }
             if (_unitData->GetIsAmphibious())
             {
-                _unitObject->SetBodyOffset(IsInProcess()?24:8);
+                _unitObject->SetBodyOffset(constructingNow?24:8);
                 return;
             }
         }
@@ -413,17 +414,38 @@ void GameUnit::CheckBodyAndShadow()
             }
             if (_unitData->GetIsAmphibious())
             {
-                _unitObject->SetBodyOffset(IsInProcess()?16:0);
+                _unitObject->SetBodyOffset(constructingNow?16:0);
                 return;
             }
             if (_unitData->GetIsBuldozer())
             {
-                _unitObject->SetBodyOffset(IsInProcess()?8:0);
+                _unitObject->SetBodyOffset(constructingNow?8:0);
                 return;
             }
         }
     }
+}
+
+void GameUnit::CheckBuildProcess()
+{
+    MAXObjectConfig* config = _unitData->GetConfig();
+    if (!config->_containProcessState)
+        return;
     
+    
+    StopCurrentSound();
+    if (_unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskWaitForUserFinish()))
+    {
+        if (config->_isBuilding && config->_retEnergy == 0)
+            currentSound = PlaySound(UNIT_SOUND_BUILD);
+        else
+            currentSound = PlaySound(UNIT_SOUND_WORK);
+    }
+    else
+        currentSound = PlaySound(UNIT_SOUND_STOP);
+    
+    CheckBodyAndShadow();
+    ChackForAnimanteBody();
 }
 
 bool GameUnit::CanMove() const
@@ -768,6 +790,43 @@ vector<CCPoint> GameUnit::GetNerbyCells() const
     return resuplt;
 }
 
+vector<CCPoint> GameUnit::GetFullNearbyCells() const
+{
+    vector<CCPoint> resuplt = GetNerbyCells();
+    if (_unitData->GetSize() == 1)
+    {
+        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+1, GetUnitCell().y+1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+1, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x-1, GetUnitCell().y+1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+    }
+    else
+    {
+        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+2, GetUnitCell().y-1);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x-1, GetUnitCell().y+2);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        cell = ccp(GetUnitCell().x+2, GetUnitCell().y+2);
+        if (game->_match->GetIsCellValid(cell))
+            resuplt.push_back(cell);
+        
+    }
+    return resuplt;
+}
+
 #pragma mark - Stealth methods
 
 void GameUnit::DetectedByPlayer(unsigned int playerId)
@@ -1004,7 +1063,7 @@ void GameUnit::StartConstructingUnitInPlace(const CCPoint &topLeftCell, MAXObjec
     }
     
     _unitData->SetTask(task);
-    StartBuildProcess();
+    CheckBuildProcess();
 }
 
 void GameUnit::PauseConstructingUnit()
@@ -1034,41 +1093,13 @@ void GameUnit::EscapeConstructedUnit(const CCPoint &cell)
     //if it constructs building - escape self
 }
 
-bool GameUnit::CanStartBuildProcess()
-{
-	MAXObjectConfig* config = _unitData->GetConfig();
-    return ((config->_isAllwaysOn != _unitData->GetIsBuilding()) || config->_bSelfCreatorType != 0 || _unitData->GetIsBuldozer());
-}
-
-void GameUnit::StopBuildProcess()
+void GameUnit::AbortBuildProcess()
 {
     _unitData->AbortTask();
     DestroyBuildingTape();
     CheckBodyAndShadow();
     StopCurrentSound();
     currentSound = PlaySound(UNIT_SOUND_ENGINE);
-}
-
-void GameUnit::StartBuildProcess()
-{
-    if (!CanStartBuildProcess())
-        return;
-
-    
-    MAXObjectConfig* config = _unitData->GetConfig();
-    StopCurrentSound();
-    if (IsInProcess())
-    {
-        if (config->_isBuilding && config->_retEnergy == 0)
-            currentSound = PlaySound(UNIT_SOUND_BUILD);
-        else
-            currentSound = PlaySound(UNIT_SOUND_WORK);
-    }
-    else
-        currentSound = PlaySound(UNIT_SOUND_STOP);
-    
-    CheckBodyAndShadow();
-    ChackForAnimanteBody();
 }
 
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
@@ -1098,7 +1129,7 @@ void GameUnit::CheckMovementUpdate()
     }
 }
 
-MAXObjectConfig* GameUnit::GetBaseConfig()
+MAXObjectConfig* GameUnit::GetConfig()
 {
     return _unitData->GetConfig();
 }

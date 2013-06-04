@@ -29,6 +29,8 @@ public:
     
     virtual bool NeedUserInteractionToFinish() = 0;
     
+    virtual GameUnit* GetSecondObject() = 0;
+    
     GUTask(GameUnit* unit);
     virtual ~GUTask();
 };

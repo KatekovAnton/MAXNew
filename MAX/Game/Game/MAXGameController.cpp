@@ -10,10 +10,10 @@
 #include "MAXGame.h"
 
 #include "MAXEngine.h"
-
 #include "GameMatch.h"
 #include "GameEffect.h"
 #include "GameUnit.h"
+#include "GameUnitData.h"
 
 MAXGameController::MAXGameController()
 :_selectedUnit_w(NULL), _actionType(-1), _buildingConfig_w(NULL)
@@ -28,6 +28,8 @@ MAXGameController::~MAXGameController()
 
 bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
 {
+    AbortCurrentAction();
+    
     CCPoint newCell = constructor->GetUnitCell();
     do {
         bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
@@ -68,11 +70,63 @@ bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit
 
 bool MAXGameController::StartSelectSmallBuildingConstructionPathAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
 {
+    AbortCurrentAction();
+    _actionType = MAXGameControllerAction_SelectSmallBuildingConstructionPath;
     CCPoint newCell = constructor->GetUnitCell();
     constructor->CreateSmallBuildingTape();
     
     _delegate_w->SelectSmallBuildingConstructionPathActionFinished(newCell, buildingConfig);
+    AbortCurrentAction();
     return true;
+}
+
+bool MAXGameController::StartSelectConstructorExitCell(GameUnit* constructor, GameUnit* createdUnit)
+{
+    AbortCurrentAction();
+    _actionType = MAXGameControllerAction_SelectConstructorExitCell;
+    
+    _selectedUnit_w = constructor;
+    _secondaryObject_w = createdUnit;
+    vector<CCPoint> cells = createdUnit->GetFullNearbyCells();
+    GameMatch* match = game->_match;
+    for (int i = 0; i < cells.size(); i++) {
+        CCPoint cell = cells[i];
+        if (match->UnitCanBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)constructor->GetConfig()->_bMoveType)) {
+            suitableCells.push_back(cell);
+            GameEffect* e = GameEffect::CreateTaskCompletedChack(constructor->GetConfig()->_bLevel);
+            e->SetLocation(cell);
+            e->Show();
+            _additionalEffects.push_back(e);
+        }
+    }
+    return true;
+}
+
+void MAXGameController::AbortCurrentAction()
+{
+    switch (_actionType)
+    {
+        case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:
+        {
+            _selectedUnit_w->DestroyBuildingTape();
+            _buildingConfig_w = NULL;
+            _selectedUnit_w = NULL;
+            _secondaryObject_w = NULL;
+        } break;
+            
+        default:
+            break;
+    }
+    
+    for (int i = 0; i < _additionalEffects.size(); i++)
+    {
+        GameEffect* e = _additionalEffects[i];
+        e->Hide();
+        delete e;
+    }
+    suitableCells.clear();
+    _additionalEffects.clear();
+    _actionType = -1;
 }
 
 void MAXGameController::ProceedPan(int speedx, int speedy)
@@ -133,13 +187,25 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                 }
             }
             
-            _selectedUnit_w->DestroyBuildingTape();
-            _actionType = -1;
-            _buildingConfig_w = NULL;
-            _selectedUnit_w = NULL;
+            AbortCurrentAction();
             
-        }   break;
+        } break;
+        case MAXGameControllerAction_SelectConstructorExitCell:
+        {
+            shouldDeselectUnit = true;
+            for (int i = 0; i < suitableCells.size(); i++)
+            {
+                CCPoint cell = suitableCells[i];
+                if (cell.x == p.x && cell.y == p.y) {
+                    int a = 0;
+                    a++;
+                    shouldDeselectUnit = false;
+                }
+            }
             
+            AbortCurrentAction();
+            
+        } break;
         default:
             break;
     }
