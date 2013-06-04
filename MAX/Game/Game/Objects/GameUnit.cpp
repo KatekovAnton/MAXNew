@@ -185,11 +185,7 @@ void GameUnit::UnitDidSelect()
     if (_owner_w->GetIsCurrentPlayer())
         SOUND->PlaySystemSound(_unitData->GetOnSelectSoundType());
     
-    MAXObjectConfig* config = _unitData->GetConfig();
-    if ((!config->_isBuilding) && (config->_bSelfCreatorType != 0 || config->_isBuldozer) && IsInProcess())
-        currentSound = PlaySound(UNIT_SOUND_WORK);
-    else
-        currentSound = PlaySound(UNIT_SOUND_ENGINE);
+    currentSound = PlaySound(_unitData->GetBackgroundSoundType());
 }
 
 void GameUnit::UnitDidDeselect()
@@ -327,7 +323,7 @@ void GameUnit::NewTurn()
         }
     }
     _unitData->StartNewTurn();
-    if (_unitData->GetIsTaskWaitForUserFinish())
+    if (_unitData->GetIsTaskFinished())
     {
         CreateCheckIcon();
         CheckBuildProcess();
@@ -387,7 +383,7 @@ void GameUnit::CheckBodyAndShadow()
         return;
     };
     
-    bool constructingNow = _unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskWaitForUserFinish());
+    bool constructingNow = _unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskFinished());
     EXTENDED_GROUND_TYPE groundType = game->_match->_agregator->GroundTypeAtXY(_unitCell.x, _unitCell.y);
     if (_unitData->GetConfig()->_isBuilding)
     {
@@ -441,7 +437,7 @@ void GameUnit::CheckBuildProcess()
     
     
     StopCurrentSound();
-    if (_unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskWaitForUserFinish()))
+    if (_unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskFinished()))
     {
         if (config->_isBuilding && config->_retEnergy == 0)
             currentSound = PlaySound(UNIT_SOUND_BUILD);

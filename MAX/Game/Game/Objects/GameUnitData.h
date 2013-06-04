@@ -64,6 +64,7 @@ public:
     
     vector<UNIT_MENU_ACTION> GetActionList(bool havePath) const;
     SOUND_TYPE GetOnSelectSoundType() const;
+    UNIT_SOUND GetBackgroundSoundType() const;
     
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
     int GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType);
@@ -82,7 +83,10 @@ public:
     void PauseTask();
     void ContinuePausedTask();
     void CompletlyFinishTask();
-    bool GetIsTaskFinished();
+    
+    //returns yes when its ready but not completle, like wait for user finish
+    bool GetIsTaskFinished() const;
+    bool GetIsTaskPaused() const;
     bool GetIsTaskWaitForUserFinish();
     
     bool ContainsCurrentTask() const {return _currentTask != NULL;}

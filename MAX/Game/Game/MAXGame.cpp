@@ -880,7 +880,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                     RecalculateUnitPathMap(_currentUnit);
                     ShowPathMap();
                 }
-                else if (_currentUnit->_unitData->GetIsTaskWaitForUserFinish())
+                else if (_currentUnit->_unitData->GetIsTaskFinished())
                 {
                     GameUnitData* data = _currentUnit->_unitData;
                     _gameController->StartSelectConstructorExitCell(_currentUnit, data->GetTaskSecondUnit());
