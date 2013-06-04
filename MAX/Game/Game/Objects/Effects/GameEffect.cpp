@@ -374,6 +374,29 @@ GameEffect* GameEffect::CreateTaskCompletedChack(int level)
     return result;
 }
 
+GameEffect* GameEffect::CreateExitPlaceMarker(int level)
+{
+    MAXObjectConfig* config = new MAXObjectConfig();
+    config->_bLevel = level;
+    config->_bodyName = "";
+    config->_bSize = 1;
+    config->_isBuilding = true;
+    vector<string> names;
+    names.push_back("BLDMRK1");
+    names.push_back("BLDMRK2");
+    names.push_back("BLDMRK3");
+    names.push_back("BLDMRK4");
+    names.push_back("BLDMRK5");
+    MAXEffectObject* effectObject = MAXSCL->CreateEffect(config, 1, true, names);
+    effectObject->_currentFrame=0;
+    effectObject->_drawInLowLod = true;
+    GameEffect* result = new GameEffect(effectObject, config, false);
+    result->_effectType = EFFECT_TYPE_BUILDING_BASE;
+    result->_blastType = BLAST_TYPE_NONE;
+    result->_secondaryType = SECONDARY_TYPE_NONE;
+    return result;
+}
+
 #pragma mark - MAXAnimationDelegate
 
 void GameEffect::OnAnimationStart(MAXAnimationBase* animation)

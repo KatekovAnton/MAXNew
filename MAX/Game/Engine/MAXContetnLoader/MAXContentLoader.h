@@ -91,6 +91,7 @@ public:
 
     MAXUnitMaterial* LoadUnitMaterial(string name, string shadowName);
     MAXUnitMaterial* LoadEffectMaterial(string name);
+    MAXUnitMaterial* LoadEffectMaterial(vector<string> names);
     MAXUnitMaterial* LoadEffectMaterialfromSingleImage(string name);
     MAXUnitMaterial* LoadEffectMaterialfromExternalImage(string name);
     MAXRESTextureData CreateTexture2Data(string name);
@@ -99,6 +100,8 @@ public:
     void ClearImageCache();
     
 #pragma mark - creation
+    
+    MAXEffectObject* CreateEffect(MAXObjectConfig* effectConfig, float size, bool animated, vector<string> imageNames);
     MAXEffectObject* CreateEffect(MAXObjectConfig* effectConfig, float size, bool animated);
     MAXEffectObject* CreateSingleEffect(MAXObjectConfig* effectConfig, float size);
     MAXUnitObject* CreateUnit(MAXObjectConfig* unitConfig);

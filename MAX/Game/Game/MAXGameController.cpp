@@ -111,7 +111,7 @@ bool MAXGameController::StartSelectConstructorExitCell(GameUnit* constructor, Ga
         CCPoint cell = cells[i];
         if (match->UnitCanBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)constructor->GetConfig()->_bMoveType)) {
             suitableCells.push_back(cell);
-            GameEffect* e = GameEffect::CreateTaskCompletedChack(constructor->GetConfig()->_bLevel);
+            GameEffect* e = GameEffect::CreateExitPlaceMarker(constructor->GetConfig()->_bLevel);
             e->SetLocation(cell);
             e->Show();
             _additionalEffects.push_back(e);

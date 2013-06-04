@@ -942,6 +942,69 @@ MAXUnitMaterial* MAXContentLoader::LoadEffectMaterial(string name)
     return result;
 }
 
+MAXUnitMaterial* MAXContentLoader::LoadEffectMaterial(vector<string> names)
+{
+    if (externalMaterials.count(names[0])==1)
+        return externalMaterials[names[0]];
+    
+    MAXUnitMaterial* result  = new MAXUnitMaterial();
+    result ->SetImagesCount(names.size(), 0);
+    
+//    inf->SetPosition(dir[index].offset);
+//    char *data = (char*)malloc(dir[index].size);
+//    inf->ReadBuffer(dir[index].size, data);
+//    BinaryReader* dataReader = new BinaryReader(data, dir[index].size);
+//    long baseOffset = 0;//inf->GetPosition();
+//    short picCount = dataReader->ReadInt16();
+//    int* picbounds = new int[picCount];
+//    dataReader->ReadBuffer(picCount*4, (char*) picbounds);
+//    
+//    result ->SetImagesCount(picCount, 0);
+//    for (int picIndex = 0; picIndex < picCount; picIndex++)
+//    {
+//        dataReader->SetPosition(picbounds[picIndex] + baseOffset);
+//        LoadUnitFrame(dataReader, picIndex, result, baseOffset);
+//    }
+//    loadedData[index] = (void*)result;
+//    
+//    
+//    delete []picbounds;
+//    delete dataReader;
+//    free(data);
+//    return result;
+    for (int i = 0; i < names.size(); i++)
+    {
+        string name = names[i];
+        
+        int index = FindImage(name);
+        inf->SetPosition(dir[index].offset);
+        short w = inf->ReadInt16();
+        short h = inf->ReadInt16();
+        
+        short cx = inf->ReadInt16();
+        short cy = inf->ReadInt16();
+    
+        
+        GLubyte* pixels = new GLubyte[w * h];
+        inf->ReadBuffer(w*h, (char*)pixels);
+        
+        Texture* texture = TextureIdexedFromIndex(w, h, pixels);
+        delete [] pixels;
+        
+        
+        result->textures[i] = texture;
+        MAXUnitMaterialFrame frame;
+        frame.center = GLKVector2Make(cx, cy);
+        frame.size = GLKVector2Make(w, h);
+        result->frames[i] = frame;
+        
+    }
+    
+    
+    externalMaterials[names[0]] = result;
+    return result;
+}
+
 MAXUnitMaterial* MAXContentLoader::LoadEffectMaterialfromSingleImage(string name)
 {
     int index = FindImage(name);
@@ -973,6 +1036,7 @@ MAXUnitMaterial* MAXContentLoader::LoadEffectMaterialfromSingleImage(string name
     frame.center = GLKVector2Make(cx, cy);
     frame.size = GLKVector2Make(w, h);
     result->frames[0] = frame;
+    
     loadedData[index] = result;
     return result;
 }
@@ -1017,6 +1081,17 @@ MAXUnitObject* MAXContentLoader::CreateUnit(MAXObjectConfig* unitConfig)
         result->_bbsize = GLKVector2Make(unitConfig->_bSize + 1, unitConfig->_bSize + 1);
     else
         result->_bbsize = GLKVector2Make(unitConfig->_bSize, unitConfig->_bSize);
+    return result;
+}
+
+MAXEffectObject* MAXContentLoader::CreateEffect(MAXObjectConfig* effectConfig, float size, bool animated, vector<string> imageNames)
+{
+    MAXUnitMaterial *material = MAXSCL->LoadEffectMaterial(imageNames);
+    MAXUnitRenderObject *renderObject = new MAXUnitRenderObject(unitMesh);
+    MAXEffectObject* result = new MAXEffectObject(renderObject, material, effectConfig);
+    result->_playerPalette_w = defaultPalette;
+    result->_bbsize = GLKVector2Make(size, size);
+    material->_autoAnimated = animated;
     return result;
 }
 

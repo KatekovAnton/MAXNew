@@ -110,6 +110,7 @@ public:
     static GameEffect* CreateBuildingBase(BUILDING_BASE_TYPE type, int level);
     static GameEffect* CreatePathArrow(int azimut, bool isGreen, int level);
     static GameEffect* CreateTaskCompletedChack(int level);
+    static GameEffect* CreateExitPlaceMarker(int level);
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);
