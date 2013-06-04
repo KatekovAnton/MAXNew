@@ -27,6 +27,8 @@ public:
     virtual void StartTask() = 0;
     virtual void FinishTask() = 0;
     
+    virtual bool NeedUserInteractionToFinish() = 0;
+    
     GUTask(GameUnit* unit);
     virtual ~GUTask();
 };

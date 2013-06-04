@@ -73,7 +73,7 @@ bool GameUnitData::GetIsConnectored() const
 
 bool GameUnitData::CanMove() const
 {
-    return !GetIsBuilding() && (_currentTask == NULL || _currentTask->IsFinished());
+    return !GetIsBuilding() && _currentTask == NULL;
 }
 
 MAXObjectConfig* GameUnitData::GetConfig() const
@@ -311,10 +311,9 @@ void GameUnitData::StartNewTurn()
         SetParameterValue(parameterType, val);
     }
     
-    if (_currentTask && !_paused)
-    {
+    if (_currentTask && !_paused && !_currentTask->IsFinished())
         _currentTask->UpdateOnStartTurn();
-    }
+    
 }
 
 int GameUnitData::GetMoveBalance()
@@ -473,6 +472,16 @@ void GameUnitData::ContinuePausedTask()
 {
     _paused = false;
     _isInProcess = false;
+}
+
+bool GameUnitData::GetIsTaskFinished()
+{
+    return _currentTask && _currentTask->IsFinished();
+}
+
+bool GameUnitData::GetIsTaskWaitForUserFinish()
+{
+    return _currentTask && _currentTask->IsFinished() && _currentTask->NeedUserInteractionToFinish();
 }
 
 

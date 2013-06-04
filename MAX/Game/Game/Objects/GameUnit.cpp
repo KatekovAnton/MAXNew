@@ -49,7 +49,7 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _isConstruction(false)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _isConstruction(false), _effectOver(NULL)
 {
     unitObject->_delegate_w = this;
     MAXObjectConfig* config = _unitData->GetConfig();
@@ -158,9 +158,8 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
     int soundId = -1;
     if (soundStr->length() > 2)
     {
-        if (*soundStr == "attack1.wav" || *soundStr == "aplan1.wav") {
+        if (*soundStr == "attack1.wav" || *soundStr == "aplan1.wav") 
             vol = 0.15;
-        }
         soundId = SOUND->PlayGameSound(*soundStr, delegate, loop, vol);
     }
     return soundId;
@@ -181,16 +180,11 @@ void GameUnit::UnitDidSelect()
     if (_owner_w->GetIsCurrentPlayer())
         SOUND->PlaySystemSound(_unitData->GetOnSelectSoundType());
     
-    
     MAXObjectConfig* config = _unitData->GetConfig();
     if ((!config->_isBuilding) && (config->_bSelfCreatorType != 0 || config->_isBuldozer) && IsInProcess())
-    {
         currentSound = PlaySound(UNIT_SOUND_WORK);
-    }
     else
-    {
         currentSound = PlaySound(UNIT_SOUND_ENGINE);
-    }
 }
 
 void GameUnit::UnitDidDeselect()
@@ -326,6 +320,11 @@ void GameUnit::NewTurn()
         }
     }
     _unitData->StartNewTurn();
+    if (_unitData->GetIsTaskWaitForUserFinish())
+    {
+        CreateCheckIcon();
+    }
+    
 }
 
 void GameUnit::PlaceUnitOnMap()
@@ -457,9 +456,7 @@ void GameUnit::ClearPath()
 void GameUnit::ClearTempPath()
 {
     if (pathIsTemp)
-    {
         movePath.clear();
-    }
 }
 
 std::vector<PFWaveCell*> GameUnit::GetPath()
@@ -478,9 +475,7 @@ PFWaveCell* GameUnit::GetNextPathCell()
     
     int pi = pathIndex;
     if (pi >= 0)
-    {
         result = movePath[pi];
-    }
     
     return result;
 }
@@ -492,9 +487,7 @@ bool GameUnit::IsPathTargetedTo(const int x, const int y)
 	{
 		PFWaveCell* cell = movePath[0];
 		if (cell && (cell->x == x) && (cell->y == y))
-		{
 			result = TRUE;
-		}
 	}
 	return result;
 }
@@ -508,9 +501,7 @@ void GameUnit::ConfirmCurrentPath()
 
         pathIsTemp = false;
         if (_unitData->GetConfig()->_isPlane)
-        {
             TakeOff();
-        }
 		FollowPath();
 	}
 }
@@ -518,9 +509,7 @@ void GameUnit::ConfirmCurrentPath()
 void GameUnit::AbortCurrentPath()
 {
     if (_currentTopAnimation)
-    {
         _currentTopAnimation->Stop();
-    }
 }
 
 void GameUnit::FollowPath(void)
@@ -949,6 +938,26 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
 }
 
 #pragma mark - Build methods
+
+void GameUnit::CreateCheckIcon()
+{
+    if (_effectOver)
+        DestroyCheckIcon();
+    
+    _effectOver = GameEffect::CreateTaskCompletedChack(GetObject()->_currentLevel + 1);
+    _effectOver->SetLocation(GetUnitCell());
+    _effectOver->Show();
+}
+
+void GameUnit::DestroyCheckIcon()
+{
+    if (!_effectOver)
+        return;
+    
+    _effectOver->Hide();
+    delete _effectOver;
+    _effectOver = NULL;
+}
 
 void GameUnit::CreateSmallBuildingTape()
 {

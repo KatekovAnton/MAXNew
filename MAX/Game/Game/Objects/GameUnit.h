@@ -40,6 +40,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     
     MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
+    GameEffect* _effectOver;
     int currentSound;
     
     bool _shouldAnimateBody;
@@ -144,6 +145,8 @@ public:
     
     
 #pragma mark - Build methods
+    void CreateCheckIcon();
+    void DestroyCheckIcon();
     
     void CreateSmallBuildingTape();
     void CreateLargeBuildingTape();

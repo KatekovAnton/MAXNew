@@ -11,7 +11,7 @@
 #include "GameMatchPlayer.h"
 
 GUConstructBuildingTask::GUConstructBuildingTask(GameUnit *unit, string buildingType, int pathDirectionn, int pathLenth, CCPoint cell):
-GUTask(unit), _type(buildingType), _pathDirection(pathDirectionn), _pathLength(pathLenth), _cell(cell), _constructionUnit(NULL)
+GUTask(unit), _type(buildingType), _pathDirection(pathDirectionn), _pathLength(pathLenth), _cell(cell), _constructionUnit_w(NULL), _turns(0)
 {
 
 }
@@ -23,32 +23,40 @@ GUConstructBuildingTask::~GUConstructBuildingTask()
 
 bool GUConstructBuildingTask::IsFinished()
 {
-    return false;
+    return _turns >=2;
 }
 
 void GUConstructBuildingTask::UpdateOnStartTurn()
-{}
+{
+    if (!IsFinished())
+        _turns ++;
+}
 
 void GUConstructBuildingTask::AbortTask()
 {
-    if (_constructionUnit)
+    if (_constructionUnit_w)
     {
-        _constructionUnit->Destroy();
-        _constructionUnit = NULL;
+        _constructionUnit_w->Destroy();
+        _constructionUnit_w = NULL;
     }
 }
 
 void GUConstructBuildingTask::StartTask()
 {
-    _constructionUnit = _unitWorker_w->_owner_w->CreateUnit(_cell.x, _cell.y, _type, 0);
-    _constructionUnit->BeginConstructionSequence();
-    _constructionUnit->PlaceUnitOnMap();
+    _constructionUnit_w = _unitWorker_w->_owner_w->CreateUnit(_cell.x, _cell.y, _type, 0);
+    _constructionUnit_w->BeginConstructionSequence();
+    _constructionUnit_w->PlaceUnitOnMap();
 }
 
 void GUConstructBuildingTask::FinishTask()
 {
-    _constructionUnit->EndConstructionSequense();
-    _constructionUnit = NULL;
+    _constructionUnit_w->EndConstructionSequense();
+    _constructionUnit_w = NULL;
+}
+
+bool GUConstructBuildingTask::NeedUserInteractionToFinish()
+{
+    return true;
 }
 
 
