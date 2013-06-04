@@ -42,7 +42,6 @@ class GameInterface : public CCScene
     //locking units
     vector<GameUnit*> _lockedUnits;
     GameUnit* _currentUnit;
-    void RemoveUnitFromLock(GameUnit* unit);
     bool _lockUnits;
     
     bool _drawGrid;
@@ -80,6 +79,7 @@ public:
     bool ShouldReceiveTouch(int x, int y);
     
     void ClearLockedUnits();
+    void RemoveUnitFromLock(GameUnit* unit);
     void SetLockedUnits(vector<GameUnit*> units);
     vector<GameUnit*> GetLockedUnits() const {return _lockedUnits;};
     void SetLockUnits(bool flag) {_lockUnits = flag; UpdateToggleLockUnitsButton();}

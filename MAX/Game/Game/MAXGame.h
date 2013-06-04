@@ -98,6 +98,8 @@ public:
     
     bool EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y);
   
+    void UnidDidHide(GameUnit* unit);
+    
 #pragma mark - Interface
 #pragma mark Messages
     void ShowUnitSpottedMessage(GameUnit* unit);

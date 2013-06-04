@@ -294,6 +294,7 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                     {
                         unit->Hide();
                         _agregator->RemoveUnitFromCell(unit, x, y);
+                        game->UnidDidHide(unit);
                     }
                 }
             }

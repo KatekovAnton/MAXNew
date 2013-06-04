@@ -82,6 +82,11 @@ GameUnit::~GameUnit()
         _effectUnder->Hide();
         delete _effectUnder;
     }
+    if (_effectOver)
+    {
+        _effectOver->Hide();
+        delete _effectOver;
+    }
 }
 
 void GameUnit::ChackForAnimanteBody()
@@ -223,6 +228,8 @@ void GameUnit::Show()
         GameObject::Show();
     if (_effectUnder)
         _effectUnder->Show();
+    if (_effectOver)
+        _effectOver->Show();
     CheckBodyAndShadow();
 }
 
@@ -230,11 +237,11 @@ void GameUnit::Hide()
 {
     StopCurrentSound();
     
-   
-    
     GameObject::Hide();
     if (_effectUnder)
         _effectUnder->Hide();
+    if (_effectOver)
+        _effectOver->Hide();
 }
 
 void GameUnit::LiftBridge()
@@ -705,50 +712,50 @@ void GameUnit::UpdateConnectors()
     if (_unitData->GetSize() == 1)
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR4);
         
         cell = ccp(GetUnitCell().x+1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR2);
        
         cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR1);
         
         cell = ccp(GetUnitCell().x, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR3);
     }
     else
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR4);
         cell = ccp(GetUnitCell().x-1, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR8);
         cell = ccp(GetUnitCell().x, GetUnitCell().y+2);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR3);
         cell = ccp(GetUnitCell().x+1, GetUnitCell().y+2);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR7);
         
         cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR1);
         
         cell = ccp(GetUnitCell().x+1, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR5);
         
         cell = ccp(GetUnitCell().x+2, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR2);
         
         cell = ccp(GetUnitCell().x+2, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_agregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR6);
     }
 }

@@ -480,6 +480,7 @@ bool MAXGame::EndTurn()
     bool result = false;
     if (_freezeCounter != 0)
         return false;
+    _gameController->AbortCurrentAction();
     _match->_currentPlayer_w->cameraPosition = engine->ScreenToWorldCell( _gameInterface->GetCenter());
     _match->_currentPlayer_w->cameraZoom = engine->CameraZoom();
     result = _match->EndTurn();
@@ -582,6 +583,17 @@ bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y)
         }
     }
     return result;
+}
+
+void MAXGame::UnidDidHide(GameUnit* unit)
+{
+    _gameInterface->RemoveUnitFromLock(unit);
+    if (_currentUnit == unit)
+    {
+        engine->SelectUnit(NULL);
+        _gameInterface->OnCurrentUnitChanged(NULL, true);
+        _currentUnit = NULL;
+    }
 }
 
 #pragma mark - Interface

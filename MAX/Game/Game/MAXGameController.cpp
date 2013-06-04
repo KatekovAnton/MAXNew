@@ -229,39 +229,42 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                     GameUnit* createdUnit = _selectedUnit_w->_unitData->GetTaskSecondUnit();
                     
                     
+                    _selectedUnit_w->ClearPath();
+                    
+                    std::vector<PFWaveCell*> path;
+                    Pathfinder* p = game->_match->_pathfinder;
+                    UNIT_MOVETYPE moveType = (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType;
+                    p->MakePathMap(_unitCell.x, _unitCell.y, moveType, _selectedUnit_w->_unitData->GetMoveBalance());
+                    createdUnit->_currentlyProcesedConstructor = true;
                     if (createdUnit->GetConfig()->_bSize == 1)
                     {
                         _selectedUnit_w->SetUnitLocationAnimated(cell);
                      
-                        std::vector<PFWaveCell*> path;
-                        Pathfinder* p = game->_match->_pathfinder;
-                        path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, p->GetMapCostAt(_unitCell.x, _unitCell.y, _unitObject->GetBodyIndex(), (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), _unitObject->GetBodyIndex()));
                         
                         int direction = MAXObject::CalculateImageIndex(_unitCell, cell);
-                        path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), direction));
+                        path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, moveType), direction));
                         
-                        _selectedUnit_w->SetPath(path);
-                        _selectedUnit_w->ConfirmCurrentPath();
+                        path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, 0, 0));
+                        
+                        
                         
                     }
                     else
                     {
                         CCPoint wayPoit = findInterimPointWithLargeBuilding(createdUnit->GetUnitCell(), cell);
                         
-                        std::vector<PFWaveCell*> path;
-                        Pathfinder* p = game->_match->_pathfinder;
-                        path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, p->GetMapCostAt(_unitCell.x, _unitCell.y, _unitObject->GetBodyIndex(), (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), _unitObject->GetBodyIndex()));
+                        int direction = MAXObject::CalculateImageIndex(wayPoit, cell);
+                        path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, moveType), direction));
                         
-                        int direction = MAXObject::CalculateImageIndex(_unitCell, wayPoit);
-                        path.push_back(new PFWaveCell(wayPoit.x, wayPoit.y, p->GetMapCostAt(wayPoit.x, wayPoit.y, direction, (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), direction));
+                        direction = MAXObject::CalculateImageIndex(_unitCell, wayPoit);
+                        path.push_back(new PFWaveCell(wayPoit.x, wayPoit.y, p->GetMapCostAt(wayPoit.x, wayPoit.y, direction, moveType), direction));
                         
-                        direction = MAXObject::CalculateImageIndex(wayPoit, cell);
-                        path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType), direction));
-                        
-                        _selectedUnit_w->SetPath(path);
-                        _selectedUnit_w->ConfirmCurrentPath();
-                    }
+                        path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, 0, 0));
                     
+                    }
+                    createdUnit->_currentlyProcesedConstructor = false;
+                    _selectedUnit_w->SetPath(path);
+                    _selectedUnit_w->ConfirmCurrentPath();
                     _selectedUnit_w->_unitData->CompletlyFinishTask();
                     createdUnit->RemoveUnitFromMap();
                     createdUnit->EndConstructionSequense();
