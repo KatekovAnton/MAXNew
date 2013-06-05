@@ -55,8 +55,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
     MAXObjectConfig* config = _unitData->GetConfig();
     unitObject->_needShadow = !config->_isUnderwater;
     _onDraw = false;
-    if (IsInProcess())
-        CheckBodyAndShadow();
+    CheckBodyAndShadow();
     
     
     currentSound = -1;
@@ -384,7 +383,7 @@ void GameUnit::CheckBodyAndShadow()
         return;
     };
     
-    bool constructingNow = _unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskFinished());
+    bool constructingNow = (_unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskFinished())) || _unitData->_isOn;
     EXTENDED_GROUND_TYPE groundType = game->_match->_agregator->GroundTypeAtXY(_unitCell.x, _unitCell.y);
     if (_unitData->GetConfig()->_isBuilding)
     {
@@ -876,11 +875,6 @@ bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
     return result;
 }
 
-bool GameUnit::IsInProcess() const
-{
-    return _unitData->GetIsInProcess();
-}
-
 #pragma mark - Fire methods
 
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
@@ -1104,13 +1098,26 @@ void GameUnit::EndConstructionSequense()
     PlaceUnitOnMap();
 }
 
+void GameUnit::TurnOn()
+{
+    _unitData->_isOn = true;
+    CheckBodyAndShadow();
+    CheckBuildProcess();
+}
+
+void GameUnit::TurnOf()
+{
+    _unitData->_isOn = false;
+    CheckBuildProcess();
+}
+
 void GameUnit::EscapeConstructedUnit(const CCPoint &cell)
 {
     //if it constructs unit - escape new unit
     //if it constructs building - escape self
 }
 
-void GameUnit::AbortBuildProcess()
+void GameUnit::AbortConstructingUnit()
 {
     _unitData->AbortTask();
     DestroyBuildingTape();

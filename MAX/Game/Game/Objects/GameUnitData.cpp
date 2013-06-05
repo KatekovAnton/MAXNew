@@ -12,9 +12,9 @@
 #include "MAXObjectConfig.h"
 
 GameUnitData::GameUnitData(GameUnitParameters* params)
-:_unitParameters(params), _landed(false), _isInProcess(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL)
+:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL)
 {
-    _isInProcess = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
+    _isOn = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
     
     for (int pt = UNIT_PARAMETER_TYPE_MIN; pt <= UNIT_PARAMETER_TYPE_MAX; pt++)
     {
@@ -121,19 +121,30 @@ vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
 	{
 		result.push_back(UNIT_MENU_ACTION_BUYUPGRADES);
 	}
-	if ((config->_isAllwaysOn != config->_isBuilding ) || ContainsCurrentTask())
+	if (config->_isBuilding)
 	{
-		if (_isInProcess)
+        if (GetConfig()->_bSelfCreatorType != 0)
+        {
+            if (ContainsCurrentTask() && (!GetIsTaskPaused() && !GetIsTaskFinished()))
+                result.push_back(UNIT_MENU_ACTION_STOP);
+            else if (ContainsCurrentTask() && GetIsTaskPaused() && !GetIsTaskFinished())
+                result.push_back(UNIT_MENU_ACTION_START);
+        }
+		else if (!GetConfig()->_isAllwaysOn)
 		{
-			result.push_back(UNIT_MENU_ACTION_STOP);
-		}
-		else
-		{
-            //TODO: only for start without task
 			result.push_back(UNIT_MENU_ACTION_START);
 		}
 	}
+    else
+    {
+        if (GetConfig()->_bSelfCreatorType != 0)
+        {
+            if (ContainsCurrentTask() && (!GetIsTaskPaused() && !GetIsTaskFinished()))
+                result.push_back(UNIT_MENU_ACTION_STOP);
+        }
+    }
     
+        
     if (config->_bSelfCreatorType != 0 && !ContainsCurrentTask())
 	{
         result.push_back(UNIT_MENU_ACTION_BUILD);
@@ -469,7 +480,6 @@ void GameUnitData::SetTask(GUTask *newTask)
     if (_currentTask) 
         throw "GameUnitData::SetTask(GUTask *newTask): try to start new task but another one already exist!!";
     
-    _isInProcess = true;
     _currentTask = newTask;
     _currentTask->StartTask();
     _paused = false;
@@ -478,7 +488,6 @@ void GameUnitData::SetTask(GUTask *newTask)
 void GameUnitData::AbortTask()
 {
     _currentTask->AbortTask();
-    _isInProcess = false;
     delete _currentTask;
     _currentTask = NULL;
 }
@@ -486,13 +495,11 @@ void GameUnitData::AbortTask()
 void GameUnitData::PauseTask()
 {
     _paused = true;
-    _isInProcess = false;
 }
 
 void GameUnitData::ContinuePausedTask()
 {
     _paused = false;
-    _isInProcess = false;
 }
 
 bool GameUnitData::GetIsTaskFinished() const
@@ -523,7 +530,6 @@ void GameUnitData::CompletlyFinishTask()
     _currentTask->FinishTask();
     delete _currentTask;
     _currentTask = NULL;
-    _isInProcess = false;
     _paused = false;
 }
 

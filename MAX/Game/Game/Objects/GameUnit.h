@@ -139,7 +139,6 @@ public:
     bool IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const;
     bool IsInFireRadius(const CCPoint &point) const;
     bool IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const;
-    bool IsInProcess() const;
     
 #pragma mark - Fire methods
     bool CanFire(const cocos2d::CCPoint &target);
@@ -160,14 +159,14 @@ public:
     void PauseConstructingUnit();
     void CancelConstructingUnit();
     void EscapeConstructedUnit(const CCPoint &cell);
+    void AbortConstructingUnit();
     
     void BeginConstructionSequence();
     void EndConstructionSequense();
     bool GetIsConstruction() const {return _isConstruction;}
-    
-    
-    void AbortBuildProcess();
-    
+
+    void TurnOn();
+    void TurnOf();
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);

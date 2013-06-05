@@ -20,13 +20,12 @@ class GameUnit;
 
 class GameUnitData {
     
-    bool _isInProcess;
     GUTask *_currentTask;
     bool _paused;
     
 public:
     
-    
+    bool _isOn;
     CCPoint _unitCell;
     
     GameUnitParameters* _unitParameters;
@@ -75,8 +74,6 @@ public:
     void MoveWithCost(const int cost);
     int GetShotBalance();
     void MakeShot();
-    
-    bool GetIsInProcess() const {return _isInProcess;}
     
     void SetTask(GUTask *newTask);
     void AbortTask();
