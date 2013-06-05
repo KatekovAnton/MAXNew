@@ -132,7 +132,10 @@ vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
         }
 		else if (!GetConfig()->_isAllwaysOn)
 		{
-			result.push_back(UNIT_MENU_ACTION_START);
+            if (_isOn)
+                result.push_back(UNIT_MENU_ACTION_STOP);
+            else
+                result.push_back(UNIT_MENU_ACTION_START);
 		}
 	}
     else

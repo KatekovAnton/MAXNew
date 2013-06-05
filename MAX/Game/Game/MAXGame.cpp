@@ -1151,13 +1151,19 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
             _currentUnit->ClearPath();
             HideUnitPath();
         }
-        else
+        else if (_currentUnit->_unitData->ContainsCurrentTask())
         {
             _currentUnit->AbortConstructingUnit();
             RecalculateUnitPathMap(_currentUnit);
             ShowPathMap();
         }
-		
+        if (_currentUnit->_unitData->GetIsBuilding())
+        {
+            if (!_currentUnit->GetConfig()->_isAllwaysOn)
+                if (_currentUnit->_unitData->_isOn)
+                    _currentUnit->TurnOf();
+        }
+        else
 		return;
 	}
 	else if (action == UNIT_MENU_ACTION_START)
@@ -1165,12 +1171,8 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         if (_currentUnit->_unitData->GetIsBuilding())
         {
             if (!_currentUnit->GetConfig()->_isAllwaysOn)
-            {
-                if (_currentUnit->_unitData->_isOn)
-                    _currentUnit->TurnOf();
-                else
+                if (!_currentUnit->_unitData->_isOn)
                     _currentUnit->TurnOn();
-            }
         }
 		//_currentUnit->StartBuildProcess();
 		return;
