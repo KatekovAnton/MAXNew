@@ -32,3 +32,6 @@ MAX.vcproject/MAXNewWindows.v11.suo
 MAX.vcproject/Release.win32/*
 MAX.vcproject/MAXNewWindows/Release/*
 MAX.vcproject/Release/*
+
+# android
+MAX.android/assets/*
