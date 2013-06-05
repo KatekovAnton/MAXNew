@@ -228,7 +228,7 @@ void GameUnit::Show()
         GameObject::Show();
     if (_effectUnder)
         _effectUnder->Show();
-    if (_effectOver)
+    if (_effectOver && _owner_w->GetIsCurrentPlayer())
         _effectOver->Show();
     CheckBodyAndShadow();
 }
@@ -332,7 +332,8 @@ void GameUnit::NewTurn()
         CreateCheckIcon();
         CheckBuildProcess();
     }
-    
+    else
+        DestroyCheckIcon();
 }
 
 void GameUnit::PlaceUnitOnMap()
@@ -1024,7 +1025,8 @@ void GameUnit::CreateCheckIcon()
     
     _effectOver = GameEffect::CreateTaskCompletedChack(GetObject()->_currentLevel + 1);
     _effectOver->SetLocation(GetUnitCell());
-    _effectOver->Show();
+    if (_owner_w->GetIsCurrentPlayer())
+        _effectOver->Show();
 }
 
 void GameUnit::DestroyCheckIcon()
