@@ -156,9 +156,25 @@ SOUND_TYPE GameUnitData::GetOnSelectSoundType() const
     if (GetConfig()->_isBuilding)
         return SOUND_TYPE_NONE;
     if (ContainsCurrentTask())
+    {
+        if (GetIsTaskFinished())
+        {
+            if (GetIsBuilding())
+                return SOUND_TYPE_UNIT_COMPLETED;
+            else
+                return SOUND_TYPE_CONSTRUCTION_COMPLETE;
+        }
         return SOUND_TYPE_BUILDING;
-    
+    }
     return SOUND_TYPE_READY;
+}
+
+UNIT_SOUND GameUnitData::GetBackgroundSoundType() const
+{
+    if (ContainsCurrentTask() && !GetIsTaskFinished() && !GetIsTaskPaused())
+        return UNIT_SOUND_WORK;
+    else
+        return UNIT_SOUND_ENGINE;
 }
 
 int GameUnitData::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
@@ -479,9 +495,14 @@ void GameUnitData::ContinuePausedTask()
     _isInProcess = false;
 }
 
-bool GameUnitData::GetIsTaskFinished()
+bool GameUnitData::GetIsTaskFinished() const
 {
     return _currentTask && _currentTask->IsFinished();
+}
+
+bool GameUnitData::GetIsTaskPaused() const
+{
+    return _currentTask && _paused;
 }
 
 GameUnit* GameUnitData::GetTaskSecondUnit()
