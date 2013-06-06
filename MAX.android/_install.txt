@@ -1,0 +1,10 @@
+cd MAX.android/_SDK/tools/
+./android
+
+then install:
+Tools->Android SDK Platform-tools
+Android 4.2.2
+Android 2.3.3
+Extras->Android Support Library
+Extras->Google Analytics App tracking SDK
+Extras->Google Play services
