@@ -29,4 +29,7 @@ MAX.vcproject/MAXNewWindows/Resources/*
 MAX.vcproject/MAXNewWindows.opensdf
 
 #andr
-MAX.android/assets/*
+MAX.android/_NDK/*
+MAX.android/_SDK/*
+!MAX.android/_NDK/dummy
+!MAX.android/_SDK/dummy
