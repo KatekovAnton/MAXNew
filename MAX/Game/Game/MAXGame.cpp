@@ -961,6 +961,7 @@ void MAXGame::TryStartConstruction(string type)
         else
         {
             //force MAXGAME to select suitable place
+            SOUND->PlaySystemSound(SOUND_TYPE_MOVE_TAPE_TO_BULD);
             _gameController->StartSelectLargeBuildingConstructionPlaceAction(_currentUnit, newUnitConfig);
         }
     }

@@ -89,6 +89,12 @@ SoundEngine::SoundEngine()
         names.push_back("f217.wav");
         _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_UNIT_COMPLETED, names));
     }
+    {
+        vector<string> names;
+        names.push_back("f050.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_MOVE_TAPE_TO_BULD, names));
+    }
+    
     //button buy upg kbuy0.wav
     //load unit to airtrans load.wav
     //load/unlod/create scale.wav
