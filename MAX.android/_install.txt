@@ -1,7 +1,10 @@
+First of all, download android sdk and ndk and unzip it to _SDK and _NDK folders respectively.
+
+run commands:
 cd MAX.android/_SDK/tools/
 ./android
 
-then install:
+select to install:
 Tools->Android SDK Platform-tools
 Android 4.2.2
 Android 2.3.3
