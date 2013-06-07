@@ -67,8 +67,8 @@ public:
     SOUND_TYPE GetOnSelectSoundType() const;
     UNIT_SOUND GetBackgroundSoundType() const;
     
-    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType);
-    int GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType);
+    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
+    int GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
     void SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue);
     
     void StartNewTurn();
@@ -92,6 +92,21 @@ public:
     GameUnit* GetTaskSecondUnit();
     bool CanMove() const;
     MAXObjectConfig* GetConfig() const;
+    
+#pragma mark - Raduis and BBs
+    BoundingBox GetBoundingBox(const CCPoint &point, const float radius) const;
+    BoundingBox GetCurrentBoundingBox(const float radius) const;
+    bool IsInRadius(const CCPoint &point, const float radius) const;
+    bool IsInRadius(const CCPoint &point, const float radius, const CCPoint &currentCenter) const;
+    
+    
+    BoundingBox GetScanBoundingBox(const CCPoint &centerPoint) const;
+    BoundingBox GetScanBoundingBox() const;
+    bool IsInScanRadius(const CCPoint &point) const;
+    bool IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const;
+    bool IsInFireRadius(const CCPoint &point) const;
+    bool IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const;
+    
 };
 
 #endif /* defined(__MAX__GameUnitData__) */

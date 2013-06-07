@@ -85,7 +85,7 @@ public:
     
 #pragma mark - GameFogDelegate
 
-    virtual float UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const;
+    virtual float UnitScanRadiusForFog(const GameUnitData *unit, const GameFog *fog) const;
     virtual void CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const;
     
 #pragma mark - GameUnitDelegate 

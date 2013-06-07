@@ -16,7 +16,7 @@
 using namespace cocos2d;
 
 class GameMap;
-class GameUnit;
+class GameUnitData;
 class GameFogDelegate;
 
 class GameFog {
@@ -32,13 +32,13 @@ class GameFog {
     int IndexOf(const CCPoint &point) const { return (int) _mapWidth * (int)point.y + (int)point.x; };
     int IndexOf(const int x, const int y) const { return  _mapWidth * y + x; };
     
-    void Recount(GameUnit *unit, bool withIncreasing, const CCPoint &centerPoint);
+    void Recount(GameUnitData *unit, bool withIncreasing, const CCPoint &centerPoint);
     
     void Increase(const CCPoint &point);
     void Decrease(const CCPoint &point);    
     
-    void Update(GameUnit *unit, const CCPoint &centerPoint);
-    void Reset(GameUnit *unit, const CCPoint &centerPoint);
+    void Update(GameUnitData *unit, const CCPoint &centerPoint);
+    void Reset(GameUnitData *unit, const CCPoint &centerPoint);
     
     void BeginUpdates();
     void EndUpdates();
@@ -48,14 +48,14 @@ public:
     GameFogDelegate *_delegate_w;
     FOG_TYPE type;
     
-    bool IsInTouchZone(GameUnit *unit) const;
+    bool IsInTouchZone(GameUnitData *unit) const;
     int GetValue(const CCPoint &point) const;
     
     
-    void UpdateOnUnitDidStartMove(GameUnit* unit);
-    void UpdateOnUnitDidEndMove(GameUnit* unit);
-    void UpdateOnUnitDidPlaceToMap(GameUnit* unit);
-    void UpdateOnUnitDidRemoveFromMap(GameUnit* unit);
+    void UpdateOnUnitDidStartMove(GameUnitData* unit);
+    void UpdateOnUnitDidEndMove(GameUnitData* unit);
+    void UpdateOnUnitDidPlaceToMap(GameUnitData* unit);
+    void UpdateOnUnitDidRemoveFromMap(GameUnitData* unit);
     
     GameFog(int mapWidth, int mapHeight);
     ~GameFog();

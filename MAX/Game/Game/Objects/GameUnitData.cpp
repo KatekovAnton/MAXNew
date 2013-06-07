@@ -191,7 +191,7 @@ UNIT_SOUND GameUnitData::GetBackgroundSoundType() const
         return UNIT_SOUND_ENGINE;
 }
 
-int GameUnitData::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
+int GameUnitData::GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const
 {
     int result = 0;
     switch (parameterType)
@@ -221,7 +221,7 @@ int GameUnitData::GetParameterValue(UNIT_PARAMETER_TYPE parameterType)
     return result;
 }
 
-int GameUnitData::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType)
+int GameUnitData::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType) const
 {
     int result = 0;
     switch (parameterType)
@@ -536,8 +536,97 @@ void GameUnitData::CompletlyFinishTask()
     _paused = false;
 }
 
+#pragma mark - Raduis and BBs
+// return some box for the object if the one is located in the point
+BoundingBox GameUnitData::GetBoundingBox(const CCPoint &point, const float radius) const
+{
+    int unitSize = GetConfig()->_bSize;
+    
+    // count borders with size corrections
+    return BoundingBoxMake(
+                           point.x - radius + (unitSize - 1),
+                           point.y - radius + (unitSize - 1),
+                           point.x + radius + (unitSize > 1 ? (unitSize - 2) : 0),
+                           point.y + radius + (unitSize > 1 ? (unitSize - 2) : 0)
+                           );
+}
 
+// return some box for the object for the current location
+BoundingBox GameUnitData::GetCurrentBoundingBox(const float radius) const
+{
+    return GetBoundingBox(_unitCell, radius);
+}
 
+// check if point is in radius around the object
+bool GameUnitData::IsInRadius(const CCPoint &point, const float radius) const
+{
+    float centerX = _unitCell.x;
+    float centerY = _unitCell.y;
+    
+    // find the center for big objects
+    if (GetConfig()->_bSize > 1)
+    {
+        centerX += 0.5 * GetConfig()->_bSize;
+        centerY += 0.5 * GetConfig()->_bSize;
+    }
+    
+    float distance = (point.x - centerX) * (point.x - centerX)
+    + (point.y - centerY) * (point.y - centerY);
+    
+    return (radius * radius) >= distance;
+}
 
+// check if point is in radius around the object
+bool GameUnitData::IsInRadius(const CCPoint &point, const float radius, const CCPoint &currentCenter) const
+{
+    float centerX = currentCenter.x;
+    float centerY = currentCenter.y;
+    
+    // find the center for big objects
+    if (GetConfig()->_bSize > 1)
+    {
+        centerX += 0.5 * GetConfig()->_bSize - 0.5;
+        centerY += 0.5 * GetConfig()->_bSize - 0.5;
+    }
+    
+    float distance = (point.x - centerX) * (point.x - centerX)
+    + (point.y - centerY) * (point.y - centerY);
+    
+    return (radius * radius) >= distance;
+}
+
+BoundingBox GameUnitData::GetScanBoundingBox(const CCPoint &centerPoint) const
+{
+    return GetBoundingBox(centerPoint, _unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
+}
+
+BoundingBox GameUnitData::GetScanBoundingBox() const
+{
+    return GetBoundingBox(_unitCell, _unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
+}
+
+// check if point is in scan radius around the object
+bool GameUnitData::IsInScanRadius(const CCPoint &point) const
+{
+    return IsInRadius(point, _unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
+}
+
+// check if point is in scan radius around the object
+bool GameUnitData::IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const
+{
+    return IsInRadius(point, _unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN), currentCenter);
+}
+
+// check if point is in fire radius around the object
+bool GameUnitData::IsInFireRadius(const CCPoint &point) const
+{
+    return IsInRadius(point, _unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_RANGE));
+}
+
+// check if point is in fire radius around the object
+bool GameUnitData::IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const
+{
+    return IsInRadius(point, _unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_RANGE), currentCenter);
+}
 
 

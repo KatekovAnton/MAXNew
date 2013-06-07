@@ -78,15 +78,6 @@ public:
     vector<CCPoint> GetNerbyCells() const;
     vector<CCPoint> GetFullNearbyCells() const;
     
-    
-    BoundingBox GetScanBoundingBox(const CCPoint &centerPoint) const;
-    BoundingBox GetScanBoundingBox() const;
-    bool IsInScanRadius(const CCPoint &point) const;
-    bool IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const;
-    bool IsInFireRadius(const CCPoint &point) const;
-    bool IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const;
-    
-    
     GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params);    //creates new unit
     GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchPlayer *owner);           //creates unit from saved data
     void Init();

@@ -273,7 +273,7 @@ bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog)
 
 #pragma mark - GameFogDelegate
 
-float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const
+float GameMatchPlayer::UnitScanRadiusForFog(const GameUnitData *unit, const GameFog *fog) const
 {
     float result = 0;
     switch (fog->type)
@@ -281,7 +281,7 @@ float GameMatchPlayer::UnitScanRadiusForFog(const GameUnit *unit, const GameFog 
         case FOG_TYPE_SCAN:
         case FOG_TYPE_UNDERWATER:
         case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SCAN);
+            result = unit->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SCAN);
             break;
         case FOG_TYPE_RESOURCES:
         case FOG_TYPE_MINES:
@@ -313,7 +313,7 @@ void GameMatchPlayer::GameUnitWillLeaveCell(GameUnit *unit)
     for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidStartMove(unit);
+            fogs[i]->UpdateOnUnitDidStartMove(unit->_unitData);
     }
     
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
@@ -324,7 +324,7 @@ void GameMatchPlayer::GameUnitDidEnterCell(GameUnit *unit)
     for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidEndMove(unit);
+            fogs[i]->UpdateOnUnitDidEndMove(unit->_unitData);
     }
     
     _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
@@ -335,7 +335,7 @@ void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
     for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidRemoveFromMap(unit);
+            fogs[i]->UpdateOnUnitDidRemoveFromMap(unit->_unitData);
     }
     
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
@@ -349,7 +349,7 @@ void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
     for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidPlaceToMap(unit);
+            fogs[i]->UpdateOnUnitDidPlaceToMap(unit->_unitData);
     }
     
     _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
@@ -360,7 +360,7 @@ void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
     for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
     {
         if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidRemoveFromMap(unit);
+            fogs[i]->UpdateOnUnitDidRemoveFromMap(unit->_unitData);
     }
     
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());

@@ -128,7 +128,6 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
         case UNIT_SOUND_SHOT:
             soundStr = &(config->_soundShotName);
             break;
-            
         case UNIT_SOUND_ENGINE:
             vol = engVol;
             soundStr = &(config->_soundEngineName);
@@ -155,7 +154,6 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
             vol = engVol;
             soundStr = &(config->_soundEngineStopWaterName);
             break;
-            
         case UNIT_SOUND_START:
             soundStr = &(config->_soundStartName);
             break;
@@ -669,40 +667,6 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
     _currentTopAnimation = sequence;
 }
 
-BoundingBox GameUnit::GetScanBoundingBox(const CCPoint &centerPoint) const
-{
-    return GetBoundingBox(centerPoint, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
-}
-
-BoundingBox GameUnit::GetScanBoundingBox() const
-{
-    return GetBoundingBox(GetUnitCell(), _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
-}
-
-// check if point is in scan radius around the object
-bool GameUnit::IsInScanRadius(const CCPoint &point) const
-{
-    return IsInRadius(point, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
-}
-
-// check if point is in scan radius around the object
-bool GameUnit::IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const
-{
-    return IsInRadius(point, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN), currentCenter);
-}
-
-// check if point is in fire radius around the object
-bool GameUnit::IsInFireRadius(const CCPoint &point) const
-{
-    return IsInRadius(point, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_RANGE));
-}
-
-// check if point is in fire radius around the object
-bool GameUnit::IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const
-{
-    return IsInRadius(point, _unitData->_unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_RANGE), currentCenter);
-}
-
 #pragma mark - Connectors
 
 void GameUnit::UpdateConnectors()
@@ -896,7 +860,7 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
         return false;
     
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    return (IsInFireRadius(targetCenter) && _unitData->GetShotBalance() > 0);
+    return (_unitData->IsInFireRadius(targetCenter) && _unitData->GetShotBalance() > 0);
 }
 
 GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target)
@@ -1292,7 +1256,7 @@ bool GameUnit::ShoudDrawFakeCircle() const
 CCPoint GameUnit::GetFakeCenter() const
 {
 	PFWaveCell* cell = movePath[0];
-	return CCPointMake(cell->x * 64 + 32, cell->y * 64 + 32);
+	return ccp(cell->x * 64 + 32, cell->y * 64 + 32);
 }
 
 #pragma mark - GameEffectDelegate

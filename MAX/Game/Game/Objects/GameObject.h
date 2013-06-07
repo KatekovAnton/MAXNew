@@ -39,10 +39,7 @@ public:
     MAXObject *GetObject() const {return _object;};
     CCPoint GetUnitCell() const {return _unitCell;};
     
-    BoundingBox GetBoundingBox(const CCPoint &point, const float radius) const;
-    BoundingBox GetCurrentBoundingBox(const float radius) const;
-    bool IsInRadius(const CCPoint &point, const float radius) const;
-    bool IsInRadius(const CCPoint &point, const float radius, const CCPoint &currentCenter) const;
+
     
     virtual void SetLocation(const CCPoint &cell);
     virtual void Show();

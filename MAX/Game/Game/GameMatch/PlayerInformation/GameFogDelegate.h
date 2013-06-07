@@ -12,13 +12,13 @@
 #include <iostream>
 
 class GameFog;
-class GameUnit;
+class GameUnitData;
 
 class GameFogDelegate {
     
 public:
     
-    virtual float UnitScanRadiusForFog(const GameUnit *unit, const GameFog *fog) const = 0;
+    virtual float UnitScanRadiusForFog(const GameUnitData *unit, const GameFog *fog) const = 0;
     virtual void CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const = 0;
     
 };
