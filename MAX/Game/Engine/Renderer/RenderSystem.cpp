@@ -23,24 +23,10 @@ void RenderSystem::Init() {
 void RenderSystem::InitOpenGL() {
     _deviceDisplay = Display::currentDisplay();
     glViewport(0, 0, _deviceDisplay->GetDisplayWidth(), _deviceDisplay->GetDisplayHeight());
-
-//    glClearColor(1,1,1,1);
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    _deviceDisplay->SwapBuffers();
-}
-
-void RenderSystem::InitCocos2Dx() {
-    
 }
 
 void RenderSystem::SetColor(float color){
     _color = color;
-}
-
-void RenderSystem::Draw(){
-    
-   // glDisable(GL_BLEND);
-    
 }
 
 void RenderSystem::EndFrame() {
