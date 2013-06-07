@@ -10,7 +10,7 @@
 #include "Display.h"
 #include "MAXEngine.h"
 
-#define DEFAULT_SCALE 0.5
+#define DEFAULT_SCALE 1
 #define MIN_SCALE 0.25
 #define DEFAULT_MAP_PART 112
 #define DEFAULT_CELL_SIZE 64.0

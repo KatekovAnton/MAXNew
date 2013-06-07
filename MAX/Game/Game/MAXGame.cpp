@@ -411,10 +411,14 @@ void MAXGame::StartMatch()
             _match->_players[0]->CreateUnit(i, 32, "Plat", 0)->PlaceUnitOnMap();
         for (int i = 41; i <= 47; i++)
             _match->_players[0]->CreateUnit(i, 32, "Plat", 0)->PlaceUnitOnMap();
+        for (int i = 41; i <= 47; i++)
+            _match->_players[0]->CreateUnit(i, 31, "Plat", 0)->PlaceUnitOnMap();
         for (int i = 35; i <= 40; i++)
             _match->_players[0]->CreateUnit(i, 32, "Bridge", 0)->PlaceUnitOnMap();
         for (int i = 44; i < 49; i++)
             _match->_players[0]->CreateUnit(67, i, "Conn", 0)->PlaceUnitOnMap();
+        
+        _match->_players[0]->CreateUnit(48, 31, "Constructor", 0)->PlaceUnitOnMap();
 
         {
             GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 43, "Powerpl", 0);
@@ -739,11 +743,9 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
     p.y = floorf(p.y);
-    
- //   printf("(%d, %d) = res=%d, scan=%d\n", (int)p.x, (int)p.y, _match->_currentPlayer_w->_resourceMapFog->GetValue(p), _match->_currentPlayer_w->_fog->GetValue(p));
     bool _removeFromLock = false;
     
-    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);// _currentPlayer_w->GetUnitInPosition(p);
+    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
     if (_currentUnit && _currentUnit->CanMove())
     {
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
@@ -765,7 +767,12 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         }
         else
         {
-            if (newCurrentUnit)
+            if (p.x == _currentUnit->GetUnitCell().x && p.y == _currentUnit->GetUnitCell().y && _needToOpenMenuOnNextTapToSameUnit) {
+                _gameInterface->ShowMenuForCurrentUni(this);
+                _unitMenuShowed = true;
+                _needToOpenMenuOnNextTapToSameUnit = false;
+            }
+            else if (newCurrentUnit)
             {
                 if (_currentUnit->GetPath().size() > 0)
                 {
@@ -779,6 +786,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                         std::vector<PFWaveCell*> path;
                         _currentUnit->SetPath(path);
                         HideUnitPath();
+                        _needToOpenMenuOnNextTapToSameUnit = false;
                     }
                 }
                 // force select another unit
@@ -802,6 +810,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                             RecalculateUnitPath(_currentUnit);
                             _unitMoved = true;
                         }
+                        _needToOpenMenuOnNextTapToSameUnit = true;
                     }
                     else
                     {
@@ -832,7 +841,8 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     }
     else if (_currentUnit && !_currentUnit->CanMove())
     {
-        if (_currentUnit == newCurrentUnit)
+        
+        if (_currentUnit == newCurrentUnit || (p.x == _currentUnit->GetUnitCell().x && p.y == _currentUnit->GetUnitCell().y && _needToOpenMenuOnNextTapToSameUnit))
         {
             if (_needToOpenMenuOnNextTapToSameUnit)
             {
