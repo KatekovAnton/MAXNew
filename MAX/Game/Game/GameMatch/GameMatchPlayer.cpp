@@ -7,6 +7,7 @@
 //
 
 #include "GameMatchPlayer.h"
+#include "GameMatchPlayerData.h"
 #include "Texture.h"
 
 #include "GameUnit.h"
@@ -16,62 +17,28 @@
 #include "GameMatch.h"
 
 #include "MAXEngine.h"
-#include "MAXClanConfig.h"
 #include "MAXUnitObject.h"
 #include "MAXContentLoader.h"
-#include "MAXConfigManager.h"
 
-#include "PlayerUpgradeManager.h"
-#include "PlayerResearchManager.h"
-#include "PlayerResourceMap.h"
-#include "PlayerBase.h"
 
-#include "GameMap.h"
-#include "GameFog.h"
 #include "MatchMapAgregator.h"
 
+#include "StringUtils.h"
+
 GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
-:_match_w(match), cameraZoom(1)
+:_match_w(match)
 {
-    _playerInfo = info;
-    _palettes = MAXSCL->TexturePalletesFormDefaultPalleteAndPlayerColor(_playerInfo._color);
+    _playerData = new GameMatchPlayerData(info, match);
+    _playerData->_delegate_w = this;
+    _palettes = MAXSCL->TexturePalletesFormDefaultPalleteAndPlayerColor(info._color);
     _palette = _palettes[0];
-    
-    _researchManager = new PlayerResearchManager(this);
-    _upgradeManager = new PlayerUpgradeManager(this);
-    int w = match->_map->GetMapWidth();
-    int h = match->_map->GetMapHeight();
-    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
-    {
-        fogs[i] = new GameFog(w, h);
-        fogs[i]->_delegate_w = this;
-        fogs[i]->type = (FOG_TYPE)i;
-    }
-    
-    _resourceMap = new PlayerResourceMap(w, h);
-    
-    vector<string> allUnits = MAXConfigManager::SharedMAXConfigManager()->GetAllUnits();
-    MAXClanConfig *clanConfig = MAXConfigManager::SharedMAXConfigManager()->GetClanConfig(info._clan);
-    for (int i = 0; i < allUnits.size(); i++)
-    {
-        string type = allUnits[i];
-        MAXObjectConfig *unitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
-        GameUnitBaseParameters *params = new GameUnitBaseParameters(unitConfig, clanConfig);
-        _unitConfigs.insert(pair<string, GameUnitBaseParameters*>(toLower(type), params));
-    }
 }
 
 GameMatchPlayer::~GameMatchPlayer()
 {
-
     for (int i = 0; i < _palettes.size(); i++) {
         Texture* t = _palettes[i];
         delete t;
-    }
-    
-    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
-    {
-        delete fogs[i];
     }
 
     for (int i = 0; i < _units.GetCount(); i++) {
@@ -80,18 +47,7 @@ GameMatchPlayer::~GameMatchPlayer()
         delete unit;
     }
     
-    
-    delete _upgradeManager;
-    delete _researchManager;
-    delete _resourceMap;
-    
-    
-    vector<string> allUnits = MAXConfigManager::SharedMAXConfigManager()->GetAllUnits();
-    for (int i = 0; i < allUnits.size(); i++) {
-        GameUnitBaseParameters *params = _unitConfigs[allUnits[i]];
-        delete params;
-    }
-    _unitConfigs.clear();
+    delete _playerData;
 }
 
 bool GameMatchPlayer::GetIsCurrentPlayer() const
@@ -99,24 +55,27 @@ bool GameMatchPlayer::GetIsCurrentPlayer() const
     return this == _match_w->_currentPlayer_w;
 }
 
+int GameMatchPlayer::GetPlayerId() const
+{
+    return _playerData->_playerInfo._playerId;
+}
+
 GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned int ID)
 {
     string lowerType = toLower(type);
-    GameUnitBaseParameters* unit = _unitConfigs[lowerType];
-    GameUnitParameters* params = new GameUnitParameters(unit, _researchManager, _upgradeManager);
+    GameUnitBaseParameters* unit = _playerData->_unitConfigs[lowerType];
+    GameUnitParameters* params = new GameUnitParameters(unit, _playerData->_researchManager, _playerData->_upgradeManager);
     MAXUnitObject *unitObject = MAXSCL->CreateUnit(unit->_configObject);
-    unitObject->_playerId = _playerInfo._playerId;
+    unitObject->_playerId = _playerData->_playerInfo._playerId;
     unitObject->_playerPalette_w = GetPalettePointer();
     if (unit->GetIsMine())
     {
-        if (_playerInfo._clan >= 0 && _playerInfo._clan <= 7)
-        {
-            unitObject->headOffset += _playerInfo._clan * 2;
-        }
+        if (_playerData->_playerInfo._clan >= 0 && _playerData->_playerInfo._clan <= 7)
+            unitObject->headOffset += _playerData->_playerInfo._clan * 2;
     }
     
-    GameUnit* result = new GameUnit(unitObject, params);
-    result->SetColor(GLKVector4Make(_playerInfo._color.r, _playerInfo._color.g, _playerInfo._color.b, 1.0));
+    GameUnit* result = new GameUnit(unitObject, params, GetPlayerId());
+    result->SetColor(GLKVector4Make(_playerData->_playerInfo._color.r, _playerData->_playerInfo._color.g, _playerData->_playerInfo._color.b, 1.0));
     result->SetLocation(CCPoint(posx, posy));
     result->CheckBodyAndShadow();
     result->_delegate_w = this;
@@ -135,7 +94,7 @@ void GameMatchPlayer::SetPalette(double time)
 
 void GameMatchPlayer::LandingTo(const CCPoint &landingPosition)
 {
-    _landingPosition = landingPosition;
+    _playerData->_landingPosition = landingPosition;
 }
 
 void GameMatchPlayer::BeginTurn()
@@ -155,188 +114,40 @@ void GameMatchPlayer::EndTurn()
 
 bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
 {
-    bool result = false;
-    if (unit->_owner_w != this)
-    {
-        for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
-        {
-            if ((i == FOG_TYPE_SCAN) || (!unit->IsDetectedByPlayer(_playerInfo._playerId)))
-            {
-                if (UnitCoveredByFog(unit, fogs[i]))
-                {
-                    CCPoint unitCell = unit->GetUnitCell();
-                    if (unit->_unitData->GetSize() == 1)
-                    {
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                    }
-                    else
-                    {
-                        CCPoint unitCell = unit->GetUnitCell();
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                        unitCell.x += 1;
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                        unitCell.x -= 1;
-                        unitCell.y += 1;
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                        unitCell.x += 1;
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                    }
-                }
-            }
-        }
-    }
-    else
-        return true;
-    return result;
+    return _playerData->CanSeeUnit(unit->_unitData);
 }
 
-bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const
-{
-    if (unit->_unitData->_isConstruction)
-        return false;
-    
-    bool result = false;
-    switch (fog->type)
-    {
-        case FOG_TYPE_SCAN:
-            result = (unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SCAN) > 0);
-            break;
-        case FOG_TYPE_RESOURCES:
-            result = unit->_unitData->GetIsSurvivor();
-            break;
-        case FOG_TYPE_MINES:
-            result = unit->_unitData->GetConfig()->_isSeeMines;
-            break;
-        case FOG_TYPE_UNDERWATER:
-            result = unit->_unitData->GetConfig()->_isSeeUnderwater;
-            break;
-        case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitData->GetConfig()->_isAntiStealth;
-            break;
+#pragma mark - GameMatchPlayerDataDelegate
 
-        case FOG_TYPE_MAX:
-            break;
-    }
-    return result;
+EXTENDED_GROUND_TYPE GameMatchPlayer::GroudTypeAtPoint(const int x, const int y)
+{
+    return _match_w->_agregator->GroundTypeAtXY(x, y);
 }
 
-bool GameMatchPlayer::UnitCoveredByFog(const GameUnit *unit, const GameFog *fog) const
+void GameMatchPlayer::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag)
 {
-    bool result = false;
-    switch (fog->type)
-    {
-        case FOG_TYPE_SCAN:
-            result = !(unit->_unitData->GetConfig()->_isStealth || unit->_unitData->GetIsUnderwater() || unit->_unitData->GetConfig()->_isBombMine);
-            break;
-        case FOG_TYPE_RESOURCES:
-            result = false;
-            break;
-        case FOG_TYPE_MINES:
-            result = unit->_unitData->GetConfig()->_isBombMine;
-            break;
-        case FOG_TYPE_UNDERWATER:
-        {
-            MAXObjectConfig* config = unit->_unitData->GetConfig();
-            if (config->_isShip)
-            {
-                result = config->_isUnderwater;
-            }
-            else if (config->_isAmphibious)
-            {
-                result = config->_isUnderwater;
-                if (result)
-                {
-                    // check if unit in water
-                    EXTENDED_GROUND_TYPE groundType = _match_w->_agregator->GroundTypeAtXY(unit->GetUnitCell().x, unit->GetUnitCell().y);
-                    if (groundType != GROUND_TYPE_WATER)
-                    {
-                        result = false;
-                    }
-                }
-            }
-            break;
-        }
-        case FOG_TYPE_INFILTRATOR:
-            result = unit->_unitData->GetConfig()->_isStealth;
-            break;
-            
-        case FOG_TYPE_MAX:
-            break;
-    }
-    return result;
-}
-
-#pragma mark - GameFogDelegate
-
-float GameMatchPlayer::UnitScanRadiusForFog(const GameUnitData *unit, const GameFog *fog) const
-{
-    float result = 0;
-    switch (fog->type)
-    {
-        case FOG_TYPE_SCAN:
-        case FOG_TYPE_UNDERWATER:
-        case FOG_TYPE_INFILTRATOR:
-            result = unit->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SCAN);
-            break;
-        case FOG_TYPE_RESOURCES:
-        case FOG_TYPE_MINES:
-            result = 1.5;
-            break;
-        case FOG_TYPE_MAX:
-            break;
-    }
-    return result;
-}
-
-void GameMatchPlayer::CellDidUpdate(const int x, const int y, const GameFog *fog, bool visibleFlag) const
-{
-    switch (fog->type)
-    {
-        case FOG_TYPE_RESOURCES:
-            _resourceMap->AddCell(x, y);
-            break;
-        default:
-            break;
-    }
-    _match_w->CellDidUpdate(x, y, fog->type, visibleFlag, this);
+    _match_w->CellDidUpdate(x, y, type, visibleFlag, this);
 }
 
 #pragma mark - GameUnitDelegate
 
 void GameMatchPlayer::GameUnitWillLeaveCell(GameUnit *unit)
 {
-    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
-    {
-        if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidStartMove(unit->_unitData);
-    }
+    _playerData->UnitDidStartMove(unit->_unitData);
     
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidEnterCell(GameUnit *unit)
 {
-    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
-    {
-        if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidEndMove(unit->_unitData);
-    }
+    _playerData->UnitDidEndMove(unit->_unitData);
     
     _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
 {
-    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
-    {
-        if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidRemoveFromMap(unit->_unitData);
-    }
+    _playerData->UnitDidRemoveFromMap(unit->_unitData);
     
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
     unit->RemoveUnitFromMap();
@@ -346,22 +157,14 @@ void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
 
 void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
 {
-    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
-    {
-        if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidPlaceToMap(unit->_unitData);
-    }
+    _playerData->UnitDidPlaceToMap(unit->_unitData);
     
     _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
 {
-    for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
-    {
-        if (UnitShouldUpdateFog(unit, fogs[i]))
-            fogs[i]->UpdateOnUnitDidRemoveFromMap(unit->_unitData);
-    }
+    _playerData->UnitDidRemoveFromMap(unit->_unitData);
     
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }

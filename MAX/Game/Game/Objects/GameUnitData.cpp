@@ -11,8 +11,8 @@
 #include "GameUnitParameters.h"
 #include "MAXObjectConfig.h"
 
-GameUnitData::GameUnitData(GameUnitParameters* params)
-:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isConstruction(false)
+GameUnitData::GameUnitData(GameUnitParameters* params, int ownerId)
+:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isConstruction(false), _ownerId(ownerId)
 {
     _isOn = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
     
@@ -84,6 +84,16 @@ MAXObjectConfig* GameUnitData::GetConfig() const
 bool GameUnitData::GetCanStartBuildProcess() const
 {
     return GetConfig()->_containProcessState;
+}
+
+bool GameUnitData::IsDetectedByPlayer(unsigned int playerId)
+{
+    bool result = false;
+    if (playerId < MAX_PLAYERS)
+    {
+        result = GetConfig()->_isStealthable && _detected[playerId];
+    }
+    return result;
 }
 
 vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const

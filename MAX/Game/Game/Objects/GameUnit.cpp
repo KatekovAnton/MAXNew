@@ -48,8 +48,8 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
     return curve;
 }
 
-GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false)
+GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false)
 {
     Init();
 }
@@ -398,7 +398,7 @@ void GameUnit::CheckBodyAndShadow()
             _unitObject->_currentLevel = OBJECT_LEVEL_ONGROUND;
             if (_unitData->GetConfig()->_isUnderwater)
             {
-                _unitObject->SetBodyOffset(IsDetectedByPlayer(game->_match->_currentPlayer_w->_playerInfo._playerId)?8:0);
+                _unitObject->SetBodyOffset(IsDetectedByPlayer(game->CurrentPlayerId())?8:0);
                 _unitObject->_needShadow = false;
                 return;
             }
@@ -619,7 +619,6 @@ void GameUnit::RunAnimation(MAXAnimationSequence* animation)
     animation->_delegate = this;
     _currentTopAnimation = animation;
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(animation);
-    
 }
 
 bool GameUnit::MoveToNextCell(void)
@@ -727,46 +726,29 @@ void GameUnit::UpdateConnectors()
 vector<CCPoint> GameUnit::GetNerbyCells() const
 {
     vector<CCPoint> resuplt;
+    vector<CCPoint> allPoints;
     if (_unitData->GetSize() == 1)
     {
-        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
+        allPoints.push_back(ccp(GetUnitCell().x-1, GetUnitCell().y));
+        allPoints.push_back(ccp(GetUnitCell().x+1, GetUnitCell().y));
+        allPoints.push_back(ccp(GetUnitCell().x, GetUnitCell().y-1));
+        allPoints.push_back(ccp(GetUnitCell().x, GetUnitCell().y+1));
     }
     else
     {
-        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x-1, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x, GetUnitCell().y+2);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+1, GetUnitCell().y+2);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        
-        cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+1, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+2, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+2, GetUnitCell().y+1);
+        allPoints.push_back(ccp(GetUnitCell().x-1, GetUnitCell().y));
+        allPoints.push_back(ccp(GetUnitCell().x-1, GetUnitCell().y+1));
+        allPoints.push_back(ccp(GetUnitCell().x, GetUnitCell().y+2));
+        allPoints.push_back(ccp(GetUnitCell().x+1, GetUnitCell().y+2));
+      
+        allPoints.push_back(ccp(GetUnitCell().x, GetUnitCell().y-1));
+        allPoints.push_back(ccp(GetUnitCell().x+1, GetUnitCell().y-1));
+        allPoints.push_back(ccp(GetUnitCell().x+2, GetUnitCell().y));
+        allPoints.push_back(ccp(GetUnitCell().x+2, GetUnitCell().y+1));
+    }
+    for (int i = 0; i < allPoints.size(); i++)
+    {
+        CCPoint cell = allPoints[i];
         if (game->_match->GetIsCellValid(cell))
             resuplt.push_back(cell);
     }
@@ -776,36 +758,26 @@ vector<CCPoint> GameUnit::GetNerbyCells() const
 vector<CCPoint> GameUnit::GetFullNearbyCells() const
 {
     vector<CCPoint> resuplt = GetNerbyCells();
+    vector<CCPoint> allPoints;
     if (_unitData->GetSize() == 1)
     {
-        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+1, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+1, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x-1, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
+        allPoints.push_back(ccp(GetUnitCell().x-1, GetUnitCell().y-1));
+        allPoints.push_back(ccp(GetUnitCell().x+1, GetUnitCell().y+1));
+        allPoints.push_back(ccp(GetUnitCell().x+1, GetUnitCell().y-1));
+        allPoints.push_back(ccp(GetUnitCell().x-1, GetUnitCell().y+1));
     }
     else
     {
-        CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y-1);
+        allPoints.push_back(ccp(GetUnitCell().x-1, GetUnitCell().y-1));
+        allPoints.push_back(ccp(GetUnitCell().x+2, GetUnitCell().y-1));
+        allPoints.push_back(ccp(GetUnitCell().x-1, GetUnitCell().y+2));
+        allPoints.push_back(ccp(GetUnitCell().x+2, GetUnitCell().y+2));
+    }
+    for (int i = 0; i < allPoints.size(); i++)
+    {
+        CCPoint cell = allPoints[i];
         if (game->_match->GetIsCellValid(cell))
             resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+2, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x-1, GetUnitCell().y+2);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        cell = ccp(GetUnitCell().x+2, GetUnitCell().y+2);
-        if (game->_match->GetIsCellValid(cell))
-            resuplt.push_back(cell);
-        
     }
     return resuplt;
 }
@@ -819,28 +791,22 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
         if (_config_w->_isStealthable && !_unitData->_detected[playerId])
         {
             _unitData->_detected[playerId] = true;
-            _unitData->_detected[_owner_w->_playerInfo._playerId] = true;
+            _unitData->_detected[_owner_w->GetPlayerId()] = true;
             if (game->_match->GetIsCurrentPlayer(playerId) ||
-                game->_match->GetIsCurrentPlayer(_owner_w->_playerInfo._playerId))
+                game->_match->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
             {
                 GetUnitObject()->StealthDeactivated();
                 _delegate_w->GameUnitDidDetected(this);
             }
-            if (game->_match->GetIsCurrentPlayer(_owner_w->_playerInfo._playerId) && _unitData->GetIsUnderwater()) {
+            if (game->_match->GetIsCurrentPlayer(_owner_w->GetPlayerId()) && _unitData->GetIsUnderwater()) 
                 SOUND->PlaySystemSound(SOUND_TYPE_SUBMARINE_DETECTED);
-            }
         }
     }
 }
 
 bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
 {
-    bool result = false;
-    if (playerId < MAX_PLAYERS)
-    {
-        result = _config_w->_isStealthable && _unitData->_detected[playerId];
-    }
-    return result;
+    return _unitData->IsDetectedByPlayer(playerId);
 }
 
 #pragma mark - Fire methods

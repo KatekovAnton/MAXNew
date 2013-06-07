@@ -8,7 +8,7 @@
 
 #include "PlayerUpgradeManager.h"
 #include "PlayerResearchManager.h"
-#include "GameMatchPlayer.h"
+#include "GameMatchPlayerData.h"
 
 
 PriceMap hitpointsArmorAmmo_2;
@@ -72,7 +72,7 @@ PriceMap shots_2;
 
 bool init = false;
 
-PlayerUpgradeManager::PlayerUpgradeManager(GameMatchPlayer* player)
+PlayerUpgradeManager::PlayerUpgradeManager(GameMatchPlayerData* player)
 {
     if (init)
         return;

@@ -32,7 +32,7 @@ enum
 };
 
 class PlayerResearchManager;
-class GameMatchPlayer;
+class GameMatchPlayerData;
 
 
 typedef map<int, int> PriceMap;
@@ -119,9 +119,9 @@ public:
     
 	void printToLog (const char* str, int value = -1000) const;
     
-    GameMatchPlayer* _player_w;
+    GameMatchPlayerData* _player_w;
     
-    PlayerUpgradeManager(GameMatchPlayer* player);
+    PlayerUpgradeManager(GameMatchPlayerData* player);
     ~PlayerUpgradeManager();
 };
 

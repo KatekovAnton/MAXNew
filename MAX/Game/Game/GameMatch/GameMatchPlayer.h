@@ -12,65 +12,33 @@
 #include <iostream>
 #include "miniPrefix.h"
 #include "PlayerResearchManager.h"
-#include "GameFogDelegate.h"
 #include "GameUnitDelegate.h"
+#include "GameMatchPlayerDataDelegate.h"
 
 class Texture;
 class GameUnit;
-class MAXClanConfig;
-class PlayerBase;
-
-class PlayerResearchManager;
-class PlayerUpgradeManager;
-class PlayerResourceMap;
-
 class GameMatch;
-class GameFog;
 class GameUnitBaseParameters;
+class GameMatchPlayerData;
 
-struct GameMatchPlayerInfo {
-    
-	int             _clan;
-    unsigned int    _playerId;
-    string          _name;
-    Color           _color;
-};
-
-class GameMatchPlayer : public GameFogDelegate, public GameUnitDelegate {
+class GameMatchPlayer : public GameUnitDelegate, public GameMatchPlayerDataDelegate {
     
     vector<Texture*> _palettes;
-    map<string, GameUnitBaseParameters*> _unitConfigs;
-    
     Texture* _palette;
-    bool *_resourceCover;
     
-    bool UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const;
-    bool UnitCoveredByFog(const GameUnit *unit, const GameFog *fog) const;
+    bool *_resourceCover;
     
 public:
     
-    bool GetIsCurrentPlayer() const;
-    Texture** GetPalettePointer() {return &_palette;};
-    
-    CCPoint cameraPosition;
-    float cameraZoom;
-    
     GameMatch *_match_w;
     
-    int researchCentersWorkingOnArea[kNrResearchAreas]; ///< counts the number of research centers that are currently working on each area
+    GameMatchPlayerData *_playerData;
     
-    PlayerResearchManager   *_researchManager;
-    PlayerUpgradeManager    *_upgradeManager;
-    PlayerResourceMap       *_resourceMap;
-    
-    MAXClanConfig* _clanConfig;
-    CCPoint _landingPosition;
-    
-    GameMatchPlayerInfo _playerInfo;
-    GameFog* fogs[FOG_TYPE_MAX];
+    bool GetIsCurrentPlayer() const;
+    int GetPlayerId() const;
+    Texture** GetPalettePointer() {return &_palette;};
     
     USimpleContainer<GameUnit*> _units;
-    PlayerBase* _base;
     
     GameMatchPlayer(GameMatchPlayerInfo playerInfo, GameMatch *match);
     ~GameMatchPlayer();
@@ -83,10 +51,10 @@ public:
     bool CanSeeUnit(GameUnit* unit);
     GameUnit* CreateUnit (int posx, int posy, string type, unsigned int ID);
     
-#pragma mark - GameFogDelegate
-
-    virtual float UnitScanRadiusForFog(const GameUnitData *unit, const GameFog *fog) const;
-    virtual void CellDidUpdate(const int cellX, const int cellY, const GameFog *fog, bool visibleFlag) const;
+#pragma mark - GameMatchPlayerDataDelegate
+    
+    virtual EXTENDED_GROUND_TYPE GroudTypeAtPoint(const int x, const int y);
+    virtual void CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag);
     
 #pragma mark - GameUnitDelegate 
         

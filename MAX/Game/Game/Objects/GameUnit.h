@@ -78,7 +78,7 @@ public:
     vector<CCPoint> GetNerbyCells() const;
     vector<CCPoint> GetFullNearbyCells() const;
     
-    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params);    //creates new unit
+    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId);    //creates new unit
     GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchPlayer *owner);           //creates unit from saved data
     void Init();
     ~GameUnit();

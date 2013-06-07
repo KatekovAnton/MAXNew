@@ -28,7 +28,7 @@
 void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
 {
     player->LandingTo(ccp(20 + i * 20 , 50));
-    _resources->LandPlayerAt((int)player->_landingPosition.x, (int)player->_landingPosition.y);
+    _resources->LandPlayerAt((int)player->_playerData->_landingPosition.x, (int)player->_playerData->_landingPosition.y);
 }
 
 GameMatch::GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players)
@@ -138,7 +138,7 @@ void GameMatch::UnfillFogOnStartTurn()
 {
     for (int i = 0; i < _map->_w; i++) {
         for (int j = 0; j < _map->_h; j++) {
-            bool see = _currentPlayer_w->fogs[FOG_TYPE_SCAN]->GetValue(ccp(i, j))>0;
+            bool see = _currentPlayer_w->_playerData->fogs[FOG_TYPE_SCAN]->GetValue(ccp(i, j))>0;
             if (see)
                 engine->AddFogCell(i, j, false);
         }
@@ -149,7 +149,7 @@ void GameMatch::FillResourceFogOnStartTurn()
 {
     for (int x = 0; x < _map->_w; x++) {
         for (int y = 0; y < _map->_h; y++) {
-            bool see = _currentPlayer_w->_resourceMap->GetValue(x, y);
+            bool see = _currentPlayer_w->_playerData->_resourceMap->GetValue(x, y);
             if (see)
                 engine->AddResourceCell(x, y, _resources->GetResourceTypeAt(x, y), _resources->GetResourceValueAt(x, y));
         }
@@ -194,7 +194,7 @@ void GameMatch::GameUnitDidUndetected(GameUnit *unit, const CCPoint &point)
     }
     else if (unit->_owner_w != _currentPlayer_w)
     {
-        unit->DetectedByPlayer(_currentPlayer_w->_playerInfo._playerId);
+        unit->DetectedByPlayer(_currentPlayer_w->GetPlayerId());
     }
 }
 
@@ -237,8 +237,8 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
         {
             if (unit->GetIsStealthable() && player->CanSeeUnit(unit))
             {
-                if (!unit->IsDetectedByPlayer(player->_playerInfo._playerId))
-                    unit->DetectedByPlayer(player->_playerInfo._playerId);
+                if (!unit->IsDetectedByPlayer(player->GetPlayerId()))
+                    unit->DetectedByPlayer(player->GetPlayerId());
             }
         }
     }
@@ -276,7 +276,7 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                         
                         if (type != FOG_TYPE_SCAN)
                         {
-                            unit->DetectedByPlayer(_currentPlayer_w->_playerInfo._playerId);
+                            unit->DetectedByPlayer(_currentPlayer_w->GetPlayerId());
                         }
                         
                         unit->Show();
@@ -356,7 +356,7 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
 						{
 							result = true;
 							game->ShowUnitSpottedMessage(unit);
-							unit->DetectedByPlayer(_currentPlayer_w->_playerInfo._playerId);
+							unit->DetectedByPlayer(_currentPlayer_w->GetPlayerId());
 							unit->Show();
 							_agregator->AddUnitToCell(unit, x, y);
 							break;

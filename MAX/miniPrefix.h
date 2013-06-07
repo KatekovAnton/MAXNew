@@ -196,6 +196,14 @@ struct __Color
     
 } typedef Color;
     
+struct __GameMatchPlayerInfo {
+        
+    int             _clan;
+    unsigned int    _playerId;
+    string          _name;
+    Color           _color;
+} typedef GameMatchPlayerInfo;
+    
 struct MAXRESTextureData
 {
     Color* data;

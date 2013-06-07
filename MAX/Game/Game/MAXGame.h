@@ -87,6 +87,7 @@ public:
     ~MAXGame();
     
     void Init();
+    int CurrentPlayerId() const;
     
     void UpdateCurrentUnitPath();
     void TryStartConstruction(string type);

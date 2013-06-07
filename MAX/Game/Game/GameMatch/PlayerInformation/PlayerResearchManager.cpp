@@ -8,9 +8,9 @@
 
 #include "PlayerResearchManager.h"
 #include "PlayerUpgradeManager.h"
-#include "GameMatchPlayer.h"
+#include "GameMatchPlayerData.h"
 
-PlayerResearchManager::PlayerResearchManager(GameMatchPlayer* player)
+PlayerResearchManager::PlayerResearchManager(GameMatchPlayerData* player)
 {
     _player_w = player;
     init();

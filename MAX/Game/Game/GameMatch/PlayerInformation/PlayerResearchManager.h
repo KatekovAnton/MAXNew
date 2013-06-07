@@ -24,13 +24,13 @@ enum ResearchArea
     kNrResearchAreas
 };
 
-class GameMatchPlayer;
+class GameMatchPlayerData;
 
 class PlayerResearchManager {
     
 public:
     
-    GameMatchPlayer* _player_w;
+    GameMatchPlayerData* _player_w;
     
     bool doResearch (int researchPoints, int researchArea);
     
@@ -53,7 +53,7 @@ public:
 	int curResearchPoints[kNrResearchAreas]; ///< Numberr of research-center turns the player invested in an area
 	int neededResearchPoints[kNrResearchAreas]; ///< Number of research-center turns needed to reach the next level (remainingResearchPoints == neededResearchPoints - curResearchPoints)
     
-    PlayerResearchManager(GameMatchPlayer* player);
+    PlayerResearchManager(GameMatchPlayerData* player);
     ~PlayerResearchManager();
 };
 

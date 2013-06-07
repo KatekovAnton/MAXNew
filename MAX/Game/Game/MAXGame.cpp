@@ -103,6 +103,11 @@ void MAXGame::Init()
     //StartTest();
 }
 
+int MAXGame::CurrentPlayerId() const
+{
+    return _match->_currentPlayer_w->GetPlayerId();
+}
+
 void MAXGame::StartTest()
 {
     _waitTestAnimCorvette = NULL;
@@ -434,8 +439,8 @@ void MAXGame::StartMatch()
     }
     
     engine->SetCameraCenter(ccp(62, 57));
-    _match->_players[0]->cameraPosition = ccp(62, 57);
-    _match->_players[1]->cameraPosition = ccp(62, 57);
+    _match->_players[0]->_playerData->cameraPosition = ccp(62, 57);
+    _match->_players[1]->_playerData->cameraPosition = ccp(62, 57);
 
 }
 
@@ -445,8 +450,8 @@ bool MAXGame::EndTurn()
     if (_freezeCounter != 0)
         return false;
     _gameController->AbortCurrentAction();
-    _match->_currentPlayer_w->cameraPosition = engine->ScreenToWorldCell( _gameInterface->GetCenter());
-    _match->_currentPlayer_w->cameraZoom = engine->CameraZoom();
+    _match->_currentPlayer_w->_playerData->cameraPosition = engine->ScreenToWorldCell( _gameInterface->GetCenter());
+    _match->_currentPlayer_w->_playerData->cameraZoom = engine->CameraZoom();
     result = _match->EndTurn();
     if (!result) 
         return result;
@@ -477,8 +482,8 @@ bool MAXGame::EndTurn()
             HidePathMap();
     }
     
-    engine->SetZoom(_match->_currentPlayer_w->cameraZoom);
-    engine->SetCameraCenter(_match->_currentPlayer_w->cameraPosition);
+    engine->SetZoom(_match->_currentPlayer_w->_playerData->cameraZoom);
+    engine->SetCameraCenter(_match->_currentPlayer_w->_playerData->cameraPosition);
     return result;
 }
 

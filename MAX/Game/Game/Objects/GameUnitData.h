@@ -25,6 +25,8 @@ class GameUnitData {
     
 public:
     
+    int _ownerId;
+    
     //this building is currently constructing
     bool _isConstruction;
     bool _isOn;
@@ -50,8 +52,9 @@ public:
     
     bool _landed;
     bool _detected[MAX_PLAYERS];
+    bool IsDetectedByPlayer(unsigned int playerId);
     
-    GameUnitData(GameUnitParameters* params);
+    GameUnitData(GameUnitParameters* params, int ownerId);
     ~GameUnitData();
     
     bool GetIsSurvivor() const;
