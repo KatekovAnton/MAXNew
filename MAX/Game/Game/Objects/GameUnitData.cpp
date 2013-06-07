@@ -12,7 +12,7 @@
 #include "MAXObjectConfig.h"
 
 GameUnitData::GameUnitData(GameUnitParameters* params)
-:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL)
+:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isConstruction(false)
 {
     _isOn = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
     

@@ -25,6 +25,8 @@ class GameUnitData {
     
 public:
     
+    //this building is currently constructing
+    bool _isConstruction;
     bool _isOn;
     CCPoint _unitCell;
     

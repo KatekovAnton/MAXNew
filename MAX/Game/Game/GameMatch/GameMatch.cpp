@@ -181,7 +181,7 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 {
     _fullAgregator->RemoveUnitFromCell(unit, point.x, point.y);
     _agregator->RemoveUnitFromCell(unit, point.x, point.y);
-    if (!unit->GetIsConstruction())
+    if (!unit->_unitData->_isConstruction)
         UpdateConnectorsForUnit(unit);
 }
 
@@ -215,10 +215,10 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     {
         _agregator->AddUnitToCell(unit, point.x, point.y);
         
-        if (!unit->GetIsConstruction())
+        if (!unit->_unitData->_isConstruction)
         {
             UpdateConnectorsForUnit(unit);
-            needMessage = !unit->_onDraw && unit->_owner_w != _currentPlayer_w && !unit->GetIsConstruction();
+            needMessage = !unit->_onDraw && unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isConstruction;
         }
         unit->Show();
     }
@@ -268,7 +268,7 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                     GameUnit *unit = units->objectAtIndex(i);
                     if (_currentPlayer_w->CanSeeUnit(unit))
                     {
-                        needMessage = ! unit->_onDraw &&  unit->_owner_w != _currentPlayer_w && !unit->GetIsConstruction();
+                        needMessage = ! unit->_onDraw &&  unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isConstruction;
                         if (needMessage)
                         {
                             game->ShowUnitSpottedMessage(unit);

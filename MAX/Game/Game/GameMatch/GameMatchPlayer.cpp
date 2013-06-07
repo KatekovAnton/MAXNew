@@ -197,7 +197,7 @@ bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
 
 bool GameMatchPlayer::UnitShouldUpdateFog(const GameUnit *unit, const GameFog *fog) const
 {
-    if (unit->GetIsConstruction()) 
+    if (unit->_unitData->_isConstruction)
         return false;
     
     bool result = false;

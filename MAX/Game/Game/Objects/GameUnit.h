@@ -41,9 +41,9 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     MAXAnimationSequence* _currentTopAnimation;
     GameEffect* _effectUnder;
     GameEffect* _effectOver;
-    int currentSound;
     
     bool _shouldAnimateBody;
+    int _currentSound;
     
     std::vector<PFWaveCell*> movePath;
     int pathIndex;
@@ -53,30 +53,46 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     bool MoveToNextCell(void);
     void FollowPath(void);
     
-    void ChackForAnimanteBody();
-    
-    bool _isConstruction;
+    void CheckForAnimanteBody();
+    void SetUnitLocationAnimated(const CCPoint& destination);
     
 public:
     
+    //just temporary flag
     bool _currentlyProcesedConstructor;
-    void RunAnimation(MAXAnimationSequence* animation);
-    GameEffect* GetEffectUnder() {return _effectUnder;}
     
-    bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
-    bool GetIsStealthable() const;
-    
-    vector<GameUnit*> _storedUnits_w;
-    
-    GameUnitData    *_unitData;
+    vector<GameUnit*>       _storedUnits_w;
+    GameUnitData            *_unitData;
     GameUnitDelegate        *_delegate_w;
     GameMatchPlayer         *_owner_w;
     
-    MAXUnitObject* GetUnitObject() const {return (MAXUnitObject*) GetObject(); };
     
-    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params);
+    GameEffect* GetEffectUnder() { return _effectUnder; }
+    bool GetIsFreezed() const { return _currentTopAnimation != NULL; }
+    bool GetIsStealthable() const;
+    MAXUnitObject* GetUnitObject() const { return (MAXUnitObject*) GetObject(); };
+    std::vector<UNIT_MENU_ACTION> GetActionList() const;
+    MAXObjectConfig* GetConfig();
+    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
+    int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;
+    vector<CCPoint> GetNerbyCells() const;
+    vector<CCPoint> GetFullNearbyCells() const;
+    
+    
+    BoundingBox GetScanBoundingBox(const CCPoint &centerPoint) const;
+    BoundingBox GetScanBoundingBox() const;
+    bool IsInScanRadius(const CCPoint &point) const;
+    bool IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const;
+    bool IsInFireRadius(const CCPoint &point) const;
+    bool IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const;
+    
+    
+    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params);    //creates new unit
+    GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchPlayer *owner);           //creates unit from saved data
+    void Init();
     ~GameUnit();
     
+    void RunAnimation(MAXAnimationSequence* animation);
     
     int PlaySound(UNIT_SOUND unitSound);
     void StopCurrentSound();
@@ -84,7 +100,7 @@ public:
     void UnitDidDeselect();
     void CheckBodyAndShadow();
     void CheckBuildProcess();
-    void SetUnitLocationAnimated(const CCPoint& destination);
+    
     void SetPath(std::vector<PFWaveCell*> path);
 	void ClearPath();
     void ClearTempPath();
@@ -96,7 +112,6 @@ public:
     void AbortCurrentPath();
     
     void SetDirection(int dir);
-    void SetRandomDirection();
     void SetColor(GLKVector4 color);
     
     virtual void SetLocation(const CCPoint& cell);
@@ -121,24 +136,9 @@ public:
     
     void CheckMovementUpdate();
     
-    std::vector<UNIT_MENU_ACTION> GetActionList() const;
-    MAXObjectConfig* GetConfig();
-    int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
-    int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;
-    
     void UpdateConnectors();
     void DetectedByPlayer(unsigned int playerId);
     bool IsDetectedByPlayer(unsigned int playerId);
-    
-    vector<CCPoint> GetNerbyCells() const;
-    vector<CCPoint> GetFullNearbyCells() const;
-    
-    BoundingBox GetScanBoundingBox(const CCPoint &centerPoint) const;
-    BoundingBox GetScanBoundingBox() const;
-    bool IsInScanRadius(const CCPoint &point) const;
-    bool IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const;
-    bool IsInFireRadius(const CCPoint &point) const;
-    bool IsInFireRadius(const CCPoint &point, const CCPoint &currentCenter) const;
     
 #pragma mark - Fire methods
     bool CanFire(const cocos2d::CCPoint &target);
@@ -163,10 +163,10 @@ public:
     
     void BeginConstructionSequence();
     void EndConstructionSequense();
-    bool GetIsConstruction() const {return _isConstruction;}
 
     void TurnOn();
     void TurnOf();
+    
     
 #pragma mark - MAXAnimationDelegate
     virtual void OnAnimationStart(MAXAnimationBase* animation);

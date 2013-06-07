@@ -171,202 +171,162 @@ void MAXGame::StartMatch()
 
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 53, "Constructor", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 47, "Corvette", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     } 
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(47, 49, "Escort", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 44, "sub", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 45, "Seacargo", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(46, 45, "Seafuel", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 46, "Rokcr", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 42, "seaminelay", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 43, "Seatrans", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
         GameUnit *unit1 = _match->_players[0]->CreateUnit(78, 45, "pcan", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 52, "Bomber", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 52, "Airtrans", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 53, "Crawler", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 51, "infantry", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 51, "Infil", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 57, "Aagunm", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(57, 58, "Awac", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(10, 10, "Awac", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(101, 101, "Awac", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(58, 58, "Scout", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(48, 58, "Engineer", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(59, 53, "Asgun", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 54, "Inter", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 52, "Tank", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(53, 54, "Rocket", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 58, "Inter", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(55, 58, "Surveyor", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 58, "Dozer", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(65, 59, "Fueltruck", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 59, "GTruck", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(67, 59, "Truck", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 60, "Repair", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(73, 52, "Miner", 0);
-		unit1->SetRandomDirection();
 		unit1->PlaceUnitOnMap();
 	}
 	{
         GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 58, "alnasgun", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 57, "alnplane", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(64, 55, "alntank", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(44, 33, "juger", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(50, 64, "Scanner", 0);
-        unit1->SetRandomDirection();
         unit1->PlaceUnitOnMap();
     }
     {
@@ -740,12 +700,23 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     
     bool _unitMoved = false;
     bool _unitMenuShowed = false;
+    bool _removeFromLock = false;
+    
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
     p.y = floorf(p.y);
-    bool _removeFromLock = false;
     
     GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
+    
+    bool tapToSameUnit = false;
+    if (_currentUnit)
+    {
+        if (_currentUnit->_unitData->GetSize() == 1)
+            tapToSameUnit = p.x == _currentUnit->GetUnitCell().x && p.y == _currentUnit->GetUnitCell().y;
+        else
+            tapToSameUnit = (p.x == _currentUnit->GetUnitCell().x || p.x == _currentUnit->GetUnitCell().x + 1) && (p.y == _currentUnit->GetUnitCell().y || p.y == _currentUnit->GetUnitCell().y + 1);
+    }
+    
     if (_currentUnit && _currentUnit->CanMove())
     {
         if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
@@ -767,7 +738,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
         }
         else
         {
-            if (p.x == _currentUnit->GetUnitCell().x && p.y == _currentUnit->GetUnitCell().y && _needToOpenMenuOnNextTapToSameUnit) {
+            if (tapToSameUnit && _needToOpenMenuOnNextTapToSameUnit) {
                 _gameInterface->ShowMenuForCurrentUni(this);
                 _unitMenuShowed = true;
                 _needToOpenMenuOnNextTapToSameUnit = false;
@@ -841,8 +812,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     }
     else if (_currentUnit && !_currentUnit->CanMove())
     {
-        
-        if (_currentUnit == newCurrentUnit || (p.x == _currentUnit->GetUnitCell().x && p.y == _currentUnit->GetUnitCell().y && _needToOpenMenuOnNextTapToSameUnit))
+        if (_currentUnit == newCurrentUnit || (tapToSameUnit && _needToOpenMenuOnNextTapToSameUnit))
         {
             if (_needToOpenMenuOnNextTapToSameUnit)
             {

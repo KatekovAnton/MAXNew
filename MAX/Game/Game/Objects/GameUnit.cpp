@@ -49,22 +49,33 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _isConstruction(false), _effectOver(NULL), _currentlyProcesedConstructor(false)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false)
 {
-    unitObject->_delegate_w = this;
+    Init();
+}
+
+
+GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchPlayer *owner)           //creates unit from saved data
+:GameObject(unitObject, unitdata->GetConfig()), _unitData(unitdata), _owner_w(owner)
+{
+    Init();
+}
+
+void GameUnit::Init()
+{
+    GetUnitObject()->_delegate_w = this;
     MAXObjectConfig* config = _unitData->GetConfig();
-    unitObject->_needShadow = !config->_isUnderwater;
+    GetUnitObject()->_needShadow = !config->_isUnderwater;
     _onDraw = false;
     CheckBodyAndShadow();
     
     
-    currentSound = -1;
+    _currentSound = -1;
     
     if(_unitData->GetIsBuilding() && _unitData->GetConfig()->_isNeedUndercover)
-    {
         _effectUnder = GameEffect::CreateBuildingBase(_unitData->GetSize() == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
-    }
-    ChackForAnimanteBody();
+    
+    CheckForAnimanteBody();
 }
 
 bool GameUnit::GetIsStealthable() const
@@ -88,7 +99,7 @@ GameUnit::~GameUnit()
     }
 }
 
-void GameUnit::ChackForAnimanteBody()
+void GameUnit::CheckForAnimanteBody()
 {
     _shouldAnimateBody = _unitData->GetConfig()->bodyActiveFrame0 != _unitData->GetConfig()->bodyActiveFrame1 && !_unitData->_disabledByInfiltrator;
 }
@@ -171,10 +182,10 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
 
 void GameUnit::StopCurrentSound()
 {
-    if (currentSound > 0)
+    if (_currentSound > 0)
     {
-        SOUND->StopGameSound(currentSound);
-        currentSound = -1;
+        SOUND->StopGameSound(_currentSound);
+        _currentSound = -1;
     }
 }
 
@@ -184,7 +195,7 @@ void GameUnit::UnitDidSelect()
     if (_owner_w->GetIsCurrentPlayer())
         SOUND->PlaySystemSound(_unitData->GetOnSelectSoundType());
     
-    currentSound = PlaySound(_unitData->GetBackgroundSoundType());
+    _currentSound = PlaySound(_unitData->GetBackgroundSoundType());
 }
 
 void GameUnit::UnitDidDeselect()
@@ -204,13 +215,6 @@ void GameUnit::SetDirection(int dir)
     _unitData->_headDirection = dir;
 }
 
-void GameUnit::SetRandomDirection()
-{
-    if(_unitData->GetIsBuilding())
-        return;
-    SetDirection(nextIntMax(8));
-}
-
 void GameUnit::SetColor(GLKVector4 color)
 {
     MAXUnitObject* _unitObject = GetUnitObject();
@@ -219,7 +223,7 @@ void GameUnit::SetColor(GLKVector4 color)
 
 void GameUnit::Show()
 {
-    if (!_isConstruction)
+    if (!_unitData->_isConstruction)
         GameObject::Show();
     if (_effectUnder)
         _effectUnder->Show();
@@ -257,7 +261,7 @@ void GameUnit::TakeOff()
         GetUnitObject()->TakeOff();
 
         StopCurrentSound();
-        currentSound = PlaySound(UNIT_SOUND_START);
+        _currentSound = PlaySound(UNIT_SOUND_START);
     }
 }
 
@@ -440,15 +444,15 @@ void GameUnit::CheckBuildProcess()
     if (_unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskFinished()))
     {
         if (config->_isBuilding && config->_retEnergy == 0)
-            currentSound = PlaySound(UNIT_SOUND_BUILD);
+            _currentSound = PlaySound(UNIT_SOUND_BUILD);
         else
-            currentSound = PlaySound(UNIT_SOUND_WORK);
+            _currentSound = PlaySound(UNIT_SOUND_WORK);
     }
     else
-        currentSound = PlaySound(UNIT_SOUND_STOP);
+        _currentSound = PlaySound(UNIT_SOUND_STOP);
     
     CheckBodyAndShadow();
-    ChackForAnimanteBody();
+    CheckForAnimanteBody();
 }
 
 bool GameUnit::CanMove() const
@@ -597,7 +601,7 @@ void GameUnit::FollowPath(void)
         if (first)
         {
             StopCurrentSound();
-            currentSound = PlaySound(UNIT_SOUND_ENGINE_START);
+            _currentSound = PlaySound(UNIT_SOUND_ENGINE_START);
         }
         
         pos = destination;
@@ -879,7 +883,7 @@ bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
 
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
-    if (GetIsConstruction()) 
+    if (_unitData->_isConstruction)
         return false;
     
     MAXUnitObject* _unitObject = GetUnitObject();
@@ -1087,13 +1091,13 @@ void GameUnit::CancelConstructingUnit()
 
 void GameUnit::BeginConstructionSequence()
 {
-    _isConstruction = true;
+    _unitData->_isConstruction = true;
 }
 
 void GameUnit::EndConstructionSequense()
 {
     _delegate_w->GameUnitDidRemoveFromMap(this);
-    _isConstruction = false;
+    _unitData->_isConstruction = false;
     _delegate_w->GameUnitDidPlaceOnMap(this);
     PlaceUnitOnMap();
 }
@@ -1123,12 +1127,12 @@ void GameUnit::AbortConstructingUnit()
     DestroyBuildingTape();
     CheckBodyAndShadow();
     StopCurrentSound();
-    currentSound = PlaySound(UNIT_SOUND_ENGINE);
+    _currentSound = PlaySound(UNIT_SOUND_ENGINE);
 }
 
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 {
-    if (GetIsConstruction())
+    if (_unitData->_isConstruction)
     {
         vector<UNIT_MENU_ACTION> result;
         return result;
@@ -1236,10 +1240,10 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         if (_unitData->GetConfig()->_isPlane)
         {
             if (!_unitData->_landed)
-                currentSound = PlaySound(UNIT_SOUND_ENGINE);
+                _currentSound = PlaySound(UNIT_SOUND_ENGINE);
         }
         else
-            currentSound = PlaySound(UNIT_SOUND_ENGINE);
+            _currentSound = PlaySound(UNIT_SOUND_ENGINE);
     }
     else // move
     {
@@ -1252,7 +1256,7 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 
 bool GameUnit::ShouldSkipThisUnit() const
 {
-    return GetIsConstruction();
+    return _unitData->_isConstruction;
 }
 
 int GameUnit::GetScan() const
