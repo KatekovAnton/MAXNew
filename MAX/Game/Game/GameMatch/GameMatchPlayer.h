@@ -26,8 +26,6 @@ class GameMatchPlayer : public GameUnitDelegate, public GameMatchPlayerDataDeleg
     vector<Texture*> _palettes;
     Texture* _palette;
     
-    bool *_resourceCover;
-    
 public:
     
     GameMatch *_match_w;
