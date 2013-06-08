@@ -33,7 +33,7 @@ public:
     GLKMatrix4 CalculateBodyRenderMatrix();
     
     MAXEffectObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config);
-    ~MAXEffectObject();
+    virtual ~MAXEffectObject();
     
     void SetEffectFrame(int frame);
     virtual void HasBeenLocatedToScene();

@@ -212,6 +212,7 @@
 		8BEE79611703894400F78F1A /* ShaderResourceMap.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */; };
 		8BEE79621703894400F78F1A /* ShaderResourceMap.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795E170388EB00F78F1A /* ShaderResourceMap.vsh */; };
 		8BFA4EEE176259D6001A7D00 /* GameMatchPlayerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BFA4EEC176259D5001A7D00 /* GameMatchPlayerData.cpp */; };
+		8BFA4F0D1763C062001A7D00 /* GIWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BFA4F0B1763C061001A7D00 /* GIWindow.cpp */; };
 		D100A842170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */; };
 		D10B8C161721750A00536547 /* arrow_down_png_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D10B8C061721750A00536547 /* arrow_down_png_2.png */; };
 		D10B8C171721750A00536547 /* arrow_down_png.png in Resources */ = {isa = PBXBuildFile; fileRef = D10B8C071721750A00536547 /* arrow_down_png.png */; };
@@ -916,6 +917,8 @@
 		8BFA4EEC176259D5001A7D00 /* GameMatchPlayerData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMatchPlayerData.cpp; sourceTree = "<group>"; };
 		8BFA4EED176259D5001A7D00 /* GameMatchPlayerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMatchPlayerData.h; sourceTree = "<group>"; };
 		8BFA4EEF1762858E001A7D00 /* GameMatchPlayerDataDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMatchPlayerDataDelegate.h; sourceTree = "<group>"; };
+		8BFA4F0B1763C061001A7D00 /* GIWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIWindow.cpp; sourceTree = "<group>"; };
+		8BFA4F0C1763C062001A7D00 /* GIWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIWindow.h; sourceTree = "<group>"; };
 		D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXREsourceMapMaterial.cpp; sourceTree = "<group>"; };
 		D100A841170607E6002ED2D7 /* MAXREsourceMapMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXREsourceMapMaterial.h; sourceTree = "<group>"; };
 		D10B8C061721750A00536547 /* arrow_down_png_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down_png_2.png; sourceTree = "<group>"; };
@@ -1821,6 +1824,8 @@
 			children = (
 				8B44BBB51752BCD700A9D382 /* GIWindowsManager.cpp */,
 				8B44BBB61752BCD700A9D382 /* GIWindowsManager.h */,
+				8BFA4F0B1763C061001A7D00 /* GIWindow.cpp */,
+				8BFA4F0C1763C062001A7D00 /* GIWindow.h */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -3470,6 +3475,7 @@
 				8B20D8A0175952700058890D /* GUConstructUnitTask.cpp in Sources */,
 				8B20D8A317595D220058890D /* GUClearzoneTask.cpp in Sources */,
 				8BFA4EEE176259D6001A7D00 /* GameMatchPlayerData.cpp in Sources */,
+				8BFA4F0D1763C062001A7D00 /* GIWindow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

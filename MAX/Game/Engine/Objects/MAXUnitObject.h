@@ -140,7 +140,7 @@ public:
     
     
     MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config);
-    ~MAXUnitObject();
+    virtual ~MAXUnitObject();
     
     virtual RenderObject * GetRenderAspect();
     virtual Material * GetMaterial();
