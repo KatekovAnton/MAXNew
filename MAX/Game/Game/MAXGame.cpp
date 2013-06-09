@@ -508,7 +508,7 @@ void MAXGame::FlushEffectsWithNew(GameEffect *effect)
     }
 }
 
-bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y)
+bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells)
 {
     bool result = false;
     MAXObjectConfig* config = unit->_unitData->GetConfig();
@@ -523,16 +523,26 @@ bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y)
     {
         int startDirection = nextIntMax(8);
         int direction = startDirection;
-        Pathfinder* pf = _match->_pathfinder;
+        Pathfinder* pf = unit->_owner_w->_pathfinder;
         UNIT_MOVETYPE movetype = (UNIT_MOVETYPE)config->_bMoveType;
         for (;;)
         {
             int newX = x + PFWaveCell::DirToDX(direction);
             int newY = y + PFWaveCell::DirToDY(direction);
             int cost = pf->GetMapCostAt(newX, newY, direction, movetype);
-            if ((cost >= 0) && (cost <= unit->_unitData->GetMoveBalance()))
+            bool available = true;
+            for (int i = 0; i < lockedCells.size(); i++)
             {
-                if (!_match->IsHiddenUnitInPos(newX, newY, true))
+                CCPoint lp = lockedCells[i];
+                if ((int)lp.x == newX && (int)lp.y == newY)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            if ((cost >= 0) && (cost <= unit->_unitData->GetMoveBalance()) && available)
+            {
+                if (!_match->IsHiddenUnitInPos(newX, newY, true, reasonPlayer, lockedCells))
                 {
                     unit->EscapeToLocation(newX, newY, cost);
                     result = true;
@@ -542,13 +552,10 @@ bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y)
             
             direction++;
             if (direction >= 8)
-            {
                 direction -= 8;
-            }
+            
             if (direction == startDirection)
-            {
                 break;
-            }
         }
     }
     return result;
@@ -577,7 +584,25 @@ void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)
 
 void MAXGame::SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig)
 {
-    _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
+    vector<CCPoint> points;
+    points.push_back(result);
+    if (buildingConfig->_bSize == 2) {
+        points.push_back(ccp(result.x+1, result.y));
+        points.push_back(ccp(result.x, result.y+1));
+        points.push_back(ccp(result.x+1, result.y+1));
+    }
+    
+    bool start = true;
+    for (int i = 0; i < points.size(); i++) {
+        CCPoint point = points[i];
+        if (_match->IsHiddenUnitInPos(point.x, point.y, false, _match->_currentPlayer_w, points)) {
+            start = false;
+            break;
+        }
+    }
+    if (start)
+        _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
+    
     UpdateCurrentUnitPath();
     _gameInterface->HideUnitMenu();
 }
@@ -791,7 +816,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
                     else
                     {
                         CCPoint location = _currentUnit->GetUnitCell();
-                        std::vector<PFWaveCell*> path = _match->_pathfinder->FindPathOnMap(p.x, p.y);
+                        std::vector<PFWaveCell*> path = _currentUnit->_owner_w->_pathfinder->FindPathOnMap(p.x, p.y);
                     
                         if (path.size() > 1)
                         {
@@ -971,7 +996,7 @@ void MAXGame::RefreshCurrentUnitPath()
 {
     CCPoint location = _currentUnit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitData->GetConfig()->_bMoveType;
-    _match->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
+    _currentUnit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
     //pf->DumpMap();
     ShowPathMap();
     ShowUnitPath(_currentUnit);
@@ -985,18 +1010,17 @@ bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
     if (cell)
     {
         UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
-        Pathfinder* pf = _match->_pathfinder;
+        Pathfinder* pf = unit->_owner_w->_pathfinder;
         int pfCost = pf->GetMapCostAt(cell->x, cell->y, cell->direction, unitMoveType);
         if (cell->cost != pfCost)
-        {
             result = false;
-        }
+        
 		else if (!unit->_unitData->GetConfig()->_isPlane)
 		{
-			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false))
-			{
+            vector<CCPoint> empty;
+			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false, unit->_owner_w, empty))
 				result = false;
-			}
+			
 		}
     }
     
@@ -1007,7 +1031,7 @@ void MAXGame::RecalculateUnitPathMap(GameUnit *unit)
 {
     CCPoint location = unit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
-    _match->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
+    unit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
 }
 
 void MAXGame::RecalculateUnitPath(GameUnit* unit)
@@ -1017,7 +1041,7 @@ void MAXGame::RecalculateUnitPath(GameUnit* unit)
     
     //HidePathMap();
     PFWaveCell* cell = unit->GetPath()[0];
-    Pathfinder* pf = _match->_pathfinder;
+    Pathfinder* pf = unit->_owner_w->_pathfinder;
     std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y);
     if (path.size() > 1)
     {

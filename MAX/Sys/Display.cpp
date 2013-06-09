@@ -28,7 +28,10 @@ Display * Display::currentDisplay() {
     //
 #ifdef TARGET_OS_IPHONE
     if(!_display)
+    {
         _display = new iosDisplay();
+        _display->InitGLSurface(GL_DEPTH_COMPONENT24_OES, GL_RGB565);
+    }
     return _display;
 #endif
 #ifdef TARGET_OS_WIN

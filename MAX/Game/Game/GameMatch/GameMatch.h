@@ -53,11 +53,11 @@ public:
     void GameUnitDidUndetected(GameUnit *unit, const CCPoint &point);
     void GameUnitDidDetected(GameUnit *unit, const CCPoint &point);
     void GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point);
-    void CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, const GameMatchPlayer* _player);
+    void CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, GameMatchPlayer* player);
     
     bool GetIsCellValid(CCPoint cell) const;
     void UpdateConnectorsForUnit(GameUnit* unit);
-	bool IsHiddenUnitInPos(const int x, const int y, const bool checkOnly);
+	bool IsHiddenUnitInPos(const int x, const int y, const bool checkOnly, GameMatchPlayer *player, vector<CCPoint> lockedCells);
     bool UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player);
 };
 

@@ -109,7 +109,7 @@ bool MAXGameController::StartSelectConstructorExitCell(GameUnit* constructor, Ga
     GameMatch* match = game->_match;
     for (int i = 0; i < cells.size(); i++) {
         CCPoint cell = cells[i];
-        if (match->UnitCanBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)constructor->GetConfig()->_bMoveType)) {
+        if (match->UnitCanBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)constructor->GetConfig()->_bMoveType, constructor->_owner_w)) {
             suitableCells.push_back(cell);
             GameEffect* e = GameEffect::CreateExitPlaceMarker(constructor->GetConfig()->_bLevel);
             e->SetLocation(cell);
@@ -176,7 +176,7 @@ void MAXGameController::ProceedPan(int speedx, int speedy)
             
             
             _selectedUnit_w->_currentlyProcesedConstructor = true;
-            bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
+            bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, _selectedUnit_w);
             _selectedUnit_w->_currentlyProcesedConstructor = false;
             if (canConstrutHere)
                 _secondaryObject_w->SetLocation(newCell);
@@ -232,7 +232,7 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                     _selectedUnit_w->ClearPath();
                     
                     std::vector<PFWaveCell*> path;
-                    Pathfinder* p = game->_match->_pathfinder;
+                    Pathfinder* p = _selectedUnit_w->_owner_w->_pathfinder;
                     UNIT_MOVETYPE moveType = (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType;
                     p->MakePathMap(_unitCell.x, _unitCell.y, moveType, _selectedUnit_w->_unitData->GetMoveBalance());
                     createdUnit->_currentlyProcesedConstructor = true;

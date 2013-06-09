@@ -52,6 +52,8 @@ GameMatchPlayer::~GameMatchPlayer()
         delete unit;
     }
     
+    delete _agregator;
+    
     delete _playerData;
     if (_pathfinder)
         delete _pathfinder;
@@ -81,12 +83,11 @@ GameUnit* GameMatchPlayer::CreateUnit (int posx, int posy, string type, unsigned
             unitObject->headOffset += _playerData->_playerInfo._clan * 2;
     }
     
-    GameUnit* result = new GameUnit(unitObject, params, GetPlayerId());
+    GameUnit* result = new GameUnit(unitObject, params, GetPlayerId(), this);
     result->SetColor(GLKVector4Make(_playerData->_playerInfo._color.r, _playerData->_playerInfo._color.g, _playerData->_playerInfo._color.b, 1.0));
     result->SetLocation(CCPoint(posx, posy));
     result->CheckBodyAndShadow();
     result->_delegate_w = this;
-    result->_owner_w = this;
     
     
     _units.addObject(result);

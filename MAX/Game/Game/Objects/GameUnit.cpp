@@ -48,8 +48,8 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
     return curve;
 }
 
-GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false)
+GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId, GameMatchPlayer *owner)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false), _owner_w(owner)
 {
     Init();
 }
@@ -309,20 +309,13 @@ void GameUnit::EscapeToLocation(const int x, const int y, const int cost)
 void GameUnit::NewTurn()
 {
     StopCurrentSound();
-    bool processed = false;
     for (int i = 0; i < MAX_PLAYERS; i++)
-    {
-        if (_unitData->_detected[i])
-        {
-            _unitData->_detected[i] = false;
-            if (!processed)
-            {
-                processed = true;
-                GetUnitObject()->StealthActivated();
-                _delegate_w->GameUnitDidUndetected(this);
-            }
-        }
-    }
+        _unitData->_detected[i] = false;
+ 
+    GetUnitObject()->StealthActivated();
+    _delegate_w->GameUnitDidUndetected(this);
+    
+    
     _unitData->StartNewTurn();
     if (_unitData->GetIsTaskFinished())
     {
@@ -786,7 +779,7 @@ vector<CCPoint> GameUnit::GetFullNearbyCells() const
 
 void GameUnit::DetectedByPlayer(unsigned int playerId)
 {
-    if (playerId < MAX_PLAYERS)
+    if (playerId < MAX_PLAYERS)//why?
     {
         if (_config_w->_isStealthable && !_unitData->_detected[playerId])
         {
@@ -798,7 +791,7 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
                 GetUnitObject()->StealthDeactivated();
                 _delegate_w->GameUnitDidDetected(this);
             }
-            if (game->_match->GetIsCurrentPlayer(_owner_w->GetPlayerId()) && _unitData->GetIsUnderwater()) 
+            if (_owner_w->GetIsCurrentPlayer() && _unitData->GetIsUnderwater() && _owner_w->GetPlayerId() != playerId)
                 SOUND->PlaySystemSound(SOUND_TYPE_SUBMARINE_DETECTED);
         }
     }

@@ -34,6 +34,7 @@ class GameMap;
 class GameUnit;
 
 class GameMatch;
+class GameMatchPlayer;
 class GameEffect;
 class GameInterface;
 class GamePathVisualizer;
@@ -97,7 +98,7 @@ public:
     bool EndTurn();
     void FlushEffectsWithNew(GameEffect *effect);
     
-    bool EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y);
+    bool EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells);
   
     void UnidDidHide(GameUnit* unit);
     

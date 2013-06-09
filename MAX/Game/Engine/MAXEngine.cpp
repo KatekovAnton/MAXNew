@@ -88,7 +88,6 @@ void MAXEngine::Init() {
     drawFog = false;
     drawPathZone = false;
     hidePathZoneCounter = 0;
-    _renderSystem->Init();
     _renderSystem->InitOpenGL();
     
     GRect2D _screenRect = GRect2DMake(0, 0, _renderSystem->GetDisplay()->GetDisplayWidth()/_renderSystem->GetDisplay()->GetDisplayScale(), _renderSystem->GetDisplay()->GetDisplayHeight()/_renderSystem->GetDisplay()->GetDisplayScale());

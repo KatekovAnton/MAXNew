@@ -87,9 +87,8 @@ bool GameMatch::EndTurn()
         _currentTurn ++;
     }
     else
-    {
         nextPlayer = _players[_playersCompleteTurn.size()];
-    }
+    
     
     
     
@@ -104,18 +103,18 @@ bool GameMatch::EndTurn()
 
     for (int i = 0; i < _players.size(); i++)
     {
-        if (_currentPlayer_w != _players[i])
+
+        USimpleContainer<GameUnit*> *units = &_players[i]->_units;
+        for (int i = 0; i < units->GetCount(); i++)
         {
-            USimpleContainer<GameUnit*> *units = &_players[i]->_units;
-            for (int i = 0; i < units->GetCount(); i++)
-            {
-                GameUnit* unit = units->objectAtIndex(i);
-                //GameUnitDidEnterCell(unit, unit->GetUnitCell());
-                CCPoint point = unit->GetUnitCell();
-                if (_currentPlayer_w->CanSeeUnit(unit))
-                    unit->Show();
-            }
+            GameUnit* unit = units->objectAtIndex(i);
+            //GameUnitDidEnterCell(unit, unit->GetUnitCell());
+            if (_currentPlayer_w->CanSeeUnit(unit)||unit->IsDetectedByPlayer(_currentPlayer_w->GetPlayerId()))
+                unit->Show();
+            else
+                unit->Hide();
         }
+        
     }
     
     //update fog
@@ -152,6 +151,8 @@ void GameMatch::FillResourceFogOnStartTurn()
 void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 {
     if (!unit->_unitData->GetIsConnectored())
+        return;
+    if (unit->_unitData->_isConstruction) 
         return;
     
     unit->UpdateConnectors();
@@ -216,25 +217,27 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 {
     _fullAgregator->AddUnitToCell(unit, point.x, point.y);
     bool needMessage = false;
+    for (int i = 0; i < _players.size(); i++)
+    {
+        GameMatchPlayer* player = _players[i];
+        if (player->CanSeeUnit(unit))
+        {
+            player->_agregator->AddUnitToCell(unit, point.x, point.y);
+            UpdateConnectorsForUnit(unit);
+        }
+    }
+    
     if (_currentPlayer_w->CanSeeUnit(unit))
     {
-        _agregator->AddUnitToCell(unit, point.x, point.y);
-        
-        if (!unit->_unitData->_isConstruction)
-        {
-            UpdateConnectorsForUnit(unit);
-            needMessage = !unit->_onDraw && unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isConstruction;
-        }
+        needMessage = !unit->_onDraw && unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isConstruction;
         unit->Show();
     }
     else
-    {
         unit->Hide();
-    }
+    
     if (needMessage)
-    {
         game->ShowUnitSpottedMessage(unit);
-    }
+    
     for (int i = 0; i < _players.size(); i++)
     {
         GameMatchPlayer* player = _players[i];
@@ -249,65 +252,64 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     }
 }
 
-void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, const GameMatchPlayer* _player)
+void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, GameMatchPlayer* player)
 {
-    if (_player->GetIsCurrentPlayer())
+    if (player->GetIsCurrentPlayer())
     {
         if (type == FOG_TYPE_RESOURCES && visibleFlag)
         {
             engine->AddResourceCell(x, y, _resources->GetResourceTypeAt(x, y), _resources->GetResourceValueAt(x, y));
         }
-        else
+        else if (type == FOG_TYPE_SCAN)
         {
-            if (type == FOG_TYPE_SCAN)
+            engine->AddFogCell(x, y, !visibleFlag);
+        }
+        
+    }
+    
+    USimpleContainer<GameUnit*> *units = _fullAgregator->UnitsInCell(x, y);
+    
+    for (int i = 0; i < _players.size(); i++)
+    {
+        GameMatchPlayer* processedPlayer = _players[i];
+        if (visibleFlag)
+        {
+            bool needMessage = false;
+            for (int i = 0; i < units->GetCount(); i++)
             {
-                engine->AddFogCell(x, y, !visibleFlag);
-            }
-            
-            USimpleContainer<GameUnit*> *units = _fullAgregator->UnitsInCell(x, y);
-            if (visibleFlag)
-            {
-                bool needMessage = false;
-                for (int i = 0; i < units->GetCount(); i++)
+                GameUnit *unit = units->objectAtIndex(i);
+                if (processedPlayer->CanSeeUnit(unit))
                 {
-                    GameUnit *unit = units->objectAtIndex(i);
-                    if (_currentPlayer_w->CanSeeUnit(unit))
-                    {
-                        needMessage = ! unit->_onDraw &&  unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isConstruction;
-                        if (needMessage)
-                        {
-                            game->ShowUnitSpottedMessage(unit);
-                        }
-                        
-                        if (type != FOG_TYPE_SCAN)
-                        {
-                            unit->DetectedByPlayer(_currentPlayer_w->GetPlayerId());
-                        }
-                        
+                    needMessage = !unit->_onDraw &&  unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isConstruction && processedPlayer == _currentPlayer_w;
+                    if (needMessage)
+                        game->ShowUnitSpottedMessage(unit);
+                    
+                    
+                    if (type != FOG_TYPE_SCAN)
+                        unit->DetectedByPlayer(processedPlayer->GetPlayerId());
+                    
+                    if (processedPlayer == _currentPlayer_w)
                         unit->Show();
-                        CCPoint p = unit->GetUnitCell();
-                        _agregator->AddUnitToCell(unit, p.x, p.y);
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < units->GetCount(); i++)
-                {
-                    GameUnit *unit = units->objectAtIndex(i);
-                    if (!_currentPlayer_w->CanSeeUnit(unit))
-                    {
-                        unit->Hide();
-                        _agregator->RemoveUnitFromCell(unit, x, y);
-                        game->UnidDidHide(unit);
-                    }
+                    
+                    CCPoint p = unit->GetUnitCell();
+                    processedPlayer->_agregator->AddUnitToCell(unit, p.x, p.y);
                 }
             }
         }
-    }
-    else
-    {
-        //TODO: drop invisibility from our units if need
+        else
+        {
+            for (int i = 0; i < units->GetCount(); i++)
+            {
+                GameUnit *unit = units->objectAtIndex(i);
+                if (!player->CanSeeUnit(unit))
+                {
+                    player->_agregator->RemoveUnitFromCell(unit, x, y);
+                    
+                    unit->Hide();
+                    game->UnidDidHide(unit);
+                }
+            }
+        }
     }
 }
 
@@ -334,46 +336,37 @@ bool GameMatch::GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjec
     return true;
 }
 
-bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly)
+bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells)
 {
 	bool result = false;
-	for (int i = 0; i < _players.size(); i++)
-	{
-		GameMatchPlayer* player = _players[i];
-		for (int i = 0; i < player->_units.GetCount(); i++)
-		{
-			GameUnit* unit = player->_units.objectAtIndex(i);
-			if (unit->GetIsStealthable())
-			{
-				CCPoint pos = unit->GetUnitCell();
-				if (((int)pos.x == x) && ((int)pos.y == y))
-				{
-					if (checkOnly)
-					{
-						result = true;
-						break;
-					}
-					else
-					{
-						// try to quick move if possible to prevent detecting
-                        bool escaped = game->EscapeStealthUnitFromPos(unit, x, y);
-						if (!escaped)
-						{
-							result = true;
-							game->ShowUnitSpottedMessage(unit);
-							unit->DetectedByPlayer(_currentPlayer_w->GetPlayerId());
-							unit->Show();
-							_agregator->AddUnitToCell(unit, x, y);
-							break;
-						}
-					}					
-				}
-			}
-		}
-		if (result)
-		{
-			break;
-		}
+    
+    USimpleContainer<GameUnit*> *units = _fullAgregator->UnitsInCell(x, y);
+    for (int i = 0; i < units->GetCount(); i++)
+    {
+        GameUnit* unit = units->objectAtIndex(i);
+        if (unit->GetIsStealthable())
+        {
+            if (checkOnly)
+            {
+                result = true;
+                break;
+            }
+            else
+            {
+                // try to quick move if possible to prevent detecting
+                bool escaped = game->EscapeStealthUnitFromPos(unit, x, y, reasonPlayer, lockedCells);
+                if (!escaped)
+                {
+                    result = true;
+                    game->ShowUnitSpottedMessage(unit);
+                    unit->DetectedByPlayer(_currentPlayer_w->GetPlayerId());
+                    unit->Show();
+                    reasonPlayer->_agregator->AddUnitToCell(unit, x, y);
+                    break;
+                }
+            }
+        }
+		
 	}
 	return result;
 }
