@@ -43,8 +43,8 @@ MAXAnimationWait* prepareUnitToMoveToPoint(GameUnit* unit, CCPoint point, float 
 {
     CCPoint location = unit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
-    game->_match->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
-    std::vector<PFWaveCell*> path = game->_match->_pathfinder->FindPathOnMap(point.x, point.y);
+    unit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
+    std::vector<PFWaveCell*> path = unit->_owner_w->_pathfinder->FindPathOnMap(point.x, point.y);
     
     if (path.size() > 1)
     {
@@ -128,7 +128,7 @@ void MAXGame::StartTest()
 void MAXGame::ShowPathMap()
 {
     HidePathMap();
-    Pathfinder* pf = _match->_pathfinder;
+    Pathfinder* pf = _match->_currentPlayer_w->_pathfinder;
     for (int x = 0; x < _match->_map->GetMapWidth(); x++)
     {
         for (int y = 0; y < _match->_map->GetMapHeight(); y++)
@@ -711,7 +711,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.x = floorf(p.x);
     p.y = floorf(p.y);
     
-    GameUnit* newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
+    GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
     
     bool tapToSameUnit = false;
     if (_currentUnit)
@@ -810,7 +810,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             if (!newCurrentUnit && !_unitMoved)
             {
                 _gameInterface->HideUnitMenu();
-                newCurrentUnit = _match->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
+                newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
                 _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
             }
         }
@@ -1080,11 +1080,11 @@ void MAXGame::onUnitMoveStop(GameUnit* unit)
 	if (unit->_unitData->GetConfig()->_isPlane)
 	{
 		CCPoint location = unit->GetUnitCell();
-		USimpleContainer<GameUnit*> *units = _match->_agregator->UnitsInCell(location.x, location.y);
+		USimpleContainer<GameUnit*> *units = unit->_owner_w->_agregator->UnitsInCell(location.x, location.y);
 		for (int i = 0; i < units->GetCount(); i++)
 		{
 			GameUnit* u = units->objectAtIndex(i);
-			if (u->_unitData->GetConfig()->_isLanding)
+			if (u->_unitData->GetConfig()->_isLanding && u->_owner_w == unit->_owner_w)
 			{
 				unit->Landing();
 				break;

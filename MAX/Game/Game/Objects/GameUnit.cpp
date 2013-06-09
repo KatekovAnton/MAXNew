@@ -386,7 +386,7 @@ void GameUnit::CheckBodyAndShadow()
     };
     
     bool constructingNow = (_unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskFinished())) || _unitData->_isOn;
-    EXTENDED_GROUND_TYPE groundType = game->_match->_agregator->GroundTypeAtXY(_unitCell.x, _unitCell.y);
+    EXTENDED_GROUND_TYPE groundType = _owner_w->_agregator->GroundTypeAtXY(_unitCell.x, _unitCell.y);
     if (_unitData->GetConfig()->_isBuilding)
     {
         _unitObject->SetBodyOffset((constructingNow && (!_unitData->GetConfig()->_isAllwaysOn || !_unitData->GetConfig()->_isActiveBody))?1:0);
@@ -969,7 +969,7 @@ void GameUnit::CreateSmallBuildingTape()
         DestroyBuildingTape();
     
     CCPoint p = GetUnitCell();
-    EXTENDED_GROUND_TYPE gt = _owner_w->_match_w->_agregator->GroundTypeAtXY(p.x, p.y);
+    EXTENDED_GROUND_TYPE gt = _owner_w->_agregator->GroundTypeAtXY(p.x, p.y);
     _effectUnder = GameEffect::CreateBuildingBase(gt == EXTENDED_GROUND_TYPE_GROUND?BUILDING_BASE_TYPE_PROGRESS_SMALL:BUILDING_BASE_TYPE_PROGRESS_SEA_SMALL, GetObject()->_currentLevel - 1);
     _effectUnder->SetLocation(GetUnitCell());
     _effectUnder->Show();
@@ -981,7 +981,7 @@ void GameUnit::CreateLargeBuildingTape()
         DestroyBuildingTape();
     
     CCPoint p = GetUnitCell();
-    EXTENDED_GROUND_TYPE gt = _owner_w->_match_w->_agregator->GroundTypeAtXY(p.x, p.y);
+    EXTENDED_GROUND_TYPE gt = _owner_w->_agregator->GroundTypeAtXY(p.x, p.y);
     _effectUnder = GameEffect::CreateBuildingBase(gt == EXTENDED_GROUND_TYPE_GROUND?BUILDING_BASE_TYPE_PROGRESS_LARGE:BUILDING_BASE_TYPE_PROGRESS_SEA_LARGE, GetObject()->_currentLevel - 1);
     _effectUnder->SetLocation(GetUnitCell());
     _effectUnder->Show();

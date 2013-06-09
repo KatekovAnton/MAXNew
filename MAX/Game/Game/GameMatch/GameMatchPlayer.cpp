@@ -20,7 +20,8 @@
 #include "MAXUnitObject.h"
 #include "MAXContentLoader.h"
 
-
+#include "Pathfinder.h"
+#include "PFWaveCell.h"
 #include "MatchMapAgregator.h"
 
 #include "StringUtils.h"
@@ -32,6 +33,10 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     _playerData->_delegate_w = this;
     _palettes = MAXSCL->TexturePalletesFormDefaultPalleteAndPlayerColor(info._color);
     _palette = _palettes[0];
+    
+    
+    _agregator = new MatchMapAgregator(match->_map);
+    _pathfinder = new Pathfinder(_agregator);
 }
 
 GameMatchPlayer::~GameMatchPlayer()
@@ -48,6 +53,8 @@ GameMatchPlayer::~GameMatchPlayer()
     }
     
     delete _playerData;
+    if (_pathfinder)
+        delete _pathfinder;
 }
 
 bool GameMatchPlayer::GetIsCurrentPlayer() const
@@ -121,7 +128,7 @@ bool GameMatchPlayer::CanSeeUnit(GameUnit* unit)
 
 EXTENDED_GROUND_TYPE GameMatchPlayer::GroudTypeAtPoint(const int x, const int y)
 {
-    return _match_w->_agregator->GroundTypeAtXY(x, y);
+    return _agregator->GroundTypeAtXY(x, y);
 }
 
 void GameMatchPlayer::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag)

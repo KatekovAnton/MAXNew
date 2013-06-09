@@ -20,6 +20,8 @@ class GameUnit;
 class GameMatch;
 class GameUnitBaseParameters;
 class GameMatchPlayerData;
+class MatchMapAgregator;
+class Pathfinder;
 
 class GameMatchPlayer : public GameUnitDelegate, public GameMatchPlayerDataDelegate {
     
@@ -28,6 +30,8 @@ class GameMatchPlayer : public GameUnitDelegate, public GameMatchPlayerDataDeleg
     
 public:
     
+    MatchMapAgregator*          _agregator;
+    Pathfinder*                 _pathfinder;
     GameMatch *_match_w;
     
     GameMatchPlayerData *_playerData;

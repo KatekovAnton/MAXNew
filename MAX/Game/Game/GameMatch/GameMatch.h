@@ -31,11 +31,9 @@ public:
     GameSettings*               _gameSettings;
     GameMap*                    _map;
     GameMapResources*           _resources;
-    Pathfinder*                 _pathfinder;
     vector<GameMatchPlayer*>    _players;
     vector<GameMatchPlayer*>    _playersCompleteTurn;
     GameMatchPlayer*            _currentPlayer_w;
-    MatchMapAgregator*          _agregator;
     MatchMapAgregator*          _fullAgregator;
     
     int _currentTurn;
@@ -47,7 +45,7 @@ public:
     void UnfillFogOnStartTurn();
     void FillResourceFogOnStartTurn();
     
-    bool GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType);
+    bool GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor);
     
     bool GetIsCurrentPlayer(const unsigned int playerId) const { return _currentPlayer_w != NULL && _currentPlayer_w->_playerData->_playerInfo._playerId == playerId; }
     
@@ -60,7 +58,7 @@ public:
     bool GetIsCellValid(CCPoint cell) const;
     void UpdateConnectorsForUnit(GameUnit* unit);
 	bool IsHiddenUnitInPos(const int x, const int y, const bool checkOnly);
-    bool UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType);
+    bool UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player);
 };
 
 #endif /* defined(__MAX__Game_atch__) */

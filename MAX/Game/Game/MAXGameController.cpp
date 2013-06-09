@@ -50,23 +50,23 @@ bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit
     CCPoint newCell = constructor->GetUnitCell();
     do {
         constructor->_currentlyProcesedConstructor = true;
-        bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
+        bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
         if (canConstrutHere)
             break;
         
         newCell.x -= 1;
-        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
+        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
         if (canConstrutHere)
             break;
         
         newCell.x += 1;
         newCell.y -= 1;
-        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
+        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
         if (canConstrutHere)
             break;
         
         newCell.x -= 1;
-        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w);
+        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
         constructor->_currentlyProcesedConstructor = false;
         if (canConstrutHere)
             break;

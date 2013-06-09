@@ -56,9 +56,7 @@ GameMatch::GameMatch(const string& configName, const string& clanConfigName, con
     
     _currentPlayer_w = _players[0];
     
-    _agregator = new MatchMapAgregator(_map);
     _fullAgregator = new MatchMapAgregator(_map);
-    _pathfinder = new Pathfinder(_agregator);
 }
 
 GameMatch::~GameMatch()
@@ -74,8 +72,6 @@ GameMatch::~GameMatch()
         GameMatchPlayer* player = _players[i];
         delete player;
     }
-    if (_pathfinder)
-        delete _pathfinder;
 }
 
 bool GameMatch::EndTurn()
@@ -100,7 +96,8 @@ bool GameMatch::EndTurn()
     
     _currentPlayer_w = nextPlayer;
     
-    _agregator->ClearAllData();
+    
+    //_agregator->ClearAllData();
     
     //update units
     _currentPlayer_w->BeginTurn();
@@ -116,11 +113,7 @@ bool GameMatch::EndTurn()
                 //GameUnitDidEnterCell(unit, unit->GetUnitCell());
                 CCPoint point = unit->GetUnitCell();
                 if (_currentPlayer_w->CanSeeUnit(unit))
-                {
-                    _agregator->AddUnitToCell(unit, point.x, point.y);
-                    UpdateConnectorsForUnit(unit);
                     unit->Show();
-                }
             }
         }
     }
@@ -166,7 +159,7 @@ void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
     vector<CCPoint> points = unit->GetNerbyCells();
     for (int i = 0; i < points.size(); i++) {
         CCPoint point = points[i];
-        _agregator->FindAllConnectoredUnits(point.x, point.y, unit->_owner_w, neighborUnits);
+        _fullAgregator->FindAllConnectoredUnits(point.x, point.y, unit->_owner_w, neighborUnits);
     }
     
     
@@ -180,30 +173,42 @@ void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 {
     _fullAgregator->RemoveUnitFromCell(unit, point.x, point.y);
-    _agregator->RemoveUnitFromCell(unit, point.x, point.y);
+    for (int i = 0; i < _players.size(); i++) {
+        _players[i]->_agregator->RemoveUnitFromCell(unit, point.x, point.y);
+    }
     if (!unit->_unitData->_isConstruction)
         UpdateConnectorsForUnit(unit);
 }
 
 void GameMatch::GameUnitDidUndetected(GameUnit *unit, const CCPoint &point)
 {
-    if (!_currentPlayer_w->CanSeeUnit(unit))
+    for (int i = 0; i < _players.size(); i++)
     {
-        unit->Hide();
-        _agregator->RemoveUnitFromCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
-    }
-    else if (unit->_owner_w != _currentPlayer_w)
-    {
-        unit->DetectedByPlayer(_currentPlayer_w->GetPlayerId());
+        GameMatchPlayer* player = _players[i];
+        if (!player->CanSeeUnit(unit))
+        {
+            if (player == _currentPlayer_w)
+                unit->Hide();
+            player->_agregator->RemoveUnitFromCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
+        }
+        else if (unit->_owner_w != player)
+        {
+            unit->DetectedByPlayer(player->GetPlayerId());
+        }
     }
 }
 
 void GameMatch::GameUnitDidDetected(GameUnit *unit, const CCPoint &point)
 {
-    if (_currentPlayer_w->CanSeeUnit(unit))
+    for (int i = 0; i < _players.size(); i++)
     {
-        unit->Show();
-        _agregator->AddUnitToCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
+        GameMatchPlayer* player = _players[i];
+        if (_currentPlayer_w->CanSeeUnit(unit))
+        {
+            if (player == _currentPlayer_w)
+                unit->Show();
+            player->_agregator->AddUnitToCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
+        }
     }
 }
 
@@ -311,7 +316,7 @@ bool GameMatch::GetIsCellValid(CCPoint cell) const
     return cell.x>=0 && cell.y>=0 && cell.x <_map->_w && cell.y < _map->_h;
 }
 
-bool GameMatch::GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType)
+bool GameMatch::GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor)
 {
     //TODO:
     vector<CCPoint>cells;
@@ -321,7 +326,7 @@ bool GameMatch::GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjec
     cells.push_back(ccp(cell.x+1, cell.y+1));
     for (int i = 0; i < cells.size(); i++) {
         CCPoint cell1 = cells[i];
-        if (!UnitCanBePlacedToCell(cell1.x, cell1.y, (UNIT_MOVETYPE)buildingType->_bMoveType))
+        if (!UnitCanBePlacedToCell(cell1.x, cell1.y, (UNIT_MOVETYPE)buildingType->_bMoveType, constructor->_owner_w))
             return false;
         
     }
@@ -373,9 +378,9 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
 	return result;
 }
 
-bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType)
+bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player)
 {
-    EXTENDED_GROUND_TYPE groundType = _agregator->GroundTypeAtXY(x, y);
+    EXTENDED_GROUND_TYPE groundType = player->_agregator->GroundTypeAtXY(x, y);
     
     switch (unitMoveType)
     {
@@ -384,7 +389,7 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
             if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
                 (groundType == EXTENDED_GROUND_TYPE_GROUND))
-                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y);
             break;
         }
         case UNIT_MOVETYPE_GROUNDCOAST:
@@ -393,7 +398,7 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
                 (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
                 (groundType == EXTENDED_GROUND_TYPE_COAST))
-                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y);
             break;
         }
         case UNIT_MOVETYPE_SURVEYOR:
@@ -403,7 +408,7 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
                 (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
                 (groundType == EXTENDED_GROUND_TYPE_COAST) ||
                 (groundType == EXTENDED_GROUND_TYPE_WATER))
-                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y);
             break;
         }
         case UNIT_MOVETYPE_AMHIB:
@@ -413,7 +418,7 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
                 (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
                 (groundType == EXTENDED_GROUND_TYPE_COAST)||
                 (groundType == EXTENDED_GROUND_TYPE_WATER))
-                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y);
             break;
         }
         case UNIT_MOVETYPE_SEACOAST:
@@ -421,19 +426,19 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
             if ((groundType == EXTENDED_GROUND_TYPE_WATER) ||
                 (groundType == EXTENDED_GROUND_TYPE_COAST) ||
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
-                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y);
             break;
         }
         case UNIT_MOVETYPE_SEA:
         {
             if ((groundType == EXTENDED_GROUND_TYPE_WATER) ||
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
-                return !_fullAgregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y);
             break;
         }
         case UNIT_MOVETYPE_AIR:
         {
-            return !_fullAgregator->IsAirUnitInPosition(x, y);
+            return !player->_agregator->IsAirUnitInPosition(x, y);
             break;
         }
     }
