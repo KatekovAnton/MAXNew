@@ -25,16 +25,16 @@ class Pathfinder;
 
 class GameMatchPlayer : public GameUnitDelegate, public GameMatchPlayerDataDelegate {
     
-    vector<Texture*> _palettes;
-    Texture* _palette;
+    vector<Texture*>            _palettes;
+    Texture                     *_palette;
     
 public:
     
-    MatchMapAgregator*          _agregator;
-    Pathfinder*                 _pathfinder;
-    GameMatch *_match_w;
+    MatchMapAgregator           *_agregator;
+    Pathfinder                  *_pathfinder;
+    GameMatch                   *_match_w;
     
-    GameMatchPlayerData *_playerData;
+    GameMatchPlayerData         *_playerData;
     
     bool GetIsCurrentPlayer() const;
     int GetPlayerId() const;
