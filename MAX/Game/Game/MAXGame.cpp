@@ -508,7 +508,7 @@ void MAXGame::FlushEffectsWithNew(GameEffect *effect)
     }
 }
 
-bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y, GameMatchPlayer *reasonPlayer)
+bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells)
 {
     bool result = false;
     MAXObjectConfig* config = unit->_unitData->GetConfig();
@@ -530,9 +530,19 @@ bool MAXGame::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y,
             int newX = x + PFWaveCell::DirToDX(direction);
             int newY = y + PFWaveCell::DirToDY(direction);
             int cost = pf->GetMapCostAt(newX, newY, direction, movetype);
-            if ((cost >= 0) && (cost <= unit->_unitData->GetMoveBalance()))
+            bool available = true;
+            for (int i = 0; i < lockedCells.size(); i++)
             {
-                if (!_match->IsHiddenUnitInPos(newX, newY, true, reasonPlayer))
+                CCPoint lp = lockedCells[i];
+                if ((int)lp.x == newX && (int)lp.y == newY)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            if ((cost >= 0) && (cost <= unit->_unitData->GetMoveBalance()) && available)
+            {
+                if (!_match->IsHiddenUnitInPos(newX, newY, true, reasonPlayer, lockedCells))
                 {
                     unit->EscapeToLocation(newX, newY, cost);
                     result = true;
@@ -585,7 +595,7 @@ void MAXGame::SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result,
     bool start = true;
     for (int i = 0; i < points.size(); i++) {
         CCPoint point = points[i];
-        if (_match->IsHiddenUnitInPos(point.x, point.y, false, _match->_currentPlayer_w)) {
+        if (_match->IsHiddenUnitInPos(point.x, point.y, false, _match->_currentPlayer_w, points)) {
             start = false;
             break;
         }
@@ -1003,12 +1013,12 @@ bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
         Pathfinder* pf = unit->_owner_w->_pathfinder;
         int pfCost = pf->GetMapCostAt(cell->x, cell->y, cell->direction, unitMoveType);
         if (cell->cost != pfCost)
-        {
             result = false;
-        }
+        
 		else if (!unit->_unitData->GetConfig()->_isPlane)
 		{
-			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false, unit->_owner_w))
+            vector<CCPoint> empty;
+			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false, unit->_owner_w, empty))
 				result = false;
 			
 		}

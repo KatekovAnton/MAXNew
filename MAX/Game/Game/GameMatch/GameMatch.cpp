@@ -336,7 +336,7 @@ bool GameMatch::GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjec
     return true;
 }
 
-bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly, GameMatchPlayer *reasonPlayer)
+bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells)
 {
 	bool result = false;
     
@@ -354,7 +354,7 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
             else
             {
                 // try to quick move if possible to prevent detecting
-                bool escaped = game->EscapeStealthUnitFromPos(unit, x, y, reasonPlayer);
+                bool escaped = game->EscapeStealthUnitFromPos(unit, x, y, reasonPlayer, lockedCells);
                 if (!escaped)
                 {
                     result = true;

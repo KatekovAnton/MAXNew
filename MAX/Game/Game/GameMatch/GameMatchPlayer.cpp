@@ -52,6 +52,8 @@ GameMatchPlayer::~GameMatchPlayer()
         delete unit;
     }
     
+    delete _agregator;
+    
     delete _playerData;
     if (_pathfinder)
         delete _pathfinder;
