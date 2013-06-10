@@ -177,6 +177,7 @@ public:
     
     
 #pragma mark - GameEffectDelegate
+    virtual void GameEffectDidStartExistance(GameEffect* effect);
     virtual void GameEffectDidFinishExistance(GameEffect* effect);
     
 };

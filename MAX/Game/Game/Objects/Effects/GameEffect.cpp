@@ -400,7 +400,23 @@ GameEffect* GameEffect::CreateExitPlaceMarker(int level)
 #pragma mark - MAXAnimationDelegate
 
 void GameEffect::OnAnimationStart(MAXAnimationBase* animation)
-{}
+{
+    switch (_effectType) {
+        case EFFECT_TYPE_BULLET:
+        {
+        }   break;
+        case EFFECT_TYPE_BLAST:
+        {
+            if (_delegate_w)
+                _delegate_w->GameEffectDidFinishExistance(this);
+            
+            
+        }   break;
+        default:
+            break;
+    }
+    
+}
 
 void GameEffect::OnAnimationUpdate(MAXAnimationBase* animation)
 {

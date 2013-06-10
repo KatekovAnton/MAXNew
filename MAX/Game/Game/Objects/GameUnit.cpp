@@ -1220,11 +1220,18 @@ CCPoint GameUnit::GetFakeCenter() const
 
 #pragma mark - GameEffectDelegate
 
-void GameUnit::GameEffectDidFinishExistance(GameEffect* effect)
+void GameUnit::GameEffectDidStartExistance(GameEffect* effect)
 {
     if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER)
     {
         PlaySound(UNIT_SOUND_BLAST);
+    }
+}
+
+void GameUnit::GameEffectDidFinishExistance(GameEffect* effect)
+{
+    if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER)
+    {
         if (selectedGameObjectDelegate)
             selectedGameObjectDelegate->onUnitFireStop(this);
     }

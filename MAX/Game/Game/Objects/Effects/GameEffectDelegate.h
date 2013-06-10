@@ -19,6 +19,7 @@ class GameEffectDelegate {
     
 public:
     
+    virtual void GameEffectDidStartExistance(GameEffect *unit) = 0;
     virtual void GameEffectDidFinishExistance(GameEffect *unit) = 0;
     
 };
