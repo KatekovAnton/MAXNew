@@ -148,6 +148,90 @@ void GameMatch::FillResourceFogOnStartTurn()
     }
 }
 
+GameUnit *GameMatch::UnitForAttackingByUnit(GameUnit *agressor, const CCPoint &target)
+{
+    USimpleContainer<GameUnit*> *units = _fullAgregator->UnitsInCell(target.x, target.y);
+    if (units->GetCount() == 0) 
+        return NULL;
+    
+    GameUnit *result = NULL;
+    for (int i = 0; i < units->GetCount(); i++) {
+        GameUnit *comparedUnit = units->objectAtIndex(i);
+        if (comparedUnit == agressor) 
+            continue;
+        
+        
+        if (UnitCanAttackUnit(agressor, comparedUnit)) {
+            if (!result) {
+                result = comparedUnit;
+                continue;
+            }
+            if (result->GetConfig()->_bLevel < comparedUnit->GetConfig()->_bLevel && !comparedUnit->GetConfig()->_isBridge && !comparedUnit->GetConfig()->_isRoad && !comparedUnit->GetConfig()->_isPlatform)
+                result = comparedUnit;
+            
+        }
+    }
+    
+    return result;
+}
+
+bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
+{
+    CCPoint targetCell = target->GetUnitCell();
+    UNIT_MOVETYPE tmt = (UNIT_MOVETYPE)target->GetConfig()->_bMoveType;
+    MAXObjectConfig* agressorConfig = agressor->GetConfig();
+    switch (tmt) {
+        case UNIT_MOVETYPE_GROUND:
+        case UNIT_MOVETYPE_GROUNDCOAST:
+        case UNIT_MOVETYPE_SEACOAST:
+        case UNIT_MOVETYPE_SURVEYOR:
+        {
+            GROUND_TYPE t = _map->GroundTypeAtXY(targetCell.x, targetCell.y);
+            if (t == GROUND_TYPE_WATER || t == GROUND_TYPE_COAST)
+                return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
+
+            return agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
+        } break;
+            
+        case UNIT_MOVETYPE_SEA:
+        {
+            if (target->GetConfig()->_isUnderwater) {//submarine
+                GROUND_TYPE t = _map->GroundTypeAtXY(targetCell.x, targetCell.y);
+                if (t == GROUND_TYPE_WATER ) {
+                    if (agressorConfig->_bMoveType == UNIT_MOVETYPE_AIR) 
+                        return (agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 1);
+                    if (agressorConfig->_bMoveType == UNIT_MOVETYPE_SEA)
+                        return agressorConfig->_pFireType == 2;
+                }
+            }
+            return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
+        } break;
+            
+        case UNIT_MOVETYPE_AMHIB:
+        {
+            if (target->GetConfig()->_isUnderwater) {//pcan
+                EXTENDED_GROUND_TYPE t = _fullAgregator->GroundTypeAtXY(targetCell.x, targetCell.y);
+                if (t == EXTENDED_GROUND_TYPE_WATER ) {
+                    if (agressor->GetConfig()->_bMoveType == UNIT_MOVETYPE_AIR)
+                        return (agressor->GetConfig()->_pFireType == 6 || agressor->GetConfig()->_pFireType == 1);
+                    if (agressor->GetConfig()->_bMoveType == UNIT_MOVETYPE_SEA)
+                        return agressor->GetConfig()->_pFireType == 2;
+                }
+            }
+            return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
+        } break;
+            
+        case UNIT_MOVETYPE_AIR:
+        {
+            return agressorConfig->_pFireType == 3 || agressorConfig->_pFireType == 6;
+        } break;
+            
+        default:
+            break;
+    }
+    return false;
+}
+
 void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 {
     if (!unit->_unitData->GetIsConnectored())

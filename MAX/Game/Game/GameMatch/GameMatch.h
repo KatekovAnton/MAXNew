@@ -45,6 +45,9 @@ public:
     void UnfillFogOnStartTurn();
     void FillResourceFogOnStartTurn();
     
+    GameUnit *UnitForAttackingByUnit(GameUnit *agressor, const CCPoint &target);
+    bool UnitCanAttackUnit(GameUnit *agressor, GameUnit *target);
+    
     bool GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor);
     
     bool GetIsCurrentPlayer(const unsigned int playerId) const { return _currentPlayer_w != NULL && _currentPlayer_w->_playerData->_playerInfo._playerId == playerId; }
