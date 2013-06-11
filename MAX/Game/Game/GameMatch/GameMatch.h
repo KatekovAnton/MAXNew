@@ -26,6 +26,8 @@ class GameMatch {
 
     void DebugLandPlayer(GameMatchPlayer* player, const int i);
     
+    
+    
 public:
     
     GameSettings*               _gameSettings;

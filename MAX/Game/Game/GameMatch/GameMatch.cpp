@@ -260,7 +260,7 @@ void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 
 void GameMatch::GameUnitDidDestroy(GameUnit *unit)
 {
-    if (_currentPlayer_w->_playerData->fogs[FOG_TYPE_SCAN]->GetValue(unit->GetUnitCell()) > 0) {
+    if (_currentPlayer_w->_playerData->fogs[FOG_TYPE_SCAN]->GetValue(unit->GetUnitCell()) > 0 && !unit->_unitData->_isConstruction) {
         GROUND_TYPE type = _map->GroundTypeAtPoint(unit->GetUnitCell());
         BLAST_TYPE blastType = BLAST_TYPE_NONE;
         MAXObjectConfig* config = unit->GetConfig();
@@ -306,34 +306,40 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
             }
         }
         
+        double delay = 1;
         switch (sound) {
             case EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT://explmed.wav explsmal.wav
             case EXPLODE_SOUND_TYPE_LAND_SMALL_BUILD://bldexplg.wav expllrge.wav
                 blastType = BLAST_TYPE_GROUND;
+                delay = 0.5;
                 break;
                 
             case EXPLODE_SOUND_TYPE_SEA_SMALL_UNIT://boatexp1.wav
             case EXPLODE_SOUND_TYPE_SEA_SMALL_BUILD://eplowet1.wav eplowet2.wav
             case EXPLODE_SOUND_TYPE_UNDERWATER_UNIT://sub14.wav sub16.wav
                 blastType = BLAST_TYPE_SEA;
+                delay = 0.5;
                 break;
                 
             case EXPLODE_SOUND_TYPE_LAND_LARGE_BUILD://expllrge.wav  expbuld5.wav expbuld6.wav explbld1.wav explbld2.wav
             case EXPLODE_SOUND_TYPE_SEA_LARGE_BUILD://cbldexp1.wav cbldexp2.wav
             case EXPLODE_SOUND_TYPE_MINE://cmine16.wav
                 blastType = BLAST_TYPE_BUILDING;
+                delay = 1;
                 break;
                 
             case EXPLODE_SOUND_TYPE_AIR://explsmal.wav
                 blastType = BLAST_TYPE_AIR;
+                delay = 0.5;
                 break;
                 
             default:
                 break;
         }
         if (blastType != BLAST_TYPE_NONE) {
-            GameEffect* blast = GameEffect::CreateBlast(blastType, config->_bLevel);
-            blast->SetLocation(unit->GetObject()->GetObjectCell());
+            GameEffect* blast = GameEffect::CreateBlast(blastType, config->_bLevel + 1);
+         //   CCPoint cell =
+            blast->SetLocation(unit->GetUnitCell());
             blast->Show();
             
             MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
@@ -341,7 +347,11 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
             MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
             
             game->FlushEffectsWithNew(blast);
+            
+            
         }
+        
+        unit->RemoveWithDelay(delay);
     }
 }
 

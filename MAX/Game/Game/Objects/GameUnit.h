@@ -39,6 +39,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
 {
     
     MAXAnimationSequence* _currentTopAnimation;
+    MAXAnimationBase*   _removeDelayAnim;
     GameEffect* _effectUnder;
     GameEffect* _effectOver;
     
@@ -83,6 +84,7 @@ public:
     void Init();
     ~GameUnit();
     
+    void RemoveWithDelay(double delay);
     void RunAnimation(MAXAnimationSequence* animation);
     
     int PlaySound(UNIT_SOUND unitSound);

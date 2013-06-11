@@ -23,11 +23,13 @@ class MAXObjectConfig;
 class GameObject {
 
 protected:
+    
     CCPoint _unitCell;
     MAXObject *_object;
     MAXObjectConfig *_config_w;
     
 public:
+    
     int _tag;
     
     bool _onDraw;

@@ -157,11 +157,9 @@ void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
 {
     
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
-    unit->RemoveUnitFromMap();
     _units.removeObject(unit);
 
     _match_w->GameUnitDidDestroy(unit);
-    delete unit;
 }
 
 void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)

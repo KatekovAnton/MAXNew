@@ -49,14 +49,14 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId, GameMatchPlayer *owner)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false), _owner_w(owner)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false), _owner_w(owner), _removeDelayAnim(NULL)
 {
     Init();
 }
 
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchPlayer *owner)           //creates unit from saved data
-:GameObject(unitObject, unitdata->GetConfig()), _unitData(unitdata), _owner_w(owner)
+:GameObject(unitObject, unitdata->GetConfig()), _unitData(unitdata), _owner_w(owner), _removeDelayAnim(NULL)
 {
     Init();
 }
@@ -348,7 +348,6 @@ void GameUnit::RemoveUnitFromMap()
 
 void GameUnit::Destroy()
 {
-    RemoveUnitFromMap();
     _delegate_w->GameUnitDidDestroy(this);
 }
 
@@ -601,6 +600,17 @@ void GameUnit::FollowPath(void)
     }
     _currentTopAnimation = sequence;
     MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(sequence);
+}
+
+void GameUnit::RemoveWithDelay(double delay)
+{
+    if (_removeDelayAnim) {
+        throw "void GameUnit::RemoveWithDelay(double delay) but _removeDelayAnim already exists!";
+    }
+    MAXAnimationWait *anim = new MAXAnimationWait(delay);
+    anim->_delegate = this;
+    _removeDelayAnim = anim;
+    MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(anim);
 }
 
 void GameUnit::RunAnimation(MAXAnimationSequence* animation)
@@ -1167,6 +1177,11 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         }
         else
             _currentSound = PlaySound(UNIT_SOUND_ENGINE);
+    }
+    else if (animation == _removeDelayAnim)
+    {
+        RemoveUnitFromMap();
+        delete this;
     }
     else // move
     {
