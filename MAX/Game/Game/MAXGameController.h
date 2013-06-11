@@ -50,13 +50,16 @@ public:
     bool StartSelectSmallBuildingConstructionPathAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig);
     bool StartSelectConstructorExitCell(GameUnit* constructor, GameUnit* createdUnit);
     
+    
+    bool StartSelectSecondUnit(GameUnit* selectedUnit, float maxDistance);
+    
     void AbortCurrentAction();
     
     void ProceedPan(int speedx, int speedy);
     void ProceedTap(float tapx, float tapy);
     
     bool ShoulTakePan() const { return _actionType != -1 && _actionType != MAXGameControllerAction_SelectConstructorExitCell; };
-    bool ShoulTakeTap() const { return _actionType != -1; };
+    bool ShoulTakeTap(const CCPoint &cell);
     
     MAXGameController();
     ~MAXGameController();

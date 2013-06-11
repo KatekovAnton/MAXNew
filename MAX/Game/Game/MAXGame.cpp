@@ -719,7 +719,13 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     if (_freezeCounter>0) {
         return;
     }
-    if (_gameController->ShoulTakeTap()) {
+    
+    CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
+    p.x = floorf(p.x);
+    p.y = floorf(p.y);
+    
+    
+    if (_gameController->ShoulTakeTap(p)) {
         _gameController->ProceedTap(tapx, tapy);
         if (_gameController->shouldDeselectUnit) {
             DeselectCurrentUnit(true);
@@ -732,9 +738,6 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     bool _unitMenuShowed = false;
     bool _removeFromLock = false;
     
-    CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-    p.x = floorf(p.x);
-    p.y = floorf(p.y);
     
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
     
@@ -1200,10 +1203,16 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
             
         }break;
             
+            
+        case UNIT_MENU_ACTION_REMOVE:
+        {
+            _currentUnit->Destroy();
+            this->UnidDidHide(_currentUnit);
+        }break;
+            
 		case UNIT_MENU_ACTION_INFO:
         case UNIT_MENU_ACTION_ALLOCATE:
         case UNIT_MENU_ACTION_BUYUPGRADES:
-        case UNIT_MENU_ACTION_REMOVE:
         case UNIT_MENU_ACTION_RESEARCH:
         case UNIT_MENU_ACTION_ACTIVATE:
             _interfaceAction = true;

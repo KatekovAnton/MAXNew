@@ -62,6 +62,8 @@ public:
     void UpdateConnectorsForUnit(GameUnit* unit);
 	bool IsHiddenUnitInPos(const int x, const int y, const bool checkOnly, GameMatchPlayer *player, vector<CCPoint> lockedCells);
     bool UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player);
+    
+    void GameUnitDidDestroy(GameUnit *unit);
 };
 
 #endif /* defined(__MAX__Game_atch__) */

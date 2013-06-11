@@ -318,13 +318,16 @@ typedef enum
     
 typedef enum
 {
+    EXPLODE_SOUND_TYPE_BLOCK,//block16.wav
+    
     EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT = 0,//explmed.wav explsmal.wav
     EXPLODE_SOUND_TYPE_LAND_SMALL_BUILD,//bldexplg.wav expllrge.wav
-    EXPLODE_SOUND_TYPE_BLOCK,//block16.wav
-    EXPLODE_SOUND_TYPE_LAND_LARGE_BUILD,//expllrge.wav  expbuld5.wav expbuld6.wav explbld1.wav explbld2.wav 
+    EXPLODE_SOUND_TYPE_LAND_LARGE_BUILD,//expllrge.wav  expbuld5.wav expbuld6.wav explbld1.wav explbld2.wav
+    
     EXPLODE_SOUND_TYPE_SEA_SMALL_UNIT,//boatexp1.wav  
     EXPLODE_SOUND_TYPE_SEA_SMALL_BUILD,//eplowet1.wav eplowet2.wav 
     EXPLODE_SOUND_TYPE_SEA_LARGE_BUILD,//cbldexp1.wav cbldexp2.wav
+    
     EXPLODE_SOUND_TYPE_UNDERWATER_UNIT,//sub14.wav sub16.wav
     EXPLODE_SOUND_TYPE_MINE,//cmine16.wav
     EXPLODE_SOUND_TYPE_DIRT,//expsdirt.wav
@@ -332,6 +335,56 @@ typedef enum
     EXPLODE_SOUND_TYPE_INFANTRY,//infan15 infan16
     EXPLODE_SOUND_TYPE_INFILTRATOR,//infil15 infil16
 }EXPLODE_SOUND_TYPE;
+    
+    typedef enum
+    {
+        EFFECT_TYPE_BLAST,
+        EFFECT_TYPE_BULLET,
+        EFFECT_TYPE_SECONDARY,
+        EFFECT_TYPE_TRASH,
+        EFFECT_TYPE_BUILDING_BASE
+    } EFFECT_TYPE;
+    
+    typedef enum
+    {
+        BLAST_TYPE_GROUND,
+        BLAST_TYPE_SEA,
+        BLAST_TYPE_AIR,
+        BLAST_TYPE_BUILDING,
+        BLAST_TYPE_DAMAGEEFFECT,
+        BLAST_TYPE_NONE
+    } BLAST_TYPE;
+    
+    typedef enum
+    {
+        BULLET_TYPE_ROCKET,
+        BULLET_TYPE_TORPEDO,
+        BULLET_TYPE_PLASMA,
+        BULLET_TYPE_NONE
+    } BULLET_TYPE;
+    
+    typedef enum
+    {
+        SECONDARY_TYPE_SMOKE,
+        SECONDARY_TYPE_RIBBLES,
+        SECONDARY_TYPE_NONE
+    } SECONDARY_TYPE;
+    
+    typedef enum
+    {
+        TRASH_TYPE_SMALL,
+        TRASH_TYPE_LARGE
+    } TRASH_TYPE;
+    
+    typedef enum
+    {
+        BUILDING_BASE_TYPE_LARGE,
+        BUILDING_BASE_TYPE_SMALL,
+        BUILDING_BASE_TYPE_PROGRESS_SMALL,
+        BUILDING_BASE_TYPE_PROGRESS_LARGE,
+        BUILDING_BASE_TYPE_PROGRESS_SEA_SMALL,
+        BUILDING_BASE_TYPE_PROGRESS_SEA_LARGE
+    } BUILDING_BASE_TYPE;
     
 #define GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER 1000
     

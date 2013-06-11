@@ -42,6 +42,11 @@ MAXGameController::~MAXGameController()
     
 }
 
+bool MAXGameController::ShoulTakeTap(const CCPoint &cell)
+{
+    return _actionType != -1;
+}
+
 bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
 {
     AbortCurrentAction();
