@@ -137,8 +137,7 @@ public:
     bool CanFire(const cocos2d::CCPoint &target);
     GameEffect* MakeWeaponAnimationEffect(const cocos2d::CCPoint &target);
     void Fire(const CCPoint& target);
-    CCPoint fireTarget;
-    
+    void ReceiveDamageFromUnit(GameUnit* unit);
     
 #pragma mark - Build methods
     void CreateCheckIcon();

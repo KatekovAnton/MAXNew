@@ -896,7 +896,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     
     MAXUnitObject* _unitObject = GetUnitObject();
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    fireTarget = targetCenter;
+    
     if (_unitObject->params_w->_hasHead)
         _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
     else
@@ -941,6 +941,11 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
             }
         }
     }
+}
+
+void GameUnit::ReceiveDamageFromUnit(GameUnit* unit)
+{
+    
 }
 
 #pragma mark - Build methods
