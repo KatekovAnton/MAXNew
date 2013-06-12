@@ -112,6 +112,9 @@
     <Filter Include="Game\Game\SoundEngine">
       <UniqueIdentifier>{7f369d3d-7df2-4912-899a-34c4fa964146}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game\Objects\Tasks">
+      <UniqueIdentifier>{8b1d9455-44c1-4086-8293-d5ad1dbeb161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp">
@@ -220,9 +223,6 @@
       <Filter>Game\Game\Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnit.cpp">
-      <Filter>Game\Game\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitCurrentState.cpp">
       <Filter>Game\Game\Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitParameters.cpp">
@@ -380,6 +380,27 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitBaseParameters.cpp">
       <Filter>Game\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnitData.cpp">
+      <Filter>Game\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GUClearzoneTask.cpp">
+      <Filter>Game\Game\Objects\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GUConstructBuildingTask.cpp">
+      <Filter>Game\Game\Objects\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GUConstructUnitTask.cpp">
+      <Filter>Game\Game\Objects\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Objects\GUTask.cpp">
+      <Filter>Game\Game\Objects\Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MAXGameController.cpp">
+      <Filter>Game\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayerData.cpp">
+      <Filter>Game\Game\GameMatch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -555,9 +576,6 @@
       <Filter>Game\Game\Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnit.h">
-      <Filter>Game\Game\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitCurrentState.h">
       <Filter>Game\Game\Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitParameters.h">
@@ -739,6 +757,39 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitBaseParameters.h">
       <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\SelectedGameObjectDelegate.h">
+      <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitData.h">
+      <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitDelegate.h">
+      <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GUClearzoneTask.h">
+      <Filter>Game\Game\Objects\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GUConstructBuildingTask.h">
+      <Filter>Game\Game\Objects\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GUConstructUnitTask.h">
+      <Filter>Game\Game\Objects\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GUTask.h">
+      <Filter>Game\Game\Objects\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MAXGameController.h">
+      <Filter>Game\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MAXGameControllerDelegate.h">
+      <Filter>Game\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayerData.h">
+      <Filter>Game\Game\GameMatch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayerDataDelegate.h">
+      <Filter>Game\Game\GameMatch</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
