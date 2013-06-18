@@ -64,6 +64,7 @@ class MAXEngine : public RequestDelegate  {
     
     bool lowRender;
     OBJECT_LEVEL _pathZoneRendererLevel;
+    OBJECT_LEVEL _attackZoneRendererLevel;
     
     USimpleContainer<MAXObject*> *_lowLodHighDrawObjects;
     
@@ -72,6 +73,7 @@ public:
     MAXResourceMapRenderer  *_resourceRenderer;
     MAXSolidTileRenderer    *_fogRenderer;
 	MAXSolidTileRenderer    *_pathZoneRenderer;
+	MAXSolidTileRenderer    *_attackZoneRenderer;
     
     
     MAXEngineDelegate   *_delegate;
@@ -115,6 +117,10 @@ public:
     void SetPathZoneLevel(OBJECT_LEVEL level) { _pathZoneRendererLevel = level; };
 	void ClearPathZone();
     
+    void AddAttackZoneCell(const int x, const int y);
+    void SetAttackZoneLevel(OBJECT_LEVEL level) { _attackZoneRendererLevel = level; };
+	void ClearAttackZone();
+    
     void RunLoop(double delta);
     
     double ElapsedTime() const {return _elapsedTime;};
@@ -132,6 +138,7 @@ public:
     void DrawResourceMap();
     void DrawFog();
 	void DrawPathZone();
+	void DrawAttackZone();
     void DrawGrid();
     void DrawInterface();
     void EndFrame();
