@@ -180,7 +180,7 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
 
 void GameUnit::StopCurrentSound()
 {
-    if (_currentSound > 0)
+   // if (_currentSound > 0)
     {
         SOUND->StopGameSound(_currentSound);
         _currentSound = -1;
@@ -908,7 +908,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
     
     MAXUnitObject* _unitObject = GetUnitObject();
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    fireTarget = targetCenter;
+    
     if (_unitObject->params_w->_hasHead)
         _unitObject->SetHeadDirection(MAXObject::CalculateImageIndex(_unitCell, target));
     else

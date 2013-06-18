@@ -142,7 +142,6 @@ public:
     void Fire(const CCPoint& target, const int level);
     CCPoint fireTarget;
     
-    
 #pragma mark - Build methods
     void CreateCheckIcon();
     void DestroyCheckIcon();
