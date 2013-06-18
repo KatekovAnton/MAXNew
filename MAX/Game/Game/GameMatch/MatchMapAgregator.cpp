@@ -204,7 +204,7 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y)
 	return units->objectAtIndex(0);
 }
 
-GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, GameUnit* selectedUnit)
+GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, GameUnit* selectedUnit, bool forceAnyone)
 {
     USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
     if (units->GetCount() == 0)
@@ -256,7 +256,7 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
                 else
                 {
                     MAXObjectConfig* selectedConfig = selectedUnit->_unitData->GetConfig();
-                    if ((!config->_isCantSelect) || selectedConfig->_isCantSelect || selectedConfig->_isBuilding)
+                    if ((!config->_isCantSelect) || selectedConfig->_isCantSelect || selectedConfig->_isBuilding || (forceAnyone && !result))
                     {
                         result = unit;
                         break;

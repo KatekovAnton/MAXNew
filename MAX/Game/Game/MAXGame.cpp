@@ -841,7 +841,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     bool _removeFromLock = false;
     
     
-    GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
+    GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, false);
     
     bool tapToSameUnit = false;
     if (_currentUnit)
@@ -940,7 +940,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
             if (!newCurrentUnit && !_unitMoved)
             {
                 _gameInterface->HideUnitMenu();
-                newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
+                newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, false);
                 _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
             }
         }
@@ -1035,7 +1035,7 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     }
 
 
-    GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
+    GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, true);
     if (_currentUnit)
     {
         if (newCurrentUnit)
