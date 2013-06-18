@@ -83,6 +83,8 @@ public:
     GameMatch *GetCurrentMatch() const {return _match;}
     GameUnit *_currentUnit;
     
+    GameUnit *_currentFiringUnit;
+    GameUnit *_currentTargetUnit;
     
     MAXGame();
     ~MAXGame();
@@ -101,6 +103,10 @@ public:
     bool EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells);
   
     void UnidDidHide(GameUnit* unit);
+    
+    void SelectNewUnit(GameUnit* unit);
+    void StartAttackSequence(GameUnit *agressor, GameUnit *target);
+    void MakePain();
     
 #pragma mark - Interface
 #pragma mark Messages

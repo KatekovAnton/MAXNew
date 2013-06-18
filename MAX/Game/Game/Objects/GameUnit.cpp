@@ -669,6 +669,18 @@ void GameUnit::SetUnitLocationAnimated(const cocos2d::CCPoint &destination)
     _currentTopAnimation = sequence;
 }
 
+
+bool GameUnit::ReceiveDamage(GameUnit* unit)
+{
+    return ReceiveDamage(unit, 1);
+}
+
+bool GameUnit::ReceiveDamage(GameUnit* unit, int decrase)
+{
+    bool result = _unitData->ReceiveDamage(unit->_unitData, decrase);
+    return result;
+}
+
 #pragma mark - Connectors
 
 void GameUnit::UpdateConnectors()
@@ -887,7 +899,7 @@ GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target)
     }
 }
 
-void GameUnit::Fire(const cocos2d::CCPoint &target)
+void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
 {
     if (!CanFire(target))
         return;
@@ -914,11 +926,11 @@ void GameUnit::Fire(const cocos2d::CCPoint &target)
     if (effect)
     {
         effect->_delegate_w = this;
-        effect->_tag = GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER;
+        if (effect->GetEffectType() != EFFECT_TYPE_BLAST)
+            effect->_tag = GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER;
     }
-    else
-    {
-        PlaySound(UNIT_SOUND_BLAST);
+    
+    if (effect->GetEffectType() == EFFECT_TYPE_BLAST) {
         if (selectedGameObjectDelegate)
             selectedGameObjectDelegate->onUnitFireStop(this);
     }
@@ -1239,7 +1251,7 @@ void GameUnit::GameEffectDidStartExistance(GameEffect* effect)
 {
     if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER)
     {
-        PlaySound(UNIT_SOUND_BLAST);
+       
     }
 }
 

@@ -183,6 +183,10 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
     CCPoint targetCell = target->GetUnitCell();
     UNIT_MOVETYPE tmt = (UNIT_MOVETYPE)target->GetConfig()->_bMoveType;
     MAXObjectConfig* agressorConfig = agressor->GetConfig();
+    bool inFireRadius = agressor->_unitData->IsInFireRadius(target->GetUnitCell());
+    if (!inFireRadius) {
+        return false;
+    }
     switch (tmt) {
         case UNIT_MOVETYPE_GROUND:
         case UNIT_MOVETYPE_GROUNDCOAST:
@@ -226,7 +230,7 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
             
         case UNIT_MOVETYPE_AIR:
         {
-            return agressorConfig->_pFireType == 3 || agressorConfig->_pFireType == 6;
+            return agressorConfig->_pFireType == 3 || agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 4;
         } break;
             
         default:
@@ -485,12 +489,15 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
             for (int i = 0; i < units->GetCount(); i++)
             {
                 GameUnit *unit = units->objectAtIndex(i);
-                if (!player->CanSeeUnit(unit))
+                if (!processedPlayer->CanSeeUnit(unit))
                 {
-                    player->_agregator->RemoveUnitFromCell(unit, x, y);
+                    processedPlayer->_agregator->RemoveUnitFromCell(unit, x, y);
                     
-                    unit->Hide();
-                    game->UnidDidHide(unit);
+                    if (processedPlayer->GetIsCurrentPlayer())
+                    {
+                        unit->Hide();
+                        game->UnidDidHide(unit);
+                    }
                 }
             }
         }

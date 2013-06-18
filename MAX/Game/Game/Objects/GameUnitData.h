@@ -96,6 +96,8 @@ public:
     bool CanMove() const;
     MAXObjectConfig* GetConfig() const;
     
+    bool ReceiveDamage(GameUnitData* unit, int decrase);
+    
 #pragma mark - Raduis and BBs
     BoundingBox GetBoundingBox(const CCPoint &point, const float radius) const;
     BoundingBox GetCurrentBoundingBox(const float radius) const;

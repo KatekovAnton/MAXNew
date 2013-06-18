@@ -35,6 +35,8 @@ class GameEffect : public GameObject, public MAXAnimationDelegate {
     double _lastSmokeCreationTime;
     CCPoint _lastSmokeCreationPosition;
 public:
+    EFFECT_TYPE GetEffectType() const {return _effectType;}
+    
     CCPoint _startCell;
     CCPoint _targetCell;
     float _rangeToTarget;

@@ -469,14 +469,11 @@ void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
                 MAXAnimationWait* wait = new MAXAnimationWait(blast->GetFrameCount() * 0.1);
                 wait->_delegate = blast;
                 MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
-                blast->_delegate_w = _delegate_w;
-                blast->_tag = _tag;
-                this->_delegate_w = NULL;
-            }
-            else
-            {
+                
                 if (_delegate_w)
                     _delegate_w->GameEffectDidFinishExistance(this);
+                this->_delegate_w = NULL;
+                
             }
         }   break;
         case EFFECT_TYPE_BLAST:

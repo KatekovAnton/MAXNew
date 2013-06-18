@@ -72,7 +72,7 @@ MAXAnimationWait* moveUnit(GameUnit* unit, float delay)
 }
 
 MAXGame::MAXGame()
-:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0), _gameController(new MAXGameController())
+:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0), _gameController(new MAXGameController()), _currentTargetUnit(NULL), _currentFiringUnit(NULL)
 {
     _gameController->_delegate_w = this;
     _currentState = MAXGAMESTATE_GAME;
@@ -123,37 +123,6 @@ void MAXGame::StartTest()
     _freezeCounter ++;
     
 
-}
-
-void MAXGame::ShowPathMap()
-{
-    HidePathMap();
-    Pathfinder* pf = _match->_currentPlayer_w->_pathfinder;
-    for (int x = 0; x < _match->_map->GetMapWidth(); x++)
-    {
-        for (int y = 0; y < _match->_map->GetMapHeight(); y++)
-        {
-            int cost = pf->GetCostAt(x, y);
-            if (cost == 0)
-            {
-                // current unit pos - don't highlight
-            }
-            else if (cost > 0)
-            {
-                // valid map cost - highlight with green aquare
-				engine->AddPathZoneCell(x, y);
-            }
-            else
-            {
-                // unpassable - don't highlight
-            }
-        }
-    }
-}
-
-void MAXGame::HidePathMap()
-{
-	engine->ClearPathZone();
 }
 
 void MAXGame::StartMatch()
@@ -572,8 +541,180 @@ void MAXGame::UnidDidHide(GameUnit* unit)
     }
 }
 
+#pragma mark - Path map
+
+void MAXGame::ShowPathMap()
+{
+    HidePathMap();
+    Pathfinder* pf = _match->_currentPlayer_w->_pathfinder;
+    for (int x = 0; x < _match->_map->GetMapWidth(); x++)
+    {
+        for (int y = 0; y < _match->_map->GetMapHeight(); y++)
+        {
+            int cost = pf->GetCostAt(x, y);
+            if (cost == 0)
+            {
+                // current unit pos - don't highlight
+            }
+            else if (cost > 0)
+            {
+                // valid map cost - highlight with green aquare
+				engine->AddPathZoneCell(x, y);
+            }
+            else
+            {
+                // unpassable - don't highlight
+            }
+        }
+    }
+}
+
+void MAXGame::HidePathMap()
+{
+	engine->ClearPathZone();
+}
+
+void MAXGame::RefreshCurrentUnitPath()
+{
+    CCPoint location = _currentUnit->GetUnitCell();
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitData->GetConfig()->_bMoveType;
+    _currentUnit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
+    //pf->DumpMap();
+    ShowPathMap();
+    ShowUnitPath(_currentUnit);
+}
+
+bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
+{
+    bool result = true;
+    
+    PFWaveCell* cell = unit->GetNextPathCell();
+    if (cell)
+    {
+        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
+        Pathfinder* pf = unit->_owner_w->_pathfinder;
+        int pfCost = pf->GetMapCostAt(cell->x, cell->y, cell->direction, unitMoveType);
+        if (cell->cost != pfCost)
+            result = false;
+        
+		else if (!unit->_unitData->GetConfig()->_isPlane)
+		{
+            vector<CCPoint> empty;
+			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false, unit->_owner_w, empty))
+				result = false;
+			
+		}
+    }
+    
+    return result;
+}
+
+void MAXGame::RecalculateUnitPathMap(GameUnit *unit)
+{
+    CCPoint location = unit->GetUnitCell();
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
+    unit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
+}
+
+#pragma mark - Unit path
+
+void MAXGame::ShowUnitPath(GameUnit *unit)
+{
+    HideUnitPath();
+    std::vector<PFWaveCell*> path = unit->GetPath();
+    int pathStep = unit->GetPathIndex();
+    int pathSize = path.size();
+    if (pathStep > pathSize - 2)
+        pathStep = pathSize - 2;
+    int speed = unit->_unitData->GetMoveBalance();
+	vector<PathElement> testPath;
+    int totalCost = 0;
+	for (int pi = pathStep; pi >= 0; pi--)
+	{
+		PFWaveCell* cell = path[pi];
+		PathElement element;
+		element.x = cell->x;
+		element.y = cell->y;
+		element.unitLevel = OBJECT_LEVEL_OVERAIR;
+		element.image = cell->direction;
+        totalCost += cell->cost;
+        bool endTurnMarker = false;
+        if (pi > 0)
+        {
+            if ((totalCost < speed) && (totalCost + path[pi - 1]->cost > speed))
+            {
+                endTurnMarker = true;
+            }
+        }
+        if ((pi == 0) || (totalCost == speed))
+        {
+            endTurnMarker = true;
+        }
+        if (endTurnMarker)
+        {
+            element.image += 8;
+        }
+		if (totalCost >= speed)
+		{
+			totalCost -= speed;
+			speed = unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+		}
+		testPath.push_back(element);
+	}
+	_pathVisualizer->VisualizePath(testPath);
+}
+
+void MAXGame::HideUnitPath()
+{
+    _pathVisualizer->Clear();
+}
+
+void MAXGame::UpdateCurrentUnitPath()
+{
+    if (_currentUnit)
+    {
+        if (_currentUnit->CanMove()) {
+            ShowPathMap();
+            ShowUnitPath(_currentUnit);
+        }
+        else
+        {
+            _currentUnit->ClearPath();
+            _currentUnit->ClearTempPath();
+            HidePathMap();
+            HideUnitPath();
+        }
+    }
+    else
+    {
+        HidePathMap();
+        HideUnitPath();
+    }
+}
+
+void MAXGame::RecalculateUnitPath(GameUnit* unit)
+{
+    RecalculateUnitPathMap(unit);
+    ShowPathMap();
+    
+    //HidePathMap();
+    PFWaveCell* cell = unit->GetPath()[0];
+    Pathfinder* pf = unit->_owner_w->_pathfinder;
+    std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y);
+    if (path.size() > 1)
+    {
+        unit->SetPath(path);
+        ShowUnitPath(unit);
+    }
+    else
+    {
+        unit->ClearPath();
+		HideUnitPath();
+    }
+}
+
 #pragma mark - Interface
-#pragma mark Messages
+
 void MAXGame::ShowUnitSpottedMessage(GameUnit* unit)
 {
     printf("Enemy %s spotted at %d, %d!\n", unit->_unitData->GetConfig()->_name.c_str(), (int)unit->GetUnitCell().x, (int)unit->GetUnitCell().y);
@@ -663,57 +804,6 @@ void MAXGame::ProceedPan(float speedx, float speedy)
     }
 }
 
-void MAXGame::ShowUnitPath(GameUnit *unit)
-{
-    HideUnitPath();
-    std::vector<PFWaveCell*> path = unit->GetPath();
-    int pathStep = unit->GetPathIndex();
-    int pathSize = path.size();
-    if (pathStep > pathSize - 2)
-        pathStep = pathSize - 2;
-    int speed = unit->_unitData->GetMoveBalance();
-	vector<PathElement> testPath;
-    int totalCost = 0;
-	for (int pi = pathStep; pi >= 0; pi--)
-	{
-		PFWaveCell* cell = path[pi];
-		PathElement element;
-		element.x = cell->x;
-		element.y = cell->y;
-		element.unitLevel = OBJECT_LEVEL_OVERAIR;
-		element.image = cell->direction;
-        totalCost += cell->cost;
-        bool endTurnMarker = false;
-        if (pi > 0)
-        {
-            if ((totalCost < speed) && (totalCost + path[pi - 1]->cost > speed))
-            {
-                endTurnMarker = true;
-            }
-        }
-        if ((pi == 0) || (totalCost == speed))
-        {
-            endTurnMarker = true;
-        }
-        if (endTurnMarker)
-        {
-            element.image += 8;
-        }
-		if (totalCost >= speed)
-		{
-			totalCost -= speed;
-			speed = unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
-		}
-		testPath.push_back(element);
-	}
-	_pathVisualizer->VisualizePath(testPath);
-}
-
-void MAXGame::HideUnitPath()
-{
-    _pathVisualizer->Clear();
-}
-
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
     if (_freezeCounter>0) {
@@ -724,6 +814,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     p.x = floorf(p.x);
     p.y = floorf(p.y);
     
+    printf("tap:%f %f \n", p.x, p.y);
     
     if (_gameController->ShoulTakeTap(p)) {
         _gameController->ProceedTap(tapx, tapy);
@@ -864,42 +955,8 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     if (!_unitMoved && ! _unitMenuShowed)
     {
         if (newCurrentUnit && _currentUnit != newCurrentUnit)
-        {
-            if (_currentUnit)
-            {
-                _currentUnit->UnitDidDeselect();
-                _currentUnit->selectedGameObjectDelegate = NULL;
-				HideUnitPath();
-				HidePathMap();
-                
-                if (_currentUnit->GetPath().size() > 0)
-				{
-                    _currentUnit->ClearTempPath();
-				}
-            }
-            _currentUnit = newCurrentUnit;
-            _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
-            _gameInterface->HideUnitMenu();
-            _currentUnit->selectedGameObjectDelegate = this;
-            _currentUnit->UnitDidSelect();
-            engine->SelectUnit(_currentUnit->GetUnitObject());
-            _gameInterface->OnCurrentUnitChanged(newCurrentUnit, false);
-            
-            if (_currentUnit->_owner_w->GetIsCurrentPlayer())
-            {
-                if (_currentUnit->CanMove())
-                {
-                    ShowUnitPath(_currentUnit);
-                    RecalculateUnitPathMap(_currentUnit);
-                    ShowPathMap();
-                }
-                else if (_currentUnit->_unitData->GetIsTaskFinished())
-                {
-                    GameUnitData* data = _currentUnit->_unitData;
-                    _gameController->StartSelectConstructorExitCell(_currentUnit, data->GetTaskSecondUnit());
-                }
-            }
-        }
+            SelectNewUnit(newCurrentUnit);
+        
         
         if (!newCurrentUnit)
             DeselectCurrentUnit(_removeFromLock);
@@ -908,6 +965,94 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     //if (_currentUnit) {
     //    engine->SetPathZoneLevel(OBJECT_LEVEL_OVERGROUND);
     //}
+}
+
+void MAXGame::SelectNewUnit(GameUnit* unit)
+{
+    if (_currentUnit)
+    {
+        _currentUnit->UnitDidDeselect();
+        _currentUnit->selectedGameObjectDelegate = NULL;
+        HideUnitPath();
+        HidePathMap();
+        
+        if (_currentUnit->GetPath().size() > 0)
+        {
+            _currentUnit->ClearTempPath();
+        }
+    }
+    _currentUnit = unit;
+    _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
+    _gameInterface->HideUnitMenu();
+    _currentUnit->selectedGameObjectDelegate = this;
+    _currentUnit->UnitDidSelect();
+    engine->SelectUnit(_currentUnit->GetUnitObject());
+    _gameInterface->OnCurrentUnitChanged(unit, false);
+    
+    if (_currentUnit->_owner_w->GetIsCurrentPlayer())
+    {
+        if (_currentUnit->CanMove())
+        {
+            ShowUnitPath(_currentUnit);
+            RecalculateUnitPathMap(_currentUnit);
+            ShowPathMap();
+        }
+        else if (_currentUnit->_unitData->GetIsTaskFinished())
+        {
+            GameUnitData* data = _currentUnit->_unitData;
+            _gameController->StartSelectConstructorExitCell(_currentUnit, data->GetTaskSecondUnit());
+        }
+    }
+}
+
+void MAXGame::ProceedLongTap(float tapx, float tapy)
+{
+    if (_freezeCounter>0)
+        return;
+    
+    CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
+    p.x = floorf(p.x);
+    p.y = floorf(p.y);
+
+
+
+    GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
+    if (_currentUnit)
+    {
+        if (newCurrentUnit)
+        {
+            if (_currentUnit == newCurrentUnit)
+            {
+                if (_needToOpenMenuOnNextTapToSameUnit)
+                {
+                    _gameInterface->ShowMenuForCurrentUni(this);
+                    _needToOpenMenuOnNextTapToSameUnit = false;
+                }
+            }
+            else
+            {
+                if (newCurrentUnit->_owner_w != _currentUnit->_owner_w && _match->UnitCanAttackUnit(_currentUnit, newCurrentUnit))
+                    StartAttackSequence(_currentUnit, newCurrentUnit);
+                else
+                    SelectNewUnit(newCurrentUnit);
+            }
+        }
+        else
+        {
+            DeselectCurrentUnit(true);
+        }
+    }
+    else if (newCurrentUnit)
+    {
+        SelectNewUnit(newCurrentUnit);
+    }
+}
+
+void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target)
+{
+    _currentTargetUnit = target;
+    _currentFiringUnit = agressor;
+    _currentFiringUnit->Fire(target->GetUnitCell(), target->GetConfig()->_bLevel);
 }
 
 void MAXGame::DeselectCurrentUnit(bool _removeFromLock)
@@ -927,29 +1072,6 @@ void MAXGame::DeselectCurrentUnit(bool _removeFromLock)
             _currentUnit = NULL;
             HidePathMap();
         }				
-        HideUnitPath();
-    }
-}
-
-void MAXGame::UpdateCurrentUnitPath()
-{
-    if (_currentUnit)
-    {
-        if (_currentUnit->CanMove()) {
-            ShowPathMap();
-            ShowUnitPath(_currentUnit);
-        }
-        else
-        {
-            _currentUnit->ClearPath();
-            _currentUnit->ClearTempPath();
-            HidePathMap();
-            HideUnitPath();
-        }
-    }
-    else
-    {
-        HidePathMap();
         HideUnitPath();
     }
 }
@@ -981,81 +1103,6 @@ void MAXGame::TryStartConstruction(string type)
     
     UpdateCurrentUnitPath();
     _gameInterface->HideUnitMenu();
-}
-
-void MAXGame::ProceedLongTap(float tapx, float tapy)
-{
-    if (_freezeCounter>0) 
-        return;
-    
-    if (_currentUnit && !_currentUnit->GetIsFreezed() && _currentUnit->_owner_w->GetIsCurrentPlayer() && !_currentUnit->GetConfig()->_isBuldozer)
-    {
-        CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
-        _currentUnit->Fire(p);
-    }
-}
-
-void MAXGame::RefreshCurrentUnitPath()
-{
-    CCPoint location = _currentUnit->GetUnitCell();
-    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitData->GetConfig()->_bMoveType;
-    _currentUnit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
-    //pf->DumpMap();
-    ShowPathMap();
-    ShowUnitPath(_currentUnit);
-}
-
-bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
-{
-    bool result = true;
-    
-    PFWaveCell* cell = unit->GetNextPathCell();
-    if (cell)
-    {
-        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
-        Pathfinder* pf = unit->_owner_w->_pathfinder;
-        int pfCost = pf->GetMapCostAt(cell->x, cell->y, cell->direction, unitMoveType);
-        if (cell->cost != pfCost)
-            result = false;
-        
-		else if (!unit->_unitData->GetConfig()->_isPlane)
-		{
-            vector<CCPoint> empty;
-			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false, unit->_owner_w, empty))
-				result = false;
-			
-		}
-    }
-    
-    return result;
-}
-
-void MAXGame::RecalculateUnitPathMap(GameUnit *unit)
-{
-    CCPoint location = unit->GetUnitCell();
-    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
-    unit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
-}
-
-void MAXGame::RecalculateUnitPath(GameUnit* unit)
-{
-    RecalculateUnitPathMap(unit);
-    ShowPathMap();
-    
-    //HidePathMap();
-    PFWaveCell* cell = unit->GetPath()[0];
-    Pathfinder* pf = unit->_owner_w->_pathfinder;
-    std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y);
-    if (path.size() > 1)
-    {
-        unit->SetPath(path);
-        ShowUnitPath(unit);
-    }
-    else
-    {
-        unit->ClearPath();
-		HideUnitPath();
-    }
 }
 
 #pragma mark - SelectedGameObjectDelegate
@@ -1136,9 +1183,39 @@ void MAXGame::onUnitFireStop(GameUnit* unit)
 {
     _freezeCounter--;
     RefreshCurrentUnitPath();
+    
+    if (_currentFiringUnit && _currentTargetUnit) {
+        MakePain();
+    }
 
     // Do here damage calculation?
     // yes please
+    //you are wellcome!!!!
+}
+
+void MAXGame::MakePain()
+{
+    if (!_currentTargetUnit || !_currentFiringUnit)
+        return;
+    
+    if (!_currentTargetUnit->ReceiveDamage(_currentFiringUnit, 1))
+    {
+        _currentTargetUnit->Destroy();
+        this->UnidDidHide(_currentTargetUnit);
+        if (_currentUnit)
+        {
+            RecalculateUnitPathMap(_currentUnit);
+            ShowPathMap();
+        }
+    }
+    else
+    {
+        if (_currentTargetUnit == _currentUnit)
+            _gameInterface->OnCurrentUnitDataChanged(_currentTargetUnit);
+    }
+    _currentFiringUnit = NULL;
+    _currentTargetUnit = NULL;
+    
 }
 
 #pragma mark - GIUnitActionMenuDelegate

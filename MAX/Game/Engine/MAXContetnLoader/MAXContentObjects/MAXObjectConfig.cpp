@@ -541,6 +541,7 @@ _soundEngineWaterName("")
     _haveShadow = _shadowName != "";
     
     _containProcessState = ((_isAllwaysOn != _isBuilding) || _bSelfCreatorType != 0 || _isBuldozer);
+ 
 }
 
 MAXObjectConfig::~MAXObjectConfig()

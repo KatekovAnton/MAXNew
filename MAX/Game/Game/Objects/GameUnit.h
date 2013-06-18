@@ -79,8 +79,11 @@ public:
     vector<CCPoint> GetNerbyCells() const;
     vector<CCPoint> GetFullNearbyCells() const;
     
-    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId, GameMatchPlayer *owner);    //creates new unit
-    GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchPlayer *owner);           //creates unit from saved data
+    bool ReceiveDamage(GameUnit* unit);
+    bool ReceiveDamage(GameUnit* unit, int decrase);
+    
+    GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId, GameMatchPlayer *owner);      //creates new unit
+    GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchPlayer *owner);                        //creates unit from saved data
     void Init();
     ~GameUnit();
     
@@ -136,7 +139,7 @@ public:
 #pragma mark - Fire methods
     bool CanFire(const cocos2d::CCPoint &target);
     GameEffect* MakeWeaponAnimationEffect(const cocos2d::CCPoint &target);
-    void Fire(const CCPoint& target);
+    void Fire(const CCPoint& target, const int level);
     CCPoint fireTarget;
     
     

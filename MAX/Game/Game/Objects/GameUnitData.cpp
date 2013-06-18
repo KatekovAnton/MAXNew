@@ -546,6 +546,26 @@ void GameUnitData::CompletlyFinishTask()
     _paused = false;
 }
 
+bool GameUnitData::ReceiveDamage(GameUnitData* unit, int decrase)
+{
+    int damage = unit->GetMaxParameterValue(UNIT_PARAMETER_TYPE_ATTACK);
+    damage = damage / decrase;
+    int myHealth = GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH);
+    int myArmor = GetParameterValue(UNIT_PARAMETER_TYPE_ARMOR);
+    
+    int resultDamage = damage - myArmor;
+    if (resultDamage < 1)
+        resultDamage = 1;
+    
+    myHealth -= resultDamage;
+    
+    if (myHealth < 0)
+        myHealth = 0;
+    
+    SetParameterValue(UNIT_PARAMETER_TYPE_HEALTH, myHealth);
+    return GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) > 0;
+}
+
 #pragma mark - Raduis and BBs
 // return some box for the object if the one is located in the point
 BoundingBox GameUnitData::GetBoundingBox(const CCPoint &point, const float radius) const
