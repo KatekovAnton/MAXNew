@@ -1050,10 +1050,9 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
             }
             else
             {
-                if (newCurrentUnit->_owner_w != _currentUnit->_owner_w && _match->UnitCanAttackUnit(_currentUnit, newCurrentUnit))
-                    StartAttackSequence(_currentUnit, newCurrentUnit);
-                else
-                    SelectNewUnit(newCurrentUnit);
+                GameUnit *attackedUnit = _match->UnitForAttackingByUnit(_currentUnit, p);
+                if (attackedUnit && attackedUnit != _currentUnit) 
+                    StartAttackSequence(_currentUnit, attackedUnit);
             }
         }
         else

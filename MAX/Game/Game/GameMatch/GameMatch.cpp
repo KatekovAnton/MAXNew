@@ -163,7 +163,6 @@ GameUnit *GameMatch::UnitForAttackingByUnit(GameUnit *agressor, const CCPoint &t
         if (comparedUnit == agressor) 
             continue;
         
-        
         if (UnitCanAttackUnit(agressor, comparedUnit)) {
             if (!result) {
                 result = comparedUnit;
