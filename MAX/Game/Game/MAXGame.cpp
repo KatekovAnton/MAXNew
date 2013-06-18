@@ -1277,6 +1277,7 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 	}
     else if (action == UNIT_MENU_ACTION_ATTACK)
     {
+        _currentUnit->SetPath(vector<PFWaveCell*>());
         _gameController->StartSelectSecondUnit(_currentUnit, _currentUnit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE), action);
         HideUnitPath();
         HidePathMap();

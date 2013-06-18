@@ -40,6 +40,8 @@ public:
     CCPoint _largeBuildingConstructionPlace;
     MAXObjectConfig* _buildingConfig_w;
     float _distance;
+    int _step;
+    CCPoint _previousStepResult;
     UNIT_MENU_ACTION _action;
     vector<GameEffect*> _additionalEffects;
     vector<CCPoint> suitableCells;

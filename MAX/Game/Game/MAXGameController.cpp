@@ -133,6 +133,7 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
     _selectedUnit_w = selectedUnit;
     _distance = maxDistance;
     _action = action;
+    _step = 0;
     if (action == UNIT_MENU_ACTION_ATTACK) {
         Color c = {255, 0, 0, 50};
         engine->SetOptionalZoneColor(c);
@@ -312,13 +313,22 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
         } break;
         case MAXGameControllerAction_SelectSecondUnit:
         {
-            CCPoint p = ccp(tapx, tapy);
-            if (_selectedUnit_w->_unitData->IsInRadius(p, _distance)) {
-                if (_action == UNIT_MENU_ACTION_ATTACK) {
-                    
-                }
-            }
-            else
+//            if (_selectedUnit_w->_unitData->IsInRadius(p, _distance)) {
+//                if (_action == UNIT_MENU_ACTION_ATTACK) {
+//                    if (_step == 0) {
+//                        _previousStepResult = p;
+//                        if (_delegate_w)
+//                            _delegate_w->SelectSecondUnitAction1StepFinished(p);
+//                    }
+//                    else
+//                    {
+//                        if (p.x == _previousStepResult.x && p.y == _previousStepResult.y) {
+//                            
+//                        }
+//                    }
+//                }
+//            }
+//            else
             {
                 AbortCurrentAction();
                 shouldDeselectUnit = false;
