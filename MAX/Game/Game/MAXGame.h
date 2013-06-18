@@ -83,6 +83,8 @@ public:
     GameMatch *GetCurrentMatch() const {return _match;}
     GameUnit *_currentUnit;
     
+    bool _onAttackSelection;
+    
     GameUnit *_currentFiringUnit;
     GameUnit *_currentTargetUnit;
     
@@ -115,6 +117,9 @@ public:
 #pragma mark - MAXGameControllerDelegate
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
+    
+    virtual void SelectSecondUnitAction1StepFinished(CCPoint result);
+    virtual bool SelectSecondUnitAction2StepFinished(CCPoint result);
     
 #pragma mark - MAXEngineDelegate
     virtual void onFrame();

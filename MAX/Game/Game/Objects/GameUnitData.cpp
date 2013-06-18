@@ -635,6 +635,11 @@ BoundingBox GameUnitData::GetScanBoundingBox() const
     return GetBoundingBox(_unitCell, _unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_SCAN));
 }
 
+BoundingBox GameUnitData::GetFireBoundingBox() const
+{
+    return GetBoundingBox(_unitCell, _unitParameters->GetParameterValue(UNIT_PARAMETER_TYPE_RANGE));
+}
+
 // check if point is in scan radius around the object
 bool GameUnitData::IsInScanRadius(const CCPoint &point) const
 {

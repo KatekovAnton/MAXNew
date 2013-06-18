@@ -126,6 +126,33 @@ bool MAXGameController::StartSelectConstructorExitCell(GameUnit* constructor, Ga
     return true;
 }
 
+bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxDistance, UNIT_MENU_ACTION action)
+{
+    AbortCurrentAction();
+    _actionType = MAXGameControllerAction_SelectSecondUnit;
+    _selectedUnit_w = selectedUnit;
+    _distance = maxDistance;
+    _action = action;
+    if (action == UNIT_MENU_ACTION_ATTACK) {
+        Color c = {255, 0, 0, 50};
+        engine->SetOptionalZoneColor(c);
+    }
+    BoundingBox b = _selectedUnit_w->_unitData->GetFireBoundingBox();
+    engine->ClearOptionalZone();
+    engine->SetOptionalZoneLevel((OBJECT_LEVEL)selectedUnit->GetConfig()->_bLevel);
+    for (float i = b.min.y; i <= b.max.y; i += 1.0)
+    {
+        for (float j = b.min.x; j <= b.max.x; j += 1.0)
+        {
+            CCPoint p = ccp(j, i);
+            if (_selectedUnit_w->_unitData->IsInRadius(p, maxDistance)) {
+                engine->AddOptionalZoneCell(j, i);
+            }
+        }
+    }
+    return true;
+}
+
 void MAXGameController::AbortCurrentAction()
 {
     switch (_actionType)
@@ -141,6 +168,10 @@ void MAXGameController::AbortCurrentAction()
         {
             if (_selectedUnit_w->_unitData->ContainsCurrentTask()) 
                 _selectedUnit_w->CreateCheckIcon();
+        } break;
+        case MAXGameControllerAction_SelectSecondUnit:
+        {
+            engine->ClearOptionalZone();
         } break;
         default:
             break;
@@ -279,6 +310,21 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
             AbortCurrentAction();
             
         } break;
+        case MAXGameControllerAction_SelectSecondUnit:
+        {
+            CCPoint p = ccp(tapx, tapy);
+            if (_selectedUnit_w->_unitData->IsInRadius(p, _distance)) {
+                if (_action == UNIT_MENU_ACTION_ATTACK) {
+                    
+                }
+            }
+            else
+            {
+                AbortCurrentAction();
+                shouldDeselectUnit = false;
+            }
+        } break;
+            
         default:
             break;
     }

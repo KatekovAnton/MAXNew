@@ -107,6 +107,7 @@ public:
     
     BoundingBox GetScanBoundingBox(const CCPoint &centerPoint) const;
     BoundingBox GetScanBoundingBox() const;
+    BoundingBox GetFireBoundingBox() const;
     bool IsInScanRadius(const CCPoint &point) const;
     bool IsInScanRadius(const CCPoint &point, const CCPoint &currentCenter) const;
     bool IsInFireRadius(const CCPoint &point) const;

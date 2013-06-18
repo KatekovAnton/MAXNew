@@ -23,7 +23,8 @@ enum MAXGameControllerAction
 {
     MAXGameControllerAction_SelectLargeBuildingConstructionPlace,
     MAXGameControllerAction_SelectSmallBuildingConstructionPath,
-    MAXGameControllerAction_SelectConstructorExitCell
+    MAXGameControllerAction_SelectConstructorExitCell,
+    MAXGameControllerAction_SelectSecondUnit
 };
 
 class MAXGameController {
@@ -38,7 +39,8 @@ public:
     GameObject *_secondaryObject_w;
     CCPoint _largeBuildingConstructionPlace;
     MAXObjectConfig* _buildingConfig_w;
-    
+    float _distance;
+    UNIT_MENU_ACTION _action;
     vector<GameEffect*> _additionalEffects;
     vector<CCPoint> suitableCells;
     
@@ -51,14 +53,14 @@ public:
     bool StartSelectConstructorExitCell(GameUnit* constructor, GameUnit* createdUnit);
     
     
-    bool StartSelectSecondUnit(GameUnit* selectedUnit, float maxDistance);
+    bool StartSelectSecondUnit(GameUnit* selectedUnit, float maxDistance, UNIT_MENU_ACTION action);
     
     void AbortCurrentAction();
     
     void ProceedPan(int speedx, int speedy);
     void ProceedTap(float tapx, float tapy);
     
-    bool ShoulTakePan() const { return _actionType != -1 && _actionType != MAXGameControllerAction_SelectConstructorExitCell; };
+    bool ShoulTakePan() const { return _actionType != -1 && _actionType != MAXGameControllerAction_SelectConstructorExitCell&& _actionType != MAXGameControllerAction_SelectSecondUnit;  };
     bool ShoulTakeTap(const CCPoint &cell);
     
     MAXGameController();

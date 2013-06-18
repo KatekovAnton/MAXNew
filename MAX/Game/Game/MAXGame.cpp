@@ -755,6 +755,17 @@ void MAXGame::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, 
     _gameInterface->HideUnitMenu();
 }
 
+void MAXGame::SelectSecondUnitAction1StepFinished(CCPoint result)
+{}
+
+bool MAXGame::SelectSecondUnitAction2StepFinished(CCPoint result)
+{
+    if (_onAttackSelection)
+        return _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) > 0;
+    else
+        return true;
+}
+
 #pragma mark - MAXEngineDelegate
 
 void MAXGame::onFrame()
@@ -1010,10 +1021,18 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     if (_freezeCounter>0)
         return;
     
+    
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
     p.y = floorf(p.y);
-
+    if (_gameController->ShoulTakeTap(p)) {
+        _gameController->ProceedTap(tapx, tapy);
+        if (_gameController->shouldDeselectUnit) {
+            DeselectCurrentUnit(true);
+        }
+        
+        return;
+    }
 
 
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit);
@@ -1256,6 +1275,13 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         else
 		return;
 	}
+    else if (action == UNIT_MENU_ACTION_ATTACK)
+    {
+        _gameController->StartSelectSecondUnit(_currentUnit, _currentUnit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE), action);
+        HideUnitPath();
+        HidePathMap();
+        return;
+    }
 	else if (action == UNIT_MENU_ACTION_START)
 	{
         if (_currentUnit->_unitData->GetIsBuilding())
@@ -1305,7 +1331,6 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
     }
     bool _needTargetUnit = false;
     switch (action) {
-        case UNIT_MENU_ACTION_ATTACK:
         case UNIT_MENU_ACTION_DISABLE:
         case UNIT_MENU_ACTION_ENTER:
         case UNIT_MENU_ACTION_LOAD:

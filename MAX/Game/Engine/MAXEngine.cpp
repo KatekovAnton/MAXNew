@@ -70,9 +70,9 @@ MAXEngine::~MAXEngine()
         _resourceRenderer = NULL;
     }
     
-    if (_attackZoneRenderer) {
-        delete _attackZoneRenderer;
-        _attackZoneRenderer = NULL;
+    if (_optionalZoneRenderer) {
+        delete _optionalZoneRenderer;
+        _optionalZoneRenderer = NULL;
     }
     
     delete _animationManager;
@@ -140,7 +140,7 @@ void MAXEngine::Init() {
     _fogRenderer = NULL;
     
     _pathZoneRendererLevel = OBJECT_LEVEL_UNDERWATER;
-    _attackZoneRendererLevel = OBJECT_LEVEL_OVERAIR;
+    _optionalZoneRendererLevel = OBJECT_LEVEL_OVERAIR;
 }
 
 void MAXEngine::SetCameraCenter(const CCPoint &cell)
@@ -184,10 +184,10 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 	_pathZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
 	_pathZoneRenderer->color = GLKVector4Make(0.3, 0.4, 0.3, 0.9);
     
-    if (_attackZoneRenderer)
-        delete _attackZoneRenderer;
-	_attackZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
-	_attackZoneRenderer->color = GLKVector4Make(1, 0, 0, 0.9);
+    if (_optionalZoneRenderer)
+        delete _optionalZoneRenderer;
+	_optionalZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
+	_optionalZoneRenderer->color = GLKVector4Make(1, 0, 0, 0.9);
 }
 
 void MAXEngine::ClearMap()
@@ -267,14 +267,19 @@ void MAXEngine::ClearPathZone()
 	_pathZoneRenderer->Clear();
 }
 
-void MAXEngine::AddAttackZoneCell(const int x, const int y)
+void MAXEngine::AddOptionalZoneCell(const int x, const int y)
 {
-	_attackZoneRenderer->AddCell(x, y);
+	_optionalZoneRenderer->AddCell(x, y);
 }
 
-void MAXEngine::ClearAttackZone()
+void MAXEngine::ClearOptionalZone()
 {
-    _attackZoneRenderer->Clear();
+    _optionalZoneRenderer->Clear();
+}
+
+void MAXEngine::SetOptionalZoneColor(const Color &c)
+{
+    _optionalZoneRenderer->color = GLKVector4Make((float)c.r/255.0, (float)c.g/255.0, (float)c.b/255.0, (float)c.a/255.0);
 }
 
 void MAXEngine::GetAllObjectsInArea(BoundingBox bb, USimpleContainer<MAXObject*> *buffer)
@@ -441,7 +446,7 @@ void MAXEngine::DrawUnits()
             MAXSCL->unitMesh->Unbind();
             
         }
-        DrawAttackZone();
+        DrawOptionalZone();
     }
     else
     {
@@ -469,9 +474,9 @@ void MAXEngine::DrawUnits()
                 drawedPathZone = true;
             }
             
-            if (currentLevel > _attackZoneRendererLevel && !drawedAttackhZone) {
+            if (currentLevel > _optionalZoneRendererLevel && !drawedAttackhZone) {
                 MAXSCL->unitMesh->Unbind();
-                DrawAttackZone();
+                DrawOptionalZone();
                 
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 _shader = _unitShader;
@@ -494,7 +499,7 @@ void MAXEngine::DrawUnits()
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
     if (!drawedAttackhZone) {
-        DrawAttackZone();
+        DrawOptionalZone();
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
    // printf("%d\n",_applyedPaletteCount);
@@ -537,14 +542,14 @@ void MAXEngine::DrawPathZone()
 	_pathZoneRenderer->Draw(_shader);
 }
 
-void MAXEngine::DrawAttackZone()
+void MAXEngine::DrawOptionalZone()
 {
-    glBlendFunc(GL_SRC_ALPHA, GL_DST_COLOR);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	_shader = _pathZoneShader;
 	glUseProgram(_shader->GetProgram());
 	_shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
 	_shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-	_attackZoneRenderer->Draw(_shader);
+	_optionalZoneRenderer->Draw(_shader);
 }
 
 void MAXEngine::DrawInterface()

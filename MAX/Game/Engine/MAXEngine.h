@@ -64,7 +64,7 @@ class MAXEngine : public RequestDelegate  {
     
     bool lowRender;
     OBJECT_LEVEL _pathZoneRendererLevel;
-    OBJECT_LEVEL _attackZoneRendererLevel;
+    OBJECT_LEVEL _optionalZoneRendererLevel;
     
     USimpleContainer<MAXObject*> *_lowLodHighDrawObjects;
     
@@ -73,7 +73,7 @@ public:
     MAXResourceMapRenderer  *_resourceRenderer;
     MAXSolidTileRenderer    *_fogRenderer;
 	MAXSolidTileRenderer    *_pathZoneRenderer;
-	MAXSolidTileRenderer    *_attackZoneRenderer;
+	MAXSolidTileRenderer    *_optionalZoneRenderer;
     
     
     MAXEngineDelegate   *_delegate;
@@ -113,18 +113,21 @@ public:
     void AddFogCell(const int x, const int y, const bool fog);
     void FillFog();
     void ClearResourceFog();
+    
 	void AddPathZoneCell(const int x, const int y);
     void SetPathZoneLevel(OBJECT_LEVEL level) { _pathZoneRendererLevel = level; };
 	void ClearPathZone();
     
-    void AddAttackZoneCell(const int x, const int y);
-    void SetAttackZoneLevel(OBJECT_LEVEL level) { _attackZoneRendererLevel = level; };
-	void ClearAttackZone();
+    void AddOptionalZoneCell(const int x, const int y);
+    void SetOptionalZoneLevel(OBJECT_LEVEL level) { _optionalZoneRendererLevel = level; };
+	void ClearOptionalZone();
+    void SetOptionalZoneColor(const Color &c);
     
-    void RunLoop(double delta);
     
     double ElapsedTime() const {return _elapsedTime;};
     double FullTime() const {return _fullTime;};
+    void RunLoop(double delta);
+    
     
     void SetCameraCenter(const CCPoint &cell);
     void SetZoom(float zoom);
@@ -138,7 +141,7 @@ public:
     void DrawResourceMap();
     void DrawFog();
 	void DrawPathZone();
-	void DrawAttackZone();
+	void DrawOptionalZone();
     void DrawGrid();
     void DrawInterface();
     void EndFrame();
