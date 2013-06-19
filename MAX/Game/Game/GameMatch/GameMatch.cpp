@@ -182,10 +182,7 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
     CCPoint targetCell = target->GetUnitCell();
     UNIT_MOVETYPE tmt = (UNIT_MOVETYPE)target->GetConfig()->_bMoveType;
     MAXObjectConfig* agressorConfig = agressor->GetConfig();
-    bool inFireRadius = agressor->_unitData->IsInFireRadius(target->GetUnitCell());
-    if (!inFireRadius) {
-        return false;
-    }
+
     switch (tmt) {
         case UNIT_MOVETYPE_GROUND:
         case UNIT_MOVETYPE_GROUNDCOAST:
@@ -196,7 +193,7 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
             if (t == GROUND_TYPE_WATER || t == GROUND_TYPE_COAST)
                 return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
 
-            return agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
+            return agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 4;
         } break;
             
         case UNIT_MOVETYPE_SEA:
@@ -210,7 +207,7 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
                         return agressorConfig->_pFireType == 2;
                 }
             }
-            return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
+            return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 4;
         } break;
             
         case UNIT_MOVETYPE_AMHIB:
@@ -219,12 +216,12 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
                 EXTENDED_GROUND_TYPE t = _fullAgregator->GroundTypeAtXY(targetCell.x, targetCell.y);
                 if (t == EXTENDED_GROUND_TYPE_WATER ) {
                     if (agressor->GetConfig()->_bMoveType == UNIT_MOVETYPE_AIR)
-                        return (agressor->GetConfig()->_pFireType == 6 || agressor->GetConfig()->_pFireType == 1);
+                        return (agressor->GetConfig()->_pFireType == 6 || agressor->GetConfig()->_pFireType == 1 || agressorConfig->_pFireType == 4);
                     if (agressor->GetConfig()->_bMoveType == UNIT_MOVETYPE_SEA)
-                        return agressor->GetConfig()->_pFireType == 2;
+                        return agressor->GetConfig()->_pFireType == 2 || agressorConfig->_pFireType == 4;
                 }
             }
-            return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
+            return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 4;
         } break;
             
         case UNIT_MOVETYPE_AIR:

@@ -341,6 +341,7 @@ void GameUnit::RemoveUnitFromMap()
     if (!_unitData->_isPlacedOnMap)
         return;
     _unitData->_isPlacedOnMap = false;
+    _unitData->AbortTask();
     Hide();
     // update the fog of war for the current gamer
     _delegate_w->GameUnitDidRemoveFromMap(this);

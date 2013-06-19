@@ -19,6 +19,8 @@ class GameUnit;
 class GIUnitParametersNode;
 class GIUnitActionMenu;
 class GIUnitActionMenuDelegate;
+class GIUnitSelectionMenu;
+class GIUnitSelectionMenuDelegate;
 
 class GameInterface : public CCScene
 {
@@ -65,6 +67,7 @@ class GameInterface : public CCScene
     
    
     GIUnitActionMenu* _unitMenu;
+    GIUnitSelectionMenu* _unitSelectionMenu;
     
     bool _inited;
     
@@ -74,6 +77,12 @@ public:
     void ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate);
     void HideUnitMenu();
     void UpdateUnitMenuPosition();
+    
+    void ShowUnitSelectionMenu(GIUnitSelectionMenuDelegate *delegate, const USimpleContainer<GameUnit*> *units, const CCPoint &cellPoint);
+    void HideUnitSelectionMenu();
+    void UpdateUnitSelectionMenuPosition(const CCPoint &cellPoint);
+    
+    void SetNodeNearCell(CCNode *node, const CCPoint &cellPoint);
     
     bool GetDrawGrid() const {return _drawGrid;}
     bool ShouldReceiveTouch(int x, int y);

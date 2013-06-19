@@ -20,6 +20,7 @@
 #include "CCScrollView.h"
 #include "GIUnitParametersNode.h"
 #include "GIUnitActionMenu.h"
+#include "GIUnitSelectionMenu.h"
 #include "MAXGame.h"
 #include "MAXObjectConfig.h"
 
@@ -606,45 +607,15 @@ void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit)
     }
 }
 
+#pragma mark - Unit menu
+
 void GameInterface::UpdateUnitMenuPosition()
 {
     if (!_unitMenu) {
         return;
     }
     CCPoint point = _currentUnit->GetUnitCell();
-    CCPoint point1 = point;
-    point.x *= 64;
-    point.y *= 64;
-    if (_currentUnit->_unitData->GetSize() < 2)
-    {
-        point.x += 64;
-        point.y += 64;
-    }
-    else
-    {
-        point.x += 128;
-        point.y += 128;
-    }
-    point1.x *= 64;
-    point1.y *= 64;
-    point = engine->WorldCoordinatesToScreenCocos(point);
-    point1 = engine->WorldCoordinatesToScreenCocos(point1);
-    
-    
-    float sideH = point1.y - point.y;
-    float menuH = _unitMenu->getContentSize().height;
-    
-    float bottomM = point.y + sideH/2 - menuH/2;
-    point.y = bottomM;
-    
-    //point is for 1 scale;
-    
-    float scale = _unitMenu->getScale() - 1.0;
-    point.x += _unitMenu->getContentSize().width * scale * 0.5;
-    //point.y += _unitMenu->getContentSize().height * scale * 0.25;
-    point.x = (int)point.x;
-    point.y = (int)point.y;
-    _unitMenu->setPosition(point);
+    SetNodeNearCell(_unitMenu, point);
 }
 
 void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
@@ -667,18 +638,74 @@ void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
 
 void GameInterface::HideUnitMenu()
 {
-    if (!_unitMenu) {
+    if (!_unitMenu) 
         return;
-    }
     
     _unitMenu->removeFromParentAndCleanup(true);
     _unitMenu = NULL;
 
 }
 
-void GameInterface::OnMenuItemButton(CCMenuItem* sender)
+#pragma mark - Unit selection menu
+
+void GameInterface::ShowUnitSelectionMenu(GIUnitSelectionMenuDelegate *delegate, const USimpleContainer<GameUnit*> *units, const CCPoint &cellPoint)
 {
+    if (_unitSelectionMenu) 
+        return;
     
+    if (_unitMenu) 
+        return;
+    
+    
+    _unitSelectionMenu = new GIUnitSelectionMenu(units);
+    _unitSelectionMenu->_delegate_w = delegate;
+    
+    UpdateUnitSelectionMenuPosition(cellPoint);
+    addChild(_unitMenu);
+}
+
+void GameInterface::HideUnitSelectionMenu()
+{
+    if (!_unitSelectionMenu) 
+        return;
+    
+    _unitSelectionMenu->removeFromParentAndCleanup(true);
+    _unitSelectionMenu = NULL;
+}
+
+void GameInterface::UpdateUnitSelectionMenuPosition(const CCPoint &cellPoint)
+{
+    if (!_unitSelectionMenu) 
+        return;
+    
+    SetNodeNearCell(_unitSelectionMenu, cellPoint);
+}
+
+void GameInterface::SetNodeNearCell(CCNode *node, const CCPoint &cellPoint)
+{
+    CCPoint point = cellPoint;
+    CCPoint point1 = point;
+    point.x *= 64;
+    point.y *= 64;
+    point.x += 64;
+    point.y += 64;
+    
+    point1.x *= 64;
+    point1.y *= 64;
+    
+    point = engine->WorldCoordinatesToScreenCocos(point);
+    point1 = engine->WorldCoordinatesToScreenCocos(point1);
+    float sideH = point1.y - point.y;
+    float menuH = node->getContentSize().height;
+    
+    float bottomM = point.y + sideH/2 - menuH/2;
+    point.y = bottomM;
+    
+    float scale = node->getScale() - 1.0;
+    point.x += node->getContentSize().width * scale * 0.5;
+    point.x = (int)point.x;
+    point.y = (int)point.y;
+    node->setPosition(point);
 }
 
 

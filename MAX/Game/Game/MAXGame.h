@@ -107,7 +107,7 @@ public:
     void UnidDidHide(GameUnit* unit);
     
     void SelectNewUnit(GameUnit* unit);
-    void StartAttackSequence(GameUnit *agressor, GameUnit *target);
+    void StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point);
     void MakePain();
     
 #pragma mark - Interface

@@ -236,6 +236,8 @@
 		D115921E16B8ED5600C1E1C2 /* MAXAnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115921C16B8ED5600C1E1C2 /* MAXAnimationManager.cpp */; };
 		D115922416B8F4C100C1E1C2 /* MAXAnimationBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922216B8F4C100C1E1C2 /* MAXAnimationBase.cpp */; };
 		D115922716B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */; };
+		D119515D1772374D00AED96F /* GIUnitSelectionMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D119515B1772374D00AED96F /* GIUnitSelectionMenu.cpp */; };
+		D119516217723C9300AED96F /* MAXEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D119516017723C9300AED96F /* MAXEditor.cpp */; };
 		D11ABAA4168DDB0A00CD29EA /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */; };
 		D11ABAA7168DDB2A00CD29EA /* GameUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */; };
 		D11ABAC6168DEC3000CD29EA /* MAXUnitMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11ABAC4168DEC3000CD29EA /* MAXUnitMaterial.cpp */; };
@@ -948,6 +950,11 @@
 		D115922316B8F4C100C1E1C2 /* MAXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationBase.h; sourceTree = "<group>"; };
 		D115922516B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObjectUnit.cpp; sourceTree = "<group>"; };
 		D115922616B8F4CF00C1E1C2 /* MAXAnimationObjectUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXAnimationObjectUnit.h; sourceTree = "<group>"; };
+		D119515B1772374D00AED96F /* GIUnitSelectionMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIUnitSelectionMenu.cpp; sourceTree = "<group>"; };
+		D119515C1772374D00AED96F /* GIUnitSelectionMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitSelectionMenu.h; sourceTree = "<group>"; };
+		D119515E1772375F00AED96F /* GIUnitSelectionMenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GIUnitSelectionMenuDelegate.h; sourceTree = "<group>"; };
+		D119516017723C9300AED96F /* MAXEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXEditor.cpp; sourceTree = "<group>"; };
+		D119516117723C9300AED96F /* MAXEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXEditor.h; sourceTree = "<group>"; };
 		D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameObject.cpp; sourceTree = "<group>"; };
 		D11ABAA3168DDB0A00CD29EA /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		D11ABAA5168DDB2A00CD29EA /* GameUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameUnit.cpp; sourceTree = "<group>"; };
@@ -1530,6 +1537,7 @@
 		8B7CA08F16C831BC00282A74 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				D119515A1772372A00AED96F /* UnitSelectionMenu */,
 				8B9B9CA317403D28004345E1 /* Windows */,
 				8B9B9CA217403D04004345E1 /* Message */,
 				8B90ED4C173864A10032205A /* UnitActionMenu */,
@@ -1905,6 +1913,25 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
+		D119515A1772372A00AED96F /* UnitSelectionMenu */ = {
+			isa = PBXGroup;
+			children = (
+				D119515B1772374D00AED96F /* GIUnitSelectionMenu.cpp */,
+				D119515C1772374D00AED96F /* GIUnitSelectionMenu.h */,
+				D119515E1772375F00AED96F /* GIUnitSelectionMenuDelegate.h */,
+			);
+			path = UnitSelectionMenu;
+			sourceTree = "<group>";
+		};
+		D119515F17723C5400AED96F /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				D119516017723C9300AED96F /* MAXEditor.cpp */,
+				D119516117723C9300AED96F /* MAXEditor.h */,
+			);
+			path = Editor;
+			sourceTree = "<group>";
+		};
 		D11ABAA1168DDA7800CD29EA /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -2048,6 +2075,7 @@
 			children = (
 				D18EDBEC1689771C00EE3B4E /* Sys */,
 				D18EDBED1689773600EE3B4E /* Utils */,
+				D119515F17723C5400AED96F /* Editor */,
 				D18EDC0B168978C000EE3B4E /* Game */,
 				D18EDBD61689770C00EE3B4E /* Supporting Files */,
 			);
@@ -3476,6 +3504,8 @@
 				8B20D8A317595D220058890D /* GUClearzoneTask.cpp in Sources */,
 				8BFA4EEE176259D6001A7D00 /* GameMatchPlayerData.cpp in Sources */,
 				8BFA4F0D1763C062001A7D00 /* GIWindow.cpp in Sources */,
+				D119515D1772374D00AED96F /* GIUnitSelectionMenu.cpp in Sources */,
+				D119516217723C9300AED96F /* MAXEditor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

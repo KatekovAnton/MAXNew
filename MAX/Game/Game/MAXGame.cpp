@@ -1052,7 +1052,7 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
             {
                 GameUnit *attackedUnit = _match->UnitForAttackingByUnit(_currentUnit, p);
                 if (attackedUnit && attackedUnit != _currentUnit) 
-                    StartAttackSequence(_currentUnit, attackedUnit);
+                    StartAttackSequence(_currentUnit, attackedUnit, p);
             }
         }
         else
@@ -1066,11 +1066,11 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     }
 }
 
-void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target)
+void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point)
 {
     _currentTargetUnit = target;
     _currentFiringUnit = agressor;
-    _currentFiringUnit->Fire(target->GetUnitCell(), target->GetConfig()->_bLevel);
+    _currentFiringUnit->Fire(point, target->GetConfig()->_bLevel);
 }
 
 void MAXGame::DeselectCurrentUnit(bool _removeFromLock)

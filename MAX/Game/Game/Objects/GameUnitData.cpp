@@ -500,6 +500,9 @@ void GameUnitData::SetTask(GUTask *newTask)
 
 void GameUnitData::AbortTask()
 {
+    if (!_currentTask)
+        return;
+    
     _currentTask->AbortTask();
     delete _currentTask;
     _currentTask = NULL;
