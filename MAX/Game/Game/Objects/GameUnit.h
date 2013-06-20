@@ -57,6 +57,8 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     void CheckForAnimanteBody();
     void SetUnitLocationAnimated(const CCPoint& destination);
     
+    bool _destroyed;
+    
 public:
     
     //just temporary flag

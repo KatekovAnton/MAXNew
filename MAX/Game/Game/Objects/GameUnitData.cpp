@@ -81,6 +81,14 @@ MAXObjectConfig* GameUnitData::GetConfig() const
     return _unitParameters->GetConfig();
 }
 
+bool GameUnitData::IsCellOfUnit(const CCPoint &p) const
+{
+    if (GetSize() == 1)
+        return (int)p.x == (int)_unitCell.x && (int)p.y == (int)_unitCell.y;
+    else
+        return ((int)p.x == (int)_unitCell.x || (int)p.x == (int)_unitCell.x + 1) && ((int)p.y == (int)_unitCell.y || (int)p.y == (int)_unitCell.y + 1);
+}
+
 bool GameUnitData::GetCanStartBuildProcess() const
 {
     return GetConfig()->_containProcessState;

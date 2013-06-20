@@ -212,13 +212,8 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
 
     bool findNextUnitInCell = false;
     if (selectedUnit != NULL)
-    {
-        CCPoint pos = selectedUnit->GetUnitCell();
-        if (((int)pos.x == x) && ((int)pos.y == y))
-        {
-            findNextUnitInCell = true;
-        }
-    }
+        findNextUnitInCell = selectedUnit->_unitData->IsCellOfUnit(ccp(x, y));
+    
     bool selectedUnitFound = false;
     
 	GameUnit* result = NULL;
@@ -338,7 +333,8 @@ void MatchMapAgregator::FindAllConnectoredUnits(const int x, const int y, GameMa
     for (int i = 0; i < units->GetCount(); i++)
     {
         GameUnit* unit = units->objectAtIndex(i);
-        if (unit->_unitData->GetIsConnectored() && unit->_owner_w == _player)
+        
+        if (unit->_unitData->GetIsConnectored() && unit->_owner_w == _player && buffer->indexOf(unit) == -1)
             buffer->addObject(unit);
     }
 }

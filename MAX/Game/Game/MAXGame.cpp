@@ -845,12 +845,7 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     
     bool tapToSameUnit = false;
     if (_currentUnit)
-    {
-        if (_currentUnit->_unitData->GetSize() == 1)
-            tapToSameUnit = p.x == _currentUnit->GetUnitCell().x && p.y == _currentUnit->GetUnitCell().y;
-        else
-            tapToSameUnit = (p.x == _currentUnit->GetUnitCell().x || p.x == _currentUnit->GetUnitCell().x + 1) && (p.y == _currentUnit->GetUnitCell().y || p.y == _currentUnit->GetUnitCell().y + 1);
-    }
+        tapToSameUnit = _currentUnit->_unitData->IsCellOfUnit(p);
     
     if (_currentUnit && _currentUnit->CanMove())
     {

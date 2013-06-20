@@ -95,6 +95,7 @@ public:
     GameUnit* GetTaskSecondUnit();
     bool CanMove() const;
     MAXObjectConfig* GetConfig() const;
+    bool IsCellOfUnit(const CCPoint &p) const;
     
     bool ReceiveDamage(GameUnitData* unit, int decrase);
     

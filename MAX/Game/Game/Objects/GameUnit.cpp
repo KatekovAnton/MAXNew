@@ -49,7 +49,7 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId, GameMatchPlayer *owner)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false), _owner_w(owner), _removeDelayAnim(NULL)
+:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false), _owner_w(owner), _removeDelayAnim(NULL), _destroyed(false)
 {
     Init();
 }
@@ -349,6 +349,7 @@ void GameUnit::RemoveUnitFromMap()
 
 void GameUnit::Destroy()
 {
+    _destroyed = true;
     _delegate_w->GameUnitDidDestroy(this);
 }
 
@@ -686,6 +687,9 @@ bool GameUnit::ReceiveDamage(GameUnit* unit, int decrase)
 
 void GameUnit::UpdateConnectors()
 {
+    if (_destroyed) 
+        return;
+    
     MAXUnitObject *object = GetUnitObject();
     object->RemoveConnectors();
     if (_unitData->GetSize() == 1)
@@ -1154,6 +1158,8 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
 
 void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
+    if (animation == _removeDelayAnim) 
+        return;
     CheckMovementUpdate();
     MAXUnitObject* _unitObject = GetUnitObject();
     _unitData->_headDirection = _unitObject->pureheadIndex;
