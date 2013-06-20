@@ -82,7 +82,7 @@ public:
     void HideUnitSelectionMenu();
     void UpdateUnitSelectionMenuPosition(const CCPoint &cellPoint);
     
-    void SetNodeNearCell(CCNode *node, const CCPoint &cellPoint);
+    void SetNodeNearCell(CCNode *node, const CCPoint &cellPoint, int size);
     
     bool GetDrawGrid() const {return _drawGrid;}
     bool ShouldReceiveTouch(int x, int y);

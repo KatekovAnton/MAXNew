@@ -615,7 +615,7 @@ void GameInterface::UpdateUnitMenuPosition()
         return;
     }
     CCPoint point = _currentUnit->GetUnitCell();
-    SetNodeNearCell(_unitMenu, point);
+    SetNodeNearCell(_unitMenu, point, _currentUnit->GetConfig()->_bSize);
 }
 
 void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
@@ -678,17 +678,26 @@ void GameInterface::UpdateUnitSelectionMenuPosition(const CCPoint &cellPoint)
     if (!_unitSelectionMenu) 
         return;
     
-    SetNodeNearCell(_unitSelectionMenu, cellPoint);
+    SetNodeNearCell(_unitSelectionMenu, cellPoint, 1);
 }
 
-void GameInterface::SetNodeNearCell(CCNode *node, const CCPoint &cellPoint)
+void GameInterface::SetNodeNearCell(CCNode *node, const CCPoint &cellPoint, int size)
 {
     CCPoint point = cellPoint;
     CCPoint point1 = point;
     point.x *= 64;
     point.y *= 64;
-    point.x += 64;
-    point.y += 64;
+    if (size < 2)
+    {
+        point.x += 64;
+        point.y += 64;
+    }
+    else
+    {
+        point.x += 128;
+        point.y += 128;
+    }
+    
     
     point1.x *= 64;
     point1.y *= 64;
