@@ -1087,6 +1087,8 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
 
 void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point)
 {
+    if (agressor == target)
+        return;
     _currentTargetUnit = target;
     _currentFiringUnit = agressor;
     int reslevel = 1;
@@ -1393,9 +1395,10 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 
 #pragma mark - GIUnitSelectionMenuDelegate
 
-void MAXGame::OnUnitSelected(GameUnit* result)
+void MAXGame::OnUnitSelected(GameUnit* result, const CCPoint &point)
 {
-    
+    _gameInterface->HideUnitSelectionMenu();
+    StartAttackSequence(_currentUnit, result, point);
 }
 
 #pragma mark - MAXAnimationDelegate

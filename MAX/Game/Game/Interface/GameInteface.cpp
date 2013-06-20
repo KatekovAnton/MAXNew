@@ -111,12 +111,15 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
         
         result |= r.containsPoint(CCPoint(x, y));
     }
+    if (GetSelectUnitMenuOpened()) {
+        result = true;
+    }
     
     return result;
 }
 
 GameInterface::GameInterface()
-:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL)
+:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL)
 {
     _lockUnits = false;
     
@@ -671,7 +674,7 @@ void GameInterface::ShowUnitSelectionMenu(GIUnitSelectionMenuDelegate *delegate,
     _unitSelectionMenu->_delegate_w = delegate;
     
     UpdateUnitSelectionMenuPosition(cellPoint);
-    addChild(_unitMenu);
+    addChild(_unitSelectionMenu);
 }
 
 void GameInterface::HideUnitSelectionMenu()

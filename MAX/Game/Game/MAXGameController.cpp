@@ -336,13 +336,14 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                 {
                     USimpleContainer<GameUnit*> *units = game->_match->_currentPlayer_w->_agregator->UnitsInCell(p.x, p.y);
                     vector<GameUnit*> suitableUnits;
-                    for (int i = 0; i < units->GetCount(); i++) {
+                    for (int i = 0; i < units->GetCount(); i++)
+                    {
                         GameUnit* currentUnit = units->objectAtIndex(i);
                         if (game->_match->UnitCanAttackUnit(_selectedUnit_w, currentUnit))
                             suitableUnits.push_back(currentUnit);
-                        _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
-                        AbortCurrentAction();
                     }
+                    _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
+                    AbortCurrentAction();
                 }
             }
             else

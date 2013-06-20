@@ -74,6 +74,8 @@ class GameInterface : public CCScene
 public:
     
     bool GetUnitMenuOpened() const {return _unitMenu != NULL;};
+    bool GetSelectUnitMenuOpened() const {return _unitSelectionMenu != NULL;};
+    
     void ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate);
     void HideUnitMenu();
     void UpdateUnitMenuPosition();

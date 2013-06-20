@@ -148,7 +148,7 @@ public:
     virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);
     
 #pragma mark - GIUnitSelectionMenuDelegate 
-    virtual void OnUnitSelected(GameUnit* result);
+    virtual void OnUnitSelected(GameUnit* result, const CCPoint &point);
     
 #pragma mark - MAXAnimationDelegate 
     virtual void OnAnimationStart(MAXAnimationBase* animation);

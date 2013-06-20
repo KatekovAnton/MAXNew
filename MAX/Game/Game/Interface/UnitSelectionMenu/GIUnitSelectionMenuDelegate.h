@@ -15,7 +15,7 @@ class GIUnitSelectionMenuDelegate {
     
 public:
     
-    virtual void OnUnitSelected(GameUnit* result) = 0;
+    virtual void OnUnitSelected(GameUnit* result, const CCPoint &point) = 0;
     
 };
 
