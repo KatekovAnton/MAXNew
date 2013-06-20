@@ -121,7 +121,9 @@ public:
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     
+    virtual void SelectSecondUnitActionCanceled();
     virtual void SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action);
+    virtual void AgreedSecondUnitFinished(GameUnit* unit, const CCPoint &point, bool agreeded);
     
 #pragma mark - MAXEngineDelegate
     virtual void onFrame();

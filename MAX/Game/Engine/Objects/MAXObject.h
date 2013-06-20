@@ -32,6 +32,8 @@ public:
     MAXObject(MAXObjectConfig* params);
     virtual ~MAXObject();
     
+    virtual void OnPositionChanged() {};
+    
     void SetPosition(const CCPoint &cell);
     CCPoint GetObjectCell() const;
     CCPoint GetObjectCoordinates() const;

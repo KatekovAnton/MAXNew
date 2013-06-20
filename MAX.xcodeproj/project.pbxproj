@@ -39,6 +39,7 @@
 		8B87429F17076998000B234B /* ShaderSolidFog.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8B87429B1707694A000B234B /* ShaderSolidFog.vsh */; };
 		8B88EF7C17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B88EF7A17021ABE00C0AAB5 /* MAXResourceMapRenderer.cpp */; };
 		8B88EF8517021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */; };
+		8B898AEF1773B08400BE327F /* GIAgreedTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B898AED1773B08400BE327F /* GIAgreedTarget.cpp */; };
 		8B8A443D169358BE005C4ADA /* grp_aa_rocket.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */; };
 		8B8A443E169358BE005C4ADA /* grp_aa_turret.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */; };
 		8B8A443F169358BE005C4ADA /* grp_aainfantry.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */; };
@@ -732,6 +733,8 @@
 		8B88EF7B17021ABE00C0AAB5 /* MAXResourceMapRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXResourceMapRenderer.h; sourceTree = "<group>"; };
 		8B88EF8317021B4000C0AAB5 /* EngineTiledDynamicMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EngineTiledDynamicMesh.cpp; sourceTree = "<group>"; };
 		8B88EF8417021B4000C0AAB5 /* EngineTiledDynamicMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineTiledDynamicMesh.h; sourceTree = "<group>"; };
+		8B898AED1773B08400BE327F /* GIAgreedTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIAgreedTarget.cpp; sourceTree = "<group>"; };
+		8B898AEE1773B08400BE327F /* GIAgreedTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIAgreedTarget.h; sourceTree = "<group>"; };
 		8B8A43EC169358BE005C4ADA /* grp_aa_rocket.cfg */ = {isa = PBXFileReference; fileEncoding = 11; lastKnownFileType = text; path = grp_aa_rocket.cfg; sourceTree = "<group>"; };
 		8B8A43ED169358BE005C4ADA /* grp_aa_turret.cfg */ = {isa = PBXFileReference; fileEncoding = 11; lastKnownFileType = text; path = grp_aa_turret.cfg; sourceTree = "<group>"; };
 		8B8A43EE169358BE005C4ADA /* grp_aainfantry.cfg */ = {isa = PBXFileReference; fileEncoding = 11; lastKnownFileType = text; path = grp_aainfantry.cfg; sourceTree = "<group>"; };
@@ -1537,6 +1540,7 @@
 		8B7CA08F16C831BC00282A74 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				8B898AEC1773B03600BE327F /* AgreedTarget */,
 				D119515A1772372A00AED96F /* UnitSelectionMenu */,
 				8B9B9CA317403D28004345E1 /* Windows */,
 				8B9B9CA217403D04004345E1 /* Message */,
@@ -1579,6 +1583,15 @@
 				8B85507016F5C1FD000170D5 /* GIUnitParameterRow.h */,
 			);
 			path = UnitParameterNode;
+			sourceTree = "<group>";
+		};
+		8B898AEC1773B03600BE327F /* AgreedTarget */ = {
+			isa = PBXGroup;
+			children = (
+				8B898AED1773B08400BE327F /* GIAgreedTarget.cpp */,
+				8B898AEE1773B08400BE327F /* GIAgreedTarget.h */,
+			);
+			path = AgreedTarget;
 			sourceTree = "<group>";
 		};
 		8B8A43EA16935851005C4ADA /* Units */ = {
@@ -3506,6 +3519,7 @@
 				8BFA4F0D1763C062001A7D00 /* GIWindow.cpp in Sources */,
 				D119515D1772374D00AED96F /* GIUnitSelectionMenu.cpp in Sources */,
 				D119516217723C9300AED96F /* MAXEditor.cpp in Sources */,
+				8B898AEF1773B08400BE327F /* GIAgreedTarget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

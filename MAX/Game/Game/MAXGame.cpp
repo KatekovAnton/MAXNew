@@ -755,6 +755,13 @@ void MAXGame::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, 
     _gameInterface->HideUnitMenu();
 }
 
+void MAXGame::SelectSecondUnitActionCanceled()
+{
+    if (_currentUnit) {
+        ShowPathMap();
+    }
+}
+
 void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action)
 {
     if (action != UNIT_MENU_ACTION_ATTACK) {
@@ -768,6 +775,15 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
     {}
     else
         _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
+}
+
+void MAXGame::AgreedSecondUnitFinished(GameUnit* unit, const CCPoint &point, bool agreeded)
+{
+    if (agreeded) {
+        StartAttackSequence(_currentUnit, unit, point);
+    }
+    else
+    {}
 }
 
 #pragma mark - MAXEngineDelegate
@@ -799,6 +815,10 @@ bool MAXGame::CanStartPinch(float x, float y)
 
 void MAXGame::ProceedPinch(float scale)
 {
+    if (_gameController->ShoulTakePinch(scale)) {
+        _gameController->ProceedPinch(scale);
+        return;
+    }
     engine->ScaleCamera(scale);
     if (_gameInterface->GetUnitMenuOpened()) {
         _gameInterface->HideUnitMenu();

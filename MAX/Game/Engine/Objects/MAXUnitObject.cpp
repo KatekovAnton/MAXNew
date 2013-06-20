@@ -50,7 +50,7 @@ GLKVector2 shipOffsets[] = {
 GLKVector2 planeShadowOffset = {1.0, -1.0};
 
 MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config)
-:MAXObject(config), _renderAspect(renderObject),_material(material), changed(true), fireing(false), _lastHeadAnimTime(0), _delegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0), _connectorsChanged(false)
+:MAXObject(config), _renderAspect(renderObject),_material(material), _framesChanged(true), fireing(false), _lastHeadAnimTime(0), _delegate_w(NULL), bodyIndex(0), headIndex(0), purebodyIndex(0), pureheadIndex(0), _connectorsChanged(false), _lowMatrix(2)
 {
     
     _needAirOffset = config->_isPlane;
@@ -90,6 +90,11 @@ MAXUnitObject::MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial 
 MAXUnitObject::~MAXUnitObject()
 {
     delete _renderAspect;
+}
+
+void MAXUnitObject::OnPositionChanged()
+{
+    _framesChanged = true;
 }
 
 int MAXUnitObject::FrameForConnectorLocation(MAXUNITOBJECT_CONNECTOR connector) const
@@ -161,19 +166,29 @@ void MAXUnitObject::LastUpdate(bool low)
 {
     if (!GetIsOnScreen())
         return;
+    _framesChanged = _framesChanged || _needShipOffset || _needAirOffset;
     if (low)
     {
-        bodyRenderMatrix = CalculateLowRenderMatrix();
+        if (_framesChanged || _lowMatrix != 1)
+        {
+            _bodyRenderMatrix = CalculateLowRenderMatrix();
+            _lowMatrix = 1;
+        }
     }
     else
     {
-        if (showShadows && params_w->_haveShadow)
-            shadowRenderMatrix = CalculateShadowRenderMatrix();
-        if (params_w->_hasHead)
-            bodyRenderMatrix = CalculateBodyRenderMatrix();
-        headRenderMatrix = CalculateHeadRenderMatrix();
+        if (_framesChanged || _lowMatrix != 0)
+        {
+            if (showShadows && params_w->_haveShadow)
+                _shadowRenderMatrix = CalculateShadowRenderMatrix();
+            if (params_w->_hasHead)
+                _bodyRenderMatrix = CalculateBodyRenderMatrix();
+            _headRenderMatrix = CalculateHeadRenderMatrix();
+            _lowMatrix = 0;
+        }
         UpdateConnectors();
     }
+    _framesChanged = false;
 }
 
 GLKVector2 MAXUnitObject::CalculateAirOffset() const
@@ -513,7 +528,7 @@ void MAXUnitObject::Draw(Shader *shader)
     
     if(_needShadow && _material->_shadowframeCount>0)
     {
-        shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, shadowRenderMatrix.m);
+        shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, _shadowRenderMatrix.m);
         shader->SetFloatValue(UNIFORM_ALPHA, SHADOWALPHA);
         _material->index = bodyIndex;
         _material->ApplyShadowLod(0, shader);
@@ -522,14 +537,14 @@ void MAXUnitObject::Draw(Shader *shader)
     shader->SetFloatValue(UNIFORM_ALPHA, 1.0);
     if (IsHasBody())
     {
-        shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
+        shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, _bodyRenderMatrix.m);
         _material->index = bodyIndex;
         _material->ApplyLod(0, shader);
         _renderAspect->Render(0, _material);
         DrawConnectors(shader);
     }
     
-    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, headRenderMatrix.m);
+    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, _headRenderMatrix.m);
     _material->index = headIndex;
     _material->ApplyLod(0, shader);
     _renderAspect->Render(0, _material);
@@ -578,7 +593,7 @@ void MAXUnitObject::DrawLow(Shader *shader)
     }
     
        
-    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, bodyRenderMatrix.m);
+    shader->SetMatrixValue(UNIFORM_MODEL_MATRIX, _bodyRenderMatrix.m);
     _renderAspect->Render(0, _material);
     
     //_renderAspect->UnBind();
@@ -590,7 +605,7 @@ void MAXUnitObject::SetBodyDirection(int state)
     bodyIndex = state + bodyOffset;
     if (!IsHasBody())
         SetHeadDirection(state);
-    changed = true;
+    _framesChanged = true;
 }
 
 void MAXUnitObject::SetBodyOffset(int offset)
@@ -602,14 +617,14 @@ void MAXUnitObject::SetBodyOffset(int offset)
     bodyIndex = purebodyIndex + bodyOffset;
     if (!IsHasBody()) 
         headIndex = pureheadIndex + ((params_w->_isAnimatedHead)?(headOffset):(fireing?headFireOffset:headOffset)) + bodyOffset;
-    changed = true;
+    _framesChanged = true;
 }
 
 void MAXUnitObject::SetHeadDirection(int state)
 {
     pureheadIndex = state;
     headIndex = state + ((params_w->_isAnimatedHead)?(headOffset):(fireing?headFireOffset:headOffset)) + bodyOffset;
-    changed = true;
+    _framesChanged = true;
 }
 
 void MAXUnitObject::SetIsFireing(bool fire, bool ligthFrame)
@@ -622,7 +637,7 @@ void MAXUnitObject::SetIsFireing(bool fire, bool ligthFrame)
     if (!params_w->_isUnderwater) 
         headIndex = pureheadIndex + offset;
     fireing = fire;
-    changed = true;
+    _framesChanged = true;
 }
 
 

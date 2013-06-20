@@ -61,17 +61,16 @@ class MAXUnitObject : public MAXObject {
     
     int bodyIndex;
     int headIndex;
-
-    
     bool fireing;
     
-    bool changed;
+    char                _lowMatrix;
     
-    GLKMatrix4 shadowRenderMatrix;
-    GLKMatrix4 bodyRenderMatrix;
-    GLKMatrix4 headRenderMatrix;
+    GLKMatrix4          _shadowRenderMatrix;
+    GLKMatrix4          _bodyRenderMatrix;
+    GLKMatrix4          _headRenderMatrix;
+    bool                _framesChanged;
     
-    double _lastHeadAnimTime;
+    double              _lastHeadAnimTime;
     
     
     vector<int>         _connectorFrames;
@@ -141,6 +140,8 @@ public:
     
     MAXUnitObject(MAXUnitRenderObject *renderObject, MAXUnitMaterial *material, MAXObjectConfig* config);
     virtual ~MAXUnitObject();
+    
+    virtual void OnPositionChanged();
     
     virtual RenderObject * GetRenderAspect();
     virtual Material * GetMaterial();

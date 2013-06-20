@@ -82,6 +82,10 @@ public:
     void HideUnitSelectionMenu();
     void UpdateUnitSelectionMenuPosition(const CCPoint &cellPoint);
     
+    void ShowAgreedTarget(GameUnit *agressor, GameUnit *target, const CCPoint &cellPoint);
+    void HideAgreedTarget();
+    void UpdateAgreedTargetPosition(const CCPoint &cellPoint);
+    
     void SetNodeNearCell(CCNode *node, const CCPoint &cellPoint, int size);
     
     bool GetDrawGrid() const {return _drawGrid;}

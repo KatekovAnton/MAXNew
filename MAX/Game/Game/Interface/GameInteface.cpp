@@ -154,7 +154,7 @@ void GameInterface::InitBaseInterface()
 {
     
     _inited = false;
-    CCDirector::sharedDirector()->setDisplayStats(false);
+    CCDirector::sharedDirector()->setDisplayStats(true);
     
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
     CCSprite* turnSprite = CCSprite::create("3blocks.png");
@@ -609,15 +609,6 @@ void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit)
 
 #pragma mark - Unit menu
 
-void GameInterface::UpdateUnitMenuPosition()
-{
-    if (!_unitMenu) {
-        return;
-    }
-    CCPoint point = _currentUnit->GetUnitCell();
-    SetNodeNearCell(_unitMenu, point, _currentUnit->GetConfig()->_bSize);
-}
-
 void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
 {
     if (!_currentUnit) {
@@ -643,8 +634,27 @@ void GameInterface::HideUnitMenu()
     
     _unitMenu->removeFromParentAndCleanup(true);
     _unitMenu = NULL;
-
 }
+
+void GameInterface::UpdateUnitMenuPosition()
+{
+    if (!_unitMenu) {
+        return;
+    }
+    CCPoint point = _currentUnit->GetUnitCell();
+    SetNodeNearCell(_unitMenu, point, _currentUnit->GetConfig()->_bSize);
+}
+
+#pragma mark - Agreed target
+
+void GameInterface::ShowAgreedTarget(GameUnit *agressor, GameUnit *target, const CCPoint &cellPoint)
+{}
+
+void GameInterface::HideAgreedTarget()
+{}
+
+void GameInterface::UpdateAgreedTargetPosition(const CCPoint &cellPoint)
+{}
 
 #pragma mark - Unit selection menu
 

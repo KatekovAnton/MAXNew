@@ -48,6 +48,11 @@ bool MAXGameController::ShoulTakeTap(const CCPoint &cell)
     return _actionType != -1;
 }
 
+bool MAXGameController::ShoulTakePinch(float delta)
+{
+    return _actionType == MAXGameControllerAction_AgreedSelectedUnit;
+}
+
 bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
 {
     AbortCurrentAction();
@@ -155,6 +160,16 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
     return true;
 }
 
+bool MAXGameController::StartAgreedSecondUnit(GameUnit *targetUnit, const CCPoint &selectedTargetCell, UNIT_MENU_ACTION action)
+{
+    AbortCurrentAction();
+    _actionType = MAXGameControllerAction_AgreedSelectedUnit;
+    _selectedUnit_w = targetUnit;
+    _secondaryObject_w = NULL;
+    return true;
+}
+
+
 void MAXGameController::AbortCurrentAction()
 {
     switch (_actionType)
@@ -174,6 +189,7 @@ void MAXGameController::AbortCurrentAction()
         case MAXGameControllerAction_SelectSecondUnit:
         {
             engine->ClearOptionalZone();
+            _delegate_w->SelectSecondUnitActionCanceled();
         } break;
         default:
             break;
@@ -341,3 +357,9 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
     }
 }
 
+void MAXGameController::ProceedPinch(float delta)
+{
+    if (_actionType == MAXGameControllerAction_AgreedSelectedUnit) {
+        AbortCurrentAction();
+    }
+}
