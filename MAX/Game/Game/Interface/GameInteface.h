@@ -78,7 +78,7 @@ public:
     void HideUnitMenu();
     void UpdateUnitMenuPosition();
     
-    void ShowUnitSelectionMenu(GIUnitSelectionMenuDelegate *delegate, const USimpleContainer<GameUnit*> *units, const CCPoint &cellPoint);
+    void ShowUnitSelectionMenu(GIUnitSelectionMenuDelegate *delegate, const vector<GameUnit*> units, const CCPoint &cellPoint);
     void HideUnitSelectionMenu();
     void UpdateUnitSelectionMenuPosition(const CCPoint &cellPoint);
     

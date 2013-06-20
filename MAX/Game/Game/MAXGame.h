@@ -15,6 +15,7 @@
 #include "MAXEngine.h"
 #include "SelectedGameObjectDelegate.h"
 #include "GIUnitActionMenuDelegate.h"
+#include "GIUnitSelectionMenuDelegate.h"
 #include "MAXAnimationDelegate.h"
 #include "MAXGameControllerDelegate.h"
 
@@ -42,7 +43,7 @@ class PFWaveCell;
 
 class MAXGameController;
 
-class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameControllerDelegate
+class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameControllerDelegate, public GIUnitSelectionMenuDelegate
 {
     
     MAXGAMESTATE _currentState;
@@ -52,6 +53,10 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     MAXAnimationBase* _waitTestAnimSubmarineMovement;
     GameUnit *_testUnitCorvette;
     GameUnit *_testUnitSubmarine;
+    
+    
+    GameUnit *_currentFiringUnit;
+    GameUnit *_currentTargetUnit;
     
     GameInterface *_gameInterface;
     GamePathVisualizer *_pathVisualizer;
@@ -85,8 +90,6 @@ public:
     
     bool _onAttackSelection;
     
-    GameUnit *_currentFiringUnit;
-    GameUnit *_currentTargetUnit;
     
     MAXGame();
     ~MAXGame();
@@ -118,8 +121,7 @@ public:
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     
-    virtual void SelectSecondUnitAction1StepFinished(CCPoint result);
-    virtual bool SelectSecondUnitAction2StepFinished(CCPoint result);
+    virtual void SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action);
     
 #pragma mark - MAXEngineDelegate
     virtual void onFrame();
@@ -142,6 +144,9 @@ public:
 
 #pragma mark - GIUnitActionMenuDelegate
     virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);
+    
+#pragma mark - GIUnitSelectionMenuDelegate 
+    virtual void OnUnitSelected(GameUnit* result);
     
 #pragma mark - MAXAnimationDelegate 
     virtual void OnAnimationStart(MAXAnimationBase* animation);

@@ -648,7 +648,7 @@ void GameInterface::HideUnitMenu()
 
 #pragma mark - Unit selection menu
 
-void GameInterface::ShowUnitSelectionMenu(GIUnitSelectionMenuDelegate *delegate, const USimpleContainer<GameUnit*> *units, const CCPoint &cellPoint)
+void GameInterface::ShowUnitSelectionMenu(GIUnitSelectionMenuDelegate *delegate, const vector<GameUnit*> units, const CCPoint &cellPoint)
 {
     if (_unitSelectionMenu) 
         return;

@@ -9,7 +9,7 @@
 #include "GIUnitSelectionMenu.h"
 #include "GameUnit.h"
 
-GIUnitSelectionMenu::GIUnitSelectionMenu(const USimpleContainer<GameUnit*> *units)
+GIUnitSelectionMenu::GIUnitSelectionMenu(const vector<GameUnit*> units)
 :_units(units), _delegate_w(NULL)
 {
     CCArray* arr = CCArray::create();

@@ -755,15 +755,19 @@ void MAXGame::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, 
     _gameInterface->HideUnitMenu();
 }
 
-void MAXGame::SelectSecondUnitAction1StepFinished(CCPoint result)
-{}
-
-bool MAXGame::SelectSecondUnitAction2StepFinished(CCPoint result)
+void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action)
 {
-    if (_onAttackSelection)
-        return _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) > 0;
+    if (action != UNIT_MENU_ACTION_ATTACK) {
+    
+        return;
+    }
+    
+    if (units.size()==1)
+        StartAttackSequence(_currentUnit, units[0], cellPoint);
+    else if (units.size() == 0)
+    {}
     else
-        return true;
+        _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
 }
 
 #pragma mark - MAXEngineDelegate
@@ -1364,6 +1368,14 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
     //UNIT_MENU_ACTION_FOLLOW
     //UNIT_MENU_ACTION_PLACE
     //UNIT_MENU_ACTION_WAIT
+}
+
+
+#pragma mark - GIUnitSelectionMenuDelegate
+
+void MAXGame::OnUnitSelected(GameUnit* result)
+{
+    
 }
 
 #pragma mark - MAXAnimationDelegate

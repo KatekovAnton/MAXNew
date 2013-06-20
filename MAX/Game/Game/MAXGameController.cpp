@@ -17,6 +17,7 @@
 #include "MAXAnimationPrefix.h"
 
 #include "MAXUnitObject.h"
+#include "MatchMapAgregator.h"
 #include "PFWaveCell.h"
 #include "Pathfinder.h"
 
@@ -313,22 +314,22 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
         } break;
         case MAXGameControllerAction_SelectSecondUnit:
         {
-//            if (_selectedUnit_w->_unitData->IsInRadius(p, _distance)) {
-//                if (_action == UNIT_MENU_ACTION_ATTACK) {
-//                    if (_step == 0) {
-//                        _previousStepResult = p;
-//                        if (_delegate_w)
-//                            _delegate_w->SelectSecondUnitAction1StepFinished(p);
-//                    }
-//                    else
-//                    {
-//                        if (p.x == _previousStepResult.x && p.y == _previousStepResult.y) {
-//                            
-//                        }
-//                    }
-//                }
-//            }
-//            else
+            if (_selectedUnit_w->_unitData->IsInRadius(p, _distance))
+            {
+                if (_action == UNIT_MENU_ACTION_ATTACK)
+                {
+                    USimpleContainer<GameUnit*> *units = game->_match->_currentPlayer_w->_agregator->UnitsInCell(p.x, p.y);
+                    vector<GameUnit*> suitableUnits;
+                    for (int i = 0; i < units->GetCount(); i++) {
+                        GameUnit* currentUnit = units->objectAtIndex(i);
+                        if (game->_match->UnitCanAttackUnit(_selectedUnit_w, currentUnit))
+                            suitableUnits.push_back(currentUnit);
+                        _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
+                        AbortCurrentAction();
+                    }
+                }
+            }
+            else
             {
                 AbortCurrentAction();
                 shouldDeselectUnit = false;

@@ -17,13 +17,13 @@
 class GIUnitSelectionMenu : public CCMenu {
     
     CCMenuItem *CreateMenuItemWithUnit(GameUnit *unit);
-    const USimpleContainer<GameUnit*> *_units;
+    const vector<GameUnit*> _units;
     
 public:
     
     GIUnitSelectionMenuDelegate *_delegate_w;
     
-    GIUnitSelectionMenu(const USimpleContainer<GameUnit*> *units);
+    GIUnitSelectionMenu(const vector<GameUnit*> units);
     ~GIUnitSelectionMenu();
     
     void OnButton(CCObject* sender);
