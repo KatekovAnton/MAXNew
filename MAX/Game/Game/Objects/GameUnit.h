@@ -140,7 +140,7 @@ public:
     
 #pragma mark - Fire methods
     bool CanFire(const cocos2d::CCPoint &target);
-    GameEffect* MakeWeaponAnimationEffect(const cocos2d::CCPoint &target);
+    GameEffect* MakeWeaponAnimationEffect(const cocos2d::CCPoint &target, int level);
     void Fire(const CCPoint& target, const int level);
     CCPoint fireTarget;
     

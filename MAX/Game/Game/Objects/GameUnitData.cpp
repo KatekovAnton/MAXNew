@@ -335,33 +335,23 @@ void GameUnitData::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newV
 void GameUnitData::StartNewTurn()
 {
     int val;
-    UNIT_PARAMETER_TYPE parameterType;
 
     // temporary solution
-    parameterType = UNIT_PARAMETER_TYPE_SPEED;
-    val = GetMaxParameterValue(parameterType);
-    SetParameterValue(parameterType, val);
+    val = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+    SetParameterValue(UNIT_PARAMETER_TYPE_SPEED, val);
     
-    parameterType = UNIT_PARAMETER_TYPE_SHOTS;
-    val = GetMaxParameterValue(parameterType);
-    SetParameterValue(parameterType, val);
+    val = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
+    int ammoAble = GetParameterValue(UNIT_PARAMETER_TYPE_AMMO);
+    if (val > ammoAble) 
+        val = ammoAble;
+    SetParameterValue(UNIT_PARAMETER_TYPE_SHOTS, val);
 
-    // refuel only when no fuel
-    parameterType = UNIT_PARAMETER_TYPE_GAS;
-    val = GetParameterValue(parameterType);
+    //TODO: remove refuel when no fuel
+    val = GetParameterValue(UNIT_PARAMETER_TYPE_GAS);
     if (val <= 0)
     {
-        val = GetMaxParameterValue(parameterType);
-        SetParameterValue(parameterType, val);
-    }
-    
-    // reload only when no ammo
-    parameterType = UNIT_PARAMETER_TYPE_AMMO;
-    val = GetParameterValue(parameterType);
-    if (val <= 0)
-    {
-        val = GetMaxParameterValue(parameterType);
-        SetParameterValue(parameterType, val);
+        val = GetMaxParameterValue(UNIT_PARAMETER_TYPE_GAS);
+        SetParameterValue(UNIT_PARAMETER_TYPE_GAS, val);
     }
     
     if (_currentTask && !_paused && !_currentTask->IsFinished())

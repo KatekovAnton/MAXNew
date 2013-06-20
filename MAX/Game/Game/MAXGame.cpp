@@ -1065,7 +1065,16 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
 {
     _currentTargetUnit = target;
     _currentFiringUnit = agressor;
-    _currentFiringUnit->Fire(point, target->GetConfig()->_bLevel);
+    int reslevel = 1;
+    int alevel = agressor->GetConfig()->_bLevel;
+    int tlevel = target->GetConfig()->_bLevel;
+    if (tlevel == alevel)
+        reslevel = tlevel + 1;
+    else if (tlevel > alevel)
+        reslevel = tlevel + 1;
+    else if (tlevel < alevel)
+        reslevel = alevel - 1;
+    _currentFiringUnit->Fire(point, reslevel);
 }
 
 void MAXGame::DeselectCurrentUnit(bool _removeFromLock)

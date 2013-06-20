@@ -118,7 +118,7 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
         else if (unitSound == UNIT_SOUND_ENGINE_STOP)  unitSound = UNIT_SOUND_ENGINE_STOP_WATER;
     }
     float vol = 1.0;
-    float engVol = 0.5;
+    float engVol = 0.4;
   
     switch (unitSound)
     {
@@ -127,6 +127,7 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
             break;
         case UNIT_SOUND_SHOT:
             soundStr = &(config->_soundShotName);
+            vol = 0.4;
             break;
         case UNIT_SOUND_ENGINE:
             vol = engVol;
@@ -586,6 +587,10 @@ void GameUnit::FollowPath(void)
         float speedMult = config->_pSpeed;
         if (config->_isPlane)
             speedMult = 18;
+        else if (speedMult > 9)
+            speedMult = 9;
+        else if (speedMult < 5)
+            speedMult = 5;
         float moveFactor = cell->cost * 10.0 / speedMult; // change to current max speed
         move->SetMoveFactor(moveFactor);
         sequence->AddAnimation(move);
@@ -849,9 +854,8 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
     return (_unitData->IsInFireRadius(targetCenter) && _unitData->GetShotBalance() > 0);
 }
 
-GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target)
+GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target, int level)
 {
-    int level = _unitData->GetConfig()->_bLevel + 1; // get level from target
     if (level > OBJECT_LEVEL_OVERAIR)
         level = OBJECT_LEVEL_OVERAIR;
     
@@ -927,7 +931,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
     
     PlaySound(UNIT_SOUND_SHOT);
 
-    GameEffect* effect = MakeWeaponAnimationEffect(targetCenter);
+    GameEffect* effect = MakeWeaponAnimationEffect(targetCenter, level);
     if (effect)
     {
         effect->_delegate_w = this;

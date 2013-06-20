@@ -32,7 +32,7 @@ typedef _SoundElement SoundElement;
 class SoundEngine {
     
     map<SOUND_TYPE, vector<string>> _systemSoundNames;
-    map<BLAST_TYPE, vector<string>> _explodeSoundNames;
+    map<EXPLODE_SOUND_TYPE, vector<string>> _explodeSoundNames;
     vector<SoundElement>            _playedSound;
     
     bool _holdEffects;

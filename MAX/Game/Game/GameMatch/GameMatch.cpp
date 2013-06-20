@@ -27,6 +27,7 @@
 #include "PlayerResourceMap.h"
 #include "PFWaveCell.h"
 #include "MAXAnimationPrefix.h"
+#include "SoundEngine.h"
 
 void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
 {
@@ -264,7 +265,7 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
         GROUND_TYPE type = _map->GroundTypeAtPoint(unit->GetUnitCell());
         BLAST_TYPE blastType = BLAST_TYPE_NONE;
         MAXObjectConfig* config = unit->GetConfig();
-        EXPLODE_SOUND_TYPE sound = EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT;
+        EXPLODE_SOUND_TYPE sound = EXPLODE_SOUND_TYPE_NONE;
         if (unit->_unitData->GetIsBuilding())
         {
             if (config->_isMine) 
@@ -350,7 +351,9 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
             
             
         }
-        
+        if (sound != EXPLODE_SOUND_TYPE_NONE) {
+            SOUND->PlayExplodeSound(sound);
+        }
         unit->RemoveWithDelay(delay);
     }
 }

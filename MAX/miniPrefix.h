@@ -318,6 +318,7 @@ typedef enum
     
 typedef enum
 {
+    EXPLODE_SOUND_TYPE_NONE,
     EXPLODE_SOUND_TYPE_BLOCK,//block16.wav
     
     EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT = 0,//explmed.wav explsmal.wav

@@ -95,10 +95,87 @@ SoundEngine::SoundEngine()
         _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_MOVE_TAPE_TO_BULD, names));
     }
     
+    
+    
+    
     //button buy upg kbuy0.wav
     //load unit to airtrans load.wav
     //load/unlod/create scale.wav
+    
+    {
+        vector<string> names;
+        names.push_back("explmed.wav");
+        names.push_back("explsmal.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("bldexplg.wav");
+        names.push_back("expllrge.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_LAND_SMALL_BUILD, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("expllrge.wav");
+        names.push_back("expbuld5.wav");
+        names.push_back("expbuld6.wav");
+        names.push_back("explbld1.wav");
+        names.push_back("explbld2.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_LAND_LARGE_BUILD, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("eplowet1.wav");
+        names.push_back("eplowet2.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_SEA_SMALL_UNIT, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("eplowet1.wav");
+        names.push_back("eplowet2.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_SEA_SMALL_BUILD, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("cbldexp1.wav");
+        names.push_back("cbldexp2.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_SEA_LARGE_BUILD, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("sub14.wav");
+        names.push_back("sub16.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_UNDERWATER_UNIT, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("cmine16.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_MINE, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("expsdirt.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_DIRT, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("explsmal.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_AIR, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("infan15.wav");
+        names.push_back("infan15.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_INFANTRY, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("infil15.wav");
+        names.push_back("infil15.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_INFILTRATOR, names));
+    }
 }
+
 
 SoundEngine::~SoundEngine()
 {}
@@ -125,7 +202,14 @@ void SoundEngine::PlaySystemSound(SOUND_TYPE type)
 }
 
 void SoundEngine::PlayExplodeSound(EXPLODE_SOUND_TYPE type)
-{}
+{
+    if (_explodeSoundNames.count(type) == 0)  
+        return;
+    
+    vector<string> soundNames = _explodeSoundNames[type];
+    string name = soundNames[nextIntMax(soundNames.size())];
+    SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false, 1);
+}
 
 int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped, float volume)
 {
