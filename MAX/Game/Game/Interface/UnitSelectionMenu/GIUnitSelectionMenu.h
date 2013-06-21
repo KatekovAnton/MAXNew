@@ -16,7 +16,7 @@
 
 class GIUnitSelectionMenu : public CCMenu {
     
-    CCMenuItem *CreateMenuItemWithUnit(GameUnit *unit);
+    CCMenuItem *CreateMenuItemWithUnit(GameUnit *unit, int index);
     const vector<GameUnit*> _units;
     
 public:

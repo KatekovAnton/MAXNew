@@ -90,7 +90,7 @@ public:
     GameUnit *_currentUnit;
     
     bool _onAttackSelection;
-    
+    void EnableModeForCurrentUnit(UNIT_MENU_ACTION action);
     
     MAXGame();
     ~MAXGame();

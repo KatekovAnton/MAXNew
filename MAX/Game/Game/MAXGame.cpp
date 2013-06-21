@@ -824,6 +824,10 @@ void MAXGame::ProceedPinch(float scale)
         _gameInterface->HideUnitMenu();
         _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
     }
+    if (_gameInterface->GetSelectUnitMenuOpened()) {
+        _gameInterface->HideUnitSelectionMenu();
+        EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+    }
 }
 
 void MAXGame::ProceedPan(float speedx, float speedy)
@@ -836,6 +840,10 @@ void MAXGame::ProceedPan(float speedx, float speedy)
     if (_gameInterface->GetUnitMenuOpened()) {
         _gameInterface->HideUnitMenu();
         _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
+    }
+    if (_gameInterface->GetSelectUnitMenuOpened()) {
+        _gameInterface->HideUnitSelectionMenu();
+        EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
     }
 }
 
@@ -1247,7 +1255,7 @@ void MAXGame::MakePain()
     {
         // Do here damage calculation?
         // yes please
-        //you are wellcome!!!!
+        // you are wellcome!!!!
         if (!_currentTargetUnit->ReceiveDamage(_currentFiringUnit, 1))
         {
             _currentTargetUnit->Destroy();
@@ -1267,6 +1275,14 @@ void MAXGame::MakePain()
     _currentFiringUnit = NULL;
     _currentTargetUnit = NULL;
     
+}
+
+void MAXGame::EnableModeForCurrentUnit(UNIT_MENU_ACTION action)
+{
+    _currentUnit->SetPath(vector<PFWaveCell*>());
+    _gameController->StartSelectSecondUnit(_currentUnit, _currentUnit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE), action);
+    HideUnitPath();
+    HidePathMap();
 }
 
 #pragma mark - GIUnitActionMenuDelegate
@@ -1309,10 +1325,7 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 	}
     else if (action == UNIT_MENU_ACTION_ATTACK)
     {
-        _currentUnit->SetPath(vector<PFWaveCell*>());
-        _gameController->StartSelectSecondUnit(_currentUnit, _currentUnit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE), action);
-        HideUnitPath();
-        HidePathMap();
+        EnableModeForCurrentUnit(action);
         return;
     }
 	else if (action == UNIT_MENU_ACTION_START)
@@ -1429,7 +1442,8 @@ void MAXGame::OnAnimationFinish(MAXAnimationBase* animation)
         _waitTestAnimCorvette = NULL;
         _waitTestAnimSubmarineMovement = moveUnit(_testUnitSubmarine, 2);
     }
-    if (animation == _waitTestAnimSubmarineMovement) {
+    if (animation == _waitTestAnimSubmarineMovement)
+    {
         _waitTestAnimSubmarineMovement = NULL;
         _freezeCounter --;
         

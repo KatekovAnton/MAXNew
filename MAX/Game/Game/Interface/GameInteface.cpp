@@ -84,6 +84,25 @@ CCMenuItemSprite* createMenuItemFromResources(string title, string fontName, int
     return result;
 }
 
+bool IsTouchInCCNode(int x, int y, CCNode *node, const float enlargeValue)
+{
+    CCRect r = CCRect(node->getPosition().x, node->getPosition().y, node->getContentSize().width, node->getContentSize().height);
+    
+    float scale = node->getScale() - 1.0;
+    r.origin.x -= node->getContentSize().width * scale * 0.5;
+    r.origin.y -= node->getContentSize().height * scale * 0.5;
+    
+    r.size.width *= node->getScale();
+    r.size.height *= node->getScale();
+    
+    r.origin.x -= enlargeValue;
+    r.origin.y -= enlargeValue;
+    r.size.width += enlargeValue * 2;
+    r.size.height += enlargeValue * 2;
+    
+    return r.containsPoint(CCPoint(x, y));
+}
+
 bool GameInterface::ShouldReceiveTouch(int x, int y)
 {
     float currentPanelW = _panel->getPosition().x + panelW + 12;
@@ -93,26 +112,10 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
     r = CCRect(getContentSize().width - 212, getContentSize().height - 22, 75,22);
     result |= r.containsPoint(CCPoint(x, y));
     if (GetUnitMenuOpened()) {
-        
-        r = CCRect(_unitMenu->getPosition().x, _unitMenu->getPosition().y, _unitMenu->getContentSize().width, _unitMenu->getContentSize().height);
-        
-        float scale = _unitMenu->getScale() - 1.0;
-        r.origin.x -= _unitMenu->getContentSize().width * scale * 0.5;
-        r.origin.y -= _unitMenu->getContentSize().height * scale * 0.5;
-    
-        r.size.width *= _unitMenu->getScale();
-        r.size.height *= _unitMenu->getScale();
-        
-        const float enlargeValue = 10;
-        r.origin.x -= enlargeValue;
-        r.origin.y -= enlargeValue;
-        r.size.width += enlargeValue * 2;
-        r.size.height += enlargeValue * 2;
-        
-        result |= r.containsPoint(CCPoint(x, y));
+        result |= IsTouchInCCNode(x, y, _unitMenu, 10);
     }
     if (GetSelectUnitMenuOpened()) {
-        result = true;
+        result |= IsTouchInCCNode(x, y, _unitSelectionMenu, 5);
     }
     
     return result;

@@ -21,7 +21,7 @@ int compareMAXUnitObject (const void * a, const void * b)
         float a1y = a1->GetTransformMatrix().m31;
         float b1x = b1->GetTransformMatrix().m30;
         float b1y = b1->GetTransformMatrix().m31;
-        if (a1x < b1x || a1y > b1y)
+        if (a1x > b1x || a1y > b1y)//a1 before b1
             return -1;
         else
             return 1;
