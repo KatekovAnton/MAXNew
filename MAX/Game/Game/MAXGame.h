@@ -57,6 +57,7 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     
     GameUnit *_currentFiringUnit;
     GameUnit *_currentTargetUnit;
+    CCPoint  _currentFiringCell;
     
     GameInterface *_gameInterface;
     GamePathVisualizer *_pathVisualizer;

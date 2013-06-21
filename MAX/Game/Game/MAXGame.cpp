@@ -772,7 +772,7 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
     if (units.size()==1)
         StartAttackSequence(_currentUnit, units[0], cellPoint);
     else if (units.size() == 0)
-    {}
+        StartAttackSequence(_currentUnit, nil, cellPoint);
     else
         _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
 }
@@ -1093,13 +1093,16 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
     _currentFiringUnit = agressor;
     int reslevel = 1;
     int alevel = agressor->GetConfig()->_bLevel;
-    int tlevel = target->GetConfig()->_bLevel;
+    int tlevel = target?target->GetConfig()->_bLevel:alevel;
+    
     if (tlevel == alevel)
         reslevel = tlevel + 1;
     else if (tlevel > alevel)
         reslevel = tlevel + 1;
     else if (tlevel < alevel)
         reslevel = alevel - 1;
+    
+    _currentFiringCell = point;
     _currentFiringUnit->Fire(point, reslevel);
 }
 
@@ -1232,34 +1235,34 @@ void MAXGame::onUnitFireStop(GameUnit* unit)
     _freezeCounter--;
     RefreshCurrentUnitPath();
     
-    if (_currentFiringUnit && _currentTargetUnit) {
-        MakePain();
-    }
-
-    // Do here damage calculation?
-    // yes please
-    //you are wellcome!!!!
+    MakePain();
 }
 
 void MAXGame::MakePain()
 {
-    if (!_currentTargetUnit || !_currentFiringUnit)
-        return;
+    if (!_currentTargetUnit) 
+        _currentTargetUnit = _match->UnitForAttackingByUnit(_currentFiringUnit, _currentFiringCell);
     
-    if (!_currentTargetUnit->ReceiveDamage(_currentFiringUnit, 1))
+    if (_currentTargetUnit && _currentFiringUnit)
     {
-        _currentTargetUnit->Destroy();
-        this->UnidDidHide(_currentTargetUnit);
-        if (_currentUnit)
+        // Do here damage calculation?
+        // yes please
+        //you are wellcome!!!!
+        if (!_currentTargetUnit->ReceiveDamage(_currentFiringUnit, 1))
         {
-            RecalculateUnitPathMap(_currentUnit);
-            ShowPathMap();
+            _currentTargetUnit->Destroy();
+            this->UnidDidHide(_currentTargetUnit);
+            if (_currentUnit)
+            {
+                RecalculateUnitPathMap(_currentUnit);
+                ShowPathMap();
+            }
         }
-    }
-    else
-    {
-        if (_currentTargetUnit == _currentUnit)
-            _gameInterface->OnCurrentUnitDataChanged(_currentTargetUnit);
+        else
+        {
+            if (_currentTargetUnit == _currentUnit)
+                _gameInterface->OnCurrentUnitDataChanged(_currentTargetUnit);
+        }
     }
     _currentFiringUnit = NULL;
     _currentTargetUnit = NULL;
