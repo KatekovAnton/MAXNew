@@ -758,6 +758,7 @@ void MAXGame::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, 
 void MAXGame::SelectSecondUnitActionCanceled()
 {
     if (_currentUnit) {
+        RecalculateUnitPathMap(_currentUnit);
         ShowPathMap();
     }
 }
@@ -765,7 +766,6 @@ void MAXGame::SelectSecondUnitActionCanceled()
 void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action)
 {
     if (action != UNIT_MENU_ACTION_ATTACK) {
-    
         return;
     }
     
