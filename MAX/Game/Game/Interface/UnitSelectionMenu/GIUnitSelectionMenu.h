@@ -25,7 +25,7 @@ public:
     GIUnitSelectionMenuDelegate *_delegate_w;
     
     GIUnitSelectionMenu(const vector<GameUnit*> units, GameUnit *currentUnit, const CCPoint &point);
-    ~GIUnitSelectionMenu();
+    virtual ~GIUnitSelectionMenu();
     
     void OnButton(CCMenuItem* sender);
 };

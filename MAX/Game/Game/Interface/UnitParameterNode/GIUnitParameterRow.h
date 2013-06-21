@@ -35,7 +35,7 @@ class GIUnitParameterRow: public CCNode
 public:
     
     GIUnitParameterRow();
-    ~GIUnitParameterRow();
+    virtual  ~GIUnitParameterRow();
     
     void SetImageForParameterType(UNIT_PARAMETER_TYPE type, int subtype);
     void SetCurrentValue(int value);

@@ -639,6 +639,7 @@ void GameInterface::HideUnitMenu()
         return;
     
     _unitMenu->removeFromParentAndCleanup(true);
+    _unitMenu->release();
     _unitMenu = NULL;
 }
 
@@ -686,6 +687,7 @@ void GameInterface::HideUnitSelectionMenu()
         return;
     
     _unitSelectionMenu->removeFromParentAndCleanup(true);
+    _unitSelectionMenu->release();
     _unitSelectionMenu = NULL;
 }
 

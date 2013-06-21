@@ -27,7 +27,7 @@ public:
     GIUnitActionMenuDelegate* _delegate_w;
     
     GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons);
-    ~GIUnitActionMenu();
+    virtual ~GIUnitActionMenu();
   
     
     void OnButton(CCObject* sender);

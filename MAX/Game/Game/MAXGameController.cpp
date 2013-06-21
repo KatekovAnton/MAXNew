@@ -146,13 +146,29 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
     }
     BoundingBox b = _selectedUnit_w->_unitData->GetFireBoundingBox();
     engine->ClearOptionalZone();
-    engine->SetOptionalZoneLevel((OBJECT_LEVEL)selectedUnit->GetConfig()->_bLevel);
+    
+    int fireType = selectedUnit->GetConfig()->_pFireType;
+    int level = selectedUnit->GetConfig()->_bLevel;
+    int movetype = selectedUnit->GetConfig()->_bMoveType;
+    if (fireType < 3 && movetype == UNIT_MOVETYPE_AIR)
+        level = OBJECT_LEVEL_OVERUNITS;
+    else if (fireType >= 3)
+        level = OBJECT_LEVEL_OVERAIR;
+    else if (movetype != UNIT_MOVETYPE_AIR)
+        level = OBJECT_LEVEL_OVERUNITS;
+    engine->SetOptionalZoneLevel((OBJECT_LEVEL)level);
+    bool canAttackOwnCell = (movetype == UNIT_MOVETYPE_AIR && (fireType == 1 || fireType == 4)) || ((movetype != UNIT_MOVETYPE_AIR) && fireType == 3);
     for (float i = b.min.y; i <= b.max.y; i += 1.0)
     {
         for (float j = b.min.x; j <= b.max.x; j += 1.0)
         {
             CCPoint p = ccp(j, i);
-            if (_selectedUnit_w->_unitData->IsInRadius(p, maxDistance)) {
+            bool needColor = _selectedUnit_w->_unitData->IsInRadius(p, maxDistance);
+            if (!canAttackOwnCell)
+                needColor &= !selectedUnit->_unitData->IsCellOfUnit(p);
+            
+        
+            if (needColor) {
                 engine->AddOptionalZoneCell(j, i);
             }
         }

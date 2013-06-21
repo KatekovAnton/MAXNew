@@ -28,7 +28,7 @@ class GIUnitParametersNode: public CCNode
     
 public:
     GIUnitParametersNode();
-    ~GIUnitParametersNode();
+    virtual  ~GIUnitParametersNode();
 
     
     
