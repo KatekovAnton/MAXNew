@@ -430,6 +430,7 @@ void MAXUnitObject::Frame(double time)
 {
     if (params_w->_isBridge && _animRunned)
     {
+        _framesChanged = true;
         if (_bridgeLiftDirectionUp)
         {
             _bridgeLiftPhase += time * MAXBRIDGELIFTSPEED;
@@ -453,6 +454,7 @@ void MAXUnitObject::Frame(double time)
     
     if (_altitudeChange != ALTITUDE_CHANGE_NONE)
     {
+        _framesChanged = true;
         if (_altitudeChange == ALTITUDE_CHANGE_TAKE_OFF)
         {
             _altitude += time * VERTICALSPEED;
