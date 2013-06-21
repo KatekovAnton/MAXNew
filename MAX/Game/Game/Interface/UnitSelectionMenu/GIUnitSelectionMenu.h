@@ -16,17 +16,18 @@
 
 class GIUnitSelectionMenu : public CCMenu {
     
-    CCMenuItem *CreateMenuItemWithUnit(GameUnit *unit, int index);
+    CCMenuItem *CreateMenuItemWithUnit(GameUnit *unit, int index, GameUnit *currentUnit);
     const vector<GameUnit*> _units;
+    CCPoint                 _point;
     
 public:
     
     GIUnitSelectionMenuDelegate *_delegate_w;
     
-    GIUnitSelectionMenu(const vector<GameUnit*> units);
+    GIUnitSelectionMenu(const vector<GameUnit*> units, GameUnit *currentUnit, const CCPoint &point);
     ~GIUnitSelectionMenu();
     
-    void OnButton(CCObject* sender);
+    void OnButton(CCMenuItem* sender);
 };
 
 #endif /* defined(__MAX__GIUnitSelectionMenu__) */

@@ -192,7 +192,7 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
         {
             GROUND_TYPE t = _map->GroundTypeAtXY(targetCell.x, targetCell.y);
             if (t == GROUND_TYPE_WATER || t == GROUND_TYPE_COAST)
-                return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6;
+                return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 4;
 
             return agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 4;
         } break;

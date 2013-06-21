@@ -71,7 +71,9 @@ public:
     string _imageName;
     
     //ФайлV=Tank03.flc
+    
     //ФайлI=I_TANK,1
+    string _smallName;
     
     //ФайлA=A_TANK
     string _instoreName;

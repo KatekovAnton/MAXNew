@@ -27,8 +27,12 @@ class GameMatchPlayer : public GameUnitDelegate, public GameMatchPlayerDataDeleg
     
     vector<Texture*>            _palettes;
     Texture                     *_palette;
+    Color                       *_rawPalette;
+    void                       **_cachedPaletteImages;
     
 public:
+    
+    Color *GetRawPalette() const {return _rawPalette;};
     
     MatchMapAgregator           *_agregator;
     Pathfinder                  *_pathfinder;
@@ -39,11 +43,14 @@ public:
     bool GetIsCurrentPlayer() const;
     int GetPlayerId() const;
     Texture** GetPalettePointer() {return &_palette;};
+    CCTexture2D *CreateTexture2DFromMaterialFirstFrame(string name);
     
     USimpleContainer<GameUnit*> _units;
     
     GameMatchPlayer(GameMatchPlayerInfo playerInfo, GameMatch *match);
     ~GameMatchPlayer();
+    
+    void ClearImageCache();
 
     void SetPalette(double time);
     void LandingTo(const CCPoint &landingPosition);

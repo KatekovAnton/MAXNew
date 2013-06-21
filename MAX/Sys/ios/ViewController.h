@@ -24,6 +24,11 @@ typedef struct __TouchDelegateAdapter TouchDelagteAdapter;
     GLSurface               *_glView;
     TouchDelagteAdapter     _touchApdater;
 
+    id _pan;
+    id _pinch;
+    id _tap;
+    
+    
     DisplayPinchDelegate* _pinchDelegate;
     
     NSSet* _touches;

@@ -72,6 +72,7 @@ public:
     
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
     int GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
+    int GetDamageValue(int attack, int decrease) const;
     void SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue);
     
     void StartNewTurn();

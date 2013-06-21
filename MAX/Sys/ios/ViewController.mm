@@ -35,17 +35,20 @@ static int const _kTEiOSMaxTouchesCount = 10;
     UIPinchGestureRecognizer* vc = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(onPinch:)];
     vc.delegate = self;
     [self.view addGestureRecognizer:vc];
+    _pinch = vc;
     
     UIPanGestureRecognizer* vc1 = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
     vc1.delegate = self;
     [self.view addGestureRecognizer:vc1];
+    _pan = vc1;
     
     UITapGestureRecognizer* vc2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
     vc2.delegate = self;
     vc2.numberOfTouchesRequired = 1;
     vc2.numberOfTapsRequired = 1;
     [self.view addGestureRecognizer:vc2];
-
+    _tap = vc2;
+    
     UILongPressGestureRecognizer* vc3 = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongTap:)];
     vc3.delegate = self;
     vc3.minimumPressDuration = 0.5;
@@ -71,6 +74,10 @@ static int const _kTEiOSMaxTouchesCount = 10;
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
+    if ((gestureRecognizer == _tap && otherGestureRecognizer == _pan) ||
+        (gestureRecognizer == _pan && otherGestureRecognizer == _tap)) {
+        return NO;
+    }
     return YES;
 }
 

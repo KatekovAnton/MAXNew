@@ -75,6 +75,8 @@ public:
     MAXContentLoader();
     ~MAXContentLoader();
     
+    int GetImagesCount()const;
+    
     shared_ptr<MAXContentMap> LoadMapWithName(string name);
     void SetMapColorsToDefaultPalette(Color* thepal);
     vector<Texture*> CreatePalletes(Color* palette);
@@ -84,7 +86,10 @@ public:
     Texture* TextureFromIndexAndPalette(int w, int h, unsigned char* indexes, unsigned char* palette);
     Texture* TextureFromIndexAndDefaultPalette(int w, int h, unsigned char* indexes);
     Texture* TextureForResourceRenderer();
+    
     vector<Texture*> TexturePalletesFormDefaultPalleteAndPlayerColor(const Color& color);
+    Color* PalleteFormDefaultPalleteAndPlayerColor(const Color& color);
+    
     int FindImage(string name);
     void LoadUnitFrame(BinaryReader* source, int index, MAXUnitMaterial* target, long baseOffset);
     void LoadUnitShadow(BinaryReader* shadowSource, int index, MAXUnitMaterial* target, long shadowBaseOffset);
@@ -108,6 +113,7 @@ public:
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name, Color transparent);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);
+    cocos2d::CCTexture2D* CreateTexture2DFromMaterialFirstFrame(string name, Color *requiredPalette);
     
     cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name);
     cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name, Color transparent);

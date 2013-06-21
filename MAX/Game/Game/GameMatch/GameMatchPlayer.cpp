@@ -32,6 +32,9 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
     _playerData = new GameMatchPlayerData(info, match);
     _playerData->_delegate_w = this;
     _palettes = MAXSCL->TexturePalletesFormDefaultPalleteAndPlayerColor(info._color);
+    _rawPalette = MAXSCL->PalleteFormDefaultPalleteAndPlayerColor(info._color);
+    _cachedPaletteImages = new void*[MAXSCL->GetImagesCount()];
+    memset(_cachedPaletteImages, 0, MAXSCL->GetImagesCount() * sizeof(void*));
     _palette = _palettes[0];
     
     
@@ -53,10 +56,37 @@ GameMatchPlayer::~GameMatchPlayer()
     }
     
     delete _agregator;
+    free(_rawPalette);
     
     delete _playerData;
     if (_pathfinder)
         delete _pathfinder;
+    
+    ClearImageCache();
+    delete []_cachedPaletteImages;
+}
+
+void GameMatchPlayer::ClearImageCache()
+{
+    for (int i = 0; i < MAXSCL->GetImagesCount(); i++) {
+        CCObject *obj = (CCObject *)_cachedPaletteImages[i];
+        obj->release();
+        _cachedPaletteImages[i] = NULL;
+    }
+}
+
+CCTexture2D *GameMatchPlayer::CreateTexture2DFromMaterialFirstFrame(string name)
+{
+    int index = MAXSCL->FindImage(name);
+    void* cashed = _cachedPaletteImages[index];
+    if(cashed)
+    {
+        CCTexture2D *result = (CCTexture2D*)cashed;
+        return result;
+    }
+    CCTexture2D* result = MAXSCL->CreateTexture2DFromMaterialFirstFrame(name, _rawPalette);
+    _cachedPaletteImages[index] = result;
+    return result;
 }
 
 bool GameMatchPlayer::GetIsCurrentPlayer() const

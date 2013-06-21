@@ -673,7 +673,7 @@ void GameInterface::ShowUnitSelectionMenu(GIUnitSelectionMenuDelegate *delegate,
         return;
     
     
-    _unitSelectionMenu = new GIUnitSelectionMenu(units);
+    _unitSelectionMenu = new GIUnitSelectionMenu(units, _currentUnit, cellPoint);
     _unitSelectionMenu->_delegate_w = delegate;
     
     UpdateUnitSelectionMenuPosition(cellPoint);

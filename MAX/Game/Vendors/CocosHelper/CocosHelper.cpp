@@ -48,3 +48,4 @@ void CocosHelper::MoveNode(CCNode* node, const CCPoint &vector)
     pos.y += vector.y;
     node->setPosition(pos);
 }
+

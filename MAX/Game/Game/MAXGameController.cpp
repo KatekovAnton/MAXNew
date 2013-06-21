@@ -339,7 +339,7 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                     for (int i = 0; i < units->GetCount(); i++)
                     {
                         GameUnit* currentUnit = units->objectAtIndex(i);
-                        if (game->_match->UnitCanAttackUnit(_selectedUnit_w, currentUnit))
+                        if (game->_match->UnitCanAttackUnit(_selectedUnit_w, currentUnit) && _selectedUnit_w != currentUnit)
                             suitableUnits.push_back(currentUnit);
                     }
                     _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);

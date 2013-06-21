@@ -51,6 +51,16 @@ void MAXObjectConfig::SetResurceConfigValue(string key, string value)
         return;
     }
     
+    data[4] = 'I';
+    res = memcmp(data, key.c_str(), 5);
+    if (res == 0)
+    {
+        vector<string> imageNumber;
+        split(value, ',', imageNumber);
+        _smallName = imageNumber[0];
+        return;
+    }
+    
     //кадрыбазыаним
     static unsigned char dataBaseAnim[] = {0xCA, 0xE0, 0xE4, 0xF0, 0xFB, 0xC1, 0xE0, 0xE7, 0xFB, 0xC0, 0xED, 0xE8, 0xEC};
     res = memcmp(dataBaseAnim, key.c_str(), 13);
@@ -424,6 +434,7 @@ _shadowName(""),
 _instoreName(""),
 _type(""),
 _name(""),
+_smallName(""),
 _isAnimBase(false),
 _isAnimHead(false),
 _isAbleToFire(false),
@@ -454,6 +465,7 @@ _shadowName(""),
 _instoreName(""),
 _type(""),
 _name(""),
+_smallName(""),
 _isAnimBase(false),
 _isAnimHead(false),
 _isAbleToFire(false),

@@ -327,10 +327,6 @@ MAXContentLoader::MAXContentLoader()
         BinaryReader* br = new BinaryReader("max.pal");
         memset((void*)default_palette, 0xff, 256*4);
         
-//        Color c1 = {189, 154, 206, 255};
-//        Color c2 = {165, 121, 123, 255};
-//        Color c3 = {173, 138, 189, 255};
-//        Color c4 = {181, 142, 198, 255};
         
         for (int i = 0; i < 256; i++)
         {
@@ -338,19 +334,6 @@ MAXContentLoader::MAXContentLoader()
             default_palette[i].g = br->ReadUChar();
             default_palette[i].r = br->ReadUChar();
             default_palette[i].a = 255;
-            
-//            if(default_palette[i].r < 20 && default_palette[i].g<20 && default_palette[i].b < 20)
-//            {
-//                int a = 0;
-//                a++;
-//                printf("%d\n", i);
-//            }
-//            if (default_palette[i] == c3) {
-//                default_palette[i].a = 0;
-//                int a = 0;
-//                a ++;
-//            }
-            
         }
         delete br;
         //189 154 206
@@ -377,6 +360,11 @@ MAXContentLoader::~MAXContentLoader()
     delete inf;
     delete []dir;
     delete []loadedData;
+}
+
+int MAXContentLoader::GetImagesCount()const
+{
+    return hdr.dirlength / 16;
 }
 
 MAXContentLoader* MAXContentLoader::SharedLoader()
@@ -535,9 +523,6 @@ Texture* MAXContentLoader::TextureIdexedFromIndex(int w, int h, unsigned char* i
 
 unsigned char IndexForColor(Color tColor)
 {
-//    if (tColor.a < 100) {
-//        return 0;
-//    }
     unsigned char resIndex = 0;
     int minD = 1000000;
     for (int i = 1; i < 256; i++) {
@@ -617,6 +602,21 @@ vector<Texture*> MAXContentLoader::TexturePalletesFormDefaultPalleteAndPlayerCol
     free(currentPalette);
   //  Texture* result = new Texture(GL_LINEAR, (GLubyte*)currentPalette, pal_size/3, 1);
     return result;
+}
+
+Color* MAXContentLoader::PalleteFormDefaultPalleteAndPlayerColor(const Color& color)
+{
+    Color* currentPalette = (Color*)malloc(4 * pal_size/3);
+    memcpy(currentPalette, &default_palette, 4 * pal_size/3);
+    
+    for (int i = 32; i <= 39 ; i++)
+    {
+        currentPalette[i].r = color.r*((40.0-(float)i)/8.0);
+        currentPalette[i].g = color.g*((40.0-(float)i)/8.0);
+        currentPalette[i].b = color.b*((40.0-(float)i)/8.0);
+    }
+    
+    return currentPalette;
 }
 
 Texture*  MAXContentLoader::TextureForResourceRenderer()
@@ -1190,6 +1190,92 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name, Color
     return pTexture;
 }
 
+CCTexture2D* MAXContentLoader::CreateTexture2DFromMaterialFirstFrame(string name, Color *requiredPalette)
+{
+    int index = FindImage(name);
+
+    
+    
+    CCTexture2D *result = NULL;
+    
+    inf->SetPosition(dir[index].offset);
+    char *data = (char*)malloc(dir[index].size);
+    inf->ReadBuffer(dir[index].size, data);
+    BinaryReader* dataReader = new BinaryReader(data, dir[index].size);
+    long baseOffset = 0;
+    short picCount = dataReader->ReadInt16();
+    int* picbounds = new int[picCount];
+    dataReader->ReadBuffer(picCount*4, (char*) picbounds);
+    
+   
+    dataReader->SetPosition(picbounds[0] + baseOffset);
+    {
+        BinaryReader *source = dataReader;
+        ushort width = source->ReadUInt16();
+        ushort height = source->ReadUInt16();
+        short center_x = source->ReadInt16();
+        short center_y = source->ReadInt16();
+        
+        int size = width * height;
+                
+        unsigned char* pixels = (unsigned char*)malloc(size);
+        memset(pixels, 0, size);
+        // Rows offsets.
+        unsigned int* rows = new unsigned int[height];
+        source->ReadBuffer(height * 4, (char *)rows);
+        int destOffset = 0;
+        
+        unsigned char buf;
+        char tmpbuffer[256];
+        memset(tmpbuffer, 0, 256);
+        for (int i = 0; i < height; i++)
+        {
+            unsigned int rowi = rows[i];
+            source->SetPosition(rowi + baseOffset);
+            buf = source->ReadUChar();
+            while (buf != 0xff)
+            {
+                destOffset += buf;
+                buf = source->ReadUChar();
+                source->ReadBuffer((int)buf, tmpbuffer);
+                memcpy(pixels + destOffset, tmpbuffer, buf);
+                destOffset+=buf;
+                memset(tmpbuffer, 0, 256);
+                buf = source->ReadUChar();
+            }
+            
+            int new_pos = (i + 1) * width;
+            destOffset = new_pos;
+        }
+        
+        Color* colors = (Color*)malloc(width * height * 4);
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                int colornumber = pixels[j * width + i];
+                colors[j * width + i] = requiredPalette[colornumber];
+            }
+        }
+        free(pixels);
+        delete [] rows;
+        
+        result = new CCTexture2D();
+        CCSize sz = CCSize(width, height);
+        result->initWithData(colors, kCCTexture2DPixelFormat_RGBA8888, width, height, sz);
+        free(colors);
+        result->setAliasTexParameters();
+        
+    }
+    
+    
+    delete []picbounds;
+    delete dataReader;
+    free(data);
+    return result;
+    
+}
+
 CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
 {
     int index = FindImage(name);
@@ -1202,12 +1288,7 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
     short h = inf->ReadInt16();
     
     
-//    
-//    short w = inf->ReadInt16();
-//    short h = inf->ReadInt16();
-    
     GLbyte* pixels = new GLbyte[w * h];
-    
     GLbyte palette[768];
     inf->ReadBuffer(768, (char*)palette);
     
@@ -1257,16 +1338,12 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
     pTexture->initWithData(colors, kCCTexture2DPixelFormat_RGBA8888, w, h, sz);
     free(colors);
     return pTexture;
-//    CCImage* image = new CCImage();
-//    image->autorelease();
-//    image->initWithImageData(colors, w * h * 4, kFmtRawData, w, h, 8);
 }
 
 CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name, Color transparent)
 {
     CCTexture2D* texture = CreateTexture2DFromSimpleImage(name, transparent);
     CCSprite* result = CCSprite::createWithTexture(texture);
-    // result->setScale(Display::currentDisplay()->GetDisplayScale());
     return result;
 }
 
@@ -1274,7 +1351,6 @@ CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name)
 {
     CCTexture2D* texture = CreateTexture2DFromSimpleImage(name);
     CCSprite* result = CCSprite::createWithTexture(texture);
-   // result->setScale(Display::currentDisplay()->GetDisplayScale());
     return result;
 }
 

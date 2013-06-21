@@ -304,6 +304,17 @@ int GameUnitData::GetMaxParameterValue(UNIT_PARAMETER_TYPE parameterType) const
     return result;
 }
 
+int GameUnitData::GetDamageValue(int attack, int decrease) const
+{
+    attack = attack / decrease;
+    int myArmor = GetParameterValue(UNIT_PARAMETER_TYPE_ARMOR);
+    
+    int resultDamage = attack - myArmor;
+    if (resultDamage < 1)
+        resultDamage = 1;
+    return resultDamage;
+}
+
 void GameUnitData::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newValue)
 {
     switch (parameterType)
@@ -549,15 +560,8 @@ void GameUnitData::CompletlyFinishTask()
 
 bool GameUnitData::ReceiveDamage(GameUnitData* unit, int decrase)
 {
-    int damage = unit->GetMaxParameterValue(UNIT_PARAMETER_TYPE_ATTACK);
-    damage = damage / decrase;
+    int resultDamage = GetDamageValue(unit->GetMaxParameterValue(UNIT_PARAMETER_TYPE_ATTACK), decrase);
     int myHealth = GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH);
-    int myArmor = GetParameterValue(UNIT_PARAMETER_TYPE_ARMOR);
-    
-    int resultDamage = damage - myArmor;
-    if (resultDamage < 1)
-        resultDamage = 1;
-    
     myHealth -= resultDamage;
     
     if (myHealth < 0)

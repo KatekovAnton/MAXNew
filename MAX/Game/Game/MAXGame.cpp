@@ -769,10 +769,15 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
         return;
     }
     
-    if (units.size()==1)
-        StartAttackSequence(_currentUnit, units[0], cellPoint);
-    else if (units.size() == 0)
+    
+    
+    if (units.size() == 0)
+    {
+        if (_currentUnit->_unitData->IsCellOfUnit(cellPoint)) {
+            return;
+        }
         StartAttackSequence(_currentUnit, nil, cellPoint);
+    }
     else
         _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
 }
@@ -841,15 +846,22 @@ void MAXGame::ProceedPan(float speedx, float speedy)
         _gameInterface->HideUnitMenu();
         _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
     }
+    
     if (_gameInterface->GetSelectUnitMenuOpened()) {
         _gameInterface->HideUnitSelectionMenu();
         EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+        return;
     }
 }
 
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
     if (_freezeCounter>0) {
+        return;
+    }
+    if (_gameInterface->GetSelectUnitMenuOpened()) {
+        _gameInterface->HideUnitSelectionMenu();
+        EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
         return;
     }
     
@@ -859,12 +871,12 @@ void MAXGame::ProceedTap(float tapx, float tapy)
     
     printf("tap:%f %f \n", p.x, p.y);
     
+    
     if (_gameController->ShoulTakeTap(p)) {
         _gameController->ProceedTap(tapx, tapy);
         if (_gameController->shouldDeselectUnit) {
             DeselectCurrentUnit(true);
         }
-        
         return;
     }
     
