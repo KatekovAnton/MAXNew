@@ -72,7 +72,7 @@ MAXAnimationWait* moveUnit(GameUnit* unit, float delay)
 }
 
 MAXGame::MAXGame()
-:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0), _gameController(new MAXGameController()), _currentTargetUnit(NULL), _currentFiringUnit(NULL)
+:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0), _gameController(new MAXGameController()), _currentTargetUnit(NULL), _currentFiringUnit(NULL), _startAttackModeAgain(false)
 {
     _gameController->_delegate_w = this;
     _currentState = MAXGAMESTATE_GAME;
@@ -757,6 +757,7 @@ void MAXGame::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, 
 
 void MAXGame::SelectSecondUnitActionCanceled()
 {
+    _startAttackModeAgain = false;
     if (_currentUnit) {
         RecalculateUnitPathMap(_currentUnit);
         ShowPathMap();
@@ -770,6 +771,7 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
     }
     
     
+    _startAttackModeAgain = true;
     
     if (units.size() == 0)
     {
@@ -1241,7 +1243,6 @@ void MAXGame::onUnitMoveStop(GameUnit* unit)
 void MAXGame::onUnitFireStart(GameUnit* unit)
 {
     _freezeCounter++;
-    HidePathMap();
 
     RefreshCurrentUnitPath();
     if (unit == _currentUnit)
@@ -1286,7 +1287,12 @@ void MAXGame::MakePain()
     }
     _currentFiringUnit = NULL;
     _currentTargetUnit = NULL;
-    
+    if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) {
+        EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+    }
+    else
+        ShowPathMap();
+    _startAttackModeAgain = false;
 }
 
 void MAXGame::EnableModeForCurrentUnit(UNIT_MENU_ACTION action)

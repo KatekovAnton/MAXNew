@@ -205,7 +205,6 @@ void MAXGameController::AbortCurrentAction()
         case MAXGameControllerAction_SelectSecondUnit:
         {
             engine->ClearOptionalZone();
-            _delegate_w->SelectSecondUnitActionCanceled();
         } break;
         default:
             break;
@@ -358,14 +357,15 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                         if (game->_match->UnitCanAttackUnit(_selectedUnit_w, currentUnit) && _selectedUnit_w != currentUnit)
                             suitableUnits.push_back(currentUnit);
                     }
-                    _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
                     AbortCurrentAction();
+                    _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
                 }
             }
             else
             {
                 AbortCurrentAction();
                 shouldDeselectUnit = false;
+                _delegate_w->SelectSecondUnitActionCanceled();
             }
         } break;
             

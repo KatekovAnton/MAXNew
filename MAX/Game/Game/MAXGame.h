@@ -89,7 +89,8 @@ public:
     GameMatch *GetCurrentMatch() const {return _match;}
     GameUnit *_currentUnit;
     
-    bool _onAttackSelection;
+    bool _startAttackModeAgain;
+    
     void EnableModeForCurrentUnit(UNIT_MENU_ACTION action);
     
     MAXGame();
