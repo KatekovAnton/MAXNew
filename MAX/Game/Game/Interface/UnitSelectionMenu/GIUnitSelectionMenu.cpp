@@ -64,15 +64,29 @@ CCMenuItem *GIUnitSelectionMenu::CreateMenuItemWithUnit(GameUnit *unit, int inde
     spr->setEnabled(true);
     
     MAXObjectConfig *config = unit->GetConfig();
-    CCSprite* image = CCSprite::createWithTexture(unit->_owner_w->CreateTexture2DFromMaterialFirstFrame(config->_smallName));
-    spr->addChild(image);
-    CCSize size = image->getContentSize();
-    float scaleH = 30.0 / size.height;
-    float scaleW = 50.0 / size.width;
-    float scale = MIN(scaleH, scaleW);
+    CCArray* textures = unit->_owner_w->CreateTexture2DFromMaterialFirstFrame(config->_smallName);
+    CCArray* sprites = CCArray::create();
+    float scaleFull = 1000;
+    for (int i = 0; i < textures->count(); i++) {
+        
+        CCSprite* image = CCSprite::createWithTexture((CCTexture2D*)textures->objectAtIndex(i));
+        spr->addChild(image);
+        CCSize size = image->getContentSize();
+        float scaleH = 30.0 / size.height;
+        float scaleW = 50.0 / size.width;
+        float scale = MIN(scaleH, scaleW);
+        if (scale < scaleFull)
+            scaleFull = scale;
+        
+        image->setPosition(ccp(32, 40));
+        sprites->addObject(image);
+    }
     
-    image->setScale(scale);
-    image->setPosition(ccp(32, 40));
+    for (int i = 0; i < textures->count(); i++)
+    {
+        CCSprite* image = (CCSprite*)sprites->objectAtIndex(i);
+        image->setScale(scaleFull);
+    }
     
     float lineFullW = 54;
     float greenW = (float)unit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) / (float)unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_HEALTH) * lineFullW;

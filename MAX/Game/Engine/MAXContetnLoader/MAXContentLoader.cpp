@@ -317,7 +317,7 @@ MAXContentLoader::MAXContentLoader()
         inf->ReadBuffer(8, dir[f].name);
         dir[f].offset = inf->ReadInt();
         dir[f].size = inf->ReadInt();
-        //printf("%s\n", dir[f].name);
+        printf("%s\n", dir[f].name);
     }
     loadedData = new void*[hdr.dirlength / 16];
     memset(loadedData, 0, hdr.dirlength / 4);
@@ -1190,7 +1190,7 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromSimpleImage(string name, Color
     return pTexture;
 }
 
-CCTexture2D* MAXContentLoader::CreateTexture2DFromMaterialFirstFrame(string name, Color *requiredPalette)
+CCArray* MAXContentLoader::CreateTexture2DFromMaterial(string name, Color *requiredPalette)
 {
     int index = FindImage(name);
 
@@ -1207,8 +1207,11 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromMaterialFirstFrame(string name
     int* picbounds = new int[picCount];
     dataReader->ReadBuffer(picCount*4, (char*) picbounds);
     
+    CCArray* array = CCArray::create();
+    for (int t = 0; t < picCount; t++) {
+    
    
-    dataReader->SetPosition(picbounds[0] + baseOffset);
+    dataReader->SetPosition(picbounds[t] + baseOffset);
     {
         BinaryReader *source = dataReader;
         ushort width = source->ReadUInt16();
@@ -1265,14 +1268,15 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromMaterialFirstFrame(string name
         result->initWithData(colors, kCCTexture2DPixelFormat_RGBA8888, width, height, sz);
         free(colors);
         result->setAliasTexParameters();
-        
+        result->autorelease();
+        array->addObject(result);
     }
-    
+    }
     
     delete []picbounds;
     delete dataReader;
     free(data);
-    return result;
+    return array;
     
 }
 

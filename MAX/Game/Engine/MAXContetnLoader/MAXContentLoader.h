@@ -113,7 +113,7 @@ public:
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name);
     cocos2d::CCTexture2D* CreateTexture2DFromSimpleImage(string name, Color transparent);
     cocos2d::CCTexture2D* CreateTexture2DFromPalettedImage(string name);
-    cocos2d::CCTexture2D* CreateTexture2DFromMaterialFirstFrame(string name, Color *requiredPalette);
+    cocos2d::CCArray* CreateTexture2DFromMaterial(string name, Color *requiredPalette);
     
     cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name);
     cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name, Color transparent);

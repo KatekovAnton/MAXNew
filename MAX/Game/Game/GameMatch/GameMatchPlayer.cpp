@@ -75,16 +75,18 @@ void GameMatchPlayer::ClearImageCache()
     }
 }
 
-CCTexture2D *GameMatchPlayer::CreateTexture2DFromMaterialFirstFrame(string name)
+CCArray *GameMatchPlayer::CreateTexture2DFromMaterialFirstFrame(string name)
 {
     int index = MAXSCL->FindImage(name);
     void* cashed = _cachedPaletteImages[index];
+    CCArray *array = nil;
     if(cashed)
     {
-        CCTexture2D *result = (CCTexture2D*)cashed;
+        CCArray *result = (CCArray*)cashed;
         return result;
     }
-    CCTexture2D* result = MAXSCL->CreateTexture2DFromMaterialFirstFrame(name, _rawPalette);
+    CCArray* result = MAXSCL->CreateTexture2DFromMaterial(name, _rawPalette);
+    result->retain();
     _cachedPaletteImages[index] = result;
     return result;
 }

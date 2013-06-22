@@ -43,7 +43,7 @@ public:
     bool GetIsCurrentPlayer() const;
     int GetPlayerId() const;
     Texture** GetPalettePointer() {return &_palette;};
-    CCTexture2D *CreateTexture2DFromMaterialFirstFrame(string name);
+    CCArray *CreateTexture2DFromMaterialFirstFrame(string name);
     
     USimpleContainer<GameUnit*> _units;
     
