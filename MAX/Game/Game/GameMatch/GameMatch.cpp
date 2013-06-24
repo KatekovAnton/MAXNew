@@ -180,6 +180,9 @@ GameUnit *GameMatch::UnitForAttackingByUnit(GameUnit *agressor, const CCPoint &t
 
 bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
 {
+    if (target->_unitData->_isConstruction) 
+        return false;
+    
     CCPoint targetCell = target->GetUnitCell();
     UNIT_MOVETYPE tmt = (UNIT_MOVETYPE)target->GetConfig()->_bMoveType;
     MAXObjectConfig* agressorConfig = agressor->GetConfig();
