@@ -1300,7 +1300,11 @@ void MAXGame::MakePain()
 void MAXGame::EnableModeForCurrentUnit(UNIT_MENU_ACTION action)
 {
     _currentUnit->SetPath(vector<PFWaveCell*>());
-    _gameController->StartSelectSecondUnit(_currentUnit, _currentUnit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE), action);
+    float range = 1.8;
+    if (action == UNIT_MENU_ACTION_ATTACK)
+        range = _currentUnit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE);
+    
+    _gameController->StartSelectSecondUnit(_currentUnit, range, action);
     HideUnitPath();
     HidePathMap();
 }
@@ -1310,9 +1314,8 @@ void MAXGame::EnableModeForCurrentUnit(UNIT_MENU_ACTION action)
 void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 {
 	if (!_currentUnit)
-	{
 		return;
-	}
+	
 	
     _needToOpenMenuOnNextTapToSameUnit = true;
     _gameInterface->HideUnitMenu();
@@ -1344,11 +1347,6 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         else
 		return;
 	}
-    else if (action == UNIT_MENU_ACTION_ATTACK)
-    {
-        EnableModeForCurrentUnit(action);
-        return;
-    }
 	else if (action == UNIT_MENU_ACTION_START)
 	{
         if (_currentUnit->_unitData->GetIsBuilding())
@@ -1398,15 +1396,16 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
     }
     bool _needTargetUnit = false;
     switch (action) {
+        case UNIT_MENU_ACTION_ATTACK:
         case UNIT_MENU_ACTION_DISABLE:
-        case UNIT_MENU_ACTION_ENTER:
-        case UNIT_MENU_ACTION_LOAD:
+//        case UNIT_MENU_ACTION_ENTER:
+//        case UNIT_MENU_ACTION_LOAD:
+//        case UNIT_MENU_ACTION_XFER:
         case UNIT_MENU_ACTION_RECHARGE:
         case UNIT_MENU_ACTION_REPAIR:
         case UNIT_MENU_ACTION_RELOAD:
         case UNIT_MENU_ACTION_STEAL:
-        case UNIT_MENU_ACTION_XFER:
-            _needTargetUnit = false;
+            _needTargetUnit = true;
             break;
             
         default:
@@ -1415,6 +1414,7 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
     
     if (_needTargetUnit) {
         //select suitable target unit and perform action
+        EnableModeForCurrentUnit(action);
         return;
     }
     //UNIT_MENU_ACTION_UPGRADE

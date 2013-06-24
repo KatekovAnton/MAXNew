@@ -144,20 +144,33 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
         Color c = {255, 0, 0, 50};
         engine->SetOptionalZoneColor(c);
     }
-    BoundingBox b = _selectedUnit_w->_unitData->GetFireBoundingBox();
+    else
+    {
+        Color c = {255, 255, 255, 50};
+        engine->SetOptionalZoneColor(c);
+    }
+    
+    BoundingBox b = _selectedUnit_w->_unitData->GetBoundingBox(_selectedUnit_w->GetUnitCell(), maxDistance);
     engine->ClearOptionalZone();
     
-    int fireType = selectedUnit->GetConfig()->_pFireType;
     int level = selectedUnit->GetConfig()->_bLevel;
-    int movetype = selectedUnit->GetConfig()->_bMoveType;
-    if (fireType < 3 && movetype == UNIT_MOVETYPE_AIR)
-        level = OBJECT_LEVEL_OVERUNITS;
-    else if (fireType >= 3)
+    bool canAttackOwnCell = false;
+    if (action==UNIT_MENU_ACTION_ATTACK)
+    {
+        int fireType = selectedUnit->GetConfig()->_pFireType;
+        int movetype = selectedUnit->GetConfig()->_bMoveType;
+        if (fireType < 3 && movetype == UNIT_MOVETYPE_AIR)
+            level = OBJECT_LEVEL_OVERUNITS;
+        else if (fireType >= 3)
+            level = OBJECT_LEVEL_OVERAIR;
+        else if (movetype != UNIT_MOVETYPE_AIR)
+            level = OBJECT_LEVEL_OVERUNITS;
+        canAttackOwnCell = (movetype == UNIT_MOVETYPE_AIR && (fireType == 1 || fireType == 4)) || ((movetype != UNIT_MOVETYPE_AIR) && fireType == 3);
+    }
+    else
         level = OBJECT_LEVEL_OVERAIR;
-    else if (movetype != UNIT_MOVETYPE_AIR)
-        level = OBJECT_LEVEL_OVERUNITS;
+    
     engine->SetOptionalZoneLevel((OBJECT_LEVEL)level);
-    bool canAttackOwnCell = (movetype == UNIT_MOVETYPE_AIR && (fireType == 1 || fireType == 4)) || ((movetype != UNIT_MOVETYPE_AIR) && fireType == 3);
     for (float i = b.min.y; i <= b.max.y; i += 1.0)
     {
         for (float j = b.min.x; j <= b.max.x; j += 1.0)
