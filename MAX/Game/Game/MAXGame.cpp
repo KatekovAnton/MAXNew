@@ -697,7 +697,9 @@ void MAXGame::RecalculateUnitPath(GameUnit* unit)
     RecalculateUnitPathMap(unit);
     ShowPathMap();
     
-    //HidePathMap();
+    if (unit->GetPath().size() == 0) 
+        return;
+    
     PFWaveCell* cell = unit->GetPath()[0];
     Pathfinder* pf = unit->_owner_w->_pathfinder;
     std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y);
@@ -1316,6 +1318,7 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
     _gameInterface->HideUnitMenu();
     if (action == UNIT_MENU_ACTION_DONE)
 	{
+        RecalculateUnitPath(_currentUnit);
 		_currentUnit->ConfirmCurrentPath();
 		HideUnitPath();
         return;
