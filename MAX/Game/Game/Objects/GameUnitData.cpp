@@ -198,6 +198,17 @@ SOUND_TYPE GameUnitData::GetOnSelectSoundType() const
         }
         return SOUND_TYPE_BUILDING;
     }
+    if (GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) <= GetMaxParameterValue(UNIT_PARAMETER_TYPE_HEALTH) / 4)
+        return SOUND_TYPE_STATUS_RED;
+    if (GetParameterValue(UNIT_PARAMETER_TYPE_AMMO) == 0 && GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO) != 0)
+        return SOUND_TYPE_AMMO_NONE;
+    if (GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) <= GetMaxParameterValue(UNIT_PARAMETER_TYPE_HEALTH) / 2)
+        return SOUND_TYPE_STATUS_YELLOW;
+    if (GetParameterValue(UNIT_PARAMETER_TYPE_AMMO) <= GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO) / 4 && GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO) != 0)
+        return SOUND_TYPE_AMMO_LOW;
+    if (GetParameterValue(UNIT_PARAMETER_TYPE_SPEED)/10 == 0)
+        return SOUND_TYPE_MOVEMENT_EXHAUSTED;
+    
     return SOUND_TYPE_READY;
 }
 
@@ -227,10 +238,19 @@ int GameUnitData::GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const
             result = _pShots;
             break;
         case UNIT_PARAMETER_TYPE_GAS:
-            result = _pFuel;
+            result = _pGas;
             break;
         case UNIT_PARAMETER_TYPE_AMMO:
             result = _pAmmo;
+            break;
+        case UNIT_PARAMETER_TYPE_MATERIAL:
+            result = _pRawMat;
+            break;
+        case UNIT_PARAMETER_TYPE_GOLD:
+            result = _pGold;
+            break;
+        case UNIT_PARAMETER_TYPE_FUEL:
+            result = _pFuel;
             break;
             
         default:
@@ -332,10 +352,19 @@ void GameUnitData::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newV
             _pShots = newValue;
             break;
         case UNIT_PARAMETER_TYPE_GAS:
-            _pFuel = newValue;
+            _pGas = newValue;
             break;
         case UNIT_PARAMETER_TYPE_AMMO:
             _pAmmo = newValue;
+            break;
+        case UNIT_PARAMETER_TYPE_MATERIAL:
+            _pRawMat = newValue;
+            break;
+        case UNIT_PARAMETER_TYPE_GOLD:
+            _pGold = newValue;
+            break;
+        case UNIT_PARAMETER_TYPE_FUEL:
+            _pFuel = newValue;
             break;
             
         default:

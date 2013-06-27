@@ -46,6 +46,9 @@ public:
     int _pShots;
     int _pAmmo;
     
+    int _pGas;
+
+    
     int _pFuel;
     int _pRawMat;
     int _pGold;

@@ -84,9 +84,6 @@ string imageNameFormType(UNIT_MENU_ACTION action)
         case UNIT_MENU_ACTION_PLACE:
             baseName = BUTTON_UNIT_MENU_ACTION_PLACE;
             break;
-        case UNIT_MENU_ACTION_RECHARGE:
-            baseName = BUTTON_UNIT_MENU_ACTION_RECHARGE;
-            break;
         case UNIT_MENU_ACTION_REMOVE:
             baseName = BUTTON_UNIT_MENU_ACTION_REMOVE;
             break;
@@ -172,9 +169,6 @@ string titleForType(UNIT_MENU_ACTION action)
             break;
         case UNIT_MENU_ACTION_PLACE:
             baseName = "PLACE";
-            break;
-        case UNIT_MENU_ACTION_RECHARGE:
-            baseName = "RECHARGE";
             break;
         case UNIT_MENU_ACTION_REMOVE:
             baseName = "REMOVE";

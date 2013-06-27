@@ -45,12 +45,44 @@ MAXGameController::~MAXGameController()
 
 bool MAXGameController::ShoulTakeTap(const CCPoint &cell)
 {
+    switch (_actionType) {
+        case MAXGameControllerAction_SelectSecondUnit:
+        {
+            if (_action == UNIT_MENU_ACTION_ATTACK) 
+                return true;
+            
+            if (_selectedUnit_w->_unitData->IsInRadius(cell, 0.9))
+                return false;
+            
+            if (_action == UNIT_MENU_ACTION_RELOAD)
+            {
+                USimpleContainer<GameUnit*> *units = game->_match->_currentPlayer_w->_agregator->UnitsInCell(cell.x, cell.y);
+                for (int i = 0; i < units->GetCount(); i++)
+                {
+                    GameUnit* currentUnit = units->objectAtIndex(i);
+                    if (game->_match->UnitCanInteractWithUnit(_selectedUnit_w, currentUnit))
+                        return true;
+                }
+                return false;
+            }
+            
+
+        } break;
+            
+        default:
+            break;
+    }
     return _actionType != -1;
 }
 
 bool MAXGameController::ShoulTakePinch(float delta)
 {
-    return _actionType == MAXGameControllerAction_AgreedSelectedUnit;
+    return false;
+}
+
+bool MAXGameController::UnitCanMoveWithAction()
+{
+    return _actionType == -1 || (_actionType == MAXGameControllerAction_SelectSecondUnit && _action == UNIT_MENU_ACTION_ATTACK);
 }
 
 bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
@@ -188,16 +220,6 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
     }
     return true;
 }
-
-bool MAXGameController::StartAgreedSecondUnit(GameUnit *targetUnit, const CCPoint &selectedTargetCell, UNIT_MENU_ACTION action)
-{
-    AbortCurrentAction();
-    _actionType = MAXGameControllerAction_AgreedSelectedUnit;
-    _selectedUnit_w = targetUnit;
-    _secondaryObject_w = NULL;
-    return true;
-}
-
 
 void MAXGameController::AbortCurrentAction()
 {
@@ -373,6 +395,21 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                     AbortCurrentAction();
                     _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
                 }
+                else if (_action == UNIT_MENU_ACTION_RELOAD || _action == UNIT_MENU_ACTION_REPAIR || _action == UNIT_MENU_ACTION_STEAL || _action == UNIT_MENU_ACTION_DISABLE)
+                {
+                    bool wantSamePlayerUnut = ! (_action == UNIT_MENU_ACTION_STEAL || _action == UNIT_MENU_ACTION_DISABLE);
+                    
+                    USimpleContainer<GameUnit*> *units = game->_match->_currentPlayer_w->_agregator->UnitsInCell(p.x, p.y);
+                    vector<GameUnit*> suitableUnits;
+                    for (int i = 0; i < units->GetCount(); i++)
+                    {
+                        GameUnit* currentUnit = units->objectAtIndex(i);
+                        if (game->_match->UnitCanInteractWithUnit(_selectedUnit_w, currentUnit) && _selectedUnit_w != currentUnit && (_selectedUnit_w->_owner_w == currentUnit->_owner_w && wantSamePlayerUnut))
+                            suitableUnits.push_back(currentUnit);
+                    }
+                    AbortCurrentAction();
+                    _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
+                }
             }
             else
             {
@@ -389,7 +426,54 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
 
 void MAXGameController::ProceedPinch(float delta)
 {
-    if (_actionType == MAXGameControllerAction_AgreedSelectedUnit) {
-        AbortCurrentAction();
+}
+
+void MAXGameController::OnGameStartsActons()
+{
+    switch (_actionType) {
+        case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:
+        {
+            
+        } break;
+        case MAXGameControllerAction_SelectSmallBuildingConstructionPath:
+        {
+        
+        } break;
+        case MAXGameControllerAction_SelectConstructorExitCell:
+        {
+            
+        } break;
+        case MAXGameControllerAction_SelectSecondUnit:
+        {
+            engine->ClearOptionalZone();
+        } break;
+            
+        default:
+            break;
+    }
+}
+
+void MAXGameController::OnGameStopsActons()
+{
+    switch (_actionType) {
+        case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:
+        {
+            
+        } break;
+        case MAXGameControllerAction_SelectSmallBuildingConstructionPath:
+        {
+            
+        } break;
+        case MAXGameControllerAction_SelectConstructorExitCell:
+        {
+            
+        } break;
+        case MAXGameControllerAction_SelectSecondUnit:
+        {
+            StartSelectSecondUnit(_selectedUnit_w, _distance, _action);
+        } break;
+            
+        default:
+            break;
     }
 }

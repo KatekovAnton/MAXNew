@@ -94,8 +94,90 @@ SoundEngine::SoundEngine()
         names.push_back("f050.wav");
         _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_MOVE_TAPE_TO_BULD, names));
     }
+    {
+        vector<string> names;
+        names.push_back("f085.wav");
+        names.push_back("f089.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_RELOADED, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f138.wav");
+        names.push_back("f270.wav");
+        names.push_back("f271.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_AMMO_LOW, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f142.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_AMMO_NONE, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f145.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_MOVEMENT_EXHAUSTED, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f150.wav");
+        names.push_back("f151.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_STATUS_YELLOW, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f154.wav");
+        names.push_back("f155.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_STATUS_RED, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f210.wav");
+        names.push_back("f211.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_UNITS_REPAIRED, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f219.wav");
+        names.push_back("f220.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_UNIT_REPAIRED, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f219.wav");
+        names.push_back("f220.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_AMMO_NONE, names));
+    }
     
-    
+//    SOUND_TYPE_ENEMY_FIRING_ON_UNIT, //f229.wav f230.wav f231.wav f232.wav f255.wav f256.wav
+//    SOUND_TYPE_UNIT_FIRING,//f250.wav f251.wav
+//    SOUND_TYPE_INFILTRATOR_FAIL,
+//    SOUND_TYPE_GAME_SAVED,
+//    SOUND_TYPE_FUEL_STORAGE_FULL,//f057.wav
+//    SOUND_TYPE_RAWM_STORAGE_FULL,//f061.wav
+//    SOUND_TYPE_GOLD_STORAGE_FULL,//f066.wav
+//    SOUND_TYPE_RESEARCH_COMPLETE, //f093.wav
+//    SOUND_TYPE_NO_PATH_TO_DESTINATION, //f094.wav
+//    SOUND_TYPE_PATH_BLOCKED,//f095.wav
+//    SOUND_TYPE_ATTEMPT_FAILED,//f007.wav
+//    SOUND_TYPE_ON_SENTRY,//f158.wav
+//    SOUND_TYPE_COMPLETE_AND_READY,//f164.wav
+//    SOUND_TYPE_CLEARING_AREA,//f171.wav
+//    SOUND_TYPE_STARTGAME_SELECT_SIDE,//f176.wav f177.wav
+//    SOUND_TYPE_LAYING_MINES,//f181.wav f182.wav
+//    SOUND_TYPE_REMOVING_MINES,// f186.wav f187.wav
+//    SOUND_TYPE_SURVEYING,//f191.wav f192.wav
+//    SOUND_TYPE_ATTACKING,//f196.wav f198.wav
+//    SOUND_TYPE_NEW_UNITS_AVAILABLE_THIS_TURN,//f206.wav f207.wav f215.wav
+//    SOUND_TYPE_TRANSFER_COMPLETED,//f224.wav
+//    SOUND_TYPE_UNIT_DESTROYED,//f234.wav f236.wav
+//    SOUND_TYPE_UNIT_CAPTURED,//f239.wav  f242.wav
+//    SOUND_TYPE_UNIT_HAS_BEEN_SEASED,//f243.wav
+//    SOUND_TYPE_UNIT_DISABLED,//f244.wav
+//    SOUND_TYPE_UNIT_MUST_BE_REPAIRED,//f247.wav f265.wav
+//    SOUND_TYPE_UNIT_NOT_FUNCTIONATING,//f249.wav
+//    SOUND_TYPE_STARTGAME_SELECT_LAND_POSITION,//f278.wav
+//    SOUND_TYPE_MISSION_SUCCESSFULL,//f283.wav
+//    SOUND_TYPE_CANT_START,//mstat18.wav
     
     
     //button buy upg kbuy0.wav

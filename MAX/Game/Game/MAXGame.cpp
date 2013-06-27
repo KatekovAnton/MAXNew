@@ -72,7 +72,7 @@ MAXAnimationWait* moveUnit(GameUnit* unit, float delay)
 }
 
 MAXGame::MAXGame()
-:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter(0), _gameController(new MAXGameController()), _currentTargetUnit(NULL), _currentFiringUnit(NULL), _startAttackModeAgain(false)
+:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter1(0), _gameController(new MAXGameController()), _currentTargetUnit(NULL), _currentFiringUnit(NULL), _startAttackModeAgain(false)
 {
     _gameController->_delegate_w = this;
     _currentState = MAXGAMESTATE_GAME;
@@ -103,6 +103,25 @@ void MAXGame::Init()
     //StartTest();
 }
 
+void MAXGame::IncreaseFreezeCounter()
+{
+    if (_freezeCounter1 == 0) {
+        HidePathMap();
+        HideUnitPath();
+    }
+    _freezeCounter1 ++;
+    if (_freezeCounter1 == 1) 
+        _gameController->OnGameStartsActons();
+    
+}
+
+void MAXGame::DecreaseFreezeCounter()
+{
+    _freezeCounter1 --;
+    if (_freezeCounter1 == 0)
+        _gameController->OnGameStopsActons();
+}
+
 int MAXGame::CurrentPlayerId() const
 {
     return _match->_currentPlayer_w->GetPlayerId();
@@ -120,7 +139,7 @@ void MAXGame::StartTest()
     _testUnitCorvette->SetDirection(1);
     
     _waitTestAnimCorvette = prepareUnitToMoveToPoint(_testUnitCorvette, ccp(26, 44), 2.5);
-    _freezeCounter ++;
+    IncreaseFreezeCounter();
     
 
 }
@@ -149,6 +168,7 @@ void MAXGame::StartMatch()
     }
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(60, 53, "Constructor", 0);
+        unit1->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, unit1->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_MATERIAL));
         unit1->PlaceUnitOnMap();
     }
     {
@@ -169,6 +189,7 @@ void MAXGame::StartMatch()
     }
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(45, 45, "Seacargo", 0);
+        unit1->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, unit1->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_MATERIAL));
 		unit1->PlaceUnitOnMap();
 	}
 	{
@@ -273,14 +294,17 @@ void MAXGame::StartMatch()
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(67, 59, "Truck", 0);
+        unit1->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, unit1->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_MATERIAL));
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(66, 60, "Repair", 0);
+        unit1->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, unit1->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_MATERIAL));
 		unit1->PlaceUnitOnMap();
 	}
 	{
 		GameUnit *unit1 = _match->_players[0]->CreateUnit(73, 52, "Miner", 0);
+        unit1->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, unit1->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_MATERIAL));
 		unit1->PlaceUnitOnMap();
 	}
 	{
@@ -416,7 +440,7 @@ void MAXGame::StartMatch()
 bool MAXGame::EndTurn()
 {
     bool result = false;
-    if (_freezeCounter != 0)
+    if (_freezeCounter1 != 0)
         return false;
     _gameController->AbortCurrentAction();
     _match->_currentPlayer_w->_playerData->cameraPosition = engine->ScreenToWorldCell( _gameInterface->GetCenter());
@@ -768,31 +792,62 @@ void MAXGame::SelectSecondUnitActionCanceled()
 
 void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action)
 {
-    if (action != UNIT_MENU_ACTION_ATTACK) {
-        return;
-    }
-    
-    
     _startAttackModeAgain = true;
     
-    if (units.size() == 0)
-    {
-        if (_currentUnit->_unitData->IsCellOfUnit(cellPoint)) {
-            return;
-        }
-        StartAttackSequence(_currentUnit, nil, cellPoint);
+    switch (action) {
+        case UNIT_MENU_ACTION_ATTACK:
+        {
+            if (units.size() == 0)
+            {
+                if (_currentUnit->_unitData->IsCellOfUnit(cellPoint))
+                    return;
+                StartAttackSequence(_currentUnit, nil, cellPoint);
+            }
+            else
+                _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
+        } break;
+        case UNIT_MENU_ACTION_RELOAD:
+        {
+            if (units.size() != 0)
+            {
+                EnableModeForCurrentUnit(action);
+                if (_currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL)>0 &&
+                    units[0]->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO)>0 &&
+                    units[0]->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO) != units[0]->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO))
+                {
+                    units[0]->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_AMMO, units[0]->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO));
+                    _currentUnit->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, _currentUnit->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) - 1);
+                    SOUND->PlaySystemSound(SOUND_TYPE_RELOADED);
+                    SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
+                }
+            }
+        } break;
+        case UNIT_MENU_ACTION_REPAIR:
+        {
+            if (units.size() != 0)
+            {
+                EnableModeForCurrentUnit(action);
+                int needRepair = units[0]->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_HEALTH) - units[0]->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH);
+                int canRepair = _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) / 1;
+                int repair =  canRepair > needRepair? needRepair : canRepair;
+                int spentMaterial = repair * 1;
+                
+                
+                units[0]->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_HEALTH, units[0]->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) + repair);
+                _currentUnit->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, _currentUnit->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) - spentMaterial);
+                if (repair > 0)
+                {
+                    SOUND->PlaySystemSound(SOUND_TYPE_UNIT_REPAIRED);
+                    SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
+                }
+                
+            }
+        } break;
+            
+        default:
+            break;
     }
-    else
-        _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
-}
-
-void MAXGame::AgreedSecondUnitFinished(GameUnit* unit, const CCPoint &point, bool agreeded)
-{
-    if (agreeded) {
-        StartAttackSequence(_currentUnit, unit, point);
-    }
-    else
-    {}
+    
 }
 
 #pragma mark - MAXEngineDelegate
@@ -860,7 +915,7 @@ void MAXGame::ProceedPan(float speedx, float speedy)
 
 void MAXGame::ProceedTap(float tapx, float tapy)
 {
-    if (_freezeCounter>0) {
+    if (_freezeCounter1>0) {
         return;
     }
     if (_gameInterface->GetSelectUnitMenuOpened()) {
@@ -1061,7 +1116,7 @@ void MAXGame::SelectNewUnit(GameUnit* unit)
 
 void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
-    if (_freezeCounter>0)
+    if (_freezeCounter1>0)
         return;
     
     
@@ -1103,9 +1158,11 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
             DeselectCurrentUnit(true);
         }
     }
-    else if (newCurrentUnit)
+    else
     {
-        SelectNewUnit(newCurrentUnit);
+        _gameController->AbortCurrentAction();
+        if (newCurrentUnit)
+            SelectNewUnit(newCurrentUnit);
     }
 }
 
@@ -1132,6 +1189,7 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
 
 void MAXGame::DeselectCurrentUnit(bool _removeFromLock)
 {
+    _gameController->AbortCurrentAction();
     if (_currentUnit)
     {
         _currentUnit->UnitDidDeselect();
@@ -1184,16 +1242,15 @@ void MAXGame::TryStartConstruction(string type)
 
 void MAXGame::onUnitMoveStart(GameUnit* unit)
 {
-    _freezeCounter++;
-    HidePathMap();
+    IncreaseFreezeCounter();
 }
 
 void MAXGame::onUnitMovePause(GameUnit* unit)
 {
     RefreshCurrentUnitPath();
+    DecreaseFreezeCounter();
     if (unit == _currentUnit)
     {
-        _freezeCounter--;
         _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
     }
 }
@@ -1219,9 +1276,9 @@ void MAXGame::onUnitMoveStepEnd(GameUnit* unit)
 void MAXGame::onUnitMoveStop(GameUnit* unit)
 {
     RefreshCurrentUnitPath();
+    DecreaseFreezeCounter();
     if (unit == _currentUnit)
     {
-        _freezeCounter--;
         _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
     }
 
@@ -1244,7 +1301,7 @@ void MAXGame::onUnitMoveStop(GameUnit* unit)
 
 void MAXGame::onUnitFireStart(GameUnit* unit)
 {
-    _freezeCounter++;
+    IncreaseFreezeCounter();
 
     RefreshCurrentUnitPath();
     if (unit == _currentUnit)
@@ -1255,7 +1312,7 @@ void MAXGame::onUnitFireStart(GameUnit* unit)
 
 void MAXGame::onUnitFireStop(GameUnit* unit)
 {
-    _freezeCounter--;
+    DecreaseFreezeCounter();
     RefreshCurrentUnitPath();
     
     MakePain();
@@ -1306,7 +1363,8 @@ void MAXGame::EnableModeForCurrentUnit(UNIT_MENU_ACTION action)
     
     _gameController->StartSelectSecondUnit(_currentUnit, range, action);
     HideUnitPath();
-    HidePathMap();
+    if (_gameController->UnitCanMoveWithAction())
+        HidePathMap();
 }
 
 #pragma mark - GIUnitActionMenuDelegate
@@ -1401,7 +1459,6 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 //        case UNIT_MENU_ACTION_ENTER:
 //        case UNIT_MENU_ACTION_LOAD:
 //        case UNIT_MENU_ACTION_XFER:
-        case UNIT_MENU_ACTION_RECHARGE:
         case UNIT_MENU_ACTION_REPAIR:
         case UNIT_MENU_ACTION_RELOAD:
         case UNIT_MENU_ACTION_STEAL:
@@ -1466,7 +1523,7 @@ void MAXGame::OnAnimationFinish(MAXAnimationBase* animation)
     if (animation == _waitTestAnimSubmarineMovement)
     {
         _waitTestAnimSubmarineMovement = NULL;
-        _freezeCounter --;
+        DecreaseFreezeCounter();
         
         _testUnitSubmarine = NULL;
         _testUnitCorvette = NULL;

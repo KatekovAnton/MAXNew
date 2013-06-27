@@ -49,6 +49,7 @@ public:
     
     GameUnit *UnitForAttackingByUnit(GameUnit *agressor, const CCPoint &target);
     bool UnitCanAttackUnit(GameUnit *agressor, GameUnit *target);
+    bool UnitCanInteractWithUnit(GameUnit *activeUnit, GameUnit *passiveUnit);
     
     bool GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor);
     

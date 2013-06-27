@@ -239,6 +239,37 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
     return false;
 }
 
+bool GameMatch::UnitCanInteractWithUnit(GameUnit *activeUnit, GameUnit *passiveUnit)
+{
+    if (passiveUnit->_unitData->_isConstruction)
+        return false;
+    
+    CCPoint targetCell = passiveUnit->GetUnitCell();
+    UNIT_MOVETYPE pmt = (UNIT_MOVETYPE)passiveUnit->GetConfig()->_bMoveType;
+    MAXObjectConfig* activeConfig = activeUnit->GetConfig();
+    
+    switch (pmt) {
+        case UNIT_MOVETYPE_GROUND:
+        case UNIT_MOVETYPE_GROUNDCOAST:
+        case UNIT_MOVETYPE_SEACOAST:
+        case UNIT_MOVETYPE_SURVEYOR:
+        case UNIT_MOVETYPE_SEA:
+        case UNIT_MOVETYPE_AMHIB:
+        {
+            return activeConfig->_bMoveType != UNIT_MOVETYPE_AIR || activeUnit->_unitData->_landed;
+        } break;
+            
+        case UNIT_MOVETYPE_AIR:
+        {
+            return activeConfig->_bMoveType == UNIT_MOVETYPE_AIR && !activeUnit->_unitData->_landed;
+        } break;
+            
+        default:
+            break;
+    }
+    return false;
+}
+
 void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 {
     if (!unit->_unitData->GetIsConnectored())

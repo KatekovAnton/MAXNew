@@ -71,7 +71,13 @@ class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public Se
     
     bool _needToOpenMenuOnNextTapToSameUnit;
     
+    
+    int _freezeCounter1;
+    
 public:
+    
+    void IncreaseFreezeCounter();
+    void DecreaseFreezeCounter();
     
     MAXGameController *_gameController;
     
@@ -79,7 +85,6 @@ public:
 	void ShowUnitPath(GameUnit *unit);
 	void HideUnitPath();
     
-    int _freezeCounter;
     
     GameMatch *_match;
     
@@ -125,7 +130,6 @@ public:
     
     virtual void SelectSecondUnitActionCanceled();
     virtual void SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action);
-    virtual void AgreedSecondUnitFinished(GameUnit* unit, const CCPoint &point, bool agreeded);
     
 #pragma mark - MAXEngineDelegate
     virtual void onFrame();
