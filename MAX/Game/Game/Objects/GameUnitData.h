@@ -90,6 +90,10 @@ public:
     void ContinuePausedTask();
     void CompletlyFinishTask();
     
+    bool RearmWithUnit(GameUnitData* unit);
+    bool RepairWithUnit(GameUnitData* unit);
+    bool TransformResourcesFromUnit(GameUnitData* unit, int count);
+    
     //returns yes when its ready but not completle, like wait for user finish
     bool GetIsTaskFinished() const;
     bool GetIsTaskPaused() const;

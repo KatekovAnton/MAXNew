@@ -587,6 +587,38 @@ void GameUnitData::CompletlyFinishTask()
     _paused = false;
 }
 
+
+bool GameUnitData::RearmWithUnit(GameUnitData* unit)
+{
+    if (unit->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL)>0 &&
+        this->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO)>0 &&
+        this->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO) != this->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO))
+    {
+        this->SetParameterValue(UNIT_PARAMETER_TYPE_AMMO, this->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO));
+        unit->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, unit->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) - 1);
+        return true;
+    }
+    return false;
+}
+
+bool GameUnitData::RepairWithUnit(GameUnitData* unit)
+{
+    int needRepair = this->GetMaxParameterValue(UNIT_PARAMETER_TYPE_HEALTH) - this->GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH);
+    int canRepair = unit->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) / 1;
+    int repair =  canRepair > needRepair? needRepair : canRepair;
+    int spentMaterial = repair * 1;
+    
+    
+    this->SetParameterValue(UNIT_PARAMETER_TYPE_HEALTH, this->GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) + repair);
+    unit->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, unit->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) - spentMaterial);
+    return repair > 0;
+}
+
+bool GameUnitData::TransformResourcesFromUnit(GameUnitData* unit, int count)
+{
+    return false;
+}
+
 bool GameUnitData::ReceiveDamage(GameUnitData* unit, int decrase)
 {
     int resultDamage = GetDamageValue(unit->GetMaxParameterValue(UNIT_PARAMETER_TYPE_ATTACK), decrase);

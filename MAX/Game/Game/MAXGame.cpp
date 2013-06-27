@@ -800,7 +800,10 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
             if (units.size() == 0)
             {
                 if (_currentUnit->_unitData->IsCellOfUnit(cellPoint))
+                {
+                    ShowPathMap();
                     return;
+                }
                 StartAttackSequence(_currentUnit, nil, cellPoint);
             }
             else
@@ -811,14 +814,11 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
             if (units.size() != 0)
             {
                 EnableModeForCurrentUnit(action);
-                if (_currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL)>0 &&
-                    units[0]->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO)>0 &&
-                    units[0]->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO) != units[0]->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO))
+                if (units[0]->_unitData->RearmWithUnit(_currentUnit->_unitData))
                 {
-                    units[0]->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_AMMO, units[0]->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_AMMO));
-                    _currentUnit->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, _currentUnit->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) - 1);
                     SOUND->PlaySystemSound(SOUND_TYPE_RELOADED);
                     SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
+                    _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
                 }
             }
         } break;
@@ -827,27 +827,18 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
             if (units.size() != 0)
             {
                 EnableModeForCurrentUnit(action);
-                int needRepair = units[0]->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_HEALTH) - units[0]->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH);
-                int canRepair = _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) / 1;
-                int repair =  canRepair > needRepair? needRepair : canRepair;
-                int spentMaterial = repair * 1;
-                
-                
-                units[0]->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_HEALTH, units[0]->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) + repair);
-                _currentUnit->_unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, _currentUnit->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) - spentMaterial);
-                if (repair > 0)
+                if (units[0]->_unitData->RepairWithUnit(_currentUnit->_unitData))
                 {
                     SOUND->PlaySystemSound(SOUND_TYPE_UNIT_REPAIRED);
                     SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
+                    _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
                 }
-                
             }
         } break;
             
         default:
             break;
     }
-    
 }
 
 #pragma mark - MAXEngineDelegate
