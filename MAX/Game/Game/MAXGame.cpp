@@ -801,7 +801,7 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
             {
                 if (_currentUnit->_unitData->IsCellOfUnit(cellPoint))
                     return;
-                StartAttackSequence(_currentUnit, nil, cellPoint);
+                StartAttackSequence(_currentUnit, NULL, cellPoint);
             }
             else
                 _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);

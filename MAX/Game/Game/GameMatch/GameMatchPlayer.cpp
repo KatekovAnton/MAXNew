@@ -79,7 +79,7 @@ CCArray *GameMatchPlayer::CreateTexture2DFromMaterialFirstFrame(string name)
 {
     int index = MAXSCL->FindImage(name);
     void* cashed = _cachedPaletteImages[index];
-    CCArray *array = nil;
+    CCArray *array = NULL;
     if(cashed)
     {
         CCArray *result = (CCArray*)cashed;

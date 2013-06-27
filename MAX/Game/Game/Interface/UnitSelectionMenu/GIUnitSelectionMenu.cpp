@@ -57,7 +57,8 @@ CCMenuItem *GIUnitSelectionMenu::CreateMenuItemWithUnit(GameUnit *unit, int inde
     CCSprite* _onSprite = CCSprite::create("selectUnitMenuBG.png");// MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
     CCSprite* _ofSprite = CCSprite::create("selectUnitMenuBG.png");//MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
     
-    CCMenuItemSprite* spr = CCMenuItemSprite::create(_ofSprite, _onSprite, this, menu_selector(GIUnitSelectionMenu::OnButton));
+	SEL_MenuHandler selector =  menu_selector(GIUnitSelectionMenu::OnButton);
+	CCMenuItemSprite* spr = CCMenuItemSprite::create(_ofSprite, _onSprite, this, selector);
     spr->setContentSize(CCSize(BUTTON_W, BUTTON_H));
     spr->setAnchorPoint(ccp(0, 0));
     spr->setTag(index);
@@ -94,30 +95,44 @@ CCMenuItem *GIUnitSelectionMenu::CreateMenuItemWithUnit(GameUnit *unit, int inde
     if (redW > greenW)
         redW = greenW;
     
-    
-    CCLayerColor *white = CCLayerColor::create({255,255,255,255}, lineFullW + 2, 14);
+    ccColor4B color;
+	color.r = 255;
+	color.g = 255;
+	color.b = 255;
+	color.a = 255;
+    CCLayerColor *white = CCLayerColor::create(color, lineFullW + 2, 14);
     spr->addChild(white);
     white->setPosition(ccp(4, 4));
     
-    CCLayerColor *black = CCLayerColor::create({0,0,0,255}, lineFullW, 12);
+	color.r = 0;
+	color.g = 0;
+	color.b = 0;
+    CCLayerColor *black = CCLayerColor::create(color, lineFullW, 12);
     spr->addChild(black);
     black->setPosition(ccp(5, 5));
     
-    CCLayerColor *green = CCLayerColor::create({0,255,0,255}, greenW, 12);
+	color.r = 0;
+	color.g = 255;
+	color.b = 0;
+    CCLayerColor *green = CCLayerColor::create(color, greenW, 12);
     spr->addChild(green);
     green->setPosition(ccp(5, 5));
     
-    CCLayerColor *red = CCLayerColor::create({255,0,0,255}, redW, 12);
+	color.r = 255;
+	color.g = 0;
+	color.b = 0;
+    CCLayerColor *red = CCLayerColor::create(color, redW, 12);
     spr->addChild(red);
     red->setPosition(ccp(5 + greenW - redW, 5));
     
     return spr;
 }
 
-void GIUnitSelectionMenu::OnButton(CCMenuItem* sender)
+void GIUnitSelectionMenu::OnButton(CCObject* sender)
 {
+	CCMenuItem* senderMenu = reinterpret_cast<CCMenuItem*>(sender);
     if (_delegate_w)
-        _delegate_w->OnUnitSelected(_units[sender->getTag()], _point);
+        _delegate_w->OnUnitSelected(_units[senderMenu->getTag()], _point);
 }
 
 

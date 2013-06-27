@@ -14,6 +14,8 @@
 #include "cocos2d.h"
 #include "GIUnitSelectionMenuDelegate.h"
 
+using namespace cocos2d;
+
 class GIUnitSelectionMenu : public CCMenu {
     
     CCMenuItem *CreateMenuItemWithUnit(GameUnit *unit, int index, GameUnit *currentUnit);
@@ -27,7 +29,7 @@ public:
     GIUnitSelectionMenu(const vector<GameUnit*> units, GameUnit *currentUnit, const CCPoint &point);
     virtual ~GIUnitSelectionMenu();
     
-    void OnButton(CCMenuItem* sender);
+    void OnButton(CCObject* sender);
 };
 
 #endif /* defined(__MAX__GIUnitSelectionMenu__) */

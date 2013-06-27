@@ -115,6 +115,18 @@
     <Filter Include="Game\Game\Objects\Tasks">
       <UniqueIdentifier>{8b1d9455-44c1-4086-8293-d5ad1dbeb161}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game\Interface\Message">
+      <UniqueIdentifier>{a58929c8-e723-4fd2-b0c9-86c0d30f6c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\Interface\Windows">
+      <UniqueIdentifier>{8912e85b-fe07-4714-8a3e-4cc91d8cfc38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\Interface\UnitSelectionMenu">
+      <UniqueIdentifier>{8b2a8f0c-cc8a-45cf-bf90-ac80294afb65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\Interface\AgreedTarget">
+      <UniqueIdentifier>{67404de6-896f-4b11-82e9-99ef3621d267}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp">
@@ -401,6 +413,18 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayerData.cpp">
       <Filter>Game\Game\GameMatch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\Windows\GIWindow.cpp">
+      <Filter>Game\Game\Interface\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\Windows\GIWindowsManager.cpp">
+      <Filter>Game\Game\Interface\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitSelectionMenu\GIUnitSelectionMenu.cpp">
+      <Filter>Game\Game\Interface\UnitSelectionMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\AgreedTarget\GIAgreedTarget.cpp">
+      <Filter>Game\Game\Interface\AgreedTarget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -790,6 +814,21 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayerDataDelegate.h">
       <Filter>Game\Game\GameMatch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIWindow.h">
+      <Filter>Game\Game\Interface\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIWindowsManager.h">
+      <Filter>Game\Game\Interface\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitSelectionMenu\GIUnitSelectionMenu.h">
+      <Filter>Game\Game\Interface\UnitSelectionMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitSelectionMenu\GIUnitSelectionMenuDelegate.h">
+      <Filter>Game\Game\Interface\UnitSelectionMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\AgreedTarget\GIAgreedTarget.h">
+      <Filter>Game\Game\Interface\AgreedTarget</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
