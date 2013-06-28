@@ -1133,6 +1133,9 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
         return;
     }
 
+    if (!_currentUnit->_owner_w->GetIsCurrentPlayer()) {
+        return;
+    }
 
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, true);
     if (_currentUnit)
