@@ -54,7 +54,7 @@ bool MAXGameController::ShoulTakeTap(const CCPoint &cell)
             if (_selectedUnit_w->_unitData->IsInRadius(cell, 0.9))
                 return false;
             
-            if (_action == UNIT_MENU_ACTION_RELOAD)
+            if (_action == UNIT_MENU_ACTION_RELOAD || _action == UNIT_MENU_ACTION_REPAIR || _action == UNIT_MENU_ACTION_DISABLE || _action == UNIT_MENU_ACTION_STEAL)
             {
                 USimpleContainer<GameUnit*> *units = game->_match->_currentPlayer_w->_agregator->UnitsInCell(cell.x, cell.y);
                 for (int i = 0; i < units->GetCount(); i++)

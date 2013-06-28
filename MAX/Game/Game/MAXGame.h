@@ -118,6 +118,7 @@ public:
     
     void SelectNewUnit(GameUnit* unit);
     void StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point);
+    void StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point);
     void MakePain();
     
 #pragma mark - Interface

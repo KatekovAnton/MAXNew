@@ -119,7 +119,22 @@ void MAXGame::DecreaseFreezeCounter()
 {
     _freezeCounter1 --;
     if (_freezeCounter1 == 0)
-        _gameController->OnGameStopsActons();
+    {
+        if (_gameController->GetRunedSpecialAction())
+            _gameController->OnGameStopsActons();
+        
+        if (!_gameController->GetRunedSpecialAction() || _gameController->UnitCanMoveWithAction())
+        {
+            if (_currentUnit) {
+                if (_currentUnit->_owner_w->GetIsCurrentPlayer()) {
+                    ShowUnitPath(_currentUnit);
+                    
+                    RecalculateUnitPathMap(_currentUnit);
+                    ShowPathMap();
+                }
+            }
+        }
+    }
 }
 
 int MAXGame::CurrentPlayerId() const
@@ -1195,6 +1210,12 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
     
     _currentFiringCell = point;
     _currentFiringUnit->Fire(point, reslevel);
+}
+
+void MAXGame::StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point)
+{
+    //AGA POPALSA!!!
+    target->AbortCurrentPath();
 }
 
 void MAXGame::DeselectCurrentUnit(bool _removeFromLock)

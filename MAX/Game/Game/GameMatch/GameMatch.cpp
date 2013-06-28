@@ -496,17 +496,32 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
         return;
     
     vector<GameUnit*> potentialAttackers = _fireAgregator->UnitsForAttackingUnitInCell(point.x, point.y, unit);
+    vector<GameUnit*> attackers;
     for (int i = 0; i < potentialAttackers.size(); i++) {
         GameUnit* cUnit = potentialAttackers[i];
         
         if (!cUnit->_unitData->_detected[unit->_owner_w->_playerData->_playerInfo._playerId] && (cUnit->GetConfig()->_isStealthable || cUnit->GetConfig()->_isStealth || cUnit->GetConfig()->_isUnderwater)) 
             continue;
         
+//        if (!cUnit->_unitData->_isOnSentry)
+//            continue;
+        
+        if (cUnit->_unitData->_disabledByInfiltrator)
+            continue;
+
+        if (cUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO) == 0)
+            continue;
+        
+        if (cUnit->_unitData->GetShotBalance() == 0)
+            continue;
+
+        if (!cUnit->_owner_w->CanSeeUnit(unit))
+            continue;
+        
+        attackers.push_back(cUnit);
     }
-    if (potentialAttackers.size() > 0) {
-        unit->AbortCurrentPath();
-        int a = 0;
-        a++;
+    if (attackers.size() > 0) {
+        game->StartMultipleAttackSequence(attackers, unit, point);
     }
 }
 
