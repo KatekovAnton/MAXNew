@@ -814,11 +814,16 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
             if (units.size() != 0)
             {
                 EnableModeForCurrentUnit(action);
-                if (units[0]->_unitData->RearmWithUnit(_currentUnit->_unitData))
+                for (int i = 0; i < units.size(); i++)
                 {
-                    SOUND->PlaySystemSound(SOUND_TYPE_RELOADED);
-                    SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
-                    _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+                    GameUnit *rearmedUnit = units[units.size() - i - 1];
+                    if (rearmedUnit->_unitData->RearmWithUnit(_currentUnit->_unitData))
+                    {
+                        SOUND->PlaySystemSound(SOUND_TYPE_RELOADED);
+                        SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
+                        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+                        break;
+                    }
                 }
             }
         } break;
@@ -827,11 +832,16 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
             if (units.size() != 0)
             {
                 EnableModeForCurrentUnit(action);
-                if (units[0]->_unitData->RepairWithUnit(_currentUnit->_unitData))
+                for (int i = 0; i < units.size(); i++)
                 {
-                    SOUND->PlaySystemSound(SOUND_TYPE_UNIT_REPAIRED);
-                    SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
-                    _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+                    GameUnit *repairedUnit = units[units.size() - i - 1];
+                    if (repairedUnit->_unitData->RepairWithUnit(_currentUnit->_unitData))
+                    {
+                        SOUND->PlaySystemSound(SOUND_TYPE_UNIT_REPAIRED);
+                        SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
+                        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+                        break;
+                    }
                 }
             }
         } break;

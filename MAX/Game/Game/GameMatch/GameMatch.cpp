@@ -261,7 +261,10 @@ bool GameMatch::UnitCanInteractWithUnit(GameUnit *activeUnit, GameUnit *passiveU
             
         case UNIT_MOVETYPE_AIR:
         {
-            return activeConfig->_bMoveType == UNIT_MOVETYPE_AIR && !activeUnit->_unitData->_landed;
+            if (activeConfig->_bMoveType == UNIT_MOVETYPE_AIR)
+                return !activeUnit->_unitData->_landed;
+            else
+                return passiveUnit->_unitData->_landed;
         } break;
             
         default:
