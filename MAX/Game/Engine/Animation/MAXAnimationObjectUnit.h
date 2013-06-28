@@ -61,6 +61,7 @@ public:
     virtual void CompletlyFinish();
     virtual void StartAnimation();
     
+    virtual bool UpdatesPosition();
 };
 
 #endif /* defined(__MAX__MAXAnimationObjectUnit__) */

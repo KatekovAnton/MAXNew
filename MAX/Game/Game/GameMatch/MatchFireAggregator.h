@@ -37,7 +37,7 @@ public:
     
     void UnitDidEnterCell(GameUnit *unit, const CCPoint &cell);
     void UnitWillLeaveCell(GameUnit *unit, const CCPoint &cell);
-    vector<GameUnit*> UnitsForAttackingUnitInCell(const int x, const int y, GameUnit* unit) const;
+    vector<GameUnit*> UnitsForAttackingUnitInCell(const int x, const int y, GameUnit* unit);
 
 };
 

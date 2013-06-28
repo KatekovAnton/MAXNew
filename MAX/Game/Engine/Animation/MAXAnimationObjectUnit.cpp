@@ -98,6 +98,11 @@ int MAXAnimationObjectUnit::CalculateInterpolatedIndex(double theta)
     return 0;
 }
 
+bool MAXAnimationObjectUnit::UpdatesPosition()
+{
+    return _type == MAXANIMATION_UNITMOVE;
+}
+
 void MAXAnimationObjectUnit::Update(double time)
 {
     double elapsed = (engine->FullTime()-GetStartTime());

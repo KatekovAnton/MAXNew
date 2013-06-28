@@ -12,6 +12,7 @@
 #include "GameUnitData.h"
 #include "USimpleContainer.h"
 #include "GameMatch.h"
+#include "MAXObjectConfig.h"
 
 USimpleContainer<GameUnit*> *MatchFireAggregator::UnitsForCell(const int x, const int y)
 {
@@ -61,6 +62,12 @@ void MatchFireAggregator::ClearAllData()
 
 void MatchFireAggregator::UnitDidEnterCell(GameUnit *unit, const CCPoint &cell)
 {
+    if (!unit->GetConfig()->_isAbleToFire)
+        return;
+    if (unit->_unitData->_isUnderConstruction) 
+        return;
+    
+    
     BoundingBox bb = unit->_unitData->GetBoundingBox(cell, unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE));
     for (int x = bb.min.x; x <= bb.max.x; x++) {
         for (int y = bb.min.y; y <= bb.max.y; y++) {
@@ -77,6 +84,11 @@ void MatchFireAggregator::UnitDidEnterCell(GameUnit *unit, const CCPoint &cell)
 
 void MatchFireAggregator::UnitWillLeaveCell(GameUnit *unit, const CCPoint &cell)
 {
+    if (!unit->GetConfig()->_isAbleToFire) 
+        return;
+    if (unit->_unitData->_isUnderConstruction)
+        return;
+    
     BoundingBox bb = unit->_unitData->GetBoundingBox(cell, unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE));
     for (int x = bb.min.x; x <= bb.max.x; x++) {
         for (int y = bb.min.y; y <= bb.max.y; y++) {
@@ -90,10 +102,18 @@ void MatchFireAggregator::UnitWillLeaveCell(GameUnit *unit, const CCPoint &cell)
     }
 }
 
-vector<GameUnit*> MatchFireAggregator::UnitsForAttackingUnitInCell(const int x, const int y, GameUnit* unit) const
+vector<GameUnit*> MatchFireAggregator::UnitsForAttackingUnitInCell(const int x, const int y, GameUnit* unit)
 {
     vector<GameUnit*> result;
-    
+    USimpleContainer<GameUnit*> *allUnits = UnitsForCell(x, y);
+    for (int i = 0; i < allUnits->GetCount(); i++)
+    {
+        GameUnit *cUint = allUnits->objectAtIndex(i);
+        if (_match_w->UnitCanAttackUnit(cUint, unit) &&
+            _match_w->PlayerIsEnemyToPlayer(unit->_owner_w, cUint->_owner_w)) {
+            result.push_back(cUint);
+        }
+    }
     return result;
 }
 

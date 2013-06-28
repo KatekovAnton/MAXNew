@@ -27,6 +27,11 @@ void MAXAnimationBase::BaseUpdate(double time)
     
 }
 
+bool MAXAnimationBase::UpdatesPosition()
+{
+    return false;
+}
+
 float MAXAnimationBase::GetAniElapsedPart(double elapsedTime)
 {
     float result = 0;

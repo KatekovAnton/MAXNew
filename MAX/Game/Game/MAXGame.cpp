@@ -162,6 +162,7 @@ void MAXGame::StartMatch()
     _gameInterface->InitBaseInterface();
     CCDirector::sharedDirector()->pushScene(_gameInterface);
 
+    _match->_holdAutofire = true;
     {
         GameUnit *unit1 = _match->_players[0]->CreateUnit(56, 56, "Inter", 0);
         unit1->PlaceUnitOnMap();
@@ -434,7 +435,8 @@ void MAXGame::StartMatch()
     engine->SetCameraCenter(ccp(62, 57));
     _match->_players[0]->_playerData->cameraPosition = ccp(62, 57);
     _match->_players[1]->_playerData->cameraPosition = ccp(62, 57);
-
+    
+    _match->_holdAutofire = false;
 }
 
 bool MAXGame::EndTurn()
@@ -1138,7 +1140,11 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
     }
 
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, true);
-    if (_currentUnit)
+    bool selectNew = !_currentUnit;
+    if (_currentUnit && newCurrentUnit)
+        selectNew = !_match->PlayerIsEnemyToPlayer(newCurrentUnit->_owner_w, _currentUnit->_owner_w);
+    
+    if (!selectNew)
     {
         if (newCurrentUnit)
         {

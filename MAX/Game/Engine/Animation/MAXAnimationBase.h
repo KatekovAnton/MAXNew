@@ -44,6 +44,8 @@ public:
     void BaseCompletlyFinish();
     void BaseUpdate(double time);
     
+    virtual bool UpdatesPosition();
+    
     virtual bool IsFinished();
     virtual void Update(double time) = 0;
     virtual void CompletlyFinish() = 0;

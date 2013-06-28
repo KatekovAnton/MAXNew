@@ -116,7 +116,7 @@ bool GameMatchPlayerData::CanSeeUnit(GameUnitData* unit)
 
 bool GameMatchPlayerData::UnitShouldUpdateFog(const GameUnitData *unit, const GameFog *fog) const
 {
-    if (unit->_isConstruction)
+    if (unit->_isUnderConstruction)
         return false;
     
     bool result = false;

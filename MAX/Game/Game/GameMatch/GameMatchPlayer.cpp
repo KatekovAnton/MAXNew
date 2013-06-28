@@ -174,37 +174,31 @@ void GameMatchPlayer::CellDidUpdate(const int x, const int y, const FOG_TYPE typ
 void GameMatchPlayer::GameUnitWillLeaveCell(GameUnit *unit)
 {
     _playerData->UnitDidStartMove(unit->_unitData);
-    
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidEnterCell(GameUnit *unit)
 {
     _playerData->UnitDidEndMove(unit->_unitData);
-    
     _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidDestroy(GameUnit *unit)
 {
-    
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
     _units.removeObject(unit);
-
     _match_w->GameUnitDidDestroy(unit);
 }
 
 void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
 {
     _playerData->UnitDidPlaceToMap(unit->_unitData);
-    
     _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
 {
     _playerData->UnitDidRemoveFromMap(unit->_unitData);
-    
     _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 

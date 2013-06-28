@@ -222,7 +222,7 @@ void GameUnit::SetColor(GLKVector4 color)
 
 void GameUnit::Show()
 {
-    if (!_unitData->_isConstruction)
+    if (!_unitData->_isUnderConstruction)
         GameObject::Show();
     if (_effectUnder)
         _effectUnder->Show();
@@ -838,7 +838,7 @@ bool GameUnit::IsDetectedByPlayer(unsigned int playerId)
 
 bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
-    if (_unitData->_isConstruction)
+    if (_unitData->_isUnderConstruction)
         return false;
     
     MAXUnitObject* _unitObject = GetUnitObject();
@@ -1045,13 +1045,13 @@ void GameUnit::CancelConstructingUnit()
 
 void GameUnit::BeginConstructionSequence()
 {
-    _unitData->_isConstruction = true;
+    _unitData->_isUnderConstruction = true;
 }
 
 void GameUnit::EndConstructionSequense()
 {
     _delegate_w->GameUnitDidRemoveFromMap(this);
-    _unitData->_isConstruction = false;
+    _unitData->_isUnderConstruction = false;
     _delegate_w->GameUnitDidPlaceOnMap(this);
     PlaceUnitOnMap();
 }
@@ -1086,7 +1086,7 @@ void GameUnit::AbortConstructingUnit()
 
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
 {
-    if (_unitData->_isConstruction)
+    if (_unitData->_isUnderConstruction)
     {
         vector<UNIT_MENU_ACTION> result;
         return result;
@@ -1164,7 +1164,8 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 {
     if (animation == _removeDelayAnim) 
         return;
-    CheckMovementUpdate();
+    if (animation->UpdatesPosition())
+        CheckMovementUpdate();
     MAXUnitObject* _unitObject = GetUnitObject();
     _unitData->_headDirection = _unitObject->pureheadIndex;
     _unitData->_bodyDirection = _unitObject->purebodyIndex;
@@ -1217,7 +1218,7 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 
 bool GameUnit::ShouldSkipThisUnit() const
 {
-    return _unitData->_isConstruction;
+    return _unitData->_isUnderConstruction;
 }
 
 int GameUnit::GetScan() const

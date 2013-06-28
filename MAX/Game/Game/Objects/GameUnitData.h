@@ -28,7 +28,7 @@ public:
     int _ownerId;
     
     //this building is currently constructing
-    bool _isConstruction;
+    bool _isUnderConstruction;
     bool _isOn;
     CCPoint _unitCell;
     

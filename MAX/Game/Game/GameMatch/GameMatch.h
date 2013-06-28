@@ -42,6 +42,7 @@ public:
     MatchFireAggregator*        _fireAgregator;
     
     int _currentTurn;
+    bool _holdAutofire;
 
     GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();
@@ -54,16 +55,21 @@ public:
     bool UnitCanAttackUnit(GameUnit *agressor, GameUnit *target);
     bool UnitCanInteractWithUnit(GameUnit *activeUnit, GameUnit *passiveUnit);
     
+    bool PlayerIsEnemyToPlayer(GameMatchPlayer *one, GameMatchPlayer *two);
+    
     bool GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor);
     
     bool GetIsCurrentPlayer(const unsigned int playerId) const { return _currentPlayer_w != NULL && _currentPlayer_w->_playerData->_playerInfo._playerId == playerId; }
     
     void GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point);
-    void GameUnitDidUndetected(GameUnit *unit, const CCPoint &point);
-    void GameUnitDidDetected(GameUnit *unit, const CCPoint &point);
     void GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point);
-    void CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, GameMatchPlayer* player);
     
+    void GameUnitDidDetected(GameUnit *unit, const CCPoint &point);
+    void GameUnitDidUndetected(GameUnit *unit, const CCPoint &point);
+    
+    void CheckAutofire(GameUnit *unit, const CCPoint &point);
+    
+    void CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, GameMatchPlayer* player);
     bool GetIsCellValid(CCPoint cell) const;
     void UpdateConnectorsForUnit(GameUnit* unit);
 	bool IsHiddenUnitInPos(const int x, const int y, const bool checkOnly, GameMatchPlayer *player, vector<CCPoint> lockedCells);
