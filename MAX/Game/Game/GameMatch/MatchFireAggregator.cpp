@@ -67,12 +67,11 @@ void MatchFireAggregator::UnitDidEnterCell(GameUnit *unit, const CCPoint &cell)
     if (unit->_unitData->_isUnderConstruction) 
         return;
     
-    
     BoundingBox bb = unit->_unitData->GetBoundingBox(cell, unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE));
     for (int x = bb.min.x; x <= bb.max.x; x++) {
         for (int y = bb.min.y; y <= bb.max.y; y++) {
-            CCPoint cell = ccp(x,y);
-            if (unit->_unitData->IsInFireRadius(cell, cell))
+            CCPoint cell1 = ccp(x,y);
+            if (unit->_unitData->IsInFireRadius(cell1, cell))
             {
                 USimpleContainer<GameUnit*> *units = UnitsForCell(x, y);
                 if (units->indexOf(unit) == -1) 
