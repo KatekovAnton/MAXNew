@@ -35,8 +35,8 @@ public:
     MatchMapAgregator(GameMap* map);
     ~MatchMapAgregator();
     
-    int Width();
-    int Height();
+    int Width() const;
+    int Height() const;
     
     void ClearAllData();
     

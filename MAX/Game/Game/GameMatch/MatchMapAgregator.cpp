@@ -70,12 +70,12 @@ MatchMapAgregator::~MatchMapAgregator()
     delete _mapBuffer;
 }
 
-int MatchMapAgregator::Width()
+int MatchMapAgregator::Width() const
 {
     return _map_w->_w;
 }
 
-int MatchMapAgregator::Height()
+int MatchMapAgregator::Height() const
 {
     return _map_w->_h;
 }

@@ -24,6 +24,7 @@
 #include "GameSettings.h"
 #include "Pathfinder.h"
 #include "MatchMapAgregator.h"
+#include "MatchFireAggregator.h"
 #include "PlayerResourceMap.h"
 #include "PFWaveCell.h"
 #include "MAXAnimationPrefix.h"
@@ -61,6 +62,7 @@ GameMatch::GameMatch(const string& configName, const string& clanConfigName, con
     _currentPlayer_w = _players[0];
     
     _fullAgregator = new MatchMapAgregator(_map);
+    _fireAgregator = new MatchFireAggregator(_map, this);
 }
 
 GameMatch::~GameMatch()
@@ -76,6 +78,10 @@ GameMatch::~GameMatch()
         GameMatchPlayer* player = _players[i];
         delete player;
     }
+    _fullAgregator->ClearAllData();
+    delete _fullAgregator;
+    _fireAgregator->ClearAllData();
+    delete _fireAgregator;
 }
 
 bool GameMatch::EndTurn()

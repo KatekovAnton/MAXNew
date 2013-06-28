@@ -19,6 +19,7 @@ class GameMapResources;
 class GameSettings;
 class GameMatchPlayer;
 class MatchMapAgregator;
+class MatchFireAggregator;
 class Pathfinder;
 class MAXObjectConfig;
 
@@ -35,8 +36,10 @@ public:
     GameMapResources*           _resources;
     vector<GameMatchPlayer*>    _players;
     vector<GameMatchPlayer*>    _playersCompleteTurn;
+    vector<vector<GameMatchPlayer*>> _teams;
     GameMatchPlayer*            _currentPlayer_w;
     MatchMapAgregator*          _fullAgregator;
+    MatchFireAggregator*        _fireAgregator;
     
     int _currentTurn;
 

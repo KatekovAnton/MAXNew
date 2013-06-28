@@ -201,6 +201,8 @@ struct __GameMatchPlayerInfo {
     unsigned int    _playerId;
     string          _name;
     Color           _color;
+    
+    int             _team;
 } typedef GameMatchPlayerInfo;
     
 struct MAXRESTextureData

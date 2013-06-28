@@ -13,19 +13,32 @@
 #include "miniPrefix.h"
 
 class GameMap;
+class GameMatch;
 class GameUnit;
 
 class MatchFireAggregator {
     
     GameMap *_map_w;
+    GameMatch *_match_w;
     
-    USimpleContainer<GameUnit*> **_unitsInCells_w;
+    USimpleContainer<GameUnit*> **_unitsForCells_w;
     
 public:
     
-    MatchFireAggregator(GameMap *map);
+    USimpleContainer<GameUnit*> *UnitsForCell(const int x, const int y);
+    int GetIndexForCoordinates(const int x, const int y) const;
+    
+    MatchFireAggregator(GameMap *map, GameMatch *match);
     ~MatchFireAggregator();
     
+    int Width() const;
+    int Height() const;
+    void ClearAllData();
+    
+    void UnitDidEnterCell(GameUnit *unit, const CCPoint &cell);
+    void UnitWillLeaveCell(GameUnit *unit, const CCPoint &cell);
+    vector<GameUnit*> UnitsForAttackingUnitInCell(const int x, const int y, GameUnit* unit) const;
+
 };
 
 #endif /* defined(__MAX__MatchFireAggregator__) */
