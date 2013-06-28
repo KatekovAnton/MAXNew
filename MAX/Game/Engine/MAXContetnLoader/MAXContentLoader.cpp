@@ -312,6 +312,7 @@ MAXContentLoader::MAXContentLoader()
     
     
     dir = new typdiritem[hdr.dirlength / 16];
+    memset(dir, 0, sizeof(typdiritem) * hdr.dirlength / 16);
     for (int f = 0; f < hdr.dirlength / 16; f++)
     {
         inf->ReadBuffer(8, dir[f].name);
@@ -729,6 +730,10 @@ int MAXContentLoader::FindImage(string name)
                 suit = false;
                 break;
             }
+        }
+        if (name.length() - 8) {
+            char last = cname[name.length()];
+            suit &= last == '\0';
         }
         if (suit)
         {
