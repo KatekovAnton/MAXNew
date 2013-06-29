@@ -516,7 +516,7 @@ bool GameUnit::IsPathTargetedTo(const int x, const int y)
 
 void GameUnit::ConfirmCurrentPath()
 {
-	if (movePath.size() > 1)
+	if (movePath.size() > 1 && _unitData->GetMoveBalance() > 0)
 	{
 		if (selectedGameObjectDelegate)
 			selectedGameObjectDelegate->onUnitMoveStart(this);

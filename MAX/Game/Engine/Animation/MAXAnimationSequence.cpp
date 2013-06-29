@@ -70,6 +70,8 @@ int MAXAnimationSequence::IndexOfAnimation(MAXAnimationBase* element)
 
 void MAXAnimationSequence::Update(double time)
 {
+	if (!_current)
+		return;
     if (_current->IsFinished())
     {
         _current->BaseCompletlyFinish();

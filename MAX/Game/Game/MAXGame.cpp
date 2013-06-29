@@ -120,10 +120,10 @@ void MAXGame::DecreaseFreezeCounter()
     _freezeCounter1 --;
     if (_freezeCounter1 == 0)
     {
-        if (_gameController->GetRunedSpecialAction())
+      //  if (_gameController->GetRunedSpecialAction())
             _gameController->OnGameStopsActons();
         
-        if (!_gameController->GetRunedSpecialAction() || _gameController->UnitCanMoveWithAction())
+        if (_gameController->UnitCanMoveWithAction())
         {
             if (_currentUnit) {
                 if (_currentUnit->_owner_w->GetIsCurrentPlayer()) {
