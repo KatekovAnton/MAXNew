@@ -426,6 +426,9 @@
     <ClCompile Include="..\..\MAX\Game\Game\Interface\AgreedTarget\GIAgreedTarget.cpp">
       <Filter>Game\Game\Interface\AgreedTarget</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\MatchFireAggregator.cpp">
+      <Filter>Game\Game\GameMatch\MatchInformation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MAX\Utils\BinaryReader.h">
@@ -829,6 +832,9 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Interface\AgreedTarget\GIAgreedTarget.h">
       <Filter>Game\Game\Interface\AgreedTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\MatchFireAggregator.h">
+      <Filter>Game\Game\GameMatch\MatchInformation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

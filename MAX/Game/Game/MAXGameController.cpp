@@ -380,6 +380,7 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
         } break;
         case MAXGameControllerAction_SelectSecondUnit:
         {
+            shouldDeselectUnit = false;
             if (_selectedUnit_w->_unitData->IsInRadius(p, _distance))
             {
                 if (_action == UNIT_MENU_ACTION_ATTACK)
@@ -414,7 +415,6 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
             else
             {
                 AbortCurrentAction();
-                shouldDeselectUnit = false;
                 _delegate_w->SelectSecondUnitActionCanceled();
             }
         } break;
