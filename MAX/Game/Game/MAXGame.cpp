@@ -816,7 +816,13 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
         {
             if (units.size() == 0)
             {
-                if (_currentUnit->_unitData->IsCellOfUnit(cellPoint))
+                bool cannotFire = _currentUnit->_unitData->IsCellOfUnit(cellPoint);
+                
+                GROUND_TYPE type = _match->_map->GroundTypeAtXY(cellPoint.x, cellPoint.y);
+                if (_currentUnit->GetConfig()->_pFireType == 2 && !(type == GROUND_TYPE_COAST || type == GROUND_TYPE_WATER))
+                    cannotFire = true;
+                
+                if (cannotFire)
                 {
                     ShowPathMap();
                     return;
@@ -1195,6 +1201,7 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
 {
     if (agressor == target)
         return;
+    
     _currentTargetUnit = target;
     _currentFiringUnit = agressor;
     int reslevel = 1;

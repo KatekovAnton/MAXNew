@@ -20,6 +20,7 @@
 #include "MatchMapAgregator.h"
 #include "PFWaveCell.h"
 #include "Pathfinder.h"
+#include "GameMap.h"
 
 
 CCPoint findInterimPointWithLargeBuilding(CCPoint buildingLocation, CCPoint exitCell)
@@ -187,6 +188,7 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
     
     int level = selectedUnit->GetConfig()->_bLevel;
     bool canAttackOwnCell = false;
+    bool notAllCells = false;
     if (action==UNIT_MENU_ACTION_ATTACK)
     {
         int fireType = selectedUnit->GetConfig()->_pFireType;
@@ -198,6 +200,7 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
         else if (movetype != UNIT_MOVETYPE_AIR)
             level = OBJECT_LEVEL_OVERUNITS;
         canAttackOwnCell = (movetype == UNIT_MOVETYPE_AIR && (fireType == 1 || fireType == 4)) || ((movetype != UNIT_MOVETYPE_AIR) && fireType == 3);
+        notAllCells = _selectedUnit_w->GetConfig()->_pFireType == 2;
     }
     else
         level = OBJECT_LEVEL_OVERAIR;
@@ -212,7 +215,12 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
             if (!canAttackOwnCell)
                 needColor &= !selectedUnit->_unitData->IsCellOfUnit(p);
             
-        
+            if (notAllCells) {
+                GROUND_TYPE type = game->_match->_map->GroundTypeAtXY(j, i);
+                if (!(type == GROUND_TYPE_COAST || type == GROUND_TYPE_WATER))
+                    needColor = false;
+            }
+            
             if (needColor) {
                 engine->AddOptionalZoneCell(j, i);
             }
