@@ -86,6 +86,7 @@ GameMatch::~GameMatch()
 
 bool GameMatch::EndTurn()
 {
+	_holdAutofire = true;
     _currentPlayer_w->EndTurn();
     _playersCompleteTurn.push_back(_currentPlayer_w);
     
@@ -133,6 +134,7 @@ bool GameMatch::EndTurn()
     engine->ClearResourceFog();
     FillResourceFogOnStartTurn();
     
+	_holdAutofire = false;
     return true;
 }
 
@@ -521,7 +523,7 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
         attackers.push_back(cUnit);
     }
     if (attackers.size() > 0) {
-        game->StartMultipleAttackSequence(attackers, unit, point);
+        game->StartMultipleAttackSequence(attackers, unit, point, false);
     }
 }
 

@@ -83,7 +83,7 @@ bool MAXGameController::ShoulTakePinch(float delta)
 
 bool MAXGameController::UnitCanMoveWithAction()
 {
-    return _actionType == -1 || (_actionType == MAXGameControllerAction_SelectSecondUnit && _action == UNIT_MENU_ACTION_ATTACK);
+    return _actionType == -1 || (_actionType == MAXGameControllerAction_SelectSecondUnit && _action != UNIT_MENU_ACTION_ATTACK);
 }
 
 bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
@@ -227,6 +227,35 @@ bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxD
         }
     }
     return true;
+}
+
+bool MAXGameController::StartSelectPlayerSpawnLocation()
+{
+	AbortCurrentAction();
+    _actionType = MAXGameControllerAction_SelectSpawnLocation;
+    
+	BoundingBox b;
+	b.min.x = 0;
+	b.max.y = 0;
+
+	b.max.x = game->_match->_map->GetMapWidth();
+	b.max.y = game->_match->_map->GetMapHeight();
+
+	Color c = {255, 255, 255, 150};
+	engine->SetOptionalZoneColor(c);
+	engine->SetOptionalZoneLevel(OBJECT_LEVEL_OVERAIR);
+
+	const int radius = 4;
+
+    for (float i = b.min.y; i <= b.max.y; i += 1.0)
+    {
+        for (float j = b.min.x; j <= b.max.x; j += 1.0)
+        {
+            CCPoint p = ccp(j, i);
+		}
+	}
+
+	return true;
 }
 
 void MAXGameController::AbortCurrentAction()

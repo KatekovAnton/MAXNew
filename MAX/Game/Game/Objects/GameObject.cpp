@@ -9,12 +9,13 @@
 #include "GameObject.h"
 #include "MAXObject.h"
 #include "MAXEngine.h"
+#include "MAXGame.h"
 #include "MAXAnimationPrefix.h"
 #include "MAXObjectConfig.h"
 #include "miniPrefix.h"
 
 GameObject::GameObject(MAXObject *object, MAXObjectConfig *config)
-:_object(object), _onDraw(false), _config_w(config), selectedGameObjectDelegate(NULL)
+:_object(object), _onDraw(false), _config_w(config), gameObjectDelegate(game)
 {}
 
 GameObject::~GameObject()

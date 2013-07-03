@@ -518,8 +518,8 @@ void GameUnit::ConfirmCurrentPath()
 {
 	if (movePath.size() > 1)
 	{
-		if (selectedGameObjectDelegate)
-			selectedGameObjectDelegate->onUnitMoveStart(this);
+		if (gameObjectDelegate)
+			gameObjectDelegate->onUnitMoveStart(this);
 
         pathIsTemp = false;
         if (_unitData->GetConfig()->_isPlane)
@@ -926,8 +926,8 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
     _unitData->_headDirection = _unitObject->pureheadIndex;
     _unitData->_bodyDirection = _unitObject->purebodyIndex;
     
-    if (selectedGameObjectDelegate)
-        selectedGameObjectDelegate->onUnitFireStart(this);
+    if (gameObjectDelegate)
+        gameObjectDelegate->onUnitFireStart(this);
     
     PlaySound(UNIT_SOUND_SHOT);
 
@@ -940,8 +940,8 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
     }
     
     if (effect->GetEffectType() == EFFECT_TYPE_BLAST) {
-        if (selectedGameObjectDelegate)
-            selectedGameObjectDelegate->onUnitFireStop(this);
+        if (gameObjectDelegate)
+            gameObjectDelegate->onUnitFireStop(this);
     }
     
     MAXObjectConfig* config = _unitData->GetConfig();
@@ -1154,8 +1154,8 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
             }
             
             pathIndex--;
-            if (selectedGameObjectDelegate)
-                selectedGameObjectDelegate->onUnitMoveStepBegin(this);
+            if (gameObjectDelegate)
+                gameObjectDelegate->onUnitMoveStepBegin(this);
         }
     }
 }
@@ -1185,13 +1185,13 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
             movePath.clear();
             pathIndex = 0;
             pathIsTemp = true;
-			if (selectedGameObjectDelegate)
-				selectedGameObjectDelegate->onUnitMoveStop(this);
+			if (gameObjectDelegate)
+				gameObjectDelegate->onUnitMoveStop(this);
         }
 		else
 		{
-			if (selectedGameObjectDelegate)
-				selectedGameObjectDelegate->onUnitMovePause(this);
+			if (gameObjectDelegate)
+				gameObjectDelegate->onUnitMovePause(this);
 		}
         StopCurrentSound();
         if (_unitData->GetConfig()->_isPlane)
@@ -1209,8 +1209,8 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
     }
     else // move
     {
-        if (selectedGameObjectDelegate)
-            selectedGameObjectDelegate->onUnitMoveStepEnd(this);
+        if (gameObjectDelegate)
+            gameObjectDelegate->onUnitMoveStepEnd(this);
     }
 }
 
@@ -1271,7 +1271,7 @@ void GameUnit::GameEffectDidFinishExistance(GameEffect* effect)
 {
     if (effect->_tag == GAME_OBJECT_TAG_FIRE_OBJECT_CONTROLLER)
     {
-        if (selectedGameObjectDelegate)
-            selectedGameObjectDelegate->onUnitFireStop(this);
+        if (gameObjectDelegate)
+            gameObjectDelegate->onUnitFireStop(this);
     }
 }

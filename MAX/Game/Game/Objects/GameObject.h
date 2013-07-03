@@ -12,7 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "Geometry.h"
-#include "SelectedGameObjectDelegate.h"
+#include "GameObjectDelegate.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -33,7 +33,7 @@ public:
     int _tag;
     
     bool _onDraw;
-    SelectedGameObjectDelegate* selectedGameObjectDelegate;
+    GameObjectDelegate* gameObjectDelegate;
     
     GameObject(MAXObject *object, MAXObjectConfig *config);
     ~GameObject();

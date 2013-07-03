@@ -13,7 +13,7 @@
 #include "DisplayPinchDelegate.h"
 #include "USimpleContainer.h"
 #include "MAXEngine.h"
-#include "SelectedGameObjectDelegate.h"
+#include "GameObjectDelegate.h"
 #include "GIUnitActionMenuDelegate.h"
 #include "GIUnitSelectionMenuDelegate.h"
 #include "MAXAnimationDelegate.h"
@@ -43,26 +43,20 @@ class PFWaveCell;
 
 class MAXGameController;
 
-class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public SelectedGameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameControllerDelegate, public GIUnitSelectionMenuDelegate
+class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public GameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameControllerDelegate, public GIUnitSelectionMenuDelegate
 {
-    
+private:    
+	MAXAnimationBase* _fireDelayAnim;
     MAXGAMESTATE _currentState;
-    MAXAnimationBase* _waitTestAnimCorvette;
-    MAXAnimationBase* _waitTestAnimCorvetteMovement;
-    MAXAnimationBase* _waitTestAnimSubmarine;
-    MAXAnimationBase* _waitTestAnimSubmarineMovement;
-    GameUnit *_testUnitCorvette;
-    GameUnit *_testUnitSubmarine;
-    
-    
-    GameUnit *_currentFiringUnit;
+    vector<GameUnit*> _currentFiringUnits;
     GameUnit *_currentTargetUnit;
     CCPoint  _currentFiringCell;
+	bool _singleFire;
+    void StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point);
     
     GameInterface *_gameInterface;
     GamePathVisualizer *_pathVisualizer;
     int iteration;
-    void StartTest();
     void ShowPathMap();
     void HidePathMap();
     void RefreshCurrentUnitPath();
@@ -117,8 +111,7 @@ public:
     void UnidDidHide(GameUnit* unit);
     
     void SelectNewUnit(GameUnit* unit);
-    void StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point);
-    void StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point);
+    void StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire);
     void MakePain();
     
 #pragma mark - Interface
@@ -142,7 +135,7 @@ public:
     virtual void ProceedTap(float tapx, float tapy);
     virtual void ProceedLongTap(float tapx, float tapy);
     
-#pragma mark - SelectedGameObjectDelegate
+#pragma mark - GameObjectDelegate
     virtual void onUnitMoveStart(GameUnit* unit);
 	virtual void onUnitMovePause(GameUnit* unit);
 	virtual void onUnitMoveStepBegin(GameUnit* unit);

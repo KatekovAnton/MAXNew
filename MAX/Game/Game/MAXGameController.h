@@ -24,7 +24,8 @@ enum MAXGameControllerAction
     MAXGameControllerAction_SelectLargeBuildingConstructionPlace,
     MAXGameControllerAction_SelectSmallBuildingConstructionPath,
     MAXGameControllerAction_SelectConstructorExitCell,
-    MAXGameControllerAction_SelectSecondUnit
+    MAXGameControllerAction_SelectSecondUnit,
+    MAXGameControllerAction_SelectSpawnLocation
 };
 
 class MAXGameController {
@@ -56,6 +57,9 @@ public:
     
     bool StartSelectSecondUnit(GameUnit* selectedUnit, float maxDistance, UNIT_MENU_ACTION action);
     
+	bool StartSelectPlayerSpawnLocation();
+    
+
     void AbortCurrentAction();
     
     void ProceedPan(int speedx, int speedy);

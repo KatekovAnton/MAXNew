@@ -12,7 +12,7 @@
 #include "MAXObjectConfig.h"
 
 GameUnitData::GameUnitData(GameUnitParameters* params, int ownerId)
-:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isUnderConstruction(false), _ownerId(ownerId)
+:_unitParameters(params), _landed(false), _reactedOnLastTurn(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isUnderConstruction(false), _ownerId(ownerId)
 {
     _isOn = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
     
@@ -376,16 +376,19 @@ void GameUnitData::StartNewTurn()
 {
     int val;
 
-    // temporary solution
-    val = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
-    SetParameterValue(UNIT_PARAMETER_TYPE_SPEED, val);
+	if (!_reactedOnLastTurn)
+	{
+		// temporary solution
+		val = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+		SetParameterValue(UNIT_PARAMETER_TYPE_SPEED, val);
     
-    val = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
-    int ammoAble = GetParameterValue(UNIT_PARAMETER_TYPE_AMMO);
-    if (val > ammoAble) 
-        val = ammoAble;
-    SetParameterValue(UNIT_PARAMETER_TYPE_SHOTS, val);
-
+		val = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SHOTS);
+		int ammoAble = GetParameterValue(UNIT_PARAMETER_TYPE_AMMO);
+		if (val > ammoAble) 
+			val = ammoAble;
+		SetParameterValue(UNIT_PARAMETER_TYPE_SHOTS, val);
+	}
+	_reactedOnLastTurn = false;
     //TODO: remove refuel when no fuel
     val = GetParameterValue(UNIT_PARAMETER_TYPE_GAS);
     if (val <= 0)
@@ -629,7 +632,7 @@ bool GameUnitData::ReceiveDamage(GameUnitData* unit, int decrase)
         myHealth = 0;
     
     SetParameterValue(UNIT_PARAMETER_TYPE_HEALTH, myHealth);
-    return GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) > 0;
+	return GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) > 0;
 }
 
 #pragma mark - Raduis and BBs

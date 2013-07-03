@@ -127,6 +127,9 @@
     <Filter Include="Game\Game\Interface\AgreedTarget">
       <UniqueIdentifier>{67404de6-896f-4b11-82e9-99ef3621d267}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game\Events">
+      <UniqueIdentifier>{ee7cede0-98a0-4469-8bd6-2998da524c12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp">
@@ -785,9 +788,6 @@
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitBaseParameters.h">
       <Filter>Game\Game\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Game\Objects\SelectedGameObjectDelegate.h">
-      <Filter>Game\Game\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnitData.h">
       <Filter>Game\Game\Objects</Filter>
     </ClInclude>
@@ -835,6 +835,9 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\MatchFireAggregator.h">
       <Filter>Game\Game\GameMatch\MatchInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameObjectDelegate.h">
+      <Filter>Game\Game\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

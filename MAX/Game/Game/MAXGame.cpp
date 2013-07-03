@@ -72,7 +72,7 @@ MAXAnimationWait* moveUnit(GameUnit* unit, float delay)
 }
 
 MAXGame::MAXGame()
-:_testUnitCorvette(NULL), iteration(0), _pathVisualizer(NULL), _freezeCounter1(0), _gameController(new MAXGameController()), _currentTargetUnit(NULL), _currentFiringUnit(NULL), _startAttackModeAgain(false)
+:iteration(0), _pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _gameController(new MAXGameController()), _currentTargetUnit(NULL), _startAttackModeAgain(false)
 {
     _gameController->_delegate_w = this;
     _currentState = MAXGAMESTATE_GAME;
@@ -120,6 +120,8 @@ void MAXGame::DecreaseFreezeCounter()
     _freezeCounter1 --;
     if (_freezeCounter1 == 0)
     {
+		
+		RefreshCurrentUnitPath();
       //  if (_gameController->GetRunedSpecialAction())
             _gameController->OnGameStopsActons();
         
@@ -140,23 +142,6 @@ void MAXGame::DecreaseFreezeCounter()
 int MAXGame::CurrentPlayerId() const
 {
     return _match->_currentPlayer_w->GetPlayerId();
-}
-
-void MAXGame::StartTest()
-{
-    _waitTestAnimCorvette = NULL;
-    _waitTestAnimSubmarine = NULL;
-    _waitTestAnimCorvetteMovement = NULL;
-    _waitTestAnimSubmarineMovement = NULL;
-    if (!_testUnitCorvette)
-        return;
-    
-    _testUnitCorvette->SetDirection(1);
-    
-    _waitTestAnimCorvette = prepareUnitToMoveToPoint(_testUnitCorvette, ccp(26, 44), 2.5);
-    IncreaseFreezeCounter();
-    
-
 }
 
 void MAXGame::StartMatch()
@@ -420,11 +405,9 @@ void MAXGame::StartMatch()
         _match->_players[1]->CreateUnit(30, 45, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(29, 45, "Gunboat", 0)->PlaceUnitOnMap();
         
-        _testUnitSubmarine = _match->_players[0]->CreateUnit(32, 40, "sub", 0);
-        _testUnitSubmarine->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(32, 40, "sub", 0)->PlaceUnitOnMap();
         
-        _testUnitCorvette = _match->_players[1]->CreateUnit(24, 44, "Corvette", 0);
-        _testUnitCorvette->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(24, 44, "Corvette", 0)->PlaceUnitOnMap();
     }
     
     
@@ -617,12 +600,17 @@ void MAXGame::HidePathMap()
 
 void MAXGame::RefreshCurrentUnitPath()
 {
+	if (!_currentUnit)
+		return;
     CCPoint location = _currentUnit->GetUnitCell();
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitData->GetConfig()->_bMoveType;
     _currentUnit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
     //pf->DumpMap();
-    ShowPathMap();
-    ShowUnitPath(_currentUnit);
+	if (_gameController->UnitCanMoveWithAction())
+	{
+		ShowPathMap();
+		ShowUnitPath(_currentUnit);
+	}
 }
 
 bool MAXGame::CheckIfNextCellOk(GameUnit* unit)
@@ -714,7 +702,7 @@ void MAXGame::UpdateCurrentUnitPath()
 {
     if (_currentUnit)
     {
-        if (_currentUnit->CanMove()) {
+		if (_currentUnit->CanMove() && _gameController->UnitCanMoveWithAction()) {
             ShowPathMap();
             ShowUnitPath(_currentUnit);
         }
@@ -827,7 +815,9 @@ void MAXGame::SelectSecondUnitActionFinished(const vector<GameUnit*> units, cons
                     ShowPathMap();
                     return;
                 }
-                StartAttackSequence(_currentUnit, NULL, cellPoint);
+				vector<GameUnit*> units;
+				units.push_back(_currentUnit);
+				StartMultipleAttackSequence(units, NULL, cellPoint, true);
             }
             else
                 _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
@@ -1105,7 +1095,6 @@ void MAXGame::SelectNewUnit(GameUnit* unit)
     if (_currentUnit)
     {
         _currentUnit->UnitDidDeselect();
-        _currentUnit->selectedGameObjectDelegate = NULL;
         HideUnitPath();
         HidePathMap();
         
@@ -1117,7 +1106,6 @@ void MAXGame::SelectNewUnit(GameUnit* unit)
     _currentUnit = unit;
     _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
     _gameInterface->HideUnitMenu();
-    _currentUnit->selectedGameObjectDelegate = this;
     _currentUnit->UnitDidSelect();
     engine->SelectUnit(_currentUnit->GetUnitObject());
     _gameInterface->OnCurrentUnitChanged(unit, false);
@@ -1142,6 +1130,8 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
 {
     if (_freezeCounter1>0)
         return;
+    if (_currentUnit && !_currentUnit->_owner_w->GetIsCurrentPlayer()) 
+        return;
     
     
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
@@ -1156,9 +1146,7 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
         return;
     }
 
-    if (!_currentUnit->_owner_w->GetIsCurrentPlayer()) {
-        return;
-    }
+    
 
     GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, true);
     bool selectNew = !_currentUnit;
@@ -1181,7 +1169,11 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
             {
                 GameUnit *attackedUnit = _match->UnitForAttackingByUnit(_currentUnit, p);
                 if (attackedUnit && attackedUnit != _currentUnit) 
-                    StartAttackSequence(_currentUnit, attackedUnit, p);
+				{
+					vector<GameUnit*> units;
+					units.push_back(_currentUnit);
+					StartMultipleAttackSequence(units, attackedUnit, p, true);
+				}
             }
         }
         else
@@ -1203,7 +1195,7 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
         return;
     
     _currentTargetUnit = target;
-    _currentFiringUnit = agressor;
+    GameUnit *_currentFiringUnit = agressor;
     int reslevel = 1;
     int alevel = agressor->GetConfig()->_bLevel;
     int tlevel = target?target->GetConfig()->_bLevel:alevel;
@@ -1217,12 +1209,19 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
     
     _currentFiringCell = point;
     _currentFiringUnit->Fire(point, reslevel);
+	if (!_singleFire)
+		_currentFiringUnit->_unitData->_reactedOnLastTurn = true;
+	
 }
 
-void MAXGame::StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point)
+void MAXGame::StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire)
 {
     //AGA POPALSA!!!
-    target->AbortCurrentPath();
+	if (target)
+	    target->AbortCurrentPath();
+	_currentFiringUnits = agressors;
+	_singleFire = singleFire;
+	StartAttackSequence(_currentFiringUnits[0], target, point);
 }
 
 void MAXGame::DeselectCurrentUnit(bool _removeFromLock)
@@ -1239,7 +1238,6 @@ void MAXGame::DeselectCurrentUnit(bool _removeFromLock)
         {
             _gameInterface->OnCurrentUnitChanged(NULL, _removeFromLock);
             engine->SelectUnit(NULL);
-            _currentUnit->selectedGameObjectDelegate = NULL;
             _currentUnit = NULL;
             HidePathMap();
         }				
@@ -1285,7 +1283,6 @@ void MAXGame::onUnitMoveStart(GameUnit* unit)
 
 void MAXGame::onUnitMovePause(GameUnit* unit)
 {
-    RefreshCurrentUnitPath();
     DecreaseFreezeCounter();
     if (unit == _currentUnit)
     {
@@ -1313,7 +1310,6 @@ void MAXGame::onUnitMoveStepEnd(GameUnit* unit)
 
 void MAXGame::onUnitMoveStop(GameUnit* unit)
 {
-    RefreshCurrentUnitPath();
     DecreaseFreezeCounter();
     if (unit == _currentUnit)
     {
@@ -1340,8 +1336,6 @@ void MAXGame::onUnitMoveStop(GameUnit* unit)
 void MAXGame::onUnitFireStart(GameUnit* unit)
 {
     IncreaseFreezeCounter();
-
-    RefreshCurrentUnitPath();
     if (unit == _currentUnit)
     {
         _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
@@ -1350,27 +1344,37 @@ void MAXGame::onUnitFireStart(GameUnit* unit)
 
 void MAXGame::onUnitFireStop(GameUnit* unit)
 {
-    DecreaseFreezeCounter();
-    RefreshCurrentUnitPath();
-    
     MakePain();
+
+    DecreaseFreezeCounter();
 }
 
 void MAXGame::MakePain()
 {
+	GameUnit *_currentFiringUnit = _currentFiringUnits[0];
     if (!_currentTargetUnit) 
         _currentTargetUnit = _match->UnitForAttackingByUnit(_currentFiringUnit, _currentFiringCell);
     
+	bool stillAlive = false;
     if (_currentTargetUnit && _currentFiringUnit)
     {
         // Do here damage calculation?
         // yes please
         // you are wellcome!!!!
-        if (!_currentTargetUnit->ReceiveDamage(_currentFiringUnit, 1))
+		stillAlive = _currentTargetUnit->ReceiveDamage(_currentFiringUnit, 1);
+		if (!stillAlive)
         {
             _currentTargetUnit->Destroy();
-            this->UnidDidHide(_currentTargetUnit);
-            if (_currentUnit)
+            bool isCurrent = _currentTargetUnit == _currentUnit;
+			this->UnidDidHide(_currentTargetUnit);
+			
+			if (isCurrent)
+			{
+				HideUnitPath();
+				HidePathMap();
+				_currentUnit = NULL;
+			}
+			else if (_currentUnit)
             {
                 RecalculateUnitPathMap(_currentUnit);
                 ShowPathMap();
@@ -1382,14 +1386,31 @@ void MAXGame::MakePain()
                 _gameInterface->OnCurrentUnitDataChanged(_currentTargetUnit);
         }
     }
-    _currentFiringUnit = NULL;
-    _currentTargetUnit = NULL;
-    if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) {
-        EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
-    }
-    else
-        ShowPathMap();
-    _startAttackModeAgain = false;
+	if (_currentFiringUnit->_unitData->GetShotBalance() == 0)
+		_currentFiringUnits.erase(_currentFiringUnits.begin());
+    
+	if (!stillAlive || _singleFire)
+		_currentFiringUnits.clear();
+
+
+	if (_currentFiringUnits.size() == 0)
+	{
+		_currentTargetUnit = NULL;
+		if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) {
+			EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+		}
+		else if (_currentUnit)
+			ShowPathMap();
+		_startAttackModeAgain = false;
+	}
+	else
+	{
+		IncreaseFreezeCounter();
+		MAXAnimationWait* delay = new MAXAnimationWait(0.75);
+		delay->_delegate = this;
+		_fireDelayAnim = delay;
+		MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(delay);
+	}
 }
 
 void MAXGame::EnableModeForCurrentUnit(UNIT_MENU_ACTION action)
@@ -1401,7 +1422,7 @@ void MAXGame::EnableModeForCurrentUnit(UNIT_MENU_ACTION action)
     
     _gameController->StartSelectSecondUnit(_currentUnit, range, action);
     HideUnitPath();
-    if (_gameController->UnitCanMoveWithAction())
+    if (!_gameController->UnitCanMoveWithAction())
         HidePathMap();
 }
 
@@ -1500,7 +1521,7 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         case UNIT_MENU_ACTION_REPAIR:
         case UNIT_MENU_ACTION_RELOAD:
         case UNIT_MENU_ACTION_STEAL:
-            _needTargetUnit = true;
+		    _needTargetUnit = true;
             break;
             
         default:
@@ -1530,7 +1551,9 @@ void MAXGame::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 void MAXGame::OnUnitSelected(GameUnit* result, const CCPoint &point)
 {
     _gameInterface->HideUnitSelectionMenu();
-    StartAttackSequence(_currentUnit, result, point);
+	vector<GameUnit*> units;
+	units.push_back(_currentUnit);
+	StartMultipleAttackSequence(units, result, point, true);
 }
 
 #pragma mark - MAXAnimationDelegate
@@ -1543,28 +1566,11 @@ void MAXGame::OnAnimationUpdate(MAXAnimationBase* animation)
 
 void MAXGame::OnAnimationFinish(MAXAnimationBase* animation)
 {
-    if (animation == _waitTestAnimCorvette)
-    {
-        _waitTestAnimCorvette = NULL;
-        _waitTestAnimCorvetteMovement = moveUnit(_testUnitCorvette, 1.5);
-    }
-    if (animation == _waitTestAnimCorvetteMovement)
-    {
-        _waitTestAnimCorvetteMovement = NULL;
-        _waitTestAnimSubmarine = prepareUnitToMoveToPoint(_testUnitSubmarine, ccp(28, 41), 1.5);
-    }
-    if (animation == _waitTestAnimSubmarine)
-    {
-        _waitTestAnimCorvette = NULL;
-        _waitTestAnimSubmarineMovement = moveUnit(_testUnitSubmarine, 2);
-    }
-    if (animation == _waitTestAnimSubmarineMovement)
-    {
-        _waitTestAnimSubmarineMovement = NULL;
-        DecreaseFreezeCounter();
-        
-        _testUnitSubmarine = NULL;
-        _testUnitCorvette = NULL;
-    }
+	if (animation == _fireDelayAnim)
+	{
+		_fireDelayAnim = NULL;
+		StartAttackSequence(_currentFiringUnits[0], _currentTargetUnit, _currentFiringCell);
+		DecreaseFreezeCounter();
+	}
 }
 

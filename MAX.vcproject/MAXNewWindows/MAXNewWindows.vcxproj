@@ -275,7 +275,7 @@
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GUConstructBuildingTask.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GUConstructUnitTask.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GUTask.h" />
-    <ClInclude Include="..\..\MAX\Game\Game\Objects\SelectedGameObjectDelegate.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Objects\GameObjectDelegate.h" />
     <ClInclude Include="..\..\MAX\Game\Game\SoundEngine\SoundEngine.h" />
     <ClInclude Include="..\..\MAX\Game\Game\SoundEngine\SoundEngineDelegate.h" />
     <ClInclude Include="..\..\MAX\Game\Vendors\cocos2d-2.0-x-2.0.4\CocosDenshion\include\SimpleAudioEngine.h" />
