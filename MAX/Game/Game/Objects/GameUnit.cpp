@@ -49,7 +49,7 @@ MAXANIMATION_CURVE GetCurveForStep(const int step, const int pathSize)
 }
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int playerId, GameMatchPlayer *owner)
-:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false), _owner_w(owner), _removeDelayAnim(NULL), _destroyed(false)
+	:GameObject(unitObject, params->GetConfig()), _currentTopAnimation(NULL), _unitData(new GameUnitData(params, playerId)), _effectUnder(NULL), _delegate_w(NULL), pathIndex(0), pathIsTemp(true), _effectOver(NULL), _currentlyProcesedConstructor(false), _owner_w(owner), _removeDelayAnim(NULL), _destroyed(false), _constructor(NULL)
 {
     Init();
 }
@@ -1043,13 +1043,15 @@ void GameUnit::PauseConstructingUnit()
 void GameUnit::CancelConstructingUnit()
 {}
 
-void GameUnit::BeginConstructionSequence()
+void GameUnit::BeginConstructionSequence(GameUnit *constructor)
 {
+	_constructor = constructor;
     _unitData->_isUnderConstruction = true;
 }
 
 void GameUnit::EndConstructionSequense()
 {
+	_constructor = NULL;
     _delegate_w->GameUnitDidRemoveFromMap(this);
     _unitData->_isUnderConstruction = false;
     _delegate_w->GameUnitDidPlaceOnMap(this);

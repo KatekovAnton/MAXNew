@@ -45,7 +45,7 @@ void GUConstructBuildingTask::AbortTask()
 void GUConstructBuildingTask::StartTask()
 {
     _constructionUnit_w = _unitWorker_w->_owner_w->CreateUnit(_cell.x, _cell.y, _type, 0);
-    _constructionUnit_w->BeginConstructionSequence();
+	_constructionUnit_w->BeginConstructionSequence(_unitWorker_w);
     _constructionUnit_w->PlaceUnitOnMap();
 }
 

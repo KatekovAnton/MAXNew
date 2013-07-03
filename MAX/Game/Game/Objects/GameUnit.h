@@ -42,6 +42,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     MAXAnimationBase*   _removeDelayAnim;
     GameEffect* _effectUnder;
     GameEffect* _effectOver;
+    GameUnit* _constructor;
     
     bool _shouldAnimateBody;
     int _currentSound;
@@ -63,7 +64,7 @@ public:
     
     //just temporary flag
     bool _currentlyProcesedConstructor;
-    
+	GameUnit *GetConstructor() {return _constructor;}
     vector<GameUnit*>       _storedUnits_w;
     GameUnitData            *_unitData;
     GameUnitDelegate        *_delegate_w;
@@ -158,7 +159,7 @@ public:
     void EscapeConstructedUnit(const CCPoint &cell);
     void AbortConstructingUnit();
     
-    void BeginConstructionSequence();
+    void BeginConstructionSequence(GameUnit *constructor);
     void EndConstructionSequense();
 
     void TurnOn();

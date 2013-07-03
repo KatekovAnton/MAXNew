@@ -113,6 +113,7 @@ public:
     void SelectNewUnit(GameUnit* unit);
     void StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire);
     void MakePain();
+	void DestroyUnit(GameUnit* unit);
     
 #pragma mark - Interface
 #pragma mark Messages

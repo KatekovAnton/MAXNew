@@ -378,6 +378,10 @@ void MAXGame::StartMatch()
             _match->_players[0]->CreateUnit(67, i, "Conn", 0)->PlaceUnitOnMap();
         
         _match->_players[0]->CreateUnit(48, 31, "Constructor", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(48, 32, "Engineer", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(48, 33, "Rocket", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(48, 34, "Scout", 0)->PlaceUnitOnMap();
+    
 
         {
             GameUnit *unit1 = _match->_players[0]->CreateUnit(70, 43, "Powerpl", 0);
@@ -1364,21 +1368,7 @@ void MAXGame::MakePain()
 		stillAlive = _currentTargetUnit->ReceiveDamage(_currentFiringUnit, 1);
 		if (!stillAlive)
         {
-            _currentTargetUnit->Destroy();
-            bool isCurrent = _currentTargetUnit == _currentUnit;
-			this->UnidDidHide(_currentTargetUnit);
-			
-			if (isCurrent)
-			{
-				HideUnitPath();
-				HidePathMap();
-				_currentUnit = NULL;
-			}
-			else if (_currentUnit)
-            {
-                RecalculateUnitPathMap(_currentUnit);
-                ShowPathMap();
-            }
+			DestroyUnit(_currentTargetUnit);
         }
         else
         {
@@ -1392,13 +1382,11 @@ void MAXGame::MakePain()
 	if (!stillAlive || _singleFire)
 		_currentFiringUnits.clear();
 
-
 	if (_currentFiringUnits.size() == 0)
 	{
 		_currentTargetUnit = NULL;
-		if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) {
+		if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) 
 			EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
-		}
 		else if (_currentUnit)
 			ShowPathMap();
 		_startAttackModeAgain = false;
@@ -1410,6 +1398,25 @@ void MAXGame::MakePain()
 		delay->_delegate = this;
 		_fireDelayAnim = delay;
 		MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(delay);
+	}
+}
+
+void MAXGame::DestroyUnit(GameUnit* unit)
+{
+	unit->Destroy();
+    bool isCurrent = unit == _currentUnit;
+	this->UnidDidHide(unit);
+			
+	if (isCurrent)
+	{
+		HideUnitPath();
+		HidePathMap();
+		_currentUnit = NULL;
+	}
+	else if (_currentUnit)
+    {
+		RecalculateUnitPathMap(_currentUnit);
+        ShowPathMap();
 	}
 }
 

@@ -413,7 +413,28 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
     }
     if (!unit->_unitData->_isUnderConstruction)
         UpdateConnectorsForUnit(unit);
-    
+	if (unit->GetConfig()->_isPlatform || unit->GetConfig()->_isBridge)
+	{
+		USimpleContainer<GameUnit*> *units_ = _fullAgregator->UnitsInCell(point.x, point.y);
+		vector<GameUnit*> units;
+		for (int i = 0; i < units_->GetCount(); i++)
+			units.push_back(units_->objectAtIndex(i));
+		
+		for (int i = 0; i < units.size(); i++)
+		{
+			GameUnit *cunit = units[i];
+			CCPoint cell = cunit->GetUnitCell();
+			if (!UnitCanStillBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)cunit->GetConfig()->_bMoveType, cunit->_owner_w, true))
+			{
+				if (cunit->_unitData->_isUnderConstruction)
+					cunit->GetConstructor()->AbortConstructingUnit();
+				else
+					game->DestroyUnit(cunit);
+			}
+			else
+				cunit->CheckBodyAndShadow();
+		}
+	}
 }
 
 void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
@@ -649,6 +670,11 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
 
 bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player)
 {
+	return UnitCanStillBePlacedToCell(x, y, unitMoveType, player, false);
+}
+
+bool GameMatch::UnitCanStillBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player, bool alreadyPlaced)
+{
     EXTENDED_GROUND_TYPE groundType = player->_agregator->GroundTypeAtXY(x, y);
     
     switch (unitMoveType)
@@ -658,7 +684,7 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
             if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
                 (groundType == EXTENDED_GROUND_TYPE_GROUND))
-                return !player->_agregator->IsGroundUnitInPosition(x, y);
+				return !player->_agregator->IsGroundUnitInPosition(x, y) || alreadyPlaced;
             break;
         }
         case UNIT_MOVETYPE_GROUNDCOAST:
@@ -667,7 +693,7 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
                 (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
                 (groundType == EXTENDED_GROUND_TYPE_COAST))
-                return !player->_agregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y) || alreadyPlaced;
             break;
         }
         case UNIT_MOVETYPE_SURVEYOR:
@@ -677,7 +703,7 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
                 (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
                 (groundType == EXTENDED_GROUND_TYPE_COAST) ||
                 (groundType == EXTENDED_GROUND_TYPE_WATER))
-                return !player->_agregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y) || alreadyPlaced;
             break;
         }
         case UNIT_MOVETYPE_AMHIB:
@@ -687,7 +713,7 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
                 (groundType == EXTENDED_GROUND_TYPE_GROUND) ||
                 (groundType == EXTENDED_GROUND_TYPE_COAST)||
                 (groundType == EXTENDED_GROUND_TYPE_WATER))
-                return !player->_agregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y) || alreadyPlaced;
             break;
         }
         case UNIT_MOVETYPE_SEACOAST:
@@ -695,21 +721,22 @@ bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVET
             if ((groundType == EXTENDED_GROUND_TYPE_WATER) ||
                 (groundType == EXTENDED_GROUND_TYPE_COAST) ||
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
-                return !player->_agregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y) || alreadyPlaced;
             break;
         }
         case UNIT_MOVETYPE_SEA:
         {
             if ((groundType == EXTENDED_GROUND_TYPE_WATER) ||
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
-                return !player->_agregator->IsGroundUnitInPosition(x, y);
+                return !player->_agregator->IsGroundUnitInPosition(x, y) || alreadyPlaced;
             break;
         }
         case UNIT_MOVETYPE_AIR:
         {
-            return !player->_agregator->IsAirUnitInPosition(x, y);
+            return !player->_agregator->IsAirUnitInPosition(x, y) || alreadyPlaced;
             break;
         }
     }
     return false;
 }
+
