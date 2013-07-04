@@ -271,6 +271,14 @@ SoundEngine::SoundEngine()
         names.push_back("infil15.wav");
         _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_INFILTRATOR, names));
     }
+
+	//blocks
+	
+	{
+		vector<SOUND_TYPE> items;
+		items.push_back(SOUND_TYPE_ENEMY_FIRING_ON_UNIT);
+		_systemSoundBlocks.insert(std::pair<SOUND_TYPE, vector<SOUND_TYPE>>(SOUND_TYPE_UNIT_DESTROYED, items));
+	}
 }
 
 SoundEngine::~SoundEngine()
@@ -285,6 +293,31 @@ void SoundEngine::PlaySystemSound(SOUND_TYPE type)
         if (_playedSound[i]._type == type) 
             return;
         
+
+	if (_systemSoundBlocks.count(type) != 0)
+	{
+		vector<SOUND_TYPE> blocks = _systemSoundBlocks[type];
+		for (int i = 0; i < blocks.size(); i++)
+		{
+			SOUND_TYPE block = blocks[i];
+			bool allstoped = false;
+			while (!allstoped)
+			{
+				allstoped = true;
+				for (int j = 0; j < _playedSound.size(); j++)
+				{
+					if (_playedSound[j]._type == block)
+					{
+						StopGameSound(_playedSound[j]._id);
+						allstoped = false;
+						break;
+					}
+				}
+			}
+		}
+
+	}
+
     vector<string> soundNames = _systemSoundNames[type];
     string name = soundNames[nextIntMax(soundNames.size())];
     SoundElement element;

@@ -31,6 +31,10 @@ typedef _SoundElement SoundElement;
 
 class SoundEngine {
     
+	//key means blocked sound by array of another sounds
+	map<SOUND_TYPE, vector<SOUND_TYPE>> _systemSoundBlocks;
+    
+
     map<SOUND_TYPE, vector<string>> _systemSoundNames;
     map<EXPLODE_SOUND_TYPE, vector<string>> _explodeSoundNames;
     vector<SoundElement>            _playedSound;

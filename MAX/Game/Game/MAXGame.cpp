@@ -1177,8 +1177,14 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
     if (agressor == target)
         return;
     
+	if (!_singleFire)
+	{
+		if (target && agressor->_owner_w->GetIsCurrentPlayer())
+			SOUND->PlaySystemSound(SOUND_TYPE_UNIT_FIRING);			
+		agressor->_unitData->_reactedOnLastTurn = true;
+	}
+
     _currentTargetUnit = target;
-    GameUnit *_currentFiringUnit = agressor;
     int reslevel = 1;
     int alevel = agressor->GetConfig()->_bLevel;
     int tlevel = target?target->GetConfig()->_bLevel:alevel;
@@ -1191,13 +1197,8 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
         reslevel = alevel - 1;
     
     _currentFiringCell = point;
-    _currentFiringUnit->Fire(point, reslevel);
-	if (!_singleFire)
-	{
-		if (target && agressor->_owner_w->GetIsCurrentPlayer())
-			SOUND->PlaySystemSound(SOUND_TYPE_UNIT_FIRING);			
-		_currentFiringUnit->_unitData->_reactedOnLastTurn = true;
-	}
+    agressor->Fire(point, reslevel);
+	
 }
 
 void MAXGame::StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire)
