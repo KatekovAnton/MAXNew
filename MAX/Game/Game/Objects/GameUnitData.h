@@ -23,6 +23,9 @@ class GameUnitData {
     GUTask *_currentTask;
     bool _paused;
     
+    //we cant do anything with this unit
+    bool _isUniteractable;
+
 public:
     
     int _ownerId;
@@ -30,7 +33,11 @@ public:
     
     //this building is currently constructing
     bool _isUnderConstruction;
-    bool _isOn;
+    
+	void SetIsUniteractable(bool value);
+	bool GetUniteractable() const {return _isUniteractable;}
+
+	bool _isOn;
     CCPoint _unitCell;
     
     GameUnitParameters* _unitParameters;

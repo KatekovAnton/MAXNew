@@ -224,6 +224,8 @@ GameUnit* MatchMapAgregator::GetUnitInPosition(const int x, const int y, GameMat
 			GameUnit* unit = units->objectAtIndex(i);
             if (unit->_unitData->_isUnderConstruction)
                 continue;
+			if (unit->_unitData->GetUniteractable())
+                continue;
             
 			MAXObjectConfig* config = unit->_unitData->GetConfig();
 			if (selectedUnit != NULL)

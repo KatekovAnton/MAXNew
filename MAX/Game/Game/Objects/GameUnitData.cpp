@@ -12,7 +12,7 @@
 #include "MAXObjectConfig.h"
 
 GameUnitData::GameUnitData(GameUnitParameters* params, int ownerId)
-:_unitParameters(params), _landed(false), _reactedOnLastTurn(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isUnderConstruction(false), _ownerId(ownerId)
+	:_unitParameters(params), _landed(false), _reactedOnLastTurn(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isUnderConstruction(false), _isUniteractable(false), _ownerId(ownerId)
 {
     _isOn = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
     
@@ -35,6 +35,12 @@ GameUnitData::~GameUnitData()
         delete _currentTask;
     }
 }
+
+void GameUnitData::SetIsUniteractable(bool value)
+{
+	_isUniteractable = value;
+}
+
 
 bool GameUnitData::GetIsSurvivor() const
 {

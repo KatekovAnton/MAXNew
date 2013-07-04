@@ -188,7 +188,7 @@ GameUnit *GameMatch::UnitForAttackingByUnit(GameUnit *agressor, const CCPoint &t
 
 bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
 {
-    if (target->_unitData->_isUnderConstruction) 
+	if (target->_unitData->_isUnderConstruction || target->_unitData->GetUniteractable()) 
         return false;
     
     CCPoint targetCell = target->GetUnitCell();
@@ -249,7 +249,7 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
 
 bool GameMatch::UnitCanInteractWithUnit(GameUnit *activeUnit, GameUnit *passiveUnit)
 {
-    if (passiveUnit->_unitData->_isUnderConstruction)
+	if (passiveUnit->_unitData->_isUnderConstruction || passiveUnit->_unitData->GetUniteractable())
         return false;
     
     CCPoint targetCell = passiveUnit->GetUnitCell();
@@ -290,7 +290,7 @@ void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 {
     if (!unit->_unitData->GetIsConnectored())
         return;
-    if (unit->_unitData->_isUnderConstruction) 
+	if (unit->_unitData->_isUnderConstruction || unit->_unitData->GetUniteractable()) 
         return;
     
     unit->UpdateConnectors();
@@ -411,10 +411,11 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
     for (int i = 0; i < _players.size(); i++) {
         _players[i]->_agregator->RemoveUnitFromCell(unit, point.x, point.y);
     }
-    if (!unit->_unitData->_isUnderConstruction)
-        UpdateConnectorsForUnit(unit);
+	UpdateConnectorsForUnit(unit);
 	if (unit->GetConfig()->_isPlatform || unit->GetConfig()->_isBridge)
 	{
+		//if platform or bridge - check if we cant build smth or units cannot be placed 
+		//there and should be killed 
 		USimpleContainer<GameUnit*> *units_ = _fullAgregator->UnitsInCell(point.x, point.y);
 		vector<GameUnit*> units;
 		for (int i = 0; i < units_->GetCount(); i++)
@@ -424,15 +425,39 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 		{
 			GameUnit *cunit = units[i];
 			CCPoint cell = cunit->GetUnitCell();
-			if (!UnitCanStillBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)cunit->GetConfig()->_bMoveType, cunit->_owner_w, true))
-			{
-				if (cunit->_unitData->_isUnderConstruction)
-					cunit->GetConstructor()->AbortConstructingUnit();
-				else
-					game->DestroyUnit(cunit);
-			}
+			//if we construct smth in this cell-abort it
+			if (cunit->_unitData->_isUnderConstruction)
+				cunit->GetConstructor()->AbortConstructingUnit();
+			//if there are placed any ground unit-destroy it
+			else if (!UnitCanStillBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)cunit->GetConfig()->_bMoveType, cunit->_owner_w, true))
+				game->DestroyUnit(cunit);
+			//else-just update frames
 			else
 				cunit->CheckBodyAndShadow();
+		}
+	}
+	else if (unit->_unitData->GetIsBuilding() && !unit->_unitData->_isUnderConstruction)
+	{
+		//else - if building has been destroyed - make platforms interactable
+		//or destroy them
+		vector<CCPoint>cells;
+		cells.push_back(point);
+		if (unit->GetConfig()->_bSize == 2)
+		{
+			cells.push_back(ccp(point.x+1, point.y));
+			cells.push_back(ccp(point.x, point.y+1));
+			cells.push_back(ccp(point.x+1, point.y+1));
+		}
+		for (int i = 0; i < cells.size(); i++)
+		{
+			CCPoint cell = cells[i];
+			USimpleContainer<GameUnit*> *units_ = _fullAgregator->UnitsInCell(cell.x, cell.y);
+			for (int j = 0; j < units_->GetCount(); j++)
+			{
+				GameUnit *cunit = units_->objectAtIndex(j);
+				if (cunit->GetConfig()->_isPlatform)
+					cunit->_unitData->SetIsUniteractable(false);
+			}
 		}
 	}
 }
@@ -442,6 +467,7 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     _fullAgregator->AddUnitToCell(unit, point.x, point.y);
     _fireAgregator->UnitDidEnterCell(unit, point);
     bool needMessage = false;
+	//fill player's agregator
     for (int i = 0; i < _players.size(); i++)
     {
         GameMatchPlayer* player = _players[i];
@@ -454,7 +480,7 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     
     if (_currentPlayer_w->CanSeeUnit(unit))
     {
-        needMessage = !unit->_onDraw && unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isUnderConstruction;
+		needMessage = !unit->_onDraw && unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isUnderConstruction  && !unit->_unitData->GetUniteractable();
         unit->Show();
     }
     else
@@ -463,6 +489,7 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     if (needMessage)
         game->ShowUnitSpottedMessage(unit);
     
+	//fill player's agregator
     for (int i = 0; i < _players.size(); i++)
     {
         GameMatchPlayer* player = _players[i];
@@ -476,8 +503,41 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
         }
     }
     
+	if (unit->_unitData->GetIsBuilding())
+	{
+		USimpleContainer<GameUnit*> *units_ = _fullAgregator->UnitsInCell(point.x, point.y);
+		vector<GameUnit*> units;
+		for (int i = 0; i < units_->GetCount(); i++)
+			units.push_back(units_->objectAtIndex(i));
+		
+
+		if (!unit->_unitData->_isUnderConstruction)
+		{
+			if (unit->GetConfig()->_isPlatform)
+			{
+				//if there are any another building- make this platform uninteractable
+				for (int i = 0; i < units.size(); i++)
+				{
+					GameUnit *cunit = units[i];
+					if (cunit != unit && cunit->_unitData->GetIsBuilding() && !cunit->_unitData->_isUnderConstruction)
+						unit->_unitData->SetIsUniteractable(true);
+				}
+			}
+			else
+			{
+				//if it is constructed building - make platforms uninteractable
+				for (int i = 0; i < units.size(); i++)
+				{
+					GameUnit *cunit = units[i];
+					if (cunit->GetConfig()->_isPlatform)
+						cunit->_unitData->SetIsUniteractable(true);
+				}
+			}
+		}
+	}
+
     CheckAutofire(unit, point);
-    
+	
 }
 
 void GameMatch::GameUnitDidDetected(GameUnit *unit, const CCPoint &point)

@@ -840,6 +840,8 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
 {
     if (_unitData->_isUnderConstruction)
         return false;
+	if (_unitData->GetUniteractable())
+        return false;
     
     MAXUnitObject* _unitObject = GetUnitObject();
     if (!_unitData->GetConfig()->_isAbleToFire)
@@ -1081,6 +1083,7 @@ void GameUnit::AbortConstructingUnit()
 {
     _unitData->AbortTask();
     DestroyBuildingTape();
+	DestroyCheckIcon();
     CheckBodyAndShadow();
     StopCurrentSound();
     _currentSound = PlaySound(UNIT_SOUND_ENGINE);

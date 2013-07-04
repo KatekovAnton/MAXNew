@@ -37,7 +37,6 @@ class PFWaveCell;
 
 class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitObjectDelegate, public GameEffectDelegate
 {
-    
     MAXAnimationSequence* _currentTopAnimation;
     MAXAnimationBase*   _removeDelayAnim;
     GameEffect* _effectUnder;

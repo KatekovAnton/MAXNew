@@ -51,7 +51,6 @@ void GUConstructBuildingTask::StartTask()
 
 void GUConstructBuildingTask::FinishTask()
 {
-    _constructionUnit_w->EndConstructionSequense();
     _constructionUnit_w = NULL;
 }
 
