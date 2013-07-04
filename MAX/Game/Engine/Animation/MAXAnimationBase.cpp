@@ -11,7 +11,7 @@
 #include "MAXAnimationDelegate.h"
 
 MAXAnimationBase::MAXAnimationBase()
-:_delegate(NULL), _isCompletlyFinish(false)
+	:_delegate(NULL), _isCompletlyFinish(false), _tag(0)
 {
     _moveCurve = MAXANIMATION_CURVE_EASE_LINEAR;
 }

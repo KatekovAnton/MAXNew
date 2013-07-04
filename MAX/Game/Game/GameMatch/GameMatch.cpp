@@ -505,11 +505,21 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     
 	if (unit->_unitData->GetIsBuilding())
 	{
-		USimpleContainer<GameUnit*> *units_ = _fullAgregator->UnitsInCell(point.x, point.y);
+		vector<CCPoint>cells;
+		cells.push_back(point);
+		if (unit->GetConfig()->_bSize == 2)
+		{
+			cells.push_back(ccp(point.x+1, point.y));
+			cells.push_back(ccp(point.x, point.y+1));
+			cells.push_back(ccp(point.x+1, point.y+1));
+		}
 		vector<GameUnit*> units;
-		for (int i = 0; i < units_->GetCount(); i++)
-			units.push_back(units_->objectAtIndex(i));
-		
+		for (int i = 0; i < cells.size(); i++)
+		{
+			USimpleContainer<GameUnit*> *units_ = _fullAgregator->UnitsInCell(cells[i].x, cells[i].y);
+			for (int j = 0; j < units_->GetCount(); j++)
+				units.push_back(units_->objectAtIndex(j));
+		}
 
 		if (!unit->_unitData->_isUnderConstruction)
 		{
@@ -525,6 +535,7 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 			}
 			else
 			{
+
 				//if it is constructed building - make platforms uninteractable
 				for (int i = 0; i < units.size(); i++)
 				{
@@ -577,7 +588,8 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
 {
     if (_holdAutofire) 
         return;
-    
+	if (unit->_unitData->GetIsBuilding())
+		return;
     vector<GameUnit*> potentialAttackers = _fireAgregator->UnitsForAttackingUnitInCell(point.x, point.y, unit);
     vector<GameUnit*> attackers;
     for (int i = 0; i < potentialAttackers.size(); i++) {
@@ -605,6 +617,8 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
     }
     if (attackers.size() > 0) {
         game->StartMultipleAttackSequence(attackers, unit, point, false);
+		if (unit->_owner_w->GetIsCurrentPlayer())
+			SOUND->PlaySystemSound(SOUND_TYPE_ENEMY_FIRING_ON_UNIT);
     }
 }
 

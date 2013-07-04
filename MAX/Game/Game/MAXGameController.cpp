@@ -341,6 +341,7 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
             CCPoint tapeLocation = _secondaryObject_w->GetUnitCell();
             if (p.x == tapeLocation.x || p.x == tapeLocation.x + 1) {
                 if (p.y == tapeLocation.y || p.y == tapeLocation.y + 1) {
+					shouldDeselectUnit = false;
                     if (_delegate_w) 
                         _delegate_w->SelectLargeBuildingConstructionPlaceActionFinished(tapeLocation, _buildingConfig_w);
                     
@@ -354,7 +355,6 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
             }
             
             AbortCurrentAction();
-            
         } break;
         case MAXGameControllerAction_SelectConstructorExitCell:
         {

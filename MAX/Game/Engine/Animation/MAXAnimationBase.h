@@ -25,7 +25,7 @@ class MAXAnimationBase {
     
     double _animStartTime;
 public:
-
+	int _tag;
     float _aniTime;
     MAXANIMATION_CURVE _moveCurve;
     

@@ -456,28 +456,7 @@ bool MAXGame::EndTurn()
     _gameInterface->SetLockUnits(false);
     _gameInterface->ClearLockedUnits();
     
-    if (_currentUnit)
-    {
-        _currentUnit->UnitDidDeselect();
-        HidePathMap();
-        HideUnitPath();
-    }
-    _currentUnit = NULL; // get current unit for current player
-    engine->SelectUnit(_currentUnit?_currentUnit->GetUnitObject():NULL);
-    _gameInterface->OnCurrentUnitChanged(_currentUnit, false);
-    _needToOpenMenuOnNextTapToSameUnit = true;
-    _gameInterface->HideUnitMenu();
-    _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
-    if (_currentUnit) {
-        if (_currentUnit->_owner_w->GetIsCurrentPlayer()) {
-            ShowUnitPath(_currentUnit);
-            
-            RecalculateUnitPathMap(_currentUnit);
-            ShowPathMap();
-        }
-        else
-            HidePathMap();
-    }
+	DeselectCurrentUnit(true);
     
     engine->SetZoom(_match->_currentPlayer_w->_playerData->cameraZoom);
     engine->SetCameraCenter(_match->_currentPlayer_w->_playerData->cameraPosition);
@@ -1214,8 +1193,11 @@ void MAXGame::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CC
     _currentFiringCell = point;
     _currentFiringUnit->Fire(point, reslevel);
 	if (!_singleFire)
+	{
+		if (target && agressor->_owner_w->GetIsCurrentPlayer())
+			SOUND->PlaySystemSound(SOUND_TYPE_UNIT_FIRING);			
 		_currentFiringUnit->_unitData->_reactedOnLastTurn = true;
-	
+	}
 }
 
 void MAXGame::StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire)
@@ -1369,6 +1351,8 @@ void MAXGame::MakePain()
 		if (!stillAlive)
         {
 			DestroyUnit(_currentTargetUnit);
+			if (!_singleFire && _currentTargetUnit->_owner_w->GetIsCurrentPlayer())
+				SOUND->PlaySystemSound(SOUND_TYPE_UNIT_DESTROYED);
         }
         else
         {

@@ -147,9 +147,28 @@ SoundEngine::SoundEngine()
         names.push_back("f220.wav");
         _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_AMMO_NONE, names));
     }
-    
-//    SOUND_TYPE_ENEMY_FIRING_ON_UNIT, //f229.wav f230.wav f231.wav f232.wav f255.wav f256.wav
-//    SOUND_TYPE_UNIT_FIRING,//f250.wav f251.wav
+    {
+        vector<string> names;
+        names.push_back("f234.wav");
+        names.push_back("f236.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_UNIT_DESTROYED, names));
+    }
+	{
+        vector<string> names;
+        names.push_back("f229.wav");
+        names.push_back("f230.wav");
+        names.push_back("f231.wav");
+        names.push_back("f232.wav");
+        names.push_back("f255.wav");
+        names.push_back("f256.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_ENEMY_FIRING_ON_UNIT, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f250.wav");
+        names.push_back("f251.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_UNIT_FIRING, names));
+    }
 //    SOUND_TYPE_INFILTRATOR_FAIL,
 //    SOUND_TYPE_GAME_SAVED,
 //    SOUND_TYPE_FUEL_STORAGE_FULL,//f057.wav
@@ -169,7 +188,6 @@ SoundEngine::SoundEngine()
 //    SOUND_TYPE_ATTACKING,//f196.wav f198.wav
 //    SOUND_TYPE_NEW_UNITS_AVAILABLE_THIS_TURN,//f206.wav f207.wav f215.wav
 //    SOUND_TYPE_TRANSFER_COMPLETED,//f224.wav
-//    SOUND_TYPE_UNIT_DESTROYED,//f234.wav f236.wav
 //    SOUND_TYPE_UNIT_CAPTURED,//f239.wav  f242.wav
 //    SOUND_TYPE_UNIT_HAS_BEEN_SEASED,//f243.wav
 //    SOUND_TYPE_UNIT_DISABLED,//f244.wav
@@ -180,9 +198,6 @@ SoundEngine::SoundEngine()
 //    SOUND_TYPE_CANT_START,//mstat18.wav
     
     
-    //button buy upg kbuy0.wav
-    //load unit to airtrans load.wav
-    //load/unlod/create scale.wav
     
     {
         vector<string> names;
@@ -257,7 +272,6 @@ SoundEngine::SoundEngine()
         _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_INFILTRATOR, names));
     }
 }
-
 
 SoundEngine::~SoundEngine()
 {}
