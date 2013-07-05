@@ -638,7 +638,7 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
             for (int i = 0; i < units->GetCount(); i++)
             {
                 GameUnit *unit = units->objectAtIndex(i);
-                if (processedPlayer->CanSeeUnit(unit))
+				if (processedPlayer->CanSeeUnit(unit) && processedPlayer != unit->_owner_w)
                 {
                     needMessage = !unit->_onDraw &&  unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isUnderConstruction && processedPlayer == _currentPlayer_w;
                     if (needMessage)
