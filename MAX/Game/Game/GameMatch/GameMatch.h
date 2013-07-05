@@ -22,6 +22,7 @@ class MatchMapAgregator;
 class MatchFireAggregator;
 class Pathfinder;
 class MAXObjectConfig;
+class MAXGameController;
 
 class GameMatch {
 
@@ -30,6 +31,9 @@ class GameMatch {
     
     
 public:
+
+	MAXGameController *_gameController;
+
     
     GameSettings*               _gameSettings;
     GameMap*                    _map;

@@ -61,6 +61,11 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchP
     Init();
 }
 
+GameMatch *GameUnit::GetMatch()
+{
+	return _owner_w->_match_w;
+}
+
 void GameUnit::Init()
 {
     GetUnitObject()->_delegate_w = this;
@@ -393,7 +398,7 @@ void GameUnit::CheckBodyAndShadow()
             _unitObject->_currentLevel = OBJECT_LEVEL_ONGROUND;
             if (_unitData->GetConfig()->_isUnderwater)
             {
-                _unitObject->SetBodyOffset(IsDetectedByPlayer(game->CurrentPlayerId())?8:0);
+				_unitObject->SetBodyOffset(IsDetectedByPlayer(GetMatch()->_currentPlayer_w->GetPlayerId())?8:0);
                 _unitObject->_needShadow = false;
                 return;
             }
@@ -700,55 +705,55 @@ void GameUnit::UpdateConnectors()
     if (_unitData->GetSize() == 1)
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+		if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR4);
         
         cell = ccp(GetUnitCell().x+1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR2);
        
         cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR1);
         
         cell = ccp(GetUnitCell().x, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR3);
     }
     else
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR4);
         cell = ccp(GetUnitCell().x-1, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR8);
         cell = ccp(GetUnitCell().x, GetUnitCell().y+2);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR3);
         cell = ccp(GetUnitCell().x+1, GetUnitCell().y+2);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR7);
         
         cell = ccp(GetUnitCell().x, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR1);
         
         cell = ccp(GetUnitCell().x+1, GetUnitCell().y-1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR5);
         
         cell = ccp(GetUnitCell().x+2, GetUnitCell().y);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR2);
         
         cell = ccp(GetUnitCell().x+2, GetUnitCell().y+1);
-        if (game->_match->GetIsCellValid(cell) && game->_match->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
+        if (GetMatch()->GetIsCellValid(cell) && GetMatch()->_fullAgregator->ContainConnectoredBuildingInPosition(cell.x, cell.y, _owner_w))
             object->AddConnector(MAXUNITOBJECT_CONNECTOR6);
     }
 }
 
-vector<CCPoint> GameUnit::GetNerbyCells() const
+vector<CCPoint> GameUnit::GetNerbyCells()
 {
     vector<CCPoint> resuplt;
     vector<CCPoint> allPoints;
@@ -774,13 +779,13 @@ vector<CCPoint> GameUnit::GetNerbyCells() const
     for (int i = 0; i < allPoints.size(); i++)
     {
         CCPoint cell = allPoints[i];
-        if (game->_match->GetIsCellValid(cell))
+        if (GetMatch()->GetIsCellValid(cell))
             resuplt.push_back(cell);
     }
     return resuplt;
 }
 
-vector<CCPoint> GameUnit::GetFullNearbyCells() const
+vector<CCPoint> GameUnit::GetFullNearbyCells()
 {
     vector<CCPoint> resuplt = GetNerbyCells();
     vector<CCPoint> allPoints;
@@ -801,7 +806,7 @@ vector<CCPoint> GameUnit::GetFullNearbyCells() const
     for (int i = 0; i < allPoints.size(); i++)
     {
         CCPoint cell = allPoints[i];
-        if (game->_match->GetIsCellValid(cell))
+        if (GetMatch()->GetIsCellValid(cell))
             resuplt.push_back(cell);
     }
     return resuplt;
@@ -817,8 +822,8 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
         {
             _unitData->_detected[playerId] = true;
             _unitData->_detected[_owner_w->GetPlayerId()] = true;
-            if (game->_match->GetIsCurrentPlayer(playerId) ||
-                game->_match->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
+            if (GetMatch()->GetIsCurrentPlayer(playerId) ||
+                GetMatch()->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
             {
                 GetUnitObject()->StealthDeactivated();
                 _delegate_w->GameUnitDidDetected(this);
@@ -1251,9 +1256,9 @@ bool GameUnit::ShouldAnimateBody() const
     return _shouldAnimateBody;
 }
 
-bool GameUnit::ShoudDrawFakeCircle() const
+bool GameUnit::ShoudDrawFakeCircle()
 {
-	return (movePath.size() > 0) && (!GetIsFreezed() && (game->_match->_currentPlayer_w == _owner_w));
+	return (movePath.size() > 0) && (!GetIsFreezed() && (GetMatch()->_currentPlayer_w == _owner_w));
 }
 
 CCPoint GameUnit::GetFakeCenter() const

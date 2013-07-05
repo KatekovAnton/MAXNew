@@ -143,7 +143,6 @@ void GameMatchPlayer::BeginTurn()
     {
         GameUnit* unit = _units.objectAtIndex(i);
         unit->NewTurn();
-        _match_w->GameUnitDidEnterCell(unit, unit->GetUnitCell());
     }
 }
 

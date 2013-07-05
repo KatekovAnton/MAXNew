@@ -11,123 +11,38 @@
 
 #include <iostream>
 #include "DisplayPinchDelegate.h"
+#include "MAXGameController.h"
 #include "USimpleContainer.h"
-#include "MAXEngine.h"
-#include "GameObjectDelegate.h"
-#include "GIUnitActionMenuDelegate.h"
-#include "GIUnitSelectionMenuDelegate.h"
-#include "MAXAnimationDelegate.h"
-#include "MAXGameControllerDelegate.h"
 
-using namespace std;
-using namespace Utils;
+using namespace Utils; 
 
 enum MAXGAMESTATE
 {
     MAXGAMESTATE_LOADINGSTART,
     MAXGAMESTATE_MAINMENU,
+    MAXGAMESTATE_EDITOR,
     MAXGAMESTATE_LOADINGGAME,
     MAXGAMESTATE_GAME
 };
 
-class MAXEngine;
-class GameMap;
-class GameUnit;
-
-class GameMatch;
-class GameMatchPlayer;
-class GameEffect;
-class GameInterface;
-class GamePathVisualizer;
-class PFWaveCell;
-
-class MAXGameController;
-
-class MAXGame : public DisplayPinchDelegate, public MAXEngineDelegate, public GameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameControllerDelegate, public GIUnitSelectionMenuDelegate
+class MAXGame : public DisplayPinchDelegate
 {
-private:    
-	MAXAnimationBase* _fireDelayAnim;
-    MAXGAMESTATE _currentState;
-    vector<GameUnit*> _currentFiringUnits;
-    GameUnit *_currentTargetUnit;
-    CCPoint  _currentFiringCell;
-	bool _singleFire;
-    void StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point);
-    
-    GameInterface *_gameInterface;
-    GamePathVisualizer *_pathVisualizer;
-    int iteration;
-    void ShowPathMap();
-    void HidePathMap();
-    void RefreshCurrentUnitPath();
-    void RecalculateUnitPathMap(GameUnit *unit);
-    void RecalculateUnitPath(GameUnit* unit);
-    
-    bool _needToOpenMenuOnNextTapToSameUnit;
-    
-    
-    int _freezeCounter1;
+	MAXGAMESTATE _currentState;
     
 public:
     
-    void IncreaseFreezeCounter();
-    void DecreaseFreezeCounter();
-    
     MAXGameController *_gameController;
     
-    bool CheckIfNextCellOk(GameUnit* unit);
-	void ShowUnitPath(GameUnit *unit);
-	void HideUnitPath();
-    
-    
-    GameMatch *_match;
-    
-    USimpleContainer<GameEffect*> *_effects;
-    
     MAXGAMESTATE GetCurrentState() const {return _currentState;}
-    GameMatch *GetCurrentMatch() const {return _match;}
-    GameUnit *_currentUnit;
-    
-    bool _startAttackModeAgain;
-    
-    void EnableModeForCurrentUnit(UNIT_MENU_ACTION action);
     
     MAXGame();
     ~MAXGame();
     
     void Init();
-    int CurrentPlayerId() const;
+	
+    USimpleContainer<GameEffect*> *_effects;
+	void FlushEffectsWithNew(GameEffect *effect);
     
-    void UpdateCurrentUnitPath();
-    void TryStartConstruction(string type);
-    void DeselectCurrentUnit(bool _removeFromLock);
-    
-    void StartMatch();
-    bool EndTurn();
-    void FlushEffectsWithNew(GameEffect *effect);
-    
-    bool EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells);
-  
-    void UnidDidHide(GameUnit* unit);
-    
-    void SelectNewUnit(GameUnit* unit);
-    void StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire);
-    void MakePain();
-	void DestroyUnit(GameUnit* unit);
-    
-#pragma mark - Interface
-#pragma mark Messages
-    void ShowUnitSpottedMessage(GameUnit* unit);
-    
-#pragma mark - MAXGameControllerDelegate
-    virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
-    virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
-    
-    virtual void SelectSecondUnitActionCanceled();
-    virtual void SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action);
-    
-#pragma mark - MAXEngineDelegate
-    virtual void onFrame();
     
 #pragma mark - DisplayPinchDelegate
     virtual bool CanStartPinch(float x, float y);
@@ -135,26 +50,6 @@ public:
     virtual void ProceedPan(float speedx, float speedy);
     virtual void ProceedTap(float tapx, float tapy);
     virtual void ProceedLongTap(float tapx, float tapy);
-    
-#pragma mark - GameObjectDelegate
-    virtual void onUnitMoveStart(GameUnit* unit);
-	virtual void onUnitMovePause(GameUnit* unit);
-	virtual void onUnitMoveStepBegin(GameUnit* unit);
-	virtual void onUnitMoveStepEnd(GameUnit* unit);
-    virtual void onUnitMoveStop(GameUnit* unit);
-    virtual void onUnitFireStart(GameUnit* unit);
-    virtual void onUnitFireStop(GameUnit* unit);
-
-#pragma mark - GIUnitActionMenuDelegate
-    virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);
-    
-#pragma mark - GIUnitSelectionMenuDelegate 
-    virtual void OnUnitSelected(GameUnit* result, const CCPoint &point);
-    
-#pragma mark - MAXAnimationDelegate 
-    virtual void OnAnimationStart(MAXAnimationBase* animation);
-    virtual void OnAnimationUpdate(MAXAnimationBase* animation);
-    virtual void OnAnimationFinish(MAXAnimationBase* animation);
     
 };
 

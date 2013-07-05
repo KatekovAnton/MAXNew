@@ -459,7 +459,7 @@ void GameEffect::OnAnimationFinish(MAXAnimationBase* animation)
         case EFFECT_TYPE_BULLET:
         {
             GameObject::Hide();
-            game->FlushEffectsWithNew(this);
+			game->FlushEffectsWithNew(this);
             _finished = true;
             if (_blastType != BLAST_TYPE_NONE)
             {

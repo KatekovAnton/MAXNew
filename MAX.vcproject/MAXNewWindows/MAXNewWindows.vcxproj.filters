@@ -130,6 +130,12 @@
     <Filter Include="Game\Game\Events">
       <UniqueIdentifier>{ee7cede0-98a0-4469-8bd6-2998da524c12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Game\MainMenu">
+      <UniqueIdentifier>{66f7dadc-228e-4415-9f45-87bfc9915590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Game\Editor">
+      <UniqueIdentifier>{4d467b56-cfaa-4fbb-bec8-5929995dcfb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\MAX\Utils\BinaryReader.cpp">
@@ -431,6 +437,9 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\MatchFireAggregator.cpp">
       <Filter>Game\Game\GameMatch\MatchInformation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MAXGameInputController.cpp">
+      <Filter>Game\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -809,9 +818,6 @@
     <ClInclude Include="..\..\MAX\Game\Game\MAXGameController.h">
       <Filter>Game\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Game\MAXGameControllerDelegate.h">
-      <Filter>Game\Game</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameMatchPlayerData.h">
       <Filter>Game\Game\GameMatch</Filter>
     </ClInclude>
@@ -838,6 +844,12 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameObjectDelegate.h">
       <Filter>Game\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MAXGameInputController.h">
+      <Filter>Game\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MAXGameInputControllerDelegate.h">
+      <Filter>Game\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

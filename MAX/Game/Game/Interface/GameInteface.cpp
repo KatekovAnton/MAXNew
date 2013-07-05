@@ -14,6 +14,7 @@
 #include "GameUnit.h"
 #include "MAXEngine.h"
 #include "MAXStatusRenderer.h"
+#include "MAXGameController.h"
 #include "GameUnitData.h"
 #include "GameUnitParameters.h"
 #include "GameInterfacePrefix.h"
@@ -539,7 +540,7 @@ void GameInterface::OnEndTurn(CCMenuItem* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     
-    if (game->EndTurn())
+	if (_gameController->EndTurn())
         SOUND->PlaySystemSound(SOUND_TYPE_START_OF_TURN);
 }
 

@@ -80,31 +80,29 @@ bool GameMatchPlayerData::CanSeeUnit(GameUnitData* unit)
     {
         for (int i = FOG_TYPE_MIN; i < FOG_TYPE_MAX; i++)
         {
-            if ((i == FOG_TYPE_SCAN) || (!unit->IsDetectedByPlayer(_playerInfo._playerId)))
+            if (UnitCoveredByFog(unit, fogs[i]))
             {
-                if (UnitCoveredByFog(unit, fogs[i]))
+                if (unit->GetSize() == 1)
                 {
-                    if (unit->GetSize() == 1)
-                    {
-                        if (fogs[i]->GetValue(unit->_unitCell) > 0)
-                            return true;
-                    }
-                    else
-                    {
-                        CCPoint unitCell = unit->_unitCell;
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                        unitCell.x += 1;
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                        unitCell.x -= 1;
-                        unitCell.y += 1;
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                        unitCell.x += 1;
-                        if (fogs[i]->GetValue(unitCell) > 0)
-                            return true;
-                    }
+                    return fogs[i]->GetValue(unit->_unitCell) > 0;
+				}
+                else
+                {
+                    CCPoint unitCell = unit->_unitCell;
+                    if (fogs[i]->GetValue(unitCell) > 0)
+                        return true;
+                    unitCell.x += 1;
+                    if (fogs[i]->GetValue(unitCell) > 0)
+                        return true;
+                    unitCell.x -= 1;
+                    unitCell.y += 1;
+                    if (fogs[i]->GetValue(unitCell) > 0)
+                        return true;
+                    unitCell.x += 1;
+                    if (fogs[i]->GetValue(unitCell) > 0)
+                        return true;
+
+					return false;
                 }
             }
         }
@@ -144,6 +142,7 @@ bool GameMatchPlayerData::UnitShouldUpdateFog(const GameUnitData *unit, const Ga
     return result;
 }
 
+//unit dont shows with this fog
 bool GameMatchPlayerData::UnitCoveredByFog(const GameUnitData *unit, const GameFog *fog) const
 {
     bool result = false;

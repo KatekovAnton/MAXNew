@@ -15,8 +15,13 @@
 #include "miniPrefix.h"
 
 GameObject::GameObject(MAXObject *object, MAXObjectConfig *config)
-:_object(object), _onDraw(false), _config_w(config), gameObjectDelegate(game)
-{}
+	:_object(object), _onDraw(false), _config_w(config)
+{
+	if (game->_gameController)
+	{
+		 gameObjectDelegate = game->_gameController;
+	}
+}
 
 GameObject::~GameObject()
 {

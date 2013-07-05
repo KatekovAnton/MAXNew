@@ -14,6 +14,7 @@
 #include "GameMap.h"
 #include "GameUnitData.h"
 #include "GameEffect.h"
+#include "MAXGameController.h"
 #include "MAXContentLoader.h"
 #include "MAXConfigManager.h"
 #include "MAXEngine.h"
@@ -100,27 +101,19 @@ bool GameMatch::EndTurn()
     else
         nextPlayer = _players[_playersCompleteTurn.size()];
     
-    
-    
-    
-    
     _currentPlayer_w = nextPlayer;
-    
-    
-    //_agregator->ClearAllData();
-    
     //update units
     _currentPlayer_w->BeginTurn();
 
     for (int i = 0; i < _players.size(); i++)
     {
-
         USimpleContainer<GameUnit*> *units = &_players[i]->_units;
         for (int i = 0; i < units->GetCount(); i++)
         {
             GameUnit* unit = units->objectAtIndex(i);
-            //GameUnitDidEnterCell(unit, unit->GetUnitCell());
-            if (_currentPlayer_w->CanSeeUnit(unit)||unit->IsDetectedByPlayer(_currentPlayer_w->GetPlayerId()))
+			bool cansee = _currentPlayer_w->CanSeeUnit(unit);
+			bool detected = unit->IsDetectedByPlayer(_currentPlayer_w->GetPlayerId()); 
+			if ((cansee || detected) && unit->_unitData->_isPlacedOnMap)
                 unit->Show();
             else
                 unit->Hide();
@@ -430,7 +423,7 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 				cunit->GetConstructor()->AbortConstructingUnit();
 			//if there are placed any ground unit-destroy it
 			else if (!UnitCanStillBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)cunit->GetConfig()->_bMoveType, cunit->_owner_w, true))
-				game->DestroyUnit(cunit);
+				_gameController->DestroyUnit(cunit);
 			//else-just update frames
 			else
 				cunit->CheckBodyAndShadow();
@@ -487,7 +480,7 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
         unit->Hide();
     
     if (needMessage)
-        game->ShowUnitSpottedMessage(unit);
+		_gameController->ShowUnitSpottedMessage(unit);
     
 	//fill player's agregator
     for (int i = 0; i < _players.size(); i++)
@@ -619,7 +612,7 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
 		if (unit->_owner_w->GetIsCurrentPlayer())
 			SOUND->PlaySystemSound(SOUND_TYPE_ENEMY_FIRING_ON_UNIT);
     
-        game->StartMultipleAttackSequence(attackers, unit, point, false);
+		_gameController->StartMultipleAttackSequence(attackers, unit, point, false);
 	}
 }
 
@@ -652,7 +645,7 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                 {
                     needMessage = !unit->_onDraw &&  unit->_owner_w != _currentPlayer_w && !unit->_unitData->_isUnderConstruction && processedPlayer == _currentPlayer_w;
                     if (needMessage)
-                        game->ShowUnitSpottedMessage(unit);
+						_gameController->ShowUnitSpottedMessage(unit);
                     
                     
                     if (type != FOG_TYPE_SCAN)
@@ -678,7 +671,7 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                     if (processedPlayer->GetIsCurrentPlayer())
                     {
                         unit->Hide();
-                        game->UnidDidHide(unit);
+						_gameController->UnidDidHide(unit);
                     }
                 }
             }
@@ -726,11 +719,11 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
             else
             {
                 // try to quick move if possible to prevent detecting
-                bool escaped = game->EscapeStealthUnitFromPos(unit, x, y, reasonPlayer, lockedCells);
+				bool escaped = _gameController->EscapeStealthUnitFromPos(unit, x, y, reasonPlayer, lockedCells);
                 if (!escaped)
                 {
                     result = true;
-                    game->ShowUnitSpottedMessage(unit);
+					_gameController->ShowUnitSpottedMessage(unit);
                     unit->DetectedByPlayer(_currentPlayer_w->GetPlayerId());
                     unit->Show();
                     reasonPlayer->_agregator->AddUnitToCell(unit, x, y);

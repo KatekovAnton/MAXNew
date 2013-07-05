@@ -26,7 +26,7 @@ class MAXAnimationSequence;
 class MAXAnimationObjectUnit;
 class MAXObjectConfig;
 
-
+class GameMatch;
 class GameUnitData;
 class GameUnitParameters;
 class GameUnitDelegate;
@@ -68,6 +68,7 @@ public:
     GameUnitData            *_unitData;
     GameUnitDelegate        *_delegate_w;
     GameMatchPlayer         *_owner_w;
+	GameMatch *GetMatch();
     
     
     GameEffect* GetEffectUnder() { return _effectUnder; }
@@ -78,8 +79,8 @@ public:
     MAXObjectConfig* GetConfig();
     int GetParameterValue(UNIT_PARAMETER_TYPE parameterType) const;
     int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;
-    vector<CCPoint> GetNerbyCells() const;
-    vector<CCPoint> GetFullNearbyCells() const;
+    vector<CCPoint> GetNerbyCells();
+    vector<CCPoint> GetFullNearbyCells();
     
     bool ReceiveDamage(GameUnit* unit);
     bool ReceiveDamage(GameUnit* unit, int decrase);
@@ -178,7 +179,7 @@ public:
     virtual float GetHealStatus() const;
     virtual float GetShots() const;
     virtual bool ShouldAnimateBody() const;
-	virtual bool ShoudDrawFakeCircle() const;
+	virtual bool ShoudDrawFakeCircle();
 	virtual CCPoint GetFakeCenter() const;
     
     

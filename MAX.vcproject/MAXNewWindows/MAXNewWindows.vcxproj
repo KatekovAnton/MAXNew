@@ -153,6 +153,7 @@
     <ClCompile Include="..\..\MAX\Game\Game\Interface\Windows\GIWindowsManager.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\MAXGame.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\MAXGameController.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\MAXGameInputController.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Objects\GameUnit.cpp" />
@@ -263,7 +264,8 @@
     <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIWindowsManager.h" />
     <ClInclude Include="..\..\MAX\Game\Game\MAXGame.h" />
     <ClInclude Include="..\..\MAX\Game\Game\MAXGameController.h" />
-    <ClInclude Include="..\..\MAX\Game\Game\MAXGameControllerDelegate.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\MAXGameInputControllerDelegate.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\MAXGameInputController.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\Effects\GameEffect.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameObject.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Objects\GameUnit.h" />

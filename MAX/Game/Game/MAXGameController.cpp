@@ -7,510 +7,1358 @@
 //
 
 #include "MAXGameController.h"
-#include "MAXGame.h"
-
 #include "MAXEngine.h"
-#include "GameMatch.h"
-#include "GameEffect.h"
-#include "GameUnit.h"
-#include "GameUnitData.h"
+#include "SceneSystem.h"
+#include "SoundEngine.h"
+#include "Display.h"
+#include "cocos2d.h"
+
+#include "MAXEffectObject.h"
+#include "MAXConfigManager.h"
+#include "MAXContentLoader.h"
+#include "MAXUnitObject.h"
 #include "MAXAnimationPrefix.h"
 
-#include "MAXUnitObject.h"
+#include "MAXGameInputController.h"
+
 #include "MatchMapAgregator.h"
-#include "PFWaveCell.h"
-#include "Pathfinder.h"
+
 #include "GameMap.h"
+#include "GameFog.h"
+#include "GameUnit.h"
+#include "GameMatch.h"
+#include "GameEffect.h"
+#include "GameInteface.h"
+#include "GameUnitParameters.h"
+#include "GameUnitData.h"
+#include "GamePathVisualizer.h"
 
+#include "Pathfinder.h"
+#include "PFWaveCell.h"
 
-CCPoint findInterimPointWithLargeBuilding(CCPoint buildingLocation, CCPoint exitCell)
-{
-    CCPoint result = ccp(buildingLocation.x + 1, buildingLocation.y + 1);
-    if (exitCell.x <= buildingLocation.x)
-        result.x = buildingLocation.x;
-    if (exitCell.y <= buildingLocation.y)
-        result.y = buildingLocation.y;
-    return result;
-}
 
 MAXGameController::MAXGameController()
-:_selectedUnit_w(NULL), _actionType(-1), _buildingConfig_w(NULL)
+	:_pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _iputController(new MAXGameInputController()), _currentTargetUnit(NULL), _startAttackModeAgain(false)
 {
-
+	_iputController->_delegate_w = this;
+    _pathVisualizer = new GamePathVisualizer();
 }
 
 MAXGameController::~MAXGameController()
 {
+    delete _iputController;
+    engine->_delegate = NULL;
+    delete _gameInterface;
+    delete _pathVisualizer;
+}
+
+void MAXGameController::Init()
+{
+    engine->_delegate = this;
+    SOUND->SetHoldEffects(true);
+    StartMatch();
+    SOUND->SetHoldEffects(false);
+}
+
+void MAXGameController::IncreaseFreezeCounter()
+{
+    if (_freezeCounter1 == 0) {
+        HidePathMap();
+        HideUnitPath();
+    }
+    _freezeCounter1 ++;
+    if (_freezeCounter1 == 1) 
+        _iputController->OnGameStartsActons();
     
 }
 
-bool MAXGameController::ShoulTakeTap(const CCPoint &cell)
+void MAXGameController::DecreaseFreezeCounter()
 {
-    switch (_actionType) {
-        case MAXGameControllerAction_SelectSecondUnit:
+    _freezeCounter1 --;
+    if (_freezeCounter1 == 0)
+    {
+		
+		RefreshCurrentUnitPath();
+      //  if (_gameController->GetRunedSpecialAction())
+            _iputController->OnGameStopsActons();
+        
+        if (_iputController->UnitCanMoveWithAction())
         {
-            if (_action == UNIT_MENU_ACTION_ATTACK) 
-                return true;
-            
-            if (_selectedUnit_w->_unitData->IsInRadius(cell, 0.9))
-                return false;
-            
-            if (_action == UNIT_MENU_ACTION_RELOAD || _action == UNIT_MENU_ACTION_REPAIR || _action == UNIT_MENU_ACTION_DISABLE || _action == UNIT_MENU_ACTION_STEAL)
-            {
-                USimpleContainer<GameUnit*> *units = game->_match->_currentPlayer_w->_agregator->UnitsInCell(cell.x, cell.y);
-                for (int i = 0; i < units->GetCount(); i++)
-                {
-                    GameUnit* currentUnit = units->objectAtIndex(i);
-                    if (game->_match->UnitCanInteractWithUnit(_selectedUnit_w, currentUnit))
-                        return true;
+            if (_currentUnit) {
+                if (_currentUnit->_owner_w->GetIsCurrentPlayer()) {
+                    ShowUnitPath(_currentUnit);
+                    
+                    RecalculateUnitPathMap(_currentUnit);
+                    ShowPathMap();
                 }
-                return false;
-            }
-            
-
-        } break;
-            
-        default:
-            break;
-    }
-    return _actionType != -1;
-}
-
-bool MAXGameController::ShoulTakePinch(float delta)
-{
-    return false;
-}
-
-bool MAXGameController::UnitCanMoveWithAction()
-{
-    return _actionType == -1 || (_actionType == MAXGameControllerAction_SelectSecondUnit && _action != UNIT_MENU_ACTION_ATTACK);
-}
-
-bool MAXGameController::StartSelectLargeBuildingConstructionPlaceAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
-{
-    AbortCurrentAction();
-    
-    _buildingConfig_w = buildingConfig;
-    CCPoint newCell = constructor->GetUnitCell();
-    do {
-        constructor->_currentlyProcesedConstructor = true;
-        bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
-        if (canConstrutHere)
-            break;
-        
-        newCell.x -= 1;
-        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
-        if (canConstrutHere)
-            break;
-        
-        newCell.x += 1;
-        newCell.y -= 1;
-        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
-        if (canConstrutHere)
-            break;
-        
-        newCell.x -= 1;
-        canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
-        constructor->_currentlyProcesedConstructor = false;
-        if (canConstrutHere)
-            break;
-        else
-            return false;
-        
-    } while (false);
-    
-    constructor->_currentlyProcesedConstructor = false;
-    _actionType = MAXGameControllerAction_SelectLargeBuildingConstructionPlace;
-    
-    _selectedUnit_w = constructor;
-    constructor->CreateLargeBuildingTape();
-    _largeBuildingConstructionPlace = _selectedUnit_w->GetUnitCell();
-    _secondaryObject_w = constructor->GetEffectUnder();
-    _secondaryObject_w->SetLocation(newCell);
-    return true;
-}
-
-bool MAXGameController::StartSelectSmallBuildingConstructionPathAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
-{
-    AbortCurrentAction();
-    _actionType = MAXGameControllerAction_SelectSmallBuildingConstructionPath;
-    CCPoint newCell = constructor->GetUnitCell();
-    constructor->CreateSmallBuildingTape();
-    
-    _delegate_w->SelectSmallBuildingConstructionPathActionFinished(newCell, buildingConfig);
-    AbortCurrentAction();
-    return true;
-}
-
-bool MAXGameController::StartSelectConstructorExitCell(GameUnit* constructor, GameUnit* createdUnit)
-{
-    AbortCurrentAction();
-    _actionType = MAXGameControllerAction_SelectConstructorExitCell;
-    
-    _selectedUnit_w = constructor;
-    _secondaryObject_w = createdUnit;
-    vector<CCPoint> cells = createdUnit->GetFullNearbyCells();
-    GameMatch* match = game->_match;
-    for (int i = 0; i < cells.size(); i++) {
-        CCPoint cell = cells[i];
-        if (match->UnitCanBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)constructor->GetConfig()->_bMoveType, constructor->_owner_w)) {
-            suitableCells.push_back(cell);
-            GameEffect* e = GameEffect::CreateExitPlaceMarker(constructor->GetConfig()->_bLevel);
-            e->SetLocation(cell);
-            e->Show();
-            _additionalEffects.push_back(e);
-        }
-    }
-    _selectedUnit_w->DestroyCheckIcon();
-    return true;
-}
-
-bool MAXGameController::StartSelectSecondUnit(GameUnit* selectedUnit, float maxDistance, UNIT_MENU_ACTION action)
-{
-    AbortCurrentAction();
-    _actionType = MAXGameControllerAction_SelectSecondUnit;
-    _selectedUnit_w = selectedUnit;
-    _distance = maxDistance;
-    _action = action;
-    _step = 0;
-    if (action == UNIT_MENU_ACTION_ATTACK) {
-        Color c = {255, 0, 0, 50};
-        engine->SetOptionalZoneColor(c);
-    }
-    else
-    {
-        Color c = {255, 255, 255, 50};
-        engine->SetOptionalZoneColor(c);
-    }
-    
-    BoundingBox b = _selectedUnit_w->_unitData->GetBoundingBox(_selectedUnit_w->GetUnitCell(), maxDistance);
-    engine->ClearOptionalZone();
-    
-    int level = selectedUnit->GetConfig()->_bLevel;
-    bool canAttackOwnCell = false;
-    bool notAllCells = false;
-    if (action==UNIT_MENU_ACTION_ATTACK)
-    {
-        int fireType = selectedUnit->GetConfig()->_pFireType;
-        int movetype = selectedUnit->GetConfig()->_bMoveType;
-        if (fireType < 3 && movetype == UNIT_MOVETYPE_AIR)
-            level = OBJECT_LEVEL_OVERUNITS;
-        else if (fireType >= 3)
-            level = OBJECT_LEVEL_OVERAIR;
-        else if (movetype != UNIT_MOVETYPE_AIR)
-            level = OBJECT_LEVEL_OVERUNITS;
-        canAttackOwnCell = (movetype == UNIT_MOVETYPE_AIR && (fireType == 1 || fireType == 4)) || ((movetype != UNIT_MOVETYPE_AIR) && fireType == 3);
-        notAllCells = _selectedUnit_w->GetConfig()->_pFireType == 2;
-    }
-    else
-        level = OBJECT_LEVEL_OVERAIR;
-    
-    engine->SetOptionalZoneLevel((OBJECT_LEVEL)level);
-    for (float i = b.min.y; i <= b.max.y; i += 1.0)
-    {
-        for (float j = b.min.x; j <= b.max.x; j += 1.0)
-        {
-            CCPoint p = ccp(j, i);
-            bool needColor = _selectedUnit_w->_unitData->IsInRadius(p, maxDistance);
-            if (!canAttackOwnCell)
-                needColor &= !selectedUnit->_unitData->IsCellOfUnit(p);
-            
-            if (notAllCells) {
-                GROUND_TYPE type = game->_match->_map->GroundTypeAtXY(j, i);
-                if (!(type == GROUND_TYPE_COAST || type == GROUND_TYPE_WATER))
-                    needColor = false;
-            }
-            
-            if (needColor) {
-                engine->AddOptionalZoneCell(j, i);
             }
         }
     }
-    return true;
 }
 
-bool MAXGameController::StartSelectPlayerSpawnLocation()
+int MAXGameController::CurrentPlayerId() const
 {
-	AbortCurrentAction();
-    _actionType = MAXGameControllerAction_SelectSpawnLocation;
+    return _match->_currentPlayer_w->GetPlayerId();
+}
+
+void MAXGameController::StartMatch()
+{
+    vector<GameMatchPlayerInfo> infos;
+    GameMatchPlayerInfo player1 = {0, 3, "Test player1", {255,0,0,255}};
+    GameMatchPlayerInfo player2 = {1, 0, "Test player2", {0,255,0,255}};
+    GameMatchPlayerInfo player3 = {2, 0, "Test player3", {0,0,255,255}};
+    infos.push_back(player1);
+    infos.push_back(player2);
+    infos.push_back(player3);
+    _match = new GameMatch("UnitListOriginal.txt", "clansOriginal.cfg", "Green_6.wrl", infos);
+	_match->_gameController = this;
+    _currentUnit = NULL;
     
-	BoundingBox b;
-	b.min.x = 0;
-	b.max.y = 0;
+    
+    
+    
+    _gameInterface = new GameInterface();
+	_gameInterface->_gameController = this;
+    _gameInterface->InitBaseInterface();
+    CCDirector::sharedDirector()->pushScene(_gameInterface);
 
-	b.max.x = game->_match->_map->GetMapWidth();
-	b.max.y = game->_match->_map->GetMapHeight();
-
-	Color c = {255, 255, 255, 150};
-	engine->SetOptionalZoneColor(c);
-	engine->SetOptionalZoneLevel(OBJECT_LEVEL_OVERAIR);
-
-	const int radius = 4;
-
-    for (float i = b.min.y; i <= b.max.y; i += 1.0)
+    _match->_holdAutofire = true;
     {
-        for (float j = b.min.x; j <= b.max.x; j += 1.0)
-        {
-            CCPoint p = ccp(j, i);
-		}
+        _match->_players[0]->CreateUnit(56, 56, "Inter", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(60, 53, "Constructor", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(45, 47, "Corvette", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(47, 49, "Escort", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(44, 44, "sub", 0)->PlaceUnitOnMap();
+    	_match->_players[0]->CreateUnit(45, 45, "Seacargo", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(46, 45, "Seafuel", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(45, 46, "Rokcr", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(44, 42, "seaminelay", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(45, 43, "Seatrans", 0)->PlaceUnitOnMap();
+	    _match->_players[0]->CreateUnit(78, 45, "pcan", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(57, 52, "Bomber", 0)->PlaceUnitOnMap();
+    	_match->_players[0]->CreateUnit(58, 52, "Airtrans", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(57, 53, "Crawler", 0)->PlaceUnitOnMap();
+	    _match->_players[0]->CreateUnit(57, 51, "infantry", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(55, 51, "Infil", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(57, 57, "Aagunm", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(57, 58, "Awac", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(101, 101, "Awac", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(58, 58, "Scout", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(48, 58, "Engineer", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(59, 53, "Asgun", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(56, 54, "Inter", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(55, 52, "Tank", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(53, 54, "Rocket", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(56, 58, "Inter", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(55, 58, "Surveyor", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(65, 58, "Dozer", 0)->PlaceUnitOnMap();
+    	_match->_players[0]->CreateUnit(65, 59, "Fueltruck", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(66, 59, "GTruck", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(67, 59, "Truck", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(66, 60, "Repair", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(73, 52, "Miner", 0)->PlaceUnitOnMap();
+	    _match->_players[0]->CreateUnit(66, 58, "alnasgun", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(66, 57, "alnplane", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(64, 55, "alntank", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(44, 33, "juger", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(50, 64, "Scanner", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(25, 58, "Surveyor", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 43, "Goldstore", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 44, "landpad", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 45, "Matstore", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 46, "Powergen", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(72, 47, "Fuelstore", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 43, "Hvplant", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(65, 43, "Hang", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(63, 43, "Powerpl", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 45, "Airplant", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(70, 45, "gref", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 47, "Conn", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 48, "Conn", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(80, 38, "Dock", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(65, 42, "Radar", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(66, 42, "turret", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(64, 42, "Zenit", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(63, 42, "Arturret", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(62, 42, "misturret", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(68, 49, "Lightplant", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(66, 49, "barrak", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(64, 49, "Ecosphere", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(62, 49, "Habitat", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(60, 49, "Store", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(65, 46, "Mining", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(63, 46, "research", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(61, 46, "pehplant", 0)->PlaceUnitOnMap();
+        for (int i = 68; i < 79; i++)
+            _match->_players[0]->CreateUnit(i, 42, "Conn", 0)->PlaceUnitOnMap();
+        for (int i = 60; i < 70; i++)
+            _match->_players[0]->CreateUnit(i, 51, "Conblock", 0)->PlaceUnitOnMap();
+		for (int i = 59; i < 71; i++)
+			_match->_players[0]->CreateUnit(i, 52, "landmine", 0)->PlaceUnitOnMap();
+		for (int i = 30; i < 46; i+=2)
+			_match->_players[0]->CreateUnit(i, 36 + ((i / 2) % 2), "seamine", 0)->PlaceUnitOnMap();
+		for (int i = 55; i <= 62; i++)
+            _match->_players[0]->CreateUnit(i, 43, "Road", 0)->PlaceUnitOnMap();
+        for (int i = 28; i <= 34; i++)
+            _match->_players[0]->CreateUnit(i, 32, "Plat", 0)->PlaceUnitOnMap();
+        for (int i = 41; i <= 47; i++)
+            _match->_players[0]->CreateUnit(i, 32, "Plat", 0)->PlaceUnitOnMap();
+        for (int i = 41; i <= 47; i++)
+            _match->_players[0]->CreateUnit(i, 31, "Plat", 0)->PlaceUnitOnMap();
+        for (int i = 35; i <= 40; i++)
+            _match->_players[0]->CreateUnit(i, 32, "Bridge", 0)->PlaceUnitOnMap();
+        for (int i = 44; i < 49; i++)
+            _match->_players[0]->CreateUnit(67, i, "Conn", 0)->PlaceUnitOnMap();
+        
+        _match->_players[0]->CreateUnit(48, 31, "Constructor", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(48, 32, "Engineer", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(48, 33, "Rocket", 0)->PlaceUnitOnMap();
+		_match->_players[0]->CreateUnit(48, 34, "Scout", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(70, 43, "Powerpl", 0)->PlaceUnitOnMap();
+        GameUnit *unit1 = _match->_players[0]->CreateUnit(80, 41, "Shipyard", 0);
+        unit1->PlaceUnitOnMap();
+        vector<CCPoint> points = unit1->GetNerbyCells();
+        for (int i = 0; i < points.size(); i++) 
+            _match->_players[0]->CreateUnit(points[i].x, points[i].y, "Conn", 0)->PlaceUnitOnMap();
+    }
+    {
+        _match->_players[0]->CreateUnit(30, 44, "sub", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(31, 43, "sub", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(31, 44, "sub", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(31, 45, "sub", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(32, 40, "sub", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(30, 40, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(29, 43, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(30, 45, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(29, 45, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(24, 44, "Corvette", 0)->PlaceUnitOnMap();
+    }
+    {
+        _match->_players[1]->CreateUnit(40, 50, "Corvette", 0)->PlaceUnitOnMap();    
+        _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(50, 53, "Inter", 0)->PlaceUnitOnMap();
+        for (int i = 61; i < 69; i++)
+            _match->_players[1]->CreateUnit(i, 65, "landmine", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(50, 47, "pcan", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(52, 48, "Infil", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(42, 42, "sub", 0)->PlaceUnitOnMap();
+		for (int i = 32; i < 40; i+=2)
+			_match->_players[1]->CreateUnit(i, 31, "seamine", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(43, 41, "pcan", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(46, 38, "pcan", 0)->PlaceUnitOnMap();
 	}
-
-	return true;
+	
+    {
+		_match->_players[0]->CreateUnit(15, 15, "Awac", 0)->PlaceUnitOnMap();
+		_match->_players[1]->CreateUnit(20, 20, "Awac", 0)->PlaceUnitOnMap();
+        _match->_players[2]->CreateUnit(10, 10, "Awac", 0)->PlaceUnitOnMap();
+    }
+    engine->SetCameraCenter(ccp(55, 55));
+    _match->_players[0]->_playerData->cameraPosition = ccp(15, 15);
+    _match->_players[1]->_playerData->cameraPosition = ccp(30, 40);
+    _match->_players[2]->_playerData->cameraPosition = ccp(15, 15);
+    
+    _match->_holdAutofire = false;
 }
 
-void MAXGameController::AbortCurrentAction()
+bool MAXGameController::EndTurn()
 {
-    switch (_actionType)
+    bool result = false;
+    if (_freezeCounter1 != 0)
+        return false;
+    _iputController->AbortCurrentAction();
+    _match->_currentPlayer_w->_playerData->cameraPosition = engine->ScreenToWorldCell( _gameInterface->GetCenter());
+    _match->_currentPlayer_w->_playerData->cameraZoom = engine->CameraZoom();
+    result = _match->EndTurn();
+    if (!result) 
+        return result;
+    
+    _gameInterface->SetLockUnits(false);
+    _gameInterface->ClearLockedUnits();
+    
+	DeselectCurrentUnit(true);
+    
+    engine->SetZoom(_match->_currentPlayer_w->_playerData->cameraZoom);
+    engine->SetCameraCenter(_match->_currentPlayer_w->_playerData->cameraPosition);
+    return result;
+}
+
+bool MAXGameController::EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells)
+{
+    bool result = false;
+    MAXObjectConfig* config = unit->_unitData->GetConfig();
+    if (config->_isBuilding)
     {
-        case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:
+        if (config->_isBombMine)
         {
-            _selectedUnit_w->DestroyBuildingTape();
-            _buildingConfig_w = NULL;
-            _selectedUnit_w = NULL;
-            _secondaryObject_w = NULL;
-        } break;
-        case MAXGameControllerAction_SelectConstructorExitCell:
+            result = true; // bomb always escaped! Unit - welcomme to bomb cell!
+        }
+    }
+    else
+    {
+        int startDirection = nextIntMax(8);
+        int direction = startDirection;
+        Pathfinder* pf = unit->_owner_w->_pathfinder;
+        UNIT_MOVETYPE movetype = (UNIT_MOVETYPE)config->_bMoveType;
+        for (;;)
         {
-            if (_selectedUnit_w->_unitData->ContainsCurrentTask()) 
-                _selectedUnit_w->CreateCheckIcon();
-        } break;
-        case MAXGameControllerAction_SelectSecondUnit:
+            int newX = x + PFWaveCell::DirToDX(direction);
+            int newY = y + PFWaveCell::DirToDY(direction);
+            int cost = pf->GetMapCostAt(newX, newY, direction, movetype);
+            bool available = true;
+            for (int i = 0; i < lockedCells.size(); i++)
+            {
+                CCPoint lp = lockedCells[i];
+                if ((int)lp.x == newX && (int)lp.y == newY)
+                {
+                    available = false;
+                    break;
+                }
+            }
+            if ((cost >= 0) && (cost <= unit->_unitData->GetMoveBalance()) && available)
+            {
+                if (!_match->IsHiddenUnitInPos(newX, newY, true, reasonPlayer, lockedCells))
+                {
+                    unit->EscapeToLocation(newX, newY, cost);
+                    result = true;
+                    break;
+                }
+            }
+            
+            direction++;
+            if (direction >= 8)
+                direction -= 8;
+            
+            if (direction == startDirection)
+                break;
+        }
+    }
+    return result;
+}
+
+void MAXGameController::UnidDidHide(GameUnit* unit)
+{
+    _gameInterface->RemoveUnitFromLock(unit);
+    if (_currentUnit == unit)
+    {
+        engine->SelectUnit(NULL);
+        _gameInterface->OnCurrentUnitChanged(NULL, true);
+        _currentUnit = NULL;
+    }
+}
+
+#pragma mark - Path map
+
+void MAXGameController::ShowPathMap()
+{
+    HidePathMap();
+    Pathfinder* pf = _match->_currentPlayer_w->_pathfinder;
+    for (int x = 0; x < _match->_map->GetMapWidth(); x++)
+    {
+        for (int y = 0; y < _match->_map->GetMapHeight(); y++)
         {
-            engine->ClearOptionalZone();
-        } break;
-        default:
-            break;
+            int cost = pf->GetCostAt(x, y);
+            if (cost == 0)
+            {
+                // current unit pos - don't highlight
+            }
+            else if (cost > 0)
+            {
+                // valid map cost - highlight with green aquare
+				engine->AddPathZoneCell(x, y);
+            }
+            else
+            {
+                // unpassable - don't highlight
+            }
+        }
+    }
+}
+
+void MAXGameController::HidePathMap()
+{
+	engine->ClearPathZone();
+}
+
+void MAXGameController::RefreshCurrentUnitPath()
+{
+	if (!_currentUnit)
+		return;
+    CCPoint location = _currentUnit->GetUnitCell();
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)_currentUnit->_unitData->GetConfig()->_bMoveType;
+    _currentUnit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, _currentUnit->_unitData->GetMoveBalance());
+    //pf->DumpMap();
+	if (_iputController->UnitCanMoveWithAction())
+	{
+		ShowPathMap();
+		ShowUnitPath(_currentUnit);
+	}
+}
+
+bool MAXGameController::CheckIfNextCellOk(GameUnit* unit)
+{
+    bool result = true;
+    
+    PFWaveCell* cell = unit->GetNextPathCell();
+    if (cell)
+    {
+        UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
+        Pathfinder* pf = unit->_owner_w->_pathfinder;
+        int pfCost = pf->GetMapCostAt(cell->x, cell->y, cell->direction, unitMoveType);
+        if (cell->cost != pfCost)
+            result = false;
+        
+		else if (!unit->_unitData->GetConfig()->_isPlane)
+		{
+            vector<CCPoint> empty;
+			if (_match->IsHiddenUnitInPos(cell->x, cell->y, false, unit->_owner_w, empty))
+				result = false;
+			
+		}
     }
     
-    for (int i = 0; i < _additionalEffects.size(); i++)
-    {
-        GameEffect* e = _additionalEffects[i];
-        e->Hide();
-        delete e;
-    }
-    suitableCells.clear();
-    _additionalEffects.clear();
-    _actionType = -1;
+    return result;
 }
 
-void MAXGameController::ProceedPan(int speedx, int speedy)
+void MAXGameController::RecalculateUnitPathMap(GameUnit *unit)
 {
-    if (speedx == 0 && speedy == 0) 
+    CCPoint location = unit->GetUnitCell();
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)unit->_unitData->GetConfig()->_bMoveType;
+    unit->_owner_w->_pathfinder->MakePathMap(location.x, location.y, unitMoveType, unit->_unitData->GetMoveBalance());
+}
+
+#pragma mark - Unit path
+
+void MAXGameController::ShowUnitPath(GameUnit *unit)
+{
+    HideUnitPath();
+    std::vector<PFWaveCell*> path = unit->GetPath();
+    int pathStep = unit->GetPathIndex();
+    int pathSize = path.size();
+    if (pathStep > pathSize - 2)
+        pathStep = pathSize - 2;
+    int speed = unit->_unitData->GetMoveBalance();
+	vector<PathElement> testPath;
+    int totalCost = 0;
+	for (int pi = pathStep; pi >= 0; pi--)
+	{
+		PFWaveCell* cell = path[pi];
+		PathElement element;
+		element.x = cell->x;
+		element.y = cell->y;
+		element.unitLevel = OBJECT_LEVEL_OVERAIR;
+		element.image = cell->direction;
+        totalCost += cell->cost;
+        bool endTurnMarker = false;
+        if (pi > 0)
+        {
+            if ((totalCost < speed) && (totalCost + path[pi - 1]->cost > speed))
+            {
+                endTurnMarker = true;
+            }
+        }
+        if ((pi == 0) || (totalCost == speed))
+        {
+            endTurnMarker = true;
+        }
+        if (endTurnMarker)
+        {
+            element.image += 8;
+        }
+		if (totalCost >= speed)
+		{
+			totalCost -= speed;
+			speed = unit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
+		}
+		testPath.push_back(element);
+	}
+	_pathVisualizer->VisualizePath(testPath);
+}
+
+void MAXGameController::HideUnitPath()
+{
+    _pathVisualizer->Clear();
+}
+
+void MAXGameController::UpdateCurrentUnitPath()
+{
+    if (_currentUnit)
+    {
+		if (_currentUnit->CanMove() && _iputController->UnitCanMoveWithAction()) {
+            ShowPathMap();
+            ShowUnitPath(_currentUnit);
+        }
+        else
+        {
+            _currentUnit->ClearPath();
+            _currentUnit->ClearTempPath();
+            HidePathMap();
+            HideUnitPath();
+        }
+    }
+    else
+    {
+        HidePathMap();
+        HideUnitPath();
+    }
+}
+
+void MAXGameController::RecalculateUnitPath(GameUnit* unit)
+{
+    RecalculateUnitPathMap(unit);
+    ShowPathMap();
+    
+    if (unit->GetPath().size() == 0) 
         return;
     
-    switch (_actionType)
+    PFWaveCell* cell = unit->GetPath()[0];
+    Pathfinder* pf = unit->_owner_w->_pathfinder;
+    std::vector<PFWaveCell*> path = pf->FindPathOnMap(cell->x, cell->y);
+    if (path.size() > 1)
     {
-        case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:
+        unit->SetPath(path);
+        ShowUnitPath(unit);
+    }
+    else
+    {
+        unit->ClearPath();
+		HideUnitPath();
+    }
+}
+
+#pragma mark - Interface
+
+void MAXGameController::ShowUnitSpottedMessage(GameUnit* unit)
+{
+    printf("Enemy %s spotted at %d, %d!\n", unit->_unitData->GetConfig()->_name.c_str(), (int)unit->GetUnitCell().x, (int)unit->GetUnitCell().y);
+    _gameInterface->ShowUnitSpottedMessage(unit);
+}
+
+#pragma mark - MAXGameControllerDelegate
+
+void MAXGameController::SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig)
+{
+    vector<CCPoint> points;
+    points.push_back(result);
+    if (buildingConfig->_bSize == 2) {
+        points.push_back(ccp(result.x+1, result.y));
+        points.push_back(ccp(result.x, result.y+1));
+        points.push_back(ccp(result.x+1, result.y+1));
+    }
+    
+    bool start = true;
+    for (int i = 0; i < points.size(); i++) {
+        CCPoint point = points[i];
+        if (_match->IsHiddenUnitInPos(point.x, point.y, false, _match->_currentPlayer_w, points)) {
+            start = false;
+            break;
+        }
+    }
+    if (start)
+        _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
+    
+    UpdateCurrentUnitPath();
+    _gameInterface->HideUnitMenu();
+}
+
+void MAXGameController::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig)
+{
+    _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
+    UpdateCurrentUnitPath();
+    _gameInterface->HideUnitMenu();
+}
+
+void MAXGameController::SelectSecondUnitActionCanceled()
+{
+    _startAttackModeAgain = false;
+    if (_currentUnit) {
+        RecalculateUnitPathMap(_currentUnit);
+        ShowPathMap();
+    }
+}
+
+GameMatch *MAXGameController::GetCurrentMatch()
+{
+	return _match;
+}
+
+void MAXGameController::SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action)
+{
+    _startAttackModeAgain = true;
+    
+    switch (action) {
+        case UNIT_MENU_ACTION_ATTACK:
         {
-            CCPoint lastSelectedCell = _secondaryObject_w->GetUnitCell();
-            
-            CCPoint newCell = _selectedUnit_w->GetUnitCell();
-            if (speedx<0)
-                newCell.x = newCell.x - 1;
-            if (speedy<0)
-                newCell.y = newCell.y - 1;
-            
-            if (speedy == 0) 
-                newCell.y = lastSelectedCell.y;
-            if (speedx == 0)
-                newCell.x = lastSelectedCell.x;
-            
-            
-            _selectedUnit_w->_currentlyProcesedConstructor = true;
-            bool canConstrutHere = game->_match->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, _selectedUnit_w);
-            _selectedUnit_w->_currentlyProcesedConstructor = false;
-            if (canConstrutHere)
-                _secondaryObject_w->SetLocation(newCell);
-            
-        }   break;
+            if (units.size() == 0)
+            {
+                bool cannotFire = _currentUnit->_unitData->IsCellOfUnit(cellPoint);
+                
+                GROUND_TYPE type = _match->_map->GroundTypeAtXY(cellPoint.x, cellPoint.y);
+                if (_currentUnit->GetConfig()->_pFireType == 2 && !(type == GROUND_TYPE_COAST || type == GROUND_TYPE_WATER))
+                    cannotFire = true;
+                
+                if (cannotFire)
+                {
+                    ShowPathMap();
+                    return;
+                }
+				vector<GameUnit*> units;
+				units.push_back(_currentUnit);
+				StartMultipleAttackSequence(units, NULL, cellPoint, true);
+            }
+            else
+                _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
+        } break;
+        case UNIT_MENU_ACTION_RELOAD:
+        {
+            if (units.size() != 0)
+            {
+                EnableModeForCurrentUnit(action);
+                for (int i = 0; i < units.size(); i++)
+                {
+                    GameUnit *rearmedUnit = units[units.size() - i - 1];
+                    if (rearmedUnit->_unitData->RearmWithUnit(_currentUnit->_unitData))
+                    {
+                        SOUND->PlaySystemSound(SOUND_TYPE_RELOADED);
+                        SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
+                        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+                        break;
+                    }
+                }
+            }
+        } break;
+        case UNIT_MENU_ACTION_REPAIR:
+        {
+            if (units.size() != 0)
+            {
+                EnableModeForCurrentUnit(action);
+                for (int i = 0; i < units.size(); i++)
+                {
+                    GameUnit *repairedUnit = units[units.size() - i - 1];
+                    if (repairedUnit->_unitData->RepairWithUnit(_currentUnit->_unitData))
+                    {
+                        SOUND->PlaySystemSound(SOUND_TYPE_UNIT_REPAIRED);
+                        SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
+                        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+                        break;
+                    }
+                }
+            }
+        } break;
             
         default:
             break;
+    }
+}
+
+#pragma mark - MAXEngineDelegate
+
+void MAXGameController::onFrame()
+{
+    SoundEngine::sharedInstance()->CheckStoppedSound();
+    for(int i = 0; i < _match->_players.size(); i++)
+        _match->_players[i]->SetPalette(engine->FullTime());
+}
+
+#pragma mark - DisplayPinchDelegate
+
+bool MAXGameController::CanStartPinch(float x, float y)
+{    
+    float _y = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale() - y;
+    return !_gameInterface->ShouldReceiveTouch(x, _y);
+}
+
+void MAXGameController::ProceedPinch(float scale)
+{
+    if (_iputController->ShoulTakePinch(scale)) {
+        _iputController->ProceedPinch(scale);
+        return;
+    }
+    engine->ScaleCamera(scale);
+    if (_gameInterface->GetUnitMenuOpened()) {
+        _gameInterface->HideUnitMenu();
+        _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
+    }
+    if (_gameInterface->GetSelectUnitMenuOpened()) {
+        _gameInterface->HideUnitSelectionMenu();
+        EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+    }
+}
+
+void MAXGameController::ProceedPan(float speedx, float speedy)
+{
+    if (_iputController->ShoulTakePan()) {
+        _iputController->ProceedPan(speedx, speedy);
+        return;
+    }
+    engine->MoveCamera(speedx, speedy);
+    if (_gameInterface->GetUnitMenuOpened()) {
+        _gameInterface->HideUnitMenu();
+        _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
+    }
+    
+    if (_gameInterface->GetSelectUnitMenuOpened()) {
+        _gameInterface->HideUnitSelectionMenu();
+        EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+        return;
     }
 }
 
 void MAXGameController::ProceedTap(float tapx, float tapy)
 {
+    if (_freezeCounter1>0) {
+        return;
+    }
+    if (_gameInterface->GetSelectUnitMenuOpened()) {
+        _gameInterface->HideUnitSelectionMenu();
+        EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+        return;
+    }
+    
     CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
     p.x = floorf(p.x);
     p.y = floorf(p.y);
     
-    switch (_actionType) {
-        case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:
+    printf("tap:%f %f \n", p.x, p.y);
+    
+    
+    if (_iputController->ShoulTakeTap(p)) {
+        _iputController->ProceedTap(tapx, tapy);
+        if (_iputController->shouldDeselectUnit) {
+            DeselectCurrentUnit(true);
+        }
+        return;
+    }
+    
+    bool _unitMoved = false;
+    bool _unitMenuShowed = false;
+    bool _removeFromLock = false;
+    
+    
+    GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, false);
+    
+    bool tapToSameUnit = false;
+    if (_currentUnit)
+        tapToSameUnit = _currentUnit->_unitData->IsCellOfUnit(p);
+    
+    if (_currentUnit && _currentUnit->CanMove())
+    {
+        if (p.x < 0 || p.x>= _match->_map->GetMapWidth() || p.y < 0 || p.y >= _match->_map->GetMapHeight())
+        {}
+        else if (_currentUnit == newCurrentUnit)
         {
-            CCPoint tapeLocation = _secondaryObject_w->GetUnitCell();
-            if (p.x == tapeLocation.x || p.x == tapeLocation.x + 1) {
-                if (p.y == tapeLocation.y || p.y == tapeLocation.y + 1) {
-					shouldDeselectUnit = false;
-                    if (_delegate_w) 
-                        _delegate_w->SelectLargeBuildingConstructionPlaceActionFinished(tapeLocation, _buildingConfig_w);
-                    
-                    
-                    _actionType = -1;
-                    _buildingConfig_w = NULL;
-                    _selectedUnit_w = NULL;
-                    
-                    return;
-                }
-            }
-            
-            AbortCurrentAction();
-        } break;
-        case MAXGameControllerAction_SelectConstructorExitCell:
-        {
-            shouldDeselectUnit = true;
-            for (int i = 0; i < suitableCells.size(); i++)
+            if (_needToOpenMenuOnNextTapToSameUnit)
             {
-                CCPoint cell = suitableCells[i];
-                if (cell.x == p.x && cell.y == p.y)
+                _gameInterface->ShowMenuForCurrentUni(this);
+                _unitMenuShowed = true;
+                _needToOpenMenuOnNextTapToSameUnit = false;
+            }
+            else
+            {
+                _gameInterface->HideUnitMenu();
+                newCurrentUnit = NULL; // deselect current unit
+                _removeFromLock = true;
+            }
+        }
+        else
+        {
+            if (tapToSameUnit && _needToOpenMenuOnNextTapToSameUnit) {
+                _gameInterface->ShowMenuForCurrentUni(this);
+                _unitMenuShowed = true;
+                _needToOpenMenuOnNextTapToSameUnit = false;
+            }
+            else if (newCurrentUnit)
+            {
+                if (_currentUnit->GetPath().size() > 0)
                 {
-                    MAXUnitObject* _unitObject = _selectedUnit_w->GetUnitObject();
-                    CCPoint _unitCell = _unitObject->GetObjectCell();
-                    
-                    GameUnit* createdUnit = _selectedUnit_w->_unitData->GetTaskSecondUnit();
-                    
-                    
-                    _selectedUnit_w->ClearPath();
-                    
-                    std::vector<PFWaveCell*> path;
-                    Pathfinder* p = _selectedUnit_w->_owner_w->_pathfinder;
-                    UNIT_MOVETYPE moveType = (UNIT_MOVETYPE)_selectedUnit_w->GetConfig()->_bMoveType;
-                    p->MakePathMap(_unitCell.x, _unitCell.y, moveType, _selectedUnit_w->_unitData->GetMoveBalance());
-                    createdUnit->_currentlyProcesedConstructor = true;
-                    if (createdUnit->GetConfig()->_bSize == 1)
+                    CCPoint location1 = _currentUnit->GetUnitCell();
+                    CCPoint location2 = newCurrentUnit->GetUnitCell();
+                    if ((location1.x == location2.x) && (location1.y == location2.y))
                     {
-                        int direction = MAXObject::CalculateImageIndex(_unitCell, cell);
-                        path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, moveType), direction));
-                        
-                        path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, 0, 0));
+                        // clear path
+                        newCurrentUnit = NULL;
+                        _unitMoved = true;
+                        std::vector<PFWaveCell*> path;
+                        _currentUnit->SetPath(path);
+                        HideUnitPath();
+                        _needToOpenMenuOnNextTapToSameUnit = false;
+                    }
+                }
+                // force select another unit
+            }
+            else if (_currentUnit->_owner_w->GetIsCurrentPlayer())
+            {
+                _gameInterface->HideUnitMenu();
+                _needToOpenMenuOnNextTapToSameUnit = true;
+                if (!_currentUnit->GetIsFreezed())
+                {
+                    if (_currentUnit->IsPathTargetedTo(p.x, p.y))
+                    {
+                        if (CheckIfNextCellOk(_currentUnit))
+                        {
+                            _currentUnit->ConfirmCurrentPath();
+                            HideUnitPath();
+                            _unitMoved = true;
+                        }
+                        else
+                        {
+                            RecalculateUnitPath(_currentUnit);
+                            _unitMoved = true;
+                        }
+                        _needToOpenMenuOnNextTapToSameUnit = true;
                     }
                     else
                     {
-                        CCPoint wayPoit = findInterimPointWithLargeBuilding(createdUnit->GetUnitCell(), cell);
-                        
-                        int direction = MAXObject::CalculateImageIndex(wayPoit, cell);
-                        path.push_back(new PFWaveCell(cell.x, cell.y, p->GetMapCostAt(cell.x, cell.y, direction, moveType), direction));
-                        
-                        if (_unitCell.x != wayPoit.x || _unitCell.y != wayPoit.y)
+                        CCPoint location = _currentUnit->GetUnitCell();
+                        std::vector<PFWaveCell*> path = _currentUnit->_owner_w->_pathfinder->FindPathOnMap(p.x, p.y);
+                    
+                        if (path.size() > 1)
                         {
-                            direction = MAXObject::CalculateImageIndex(_unitCell, wayPoit);
-                            path.push_back(new PFWaveCell(wayPoit.x, wayPoit.y, p->GetMapCostAt(wayPoit.x, wayPoit.y, direction, moveType), direction));
+                            _currentUnit->SetPath(path);
+                            ShowUnitPath(_currentUnit);
                         }
-                        
-                        path.push_back(new PFWaveCell(_unitCell.x, _unitCell.y, 0, 0));
+                        else
+                        {
+                            //engine->SelectUnit(_currentUnit->GetUnitObject());
+                            // play error sound and inform player about wrong path
+                        }
+                        _unitMoved = true;
                     }
-                    createdUnit->_currentlyProcesedConstructor = false;
-                    _selectedUnit_w->SetPath(path);
-                    _selectedUnit_w->ConfirmCurrentPath();
-                    _selectedUnit_w->_unitData->CompletlyFinishTask();
-                    createdUnit->RemoveUnitFromMap();
-                    createdUnit->EndConstructionSequense();
-                    createdUnit->PlaceUnitOnMap();
-                    _selectedUnit_w->DestroyCheckIcon();
-                    _selectedUnit_w->DestroyBuildingTape();
-                    shouldDeselectUnit = false;
                 }
             }
-            
-            AbortCurrentAction();
-            
-        } break;
-        case MAXGameControllerAction_SelectSecondUnit:
-        {
-            shouldDeselectUnit = false;
-            if (_selectedUnit_w->_unitData->IsInRadius(p, _distance))
+            if (!newCurrentUnit && !_unitMoved)
             {
-                if (_action == UNIT_MENU_ACTION_ATTACK)
+                _gameInterface->HideUnitMenu();
+                newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, false);
+                _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
+            }
+        }
+    }
+    else if (_currentUnit && !_currentUnit->CanMove())
+    {
+        if (_currentUnit == newCurrentUnit || (tapToSameUnit && _needToOpenMenuOnNextTapToSameUnit))
+        {
+            if (_needToOpenMenuOnNextTapToSameUnit)
+            {
+                _gameInterface->ShowMenuForCurrentUni(this);
+                _unitMenuShowed = true;
+                _needToOpenMenuOnNextTapToSameUnit = false;
+            }
+            else
+            {
+                _gameInterface->HideUnitMenu();
+                newCurrentUnit = NULL; // deselect current unit
+                _removeFromLock = true;
+            }
+        }
+    }
+    if (!_unitMoved && ! _unitMenuShowed)
+    {
+        if (newCurrentUnit && _currentUnit != newCurrentUnit)
+            SelectNewUnit(newCurrentUnit);
+        
+        
+        if (!newCurrentUnit)
+            DeselectCurrentUnit(_removeFromLock);
+        
+    }
+    //if (_currentUnit) {
+    //    engine->SetPathZoneLevel(OBJECT_LEVEL_OVERGROUND);
+    //}
+}
+
+void MAXGameController::SelectNewUnit(GameUnit* unit)
+{
+    if (_currentUnit)
+    {
+        _currentUnit->UnitDidDeselect();
+        HideUnitPath();
+        HidePathMap();
+        
+        if (_currentUnit->GetPath().size() > 0)
+        {
+            _currentUnit->ClearTempPath();
+        }
+    }
+    _currentUnit = unit;
+    _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
+    _gameInterface->HideUnitMenu();
+    _currentUnit->UnitDidSelect();
+    engine->SelectUnit(_currentUnit->GetUnitObject());
+    _gameInterface->OnCurrentUnitChanged(unit, false);
+    
+    if (_currentUnit->_owner_w->GetIsCurrentPlayer())
+    {
+        if (_currentUnit->CanMove())
+        {
+            ShowUnitPath(_currentUnit);
+            RecalculateUnitPathMap(_currentUnit);
+            ShowPathMap();
+        }
+        else if (_currentUnit->_unitData->GetIsTaskFinished())
+        {
+            GameUnitData* data = _currentUnit->_unitData;
+            _iputController->StartSelectConstructorExitCell(_currentUnit, data->GetTaskSecondUnit());
+        }
+    }
+}
+
+void MAXGameController::ProceedLongTap(float tapx, float tapy)
+{
+    if (_freezeCounter1>0)
+        return;
+    if (_currentUnit && !_currentUnit->_owner_w->GetIsCurrentPlayer()) 
+        return;
+    
+    
+    CCPoint p = engine->ScreenToWorldCell(CCPoint(tapx, tapy));
+    p.x = floorf(p.x);
+    p.y = floorf(p.y);
+    if (_iputController->ShoulTakeTap(p)) {
+        _iputController->ProceedTap(tapx, tapy);
+        if (_iputController->shouldDeselectUnit) {
+            DeselectCurrentUnit(true);
+        }
+        
+        return;
+    }
+
+    
+
+    GameUnit* newCurrentUnit = _match->_currentPlayer_w->_agregator->GetUnitInPosition(p.x, p.y, NULL, _currentUnit, true);
+    bool selectNew = !_currentUnit;
+    if (_currentUnit && newCurrentUnit)
+        selectNew = !_match->PlayerIsEnemyToPlayer(newCurrentUnit->_owner_w, _currentUnit->_owner_w);
+    
+    if (!selectNew)
+    {
+        if (newCurrentUnit)
+        {
+            if (_currentUnit == newCurrentUnit)
+            {
+                if (_needToOpenMenuOnNextTapToSameUnit)
                 {
-                    USimpleContainer<GameUnit*> *units = game->_match->_currentPlayer_w->_agregator->UnitsInCell(p.x, p.y);
-                    vector<GameUnit*> suitableUnits;
-                    for (int i = 0; i < units->GetCount(); i++)
-                    {
-                        GameUnit* currentUnit = units->objectAtIndex(i);
-                        if (game->_match->UnitCanAttackUnit(_selectedUnit_w, currentUnit) && _selectedUnit_w != currentUnit)
-                            suitableUnits.push_back(currentUnit);
-                    }
-                    AbortCurrentAction();
-                    _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
-                }
-                else if (_action == UNIT_MENU_ACTION_RELOAD || _action == UNIT_MENU_ACTION_REPAIR || _action == UNIT_MENU_ACTION_STEAL || _action == UNIT_MENU_ACTION_DISABLE)
-                {
-                    bool wantSamePlayerUnut = ! (_action == UNIT_MENU_ACTION_STEAL || _action == UNIT_MENU_ACTION_DISABLE);
-                    
-                    USimpleContainer<GameUnit*> *units = game->_match->_currentPlayer_w->_agregator->UnitsInCell(p.x, p.y);
-                    vector<GameUnit*> suitableUnits;
-                    for (int i = 0; i < units->GetCount(); i++)
-                    {
-                        GameUnit* currentUnit = units->objectAtIndex(i);
-                        if (game->_match->UnitCanInteractWithUnit(_selectedUnit_w, currentUnit) && _selectedUnit_w != currentUnit && (_selectedUnit_w->_owner_w == currentUnit->_owner_w && wantSamePlayerUnut))
-                            suitableUnits.push_back(currentUnit);
-                    }
-                    AbortCurrentAction();
-                    _delegate_w->SelectSecondUnitActionFinished(suitableUnits, p, _action);
+                    _gameInterface->ShowMenuForCurrentUni(this);
+                    _needToOpenMenuOnNextTapToSameUnit = false;
                 }
             }
             else
             {
-                AbortCurrentAction();
-                _delegate_w->SelectSecondUnitActionCanceled();
+                GameUnit *attackedUnit = _match->UnitForAttackingByUnit(_currentUnit, p);
+                if (attackedUnit && attackedUnit != _currentUnit) 
+				{
+					vector<GameUnit*> units;
+					units.push_back(_currentUnit);
+					StartMultipleAttackSequence(units, attackedUnit, p, true);
+				}
             }
-        } break;
-            
-        default:
-            break;
+        }
+        else
+        {
+            DeselectCurrentUnit(true);
+        }
+    }
+    else
+    {
+        _iputController->AbortCurrentAction();
+        if (newCurrentUnit)
+            SelectNewUnit(newCurrentUnit);
     }
 }
 
-void MAXGameController::ProceedPinch(float delta)
+void MAXGameController::StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point)
 {
+    if (agressor == target)
+        return;
+    
+	if (!_singleFire)
+	{
+		if (target && agressor->_owner_w->GetIsCurrentPlayer())
+			SOUND->PlaySystemSound(SOUND_TYPE_UNIT_FIRING);	
+		if (!agressor->_owner_w->GetIsCurrentPlayer())
+			agressor->_unitData->_reactedOnLastTurn = true;
+	}
+
+    _currentTargetUnit = target;
+    int reslevel = 1;
+    int alevel = agressor->GetConfig()->_bLevel;
+    int tlevel = target?target->GetConfig()->_bLevel:alevel;
+    
+    if (tlevel == alevel)
+        reslevel = tlevel + 1;
+    else if (tlevel > alevel)
+        reslevel = tlevel + 1;
+    else if (tlevel < alevel)
+        reslevel = alevel - 1;
+    
+    _currentFiringCell = point;
+    agressor->Fire(point, reslevel);
+	
 }
 
-void MAXGameController::OnGameStartsActons()
+void MAXGameController::StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire)
 {
-    switch (_actionType) {
-        case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:
+    //AGA POPALSA!!!
+	if (target)
+	    target->AbortCurrentPath();
+	_currentFiringUnits = agressors;
+	_singleFire = singleFire;
+	StartAttackSequence(_currentFiringUnits[0], target, point);
+}
+
+void MAXGameController::DeselectCurrentUnit(bool _removeFromLock)
+{
+    _iputController->AbortCurrentAction();
+    if (_currentUnit)
+    {
+        _currentUnit->UnitDidDeselect();
+        if (_currentUnit->GetPath().size() > 0 && !_removeFromLock)
         {
-            
-        } break;
-        case MAXGameControllerAction_SelectSmallBuildingConstructionPath:
+            _currentUnit->ClearPath();
+        }
+        else
         {
+            _gameInterface->OnCurrentUnitChanged(NULL, _removeFromLock);
+            engine->SelectUnit(NULL);
+            _currentUnit = NULL;
+            HidePathMap();
+        }				
+        HideUnitPath();
+    }
+}
+
+void MAXGameController::TryStartConstruction(string type)
+{
+    if (_currentUnit->_unitData->ContainsCurrentTask() || !_iputController->GetRunedSpecialAction())
+        return;
+    _currentUnit->ClearPath();
+    MAXObjectConfig* newUnitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
+    if (_currentUnit->_unitData->GetIsBuilding())
+    {
         
-        } break;
-        case MAXGameControllerAction_SelectConstructorExitCell:
+    }
+    else
+    {
+        if (newUnitConfig->_bSize == 1)
         {
-            
-        } break;
-        case MAXGameControllerAction_SelectSecondUnit:
+            //TODO: force MAXGAME to select path
+            _iputController->StartSelectSmallBuildingConstructionPathAction(_currentUnit, newUnitConfig);
+        }
+        else
         {
-            engine->ClearOptionalZone();
-        } break;
-            
-        default:
-            break;
+            //force MAXGAME to select suitable place
+            SOUND->PlaySystemSound(SOUND_TYPE_MOVE_TAPE_TO_BULD);
+            _iputController->StartSelectLargeBuildingConstructionPlaceAction(_currentUnit, newUnitConfig);
+        }
+    }
+    
+    UpdateCurrentUnitPath();
+    _gameInterface->HideUnitMenu();
+}
+
+#pragma mark - SelectedGameObjectDelegate
+
+void MAXGameController::onUnitMoveStart(GameUnit* unit)
+{
+    IncreaseFreezeCounter();
+}
+
+void MAXGameController::onUnitMovePause(GameUnit* unit)
+{
+    DecreaseFreezeCounter();
+    if (unit == _currentUnit)
+    {
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
     }
 }
 
-void MAXGameController::OnGameStopsActons()
+void MAXGameController::onUnitMoveStepBegin(GameUnit* unit)
 {
-    switch (_actionType) {
-        case MAXGameControllerAction_SelectLargeBuildingConstructionPlace:
+    if (unit == _currentUnit)
+    {
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+    }
+}
+
+void MAXGameController::onUnitMoveStepEnd(GameUnit* unit)
+{
+    // check if unit path changed
+    if (!CheckIfNextCellOk(unit))
+    {
+        unit->AbortCurrentPath();
+        RecalculateUnitPath(unit);
+    }
+}
+
+void MAXGameController::onUnitMoveStop(GameUnit* unit)
+{
+    DecreaseFreezeCounter();
+    if (unit == _currentUnit)
+    {
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+    }
+
+	// check landing pad
+	if (unit->_unitData->GetConfig()->_isPlane)
+	{
+		CCPoint location = unit->GetUnitCell();
+		USimpleContainer<GameUnit*> *units = unit->_owner_w->_agregator->UnitsInCell(location.x, location.y);
+		for (int i = 0; i < units->GetCount(); i++)
+		{
+			GameUnit* u = units->objectAtIndex(i);
+			if (u->_unitData->GetConfig()->_isLanding && u->_owner_w == unit->_owner_w)
+			{
+				unit->Landing();
+				break;
+			}
+		}
+	}
+}
+
+void MAXGameController::onUnitFireStart(GameUnit* unit)
+{
+    IncreaseFreezeCounter();
+    if (unit == _currentUnit)
+    {
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+    }
+}
+
+void MAXGameController::onUnitFireStop(GameUnit* unit)
+{
+    MakePain();
+
+    DecreaseFreezeCounter();
+}
+
+void MAXGameController::MakePain()
+{
+	GameUnit *_currentFiringUnit = _currentFiringUnits[0];
+    if (!_currentTargetUnit) 
+        _currentTargetUnit = _match->UnitForAttackingByUnit(_currentFiringUnit, _currentFiringCell);
+    
+	bool stillAlive = false;
+    if (_currentTargetUnit && _currentFiringUnit)
+    {
+        // Do here damage calculation?
+        // yes please
+        // you are wellcome!!!!
+		stillAlive = _currentTargetUnit->ReceiveDamage(_currentFiringUnit, 1);
+		if (!stillAlive)
         {
+			DestroyUnit(_currentTargetUnit);
+			if (!_singleFire && _currentTargetUnit->_owner_w->GetIsCurrentPlayer())
+				SOUND->PlaySystemSound(SOUND_TYPE_UNIT_DESTROYED);
+        }
+        else
+        {
+            if (_currentTargetUnit == _currentUnit)
+                _gameInterface->OnCurrentUnitDataChanged(_currentTargetUnit);
+        }
+    }
+	if (_currentFiringUnit->_unitData->GetShotBalance() == 0)
+		_currentFiringUnits.erase(_currentFiringUnits.begin());
+    
+	if (!stillAlive || _singleFire)
+		_currentFiringUnits.clear();
+
+	if (_currentFiringUnits.size() == 0)
+	{
+		_currentTargetUnit = NULL;
+		if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) 
+			EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+		else if (_currentUnit)
+			ShowPathMap();
+		_startAttackModeAgain = false;
+	}
+	else
+	{
+		IncreaseFreezeCounter();
+		MAXAnimationWait* delay = new MAXAnimationWait(0.75);
+		delay->_delegate = this;
+		_fireDelayAnim = delay;
+		MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(delay);
+	}
+}
+
+void MAXGameController::DestroyUnit(GameUnit* unit)
+{
+	unit->Destroy();
+    bool isCurrent = unit == _currentUnit;
+	this->UnidDidHide(unit);
+			
+	if (isCurrent)
+	{
+		HideUnitPath();
+		HidePathMap();
+		_currentUnit = NULL;
+	}
+	else if (_currentUnit)
+    {
+		RecalculateUnitPathMap(_currentUnit);
+        ShowPathMap();
+	}
+}
+
+void MAXGameController::EnableModeForCurrentUnit(UNIT_MENU_ACTION action)
+{
+    _currentUnit->SetPath(vector<PFWaveCell*>());
+    float range = 1.8;
+    if (action == UNIT_MENU_ACTION_ATTACK)
+        range = _currentUnit->_unitData->GetMaxParameterValue(UNIT_PARAMETER_TYPE_RANGE);
+    
+    _iputController->StartSelectSecondUnit(_currentUnit, range, action);
+    HideUnitPath();
+    if (!_iputController->UnitCanMoveWithAction())
+        HidePathMap();
+}
+
+#pragma mark - GIUnitActionMenuDelegate
+
+void MAXGameController::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
+{
+	if (!_currentUnit)
+		return;
+	
+	
+    _needToOpenMenuOnNextTapToSameUnit = true;
+    _gameInterface->HideUnitMenu();
+    if (action == UNIT_MENU_ACTION_DONE)
+	{
+        RecalculateUnitPath(_currentUnit);
+		_currentUnit->ConfirmCurrentPath();
+		HideUnitPath();
+        return;
+	}
+	else if (action == UNIT_MENU_ACTION_STOP)
+	{
+        if (_currentUnit->GetPath().size() > 0) {
+            _currentUnit->ClearPath();
+            HideUnitPath();
+        }
+        else if (_currentUnit->_unitData->ContainsCurrentTask())
+        {
+            _currentUnit->AbortConstructingUnit();
+            RecalculateUnitPathMap(_currentUnit);
+            ShowPathMap();
+        }
+        if (_currentUnit->_unitData->GetIsBuilding())
+        {
+            if (!_currentUnit->GetConfig()->_isAllwaysOn)
+                if (_currentUnit->_unitData->_isOn)
+                    _currentUnit->TurnOf();
+        }
+        else
+		return;
+	}
+	else if (action == UNIT_MENU_ACTION_START)
+	{
+        if (_currentUnit->_unitData->GetIsBuilding())
+        {
+            if (!_currentUnit->GetConfig()->_isAllwaysOn)
+                if (!_currentUnit->_unitData->_isOn)
+                    _currentUnit->TurnOn();
+        }
+		//_currentUnit->StartBuildProcess();
+		return;
+	}
+    bool _interfaceAction = false;
+    switch (action) {
+        case UNIT_MENU_ACTION_BUILD:
+        {
+            if (!_currentUnit->_unitData->GetIsBuilding())
+            {
+                vector<string> ableToConstruct = MAXConfigManager::SharedMAXConfigManager()->ConstructableUnitsForConstructorType(_currentUnit->GetConfig()->_bSelfCreatorType);
+                TryStartConstruction(ableToConstruct[0]);
+                _interfaceAction = true;
+            }
             
-        } break;
-        case MAXGameControllerAction_SelectSmallBuildingConstructionPath:
-        {
+        }break;
             
-        } break;
-        case MAXGameControllerAction_SelectConstructorExitCell:
-        {
             
-        } break;
-        case MAXGameControllerAction_SelectSecondUnit:
+        case UNIT_MENU_ACTION_REMOVE:
         {
-            StartSelectSecondUnit(_selectedUnit_w, _distance, _action);
-        } break;
+            _currentUnit->Destroy();
+            this->UnidDidHide(_currentUnit);
+        }break;
+            
+		case UNIT_MENU_ACTION_INFO:
+        case UNIT_MENU_ACTION_ALLOCATE:
+        case UNIT_MENU_ACTION_BUYUPGRADES:
+        case UNIT_MENU_ACTION_RESEARCH:
+        case UNIT_MENU_ACTION_ACTIVATE:
+            _interfaceAction = true;
+            break;
             
         default:
             break;
     }
+    
+    if (_interfaceAction) {
+        //show suitable screen
+        return;
+    }
+    bool _needTargetUnit = false;
+    switch (action) {
+        case UNIT_MENU_ACTION_ATTACK:
+        case UNIT_MENU_ACTION_DISABLE:
+//        case UNIT_MENU_ACTION_ENTER:
+//        case UNIT_MENU_ACTION_LOAD:
+//        case UNIT_MENU_ACTION_XFER:
+        case UNIT_MENU_ACTION_REPAIR:
+        case UNIT_MENU_ACTION_RELOAD:
+        case UNIT_MENU_ACTION_STEAL:
+		    _needTargetUnit = true;
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (_needTargetUnit) {
+        //select suitable target unit and perform action
+        EnableModeForCurrentUnit(action);
+        return;
+    }
+    //UNIT_MENU_ACTION_UPGRADE
+    //UNIT_MENU_ACTION_STOP
+    //UNIT_MENU_ACTION_START
+    //UNIT_MENU_ACTION_SENTRY
+    
+    
+    //UNIT_MENU_ACTION_XFORM
+    //UNIT_MENU_ACTION_FOLLOW
+    //UNIT_MENU_ACTION_PLACE
+    //UNIT_MENU_ACTION_WAIT
 }
+
+
+#pragma mark - GIUnitSelectionMenuDelegate
+
+void MAXGameController::OnUnitSelected(GameUnit* result, const CCPoint &point)
+{
+    _gameInterface->HideUnitSelectionMenu();
+	vector<GameUnit*> units;
+	units.push_back(_currentUnit);
+	StartMultipleAttackSequence(units, result, point, true);
+}
+
+#pragma mark - MAXAnimationDelegate
+
+void MAXGameController::OnAnimationStart(MAXAnimationBase* animation)
+{}
+
+void MAXGameController::OnAnimationUpdate(MAXAnimationBase* animation)
+{}
+
+void MAXGameController::OnAnimationFinish(MAXAnimationBase* animation)
+{
+	if (animation == _fireDelayAnim)
+	{
+		_fireDelayAnim = NULL;
+		StartAttackSequence(_currentFiringUnits[0], _currentTargetUnit, _currentFiringCell);
+		DecreaseFreezeCounter();
+	}
+}
+

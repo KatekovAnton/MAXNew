@@ -197,8 +197,8 @@ struct __Color
     
 struct __GameMatchPlayerInfo {
         
-    int             _clan;
     unsigned int    _playerId;
+    int             _clan;
     string          _name;
     Color           _color;
     

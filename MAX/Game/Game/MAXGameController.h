@@ -11,72 +11,137 @@
 
 #include <iostream>
 #include "miniPrefix.h"
+#include "USimpleContainer.h"
+#include "MAXEngine.h"
+#include "GameObjectDelegate.h"
+#include "GIUnitActionMenuDelegate.h"
+#include "GIUnitSelectionMenuDelegate.h"
+#include "MAXAnimationDelegate.h"
+#include "MAXGameInputControllerDelegate.h"
 
-class GameObject;
-class GameEffect;
+class MAXGameInputController;
+class GameMap;
 class GameUnit;
 
-class MAXObjectConfig;
-class MAXGameControllerDelegate;
+class GameMatch;
+class GameMatchPlayer;
+class GameEffect;
+class GameInterface;
+class GamePathVisualizer;
+class PFWaveCell;
 
-enum MAXGameControllerAction
+class MAXGameController : public MAXEngineDelegate, public GameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameInputControllerDelegate, public GIUnitSelectionMenuDelegate
 {
-    MAXGameControllerAction_SelectLargeBuildingConstructionPlace,
-    MAXGameControllerAction_SelectSmallBuildingConstructionPath,
-    MAXGameControllerAction_SelectConstructorExitCell,
-    MAXGameControllerAction_SelectSecondUnit,
-    MAXGameControllerAction_SelectSpawnLocation
-};
+    
+public:
 
-class MAXGameController {
+	MAXGameInputController *_iputController;
+
+	MAXAnimationBase* _fireDelayAnim;
+    vector<GameUnit*> _currentFiringUnits;
+    GameUnit *_currentTargetUnit;
+    CCPoint  _currentFiringCell;
+	bool _singleFire;
+    void StartAttackSequence(GameUnit *agressor, GameUnit *target, const CCPoint &point);
+    
+    GameInterface *_gameInterface;
+    GamePathVisualizer *_pathVisualizer;
+ 
+    void ShowPathMap();
+    void HidePathMap();
+    void RefreshCurrentUnitPath();
+    void RecalculateUnitPathMap(GameUnit *unit);
+    void RecalculateUnitPath(GameUnit* unit);
+    
+    bool _needToOpenMenuOnNextTapToSameUnit;
+    
+    
+    int _freezeCounter1;
     
 public:
     
-    bool shouldDeselectUnit;
+    void IncreaseFreezeCounter();
+    void DecreaseFreezeCounter();
     
-    MAXGameControllerDelegate* _delegate_w;
+    GameMatch *_match;
     
-    GameUnit *_selectedUnit_w;
-    GameObject *_secondaryObject_w;
-    CCPoint _largeBuildingConstructionPlace;
-    MAXObjectConfig* _buildingConfig_w;
-    float _distance;
-    int _step;
-    CCPoint _previousStepResult;
-    UNIT_MENU_ACTION _action;
-    vector<GameEffect*> _additionalEffects;
-    vector<CCPoint> suitableCells;
     
-    int _actionType;
+    GameMatch *GetCurrentMatch() const {return _match;}
+    GameUnit *_currentUnit;
     
-    bool GetRunedSpecialAction() const {return _actionType == -1;};
+    bool _startAttackModeAgain;
     
-    bool StartSelectLargeBuildingConstructionPlaceAction(GameUnit* constructor, MAXObjectConfig *buildingConfig);
-    bool StartSelectSmallBuildingConstructionPathAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig);
-    bool StartSelectConstructorExitCell(GameUnit* constructor, GameUnit* createdUnit);
     
-    bool StartSelectSecondUnit(GameUnit* selectedUnit, float maxDistance, UNIT_MENU_ACTION action);
+	MAXGameController();
+    ~MAXGameController();
+
     
-	bool StartSelectPlayerSpawnLocation();
+    void Init();
+    void StartMatch();
+
+    int CurrentPlayerId() const;
+    
+    void UpdateCurrentUnitPath();
+    void TryStartConstruction(string type);
+    void EnableModeForCurrentUnit(UNIT_MENU_ACTION action);
+    void SelectNewUnit(GameUnit* unit);
+    void DeselectCurrentUnit(bool _removeFromLock);
+    bool EscapeStealthUnitFromPos(GameUnit* unit, const int x, const int y, GameMatchPlayer *reasonPlayer, vector<CCPoint> lockedCells);
+	void StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire);
+    void MakePain();
+	void DestroyUnit(GameUnit* unit);
+	bool CheckIfNextCellOk(GameUnit* unit);
+	void ShowUnitPath(GameUnit *unit);
+	void HideUnitPath();
+    
+	void UnidDidHide(GameUnit* unit);
+
+    bool EndTurn();
     
 
-    void AbortCurrentAction();
-    
-    void ProceedPan(int speedx, int speedy);
+#pragma mark - Interaction	
+    bool CanStartPinch(float x, float y);
+    void ProceedPinch(float scale);
+    void ProceedPan(float speedx, float speedy);
     void ProceedTap(float tapx, float tapy);
-    void ProceedPinch(float delta);
+    void ProceedLongTap(float tapx, float tapy);
     
-    bool ShoulTakePan() const { return _actionType != -1 && _actionType != MAXGameControllerAction_SelectConstructorExitCell&& _actionType != MAXGameControllerAction_SelectSecondUnit;  };
-    bool ShoulTakeTap(const CCPoint &cell);
-    bool ShoulTakePinch(float delta);
-    bool UnitCanMoveWithAction();
+#pragma mark - Interface
+#pragma mark Messages
+    void ShowUnitSpottedMessage(GameUnit* unit);
     
-    void OnGameStartsActons();
-    void OnGameStopsActons();
+#pragma mark - MAXGameInputControllerDelegate
+    virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
+    virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     
-    MAXGameController();
-    ~MAXGameController();
+    virtual void SelectSecondUnitActionCanceled();
+    virtual void SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action);
     
+	virtual GameMatch *GetCurrentMatch();
+
+#pragma mark - MAXEngineDelegate
+    virtual void onFrame();
+    
+#pragma mark - GameObjectDelegate
+    virtual void onUnitMoveStart(GameUnit* unit);
+	virtual void onUnitMovePause(GameUnit* unit);
+	virtual void onUnitMoveStepBegin(GameUnit* unit);
+	virtual void onUnitMoveStepEnd(GameUnit* unit);
+    virtual void onUnitMoveStop(GameUnit* unit);
+    virtual void onUnitFireStart(GameUnit* unit);
+    virtual void onUnitFireStop(GameUnit* unit);
+
+#pragma mark - GIUnitActionMenuDelegate
+    virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);
+    
+#pragma mark - GIUnitSelectionMenuDelegate 
+    virtual void OnUnitSelected(GameUnit* result, const CCPoint &point);
+    
+#pragma mark - MAXAnimationDelegate 
+    virtual void OnAnimationStart(MAXAnimationBase* animation);
+    virtual void OnAnimationUpdate(MAXAnimationBase* animation);
+    virtual void OnAnimationFinish(MAXAnimationBase* animation);
+
 };
 
 #endif /* defined(__MAX__MAXGameController__) */

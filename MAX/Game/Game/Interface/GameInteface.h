@@ -22,6 +22,8 @@ class GIUnitActionMenuDelegate;
 class GIUnitSelectionMenu;
 class GIUnitSelectionMenuDelegate;
 
+class MAXGameController;
+
 class GameInterface : public CCScene
 {
     CCNode* _unitInterfaceBattle;
@@ -72,6 +74,8 @@ class GameInterface : public CCScene
     bool _inited;
     
 public:
+
+	MAXGameController *_gameController;
     
     bool GetUnitMenuOpened() const {return _unitMenu != NULL;};
     bool GetSelectUnitMenuOpened() const {return _unitSelectionMenu != NULL;};
