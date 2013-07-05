@@ -35,8 +35,12 @@ class MAXGameController : public MAXEngineDelegate, public GameObjectDelegate, p
     
 public:
 
+
+
 	MAXGameInputController *_iputController;
 
+
+	vector<pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>>> _attackSequences;
 	MAXAnimationBase* _fireDelayAnim;
     vector<GameUnit*> _currentFiringUnits;
     GameUnit *_currentTargetUnit;
@@ -130,6 +134,8 @@ public:
     virtual void onUnitMoveStop(GameUnit* unit);
     virtual void onUnitFireStart(GameUnit* unit);
     virtual void onUnitFireStop(GameUnit* unit);
+
+    virtual void onUnitDestroyed(GameUnit* unit);
 
 #pragma mark - GIUnitActionMenuDelegate
     virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);

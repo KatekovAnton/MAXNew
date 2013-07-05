@@ -228,11 +228,28 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(31, 44, "sub", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(31, 45, "sub", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(32, 40, "sub", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(30, 40, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(30, 43, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(29, 43, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(30, 45, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(29, 45, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(24, 42, "Corvette", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(24, 43, "Corvette", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(24, 44, "Corvette", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(24, 45, "Corvette", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(24, 46, "Corvette", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(23, 42, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(23, 43, "Escort", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(23, 44, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(23, 45, "Escort", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(23, 46, "Gunboat", 0)->PlaceUnitOnMap();
+		
+        _match->_players[1]->CreateUnit(22, 41, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(22, 42, "Seacargo", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(22, 43, "Rokcr", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(22, 44, "Awac", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(22, 45, "Rokcr", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(22, 46, "Seacargo", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(22, 47, "Gunboat", 0)->PlaceUnitOnMap();
     }
     {
         _match->_players[1]->CreateUnit(40, 50, "Corvette", 0)->PlaceUnitOnMap();    
@@ -975,7 +992,9 @@ void MAXGameController::StartAttackSequence(GameUnit *agressor, GameUnit *target
 	if (!_singleFire)
 	{
 		if (target && agressor->_owner_w->GetIsCurrentPlayer())
-			SOUND->PlaySystemSound(SOUND_TYPE_UNIT_FIRING);	
+			SOUND->PlaySystemSound(SOUND_TYPE_UNIT_FIRING);
+		if (agressor->_owner_w->GetIsCurrentPlayer())
+			SOUND->PlaySystemSound(SOUND_TYPE_ENEMY_FIRING_ON_UNIT);
 		if (!agressor->_owner_w->GetIsCurrentPlayer())
 			agressor->_unitData->_reactedOnLastTurn = true;
 	}
@@ -1002,6 +1021,12 @@ void MAXGameController::StartMultipleAttackSequence(vector<GameUnit*> agressors,
     //AGA POPALSA!!!
 	if (target)
 	    target->AbortCurrentPath();
+
+	if (_currentFiringUnits.size() != 0)
+	{
+		_attackSequences.push_back(pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>>(pair<GameUnit*, CCPoint>(target, point), agressors));
+		return;
+	}
 	_currentFiringUnits = agressors;
 	_singleFire = singleFire;
 	StartAttackSequence(_currentFiringUnits[0], target, point);
@@ -1132,6 +1157,39 @@ void MAXGameController::onUnitFireStop(GameUnit* unit)
     DecreaseFreezeCounter();
 }
 
+void MAXGameController::onUnitDestroyed(GameUnit* unit)
+{
+	bool search = true;
+	while (search)
+	{
+		search = false;
+		vector<pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>>>::iterator it = _attackSequences.begin();
+		for (int i = 0; i < _attackSequences.size(); i++)
+		{
+			pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>> newSequence = _attackSequences[i];
+			if (newSequence.first.first == unit)
+			{
+				search = true;
+				_attackSequences.erase(it);
+				break;
+			}
+			vector<GameUnit*> units = newSequence.second;
+			for (int j = 0; j < units.size(); j++)
+			{
+				if (units[j] == unit)
+				{
+					search = true;
+					_attackSequences.erase(it);
+					break;
+				}
+			}
+			if (search)
+				break;
+			it++;
+		}
+	}
+}
+
 void MAXGameController::MakePain()
 {
 	GameUnit *_currentFiringUnit = _currentFiringUnits[0];
@@ -1163,7 +1221,7 @@ void MAXGameController::MakePain()
 	if (!stillAlive || _singleFire)
 		_currentFiringUnits.clear();
 
-	if (_currentFiringUnits.size() == 0)
+	if (_currentFiringUnits.size() == 0 && _attackSequences.size() != 0)
 	{
 		_currentTargetUnit = NULL;
 		if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) 
@@ -1357,6 +1415,22 @@ void MAXGameController::OnAnimationFinish(MAXAnimationBase* animation)
 	if (animation == _fireDelayAnim)
 	{
 		_fireDelayAnim = NULL;
+		if (_currentFiringUnits.size() == 0)
+		{
+			if (_attackSequences.size() != 0)
+			{
+				pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>> newSequence = _attackSequences[0];
+				_attackSequences.erase(_attackSequences.begin());
+				_currentTargetUnit = newSequence.first.first;
+				_currentFiringCell = newSequence.first.second;
+				_currentFiringUnits = newSequence.second;
+			}
+			else
+			{
+				DecreaseFreezeCounter();
+				return;
+			}
+		}
 		StartAttackSequence(_currentFiringUnits[0], _currentTargetUnit, _currentFiringCell);
 		DecreaseFreezeCounter();
 	}

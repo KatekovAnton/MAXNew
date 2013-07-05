@@ -608,12 +608,9 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
         
         attackers.push_back(cUnit);
     }
-    if (attackers.size() > 0) {
-		if (unit->_owner_w->GetIsCurrentPlayer())
-			SOUND->PlaySystemSound(SOUND_TYPE_ENEMY_FIRING_ON_UNIT);
-    
+    if (attackers.size() > 0) 
 		_gameController->StartMultipleAttackSequence(attackers, unit, point, false);
-	}
+	
 }
 
 void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, GameMatchPlayer* player)

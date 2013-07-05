@@ -357,6 +357,7 @@ void GameUnit::Destroy()
 {
     _destroyed = true;
     _delegate_w->GameUnitDidDestroy(this);
+	gameObjectDelegate->onUnitDestroyed(this);
 }
 
 void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
