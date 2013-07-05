@@ -241,6 +241,7 @@ void GameUnit::Hide()
     StopCurrentSound();
     
     GameObject::Hide();
+	gameObjectDelegate->onUnidHided(this);
     if (_effectUnder)
         _effectUnder->Hide();
     if (_effectOver)
@@ -598,7 +599,9 @@ void GameUnit::FollowPath(void)
         else if (speedMult < 5)
             speedMult = 5;
         float moveFactor = cell->cost * 10.0 / speedMult; // change to current max speed
-        move->SetMoveFactor(moveFactor);
+		if (moveFactor < 0.1)
+			moveFactor = 20;
+		move->SetMoveFactor(moveFactor);
         sequence->AddAnimation(move);
         
         if (first)

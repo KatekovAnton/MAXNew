@@ -98,7 +98,6 @@ public:
 	void ShowUnitPath(GameUnit *unit);
 	void HideUnitPath();
     
-	void UnidDidHide(GameUnit* unit);
 
     bool EndTurn();
     
@@ -135,6 +134,7 @@ public:
     virtual void onUnitFireStart(GameUnit* unit);
     virtual void onUnitFireStop(GameUnit* unit);
 
+	virtual void onUnidHided(GameUnit* unit);
     virtual void onUnitDestroyed(GameUnit* unit);
 
 #pragma mark - GIUnitActionMenuDelegate

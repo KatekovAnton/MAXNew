@@ -36,6 +36,7 @@
 #include "Pathfinder.h"
 #include "PFWaveCell.h"
 
+static bool allowControlEnemyUnits = false;
 
 MAXGameController::MAXGameController()
 	:_pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _iputController(new MAXGameInputController()), _currentTargetUnit(NULL), _startAttackModeAgain(false)
@@ -254,7 +255,7 @@ void MAXGameController::StartMatch()
     {
         _match->_players[1]->CreateUnit(40, 50, "Corvette", 0)->PlaceUnitOnMap();    
         _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(50, 53, "Inter", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(36, 53, "Inter", 0)->PlaceUnitOnMap();
         for (int i = 61; i < 69; i++)
             _match->_players[1]->CreateUnit(i, 65, "landmine", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(50, 47, "pcan", 0)->PlaceUnitOnMap();
@@ -352,17 +353,6 @@ bool MAXGameController::EscapeStealthUnitFromPos(GameUnit* unit, const int x, co
         }
     }
     return result;
-}
-
-void MAXGameController::UnidDidHide(GameUnit* unit)
-{
-    _gameInterface->RemoveUnitFromLock(unit);
-    if (_currentUnit == unit)
-    {
-        engine->SelectUnit(NULL);
-        _gameInterface->OnCurrentUnitChanged(NULL, true);
-        _currentUnit = NULL;
-    }
 }
 
 #pragma mark - Path map
@@ -804,7 +794,7 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                 }
                 // force select another unit
             }
-            else if (_currentUnit->_owner_w->GetIsCurrentPlayer())
+            else if (_currentUnit->_owner_w->GetIsCurrentPlayer() || allowControlEnemyUnits)
             {
                 _gameInterface->HideUnitMenu();
                 _needToOpenMenuOnNextTapToSameUnit = true;
@@ -828,6 +818,7 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                     else
                     {
                         CCPoint location = _currentUnit->GetUnitCell();
+						RecalculateUnitPathMap(_currentUnit);
                         std::vector<PFWaveCell*> path = _currentUnit->_owner_w->_pathfinder->FindPathOnMap(p.x, p.y);
                     
                         if (path.size() > 1)
@@ -1157,6 +1148,17 @@ void MAXGameController::onUnitFireStop(GameUnit* unit)
     DecreaseFreezeCounter();
 }
 
+void MAXGameController::onUnidHided(GameUnit* unit)
+{
+    _gameInterface->RemoveUnitFromLock(unit);
+    if (_currentUnit == unit)
+    {
+        engine->SelectUnit(NULL);
+        _gameInterface->OnCurrentUnitChanged(NULL, true);
+        _currentUnit = NULL;
+    }
+}
+
 void MAXGameController::onUnitDestroyed(GameUnit* unit)
 {
 	bool search = true;
@@ -1244,7 +1246,7 @@ void MAXGameController::DestroyUnit(GameUnit* unit)
 {
 	unit->Destroy();
     bool isCurrent = unit == _currentUnit;
-	this->UnidDidHide(unit);
+	this->onUnidHided(unit);
 			
 	if (isCurrent)
 	{
@@ -1338,7 +1340,7 @@ void MAXGameController::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         case UNIT_MENU_ACTION_REMOVE:
         {
             _currentUnit->Destroy();
-            this->UnidDidHide(_currentUnit);
+            this->onUnidHided(_currentUnit);
         }break;
             
 		case UNIT_MENU_ACTION_INFO:

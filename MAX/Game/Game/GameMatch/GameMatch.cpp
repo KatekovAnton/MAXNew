@@ -668,7 +668,7 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                     if (processedPlayer->GetIsCurrentPlayer())
                     {
                         unit->Hide();
-						_gameController->UnidDidHide(unit);
+						_gameController->onUnidHided(unit);
                     }
                 }
             }

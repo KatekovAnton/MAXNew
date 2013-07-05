@@ -24,6 +24,7 @@ public:
     virtual void onUnitFireStart(GameUnit* unit) = 0;
     virtual void onUnitFireStop(GameUnit* unit) = 0;
 	
+	virtual void onUnidHided(GameUnit* unit) = 0;
     virtual void onUnitDestroyed(GameUnit* unit) = 0;
     
 };
