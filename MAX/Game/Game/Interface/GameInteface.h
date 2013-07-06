@@ -71,8 +71,7 @@ class GameInterface : public CCScene
     GIUnitActionMenu* _unitMenu;
     GIUnitSelectionMenu* _unitSelectionMenu;
     
-    bool _inited;
-    
+ 
 public:
 
 	MAXGameController *_gameController;

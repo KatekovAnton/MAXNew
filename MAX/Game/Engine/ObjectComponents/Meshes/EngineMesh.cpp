@@ -147,6 +147,7 @@ EngineMesh::EngineMesh(void * vertices, long vSize, void *indices, long iSize):_
     _primitivesCount = iSize/sizeof(GLushort);
     
     _disposed = false;
+	Unbind();
 }
 
 void EngineMesh::Bind() const

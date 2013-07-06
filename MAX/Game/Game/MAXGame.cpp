@@ -7,40 +7,19 @@
 //
 
 #include "MAXGame.h"
-#include "MAXEngine.h"
-#include "SceneSystem.h"
-#include "SoundEngine.h"
 #include "Display.h"
 #include "cocos2d.h"
 
-#include "MAXEffectObject.h"
-#include "MAXConfigManager.h"
-#include "MAXContentLoader.h"
-#include "MAXUnitObject.h"
-#include "MAXAnimationPrefix.h"
 
 #include "MAXGameController.h"
-
-#include "MatchMapAgregator.h"
-
-#include "GameMap.h"
-#include "GameFog.h"
-#include "GameUnit.h"
-#include "GameMatch.h"
+#include "MAXMainMenuController.h"
 #include "GameEffect.h"
-#include "GameInteface.h"
-#include "GameUnitParameters.h"
-#include "GameUnitData.h"
-#include "GamePathVisualizer.h"
-
-#include "Pathfinder.h"
-#include "PFWaveCell.h"
 
 MAXGame globalGame;
 MAXGame * game = &globalGame;
 
 MAXGame::MAXGame()
-:_gameController(NULL)
+:_gameController(NULL), _mainMenuController(NULL)
 {
     _effects = new USimpleContainer<GameEffect*>();
 }
@@ -61,6 +40,9 @@ MAXGame::~MAXGame()
 void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
+
+	//_mainMenuController = new MAXMainMenuController();
+	//_mainMenuController->Init();
 	_gameController = new MAXGameController();
 	_gameController->Init();
 	_currentState = MAXGAMESTATE_GAME;

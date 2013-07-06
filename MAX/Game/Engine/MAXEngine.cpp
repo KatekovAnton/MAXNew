@@ -114,10 +114,8 @@ void MAXEngine::Init() {
 
         
     _director = CCDirector::sharedDirector();
-    _director->setContentScaleFactor(_renderSystem->GetDisplay()->GetDisplayScale());
     _director->setOpenGLView((CCEGLView *)(_renderSystem->GetDisplay()));
 
-	
     if (Display::currentDisplay()->GetDisplayScale() == 1.0) {
         CCFileUtils::sharedFileUtils()->setResourceDirectory("simple");
     }
@@ -129,16 +127,18 @@ void MAXEngine::Init() {
     _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth()/scale, _renderSystem->GetDisplay()->GetDisplayHeight()/scale, kResolutionNoBorder);
     _animationManager = new MAXAnimationManager();
     
-    
-    _director->setDisplayStats(true);
-    _grid = new MAXGrid();
+	_director->setDisplayStats(true);
+    _director->setContentScaleFactor(_renderSystem->GetDisplay()->GetDisplayScale());
+	_grid = new MAXGrid();
     _unitSelection = new MAXUnitSelection();
     _statusRenderer = MAXStatusRenderer::SharedStatusRenderer();
-    _scene = NULL;
+    
+	_scene = NULL;
     _resourceRenderer = NULL;
 	_pathZoneRenderer = NULL;
     _fogRenderer = NULL;
-    
+	_optionalZoneRenderer = NULL;
+
     _pathZoneRendererLevel = OBJECT_LEVEL_UNDERWATER;
     _optionalZoneRendererLevel = OBJECT_LEVEL_OVERAIR;
 }
@@ -160,7 +160,6 @@ void MAXEngine::SetCameraCenter(const CCPoint &cell)
 
 void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 {
-    
     _map = shared_ptr<MAXMapObject>(new MAXMapObject(map));
     _grid->SetMapSize(_map->mapW, _map->mapH);
     _camera->SetMapSize(_map->mapW, _map->mapH);
@@ -318,9 +317,11 @@ void MAXEngine::Update()
 {
     
     RequestManager::SharedRequestManager()->Flush();
+	
+	if (!_scene)
+		return;
+
     _scene->BeginFrame();
-    
-    
     _scene->Frame(_elapsedTime);
     _map->Frame(_elapsedTime);
     
@@ -361,19 +362,26 @@ void MAXEngine::SelectUnit(MAXObject* unit)
 
 void MAXEngine::Draw()
 {
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-    GLint prog;
-    glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
-    DrawGround();
-    glEnable(GL_BLEND);
-    DrawGrid();
-    DrawUnits();
-    DrawResourceMap();
-    DrawFog();
-    _unitSelection->Draw();
-    _statusRenderer->DrawCircles();
-    glUseProgram(prog);
+	if (_scene)
+	{
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
+    
+		GLint prog;
+		glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+	
+		DrawGround();
+		glEnable(GL_BLEND);
+		DrawGrid();
+		DrawUnits();
+	
+		DrawResourceMap();
+		DrawFog();
+		_unitSelection->Draw();
+		_statusRenderer->DrawCircles();
+		glUseProgram(prog);
+    }
+	
     DrawInterface();
 }
 
@@ -389,7 +397,7 @@ void MAXEngine::DrawGround()
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-    _map.get()->Draw(_shader);
+	_map.get()->Draw(_shader);
     glActiveTexture(GL_TEXTURE0);
 }
 
@@ -554,9 +562,10 @@ void MAXEngine::DrawOptionalZone()
 
 void MAXEngine::DrawInterface()
 {
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glActiveTexture(GL_TEXTURE0);
 
     _director->mainLoop();
 }

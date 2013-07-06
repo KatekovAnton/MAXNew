@@ -31,78 +31,7 @@ using namespace extension;
 
 #define BUTTON_LABEL_TAG 11
 
-float Scale = 1.0;
 float panelW = 70;
-
-CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fontSize, ccColor3B titleColor, string normal, string selected, CCObject* target, SEL_MenuHandler selector)
-{
-    CCSprite* _onToggleGridSprite = MAXSCL->CreateSpriteFromSimpleImage(selected);
-    CCSprite* _ofToggleGridSprite = MAXSCL->CreateSpriteFromSimpleImage(normal);
-    CCMenuItemSprite* result = CCMenuItemSprite::create(_ofToggleGridSprite, _onToggleGridSprite, target, selector);
-    result->setAnchorPoint(ccp(0, 0));
-    
-    
-    CCLabelTTF *label = CCLabelTTF::create(title.c_str(), fontName.c_str(), fontSize);
-    label->setTag(BUTTON_LABEL_TAG);
-    label->setColor(titleColor);
-    CCSize sz = result->getContentSize();
-    sz.height /= 2;
-    label->setPosition(ccp(sz.width * 0.25, sz.height * 0.25));
-    sz.width *= Scale;
-    sz.height *= Scale;
-    label->setContentSize(sz);
-    label->setAnchorPoint(ccp(0, 0));
-    
-    CocosHelper::ProceedCCNode(result);
-    CocosHelper::ProceedCCNodeBack(label);
-    
-    result->addChild(label, 1);
-
-    return result;
-}
-
-CCMenuItemSprite* createMenuItemFromResources(string title, string fontName, int fontSize, ccColor3B titleColor, string normal, string selected, CCObject* target, SEL_MenuHandler selector)
-{
-    CCSprite* _onToggleGridSprite = CCSprite::create(selected.c_str());
-    CCSprite* _ofToggleGridSprite = CCSprite::create(normal.c_str());
-    CCMenuItemSprite* result = CCMenuItemSprite::create(_ofToggleGridSprite, _onToggleGridSprite, target, selector);
-    result->setAnchorPoint(ccp(0, 0));
-    
-    
-    CCLabelTTF *label = CCLabelTTF::create(title.c_str(), fontName.c_str(), fontSize);
-    label->setColor(titleColor);
-    CCSize sz = result->getContentSize();
-    sz.height /= 2;
-    label->setPosition(ccp(sz.width * 0.25, sz.height * 0.25));
-    sz.width *= Scale;
-    sz.height *= Scale;
-    label->setContentSize(sz);
-    label->setAnchorPoint(ccp(0, 0));
-    
-    
-    result->addChild(label, 1);
-    
-    return result;
-}
-
-bool IsTouchInCCNode(int x, int y, CCNode *node, const float enlargeValue)
-{
-    CCRect r = CCRect(node->getPosition().x, node->getPosition().y, node->getContentSize().width, node->getContentSize().height);
-    
-    float scale = node->getScale() - 1.0;
-    r.origin.x -= node->getContentSize().width * scale * 0.5;
-    r.origin.y -= node->getContentSize().height * scale * 0.5;
-    
-    r.size.width *= node->getScale();
-    r.size.height *= node->getScale();
-    
-    r.origin.x -= enlargeValue;
-    r.origin.y -= enlargeValue;
-    r.size.width += enlargeValue * 2;
-    r.size.height += enlargeValue * 2;
-    
-    return r.containsPoint(CCPoint(x, y));
-}
 
 bool GameInterface::ShouldReceiveTouch(int x, int y)
 {
@@ -150,7 +79,6 @@ GameInterface::GameInterface()
     MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
     
     
-    Scale = Display::currentDisplay()->GetDisplayScale();
 }
 
 GameInterface::~GameInterface()
@@ -159,10 +87,6 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
-    
-    _inited = false;
-    CCDirector::sharedDirector()->setDisplayStats(true);
-    
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
     CCSprite* turnSprite = CCSprite::create("3blocks.png");
     turnSprite->setAnchorPoint(ccp(0, 1));
@@ -213,12 +137,13 @@ void GameInterface::InitBaseInterface()
     _toggleLockUnitsButton->setPosition(ccp(bx,currentElement));
     CCMenu *menu = CCMenu::create(_toggleLockUnitsButton, nullptr);
     {
+		float Scale = CCDirector::sharedDirector()->getContentScaleFactor();
         CCLabelTTF *label = CCLabelTTF::create("Lock\nunits", MAX_DEFAULT_FONT, 10);
         label->setColor(MAX_COLOR_WHITE);
         CCSize sz = label->getContentSize();
         sz.height /= 2;
         label->setPosition(ccp(_toggleLockUnitsButton->getContentSize().width + 1, -1));
-        sz.width *= Scale;
+		sz.width *= Scale;
         sz.height *= Scale;
         label->setContentSize(sz);
         label->setAnchorPoint(ccp(0, 0));
@@ -295,8 +220,6 @@ void GameInterface::InitBaseInterface()
     UpdateTogglePathZone();
 
 
-    _inited = true;
-    
     _buttonEndTurn = createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
     CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(BUTTON_LABEL_TAG), ccp(-4, 1));
     _buttonEndTurn->setPosition(ccp(0, 0));

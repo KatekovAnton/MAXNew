@@ -984,7 +984,7 @@ void MAXGameController::StartAttackSequence(GameUnit *agressor, GameUnit *target
 	{
 		if (target && agressor->_owner_w->GetIsCurrentPlayer())
 			SOUND->PlaySystemSound(SOUND_TYPE_UNIT_FIRING);
-		if (agressor->_owner_w->GetIsCurrentPlayer())
+		if (target && target->_owner_w->GetIsCurrentPlayer() && !agressor->_owner_w->GetIsCurrentPlayer())
 			SOUND->PlaySystemSound(SOUND_TYPE_ENEMY_FIRING_ON_UNIT);
 		if (!agressor->_owner_w->GetIsCurrentPlayer())
 			agressor->_unitData->_reactedOnLastTurn = true;

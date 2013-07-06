@@ -25,6 +25,8 @@ enum MAXGAMESTATE
     MAXGAMESTATE_GAME
 };
 
+class MAXMainMenuController;
+
 class MAXGame : public DisplayPinchDelegate
 {
 	MAXGAMESTATE _currentState;
@@ -32,7 +34,8 @@ class MAXGame : public DisplayPinchDelegate
 public:
     
     MAXGameController *_gameController;
-    
+    MAXMainMenuController *_mainMenuController;
+
     MAXGAMESTATE GetCurrentState() const {return _currentState;}
     
     MAXGame();

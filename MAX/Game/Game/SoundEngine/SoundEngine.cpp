@@ -286,7 +286,7 @@ SoundEngine::~SoundEngine()
 
 void SoundEngine::PlaySystemSound(SOUND_TYPE type)
 {
-	    if (_systemSoundNames.count(type) == 0) 
+	if (_systemSoundNames.count(type) == 0) 
         return;
     
     for (int i = 0; i < _playedSound.size(); i++) 

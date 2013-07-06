@@ -441,6 +441,12 @@
     <ClCompile Include="..\..\MAX\Game\Game\MAXGameInputController.cpp">
       <Filter>Game\Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\MainMenu.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\MAXMainMenuController.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MAX\Utils\BinaryReader.h">
@@ -850,6 +856,12 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\MAXGameInputControllerDelegate.h">
       <Filter>Game\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\MainMenu.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\MAXMainMenuController.h">
+      <Filter>Game\Game\MainMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
