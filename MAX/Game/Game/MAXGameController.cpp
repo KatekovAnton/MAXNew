@@ -1223,7 +1223,7 @@ void MAXGameController::MakePain()
 	if (!stillAlive || _singleFire)
 		_currentFiringUnits.clear();
 
-	if (_currentFiringUnits.size() == 0 && _attackSequences.size() != 0)
+	if (_currentFiringUnits.size() == 0 && _attackSequences.size() == 0)
 	{
 		_currentTargetUnit = NULL;
 		if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) 

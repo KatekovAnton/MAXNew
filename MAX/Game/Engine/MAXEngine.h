@@ -90,7 +90,7 @@ public:
     int _applyedPaletteIndex;
     int _applyedPaletteCount;
     
-    shared_ptr<MAXMapObject>            _map;
+    MAXMapObject			*_map;
     
     MAXCamera               *_camera;
     MAXGrid                 *_grid;

@@ -41,10 +41,10 @@ void MAXGame::Init()
 {
     Display::currentDisplay()->SetPinchDelegate(this);
 
-	//_mainMenuController = new MAXMainMenuController();
-	//_mainMenuController->Init();
-	_gameController = new MAXGameController();
-	_gameController->Init();
+	_mainMenuController = new MAXMainMenuController();
+	_mainMenuController->Begin();
+	//_gameController = new MAXGameController();
+	//_gameController->Init();
 	_currentState = MAXGAMESTATE_GAME;
 }
 

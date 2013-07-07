@@ -117,6 +117,7 @@ public:
     
     cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name);
     cocos2d::CCSprite* CreateSpriteFromSimpleImage(string name, Color transparent);
+    cocos2d::CCSprite* CreateSpriteFromPalettedImage(string name);
 };
 
 #endif /* defined(__MAX__MAXContentLoader__) */

@@ -18,8 +18,12 @@ using namespace cocos2d;
 
 CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fontSize, ccColor3B titleColor, string normal, string selected, CCObject* target, SEL_MenuHandler selector)
 {
-    CCSprite* _onToggleGridSprite = MAXSCL->CreateSpriteFromSimpleImage(selected);
-    CCSprite* _ofToggleGridSprite = MAXSCL->CreateSpriteFromSimpleImage(normal);
+	Color transparent;
+	transparent.r = 0;
+	transparent.g = 0;
+	transparent.b = 0;
+	CCSprite* _onToggleGridSprite = MAXSCL->CreateSpriteFromSimpleImage(selected, transparent);
+    CCSprite* _ofToggleGridSprite = MAXSCL->CreateSpriteFromSimpleImage(normal, transparent);
     CCMenuItemSprite* result = CCMenuItemSprite::create(_ofToggleGridSprite, _onToggleGridSprite, target, selector);
     result->setAnchorPoint(ccp(0, 0));
     

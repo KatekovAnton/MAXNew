@@ -45,7 +45,7 @@ MAXEngine globalEngine;
 MAXEngine * engine = &globalEngine;
 
 MAXEngine::MAXEngine()
-	:_delegate(NULL), _applyedPaletteIndex(-100), _applyedPaletteCount(0)
+	:_delegate(NULL), _applyedPaletteIndex(-100), _applyedPaletteCount(0), _map(NULL)
 {
     _renderSystem = new RenderSystem();
     _first = true;
@@ -54,35 +54,24 @@ MAXEngine::MAXEngine()
 
 MAXEngine::~MAXEngine()
 {
-    if (_fogRenderer) {
-        delete _fogRenderer;
-        _fogRenderer = NULL;
-    }
-	if (_pathZoneRenderer)
-	{
-		delete _pathZoneRenderer;
-		_pathZoneRenderer = NULL;
-	}
-	
-
-    if (_resourceRenderer) {
-        delete _resourceRenderer;
-        _resourceRenderer = NULL;
-    }
+	SetMap(nullptr);
     
-    if (_optionalZoneRenderer) {
-        delete _optionalZoneRenderer;
-        _optionalZoneRenderer = NULL;
-    }
-    
-    delete _animationManager;
     delete _renderSystem;
+	delete _lowLodHighDrawObjects;
+
+	delete _camera;
+    delete _animationManager;
+    delete _grid;
+    delete _unitSelection;
   
+	delete _unitShader;
+    delete _unitLowShader;
     delete _mapShader;
     delete _mapQuadShader;
-    delete _grid;
-    delete _scene;
-    delete _unitSelection;
+    delete _resourceMapShader;
+    delete _fogShader;
+	delete _pathZoneShader;
+
 }
 
 void MAXEngine::Init() {
@@ -160,33 +149,70 @@ void MAXEngine::SetCameraCenter(const CCPoint &cell)
 
 void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 {
-    _map = shared_ptr<MAXMapObject>(new MAXMapObject(map));
-    _grid->SetMapSize(_map->mapW, _map->mapH);
-    _camera->SetMapSize(_map->mapW, _map->mapH);
-    if (_scene)
+	if (_map)
+	{
+		delete _map;
+		_map = NULL;
+	}
+	if (map)
+	{
+		_map = new MAXMapObject(map);
+		_grid->SetMapSize(_map->mapW, _map->mapH);
+		_camera->SetMapSize(_map->mapW, _map->mapH);
+	}
+	if (_scene)
+	{
         delete _scene;
-    _scene = new SceneSystem(_map.get());
+		_scene = NULL;
+	}
+	if (_map)
+		_scene = new SceneSystem(_map);
     
     
     if (_resourceRenderer)
+	{
         delete _resourceRenderer;
-    _resourceRenderer = new MAXResourceMapRenderer(_map->mapW, _map->mapH);
+		_resourceRenderer = NULL;
+	}
+	if (_map)
+		_resourceRenderer = new MAXResourceMapRenderer(_map->mapW, _map->mapH);
     
+
     if (_fogRenderer)
-        delete _fogRenderer;
-    _fogRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
-    _fogRenderer->CompletlyFillMap();
-    _fogRenderer->color = GLKVector4Make(0, 0, 0, 0.4);
+    {
+		delete _fogRenderer;
+		_fogRenderer = NULL;
+	}
+	if (_map)
+	{
+		_fogRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
+		_fogRenderer->CompletlyFillMap();
+		_fogRenderer->color = GLKVector4Make(0, 0, 0, 0.4);
+	}
+
 
 	if (_pathZoneRenderer)
+	{
 		delete _pathZoneRenderer;
-	_pathZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
-	_pathZoneRenderer->color = GLKVector4Make(0.3, 0.4, 0.3, 0.9);
-    
+		_pathZoneRenderer = NULL;
+	}
+	if (_map)
+	{
+		_pathZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
+		_pathZoneRenderer->color = GLKVector4Make(0.3, 0.4, 0.3, 0.9);
+	}
+
+
     if (_optionalZoneRenderer)
-        delete _optionalZoneRenderer;
-	_optionalZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
-	_optionalZoneRenderer->color = GLKVector4Make(1, 0, 0, 0.9);
+    {
+		delete _optionalZoneRenderer;
+		_optionalZoneRenderer = NULL;
+	}
+	if (_map)
+	{
+		_optionalZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
+		_optionalZoneRenderer->color = GLKVector4Make(1, 0, 0, 0.9);
+	}
 }
 
 void MAXEngine::ClearMap()
@@ -397,7 +423,7 @@ void MAXEngine::DrawGround()
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
-	_map.get()->Draw(_shader);
+	_map->Draw(_shader);
     glActiveTexture(GL_TEXTURE0);
 }
 

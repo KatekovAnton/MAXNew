@@ -1298,12 +1298,13 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
     
     
     GLbyte* pixels = new GLbyte[w * h];
-    GLbyte palette[768];
+    GLubyte palette[768];
+	memset(palette, 0, 768);
     inf->ReadBuffer(768, (char*)palette);
     
     
     short block_size;
-    unsigned char buf;
+    char buf;
     char fill[65535];
     memset(fill, 0, 65535);
     short m1 = -1;
@@ -1315,31 +1316,31 @@ CCTexture2D* MAXContentLoader::CreateTexture2DFromPalettedImage(string name)
         
         if (block_size > 0)
         {
-            inf->ReadBuffer(block_size, fill);
+			inf->ReadBuffer(block_size, reinterpret_cast<char*>(fill));
             
-            memcpy(pixels, fill+position, block_size);
+            memcpy(pixels+position, fill, block_size);
             position += block_size;
         }
         else
         {
             block_size = (short)((int)m1 * (int)block_size);
-            buf = inf->ReadUChar();
+            buf = inf->ReadChar();
         
             memset(fill, buf, block_size);
-            memcpy(pixels, fill+position, block_size);
+            memcpy(pixels+position, fill, block_size);
             position += block_size;
         }
     }
     
     Color* colors = (Color*)malloc(w * h * 4);
-    for (int i = 0; i < w; i++)
-        for (int j = 0; j < h; j++)
+    for (int j = 0; j < h; j++)
+		for (int i = 0; i < w; i++)
         {
             int colornumber = pixels[j * w + i];
             colors[j * w + i].r = palette[colornumber * 3];
             colors[j * w + i].g = palette[colornumber * 3 + 1];
             colors[j * w + i].b = palette[colornumber * 3 + 2];
-            colors[j * w + i].a = 1.0;
+            colors[j * w + i].a = 255;
         }
     CCTexture2D* pTexture = new CCTexture2D();
     pTexture->autorelease();
@@ -1359,6 +1360,13 @@ CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name, Color trans
 CCSprite* MAXContentLoader::CreateSpriteFromSimpleImage(string name)
 {
     CCTexture2D* texture = CreateTexture2DFromSimpleImage(name);
+    CCSprite* result = CCSprite::createWithTexture(texture);
+    return result;
+}
+
+CCSprite* MAXContentLoader::CreateSpriteFromPalettedImage(string name)
+{
+	CCTexture2D* texture = CreateTexture2DFromPalettedImage(name);
     CCSprite* result = CCSprite::createWithTexture(texture);
     return result;
 }

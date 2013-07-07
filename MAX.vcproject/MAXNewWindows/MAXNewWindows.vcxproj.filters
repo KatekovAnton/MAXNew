@@ -441,10 +441,31 @@
     <ClCompile Include="..\..\MAX\Game\Game\MAXGameInputController.cpp">
       <Filter>Game\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\MainMenu.cpp">
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\MAXMainMenuController.cpp">
       <Filter>Game\Game\MainMenu</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\MAXMainMenuController.cpp">
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenHotSeatOptions.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenMenu.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenNotSupported.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenScenarioList.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenScenarioSettings.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenSelectGameType.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenEditorOptions.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenInfoOptions.cpp">
       <Filter>Game\Game\MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
@@ -857,10 +878,31 @@
     <ClInclude Include="..\..\MAX\Game\Game\MAXGameInputControllerDelegate.h">
       <Filter>Game\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\MainMenu.h">
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\MAXMainMenuController.h">
       <Filter>Game\Game\MainMenu</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\MAXMainMenuController.h">
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenHotSeatOptions.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenMenu.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenNotSupported.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenScenarioList.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenScenarioSettings.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenSelectGameType.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenEditorOptions.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenInfoOptions.h">
       <Filter>Game\Game\MainMenu</Filter>
     </ClInclude>
   </ItemGroup>
