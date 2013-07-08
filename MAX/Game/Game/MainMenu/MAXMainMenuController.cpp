@@ -32,18 +32,18 @@ MAXMainMenuController::~MAXMainMenuController()
 
 void MAXMainMenuController::Begin()
 {   
-	_sceneMenu = new ScreenMenu();
-	_sceneMenu->_menuController = this;
-	_sceneMenu->init();
-	_sceneMenu->InitBaseInterface();
-	CCDirector::sharedDirector()->pushScene(_sceneMenu);
+	if (!_sceneMenu)
+	{
+		_sceneMenu = new ScreenMenu();
+		_sceneMenu->_menuController = this;
+		_sceneMenu->init();
+		_sceneMenu->InitBaseInterface();
+		CCDirector::sharedDirector()->pushScene(_sceneMenu);
+	}
 }
 
 void MAXMainMenuController::End()
 {
-	CCDirector::sharedDirector()->popScene();
-	_sceneMenu->release();
-	_sceneMenu = NULL;
 }
 
 #pragma mark - ScreenSelectGameTypeDelegate
@@ -53,8 +53,6 @@ void MAXMainMenuController::OnTutorial()
 
 void MAXMainMenuController::OnHotseat()
 {
-	int a = 0;
-	a++;
 	game->StartTestMatch();
 }
 

@@ -46,24 +46,24 @@ void MAXConfigManager::LoadUnitSegment(const string& source)
 
 void MAXConfigManager::LoadConfigsFromFile(const string& file)
 {
-    for (int i = 0; i < _allUnits.size(); i++) {
+    BinaryReader* reader = new BinaryReader(file);
+    string strContent = reader->ReadFullAsString();
+    delete reader;
+    
+    LoadConfigsFromString(strContent);   
+}
+
+void MAXConfigManager::LoadConfigsFromString(string& strContent)
+{
+	removeBadCharacters(strContent);
+    for (int i = 0; i < _allUnits.size(); i++) 
+	{
         MAXObjectConfig* config = _unitConfigs[_allUnits[i]];
         delete config;
     }
     _unitConfigs.clear();
     _allUnits.clear();
-    
-    BinaryReader* reader = new BinaryReader(file);
-    string strContent = reader->ReadFullAsString();
-	removeBadCharacters(strContent);
-    delete reader;
-    
-    LoadConfigsFromString(strContent);
-    
-}
 
-void MAXConfigManager::LoadConfigsFromString(const string& strContent)
-{
     vector<string> components1 = splitString(strContent, "#segment=");
     for (int i = 0; i < components1.size(); i++)
     {
@@ -80,13 +80,6 @@ void MAXConfigManager::LoadConfigsFromString(const string& strContent)
 
 void MAXConfigManager::LoadClanConfigsFromFile(const string& file)
 {
-    for (int i = 0; i < _allClans.size(); i++) {
-        MAXClanConfig* config = _clanConfigs[_allClans[i]];
-        delete config;
-    }
-    _clanConfigs.clear();
-    _allClans.clear();
-    
     BinaryReader* reader = new BinaryReader(file);
     string strContent = reader->ReadFullAsString();
 	removeBadCharacters(strContent);
@@ -95,8 +88,16 @@ void MAXConfigManager::LoadClanConfigsFromFile(const string& file)
     LoadClanConfigsFromString(strContent);
 }
 
-void MAXConfigManager::LoadClanConfigsFromString(const string& strContent)
+void MAXConfigManager::LoadClanConfigsFromString(string& strContent)
 {
+	removeBadCharacters(strContent);
+    for (int i = 0; i < _allClans.size(); i++) {
+        MAXClanConfig* config = _clanConfigs[_allClans[i]];
+        delete config;
+    }
+    _clanConfigs.clear();
+    _allClans.clear();
+    
     vector<string> components1 = splitString(strContent, "[Clan ");
     for (int i = 0; i < components1.size(); i++)
     {

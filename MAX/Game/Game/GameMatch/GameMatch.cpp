@@ -37,11 +37,9 @@ void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
     _resources->LandPlayerAt((int)player->_playerData->_landingPosition.x, (int)player->_playerData->_landingPosition.y);
 }
 
-GameMatch::GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players)
+GameMatch::GameMatch(const string& mapName, const vector<GameMatchPlayerInfo>& players)
 :_currentTurn(1), _holdAutofire(false)
 {
-    MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile(configName);
-    MAXConfigManager::SharedMAXConfigManager()->LoadClanConfigsFromFile(clanConfigName);
     
     _gameSettings = new GameSettings();
     
@@ -207,7 +205,7 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
                 GROUND_TYPE t = _map->GroundTypeAtXY(targetCell.x, targetCell.y);
                 if (t == GROUND_TYPE_WATER ) {
                     if (agressorConfig->_bMoveType == UNIT_MOVETYPE_AIR) 
-                        return (agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 1);
+                        return (agressorConfig->_pFireType == 4 || agressorConfig->_pFireType == 1);
                     if (agressorConfig->_bMoveType == UNIT_MOVETYPE_SEA)
                         return agressorConfig->_pFireType == 2;
                 }

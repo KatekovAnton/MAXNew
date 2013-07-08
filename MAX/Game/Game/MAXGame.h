@@ -26,6 +26,7 @@ enum MAXGAMESTATE
 };
 
 class MAXMainMenuController;
+class MAXLoadingController;
 
 class MAXGame : public DisplayPinchDelegate
 {
@@ -35,6 +36,7 @@ public:
     
     MAXGameController *_gameController;
     MAXMainMenuController *_mainMenuController;
+	MAXLoadingController *_loadingController;
 
     MAXGAMESTATE GetCurrentState() const {return _currentState;}
     
@@ -43,6 +45,7 @@ public:
     
     void Init();
 	
+	void SetLoadingProgress(float zeroToOne);
 	void StartTestMatch();
 
     USimpleContainer<GameEffect*> *_effects;

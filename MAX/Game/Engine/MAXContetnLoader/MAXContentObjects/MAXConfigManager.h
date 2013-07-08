@@ -29,10 +29,10 @@ public:
     static MAXConfigManager* SharedMAXConfigManager();
     
     void LoadConfigsFromFile(const string& file);
-    void LoadConfigsFromString(const string& strContent);
+    void LoadConfigsFromString(string& strContent);
     
     void LoadClanConfigsFromFile(const string& file);
-    void LoadClanConfigsFromString(const string& strContent);
+    void LoadClanConfigsFromString(string& strContent);
     
     vector<string> GetAllUnits() const { return _allUnits; };
     MAXObjectConfig* GetUnitConfig(const string& type);

@@ -11,8 +11,12 @@
 
 #include <iostream>
 
+class ScreenLoading;
+
 class MAXLoadingController
 {
+
+	ScreenLoading *_screenLoading;
     
 public:
     
@@ -21,7 +25,6 @@ public:
 
 	void SetProgress(float zeroToOne);
 
-	
     void Begin();
     void End();
       

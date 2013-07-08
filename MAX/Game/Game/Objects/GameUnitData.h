@@ -29,7 +29,6 @@ class GameUnitData {
 public:
     
     int _ownerId;
-	bool _reactedOnLastTurn;
     
     //this building is currently constructing
     bool _isUnderConstruction;

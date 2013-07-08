@@ -17,10 +17,16 @@ using namespace cocos2d;
 class ScreenLoading : public CCScene
 {
 
+	CCLayerColor *_layerBg;
+	CCLayerColor *_layerFrame;
+	CCLayerColor *_layerProgressBar;
+
 public:  
     
 	ScreenLoading();
     ~ScreenLoading();
+
+    void InitBaseInterface();
     
 	void SetProgress(float zeroToOne);
 

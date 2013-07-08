@@ -13,6 +13,7 @@
 
 #include "MAXGameController.h"
 #include "MAXMainMenuController.h"
+#include "MAXLoadingController.h"
 #include "GameEffect.h"
 
 MAXGame globalGame;
@@ -69,12 +70,23 @@ void MAXGame::FlushEffectsWithNew(GameEffect *effect)
     }
 }
 
+void MAXGame::SetLoadingProgress(float zeroToOne)
+{
+	if (!_loadingController)
+		return;
+
+	_loadingController->SetProgress(zeroToOne);
+}
+
 void MAXGame::StartTestMatch()
 {
-    Display::currentDisplay()->SetPinchDelegate(this);
-
 	if (_currentState == MAXGAMESTATE_MAINMENU)
 	{
+		if (!_loadingController)
+		{
+			_loadingController = new MAXLoadingController();
+		}
+		_loadingController->Begin();
 	}
 	_gameController = new MAXGameController();
 	_gameController->Init();

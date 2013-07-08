@@ -22,9 +22,11 @@ class ScreenMenu : public CCScene
 
 public:
 
-	MAXMainMenuController *_menuController;
+	MAXMainMenuController	*_menuController;
 	
-	ScreenSelectGameType *_startScreen;
+	CCLayerColor			*_layerBg;
+	CCSprite				*_bgImage;
+	ScreenSelectGameType	*_startScreen;
 
     ScreenMenu();
     ~ScreenMenu();

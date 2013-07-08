@@ -7,6 +7,7 @@
 //
 
 #include "MAXGameController.h"
+#include "MAXGame.h"
 #include "MAXEngine.h"
 #include "SceneSystem.h"
 #include "SoundEngine.h"
@@ -104,24 +105,29 @@ int MAXGameController::CurrentPlayerId() const
 
 void MAXGameController::StartMatch()
 {
+	
+    game->SetLoadingProgress(0.05);
+    MAXConfigManager::SharedMAXConfigManager()->LoadConfigsFromFile("UnitListOriginal.txt");
+    game->SetLoadingProgress(0.3);
+    MAXConfigManager::SharedMAXConfigManager()->LoadClanConfigsFromFile("clansOriginal.cfg");
+    game->SetLoadingProgress(0.4);
+
     vector<GameMatchPlayerInfo> infos;
     GameMatchPlayerInfo player1 = {0, 3, "Test player1", {255,0,0,255}};
     GameMatchPlayerInfo player2 = {1, 0, "Test player2", {0,255,0,255}};
-    GameMatchPlayerInfo player3 = {2, 0, "Test player3", {0,0,255,255}};
     infos.push_back(player1);
     infos.push_back(player2);
-    infos.push_back(player3);
-    _match = new GameMatch("UnitListOriginal.txt", "clansOriginal.cfg", "Green_6.wrl", infos);
+    _match = new GameMatch("Green_6.wrl", infos);
 	_match->_gameController = this;
     _currentUnit = NULL;
-    
+    game->SetLoadingProgress(0.75);
     
     
     
     _gameInterface = new GameInterface();
 	_gameInterface->_gameController = this;
     _gameInterface->InitBaseInterface();
-    CCDirector::sharedDirector()->pushScene(_gameInterface);
+    game->SetLoadingProgress(0.9);
 
     _match->_holdAutofire = true;
     {
@@ -164,7 +170,6 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(64, 55, "alntank", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(44, 33, "juger", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(50, 64, "Scanner", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(25, 58, "Surveyor", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(72, 43, "Goldstore", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(72, 44, "landpad", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(72, 45, "Matstore", 0)->PlaceUnitOnMap();
@@ -229,6 +234,7 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(31, 44, "sub", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(31, 45, "sub", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(32, 40, "sub", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(25, 58, "Surveyor", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(30, 43, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(29, 43, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(30, 45, "Gunboat", 0)->PlaceUnitOnMap();
@@ -253,7 +259,6 @@ void MAXGameController::StartMatch()
         _match->_players[1]->CreateUnit(22, 47, "Gunboat", 0)->PlaceUnitOnMap();
     }
     {
-        _match->_players[1]->CreateUnit(40, 50, "Corvette", 0)->PlaceUnitOnMap();    
         _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(36, 53, "Inter", 0)->PlaceUnitOnMap();
         for (int i = 61; i < 69; i++)
@@ -267,17 +272,15 @@ void MAXGameController::StartMatch()
         _match->_players[1]->CreateUnit(46, 38, "pcan", 0)->PlaceUnitOnMap();
 	}
 	
-    {
-		_match->_players[0]->CreateUnit(15, 15, "Awac", 0)->PlaceUnitOnMap();
-		_match->_players[1]->CreateUnit(20, 20, "Awac", 0)->PlaceUnitOnMap();
-        _match->_players[2]->CreateUnit(10, 10, "Awac", 0)->PlaceUnitOnMap();
-    }
     engine->SetCameraCenter(ccp(55, 55));
     _match->_players[0]->_playerData->cameraPosition = ccp(15, 15);
     _match->_players[1]->_playerData->cameraPosition = ccp(30, 40);
-    _match->_players[2]->_playerData->cameraPosition = ccp(15, 15);
     
     _match->_holdAutofire = false;
+	
+    game->SetLoadingProgress(1.0);
+	CCDirector::sharedDirector()->pushScene(_gameInterface);
+
 }
 
 bool MAXGameController::EndTurn()
@@ -986,8 +989,6 @@ void MAXGameController::StartAttackSequence(GameUnit *agressor, GameUnit *target
 			SOUND->PlaySystemSound(SOUND_TYPE_UNIT_FIRING);
 		if (target && target->_owner_w->GetIsCurrentPlayer() && !agressor->_owner_w->GetIsCurrentPlayer())
 			SOUND->PlaySystemSound(SOUND_TYPE_ENEMY_FIRING_ON_UNIT);
-		if (!agressor->_owner_w->GetIsCurrentPlayer())
-			agressor->_unitData->_reactedOnLastTurn = true;
 	}
 
     _currentTargetUnit = target;

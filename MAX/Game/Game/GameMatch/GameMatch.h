@@ -48,7 +48,7 @@ public:
     int _currentTurn;
     bool _holdAutofire;
 
-    GameMatch(const string& configName, const string& clanConfigName, const string& mapName, const vector<GameMatchPlayerInfo>& players);
+    GameMatch(const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();
     
     bool EndTurn();

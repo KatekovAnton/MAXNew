@@ -116,7 +116,28 @@ void windows_display::ProceedMessage(MSG msg)
 
 	DisplayPinchDelegate* _delegateC = *_delegate;
 	bool lastMouseFlag = _mouseDown;
-	if (msg.message == WM_LBUTTONDOWN && !_mouseDown)
+	if (msg.message == WM_KEYDOWN)
+	{
+		int a = 0;
+		a++;
+		if (msg.wParam == 107)
+			_delegateC->ProceedPinch(1.1);
+		if (msg.wParam == 109)
+			_delegateC->ProceedPinch(0.9);
+
+
+		
+		if (msg.wParam == 37)
+			_delegateC->ProceedPan(20, 0);
+		if (msg.wParam == 38)
+			_delegateC->ProceedPan(0, 20);
+		if (msg.wParam == 39)
+			_delegateC->ProceedPan(-20, 0);
+		if (msg.wParam == 40)
+			_delegateC->ProceedPan(0, -20);
+		
+	}
+	else if (msg.message == WM_LBUTTONDOWN && !_mouseDown)
 	{
 		SetCapture(hWND);
 		if (_delegateC->CanStartPinch(position.x,position.y))

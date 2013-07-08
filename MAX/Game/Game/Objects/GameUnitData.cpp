@@ -12,7 +12,7 @@
 #include "MAXObjectConfig.h"
 
 GameUnitData::GameUnitData(GameUnitParameters* params, int ownerId)
-	:_unitParameters(params), _landed(false), _reactedOnLastTurn(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isUnderConstruction(false), _isUniteractable(false), _ownerId(ownerId)
+	:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isUnderConstruction(false), _isUniteractable(false), _ownerId(ownerId)
 {
     _isOn = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
     
@@ -382,7 +382,6 @@ void GameUnitData::StartNewTurn()
 {
     int val;
 
-	if (!_reactedOnLastTurn)
 	{
 		// temporary solution
 		val = GetMaxParameterValue(UNIT_PARAMETER_TYPE_SPEED);
@@ -394,7 +393,6 @@ void GameUnitData::StartNewTurn()
 			val = ammoAble;
 		SetParameterValue(UNIT_PARAMETER_TYPE_SHOTS, val);
 	}
-	_reactedOnLastTurn = false;
     //TODO: remove refuel when no fuel
     val = GetParameterValue(UNIT_PARAMETER_TYPE_GAS);
     if (val <= 0)

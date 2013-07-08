@@ -21,6 +21,7 @@ struct __ScenarioInfo
 {
 	int			_id;
 	string		_scenarioName;
+	string		_scenarioDescription;
 	string		_scenarioFileName;
 	
 	int			_currentPlayerId;

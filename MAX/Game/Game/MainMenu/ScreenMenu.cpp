@@ -15,7 +15,7 @@
 #define BUTTON_LABEL_TAG 11
 
 ScreenMenu::ScreenMenu()
-	:_menuController(NULL)
+	:_menuController(NULL), _startScreen(NULL), _bgImage(NULL), _layerBg(NULL)
 {
 }
 
@@ -51,18 +51,36 @@ void ScreenMenu::InitBaseInterface()
 //c.Privacy policy (for multiplayer)
 //
 //
+	ccColor4B color;
+	color.r = 130;
+	color.g = 115;
+	color.b = 87;
+	color.a = 255;
+
+	if (!_layerBg)
 	{
-		CCSprite* turnSprite = MAXSCL->CreateSpriteFromPalettedImage("ENDGAME7");
-		turnSprite->setAnchorPoint(ccp(0, 0));
-		float y = getContentSize().height/2 - turnSprite->getContentSize().height/2;
+		_layerBg = CCLayerColor::create(color, getContentSize().width, getContentSize().height);
+		_layerBg->setAnchorPoint(ccp(0, 0));
+		_layerBg->setPosition(ccp(0, 0));
+		addChild(_layerBg);
+	}
+
+	if (!_bgImage)
+	{
+		_bgImage = MAXSCL->CreateSpriteFromPalettedImage("ENDGAME7");
+		_bgImage->setAnchorPoint(ccp(0, 0));
+		float y = getContentSize().height/2 - _bgImage->getContentSize().height/2;
 		if (y < 0)
 			y = 0;
 	
-		turnSprite->setPosition(ccp(getContentSize().width - 800, y));
-		addChild(turnSprite);
+		_bgImage->setPosition(ccp(getContentSize().width - 800, y));
+		addChild(_bgImage);
 	}
+
+	if (!_startScreen)
 	{
 		_startScreen = new ScreenSelectGameType();
+		_startScreen->autorelease();
 		float y = getContentSize().height/2 - _startScreen->getContentSize().height/2;
 		if (y < 0)
 			y = 0;
