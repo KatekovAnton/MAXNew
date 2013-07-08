@@ -45,7 +45,7 @@ void MAXGame::Init()
 	_mainMenuController->Begin();
 	//_gameController = new MAXGameController();
 	//_gameController->Init();
-	_currentState = MAXGAMESTATE_GAME;
+	_currentState = MAXGAMESTATE_MAINMENU;
 }
 
 void MAXGame::FlushEffectsWithNew(GameEffect *effect)
@@ -67,6 +67,18 @@ void MAXGame::FlushEffectsWithNew(GameEffect *effect)
             }
         }
     }
+}
+
+void MAXGame::StartTestMatch()
+{
+    Display::currentDisplay()->SetPinchDelegate(this);
+
+	if (_currentState == MAXGAMESTATE_MAINMENU)
+	{
+	}
+	_gameController = new MAXGameController();
+	_gameController->Init();
+	_currentState = MAXGAMESTATE_GAME;
 }
 
 #pragma mark - DisplayPinchDelegate

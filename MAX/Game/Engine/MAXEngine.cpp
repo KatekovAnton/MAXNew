@@ -326,8 +326,6 @@ void MAXEngine::RunLoop(double delta)
     _elapsedTime = delta;
     _fullTime += _elapsedTime;
     
-    glClearColor(_color, _color, _color, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     this->Update();
     if (_delegate) 
@@ -386,8 +384,15 @@ void MAXEngine::SelectUnit(MAXObject* unit)
     _unitSelection->SelectUnit(unit);
 }
 
+void MAXEngine::DrawStart()
+{
+    glClearColor(_color, _color, _color, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void MAXEngine::Draw()
 {
+	DrawStart();
 	if (_scene)
 	{
 		glDisable(GL_DEPTH_TEST);
@@ -407,7 +412,6 @@ void MAXEngine::Draw()
 		_statusRenderer->DrawCircles();
 		glUseProgram(prog);
     }
-	
     DrawInterface();
 }
 

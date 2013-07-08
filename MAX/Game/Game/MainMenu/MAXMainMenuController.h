@@ -10,10 +10,11 @@
 #define __MAX__MAXMainMenuController__
 
 #include <iostream>
+#include "ScreenSelectGameTypeDelegate.h"
 
 class ScreenMenu;
 
-class MAXMainMenuController
+class MAXMainMenuController : public ScreenSelectGameTypeDelegate
 {   
 
 public:
@@ -25,6 +26,15 @@ public:
     
     void Begin();
     void End();
+    
+#pragma mark - ScreenSelectGameTypeDelegate
+
+	virtual void OnTutorial();
+	virtual void OnHotseat();
+	virtual void OnMultiplayer();
+	virtual void OnEditor();
+	virtual void OnInfo();
+   
    
 };
 

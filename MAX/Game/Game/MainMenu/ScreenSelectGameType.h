@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "ScreenSelectGameTypeDelegate.h"
 
 using namespace cocos2d;
 
@@ -18,6 +19,8 @@ class ScreenSelectGameType : public CCNode
 {   
 
 public:
+
+	ScreenSelectGameTypeDelegate *_delegete_w;
 
     ScreenSelectGameType();
     virtual ~ScreenSelectGameType();

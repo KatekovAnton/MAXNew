@@ -134,6 +134,7 @@ public:
     float CameraZoom();
     
     void Update();
+	void DrawStart();
     void Draw();
     void DrawLine();
     void DrawGround();

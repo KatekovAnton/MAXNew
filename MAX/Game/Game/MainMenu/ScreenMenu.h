@@ -30,10 +30,7 @@ public:
     ~ScreenMenu();
     
     void InitBaseInterface();
-    
-#pragma mark - Button events
-    
-   
+
 };
 
 #endif /* defined(__MAX__ScreenMenu__) */

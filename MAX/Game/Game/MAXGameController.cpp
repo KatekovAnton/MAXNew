@@ -1041,6 +1041,7 @@ void MAXGameController::DeselectCurrentUnit(bool _removeFromLock)
             HidePathMap();
         }				
         HideUnitPath();
+		HidePathMap();
     }
 }
 
@@ -1156,6 +1157,8 @@ void MAXGameController::onUnidHided(GameUnit* unit)
         engine->SelectUnit(NULL);
         _gameInterface->OnCurrentUnitChanged(NULL, true);
         _currentUnit = NULL;
+		HideUnitPath();
+		HidePathMap();
     }
 }
 

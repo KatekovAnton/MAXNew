@@ -7,17 +7,10 @@
 //
 
 #include "miniPrefix.h"
-#include "ScreenMenu.h"
 #include "MAXContentLoader.h"
-#include "Display.h"
-#include "CocosHelper.h"
-#include "CCScrollView.h"
+#include "ScreenMenu.h"
 #include "ScreenSelectGameType.h"
-#include "SoundEngine.h"
-
-#include "ScreenSelectGameType.h"
-
-using namespace extension;
+#include "MAXMainMenuController.h"
 
 #define BUTTON_LABEL_TAG 11
 
@@ -75,7 +68,11 @@ void ScreenMenu::InitBaseInterface()
 			y = 0;
 	
 		_startScreen->setPosition(ccp(getContentSize().width - 200, y));
+		_startScreen->_delegete_w = _menuController;
 		addChild(_startScreen);
 	}
     
 }
+
+
+

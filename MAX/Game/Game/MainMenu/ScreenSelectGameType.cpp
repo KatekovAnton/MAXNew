@@ -22,6 +22,7 @@ using namespace extension;
 #define BUTTON_LABEL_TAG 11
 
 ScreenSelectGameType::ScreenSelectGameType()
+	:_delegete_w(NULL)
 {
 	CCSize sz = CCDirector::sharedDirector()->getWinSize();
 
@@ -87,21 +88,36 @@ ScreenSelectGameType::~ScreenSelectGameType()
 
 void ScreenSelectGameType::OnTutorial(CCMenuItem* sender)
 {
+	SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+	if (_delegete_w)
+		_delegete_w->OnTutorial();
 }
 
 void ScreenSelectGameType::OnHotseat(CCMenuItem* sender)
 {
+	SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+	if (_delegete_w)
+		_delegete_w->OnHotseat();
 }
 
 void ScreenSelectGameType::OnMultiplayer(CCMenuItem* sender)
 {
+	SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+	if (_delegete_w)
+		_delegete_w->OnMultiplayer();
 }
 
 void ScreenSelectGameType::OnEditor(CCMenuItem* sender)
 {
+	SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+	if (_delegete_w)
+		_delegete_w->OnEditor();
 }
 
 void ScreenSelectGameType::OnInfo(CCMenuItem* sender)
 {
+	SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+	if (_delegete_w)
+		_delegete_w->OnInfo();
 }
 

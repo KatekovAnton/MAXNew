@@ -43,6 +43,8 @@ public:
     
     void Init();
 	
+	void StartTestMatch();
+
     USimpleContainer<GameEffect*> *_effects;
 	void FlushEffectsWithNew(GameEffect *effect);
     

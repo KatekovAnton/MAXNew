@@ -26,6 +26,8 @@ MAXMainMenuController::MAXMainMenuController()
 
 MAXMainMenuController::~MAXMainMenuController()
 {
+	if (_sceneMenu)
+		_sceneMenu->autorelease();
 }
 
 void MAXMainMenuController::Begin()
@@ -43,4 +45,26 @@ void MAXMainMenuController::End()
 	_sceneMenu->release();
 	_sceneMenu = NULL;
 }
+
+#pragma mark - ScreenSelectGameTypeDelegate
+
+void MAXMainMenuController::OnTutorial()
+{}
+
+void MAXMainMenuController::OnHotseat()
+{
+	int a = 0;
+	a++;
+	game->StartTestMatch();
+}
+
+void MAXMainMenuController::OnMultiplayer()
+{}
+
+void MAXMainMenuController::OnEditor()
+{}
+
+void MAXMainMenuController::OnInfo()
+{}
+
 

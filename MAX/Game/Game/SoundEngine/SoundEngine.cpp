@@ -289,6 +289,7 @@ void SoundEngine::PlaySystemSound(SOUND_TYPE type)
 	if (_systemSoundNames.count(type) == 0) 
         return;
     
+	CheckStoppedSound();
     for (int i = 0; i < _playedSound.size(); i++) 
         if (_playedSound[i]._type == type) 
             return;
