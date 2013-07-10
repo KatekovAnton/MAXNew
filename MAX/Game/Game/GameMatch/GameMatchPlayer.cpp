@@ -44,35 +44,41 @@ GameMatchPlayer::GameMatchPlayer(GameMatchPlayerInfo info, GameMatch *match)
 
 GameMatchPlayer::~GameMatchPlayer()
 {
+    delete _playerData;
+	_playerData = NULL;
+
     for (int i = 0; i < _palettes.size(); i++) {
         Texture* t = _palettes[i];
         delete t;
     }
+    free(_rawPalette);
+    
+    ClearImageCache();
+    delete []_cachedPaletteImages;
 
-    for (int i = 0; i < _units.GetCount(); i++) {
+	delete _agregator;
+    delete _pathfinder;
+	
+	_match_w = NULL;
+
+    for (int i = 0; i < _units.GetCount(); i++) 
+	{
         GameUnit* unit = _units.objectAtIndex(i);
         unit->RemoveUnitFromMap();
         delete unit;
     }
-    
-    delete _agregator;
-    free(_rawPalette);
-    
-    delete _playerData;
-    if (_pathfinder)
-        delete _pathfinder;
-    
-    ClearImageCache();
-    delete []_cachedPaletteImages;
 }
 
 void GameMatchPlayer::ClearImageCache()
 {
     for (int i = 0; i < MAXSCL->GetImagesCount(); i++) {
-        CCObject *obj = (CCObject *)_cachedPaletteImages[i];
-        obj->release();
-        _cachedPaletteImages[i] = NULL;
-    }
+		CCObject *obj = reinterpret_cast<CCObject *>(_cachedPaletteImages[i]);
+		if (obj)
+		{
+			obj->release();
+			_cachedPaletteImages[i] = NULL;
+		}
+	}
 }
 
 CCArray *GameMatchPlayer::CreateTexture2DFromMaterialFirstFrame(string name)
@@ -197,8 +203,10 @@ void GameMatchPlayer::GameUnitDidPlaceOnMap(GameUnit *unit)
 
 void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
 {
-    _playerData->UnitDidRemoveFromMap(unit->_unitData);
-    _match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
+	if (_playerData)
+	    _playerData->UnitDidRemoveFromMap(unit->_unitData);
+	if (_match_w)
+		_match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
 }
 
 void GameMatchPlayer::GameUnitDidUndetected(GameUnit *unit)

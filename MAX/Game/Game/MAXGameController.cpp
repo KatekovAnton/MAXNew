@@ -48,9 +48,13 @@ MAXGameController::MAXGameController()
 
 MAXGameController::~MAXGameController()
 {
+	DeselectCurrentUnit(true);
     delete _iputController;
-    engine->_delegate = NULL;
-    delete _gameInterface;
+	delete _match;
+	engine->_delegate = NULL;
+	CCDirector::sharedDirector()->popScene();
+	_gameInterface->release();
+	_gameInterface = NULL;
     delete _pathVisualizer;
 }
 

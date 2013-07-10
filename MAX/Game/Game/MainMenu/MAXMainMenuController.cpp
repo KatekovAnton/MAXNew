@@ -20,6 +20,7 @@
 #include "ScreenScenarioList.h"
 #include "ScreenInfoOptions.h"
 #include "ScreenNotSupported.h"
+#include "ScreenHotSeatOptions.h"
 #include "ScreenProgressBar.h"
 #include "SoundEngine.h"
 
@@ -59,6 +60,14 @@ void MAXMainMenuController::End()
 {
 }
 
+void MAXMainMenuController::StartMatch()
+{	
+	ScreenProgressBar *screen = new ScreenProgressBar();
+	screen->autorelease();
+	screen->_controller = this;
+	_sceneMenu->PushScreen(screen);
+}
+
 void MAXMainMenuController::SetLoadingProgress(float zeroToOne)
 {
 	_loadingProgressBar->SetProgress(zeroToOne);
@@ -92,9 +101,9 @@ void MAXMainMenuController::OnTutorial()
 
 void MAXMainMenuController::OnHotseat()
 {
-	ScreenProgressBar *screen = new ScreenProgressBar();
+	ScreenHotSeatOptions *screen = new ScreenHotSeatOptions();
 	screen->autorelease();
-	screen->_controller = this;
+	screen->_menuController = this;
 	_sceneMenu->PushScreen(screen);
 }
 

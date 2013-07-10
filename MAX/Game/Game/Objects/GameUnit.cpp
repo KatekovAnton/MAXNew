@@ -56,7 +56,7 @@ GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitParameters* params, int pl
 
 
 GameUnit::GameUnit(MAXUnitObject* unitObject, GameUnitData* unitdata, GameMatchPlayer *owner)           //creates unit from saved data
-:GameObject(unitObject, unitdata->GetConfig()), _unitData(unitdata), _owner_w(owner), _removeDelayAnim(NULL)
+	:GameObject(unitObject, unitdata->GetConfig()), _unitData(unitdata), _owner_w(owner), _removeDelayAnim(NULL), _currentSound(0)
 {
     Init();
 }
@@ -73,9 +73,6 @@ void GameUnit::Init()
     GetUnitObject()->_needShadow = !config->_isUnderwater;
     _onDraw = false;
     CheckBodyAndShadow();
-    
-    
-    _currentSound = -1;
     
     if(_unitData->GetIsBuilding() && _unitData->GetConfig()->_isNeedUndercover)
         _effectUnder = GameEffect::CreateBuildingBase(_unitData->GetSize() == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
@@ -109,7 +106,7 @@ void GameUnit::CheckForAnimanteBody()
     _shouldAnimateBody = _unitData->GetConfig()->bodyActiveFrame0 != _unitData->GetConfig()->bodyActiveFrame1 && !_unitData->_disabledByInfiltrator;
 }
 
-int GameUnit::PlaySound(UNIT_SOUND unitSound)
+int GameUnit::PlayUnitSound(UNIT_SOUND unitSound)
 {
     MAXObjectConfig* config = _unitData->GetConfig();
     string* soundStr = NULL;
@@ -186,10 +183,10 @@ int GameUnit::PlaySound(UNIT_SOUND unitSound)
 
 void GameUnit::StopCurrentSound()
 {
-   // if (_currentSound > 0)
+    if (_currentSound > 0)
     {
         SOUND->StopGameSound(_currentSound);
-        _currentSound = -1;
+        _currentSound = 0;
     }
 }
 
@@ -199,7 +196,7 @@ void GameUnit::UnitDidSelect()
     if (_owner_w->GetIsCurrentPlayer())
         SOUND->PlaySystemSound(_unitData->GetOnSelectSoundType());
     
-    _currentSound = PlaySound(_unitData->GetBackgroundSoundType());
+    _currentSound = PlayUnitSound(_unitData->GetBackgroundSoundType());
 }
 
 void GameUnit::UnitDidDeselect()
@@ -266,7 +263,7 @@ void GameUnit::TakeOff()
         GetUnitObject()->TakeOff();
 
         StopCurrentSound();
-        _currentSound = PlaySound(UNIT_SOUND_START);
+        _currentSound = this->PlayUnitSound(UNIT_SOUND_START);
     }
 }
 
@@ -278,7 +275,7 @@ void GameUnit::Landing()
         GetUnitObject()->Landing();
         
         StopCurrentSound();
-        PlaySound(UNIT_SOUND_STOP);
+        PlayUnitSound(UNIT_SOUND_STOP);
     }
 }
 
@@ -444,12 +441,12 @@ void GameUnit::CheckBuildProcess()
     if (_unitData->ContainsCurrentTask() && !(_unitData->GetIsTaskFinished() && _unitData->GetIsTaskFinished()))
     {
         if (config->_isBuilding && config->_retEnergy == 0)
-            _currentSound = PlaySound(UNIT_SOUND_BUILD);
+            _currentSound = PlayUnitSound(UNIT_SOUND_BUILD);
         else
-            _currentSound = PlaySound(UNIT_SOUND_WORK);
+            _currentSound = PlayUnitSound(UNIT_SOUND_WORK);
     }
     else
-        _currentSound = PlaySound(UNIT_SOUND_STOP);
+        _currentSound = PlayUnitSound(UNIT_SOUND_STOP);
     
     CheckBodyAndShadow();
     CheckForAnimanteBody();
@@ -607,7 +604,7 @@ void GameUnit::FollowPath(void)
         if (first)
         {
             StopCurrentSound();
-            _currentSound = PlaySound(UNIT_SOUND_ENGINE_START);
+            _currentSound = PlayUnitSound(UNIT_SOUND_ENGINE_START);
         }
         
         pos = destination;
@@ -940,7 +937,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
     if (gameObjectDelegate)
         gameObjectDelegate->onUnitFireStart(this);
     
-    PlaySound(UNIT_SOUND_SHOT);
+    PlayUnitSound(UNIT_SOUND_SHOT);
 
     GameEffect* effect = MakeWeaponAnimationEffect(targetCenter, level);
     if (effect)
@@ -1095,7 +1092,7 @@ void GameUnit::AbortConstructingUnit()
 	DestroyCheckIcon();
     CheckBodyAndShadow();
     StopCurrentSound();
-    _currentSound = PlaySound(UNIT_SOUND_ENGINE);
+    _currentSound = PlayUnitSound(UNIT_SOUND_ENGINE);
 }
 
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const
@@ -1162,7 +1159,7 @@ void GameUnit::OnAnimationStart(MAXAnimationBase* animation)
             
             if (movePathIndex == pathIndex)
             {
-                int soundId = PlaySound(UNIT_SOUND_ENGINE_STOP);
+                int soundId = PlayUnitSound(UNIT_SOUND_ENGINE_STOP);
                 if (soundId > 0)
                     StopCurrentSound();
             }
@@ -1211,10 +1208,10 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
         if (_unitData->GetConfig()->_isPlane)
         {
             if (!_unitData->_landed)
-                _currentSound = PlaySound(UNIT_SOUND_ENGINE);
+                _currentSound = PlayUnitSound(UNIT_SOUND_ENGINE);
         }
         else
-            _currentSound = PlaySound(UNIT_SOUND_ENGINE);
+            _currentSound = PlayUnitSound(UNIT_SOUND_ENGINE);
     }
     else if (animation == _removeDelayAnim)
     {

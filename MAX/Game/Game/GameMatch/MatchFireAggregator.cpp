@@ -28,14 +28,14 @@ int MatchFireAggregator::GetIndexForCoordinates(const int x, const int y) const
 MatchFireAggregator::MatchFireAggregator(GameMap *map, GameMatch *match)
 :_map_w(map), _match_w(match), _unitsForCells_w(new USimpleContainer<GameUnit*>*[map->_w * map->_h])
 {
-    int size = map->_w * map->_h;
+    size = map->_w * map->_h;
     for (int i = 0; i < size; i++)
         _unitsForCells_w[i] = new USimpleContainer<GameUnit*>(4);
 }
 
 MatchFireAggregator::~MatchFireAggregator()
 {
-    for (int i = 0; i < _map_w->_w * _map_w->_h; i++)
+    for (int i = 0; i < size; i++)
         delete _unitsForCells_w[i];
     delete [] _unitsForCells_w;
 }

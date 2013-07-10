@@ -18,6 +18,8 @@ class GameUnit;
 
 class MatchFireAggregator {
     
+	int size;
+
     GameMap *_map_w;
     GameMatch *_match_w;
     

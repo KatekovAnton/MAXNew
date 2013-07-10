@@ -20,6 +20,8 @@ class GameMatchPlayer;
 
 class MatchMapAgregator {
     
+	int size;
+
     GameMap *_map_w;
     
     USimpleContainer<GameUnit*> **_unitsInCells_w;

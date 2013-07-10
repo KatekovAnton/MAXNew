@@ -214,6 +214,7 @@ void MAXEngine::SetMap(shared_ptr<MAXContentMap> map)
 		_optionalZoneRenderer = new MAXSolidTileRenderer(_map->mapW, _map->mapH);
 		_optionalZoneRenderer->color = GLKVector4Make(1, 0, 0, 0.9);
 	}
+	_lowLodHighDrawObjects->clear();
 }
 
 void MAXEngine::ClearMap()
@@ -235,7 +236,8 @@ void MAXEngine::AddUnit(PivotObject* newUnit)
 
 void MAXEngine::RemoveUnit(PivotObject* newUnit)
 {
-    _scene->RemoveObject(newUnit);
+	if (_scene)
+	    _scene->RemoveObject(newUnit);
     newUnit->HasBeenRemovedFromScene();
 }
 
@@ -399,7 +401,7 @@ void MAXEngine::SelectUnit(MAXObject* unit)
 
 void MAXEngine::DrawStart()
 {
-    glClearColor(_color, _color, _color, 1.0f);
+    glClearColor(0, 0, 0, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

@@ -30,6 +30,7 @@ GameMap::GameMap(const shared_ptr<MAXContentMap>& map)
 GameMap::~GameMap()
 {
     free(_groundType);
+	_contentMap = nullptr;
 }
 
 GROUND_TYPE GameMap::GroundTypeAtPoint(const CCPoint& point) const

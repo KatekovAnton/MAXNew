@@ -93,7 +93,7 @@ public:
     void RemoveWithDelay(double delay);
     void RunAnimation(MAXAnimationSequence* animation);
     
-    int PlaySound(UNIT_SOUND unitSound);
+    int PlayUnitSound(UNIT_SOUND unitSound);
     void StopCurrentSound();
     void UnitDidSelect();
     void UnitDidDeselect();

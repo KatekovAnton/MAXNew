@@ -9,6 +9,11 @@
 #include "ScreenProgressBar.h"
 #include "cocos2d.h"
 #include "MAXMainMenuController.h"
+#include "CocosHelper.h"
+
+#include "SoundEngine.h"
+
+#define BUTTON_LABEL_TAG 11
 
 ScreenProgressBar::ScreenProgressBar()
 	:_nodeBase(NULL), _layerFrame(NULL), _layerProgressBar(NULL), _controller(NULL)
@@ -19,6 +24,25 @@ ScreenProgressBar::ScreenProgressBar()
 		size.width = SingleElementWidth();
 		size.height = CCDirector::sharedDirector()->getWinSize().height;
 		setContentSize(size);
+	}
+
+	{
+		CCLayerColor* layerN = CCLayerColor::create(normalColor(), SingleElementWidth(), 30);
+		CCLabelTTF *label = CCLabelTTF::create("Loading. Please stand by.", MAX_DEFAULT_FONT, 10);
+		label->setTag(BUTTON_LABEL_TAG);
+		label->setColor(MAX_COLOR_WHITE);
+		CCSize sz = layerN->getContentSize();
+		sz.height /= 2;
+		label->setPosition(ccp((int)(sz.width * 0.25), (int)(sz.height * 0.25)));
+		sz.width *= CCDirector::sharedDirector()->getContentScaleFactor();
+		sz.height *= CCDirector::sharedDirector()->getContentScaleFactor();
+		label->setContentSize(sz);
+		label->setAnchorPoint(ccp(0, 0));
+		layerN->addChild(label);
+		CocosHelper::MoveNode(layerN->getChildByTag(11), ccp(15, 5));
+	
+		addChild(layerN);
+		_buttons->addObject(layerN);
 	}
 
 

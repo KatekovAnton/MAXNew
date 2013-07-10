@@ -11,20 +11,26 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "ScreenMenuElement.h"
 
 using namespace cocos2d;
 
-class ScreenHotSeatOptions : public CCNode
+class MAXMainMenuController;
+
+class ScreenHotSeatOptions : public ScreenMenuElement
 {   
 
 public:
 
+	MAXMainMenuController *_menuController;
+
     ScreenHotSeatOptions();
     virtual ~ScreenHotSeatOptions();
     
-    
 #pragma mark - Button events
     
+	void OnTestMatch(CCObject *sender);
+	void OnBack(CCObject *sender);
    
 };
 

@@ -55,7 +55,7 @@ USimpleContainer<GameUnit*> *MatchMapAgregator::UnitsInCell(const int x, const i
 MatchMapAgregator::MatchMapAgregator(GameMap* map)
 :_map_w(map), _unitsInCells_w(new USimpleContainer<GameUnit*>*[map->_w * map->_h]), _mapBuffer(new EXTENDED_GROUND_TYPE[map->_w * map->_h])
 {
-    int size = map->_w * map->_h;
+    size = map->_w * map->_h;
     for (int i = 0; i < size; i++)
         _unitsInCells_w[i] = new USimpleContainer<GameUnit*>(4);
     for (int i = 0; i < size; i++)
@@ -64,10 +64,10 @@ MatchMapAgregator::MatchMapAgregator(GameMap* map)
 
 MatchMapAgregator::~MatchMapAgregator()
 {
-    for (int i = 0; i < _map_w->_w * _map_w->_h; i++)
+    for (int i = 0; i < size; i++)
         delete _unitsInCells_w[i];
     delete [] _unitsInCells_w;
-    delete _mapBuffer;
+    delete []_mapBuffer;
 }
 
 int MatchMapAgregator::Width() const

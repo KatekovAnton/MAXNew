@@ -66,20 +66,19 @@ GameMatch::GameMatch(const string& mapName, const vector<GameMatchPlayerInfo>& p
 
 GameMatch::~GameMatch()
 {
-    if (_map)
-        delete _map;
-    if (_resources)
-        delete _resources;
     if (_gameSettings)
         delete _gameSettings;
+    if (_map)
+        delete _map;
+	engine->SetMap(nullptr);
+    if (_resources)
+        delete _resources;
     for (int i = 0; i < _players.size(); i++)
     {
-        GameMatchPlayer* player = _players[i];
-        delete player;
+        GameMatchPlayer* player_ = _players[i];
+        delete player_;
     }
-    _fullAgregator->ClearAllData();
     delete _fullAgregator;
-    _fireAgregator->ClearAllData();
     delete _fireAgregator;
 }
 

@@ -48,6 +48,7 @@ class MAXEngine : public RequestDelegate  {
     double                _elapsedTime;
     double                _fullTime;
     
+    bool _freezeAnimationManager;
     MAXAnimationManager *_animationManager;
     SceneSystem         *_scene;
     
@@ -60,7 +61,6 @@ class MAXEngine : public RequestDelegate  {
     Shader              *_fogShader;
 	Shader				*_pathZoneShader;
     shared_ptr<EngineMesh> _mapQuadMesh;
-    float             _color;
     
     bool lowRender;
     OBJECT_LEVEL _pathZoneRendererLevel;
@@ -128,8 +128,7 @@ public:
     double FullTime() const {return _fullTime;};
     void RunLoop(double delta);
     
-	bool _freezeAnimationManager;
-    
+	
     void SetCameraCenter(const CCPoint &cell);
     void SetZoom(float zoom);
     float CameraZoom();

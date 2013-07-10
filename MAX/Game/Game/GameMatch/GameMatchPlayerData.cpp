@@ -47,6 +47,11 @@ GameMatchPlayerData::GameMatchPlayerData(GameMatchPlayerInfo playerInfo, GameMat
     for (int i = 0; i < allUnits.size(); i++)
     {
         string type = allUnits[i];
+		if (_unitConfigs.count(type) != 0)
+		{
+ 			int a = 0;
+			a++;
+		}
         MAXObjectConfig *unitConfig = MAXConfigManager::SharedMAXConfigManager()->GetUnitConfig(type);
         GameUnitBaseParameters *params = new GameUnitBaseParameters(unitConfig, clanConfig);
         _unitConfigs.insert(pair<string, GameUnitBaseParameters*>(toLower(type), params));

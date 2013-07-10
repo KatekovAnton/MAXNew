@@ -33,6 +33,7 @@ public:
     void Begin();
     void End();
 
+	void StartMatch();
 	void SetLoadingProgress(float zeroToOne);
 	void LoadingScreenDidAppear(ScreenProgressBar *screen);
     
