@@ -11,19 +11,25 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "ScreenMenuElement.h"
 
 using namespace cocos2d;
 
-class ScreenNotSupported : public CCNode
+class ScreenNotSupported : public ScreenMenuElement
 {   
 
 public:
 
     ScreenNotSupported();
     virtual ~ScreenNotSupported();
+	
+	virtual float SingleElementHeight() const;
+	virtual float SingleElementDistance() const;
+	virtual float SingleElementWidth() const;
     
 #pragma mark - Button events
-    
+
+	void OnBack(CCObject *sender);
    
 };
 

@@ -16,6 +16,31 @@ using namespace cocos2d;
 
 #define BUTTON_LABEL_TAG 11
 
+CCMenuItem* createMenuItemWithLayers(CCSize size, ccColor4B normalColor, ccColor4B selectedColor, string title, string fontName, int fontSize, ccColor3B titleColor, CCObject* target, SEL_MenuHandler selector)
+{
+	CCLayerColor* layerN = CCLayerColor::create(normalColor, size.width, size.height);
+	CCLayerColor* layerS = CCLayerColor::create(selectedColor, size.width, size.height);
+	CCMenuItemNodes* result = CCMenuItemNodes::create(layerN, layerS, target, selector);
+	result->setContentSize(size);
+    result->setAnchorPoint(ccp(0, 0));
+    
+    
+    CCLabelTTF *label = CCLabelTTF::create(title.c_str(), fontName.c_str(), fontSize);
+    label->setTag(BUTTON_LABEL_TAG);
+    label->setColor(titleColor);
+    CCSize sz = result->getContentSize();
+    sz.height /= 2;
+    label->setPosition(ccp(sz.width * 0.25, sz.height * 0.25));
+    sz.width *= CCDirector::sharedDirector()->getContentScaleFactor();
+    sz.height *= CCDirector::sharedDirector()->getContentScaleFactor();
+    label->setContentSize(sz);
+    label->setAnchorPoint(ccp(0, 0));
+
+
+    result->addChild(label, 1);
+    return result;
+}
+
 CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fontSize, ccColor3B titleColor, string normal, string selected, CCObject* target, SEL_MenuHandler selector)
 {
 	Color transparent;
@@ -43,7 +68,6 @@ CCMenuItemSprite* createMenuItemFromMaxres(string title, string fontName, int fo
     CocosHelper::ProceedCCNodeBack(label);
     
     result->addChild(label, 1);
-
     return result;
 }
 
@@ -56,6 +80,7 @@ CCMenuItemSprite* createMenuItemFromResources(string title, string fontName, int
     
     
     CCLabelTTF *label = CCLabelTTF::create(title.c_str(), fontName.c_str(), fontSize);
+    label->setTag(BUTTON_LABEL_TAG);
     label->setColor(titleColor);
     CCSize sz = result->getContentSize();
     sz.height /= 2;
@@ -67,7 +92,6 @@ CCMenuItemSprite* createMenuItemFromResources(string title, string fontName, int
     
     
     result->addChild(label, 1);
-    
     return result;
 }
 
@@ -124,5 +148,73 @@ void CocosHelper::MoveNode(CCNode* node, const CCPoint &vector)
     pos.x += vector.x;
     pos.y += vector.y;
     node->setPosition(pos);
+}
+
+
+CCMenuItemNodes::~CCMenuItemNodes()
+{
+	if (_nodeNormal)
+	{
+		_nodeNormal->removeFromParentAndCleanup(true);
+		_nodeNormal->autorelease();
+	}
+	if (_nodeSelected)
+	{
+		_nodeSelected->removeFromParentAndCleanup(true);
+		_nodeSelected->autorelease();
+	}
+}
+
+bool CCMenuItemNodes::initWithTarget(CCNode *normal, CCNode *selected, CCObject *rec, SEL_MenuHandler selector)
+{
+	this->CCMenuItem::initWithTarget(rec, selector);
+	if (normal)
+	{
+		_nodeNormal = normal;
+		_nodeNormal->retain();
+		_nodeNormal->setAnchorPoint(ccp(0, 0));
+		_nodeNormal->setPosition(ccp(0, 0));
+		addChild(_nodeNormal);
+		setContentSize(_nodeNormal->getContentSize());
+
+	}
+	if (selected)
+	{
+		_nodeSelected = selected;
+		_nodeSelected->retain();
+		_nodeSelected->setAnchorPoint(ccp(0, 0));
+		_nodeSelected->setPosition(ccp(0, 0));
+		addChild(_nodeSelected);
+	}
+	updateNodes();
+	return true;
+}
+
+void CCMenuItemNodes::updateNodes()
+{
+	if (_nodeNormal)
+		_nodeNormal->setVisible(!this->m_bIsSelected);
+	if (_nodeSelected)
+		_nodeSelected->setVisible(this->m_bIsSelected);
+}
+
+void CCMenuItemNodes::selected()
+{
+	this->CCMenuItem::selected();
+	updateNodes();
+}
+
+void CCMenuItemNodes::unselected()
+{
+	this->CCMenuItem::unselected();
+	updateNodes();
+}
+
+CCMenuItemNodes* CCMenuItemNodes::create(CCNode *normal, CCNode *selected, CCObject *rec, SEL_MenuHandler selector)
+{
+	CCMenuItemNodes *resilt = new CCMenuItemNodes();
+	resilt->initWithTarget(normal, selected, rec, selector);
+	resilt->autorelease();
+	return resilt;
 }
 

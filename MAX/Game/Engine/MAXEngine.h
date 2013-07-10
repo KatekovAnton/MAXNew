@@ -128,6 +128,7 @@ public:
     double FullTime() const {return _fullTime;};
     void RunLoop(double delta);
     
+	bool _freezeAnimationManager;
     
     void SetCameraCenter(const CCPoint &cell);
     void SetZoom(float zoom);
@@ -147,7 +148,7 @@ public:
     void DrawInterface();
     void EndFrame();
     
-    
+    void FinishLoading();
     
     Shader * GetShader();
    // void AddObject(const std::shared_ptr<PivotObject>& object, const std::shared_ptr<PivotObject>& parentObject);

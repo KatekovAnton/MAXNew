@@ -11,10 +11,11 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "ScreenMenuElement.h"
 
 using namespace cocos2d;
 
-class ScreenInfoOptions : public CCNode
+class ScreenInfoOptions : public ScreenMenuElement
 {   
 
 public:
@@ -23,6 +24,11 @@ public:
     virtual ~ScreenInfoOptions();
     
 #pragma mark - Button events
+	
+	void OnCredits(CCObject *sender);
+	void OnLegal(CCObject *sender);
+	void OnPrivacy(CCObject *sender);
+	void OnBack(CCObject *sender);
     
 };
 

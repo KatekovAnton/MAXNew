@@ -11,21 +11,30 @@
 
 #include <iostream>
 #include "ScreenSelectGameTypeDelegate.h"
+#include "MAXAnimationDelegate.h"
 
 class ScreenMenu;
+class ScreenProgressBar;
+class MAXAnimationWait;
 
-class MAXMainMenuController : public ScreenSelectGameTypeDelegate
+class MAXMainMenuController : public ScreenSelectGameTypeDelegate, public MAXAnimationDelegate
 {   
+
+	MAXAnimationWait *_animWaitForStart;
 
 public:
 
 	ScreenMenu *_sceneMenu;
-	
+	ScreenProgressBar *_loadingProgressBar;
+
     MAXMainMenuController();
     ~MAXMainMenuController();
     
     void Begin();
     void End();
+
+	void SetLoadingProgress(float zeroToOne);
+	void LoadingScreenDidAppear(ScreenProgressBar *screen);
     
 #pragma mark - ScreenSelectGameTypeDelegate
 
@@ -35,6 +44,12 @@ public:
 	virtual void OnEditor();
 	virtual void OnInfo();
    
+#pragma mark - MAXAnimationDelegate 
+  
+    virtual void OnAnimationStart(MAXAnimationBase* animation);
+    virtual void OnAnimationUpdate(MAXAnimationBase* animation);
+    virtual void OnAnimationFinish(MAXAnimationBase* animation);
+    
    
 };
 

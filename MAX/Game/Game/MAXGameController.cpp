@@ -280,7 +280,7 @@ void MAXGameController::StartMatch()
 	
     game->SetLoadingProgress(1.0);
 	CCDirector::sharedDirector()->pushScene(_gameInterface);
-
+	engine->FinishLoading();
 }
 
 bool MAXGameController::EndTurn()

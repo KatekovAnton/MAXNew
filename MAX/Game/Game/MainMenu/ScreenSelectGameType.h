@@ -11,27 +11,28 @@
 
 #include <iostream>
 #include "cocos2d.h"
+#include "ScreenMenuElement.h"
 #include "ScreenSelectGameTypeDelegate.h"
 
 using namespace cocos2d;
 
-class ScreenSelectGameType : public CCNode
+class ScreenSelectGameType : public ScreenMenuElement
 {   
 
 public:
 
 	ScreenSelectGameTypeDelegate *_delegete_w;
-
+	
     ScreenSelectGameType();
     virtual ~ScreenSelectGameType();
     
 #pragma mark - Button events
     
-	void OnTutorial(CCMenuItem* sender);
-	void OnHotseat(CCMenuItem* sender);
-	void OnMultiplayer(CCMenuItem* sender);
-	void OnEditor(CCMenuItem* sender);
-	void OnInfo(CCMenuItem* sender);
+	void OnTutorial(CCObject* sender);
+	void OnHotseat(CCObject* sender);
+	void OnMultiplayer(CCObject* sender);
+	void OnEditor(CCObject* sender);
+	void OnInfo(CCObject* sender);
    
 };
 

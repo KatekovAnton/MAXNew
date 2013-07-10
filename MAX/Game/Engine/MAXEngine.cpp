@@ -81,6 +81,7 @@ void MAXEngine::Init() {
     drawResources = false;
     drawFog = false;
     drawPathZone = false;
+	_freezeAnimationManager = false;
     hidePathZoneCounter = 0;
     _renderSystem->InitOpenGL();
     
@@ -337,14 +338,24 @@ void MAXEngine::RunLoop(double delta)
     this->EndFrame();
 }
 
+void MAXEngine::FinishLoading()
+{
+	_freezeAnimationManager = true;
+	Update();
+	_freezeAnimationManager = false;
+}
+
 void MAXEngine::Update()
 {
     
     RequestManager::SharedRequestManager()->Flush();
 	
 	if (!_scene)
+	{
+		if (!_freezeAnimationManager)
+			_animationManager->Update();
 		return;
-
+	}
     _scene->BeginFrame();
     _scene->Frame(_elapsedTime);
     _map->Frame(_elapsedTime);
@@ -357,7 +368,9 @@ void MAXEngine::Update()
     }
     bool updategrid = _camera->changed;
     _camera->Update();
-    _animationManager->Update();
+	
+	if (!_freezeAnimationManager)
+		_animationManager->Update();
     if(updategrid)
     {
         _grid->cameraScale = _camera->scale;

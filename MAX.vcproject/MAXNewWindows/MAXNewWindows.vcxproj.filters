@@ -136,9 +136,6 @@
     <Filter Include="Game\Game\Editor">
       <UniqueIdentifier>{4d467b56-cfaa-4fbb-bec8-5929995dcfb9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Game\Loading">
-      <UniqueIdentifier>{20c26d79-7908-402a-9037-597671b6f471}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Game\MainMenu\ResultData">
       <UniqueIdentifier>{9b46c547-b087-473c-8a2d-5ed40c418b15}</UniqueIdentifier>
     </Filter>
@@ -474,11 +471,11 @@
     <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenInfoOptions.cpp">
       <Filter>Game\Game\MainMenu</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Game\Loading\MAXLoadingController.cpp">
-      <Filter>Game\Game\Loading</Filter>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenMenuElement.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Game\Loading\ScreenLoading.cpp">
-      <Filter>Game\Game\Loading</Filter>
+    <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenProgressBar.cpp">
+      <Filter>Game\Game\MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -920,14 +917,14 @@
     <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenSelectGameTypeDelegate.h">
       <Filter>Game\Game\MainMenu</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Game\Loading\MAXLoadingController.h">
-      <Filter>Game\Game\Loading</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MAX\Game\Game\Loading\ScreenLoading.h">
-      <Filter>Game\Game\Loading</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ResultData\MainMenuResultData.h">
       <Filter>Game\Game\MainMenu\ResultData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenMenuElement.h">
+      <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenProgressBar.h">
+      <Filter>Game\Game\MainMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
