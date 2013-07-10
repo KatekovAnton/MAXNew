@@ -87,6 +87,7 @@ public:
 
 	MAXMainMenuController	*_menuController;
 	
+	ccColor4B				_colorBG;
 	CCLayerColor			*_layerBg;
 	CCLayerColor			*_layerButtonsBG;
 
@@ -97,6 +98,7 @@ public:
 
 	void PushScreen(ScreenMenuElement *screen);
 	void PopScreen();
+	void PopToFirstScreen();
 
 	void OnMoveDidFinish(CCObject* param);
 	void OnPushNewScreen(CCObject* sender);

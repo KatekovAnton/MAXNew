@@ -40,7 +40,7 @@
 static bool allowControlEnemyUnits = false;
 
 MAXGameController::MAXGameController()
-	:_pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _iputController(new MAXGameInputController()), _currentTargetUnit(NULL), _startAttackModeAgain(false)
+	:_pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _endDelayAnim(NULL), _iputController(new MAXGameInputController()), _currentTargetUnit(NULL), _startAttackModeAgain(false)
 {
 	_iputController->_delegate_w = this;
     _pathVisualizer = new GamePathVisualizer();
@@ -49,13 +49,18 @@ MAXGameController::MAXGameController()
 MAXGameController::~MAXGameController()
 {
 	DeselectCurrentUnit(true);
-    delete _iputController;
-	delete _match;
-	engine->_delegate = NULL;
+	
 	CCDirector::sharedDirector()->popScene();
 	_gameInterface->release();
 	_gameInterface = NULL;
+	game->SetLoadingProgress(0.0);
+    delete _iputController;
+	game->SetLoadingProgress(0.1);
+	delete _match;
+	game->SetLoadingProgress(0.7);
+	engine->_delegate = NULL;
     delete _pathVisualizer;
+	game->SetLoadingProgress(1.0);
 }
 
 void MAXGameController::Init()
@@ -64,6 +69,23 @@ void MAXGameController::Init()
     SOUND->SetHoldEffects(true);
     StartMatch();
     SOUND->SetHoldEffects(false);
+}
+
+void MAXGameController::EndMatch()
+{
+	if (_freezeCounter1 != 0)
+		return;
+
+	MAXAnimationWait *wait = new MAXAnimationWait(0);
+	wait->_delegate = this;
+	_endDelayAnim = wait;
+	MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
+
+}
+
+void MAXGameController::DeletionProgressDidChange(float zeroToOne)
+{
+	game->SetLoadingProgress(zeroToOne * 0.4 + 0.2);
 }
 
 void MAXGameController::IncreaseFreezeCounter()
@@ -1156,11 +1178,13 @@ void MAXGameController::onUnitFireStop(GameUnit* unit)
 
 void MAXGameController::onUnidHided(GameUnit* unit)
 {
-    _gameInterface->RemoveUnitFromLock(unit);
+	if (_gameInterface)
+		_gameInterface->RemoveUnitFromLock(unit);
     if (_currentUnit == unit)
     {
         engine->SelectUnit(NULL);
-        _gameInterface->OnCurrentUnitChanged(NULL, true);
+		if (_gameInterface)
+	        _gameInterface->OnCurrentUnitChanged(NULL, true);
         _currentUnit = NULL;
 		HideUnitPath();
 		HidePathMap();
@@ -1422,6 +1446,10 @@ void MAXGameController::OnAnimationUpdate(MAXAnimationBase* animation)
 
 void MAXGameController::OnAnimationFinish(MAXAnimationBase* animation)
 {
+	if (animation == _endDelayAnim)
+	{
+		game->StopMatch();
+	}
 	if (animation == _fireDelayAnim)
 	{
 		_fireDelayAnim = NULL;

@@ -73,13 +73,18 @@ GameMatch::~GameMatch()
 	engine->SetMap(nullptr);
     if (_resources)
         delete _resources;
+	_gameController->DeletionProgressDidChange(0.1);
+
     for (int i = 0; i < _players.size(); i++)
     {
         GameMatchPlayer* player_ = _players[i];
         delete player_;
+		_gameController->DeletionProgressDidChange((float) i / ((float)_players.size() - 1.0) * 0.7 + 0.1);
     }
     delete _fullAgregator;
+	_gameController->DeletionProgressDidChange(0.9);
     delete _fireAgregator;
+	_gameController->DeletionProgressDidChange(1.0);
 }
 
 bool GameMatch::EndTurn()

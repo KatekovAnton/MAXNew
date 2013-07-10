@@ -60,6 +60,11 @@ void MAXMainMenuController::End()
 {
 }
 
+void MAXMainMenuController::ToStartState()
+{
+	_sceneMenu->PopToFirstScreen();
+}
+
 void MAXMainMenuController::StartMatch()
 {	
 	ScreenProgressBar *screen = new ScreenProgressBar();

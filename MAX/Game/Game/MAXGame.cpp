@@ -85,6 +85,14 @@ void MAXGame::StartTestMatch()
 	_currentState = MAXGAMESTATE_GAME;
 }
 
+void MAXGame::StopMatch()
+{
+	delete _gameController;
+	_gameController = NULL;
+	_currentState = MAXGAMESTATE_MAINMENU;
+	_mainMenuController->ToStartState();
+}
+
 #pragma mark - DisplayPinchDelegate
 bool MAXGame::CanStartPinch(float x, float y)
 {

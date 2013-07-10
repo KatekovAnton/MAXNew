@@ -45,6 +45,7 @@ public:
 	
 	void SetLoadingProgress(float zeroToOne);
 	void StartTestMatch();
+	void StopMatch();
 
     USimpleContainer<GameEffect*> *_effects;
 	void FlushEffectsWithNew(GameEffect *effect);

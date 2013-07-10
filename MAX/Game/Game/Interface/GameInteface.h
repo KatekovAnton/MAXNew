@@ -30,6 +30,9 @@ class GameInterface : public CCScene
     
     GIUnitParametersNode* _unitParameters;
     
+	
+    CCMenuItemSprite* _buttonOptions;
+
     CCMenuItemSprite* _toggleLockUnitsButton;
     CCMenuItemSprite* _toggleGridButton;
     CCMenuItemSprite* _toggleScanButton;
@@ -115,6 +118,7 @@ public:
 
 #pragma mark - Button events
     
+	void OnOptions(CCMenuItem* sender);
     void OnToggleLockUnits(CCMenuItem* sender);
     void OnToggleGrid(CCMenuItem* sender);
     void OnToggleScan(CCMenuItem* sender);

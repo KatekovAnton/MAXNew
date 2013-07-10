@@ -79,6 +79,10 @@ void CCWaitExtended::update(float time)
 ScreenMenu::ScreenMenu()
 	:_menuController(NULL), _layerButtonsBG(NULL), _layerBg(NULL), _screenStack(NULL), _freezed(false)
 {
+	_colorBG.r = 130;
+	_colorBG.g = 115;
+	_colorBG.b = 87;
+	_colorBG.a = 255;
 }
 
 ScreenMenu::~ScreenMenu()
@@ -118,17 +122,24 @@ void ScreenMenu::InitBaseInterface()
 	
 	if (!_layerBg)
 	{
-		ccColor4B color;
-		color.r = 130;
-		color.g = 115;
-		color.b = 87;
-		color.a = 255;
-
-		_layerBg = CCLayerColor::create(color, getContentSize().width, getContentSize().height);
+		_layerBg = CCLayerColor::create(_colorBG, getContentSize().width, getContentSize().height);
 		_layerBg->setAnchorPoint(ccp(0, 0));
 		_layerBg->setPosition(ccp(0, 0));
 		addChild(_layerBg);
 	}
+
+	{
+		ccColor4B color;
+		color.r = 0;
+		color.g = 0;
+		color.b = 0;
+		color.a = 50;
+
+		CCLayerColor *layer = CCLayerColor::create(color, getContentSize().width, getContentSize().height);
+		layer->setAnchorPoint(ccp(0, 0));
+		layer->setPosition(ccp(0, 0));
+		addChild(layer);
+	}	
 
 	if (!_layerButtonsBG)
 	{
@@ -314,6 +325,61 @@ void ScreenMenu::PopScreen()
 
 	{
 		ScreenMenuElement* screen = reinterpret_cast<ScreenMenuElement*>(_screenStack->objectAtIndex(_screenStack->count() - 2));
+		CCWaitExtended *wait = new CCWaitExtended();
+		wait->initWithDuration(popDelay, this,  callfuncO_selector(ScreenMenu::OnPopOldScreen));
+		wait->autorelease();
+		wait->_parameter = screen;
+		runAction(wait);
+	}
+}
+
+void ScreenMenu::PopToFirstScreen()
+{
+	if (_freezed)
+		return;
+	_freezed = true;
+
+	if (_screenStack->count() <= 1)
+		return;
+	
+	
+	int ncount;
+	{
+		ScreenMenuElement* screen = reinterpret_cast<ScreenMenuElement*>(_screenStack->objectAtIndex(_screenStack->count() - 1));
+		CCArray* nodes = screen->nodesArray();
+		for (int i = 0; i < nodes->count(); i++)
+		{
+			CCNode* node = reinterpret_cast<CCNode*>(nodes->objectAtIndex(i));
+			MoveNodeAtIndex(node, i, nodes->count(), true, false, screen);
+		}
+		ncount = nodes->count();
+	}
+
+	CCArray *arr = CCArray::create();
+	for (int i = 1; i < _screenStack->count() - 1; i++)
+		arr->addObject(_screenStack->objectAtIndex(i));
+	
+	_screenStack->removeObjectsInArray(arr);
+	
+	float popDelay = (ncount - 1.0) * 0.1 + interfaceAnimationTime;
+
+	{//check bg size for new screen
+		ScreenMenuElement* screen = reinterpret_cast<ScreenMenuElement*>(_screenStack->objectAtIndex(0));
+		CCSize currentSize = _layerButtonsBG->getContentSize();
+		CCSize newSize = CCSizeMake(screen->SingleElementWidth(), getContentSize().height);
+		bool needChangeSize = currentSize.width != newSize.width;
+		if (needChangeSize)
+		{
+			float delayForChangeSize = popDelay;
+			popDelay += interfaceAnimationTime / 2;
+
+			AlignBGForScreen(screen, delayForChangeSize);
+		}
+	}
+
+
+	{
+		ScreenMenuElement* screen = reinterpret_cast<ScreenMenuElement*>(_screenStack->objectAtIndex(0));
 		CCWaitExtended *wait = new CCWaitExtended();
 		wait->initWithDuration(popDelay, this,  callfuncO_selector(ScreenMenu::OnPopOldScreen));
 		wait->autorelease();

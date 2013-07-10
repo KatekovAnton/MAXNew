@@ -30,6 +30,8 @@ public:
     MAXMainMenuController();
     ~MAXMainMenuController();
     
+	void ToStartState();
+
     void Begin();
     void End();
 

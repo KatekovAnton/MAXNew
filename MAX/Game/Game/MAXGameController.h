@@ -32,7 +32,8 @@ class PFWaveCell;
 
 class MAXGameController : public MAXEngineDelegate, public GameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameInputControllerDelegate, public GIUnitSelectionMenuDelegate
 {
-    
+    MAXAnimationBase* _fireDelayAnim;
+	MAXAnimationBase* _endDelayAnim;
 public:
 
 
@@ -41,7 +42,7 @@ public:
 
 
 	vector<pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>>> _attackSequences;
-	MAXAnimationBase* _fireDelayAnim;
+	
     vector<GameUnit*> _currentFiringUnits;
     GameUnit *_currentTargetUnit;
     CCPoint  _currentFiringCell;
@@ -82,6 +83,8 @@ public:
     
     void Init();
     void StartMatch();
+	void EndMatch();
+	void DeletionProgressDidChange(float zeroToOne);
 
     int CurrentPlayerId() const;
     

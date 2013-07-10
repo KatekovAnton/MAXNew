@@ -238,7 +238,8 @@ void GameUnit::Hide()
     StopCurrentSound();
     
     GameObject::Hide();
-	gameObjectDelegate->onUnidHided(this);
+	if (gameObjectDelegate)
+		gameObjectDelegate->onUnidHided(this);
     if (_effectUnder)
         _effectUnder->Hide();
     if (_effectOver)
@@ -348,7 +349,8 @@ void GameUnit::RemoveUnitFromMap()
     _unitData->AbortTask();
     Hide();
     // update the fog of war for the current gamer
-    _delegate_w->GameUnitDidRemoveFromMap(this);
+	if (_delegate_w)
+	    _delegate_w->GameUnitDidRemoveFromMap(this);
 }
 
 void GameUnit::Destroy()

@@ -104,7 +104,9 @@ void MAXConfigManager::LoadClanConfigsFromString(string& strContent)
         string clanComponent = components1[i];
         vector<string> clan = splitString(clanComponent, "]\n");
         int number = atoi(clan[0].c_str());
-        clanComponent = clan[1];
+		if (_clanConfigs.count(number) != 0)
+			continue;
+		clanComponent = clan[1];
         MAXClanConfig* clanConfig = new MAXClanConfig(clanComponent, number);
         _clanConfigs[number] = clanConfig;
         _allClans.push_back(number);

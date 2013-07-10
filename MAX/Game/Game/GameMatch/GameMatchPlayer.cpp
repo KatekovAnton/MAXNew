@@ -64,6 +64,8 @@ GameMatchPlayer::~GameMatchPlayer()
     for (int i = 0; i < _units.GetCount(); i++) 
 	{
         GameUnit* unit = _units.objectAtIndex(i);
+		unit->_delegate_w = NULL;
+		unit->gameObjectDelegate = NULL;
         unit->RemoveUnitFromMap();
         delete unit;
     }

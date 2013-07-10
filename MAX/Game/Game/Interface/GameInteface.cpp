@@ -78,21 +78,23 @@ GameInterface::GameInterface()
     MAXStatusRenderer::SharedStatusRenderer()->_drawShots = _drawShots;
     MAXStatusRenderer::SharedStatusRenderer()->_drawHealStatus = _drawStatus;
     
-    
 }
 
 GameInterface::~GameInterface()
 {
+	ClearLockedUnits();
 }
 
 void GameInterface::InitBaseInterface()
 {
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
-    CCSprite* turnSprite = CCSprite::create("3blocks.png");
+	//end turn place
+	CCSprite* turnSprite = CCSprite::create("3blocks.png");
     turnSprite->setAnchorPoint(ccp(0, 1));
     turnSprite->setPosition(ccp(getContentSize().width - 209, getContentSize().height + 4));
     addChild(turnSprite);
     
+	//left panel
     _panel = CCNode::create();
     _panel->setPosition(ccp(0, 0));
     _panel->setAnchorPoint(ccp(0, 0));
@@ -105,7 +107,7 @@ void GameInterface::InitBaseInterface()
     spr->setPosition(ccp(panelW - spr->getContentSize().width, 0));
     _panel->addChild(spr);
     
-    float top = 280 + 111;
+    float top = 280 + 111 + 35;
     float scrollH = top;//?????;
     
     CCSize sz = CCSize(panelW, scrollH);
@@ -125,18 +127,25 @@ void GameInterface::InitBaseInterface()
     else
         scroll->setContentOffset(ccp(0, getContentSize().height - scrollH));
     
-    float currentElement = top - 111;
+    float currentElement = top;
     
+
+	_buttonOptions = createMenuItemFromMaxres("Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_OF", "AMMO_ON", this, menu_selector(GameInterface::OnOptions));
+    _buttonOptions->setPosition(ccp(bx,currentElement));
+    CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 0));
+    CCMenu *menu = CCMenu::create(_buttonOptions, nullptr);
+	
+	currentElement -= 116;
     _unitParameters = GIUnitParametersNode::create();
     _unitParameters->setPosition(ccp(1, currentElement));
     scroll->addChild(_unitParameters);
     
-    
     currentElement -= 30;
     _toggleLockUnitsButton = createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,currentElement));
-    CCMenu *menu = CCMenu::create(_toggleLockUnitsButton, nullptr);
-    {
+	menu->addChild(_toggleLockUnitsButton);
+    
+	{
 		float Scale = CCDirector::sharedDirector()->getContentScaleFactor();
         CCLabelTTF *label = CCLabelTTF::create("Lock\nunits", MAX_DEFAULT_FONT, 10);
         label->setColor(MAX_COLOR_WHITE);
@@ -329,6 +338,11 @@ void GameInterface::UpdateTogglePathZone()
 }
 
 #pragma mark - Button events
+
+void GameInterface::OnOptions(CCMenuItem* sender)
+{
+	_gameController->EndMatch();
+}
 
 void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
 {

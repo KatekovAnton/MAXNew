@@ -373,6 +373,9 @@ void MAXEngine::Update()
 	
 	if (!_freezeAnimationManager)
 		_animationManager->Update();
+	if (!_scene)
+		return;
+
     if(updategrid)
     {
         _grid->cameraScale = _camera->scale;
