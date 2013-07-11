@@ -18,7 +18,7 @@ class SoundEngineDelegate;
 
 struct _SoundElement
 {
-    int     _id;
+    unsigned int     _id;
     double  _length;
     double  _startTime;
     bool    _looped;
@@ -51,8 +51,8 @@ public:
     void PlaySystemSound(SOUND_TYPE type);
     void PlayExplodeSound(EXPLODE_SOUND_TYPE type);
     
-    int PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped, float volume);
-    void StopGameSound(int sound);
+    unsigned int PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped, float volume);
+    void StopGameSound(unsigned int sound);
     
     void CheckStoppedSound();
     

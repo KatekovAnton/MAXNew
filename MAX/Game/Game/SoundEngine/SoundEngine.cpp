@@ -341,7 +341,7 @@ void SoundEngine::PlayExplodeSound(EXPLODE_SOUND_TYPE type)
     SimpleAudioEngine::sharedEngine()->playEffect(name.c_str(), false, 1);
 }
 
-int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped, float volume)
+unsigned int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, bool looped, float volume)
 {
     if (_holdEffects) {
         return -1;
@@ -357,7 +357,7 @@ int SoundEngine::PlayGameSound(string fileName, SoundEngineDelegate* delegate, b
     return element._id;
 }
 
-void SoundEngine::StopGameSound(int sound)
+void SoundEngine::StopGameSound(unsigned int sound)
 {
     SimpleAudioEngine::sharedEngine()->stopEffect(sound);
     std::vector<SoundElement>::iterator element;

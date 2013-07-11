@@ -106,7 +106,7 @@ void GameUnit::CheckForAnimanteBody()
     _shouldAnimateBody = _unitData->GetConfig()->bodyActiveFrame0 != _unitData->GetConfig()->bodyActiveFrame1 && !_unitData->_disabledByInfiltrator;
 }
 
-int GameUnit::PlayUnitSound(UNIT_SOUND unitSound)
+unsigned int GameUnit::PlayUnitSound(UNIT_SOUND unitSound)
 {
     MAXObjectConfig* config = _unitData->GetConfig();
     string* soundStr = NULL;
@@ -171,7 +171,7 @@ int GameUnit::PlayUnitSound(UNIT_SOUND unitSound)
             soundStr = &(config->_soundBuildName);
             break;
     }
-    int soundId = -1;
+    unsigned int soundId = -1;
     if (soundStr->length() > 2)
     {
         if (*soundStr == "attack1.wav" || *soundStr == "aplan1.wav") 

@@ -44,7 +44,7 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     GameUnit* _constructor;
     
     bool _shouldAnimateBody;
-    int _currentSound;
+    unsigned int _currentSound;
     
     std::vector<PFWaveCell*> movePath;
     int pathIndex;
@@ -93,7 +93,7 @@ public:
     void RemoveWithDelay(double delay);
     void RunAnimation(MAXAnimationSequence* animation);
     
-    int PlayUnitSound(UNIT_SOUND unitSound);
+    unsigned int PlayUnitSound(UNIT_SOUND unitSound);
     void StopCurrentSound();
     void UnitDidSelect();
     void UnitDidDeselect();
