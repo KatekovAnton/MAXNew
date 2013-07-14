@@ -298,9 +298,12 @@ void MAXGameController::StartMatch()
         _match->_players[1]->CreateUnit(46, 38, "pcan", 0)->PlaceUnitOnMap();
 	}
 	
-    engine->SetCameraCenter(ccp(55, 55));
-    _match->_players[0]->_playerData->cameraPosition = ccp(15, 15);
+    _match->_players[0]->_playerData->cameraPosition = ccp(55, 55);
     _match->_players[1]->_playerData->cameraPosition = ccp(30, 40);
+    
+    
+    engine->SetCameraCenter(_match->_players[0]->_playerData->cameraPosition);
+    engine->SetZoom(_match->_players[0]->_playerData->cameraZoom);
     
     _match->_holdAutofire = false;
 	
