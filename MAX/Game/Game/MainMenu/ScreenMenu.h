@@ -23,13 +23,14 @@ class CCMoveToExtended : public CCMoveTo
 
 	CCObject *_endTarget;
 	SEL_CallFuncO _endSelector;
+    bool _selectorCalled;
 
 public:
 	
 	void *_parameter;
 	bool _flag;
 
-	CCMoveToExtended():_parameter(NULL){};
+	CCMoveToExtended():_parameter(NULL), _selectorCalled(false){};
 
 	bool initWithDuration(float duration, const CCPoint& position, CCObject *endTarget, SEL_CallFuncO endSelector);
 
@@ -42,6 +43,7 @@ class CCSetFrameExtended : public CCMoveTo
 
 	CCObject *_endTarget;
 	SEL_CallFuncO _endSelector;
+    bool _selectorCalled;
 
     CCSize m_endSize;
     CCSize m_startSize;
@@ -51,7 +53,7 @@ public:
 	
 	void *_parameter;
 
-	CCSetFrameExtended():_parameter(NULL){};
+	CCSetFrameExtended():_parameter(NULL), _selectorCalled(false){};
 
 	bool initWithDuration(float duration, const CCSize& endSize, const CCPoint& endPosition, CCObject *endTarget, SEL_CallFuncO endSelector);
 	
@@ -65,12 +67,13 @@ class CCWaitExtended : public CCActionInterval
 
 	CCObject *_endTarget;
 	SEL_CallFuncO _endSelector;
+    bool _selectorCalled;
 
 public:
 
 	void *_parameter;
 
-	CCWaitExtended():_parameter(NULL){};
+	CCWaitExtended():_parameter(NULL), _selectorCalled(false){};
 
 	bool initWithDuration(float duration, CCObject *endTarget, SEL_CallFuncO endSelector);
 

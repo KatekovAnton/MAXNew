@@ -25,8 +25,11 @@ void CCMoveToExtended::update(float time)
 {
 	this->CCMoveTo::update(time);
 	if(time >= 0.999)
-		if(_endTarget && _endSelector)
+		if (_endTarget && _endSelector && !_selectorCalled)
+        {
 			(_endTarget->*_endSelector)(this);
+            _selectorCalled = true;
+        }
 }
 
 //set frame action
@@ -47,8 +50,11 @@ void CCSetFrameExtended::update(float time)
 			m_startSize.height + m_delta.height * time));
     }
 	if(time >= 0.999)
-		if(_endTarget && _endSelector)
+		if (_endTarget && _endSelector && !_selectorCalled)
+        {
 			(_endTarget->*_endSelector)(this);
+            _selectorCalled = true;
+        }
 }
 
 void CCSetFrameExtended::startWithTarget(CCNode *pTarget)
@@ -69,8 +75,11 @@ bool CCWaitExtended::initWithDuration(float duration, CCObject *endTarget, SEL_C
 void CCWaitExtended::update(float time)
 {
 	if(time >= 0.999)
-		if (_endTarget && _endSelector)
+		if (_endTarget && _endSelector && !_selectorCalled)
+        {
 			(_endTarget->*_endSelector)(this);
+            _selectorCalled = true;
+        }
 }
 
 
@@ -252,7 +261,7 @@ void ScreenMenu::OnPopOldScreen(CCObject* sender)
 	CCWaitExtended* action = reinterpret_cast<CCWaitExtended*>(sender);
 	ScreenMenuElement *screen = reinterpret_cast<ScreenMenuElement*>(action->_parameter);
 
-	addChild(screen);
+    addChild(screen);
 	CCArray *nodes = screen->nodesArray();
 	for (int i = 0; i < nodes->count(); i++)
 	{

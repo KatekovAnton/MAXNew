@@ -208,6 +208,18 @@
 		8B8EAA2C168A28620097CA74 /* MAXCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */; };
 		8B8EAA41168E5AA30097CA74 /* MAXGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */; };
 		8B90ED4F173864D60032205A /* GIUnitActionMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B90ED4D173864D60032205A /* GIUnitActionMenu.cpp */; };
+		8BAA7C7C1792A93F0022F98B /* MAXGameInputController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7C791792A93F0022F98B /* MAXGameInputController.cpp */; };
+		8BAA7CB91792A9CD0022F98B /* MAXMainMenuController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CA21792A9CD0022F98B /* MAXMainMenuController.cpp */; };
+		8BAA7CBA1792A9CD0022F98B /* ScreenEditorOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CA41792A9CD0022F98B /* ScreenEditorOptions.cpp */; };
+		8BAA7CBB1792A9CD0022F98B /* ScreenHotSeatOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CA61792A9CD0022F98B /* ScreenHotSeatOptions.cpp */; };
+		8BAA7CBC1792A9CD0022F98B /* ScreenInfoOptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CA81792A9CD0022F98B /* ScreenInfoOptions.cpp */; };
+		8BAA7CBD1792A9CD0022F98B /* ScreenMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CAA1792A9CD0022F98B /* ScreenMenu.cpp */; };
+		8BAA7CBE1792A9CD0022F98B /* ScreenMenuElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CAC1792A9CD0022F98B /* ScreenMenuElement.cpp */; };
+		8BAA7CBF1792A9CD0022F98B /* ScreenNotSupported.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CAE1792A9CD0022F98B /* ScreenNotSupported.cpp */; };
+		8BAA7CC01792A9CD0022F98B /* ScreenProgressBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CB01792A9CD0022F98B /* ScreenProgressBar.cpp */; };
+		8BAA7CC11792A9CD0022F98B /* ScreenScenarioList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CB21792A9CD0022F98B /* ScreenScenarioList.cpp */; };
+		8BAA7CC21792A9CD0022F98B /* ScreenScenarioSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CB41792A9CD0022F98B /* ScreenScenarioSettings.cpp */; };
+		8BAA7CC31792A9CD0022F98B /* ScreenSelectGameType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA7CB61792A9CD0022F98B /* ScreenSelectGameType.cpp */; };
 		8BB8457316C8437400B9A007 /* GameMatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB8456F16C8437400B9A007 /* GameMatch.cpp */; };
 		8BB8457416C8437400B9A007 /* GameMatchPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */; };
 		8BEE79611703894400F78F1A /* ShaderResourceMap.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE795D170388EB00F78F1A /* ShaderResourceMap.fsh */; };
@@ -673,7 +685,6 @@
 		5127D6121702C42B00486F12 /* PFWave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWave.h; path = Pathfinder/PFWave.h; sourceTree = "<group>"; };
 		5127D6171702C46800486F12 /* PFWaveCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PFWaveCell.cpp; path = Pathfinder/PFWaveCell.cpp; sourceTree = "<group>"; };
 		5127D6181702C46900486F12 /* PFWaveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWaveCell.h; path = Pathfinder/PFWaveCell.h; sourceTree = "<group>"; };
-		51BADFE5170AD6410009E37A /* SelectedGameObjectDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedGameObjectDelegate.h; sourceTree = "<group>"; };
 		8B20D89817594B500058890D /* GUTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUTask.cpp; sourceTree = "<group>"; };
 		8B20D89917594B500058890D /* GUTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUTask.h; sourceTree = "<group>"; };
 		8B20D89B175952590058890D /* GUConstructBuildingTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUConstructBuildingTask.cpp; sourceTree = "<group>"; };
@@ -682,7 +693,6 @@
 		8B20D89F175952700058890D /* GUConstructUnitTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUConstructUnitTask.h; sourceTree = "<group>"; };
 		8B20D8A117595D220058890D /* GUClearzoneTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUClearzoneTask.cpp; sourceTree = "<group>"; };
 		8B20D8A217595D220058890D /* GUClearzoneTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUClearzoneTask.h; sourceTree = "<group>"; };
-		8B20D8A5175BCE8F0058890D /* MAXGameControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAXGameControllerDelegate.h; sourceTree = "<group>"; };
 		8B44BBB51752BCD700A9D382 /* GIWindowsManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIWindowsManager.cpp; sourceTree = "<group>"; };
 		8B44BBB61752BCD700A9D382 /* GIWindowsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIWindowsManager.h; sourceTree = "<group>"; };
 		8B54D40316ECFBFC00935B1A /* MAXAnimationObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXAnimationObject.cpp; sourceTree = "<group>"; };
@@ -911,6 +921,34 @@
 		8B90ED4D173864D60032205A /* GIUnitActionMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIUnitActionMenu.cpp; sourceTree = "<group>"; };
 		8B90ED4E173864D60032205A /* GIUnitActionMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitActionMenu.h; sourceTree = "<group>"; };
 		8B90ED50173866CB0032205A /* GIUnitActionMenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GIUnitActionMenuDelegate.h; sourceTree = "<group>"; };
+		8BAA7C791792A93F0022F98B /* MAXGameInputController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGameInputController.cpp; sourceTree = "<group>"; };
+		8BAA7C7A1792A93F0022F98B /* MAXGameInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGameInputController.h; sourceTree = "<group>"; };
+		8BAA7C7B1792A93F0022F98B /* MAXGameInputControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGameInputControllerDelegate.h; sourceTree = "<group>"; };
+		8BAA7C7D1792A9570022F98B /* GameObjectDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectDelegate.h; sourceTree = "<group>"; };
+		8BAA7CA21792A9CD0022F98B /* MAXMainMenuController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXMainMenuController.cpp; sourceTree = "<group>"; };
+		8BAA7CA31792A9CD0022F98B /* MAXMainMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXMainMenuController.h; sourceTree = "<group>"; };
+		8BAA7CA41792A9CD0022F98B /* ScreenEditorOptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenEditorOptions.cpp; sourceTree = "<group>"; };
+		8BAA7CA51792A9CD0022F98B /* ScreenEditorOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenEditorOptions.h; sourceTree = "<group>"; };
+		8BAA7CA61792A9CD0022F98B /* ScreenHotSeatOptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenHotSeatOptions.cpp; sourceTree = "<group>"; };
+		8BAA7CA71792A9CD0022F98B /* ScreenHotSeatOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenHotSeatOptions.h; sourceTree = "<group>"; };
+		8BAA7CA81792A9CD0022F98B /* ScreenInfoOptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenInfoOptions.cpp; sourceTree = "<group>"; };
+		8BAA7CA91792A9CD0022F98B /* ScreenInfoOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenInfoOptions.h; sourceTree = "<group>"; };
+		8BAA7CAA1792A9CD0022F98B /* ScreenMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenMenu.cpp; sourceTree = "<group>"; };
+		8BAA7CAB1792A9CD0022F98B /* ScreenMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenMenu.h; sourceTree = "<group>"; };
+		8BAA7CAC1792A9CD0022F98B /* ScreenMenuElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenMenuElement.cpp; sourceTree = "<group>"; };
+		8BAA7CAD1792A9CD0022F98B /* ScreenMenuElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenMenuElement.h; sourceTree = "<group>"; };
+		8BAA7CAE1792A9CD0022F98B /* ScreenNotSupported.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenNotSupported.cpp; sourceTree = "<group>"; };
+		8BAA7CAF1792A9CD0022F98B /* ScreenNotSupported.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenNotSupported.h; sourceTree = "<group>"; };
+		8BAA7CB01792A9CD0022F98B /* ScreenProgressBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenProgressBar.cpp; sourceTree = "<group>"; };
+		8BAA7CB11792A9CD0022F98B /* ScreenProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenProgressBar.h; sourceTree = "<group>"; };
+		8BAA7CB21792A9CD0022F98B /* ScreenScenarioList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenScenarioList.cpp; sourceTree = "<group>"; };
+		8BAA7CB31792A9CD0022F98B /* ScreenScenarioList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenScenarioList.h; sourceTree = "<group>"; };
+		8BAA7CB41792A9CD0022F98B /* ScreenScenarioSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenScenarioSettings.cpp; sourceTree = "<group>"; };
+		8BAA7CB51792A9CD0022F98B /* ScreenScenarioSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenScenarioSettings.h; sourceTree = "<group>"; };
+		8BAA7CB61792A9CD0022F98B /* ScreenSelectGameType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenSelectGameType.cpp; sourceTree = "<group>"; };
+		8BAA7CB71792A9CD0022F98B /* ScreenSelectGameType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenSelectGameType.h; sourceTree = "<group>"; };
+		8BAA7CB81792A9CD0022F98B /* ScreenSelectGameTypeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenSelectGameTypeDelegate.h; sourceTree = "<group>"; };
+		8BAA7CC41792A9E30022F98B /* MainMenuResultData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuResultData.h; sourceTree = "<group>"; };
 		8BB8456F16C8437400B9A007 /* GameMatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMatch.cpp; sourceTree = "<group>"; };
 		8BB8457016C8437400B9A007 /* GameMatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMatch.h; sourceTree = "<group>"; };
 		8BB8457116C8437400B9A007 /* GameMatchPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = GameMatchPlayer.cpp; sourceTree = "<group>"; };
@@ -1808,14 +1846,17 @@
 		8B8EAA11168A17D70097CA74 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				8B7CA08F16C831BC00282A74 /* Interface */,
 				8BB8456E16C8436400B9A007 /* GameMatch */,
+				8B7CA08F16C831BC00282A74 /* Interface */,
+				8BAA7C7E1792A97E0022F98B /* MainManu */,
 				D11ABAA1168DDA7800CD29EA /* Objects */,
 				D1A95DEF173ADB250068F53F /* SoundEngine */,
 				D16D48DD168B37F20055F35D /* Resources */,
 				D19C065916D531A30014A6BE /* MAXGameController.cpp */,
 				D19C065A16D531A40014A6BE /* MAXGameController.h */,
-				8B20D8A5175BCE8F0058890D /* MAXGameControllerDelegate.h */,
+				8BAA7C791792A93F0022F98B /* MAXGameInputController.cpp */,
+				8BAA7C7A1792A93F0022F98B /* MAXGameInputController.h */,
+				8BAA7C7B1792A93F0022F98B /* MAXGameInputControllerDelegate.h */,
 				8B8EAA12168A17F30097CA74 /* MAXGame.cpp */,
 				8B8EAA13168A17F30097CA74 /* MAXGame.h */,
 			);
@@ -1849,6 +1890,46 @@
 				8BFA4F0C1763C062001A7D00 /* GIWindow.h */,
 			);
 			path = Windows;
+			sourceTree = "<group>";
+		};
+		8BAA7C7E1792A97E0022F98B /* MainManu */ = {
+			isa = PBXGroup;
+			children = (
+				8BAA7CA11792A9B10022F98B /* ResultData */,
+				8BAA7CA21792A9CD0022F98B /* MAXMainMenuController.cpp */,
+				8BAA7CA31792A9CD0022F98B /* MAXMainMenuController.h */,
+				8BAA7CA41792A9CD0022F98B /* ScreenEditorOptions.cpp */,
+				8BAA7CA51792A9CD0022F98B /* ScreenEditorOptions.h */,
+				8BAA7CA61792A9CD0022F98B /* ScreenHotSeatOptions.cpp */,
+				8BAA7CA71792A9CD0022F98B /* ScreenHotSeatOptions.h */,
+				8BAA7CA81792A9CD0022F98B /* ScreenInfoOptions.cpp */,
+				8BAA7CA91792A9CD0022F98B /* ScreenInfoOptions.h */,
+				8BAA7CAA1792A9CD0022F98B /* ScreenMenu.cpp */,
+				8BAA7CAB1792A9CD0022F98B /* ScreenMenu.h */,
+				8BAA7CAC1792A9CD0022F98B /* ScreenMenuElement.cpp */,
+				8BAA7CAD1792A9CD0022F98B /* ScreenMenuElement.h */,
+				8BAA7CAE1792A9CD0022F98B /* ScreenNotSupported.cpp */,
+				8BAA7CAF1792A9CD0022F98B /* ScreenNotSupported.h */,
+				8BAA7CB01792A9CD0022F98B /* ScreenProgressBar.cpp */,
+				8BAA7CB11792A9CD0022F98B /* ScreenProgressBar.h */,
+				8BAA7CB21792A9CD0022F98B /* ScreenScenarioList.cpp */,
+				8BAA7CB31792A9CD0022F98B /* ScreenScenarioList.h */,
+				8BAA7CB41792A9CD0022F98B /* ScreenScenarioSettings.cpp */,
+				8BAA7CB51792A9CD0022F98B /* ScreenScenarioSettings.h */,
+				8BAA7CB61792A9CD0022F98B /* ScreenSelectGameType.cpp */,
+				8BAA7CB71792A9CD0022F98B /* ScreenSelectGameType.h */,
+				8BAA7CB81792A9CD0022F98B /* ScreenSelectGameTypeDelegate.h */,
+			);
+			name = MainManu;
+			path = MainMenu;
+			sourceTree = "<group>";
+		};
+		8BAA7CA11792A9B10022F98B /* ResultData */ = {
+			isa = PBXGroup;
+			children = (
+				8BAA7CC41792A9E30022F98B /* MainMenuResultData.h */,
+			);
+			path = ResultData;
 			sourceTree = "<group>";
 		};
 		8BB8456E16C8436400B9A007 /* GameMatch */ = {
@@ -1952,7 +2033,7 @@
 				D1AB733516BBD35B004D28F2 /* Effects */,
 				D11ABAA2168DDB0A00CD29EA /* GameObject.cpp */,
 				D11ABAA3168DDB0A00CD29EA /* GameObject.h */,
-				51BADFE5170AD6410009E37A /* SelectedGameObjectDelegate.h */,
+				8BAA7C7D1792A9570022F98B /* GameObjectDelegate.h */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -3520,6 +3601,18 @@
 				D119515D1772374D00AED96F /* GIUnitSelectionMenu.cpp in Sources */,
 				D119516217723C9300AED96F /* MAXEditor.cpp in Sources */,
 				8B898AEF1773B08400BE327F /* GIAgreedTarget.cpp in Sources */,
+				8BAA7C7C1792A93F0022F98B /* MAXGameInputController.cpp in Sources */,
+				8BAA7CB91792A9CD0022F98B /* MAXMainMenuController.cpp in Sources */,
+				8BAA7CBA1792A9CD0022F98B /* ScreenEditorOptions.cpp in Sources */,
+				8BAA7CBB1792A9CD0022F98B /* ScreenHotSeatOptions.cpp in Sources */,
+				8BAA7CBC1792A9CD0022F98B /* ScreenInfoOptions.cpp in Sources */,
+				8BAA7CBD1792A9CD0022F98B /* ScreenMenu.cpp in Sources */,
+				8BAA7CBE1792A9CD0022F98B /* ScreenMenuElement.cpp in Sources */,
+				8BAA7CBF1792A9CD0022F98B /* ScreenNotSupported.cpp in Sources */,
+				8BAA7CC01792A9CD0022F98B /* ScreenProgressBar.cpp in Sources */,
+				8BAA7CC11792A9CD0022F98B /* ScreenScenarioList.cpp in Sources */,
+				8BAA7CC21792A9CD0022F98B /* ScreenScenarioSettings.cpp in Sources */,
+				8BAA7CC31792A9CD0022F98B /* ScreenSelectGameType.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

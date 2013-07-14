@@ -108,10 +108,9 @@ void GameInterface::InitBaseInterface()
     _panel->addChild(spr);
     
     float top = 280 + 111 + 35;
-    float scrollH = top;//?????;
     
-    CCSize sz = CCSize(panelW, scrollH);
-    if (scrollH >= getContentSize().height)
+    CCSize sz = CCSize(panelW, top);
+    if (top >= getContentSize().height)
         sz = CCSize(panelW, getContentSize().height);
     CCScrollView* scroll = CCScrollView::create(sz);
     scroll->setAnchorPoint(ccp(0, 0));
@@ -122,14 +121,14 @@ void GameInterface::InitBaseInterface()
     scroll->setClippingToBounds(false);
     scroll->setContentSize(CCSize(panelW, top));
     
-    if (scrollH <= getContentSize().height)
+    if (top <= getContentSize().height)
         scroll->setTouchEnabled(false);
     else
-        scroll->setContentOffset(ccp(0, getContentSize().height - scrollH));
+        scroll->setContentOffset(ccp(0, getContentSize().height - top));
     
     float currentElement = top;
     
-
+    currentElement -= 30;
 	_buttonOptions = createMenuItemFromMaxres("Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_OF", "AMMO_ON", this, menu_selector(GameInterface::OnOptions));
     _buttonOptions->setPosition(ccp(bx,currentElement));
     CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 0));
