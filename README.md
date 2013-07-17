@@ -1,3 +1,3 @@
 # Join MAXNew development!
 
-![](http://airandspace.si.edu/blackwings/img_photo_lg/BW0056.jpg)
+![](http://www.nytstore.com/assets/images/513820(44-PA-370)_large.jpg)
