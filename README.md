@@ -1,3 +1,3 @@
 # Join MAXNew development!
 
-![](http://www.nytstore.com/assets/images/513820(44-PA-370)_large.jpg)
+![](https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT-pXUxrcBEGaexzXxoYY4v9zGX1tqSlfzEKw0PCnkkzjboP8Uf)
