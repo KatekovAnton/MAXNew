@@ -24,7 +24,7 @@
 #include "GIUnitSelectionMenu.h"
 #include "MAXGame.h"
 #include "MAXObjectConfig.h"
-
+#include "StringUtils.h"
 #include "SoundEngine.h"
 
 using namespace extension;
@@ -87,25 +87,55 @@ GameInterface::~GameInterface()
 
 void GameInterface::InitBaseInterface()
 {
+    _inited = false;
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
 	//end turn place
-	CCSprite* turnSprite = CCSprite::create("3blocks.png");
-    turnSprite->setAnchorPoint(ccp(0, 1));
-    turnSprite->setPosition(ccp(getContentSize().width - 209, getContentSize().height + 4));
-    addChild(turnSprite);
+//	CCSprite* turnSprite = CCSprite::create("3blocks.png");
+//    turnSprite->setAnchorPoint(ccp(0, 1));
+//    turnSprite->setPosition(ccp(getContentSize().width - 209, getContentSize().height + 4));
+//    addChild(turnSprite);
+    
+    ccColor4B colorBG; colorBG.a = 200; colorBG.r = 150; colorBG.g = 150; colorBG.b = 150;
+    CCLayerColor *turnLayer = CCLayerColor::create(colorBG, 208, 23);
+    turnLayer->setPosition(ccp(getContentSize().width - 208, getContentSize().height - 23));
+    addChild(turnLayer);
+    
+    CCLayerColor *turnLayer1 = CCLayerColor::create(CocosHelper::normalColor(), 95, 19);
+    turnLayer1->setPosition(ccp(getContentSize().width - 100, getContentSize().height - 19));
+    addChild(turnLayer1);
+    
+    
+    
+    {
+        _labelTurnNumber = CCLabelTTF::create("Turn 1", MAX_DEFAULT_FONT, 10);
+        _labelTurnNumber->setTag(BUTTON_LABEL_TAG);
+        _labelTurnNumber->setColor(MAX_COLOR_WHITE);
+        _labelTurnNumber->setPosition(ccp(getContentSize().width - 60, getContentSize().height - 9));
+        _labelTurnNumber->setAnchorPoint(ccp(0, 0.5));
+        addChild(_labelTurnNumber);
+    }
+    {
+        _layerPlayerColor = CCLayerColor::create(CocosHelper::normalColor(), 30, 15);
+        _layerPlayerColor->setPosition(ccp(getContentSize().width - 98, getContentSize().height - 17));
+        addChild(_layerPlayerColor);
+    }
+    //CCLayerColor *_layerPlayerColor;
     
 	//left panel
     _panel = CCNode::create();
-    _panel->setPosition(ccp(0, 0));
+    _panel->setPosition(ccp(- panelW + 3, 0));
     _panel->setAnchorPoint(ccp(0, 0));
     _panel->setContentSize(CCSize(panelW, getContentSize().height));
     this->addChild(_panel);
-    float bx = 7;
+    float bx = 0;
     
-    CCSprite* spr = CCSprite::create("panel.png");
-    spr->setAnchorPoint(ccp(0, 0));
-    spr->setPosition(ccp(panelW - spr->getContentSize().width, 0));
-    _panel->addChild(spr);
+//    CCSprite* spr = CCSprite::create("panel.png");
+//    spr->setAnchorPoint(ccp(0, 0));
+//    spr->setPosition(ccp(panelW - spr->getContentSize().width, 0));
+    CCLayerColor *c = CCLayerColor::create(CocosHelper::normalColor(), panelW, getContentSize().height);
+    c->setPosition(ccp(0, 0));
+    c->setAnchorPoint(ccp(0, 0));
+    _panel->addChild(c);
     
     float top = 280 + 111 + 35;
     
@@ -129,9 +159,10 @@ void GameInterface::InitBaseInterface()
     float currentElement = top;
     
     currentElement -= 30;
-	_buttonOptions = createMenuItemFromMaxres("Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_OF", "AMMO_ON", this, menu_selector(GameInterface::OnOptions));
+	_buttonOptions = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnOptions));
+    // createMenuItemFromMaxres("Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_OF", "AMMO_ON", this, menu_selector(GameInterface::OnOptions));
     _buttonOptions->setPosition(ccp(bx,currentElement));
-    CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 0));
+    //CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 0));
     CCMenu *menu = CCMenu::create(_buttonOptions, nullptr);
 	
 	currentElement -= 116;
@@ -140,62 +171,65 @@ void GameInterface::InitBaseInterface()
     scroll->addChild(_unitParameters);
     
     currentElement -= 30;
-    _toggleLockUnitsButton = createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
+    _toggleLockUnitsButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Unit lock", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleLockUnits));
+    //createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,currentElement));
 	menu->addChild(_toggleLockUnitsButton);
     
-	{
-		float Scale = CCDirector::sharedDirector()->getContentScaleFactor();
-        CCLabelTTF *label = CCLabelTTF::create("Lock\nunits", MAX_DEFAULT_FONT, 10);
-        label->setColor(MAX_COLOR_WHITE);
-        CCSize sz = label->getContentSize();
-        sz.height /= 2;
-        label->setPosition(ccp(_toggleLockUnitsButton->getContentSize().width + 1, -1));
-		sz.width *= Scale;
-        sz.height *= Scale;
-        label->setContentSize(sz);
-        label->setAnchorPoint(ccp(0, 0));
-        label->setScale(1.0/Scale);
-        _toggleLockUnitsButton->addChild(label);
-    }
+//	{
+//		float Scale = CCDirector::sharedDirector()->getContentScaleFactor();
+//        CCLabelTTF *label = CCLabelTTF::create("Lock\nunits", MAX_DEFAULT_FONT, 10);
+//        label->setColor(MAX_COLOR_WHITE);
+//        CCSize sz = label->getContentSize();
+//        sz.height /= 2;
+//        label->setPosition(ccp(_toggleLockUnitsButton->getContentSize().width + 1, -1));
+//		sz.width *= Scale;
+//        sz.height *= Scale;
+//        label->setContentSize(sz);
+//        label->setAnchorPoint(ccp(0, 0));
+//        label->setScale(1.0/Scale);
+//        _toggleLockUnitsButton->addChild(label);
+//    }
     
     currentElement -= 30;
-    _toggleGridButton = createMenuItemFromMaxres("Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
+    _toggleGridButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleGrid));
+    //createMenuItemFromMaxres("Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
     _toggleGridButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleGridButton);
     
     currentElement -= 30;
-    _toggleScanButton = createMenuItemFromMaxres("Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleScan));
+    _toggleScanButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleScan));
+    //createMenuItemFromMaxres("Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleScan));
     _toggleScanButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleScanButton);
     
     currentElement -= 30;
-    _toggleRangeButton = createMenuItemFromMaxres("Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleRange));
+    _toggleRangeButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleRange));
+    //createMenuItemFromMaxres("Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleRange));
     _toggleRangeButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleRangeButton);
     
     currentElement -= 30;
-    _toggleShotsButton = createMenuItemFromMaxres("Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleShots));
+    _toggleShotsButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleShots));
+    //createMenuItemFromMaxres("Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleShots));
     _toggleShotsButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleShotsButton);
     
     currentElement -= 30;
-    _toggleStatusButton = createMenuItemFromMaxres("Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
+    _toggleStatusButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleStatus));
+    //createMenuItemFromMaxres("Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
     _toggleStatusButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleStatusButton);
     
     currentElement -= 30;
-    _toggleResourcesButton = createMenuItemFromMaxres("Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleResources));
+    _toggleResourcesButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleResources));
+    //createMenuItemFromMaxres("Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleResources));
     _toggleResourcesButton->setPosition(ccp(bx,currentElement));
     menu->addChild(_toggleResourcesButton);
     
     currentElement -= 30;
-    _toggleFogButton = createMenuItemFromMaxres("Fog", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleFog));
-    _toggleFogButton->setPosition(ccp(bx,currentElement));
-    menu->addChild(_toggleFogButton);
-    
-    currentElement -= 30;
-    _togglePathZone = createMenuItemFromMaxres("Path zone", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnTogglePathZone));
+    _togglePathZone = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Path zone", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnTogglePathZone));
+    //createMenuItemFromMaxres("Path zone", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnTogglePathZone));
     _togglePathZone->setPosition(ccp(bx,currentElement));
     CocosHelper::MoveNode(_togglePathZone->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 0));
     menu->addChild(_togglePathZone);
@@ -208,7 +242,7 @@ void GameInterface::InitBaseInterface()
     _panel->addChild(scroll);
     
     CCMenu* menutogglePanel = CCMenu::create();
-    menutogglePanel->setPosition(ccp(panelW - 4, getContentSize().height/2.0 - 20));
+    menutogglePanel->setPosition(ccp(panelW, getContentSize().height/2.0 - 20));
     menutogglePanel->setAnchorPoint(ccp(0.5, 0.5));
     
     _buttonTogglePanel = createMenuItemFromResources("", "", 10, ccc3(0, 0, 0), "left_button.png", "left_button_pressed.png", this, menu_selector(GameInterface::OnTogglePanel));
@@ -224,12 +258,12 @@ void GameInterface::InitBaseInterface()
     UpdateToggleShotsButton();
     UpdateToggleStatusButton();
     UpdateToggleResourcesButton();
-    UpdateToggleFogButton();
     UpdateTogglePathZone();
 
 
-    _buttonEndTurn = createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
-    CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(BUTTON_LABEL_TAG), ccp(-4, 1));
+    _buttonEndTurn = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnEndTurn));
+    //createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
+    CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 1));
     _buttonEndTurn->setPosition(ccp(0, 0));
     
     CCMenu *menuTurn = CCMenu::create(_buttonEndTurn, nullptr);
@@ -238,6 +272,21 @@ void GameInterface::InitBaseInterface()
     menuTurn->setTouchEnabled(true);
     addChild(menuTurn);
     
+    this->OnTogglePanel(_buttonTogglePanel);
+    _inited = true;
+}
+
+void GameInterface::SetNewTurnData(int turnNumber, Color playerColor)
+{
+    string str = "Turn ";
+    str = str + intToString(turnNumber);
+    _labelTurnNumber->setString(str.c_str());
+    ccColor4B color;
+    color.a = 255;
+    color.b = playerColor.b;
+    color.r = playerColor.r;
+    color.g = playerColor.g;
+    _layerPlayerColor->initWithColor(color, _layerPlayerColor->getContentSize().width, _layerPlayerColor->getContentSize().height);
 }
 
 void GameInterface::ShowUnitSpottedMessage(GameUnit* unit)
@@ -264,75 +313,75 @@ void GameInterface::SetLockedUnits(vector<GameUnit*> units)
 
 void GameInterface::UpdateToggleLockUnitsButton()
 {
-    if(_lockUnits)
-        _toggleLockUnitsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("LOCK_ON"));
-    else
-        _toggleLockUnitsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("LOCK_OF"));
+    _toggleLockUnitsButton->SetSelected(_lockUnits);
+//    if(_lockUnits)
+//        _toggleLockUnitsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("LOCK_ON"));
+//    else
+//        _toggleLockUnitsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("LOCK_OF"));
 }
 
 void GameInterface::UpdateToggleGridButton()
 {
-    if(_drawGrid)
-        _toggleGridButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
-    else
-        _toggleGridButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+//    if(_drawGrid)
+//        _toggleGridButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+//    else
+//        _toggleGridButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+    _toggleGridButton->SetSelected(_drawGrid);
     engine->drawGrid = _drawGrid;
 }
 
 void GameInterface::UpdateToggleScanButton()
 {
-    if(_drawScan)
-        _toggleScanButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
-    else
-        _toggleScanButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+    _toggleScanButton->SetSelected(_drawScan);
+//    if(_drawScan)
+//        _toggleScanButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+//    else
+//        _toggleScanButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateToggleRangeButton()
 {
-    if(_drawRange)
-        _toggleRangeButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
-    else
-        _toggleRangeButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+    _toggleRangeButton->SetSelected(_drawRange);
+//    if(_drawRange)
+//        _toggleRangeButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+//    else
+//        _toggleRangeButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateToggleShotsButton()
 {
-    if(_drawShots)
-        _toggleShotsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
-    else
-        _toggleShotsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+    _toggleShotsButton->SetSelected(_drawShots);
+//    if(_drawShots)
+//        _toggleShotsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+//    else
+//        _toggleShotsButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateToggleStatusButton()
 {
-    if(_drawStatus)
-        _toggleStatusButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
-    else
-        _toggleStatusButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+    _toggleStatusButton->SetSelected(_drawStatus);
+//    if(_drawStatus)
+//        _toggleStatusButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+//    else
+//        _toggleStatusButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateToggleResourcesButton()
 {
-    if(_drawResources)
-        _toggleResourcesButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
-    else
-        _toggleResourcesButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
-}
-
-void GameInterface::UpdateToggleFogButton()
-{
-    if(_drawFog)
-        _toggleFogButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
-    else
-        _toggleFogButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+    _toggleResourcesButton->SetSelected(_drawResources);
+//    if(_drawResources)
+//        _toggleResourcesButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+//    else
+//        _toggleResourcesButton->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
 }
 
 void GameInterface::UpdateTogglePathZone()
 {
-    if(_drawPathZone)
-        _togglePathZone->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
-    else
-        _togglePathZone->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
+    _togglePathZone->SetSelected(_drawPathZone);
+//    if(_drawPathZone)
+//        _togglePathZone->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_ON"));
+//    else
+//        _togglePathZone->setNormalImage(MAXSCL->CreateSpriteFromSimpleImage("AMMO_OF"));
     engine->drawPathZone = _drawPathZone;
 }
 
@@ -340,12 +389,13 @@ void GameInterface::UpdateTogglePathZone()
 
 void GameInterface::OnOptions(CCMenuItem* sender)
 {
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
 	_gameController->EndMatch();
 }
 
 void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
 {
-    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_SMALL);
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _lockUnits = !_lockUnits;
     if (!_lockUnits)
     {
@@ -410,14 +460,6 @@ void GameInterface::OnToggleResources(CCMenuItem* sender)
     UpdateToggleResourcesButton();
 }
 
-void GameInterface::OnToggleFog(CCMenuItem* sender)
-{
-    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
-    _drawFog = !_drawFog;
-    engine->drawFog = _drawFog;
-    UpdateToggleFogButton();
-}
-
 void GameInterface::OnTogglePathZone(CCMenuItem* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
@@ -429,7 +471,8 @@ void GameInterface::OnTogglePathZone(CCMenuItem* sender)
 
 void GameInterface::OnTogglePanel(CCMenuItem* sender)
 {
-    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+    if(_inited)
+        SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     const static int moveAnimationTag = 0;
     CCAction* currentAction = _panel->getActionByTag(moveAnimationTag);
     if (currentAction)

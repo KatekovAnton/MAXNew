@@ -310,6 +310,8 @@ void MAXGameController::StartMatch()
     game->SetLoadingProgress(1.0);
 	CCDirector::sharedDirector()->pushScene(_gameInterface);
 	engine->FinishLoading();
+    
+    _gameInterface->SetNewTurnData(_match->_currentTurn, _match->_currentPlayer_w->_playerData->_playerInfo._color);
 }
 
 bool MAXGameController::EndTurn()
@@ -328,6 +330,7 @@ bool MAXGameController::EndTurn()
     _gameInterface->ClearLockedUnits();
     
 	DeselectCurrentUnit(true);
+    _gameInterface->SetNewTurnData(_match->_currentTurn, _match->_currentPlayer_w->_playerData->_playerInfo._color);
     
     engine->SetZoom(_match->_currentPlayer_w->_playerData->cameraZoom);
     engine->SetCameraCenter(_match->_currentPlayer_w->_playerData->cameraPosition);

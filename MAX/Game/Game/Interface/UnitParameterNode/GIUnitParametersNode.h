@@ -24,7 +24,7 @@ class GIUnitParametersNode: public CCNode
 {
     
     vector<GIUnitParameterRow*> _rows;
-    CCSprite* statsFrame;
+    CCLayerColor* statsFrame;
     
 public:
     GIUnitParametersNode();

@@ -117,7 +117,7 @@ void MAXEngine::Init() {
     _renderSystem->GetDisplay()->setDesignResolutionSize(_renderSystem->GetDisplay()->GetDisplayWidth()/scale, _renderSystem->GetDisplay()->GetDisplayHeight()/scale, kResolutionNoBorder);
     _animationManager = new MAXAnimationManager();
     
-	_director->setDisplayStats(true);
+	_director->setDisplayStats(false);
     _director->setContentScaleFactor(_renderSystem->GetDisplay()->GetDisplayScale());
 	_grid = new MAXGrid();
     _unitSelection = new MAXUnitSelection();

@@ -20,7 +20,7 @@ const float _topStart = 100;
 
 GIUnitParametersNode::GIUnitParametersNode()
 {
-    statsFrame = CCSprite::create("statsFrame.png");
+    statsFrame = CCLayerColor::create(CocosHelper::normalColor(), 64, 110);
     statsFrame->setAnchorPoint(ccp(0, 0));
     statsFrame->setPosition(ccp(0, 0));
     addChild(statsFrame);

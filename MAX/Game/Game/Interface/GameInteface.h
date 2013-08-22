@@ -23,28 +23,32 @@ class GIUnitSelectionMenu;
 class GIUnitSelectionMenuDelegate;
 
 class MAXGameController;
+class CCMenuItemNodes;
 
 class GameInterface : public CCScene
 {
+    bool _inited;
     CCNode* _unitInterfaceBattle;
     
     GIUnitParametersNode* _unitParameters;
     
 	
-    CCMenuItemSprite* _buttonOptions;
+    CCMenuItemNodes* _buttonOptions;
 
-    CCMenuItemSprite* _toggleLockUnitsButton;
-    CCMenuItemSprite* _toggleGridButton;
-    CCMenuItemSprite* _toggleScanButton;
-    CCMenuItemSprite* _toggleRangeButton;
-    CCMenuItemSprite* _toggleShotsButton;
-    CCMenuItemSprite* _toggleStatusButton;
-    CCMenuItemSprite* _toggleResourcesButton;
-    CCMenuItemSprite* _toggleFogButton;
-    CCMenuItemSprite* _togglePathZone;
+    CCMenuItemNodes* _toggleLockUnitsButton;
+    CCMenuItemNodes* _toggleGridButton;
+    CCMenuItemNodes* _toggleScanButton;
+    CCMenuItemNodes* _toggleRangeButton;
+    CCMenuItemNodes* _toggleShotsButton;
+    CCMenuItemNodes* _toggleStatusButton;
+    CCMenuItemNodes* _toggleResourcesButton;
+    CCMenuItemNodes* _togglePathZone;
     CCNode* _panel;
     CCMenuItemSprite* _buttonTogglePanel;
-    CCMenuItemSprite* _buttonEndTurn;
+    CCMenuItemNodes* _buttonEndTurn;
+    
+    CCLabelTTF *_labelTurnNumber;
+    CCLayerColor *_layerPlayerColor;
     
     //locking units
     vector<GameUnit*> _lockedUnits;
@@ -67,7 +71,6 @@ class GameInterface : public CCScene
     void UpdateToggleShotsButton();
     void UpdateToggleStatusButton();
     void UpdateToggleResourcesButton();
-    void UpdateToggleFogButton();
     void UpdateTogglePathZone();
     
    
@@ -78,6 +81,9 @@ class GameInterface : public CCScene
 public:
 
 	MAXGameController *_gameController;
+    
+    
+    void SetNewTurnData(int turnNumber, Color playerColor);
     
     bool GetUnitMenuOpened() const {return _unitMenu != NULL;};
     bool GetSelectUnitMenuOpened() const {return _unitSelectionMenu != NULL;};
@@ -126,7 +132,6 @@ public:
     void OnToggleShots(CCMenuItem* sender);
     void OnToggleStatus(CCMenuItem* sender);
     void OnToggleResources(CCMenuItem* sender);
-    void OnToggleFog(CCMenuItem* sender);
     void OnTogglePathZone(CCMenuItem* sender);
 
     void OnTogglePanel(CCMenuItem* sender);

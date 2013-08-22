@@ -16,7 +16,7 @@ using namespace cocos2d;
 
 #define BUTTON_LABEL_TAG 11
 
-CCMenuItem* createMenuItemWithLayers(CCSize size, ccColor4B normalColor, ccColor4B selectedColor, string title, string fontName, int fontSize, ccColor3B titleColor, CCObject* target, SEL_MenuHandler selector)
+CCMenuItemNodes* createMenuItemWithLayers(CCSize size, ccColor4B normalColor, ccColor4B selectedColor, string title, string fontName, int fontSize, ccColor3B titleColor, CCObject* target, SEL_MenuHandler selector)
 {
 	CCLayerColor* layerN = CCLayerColor::create(normalColor, size.width, size.height);
 	CCLayerColor* layerS = CCLayerColor::create(selectedColor, size.width, size.height);
@@ -167,6 +167,7 @@ CCMenuItemNodes::~CCMenuItemNodes()
 
 bool CCMenuItemNodes::initWithTarget(CCNode *normal, CCNode *selected, CCObject *rec, SEL_MenuHandler selector)
 {
+    _isSelected = false;
 	this->CCMenuItem::initWithTarget(rec, selector);
 	if (normal)
 	{
@@ -193,9 +194,9 @@ bool CCMenuItemNodes::initWithTarget(CCNode *normal, CCNode *selected, CCObject 
 void CCMenuItemNodes::updateNodes()
 {
 	if (_nodeNormal)
-		_nodeNormal->setVisible(!this->m_bIsSelected);
+		_nodeNormal->setVisible((!this->m_bIsSelected) || _isSelected);
 	if (_nodeSelected)
-		_nodeSelected->setVisible(this->m_bIsSelected);
+		_nodeSelected->setVisible((this->m_bIsSelected) || _isSelected);
 }
 
 void CCMenuItemNodes::selected()
@@ -208,6 +209,12 @@ void CCMenuItemNodes::unselected()
 {
 	this->CCMenuItem::unselected();
 	updateNodes();
+}
+
+void CCMenuItemNodes::SetSelected(bool flag)
+{
+    _isSelected = flag;
+    updateNodes();
 }
 
 CCMenuItemNodes* CCMenuItemNodes::create(CCNode *normal, CCNode *selected, CCObject *rec, SEL_MenuHandler selector)

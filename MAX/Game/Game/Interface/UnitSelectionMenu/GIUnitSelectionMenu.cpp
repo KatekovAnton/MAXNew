@@ -54,8 +54,11 @@ CCMenuItem *GIUnitSelectionMenu::CreateMenuItemWithUnit(GameUnit *unit, int inde
     transparent.g = 0;
     transparent.b = 0;
     
-    CCSprite* _onSprite = CCSprite::create("selectUnitMenuBG.png");// MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
-    CCSprite* _ofSprite = CCSprite::create("selectUnitMenuBG.png");//MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
+    //CCSprite* _onSprite = CCSprite::create("selectUnitMenuBG.png");// MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
+    //CCSprite* _ofSprite = CCSprite::create("selectUnitMenuBG.png");//MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
+    
+    CCLayerColor *_onSprite = CCLayerColor::create(CocosHelper::selectedColor(), 64, 62);
+    CCLayerColor *_ofSprite = CCLayerColor::create(CocosHelper::normalColor(), 64, 62);
     
 	SEL_MenuHandler selector =  menu_selector(GIUnitSelectionMenu::OnButton);
 	CCMenuItemSprite* spr = CCMenuItemSprite::create(_ofSprite, _onSprite, this, selector);
