@@ -128,23 +128,29 @@ void GameInterface::InitBaseInterface()
     _panel->setContentSize(CCSize(panelW, getContentSize().height));
     this->addChild(_panel);
     float bx = 0;
+    float bh = 29;
+    float bd = 1;
     
 //    CCSprite* spr = CCSprite::create("panel.png");
 //    spr->setAnchorPoint(ccp(0, 0));
 //    spr->setPosition(ccp(panelW - spr->getContentSize().width, 0));
-    CCLayerColor *c = CCLayerColor::create(CocosHelper::normalColor(), panelW, getContentSize().height);
-    c->setPosition(ccp(0, 0));
-    c->setAnchorPoint(ccp(0, 0));
-    _panel->addChild(c);
-    
+    {
+        CCLayerColor *c = CCLayerColor::create(CocosHelper::normalColor(), panelW, getContentSize().height);
+        c->setPosition(ccp(0, 0));
+        c->setAnchorPoint(ccp(0, 0));
+        _panel->addChild(c);
+    }
     float top = 280 + 111 + 35;
+    float scrolly = 0;
     
     CCSize sz = CCSize(panelW, top);
     if (top >= getContentSize().height)
         sz = CCSize(panelW, getContentSize().height);
+    else
+        scrolly = getContentSize().height - top;
     CCScrollView* scroll = CCScrollView::create(sz);
     scroll->setAnchorPoint(ccp(0, 0));
-    scroll->setPosition(ccp(0, 0));
+    scroll->setPosition(ccp(0, scrolly));
     scroll->setBounceable(true);
     scroll->setDirection(CCScrollViewDirection::kCCScrollViewDirectionVertical);
     scroll->setTouchEnabled(true);
@@ -158,22 +164,23 @@ void GameInterface::InitBaseInterface()
     
     float currentElement = top;
     
-    currentElement -= 30;
-	_buttonOptions = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnOptions));
+    currentElement -= bh + bd;
+	_buttonOptions = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnOptions));
     // createMenuItemFromMaxres("Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_OF", "AMMO_ON", this, menu_selector(GameInterface::OnOptions));
     _buttonOptions->setPosition(ccp(bx,currentElement));
-    //CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 0));
+    CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     CCMenu *menu = CCMenu::create(_buttonOptions, nullptr);
 	
-	currentElement -= 116;
+	currentElement -= 112;
     _unitParameters = GIUnitParametersNode::create();
     _unitParameters->setPosition(ccp(1, currentElement));
     scroll->addChild(_unitParameters);
     
-    currentElement -= 30;
-    _toggleLockUnitsButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Unit lock", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleLockUnits));
+    currentElement -= bh + bd + 2;
+    _toggleLockUnitsButton = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Unit lock", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleLockUnits));
     //createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,currentElement));
+    CocosHelper::MoveNode(_toggleLockUnitsButton->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
 	menu->addChild(_toggleLockUnitsButton);
     
 //	{
@@ -191,47 +198,53 @@ void GameInterface::InitBaseInterface()
 //        _toggleLockUnitsButton->addChild(label);
 //    }
     
-    currentElement -= 30;
-    _toggleGridButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleGrid));
+    currentElement -= bh + bd;
+    _toggleGridButton = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleGrid));
     //createMenuItemFromMaxres("Grid", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleGrid));
     _toggleGridButton->setPosition(ccp(bx,currentElement));
+    CocosHelper::MoveNode(_toggleGridButton->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     menu->addChild(_toggleGridButton);
     
-    currentElement -= 30;
-    _toggleScanButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleScan));
+    currentElement -= bh + bd;
+    _toggleScanButton = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleScan));
     //createMenuItemFromMaxres("Scan", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleScan));
     _toggleScanButton->setPosition(ccp(bx,currentElement));
+    CocosHelper::MoveNode(_toggleScanButton->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     menu->addChild(_toggleScanButton);
     
-    currentElement -= 30;
-    _toggleRangeButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleRange));
+    currentElement -= bh + bd;
+    _toggleRangeButton = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleRange));
     //createMenuItemFromMaxres("Range", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleRange));
     _toggleRangeButton->setPosition(ccp(bx,currentElement));
+    CocosHelper::MoveNode(_toggleRangeButton->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     menu->addChild(_toggleRangeButton);
     
-    currentElement -= 30;
-    _toggleShotsButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleShots));
+    currentElement -= bh + bd;
+    _toggleShotsButton = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleShots));
     //createMenuItemFromMaxres("Shots", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleShots));
     _toggleShotsButton->setPosition(ccp(bx,currentElement));
+    CocosHelper::MoveNode(_toggleShotsButton->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     menu->addChild(_toggleShotsButton);
     
-    currentElement -= 30;
-    _toggleStatusButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleStatus));
+    currentElement -= bh + bd;
+    _toggleStatusButton = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleStatus));
     //createMenuItemFromMaxres("Status", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleStatus));
     _toggleStatusButton->setPosition(ccp(bx,currentElement));
+    CocosHelper::MoveNode(_toggleStatusButton->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     menu->addChild(_toggleStatusButton);
     
-    currentElement -= 30;
-    _toggleResourcesButton = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleResources));
+    currentElement -= bh + bd;
+    _toggleResourcesButton = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleResources));
     //createMenuItemFromMaxres("Surv", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnToggleResources));
     _toggleResourcesButton->setPosition(ccp(bx,currentElement));
+    CocosHelper::MoveNode(_toggleResourcesButton->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     menu->addChild(_toggleResourcesButton);
     
-    currentElement -= 30;
-    _togglePathZone = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Path zone", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnTogglePathZone));
+    currentElement -= bh + bd;
+    _togglePathZone = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Path zone", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnTogglePathZone));
     //createMenuItemFromMaxres("Path zone", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_ON", "AMMO_OF", this, menu_selector(GameInterface::OnTogglePathZone));
     _togglePathZone->setPosition(ccp(bx,currentElement));
-    CocosHelper::MoveNode(_togglePathZone->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 0));
+    CocosHelper::MoveNode(_togglePathZone->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 5));
     menu->addChild(_togglePathZone);
     
     
@@ -245,12 +258,25 @@ void GameInterface::InitBaseInterface()
     menutogglePanel->setPosition(ccp(panelW, getContentSize().height/2.0 - 20));
     menutogglePanel->setAnchorPoint(ccp(0.5, 0.5));
     
-    _buttonTogglePanel = createMenuItemFromResources("", "", 10, ccc3(0, 0, 0), "left_button.png", "left_button_pressed.png", this, menu_selector(GameInterface::OnTogglePanel));
+    _buttonTogglePanel = createMenuItemFromResources("", "", 10, ccc3(0, 0, 0), "close_btn_bg.png", "close_btn_bg.png", this, menu_selector(GameInterface::OnTogglePanel));
+    {
+        CCSprite *spr = CCSprite::create("close_btn_close.png");
+        spr->setPosition(ccp(_buttonTogglePanel->getContentSize().width/2, _buttonTogglePanel->getContentSize().height/2));
+        _buttonTogglePanel->addChild(spr);
+    }
     menutogglePanel->setContentSize(_buttonTogglePanel->getContentSize());
     _buttonTogglePanel->setPosition(ccp(_buttonTogglePanel->getContentSize().width/2, _buttonTogglePanel->getContentSize().height/2));
     _buttonTogglePanel->setAnchorPoint(ccp(0.5, 0.5));
     menutogglePanel->addChild(_buttonTogglePanel);
     _panel->addChild(menutogglePanel);
+    
+//    {
+//        ccColor4B normal; normal.a = 255; normal.r = 0; normal.g = 0; normal.b = 0;
+//        CCLayerColor *c = CCLayerColor::create(normal, 1, getContentSize().height);
+//        c->setPosition(ccp(panelW - 1, 0));
+//        c->setAnchorPoint(ccp(0, 0));
+//        _panel->addChild(c);
+//    }
     
     UpdateToggleGridButton();
     UpdateToggleScanButton();
@@ -480,7 +506,7 @@ void GameInterface::OnTogglePanel(CCMenuItem* sender)
     
     CCPoint location = _panel->getPosition();
     bool willMoveToRight = location.x <= -0.5;
-    float originX = willMoveToRight ? 0.0 : - panelW + 3;
+    float originX = willMoveToRight ? 0.0 : - panelW;
     CCMoveTo* move = CCMoveTo::create(interfaceAnimationTime, ccp(originX, 0));
     move->setTag(moveAnimationTag);
     CCEaseInOut* action = CCEaseInOut::create(move, 2.0);
@@ -488,20 +514,20 @@ void GameInterface::OnTogglePanel(CCMenuItem* sender)
     _panel->runAction(action);
     
     
-    CCSprite* newSimple = NULL;
-    CCSprite* newSelected = NULL;
-    if (willMoveToRight)
-    {
-        newSimple = CCSprite::create("left_button.png");
-        newSelected = CCSprite::create("left_button_pressed.png");
-    }
-    else
-    {
-        newSimple = CCSprite::create("right_button.png");
-        newSelected = CCSprite::create("right_button_pressed.png");
-    }
-    _buttonTogglePanel->setNormalImage(newSimple);
-    _buttonTogglePanel->setSelectedImage(newSelected);
+//    CCSprite* newSimple = NULL;
+//    CCSprite* newSelected = NULL;
+//    if (willMoveToRight)
+//    {
+//        newSimple = CCSprite::create("left_button.png");
+//        newSelected = CCSprite::create("left_button_pressed.png");
+//    }
+//    else
+//    {
+//        newSimple = CCSprite::create("right_button.png");
+//        newSelected = CCSprite::create("right_button_pressed.png");
+//    }
+//    _buttonTogglePanel->setNormalImage(newSimple);
+//    _buttonTogglePanel->setSelectedImage(newSelected);
 }
 
 CCPoint GameInterface::GetCenter()

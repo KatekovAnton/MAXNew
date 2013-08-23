@@ -20,7 +20,7 @@ const float _topStart = 100;
 
 GIUnitParametersNode::GIUnitParametersNode()
 {
-    statsFrame = CCLayerColor::create(CocosHelper::normalColor(), 64, 110);
+    statsFrame = CCLayerColor::create(CocosHelper::normalColor(), 66, 109);
     statsFrame->setAnchorPoint(ccp(0, 0));
     statsFrame->setPosition(ccp(0, 0));
     addChild(statsFrame);
@@ -70,7 +70,7 @@ GIUnitParametersNode* GIUnitParametersNode::create()
     result->autorelease();
     
     
-    result->setContentSize(ccz(64, 111));
+    result->setContentSize(ccz(68, 110));
     result->setAnchorPoint(ccp(0, 0));
     
     return result;
