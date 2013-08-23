@@ -56,7 +56,7 @@ public:
     GameMatchPlayerData(GameMatchPlayerInfo playerInfo, GameMatch *match);
     ~GameMatchPlayerData();
     
-    bool CanSeeUnit(GameUnitData* unit);
+    virtual bool CanSeeUnit(GameUnitData* unit);
     bool UnitShouldUpdateFog(const GameUnitData *unit, const GameFog *fog) const;
     bool UnitCoveredByFog(const GameUnitData *unit, const GameFog *fog) const;
     

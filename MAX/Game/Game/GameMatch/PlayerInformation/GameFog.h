@@ -48,6 +48,8 @@ public:
     GameFogDelegate *_delegate_w;
     FOG_TYPE type;
     
+    void IncreaseAll();
+    
     bool IsInTouchZone(GameUnitData *unit) const;
     int GetValue(const CCPoint &point) const;
     

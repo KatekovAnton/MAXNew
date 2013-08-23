@@ -127,6 +127,19 @@ void GameFog::EndUpdates()
     }
 }
 
+void GameFog::IncreaseAll()
+{
+    for (int x = 0; x <= _mapWidth - 1; x++)
+    {
+        for (int y = 0; y <= _mapHeight - 1; y++)
+        {
+            int idx = IndexOf(x, y);
+            _gameField[idx] = _gameField[idx] + 1;
+            _delegate_w->CellDidUpdate(x, y, this, true);
+        }
+    }
+}
+
 void GameFog::UpdateOnUnitDidStartMove(GameUnitData* unit)
 {
     BeginUpdates();

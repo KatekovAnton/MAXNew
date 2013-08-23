@@ -12,6 +12,7 @@
 #include "miniPrefix.h"
 #include "GameInterfacePrefix.h"
 #include "CocosHelper.h"
+#include "SoundEngine.h"
 
 #define BUTTON_UNIT_MENU_ACTION_ACTIVATE    "ACTVT"
 #define BUTTON_UNIT_MENU_ACTION_ALLOCATE    "ALLOC"
@@ -147,7 +148,7 @@ string titleForType(UNIT_MENU_ACTION action)
             baseName = "Build";
             break;
         case UNIT_MENU_ACTION_BUYUPGRADES:
-            baseName = "Buy upgrades";
+            baseName = "Buy upgrds";
             break;
         case UNIT_MENU_ACTION_CLEAR:
             baseName = "Clear";
@@ -208,6 +209,12 @@ string titleForType(UNIT_MENU_ACTION action)
             break;
 		case UNIT_MENU_ACTION_INFO:
 			baseName = "Info";
+			break;
+        case UNIT_MENU_ACTION_PLACEMINES:
+            baseName = "Pl mines";
+            break;
+		case UNIT_MENU_ACTION_REMOVEMINES:
+			baseName = "Rm mines";
 			break;
             
         default:
@@ -362,6 +369,7 @@ CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type)
 
 void GIUnitActionMenu::OnButton(CCObject* sender)
 {
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
 	UNIT_MENU_ACTION action = (UNIT_MENU_ACTION)((CCMenuItem*)sender)->getTag();
     _delegate_w->OnUnitMenuItemSelected(action);
 }

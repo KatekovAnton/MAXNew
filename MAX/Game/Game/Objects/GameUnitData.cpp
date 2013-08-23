@@ -171,6 +171,10 @@ vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
         }
     }
     
+    if (config->_isBombMinelayer) {
+        result.push_back(UNIT_MENU_ACTION_PLACEMINES);
+        result.push_back(UNIT_MENU_ACTION_REMOVEMINES);
+    }
         
     if (config->_bSelfCreatorType != 0 && !ContainsCurrentTask())
 	{

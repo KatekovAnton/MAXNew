@@ -12,6 +12,8 @@
 		5127D6101702C3FB00486F12 /* Pathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D60E1702C3FB00486F12 /* Pathfinder.cpp */; };
 		5127D6131702C42B00486F12 /* PFWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6111702C42B00486F12 /* PFWave.cpp */; };
 		5127D6191702C46C00486F12 /* PFWaveCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5127D6171702C46800486F12 /* PFWaveCell.cpp */; };
+		8B0D87F517C80E4B00751BA9 /* GameEditorSuperPlayerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D87F317C80E4B00751BA9 /* GameEditorSuperPlayerData.cpp */; };
+		8B0D87F717C8110300751BA9 /* MapList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8B0D87F617C8110300751BA9 /* MapList.txt */; };
 		8B20D89A17594B500058890D /* GUTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89817594B500058890D /* GUTask.cpp */; };
 		8B20D89D175952590058890D /* GUConstructBuildingTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89B175952590058890D /* GUConstructBuildingTask.cpp */; };
 		8B20D8A0175952700058890D /* GUConstructUnitTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B20D89E175952700058890D /* GUConstructUnitTask.cpp */; };
@@ -685,6 +687,9 @@
 		5127D6121702C42B00486F12 /* PFWave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWave.h; path = Pathfinder/PFWave.h; sourceTree = "<group>"; };
 		5127D6171702C46800486F12 /* PFWaveCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PFWaveCell.cpp; path = Pathfinder/PFWaveCell.cpp; sourceTree = "<group>"; };
 		5127D6181702C46900486F12 /* PFWaveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PFWaveCell.h; path = Pathfinder/PFWaveCell.h; sourceTree = "<group>"; };
+		8B0D87F317C80E4B00751BA9 /* GameEditorSuperPlayerData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEditorSuperPlayerData.cpp; sourceTree = "<group>"; };
+		8B0D87F417C80E4B00751BA9 /* GameEditorSuperPlayerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEditorSuperPlayerData.h; sourceTree = "<group>"; };
+		8B0D87F617C8110300751BA9 /* MapList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MapList.txt; sourceTree = "<group>"; };
 		8B20D89817594B500058890D /* GUTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUTask.cpp; sourceTree = "<group>"; };
 		8B20D89917594B500058890D /* GUTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUTask.h; sourceTree = "<group>"; };
 		8B20D89B175952590058890D /* GUConstructBuildingTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUConstructBuildingTask.cpp; sourceTree = "<group>"; };
@@ -1945,6 +1950,8 @@
 				8BFA4EEC176259D5001A7D00 /* GameMatchPlayerData.cpp */,
 				8BFA4EED176259D5001A7D00 /* GameMatchPlayerData.h */,
 				8BFA4EEF1762858E001A7D00 /* GameMatchPlayerDataDelegate.h */,
+				8B0D87F317C80E4B00751BA9 /* GameEditorSuperPlayerData.cpp */,
+				8B0D87F417C80E4B00751BA9 /* GameEditorSuperPlayerData.h */,
 				D1E62CD816CBDDA2006D55E1 /* GameMap.cpp */,
 				D1E62CD916CBDDA2006D55E1 /* GameMap.h */,
 				5127D6041700977200486F12 /* GameMapResources.cpp */,
@@ -2120,6 +2127,7 @@
 				D16D48F6168B381D0055F35D /* Snow_4.wrl */,
 				D16D48F7168B381D0055F35D /* Snow_5.wrl */,
 				D16D48F8168B381D0055F35D /* Snow_6.wrl */,
+				8B0D87F617C8110300751BA9 /* MapList.txt */,
 			);
 			path = Maps;
 			sourceTree = "<group>";
@@ -3478,6 +3486,7 @@
 				D1A95DED173AD3EA0068F53F /* truckmve.wav in Resources */,
 				D1A95DEE173AD3EA0068F53F /* truckstp.wav in Resources */,
 				D16623BB175CEC4400044666 /* glk.png in Resources */,
+				8B0D87F717C8110300751BA9 /* MapList.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3613,6 +3622,7 @@
 				8BAA7CC11792A9CD0022F98B /* ScreenScenarioList.cpp in Sources */,
 				8BAA7CC21792A9CD0022F98B /* ScreenScenarioSettings.cpp in Sources */,
 				8BAA7CC31792A9CD0022F98B /* ScreenSelectGameType.cpp in Sources */,
+				8B0D87F517C80E4B00751BA9 /* GameEditorSuperPlayerData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
