@@ -126,7 +126,7 @@ bool GameMatchPlayerData::UnitShouldUpdateFog(const GameUnitData *unit, const Ga
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = (unit->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SCAN) > 0);
+            result = (unit->GetMaxParameterValue(UNIT_PARAMETER_TYPE_SCAN) > 0);//true to allow units with 0 scan see its own cells
             break;
         case FOG_TYPE_RESOURCES:
             result = unit->GetIsSurvivor();

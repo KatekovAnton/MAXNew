@@ -35,7 +35,7 @@ float panelW = 70;
 
 bool GameInterface::ShouldReceiveTouch(int x, int y)
 {
-    float currentPanelW = _panel->getPosition().x + panelW + 12;
+    float currentPanelW = _panel->getPosition().x + panelW + 25;
     CCRect r = CCRect(0, 0, currentPanelW, this->getContentSize().height);
     bool result = r.containsPoint(CCPoint(x, y));
     
@@ -140,7 +140,7 @@ void GameInterface::InitBaseInterface()
         c->setAnchorPoint(ccp(0, 0));
         _panel->addChild(c);
     }
-    float top = 280 + 111 + 35;
+    float top = 280 + 111;
     float scrolly = 0;
     
     CCSize sz = CCSize(panelW, top);

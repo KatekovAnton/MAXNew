@@ -157,6 +157,7 @@ void MAXGameController::StartMatch()
 
     _match->_holdAutofire = true;
     {
+        _match->_players[0]->CreateUnit(55, 37, "Road", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(56, 56, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(60, 53, "Constructor", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(45, 47, "Corvette", 0)->PlaceUnitOnMap();
