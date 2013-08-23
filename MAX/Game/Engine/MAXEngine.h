@@ -70,6 +70,8 @@ class MAXEngine : public RequestDelegate  {
     
 public:
     
+    unsigned int _lastTexture;
+    
     MAXResourceMapRenderer  *_resourceRenderer;
     MAXSolidTileRenderer    *_fogRenderer;
 	MAXSolidTileRenderer    *_pathZoneRenderer;

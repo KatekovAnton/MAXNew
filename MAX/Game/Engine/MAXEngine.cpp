@@ -45,7 +45,7 @@ MAXEngine globalEngine;
 MAXEngine * engine = &globalEngine;
 
 MAXEngine::MAXEngine()
-	:_delegate(NULL), _applyedPaletteIndex(-100), _applyedPaletteCount(0), _map(NULL)
+	:_delegate(NULL), _applyedPaletteIndex(-100), _applyedPaletteCount(0), _map(NULL), _lastTexture(0)
 {
     _renderSystem = new RenderSystem();
     _first = true;
@@ -616,6 +616,8 @@ void MAXEngine::DrawInterface()
     glActiveTexture(GL_TEXTURE0);
 
     _director->mainLoop();
+    
+    
 }
 
 void MAXEngine::EndFrame()

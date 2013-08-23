@@ -236,8 +236,8 @@ void dropProgram()
 {
     s_uCurrentShaderProgram = -1;
     s_eCurrentActiveTexture = 0;
-//    for (int i = 0; i < 16; i++)
-//        s_uCurrentBoundTexture[i] = -1;
+    for (int i = 0; i < kCCMaxActiveTexture; i++)
+        s_uCurrentBoundTexture[i] = (GLuint)-1;
 }
 
 NS_CC_END
