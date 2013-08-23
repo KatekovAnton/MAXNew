@@ -15,6 +15,7 @@
 #include "MAXEngine.h"
 #include "MAXObjectConfig.h"
 #include "MAXConfigManager.h"
+#include "USimpleContainer.h"
 
 #include "SoundEngine.h"
 
@@ -850,6 +851,9 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
         return false;
 	if (_unitData->GetUniteractable())
         return false;
+    if (_unitData->GetConfig()->_isBombMine) 
+        return (int)GetUnitCell().x == (int)target.x && (int)GetUnitCell().y == (int)target.y;
+    
     
     MAXUnitObject* _unitObject = GetUnitObject();
     if (!_unitData->GetConfig()->_isAbleToFire)
@@ -861,7 +865,7 @@ bool GameUnit::CanFire(const cocos2d::CCPoint &target)
         return false;
     
     CCPoint targetCenter = CCPoint((int)(target.x), (int)(target.y));
-    return (_unitData->IsInFireRadius(targetCenter) && _unitData->GetShotBalance() > 0);
+    return (_unitData->IsInFireRadius(targetCenter) && (_unitData->GetShotBalance() > 0));
 }
 
 GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target, int level)
@@ -942,7 +946,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
     PlayUnitSound(UNIT_SOUND_SHOT);
 
     GameEffect* effect = MakeWeaponAnimationEffect(targetCenter, level);
-    if (effect)
+    if (effect && !GetConfig()->_isBombMine)
     {
         effect->_delegate_w = this;
         if (effect->GetEffectType() != EFFECT_TYPE_BLAST)
@@ -1218,6 +1222,7 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
     else if (animation == _removeDelayAnim)
     {
         RemoveUnitFromMap();
+        _owner_w->_units.removeObject(this);
         delete this;
     }
     else // move

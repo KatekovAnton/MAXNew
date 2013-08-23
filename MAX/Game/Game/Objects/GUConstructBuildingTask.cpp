@@ -38,6 +38,7 @@ void GUConstructBuildingTask::AbortTask()
     {
         _constructionUnit_w->Destroy();
         _constructionUnit_w->RemoveUnitFromMap();
+        delete _constructionUnit_w;
         _constructionUnit_w = NULL;
     }
 }

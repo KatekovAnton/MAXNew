@@ -595,7 +595,7 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
     for (int i = 0; i < potentialAttackers.size(); i++) {
         GameUnit* cUnit = potentialAttackers[i];
         
-        if (!cUnit->_unitData->_detected[unit->_owner_w->_playerData->_playerInfo._playerId] && (cUnit->GetConfig()->_isStealthable || cUnit->GetConfig()->_isStealth || cUnit->GetConfig()->_isUnderwater)) 
+        if ((!cUnit->_unitData->_detected[unit->_owner_w->_playerData->_playerInfo._playerId] && (cUnit->GetConfig()->_isStealthable || cUnit->GetConfig()->_isStealth || cUnit->GetConfig()->_isUnderwater)) && !cUnit->GetConfig()->_isBombMine)
             continue;
         
 //        if (!cUnit->_unitData->_isOnSentry)
@@ -604,13 +604,13 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
         if (cUnit->_unitData->_disabledByInfiltrator)
             continue;
 
-        if (cUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO) == 0)
+        if (cUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO) == 0 && !cUnit->GetConfig()->_isBombMine)
             continue;
         
-        if (cUnit->_unitData->GetShotBalance() == 0)
+        if (cUnit->_unitData->GetShotBalance() == 0 && !cUnit->GetConfig()->_isBombMine)
             continue;
 
-        if (!cUnit->_owner_w->CanSeeUnit(unit))
+        if (!cUnit->_owner_w->CanSeeUnit(unit) && !cUnit->GetConfig()->_isBombMine)
             continue;
         
         attackers.push_back(cUnit);

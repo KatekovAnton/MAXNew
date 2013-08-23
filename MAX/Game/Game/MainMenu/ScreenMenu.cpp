@@ -454,9 +454,14 @@ void ScreenMenu::MoveNodeAtIndex(CCNode *node, int index, int fullNumber, bool o
 	
 	
 	CCWaitExtended *wait = new CCWaitExtended();
-	float delay = (fullNumber - 1 - index) * 0.1;
+    
+    float maxdelay = fullNumber == 1?0 : (fullNumber>4?0.35: 0.25);
+    float deltadelay = maxdelay / fullNumber;
+    
+	float delay = (maxdelay - (1 + index) * deltadelay);
 	if (!down)
-		delay = index * 0.1;
+		delay = index * deltadelay;
+    
 	wait->initWithDuration(delay, NULL, NULL);
 	wait->autorelease();
 

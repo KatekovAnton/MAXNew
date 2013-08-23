@@ -168,6 +168,7 @@ void MAXGameController::StartMatch()
 		_match->_players[0]->CreateUnit(45, 46, "Rokcr", 0)->PlaceUnitOnMap();
 		_match->_players[0]->CreateUnit(44, 42, "seaminelay", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(45, 42, "seamine", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(30, 34, "Scout", 0)->PlaceUnitOnMap();
 
 		_match->_players[0]->CreateUnit(45, 43, "Seatrans", 0)->PlaceUnitOnMap();
 	    _match->_players[0]->CreateUnit(78, 45, "pcan", 0)->PlaceUnitOnMap();
@@ -1039,7 +1040,9 @@ void MAXGameController::StartAttackSequence(GameUnit *agressor, GameUnit *target
     
     _currentFiringCell = point;
     agressor->Fire(point, reslevel);
-	
+	if (agressor->GetConfig()->_isBombMine) 
+        agressor->Destroy();
+    
 }
 
 void MAXGameController::StartMultipleAttackSequence(vector<GameUnit*> agressors, GameUnit *target, const CCPoint &point, bool singleFire)
@@ -1257,7 +1260,7 @@ void MAXGameController::MakePain()
                 _gameInterface->OnCurrentUnitDataChanged(_currentTargetUnit);
         }
     }
-	if (_currentFiringUnit->_unitData->GetShotBalance() == 0)
+	if (_currentFiringUnit->_unitData->GetShotBalance() == 0 || _currentFiringUnit->GetConfig()->_isBombMine)
 		_currentFiringUnits.erase(_currentFiringUnits.begin());
     
 	if (!stillAlive || _singleFire)

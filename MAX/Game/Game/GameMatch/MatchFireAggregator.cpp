@@ -90,6 +90,12 @@ void MatchFireAggregator::UnitDidEnterCell(GameUnit *unit, const CCPoint &cell)
 
 void MatchFireAggregator::UnitWillLeaveCell(GameUnit *unit, const CCPoint &cell)
 {
+    if (unit->GetConfig()->_isBombMine)
+    {
+        USimpleContainer<GameUnit*> *units = UnitsForCell((int)cell.x, (int)cell.y);
+        units->removeObject(unit);
+        return;
+    }
     if (!unit->GetConfig()->_isAbleToFire) 
         return;
     if (unit->_unitData->_isUnderConstruction)

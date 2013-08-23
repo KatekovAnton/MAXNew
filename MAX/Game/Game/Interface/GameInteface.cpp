@@ -261,7 +261,7 @@ void GameInterface::InitBaseInterface()
     _buttonTogglePanel = createMenuItemFromResources("", "", 10, ccc3(0, 0, 0), "close_btn_bg.png", "close_btn_bg.png", this, menu_selector(GameInterface::OnTogglePanel));
     {
         CCSprite *spr = CCSprite::create("close_btn_close.png");
-        spr->setPosition(ccp(_buttonTogglePanel->getContentSize().width/2, _buttonTogglePanel->getContentSize().height/2));
+        spr->setPosition(ccp(_buttonTogglePanel->getContentSize().width/2, _buttonTogglePanel->getContentSize().height/2 - 1));
         _buttonTogglePanel->addChild(spr);
     }
     menutogglePanel->setContentSize(_buttonTogglePanel->getContentSize());
