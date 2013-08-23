@@ -533,6 +533,9 @@ _soundEngineWaterName("")
             SetBalanceConfigValue(typeData[0], typeData[1]);
     }
     
+    if (_isBombMine)
+        _pFireType = 1;
+    
     
     
     _isPlane = _bLevel == OBJECT_LEVEL_AIR;

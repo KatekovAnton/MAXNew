@@ -167,6 +167,8 @@ void MAXGameController::StartMatch()
 		_match->_players[0]->CreateUnit(46, 45, "Seafuel", 0)->PlaceUnitOnMap();
 		_match->_players[0]->CreateUnit(45, 46, "Rokcr", 0)->PlaceUnitOnMap();
 		_match->_players[0]->CreateUnit(44, 42, "seaminelay", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(45, 42, "seamine", 0)->PlaceUnitOnMap();
+
 		_match->_players[0]->CreateUnit(45, 43, "Seatrans", 0)->PlaceUnitOnMap();
 	    _match->_players[0]->CreateUnit(78, 45, "pcan", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(57, 52, "Bomber", 0)->PlaceUnitOnMap();

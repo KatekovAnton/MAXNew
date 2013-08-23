@@ -190,6 +190,11 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
     UNIT_MOVETYPE tmt = (UNIT_MOVETYPE)target->GetConfig()->_bMoveType;
     MAXObjectConfig* agressorConfig = agressor->GetConfig();
 
+    if (agressorConfig->_isBombMine) {
+        int a = 0;
+        a++;
+    }
+    
     switch (tmt) {
         case UNIT_MOVETYPE_GROUND:
         case UNIT_MOVETYPE_GROUNDCOAST:
