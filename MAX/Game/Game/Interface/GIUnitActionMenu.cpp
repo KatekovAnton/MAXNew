@@ -135,79 +135,79 @@ string titleForType(UNIT_MENU_ACTION action)
     string baseName = "";
     switch (action) {
         case UNIT_MENU_ACTION_ACTIVATE:
-            baseName = "ACTIVATE";
+            baseName = "Activate";
             break;
         case UNIT_MENU_ACTION_ALLOCATE:
-            baseName = "ALLOCATE";
+            baseName = "Allocate";
             break;
         case UNIT_MENU_ACTION_ATTACK:
-            baseName = "ATTACK";
+            baseName = "Attack";
             break;
         case UNIT_MENU_ACTION_BUILD:
-            baseName = "BUILD";
+            baseName = "Build";
             break;
         case UNIT_MENU_ACTION_BUYUPGRADES:
-            baseName = "BUY UPG";
+            baseName = "Buy upgrades";
             break;
         case UNIT_MENU_ACTION_CLEAR:
-            baseName = "CLEAR";
+            baseName = "Clear";
             break;
         case UNIT_MENU_ACTION_DISABLE:
-            baseName = "DISABLE";
+            baseName = "Disable";
             break;
         case UNIT_MENU_ACTION_DONE:
-            baseName = "DONE";
+            baseName = "Done";
             break;
         case UNIT_MENU_ACTION_ENTER:
-            baseName = "ENTER";
+            baseName = "Enter";
             break;
         case UNIT_MENU_ACTION_FOLLOW:
             baseName = "FOLLOW";
             break;
         case UNIT_MENU_ACTION_LOAD:
-            baseName = "LOAD";
+            baseName = "Load";
             break;
         case UNIT_MENU_ACTION_PLACE:
-            baseName = "PLACE";
+            baseName = "Place";
             break;
         case UNIT_MENU_ACTION_REMOVE:
-            baseName = "REMOVE";
+            baseName = "Remove";
             break;
         case UNIT_MENU_ACTION_REPAIR:
-            baseName = "REPAIR";
+            baseName = "Repair";
             break;
         case UNIT_MENU_ACTION_RELOAD:
-            baseName = "RELOAD";
+            baseName = "Reload";
             break;
         case UNIT_MENU_ACTION_RESEARCH:
-            baseName = "RESRCH";
+            baseName = "Research";
             break;
         case UNIT_MENU_ACTION_SENTRY:
-            baseName = "SENTRY";
+            baseName = "Sentry";
             break;
         case UNIT_MENU_ACTION_START:
-            baseName = "START";
+            baseName = "Start";
             break;
         case UNIT_MENU_ACTION_STEAL:
-            baseName = "STEAL";
+            baseName = "Steal";
             break;
         case UNIT_MENU_ACTION_STOP:
-            baseName = "STOP";
+            baseName = "Stop";
             break;
         case UNIT_MENU_ACTION_UPGRADE:
-            baseName = "UPGRADE";
+            baseName = "Upgrade";
             break;
         case UNIT_MENU_ACTION_WAIT:
-            baseName = "WAIT";
+            baseName = "Wait";
             break;
         case UNIT_MENU_ACTION_XFER:
-            baseName = "X-FER";
+            baseName = "X-Fer";
             break;
         case UNIT_MENU_ACTION_XFORM:
-            baseName = "X-FORM";
+            baseName = "X-Form";
             break;
 		case UNIT_MENU_ACTION_INFO:
-			baseName = "INFO";
+			baseName = "Info";
 			break;
             
         default:
@@ -215,6 +215,92 @@ string titleForType(UNIT_MENU_ACTION action)
     }
     return baseName;
 }
+
+//string titleForType(UNIT_MENU_ACTION action)
+//{
+//    string baseName = "";
+//    switch (action) {
+//        case UNIT_MENU_ACTION_ACTIVATE:
+//            baseName = "ACTIVATE";
+//            break;
+//        case UNIT_MENU_ACTION_ALLOCATE:
+//            baseName = "ALLOCATE";
+//            break;
+//        case UNIT_MENU_ACTION_ATTACK:
+//            baseName = "ATTACK";
+//            break;
+//        case UNIT_MENU_ACTION_BUILD:
+//            baseName = "BUILD";
+//            break;
+//        case UNIT_MENU_ACTION_BUYUPGRADES:
+//            baseName = "BUY UPG";
+//            break;
+//        case UNIT_MENU_ACTION_CLEAR:
+//            baseName = "CLEAR";
+//            break;
+//        case UNIT_MENU_ACTION_DISABLE:
+//            baseName = "DISABLE";
+//            break;
+//        case UNIT_MENU_ACTION_DONE:
+//            baseName = "DONE";
+//            break;
+//        case UNIT_MENU_ACTION_ENTER:
+//            baseName = "ENTER";
+//            break;
+//        case UNIT_MENU_ACTION_FOLLOW:
+//            baseName = "FOLLOW";
+//            break;
+//        case UNIT_MENU_ACTION_LOAD:
+//            baseName = "LOAD";
+//            break;
+//        case UNIT_MENU_ACTION_PLACE:
+//            baseName = "PLACE";
+//            break;
+//        case UNIT_MENU_ACTION_REMOVE:
+//            baseName = "REMOVE";
+//            break;
+//        case UNIT_MENU_ACTION_REPAIR:
+//            baseName = "REPAIR";
+//            break;
+//        case UNIT_MENU_ACTION_RELOAD:
+//            baseName = "RELOAD";
+//            break;
+//        case UNIT_MENU_ACTION_RESEARCH:
+//            baseName = "RESRCH";
+//            break;
+//        case UNIT_MENU_ACTION_SENTRY:
+//            baseName = "SENTRY";
+//            break;
+//        case UNIT_MENU_ACTION_START:
+//            baseName = "START";
+//            break;
+//        case UNIT_MENU_ACTION_STEAL:
+//            baseName = "STEAL";
+//            break;
+//        case UNIT_MENU_ACTION_STOP:
+//            baseName = "STOP";
+//            break;
+//        case UNIT_MENU_ACTION_UPGRADE:
+//            baseName = "UPGRADE";
+//            break;
+//        case UNIT_MENU_ACTION_WAIT:
+//            baseName = "WAIT";
+//            break;
+//        case UNIT_MENU_ACTION_XFER:
+//            baseName = "X-FER";
+//            break;
+//        case UNIT_MENU_ACTION_XFORM:
+//            baseName = "X-FORM";
+//            break;
+//		case UNIT_MENU_ACTION_INFO:
+//			baseName = "INFO";
+//			break;
+//            
+//        default:
+//            break;
+//    }
+//    return baseName;
+//}
 
 GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons)
 {
@@ -250,8 +336,11 @@ CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type)
     transparent.g = 0;
     transparent.b = 0;
     
-    CCSprite* _onSprite = CCSprite::create("button_test_gr.png");// MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
-    CCSprite* _ofSprite = CCSprite::create("button_test.png");//MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
+//    CCSprite* _onSprite = CCSprite::create("button_test_gr.png");// MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
+//    CCSprite* _ofSprite = CCSprite::create("button_test.png");//MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
+    
+    CCLayerColor *_onSprite = CCLayerColor::create(CocosHelper::selectedColor(), 78, 25);
+    CCLayerColor *_ofSprite = CCLayerColor::create(CocosHelper::normalColor(), 78, 25);
     
     CCMenuItemSprite* spr = CCMenuItemSprite::create(_ofSprite, _onSprite, this, menu_selector(GIUnitActionMenu::OnButton));
     spr->setContentSize(CCSize(BUTTON_W, BUTTON_H));
@@ -259,9 +348,9 @@ CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type)
     spr->setTag(type);
     spr->setEnabled(true);
     
-    CCLabelTTF *label = CCLabelTTF::create(title.c_str(), MAX_DEFAULT_FONT, 12);
+    CCLabelTTF *label = CCLabelTTF::create(title.c_str(), MAX_DEFAULT_FONT, 10);
     label->setTag(BUTTON_LABEL_TAG);
-    label->setColor(MAX_COLOR_BROWN);
+    label->setColor(MAX_COLOR_WHITE);
     spr->addChild(label, 1);
     label->setContentSize(ccz(BUTTON_W, BUTTON_H));
     label->setPosition(ccp(13, 5));

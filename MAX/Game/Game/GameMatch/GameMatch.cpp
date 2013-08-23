@@ -216,7 +216,7 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
                     if (agressorConfig->_bMoveType == UNIT_MOVETYPE_AIR) 
                         return (agressorConfig->_pFireType == 4 || agressorConfig->_pFireType == 1);
                     if (agressorConfig->_bMoveType == UNIT_MOVETYPE_SEA)
-                        return agressorConfig->_pFireType == 2;
+                        return agressorConfig->_pFireType == 2 || agressorConfig->_isBombMine;
                 }
             }
             return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 4;
