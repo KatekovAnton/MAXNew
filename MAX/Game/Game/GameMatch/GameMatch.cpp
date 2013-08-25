@@ -386,7 +386,7 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
             default:
                 break;
         }
-        if (blastType != BLAST_TYPE_NONE) {
+        if (blastType != BLAST_TYPE_NONE && !unit->GetIsIdleDestroy()) {
             GameEffect* blast = GameEffect::CreateBlast(blastType, config->_bLevel + 1);
             blast->SetLocation(unit->GetUnitCell());
             blast->Show();
@@ -397,7 +397,7 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
             
             game->FlushEffectsWithNew(blast);
         }
-        if (sound != EXPLODE_SOUND_TYPE_NONE) {
+        if (sound != EXPLODE_SOUND_TYPE_NONE && !unit->GetIsIdleDestroy()) {
             SOUND->PlayExplodeSound(sound);
         }
         unit->RemoveWithDelay(delay);
@@ -521,6 +521,7 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 				units.push_back(units_->objectAtIndex(j));
 		}
 
+       
 		if (!unit->_unitData->_isUnderConstruction)
 		{
 			if (unit->GetConfig()->_isPlatform)
@@ -542,6 +543,9 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 					GameUnit *cunit = units[i];
 					if (cunit->GetConfig()->_isPlatform)
 						cunit->_unitData->SetIsUniteractable(true);
+                    if (cunit->GetConfig()->_isRoad && cunit != unit)
+                        cunit->Destroy(true);
+                    
 				}
 			}
 		}
@@ -588,36 +592,48 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
 {
     if (_holdAutofire) 
         return;
-	if (unit->_unitData->GetIsBuilding())
-		return;
-    vector<GameUnit*> potentialAttackers = _fireAgregator->UnitsForAttackingUnitInCell(point.x, point.y, unit);
-    vector<GameUnit*> attackers;
-    for (int i = 0; i < potentialAttackers.size(); i++) {
-        GameUnit* cUnit = potentialAttackers[i];
-        
-        if ((!cUnit->_unitData->_detected[unit->_owner_w->_playerData->_playerInfo._playerId] && (cUnit->GetConfig()->_isStealthable || cUnit->GetConfig()->_isStealth || cUnit->GetConfig()->_isUnderwater)) && !cUnit->GetConfig()->_isBombMine)
-            continue;
-        
-//        if (!cUnit->_unitData->_isOnSentry)
-//            continue;
-        
-        if (cUnit->_unitData->_disabledByInfiltrator)
-            continue;
-
-        if (cUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO) == 0 && !cUnit->GetConfig()->_isBombMine)
-            continue;
-        
-        if (cUnit->_unitData->GetShotBalance() == 0 && !cUnit->GetConfig()->_isBombMine)
-            continue;
-
-        if (!cUnit->_owner_w->CanSeeUnit(unit) && !cUnit->GetConfig()->_isBombMine)
-            continue;
-        
-        attackers.push_back(cUnit);
-    }
-    if (attackers.size() > 0) 
-		_gameController->StartMultipleAttackSequence(attackers, unit, point, false);
 	
+    vector<CCPoint> points;
+    points.push_back(point);
+    
+    if (unit->GetConfig()->_bSize > 1) {
+        points.push_back(ccp(point.x + 1, point.y));
+        points.push_back(ccp(point.x, point.y + 1));
+        points.push_back(ccp(point.x + 1, point.y + 1));
+    }
+    for (int i = 0; i < points.size(); i++)
+    {
+        CCPoint &currentPoint = points[i];
+        vector<GameUnit*> potentialAttackers = _fireAgregator->UnitsForAttackingUnitInCell(currentPoint.x, currentPoint.y, unit);
+        
+        vector<GameUnit*> attackers;
+        for (int i = 0; i < potentialAttackers.size(); i++)
+        {
+            GameUnit* cUnit = potentialAttackers[i];
+            
+            if ((!cUnit->_unitData->_detected[unit->_owner_w->_playerData->_playerInfo._playerId] && (cUnit->GetConfig()->_isStealthable || cUnit->GetConfig()->_isStealth || cUnit->GetConfig()->_isUnderwater)) && !cUnit->GetConfig()->_isBombMine)
+                continue;
+            
+            //        if (!cUnit->_unitData->_isOnSentry)
+            //            continue;
+            
+            if (cUnit->_unitData->_disabledByInfiltrator)
+                continue;
+            
+            if (cUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO) == 0 && !cUnit->GetConfig()->_isBombMine)
+                continue;
+            
+            if (cUnit->_unitData->GetShotBalance() == 0 && !cUnit->GetConfig()->_isBombMine)
+                continue;
+            
+            if (!cUnit->_owner_w->CanSeeUnit(unit) && !cUnit->GetConfig()->_isBombMine)
+                continue;
+            
+            attackers.push_back(cUnit);
+        }
+        if (attackers.size() > 0) 
+            _gameController->StartMultipleAttackSequence(attackers, unit, currentPoint, false);
+	}
 }
 
 void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, const bool visibleFlag, GameMatchPlayer* player)
@@ -698,7 +714,7 @@ bool GameMatch::GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjec
     cells.push_back(ccp(cell.x+1, cell.y+1));
     for (int i = 0; i < cells.size(); i++) {
         CCPoint cell1 = cells[i];
-        if (!UnitCanBePlacedToCell(cell1.x, cell1.y, (UNIT_MOVETYPE)buildingType->_bMoveType, constructor->_owner_w))
+        if (!UnitCanBePlacedToCell(cell1.x, cell1.y, (UNIT_MOVETYPE)buildingType->_bMoveType, constructor->_owner_w) || constructor->_owner_w->_agregator->IsBombMineInPosition(cell1.x, cell1.y))
             return false;
     }
     
@@ -723,7 +739,7 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
             else
             {
                 // try to quick move if possible to prevent detecting
-				bool escaped = _gameController->EscapeStealthUnitFromPos(unit, x, y, reasonPlayer, lockedCells);
+				bool escaped = escaped = _gameController->EscapeStealthUnitFromPos(unit, x, y, reasonPlayer, lockedCells);
                 if (!escaped)
                 {
                     result = true;

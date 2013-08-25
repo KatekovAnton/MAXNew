@@ -409,6 +409,7 @@ void MAXGameInputController::ProceedTap(float tapx, float tapy)
                     _selectedUnit_w->DestroyCheckIcon();
                     _selectedUnit_w->DestroyBuildingTape();
                     shouldDeselectUnit = false;
+                    break;
                 }
             }
             

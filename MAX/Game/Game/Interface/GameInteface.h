@@ -28,6 +28,8 @@ class CCMenuItemNodes;
 class GameInterface : public CCScene
 {
     bool _inited;
+    bool _firstTime;
+    
     CCNode* _unitInterfaceBattle;
     
     GIUnitParametersNode* _unitParameters;

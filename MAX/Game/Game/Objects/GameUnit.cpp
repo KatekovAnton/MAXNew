@@ -357,6 +357,14 @@ void GameUnit::RemoveUnitFromMap()
 void GameUnit::Destroy()
 {
     _destroyed = true;
+    _idleDestroy = false;
+    _delegate_w->GameUnitDidDestroy(this);
+	gameObjectDelegate->onUnitDestroyed(this);
+}
+
+void GameUnit::Destroy(bool isIdle)
+{
+    _idleDestroy = isIdle;
     _delegate_w->GameUnitDidDestroy(this);
 	gameObjectDelegate->onUnitDestroyed(this);
 }
@@ -1221,6 +1229,7 @@ void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
     }
     else if (animation == _removeDelayAnim)
     {
+        StopCurrentSound();
         RemoveUnitFromMap();
         _owner_w->_units.removeObject(this);
         delete this;

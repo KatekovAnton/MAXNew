@@ -158,6 +158,7 @@ void MAXGameController::StartMatch()
     _match->_holdAutofire = true;
     {
         _match->_players[0]->CreateUnit(55, 37, "Road", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(55, 37, "Engineer", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(56, 56, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(60, 53, "Constructor", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(45, 47, "Corvette", 0)->PlaceUnitOnMap();
@@ -292,7 +293,7 @@ void MAXGameController::StartMatch()
         _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(36, 53, "Inter", 0)->PlaceUnitOnMap();
         for (int i = 61; i < 69; i++)
-            _match->_players[1]->CreateUnit(i, 65, "landmine", 0)->PlaceUnitOnMap();
+            _match->_players[1]->CreateUnit(i, 56, "landmine", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(50, 47, "pcan", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(52, 48, "Infil", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(42, 42, "sub", 0)->PlaceUnitOnMap();
@@ -603,7 +604,8 @@ void MAXGameController::SelectLargeBuildingConstructionPlaceActionFinished(CCPoi
     }
     if (start)
         _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
-    
+    else
+        _currentUnit->AbortConstructingUnit();
     UpdateCurrentUnitPath();
     _gameInterface->HideUnitMenu();
 }

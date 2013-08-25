@@ -340,3 +340,19 @@ void MatchMapAgregator::FindAllConnectoredUnits(const int x, const int y, GameMa
             buffer->addObject(unit);
     }
 }
+
+bool MatchMapAgregator::IsBombMineInPosition(const int x, const int y)
+{
+    bool result = false;
+    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+    for (int i = 0; i < units->GetCount(); i++)
+    {
+        GameUnit* unit = units->objectAtIndex(i);
+        if (unit->GetConfig()->_isBombMine)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}

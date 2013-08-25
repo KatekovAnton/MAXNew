@@ -58,8 +58,11 @@ class GameUnit : public GameObject, public MAXAnimationDelegate, public MAXUnitO
     void SetUnitLocationAnimated(const CCPoint& destination);
     
     bool _destroyed;
+    bool _idleDestroy;
     
 public:
+    
+    bool GetIsIdleDestroy () {return _idleDestroy;};
     
     //just temporary flag
     bool _currentlyProcesedConstructor;
@@ -130,6 +133,7 @@ public:
     void RemoveUnitFromMap();
     
     void Destroy();
+    void Destroy(bool isIdle);
     
     bool CanMove() const;
     
