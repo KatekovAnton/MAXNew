@@ -24,11 +24,13 @@ class GIUnitSelectionMenuDelegate;
 
 class MAXGameController;
 class CCMenuItemNodes;
+class NodeHieraclyOpacity;
 
 class GameInterface : public CCScene
 {
     bool _inited;
     bool _firstTime;
+    NodeHieraclyOpacity *nodeHieraclyOpacity;
     
     CCNode* _unitInterfaceBattle;
     
@@ -45,7 +47,7 @@ class GameInterface : public CCScene
     CCMenuItemNodes* _toggleStatusButton;
     CCMenuItemNodes* _toggleResourcesButton;
     CCMenuItemNodes* _togglePathZone;
-    CCNode* _panel;
+    CCLayerColor* _panel;
     CCMenuItemSprite* _buttonTogglePanel;
     CCMenuItemNodes* _buttonEndTurn;
     
@@ -79,6 +81,7 @@ class GameInterface : public CCScene
     GIUnitActionMenu* _unitMenu;
     GIUnitSelectionMenu* _unitSelectionMenu;
     
+    bool _visible;
  
 public:
 
@@ -124,7 +127,10 @@ public:
     
     void ShowUnitSpottedMessage(GameUnit* unit);
 
+    void ToggleInterfaceVisibility(float visibleFlag);
+    
 #pragma mark - Button events
+    
     
 	void OnOptions(CCMenuItem* sender);
     void OnToggleLockUnits(CCMenuItem* sender);

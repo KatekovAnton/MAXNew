@@ -828,20 +828,32 @@ vector<CCPoint> GameUnit::GetFullNearbyCells()
 
 void GameUnit::DetectedByPlayer(unsigned int playerId)
 {
-    if (playerId < MAX_PLAYERS)//why?
+    if (_config_w->_isStealthable && !_unitData->_detected[playerId])
     {
-        if (_config_w->_isStealthable && !_unitData->_detected[playerId])
+        _unitData->_detected[playerId] = true;
+        _unitData->_detected[_owner_w->GetPlayerId()] = true;
+        if (GetMatch()->GetIsCurrentPlayer(playerId) ||
+            GetMatch()->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
         {
-            _unitData->_detected[playerId] = true;
-            _unitData->_detected[_owner_w->GetPlayerId()] = true;
-            if (GetMatch()->GetIsCurrentPlayer(playerId) ||
-                GetMatch()->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
-            {
-                GetUnitObject()->StealthDeactivated();
-                _delegate_w->GameUnitDidDetected(this);
-            }
-            if (_owner_w->GetIsCurrentPlayer() && _unitData->GetIsUnderwater() && _owner_w->GetPlayerId() != playerId)
-                SOUND->PlaySystemSound(SOUND_TYPE_SUBMARINE_DETECTED);
+            GetUnitObject()->StealthDeactivated();
+            _delegate_w->GameUnitDidDetected(this);
+        }
+        if (_owner_w->GetIsCurrentPlayer() && _unitData->GetIsUnderwater() && !_unitData->GetIsAmphibious() && _owner_w->GetPlayerId() != playerId)
+            SOUND->PlaySystemSound(SOUND_TYPE_SUBMARINE_DETECTED);
+    }
+}
+
+void GameUnit::UndetectedByPlayer(unsigned int playerId)
+{
+    if (_config_w->_isStealthable && _unitData->_detected[playerId])
+    {
+        _unitData->_detected[playerId] = false;
+        _unitData->_detected[_owner_w->GetPlayerId()] = false;
+        if (GetMatch()->GetIsCurrentPlayer(playerId) ||
+            GetMatch()->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
+        {
+            GetUnitObject()->StealthActivated();
+            _delegate_w->GameUnitDidUndetected(this);
         }
     }
 }

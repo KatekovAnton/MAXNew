@@ -324,7 +324,7 @@ typedef enum
     EXPLODE_SOUND_TYPE_NONE,
     EXPLODE_SOUND_TYPE_BLOCK,//block16.wav
     
-    EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT = 0,//explmed.wav explsmal.wav
+    EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT,//explmed.wav explsmal.wav
     EXPLODE_SOUND_TYPE_LAND_SMALL_BUILD,//bldexplg.wav expllrge.wav
     EXPLODE_SOUND_TYPE_LAND_LARGE_BUILD,//expllrge.wav  expbuld5.wav expbuld6.wav explbld1.wav explbld2.wav
     

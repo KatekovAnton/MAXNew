@@ -190,10 +190,6 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
     UNIT_MOVETYPE tmt = (UNIT_MOVETYPE)target->GetConfig()->_bMoveType;
     MAXObjectConfig* agressorConfig = agressor->GetConfig();
 
-    if (agressorConfig->_isBombMine) {
-        int a = 0;
-        a++;
-    }
     
     switch (tmt) {
         case UNIT_MOVETYPE_GROUND:
@@ -231,6 +227,8 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
                         return (agressor->GetConfig()->_pFireType == 6 || agressor->GetConfig()->_pFireType == 1 || agressorConfig->_pFireType == 4);
                     if (agressor->GetConfig()->_bMoveType == UNIT_MOVETYPE_SEA)
                         return agressor->GetConfig()->_pFireType == 2 || agressorConfig->_pFireType == 4;
+                    
+                    return false;
                 }
             }
             return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 4;
@@ -310,7 +308,8 @@ void GameMatch::UpdateConnectorsForUnit(GameUnit* unit)
 
 void GameMatch::GameUnitDidDestroy(GameUnit *unit)
 {
-    if (_currentPlayer_w->_playerData->fogs[FOG_TYPE_SCAN]->GetValue(unit->GetUnitCell()) > 0 && !unit->_unitData->_isUnderConstruction) {
+    if (_currentPlayer_w->_playerData->fogs[FOG_TYPE_SCAN]->GetValue(unit->GetUnitCell()) > 0 && !unit->_unitData->_isUnderConstruction)
+    {
         GROUND_TYPE type = _map->GroundTypeAtPoint(unit->GetUnitCell());
         BLAST_TYPE blastType = BLAST_TYPE_NONE;
         MAXObjectConfig* config = unit->GetConfig();
@@ -357,7 +356,8 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
         }
         
         double delay = 1;
-        switch (sound) {
+        switch (sound)
+        {
             case EXPLODE_SOUND_TYPE_LAND_SMALL_UNIT://explmed.wav explsmal.wav
             case EXPLODE_SOUND_TYPE_LAND_SMALL_BUILD://bldexplg.wav expllrge.wav
                 blastType = BLAST_TYPE_GROUND;
@@ -386,7 +386,8 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
             default:
                 break;
         }
-        if (blastType != BLAST_TYPE_NONE && !unit->GetIsIdleDestroy()) {
+        if (blastType != BLAST_TYPE_NONE && !unit->GetIsIdleDestroy())
+        {
             GameEffect* blast = GameEffect::CreateBlast(blastType, config->_bLevel + 1);
             blast->SetLocation(unit->GetUnitCell());
             blast->Show();
@@ -397,9 +398,9 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
             
             game->FlushEffectsWithNew(blast);
         }
-        if (sound != EXPLODE_SOUND_TYPE_NONE && !unit->GetIsIdleDestroy()) {
+        if (sound != EXPLODE_SOUND_TYPE_NONE && !unit->GetIsIdleDestroy()) 
             SOUND->PlayExplodeSound(sound);
-        }
+        
         unit->RemoveWithDelay(delay);
     }
 }
@@ -471,7 +472,9 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     for (int i = 0; i < _players.size(); i++)
     {
         GameMatchPlayer* player = _players[i];
-        if (player->CanSeeUnit(unit))
+        bool canSee = player->CanSeeUnit(unit);
+        //_detected
+        if (canSee)
         {
             player->_agregator->AddUnitToCell(unit, point.x, point.y);
             UpdateConnectorsForUnit(unit);
@@ -499,6 +502,12 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
             {
                 if (!unit->IsDetectedByPlayer(player->GetPlayerId()))
                     unit->DetectedByPlayer(player->GetPlayerId());
+            }
+            else if (unit->GetIsStealthable())
+            {
+                //TODO: if submarine did fire or stealth unit did detected becouse it was not escape from its cell - stay on sight during this turn if can see with simple scan
+                if (unit->IsDetectedByPlayer(player->GetPlayerId()))
+                    unit->UndetectedByPlayer(player->GetPlayerId());
             }
         }
     }
@@ -628,6 +637,11 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
             
             if (!cUnit->_owner_w->CanSeeUnit(unit) && !cUnit->GetConfig()->_isBombMine)
                 continue;
+            
+            //currently this unit is moving
+            if (cUnit->GetPath().size() > 0) 
+                continue;
+            
             
             attackers.push_back(cUnit);
         }

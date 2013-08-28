@@ -18,6 +18,87 @@ using namespace cocos2d;
 
 #define ccz(__X__,__Y__) cocos2d::CCSizeMake((float)(__X__), (float)(__Y__))
 
+class NodeHieraclyOpacity
+{
+    map<CCNode*, float> baseOpacityData;
+    void ProcessNode(CCNode*);
+    
+public:
+    NodeHieraclyOpacity(CCNode *node);
+    
+    bool NodeHaveOpacity(CCNode *node);
+    float OpacityForNode(CCNode *node);
+    
+};
+
+class CCMoveToExtended : public CCMoveTo
+{
+    
+	CCObject *_endTarget;
+	SEL_CallFuncO _endSelector;
+    bool _selectorCalled;
+    
+public:
+	
+	void *_parameter;
+	bool _flag;
+    
+	CCMoveToExtended():_parameter(NULL), _selectorCalled(false){};
+    
+	bool initWithDuration(float duration, const CCPoint& position, CCObject *endTarget, SEL_CallFuncO endSelector);
+    
+    virtual void update(float time);
+    
+};
+
+class CCSetFrameExtended : public CCMoveTo
+{
+    
+	CCObject *_endTarget;
+	SEL_CallFuncO _endSelector;
+    bool _selectorCalled;
+    
+    CCSize m_endSize;
+    CCSize m_startSize;
+    CCSize m_delta;
+    
+    bool _changeAlpha;
+    float m_endAlpha;
+    float m_startAlpha;
+    float m_deltaAlpha;
+    
+public:
+	
+	void *_parameter;
+    
+	CCSetFrameExtended():_parameter(NULL), _selectorCalled(false){};
+    
+	bool initWithDuration(float duration, const CCSize& endSize, const CCPoint& endPosition, const float endAlpha, CCObject *endTarget, SEL_CallFuncO endSelector);
+	
+	virtual void startWithTarget(CCNode *pTarget);
+    virtual void update(float time);
+    
+};
+
+class CCWaitExtended : public CCActionInterval
+{
+    
+	CCObject *_endTarget;
+	SEL_CallFuncO _endSelector;
+    bool _selectorCalled;
+    
+public:
+    
+	void *_parameter;
+    
+	CCWaitExtended():_parameter(NULL), _selectorCalled(false){};
+    
+	bool initWithDuration(float duration, CCObject *endTarget, SEL_CallFuncO endSelector);
+    
+    virtual void update(float time);
+    
+};
+
 class CCMenuItemNodes;
 
 CCMenuItemNodes* createMenuItemWithLayers(CCSize size, ccColor4B normalColor, ccColor4B selectedColor, string title, string fontName, int fontSize, ccColor3B titleColor, CCObject* target, SEL_MenuHandler selector);

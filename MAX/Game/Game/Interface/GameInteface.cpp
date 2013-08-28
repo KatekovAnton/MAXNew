@@ -52,7 +52,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
 }
 
 GameInterface::GameInterface()
-:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL), _firstTime(true)
+:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL), _firstTime(true), _visible(true)
 {
     _lockUnits = false;
     
@@ -122,10 +122,10 @@ void GameInterface::InitBaseInterface()
     //CCLayerColor *_layerPlayerColor;
     
 	//left panel
-    _panel = CCNode::create();
+    _panel = CCLayerColor::create(CocosHelper::normalColor(), panelW, getContentSize().height);
     _panel->setPosition(ccp(- panelW + 3, 0));
     _panel->setAnchorPoint(ccp(0, 0));
-    _panel->setContentSize(CCSize(panelW, getContentSize().height));
+    //_panel->setContentSize(CCSize(panelW, getContentSize().height));
     this->addChild(_panel);
     float bx = 0;
     float bh = 29;
@@ -134,12 +134,12 @@ void GameInterface::InitBaseInterface()
 //    CCSprite* spr = CCSprite::create("panel.png");
 //    spr->setAnchorPoint(ccp(0, 0));
 //    spr->setPosition(ccp(panelW - spr->getContentSize().width, 0));
-    {
-        CCLayerColor *c = CCLayerColor::create(CocosHelper::normalColor(), panelW, getContentSize().height);
-        c->setPosition(ccp(0, 0));
-        c->setAnchorPoint(ccp(0, 0));
-        _panel->addChild(c);
-    }
+//    {
+//        CCLayerColor *c = CCLayerColor::create(CocosHelper::normalColor(), panelW, getContentSize().height);
+//        c->setPosition(ccp(0, 0));
+//        c->setAnchorPoint(ccp(0, 0));
+//        _panel->addChild(c);
+//    }
     float top = 280 + 111;
     float scrolly = 0;
     
@@ -320,6 +320,21 @@ void GameInterface::ShowUnitSpottedMessage(GameUnit* unit)
     SoundEngine::sharedInstance()->PlaySystemSound(SOUND_TYPE_ENEMY_DETECTED);
 }
 
+void GameInterface::ToggleInterfaceVisibility(float visibleFlag)
+{
+    if (_visible == visibleFlag) 
+        return;
+    
+    CCSetFrameExtended *anim = new CCSetFrameExtended();
+	anim->initWithDuration(interfaceAnimationTime, _panel->getContentSize(), _panel->getPosition(), visibleFlag?CocosHelper::normalColor().a:0, NULL, NULL);
+	anim->autorelease();
+	anim->setTag(0);
+	CCEaseInOut* action = CCEaseInOut::create(anim, 3.0);
+	action->setTag(0);
+    
+	_panel->runAction(action);
+}
+
 void GameInterface::ClearLockedUnits()
 {
     _lockedUnits.clear();
@@ -494,11 +509,19 @@ void GameInterface::OnTogglePathZone(CCMenuItem* sender)
     UpdateTogglePathZone();
 }
 
+bool firstPress = true;
 
 void GameInterface::OnTogglePanel(CCMenuItem* sender)
 {
     if(_inited)
         SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+    
+    
+//    if (!firstPress) {
+//        ToggleInterfaceVisibility(false);
+//        return;
+//    }
+//    firstPress = false;
     const static int moveAnimationTag = 0;
     CCAction* currentAction = _panel->getActionByTag(moveAnimationTag);
     if (currentAction)

@@ -1586,7 +1586,6 @@
 				8B898AEC1773B03600BE327F /* AgreedTarget */,
 				D119515A1772372A00AED96F /* UnitSelectionMenu */,
 				8B9B9CA317403D28004345E1 /* Windows */,
-				8B9B9CA217403D04004345E1 /* Message */,
 				8B90ED4C173864A10032205A /* UnitActionMenu */,
 				8B85506B16F5C104000170D5 /* UnitParameterNode */,
 				8B7CA09016C831EB00282A74 /* GameInteface.cpp */,
@@ -1876,14 +1875,6 @@
 				8B90ED50173866CB0032205A /* GIUnitActionMenuDelegate.h */,
 			);
 			name = UnitActionMenu;
-			sourceTree = "<group>";
-		};
-		8B9B9CA217403D04004345E1 /* Message */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Message;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		8B9B9CA317403D28004345E1 /* Windows */ = {

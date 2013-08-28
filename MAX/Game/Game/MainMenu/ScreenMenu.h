@@ -18,68 +18,7 @@ using namespace cocos2d;
 class MAXMainMenuController;
 class ScreenSelectGameType;
 
-class CCMoveToExtended : public CCMoveTo
-{
 
-	CCObject *_endTarget;
-	SEL_CallFuncO _endSelector;
-    bool _selectorCalled;
-
-public:
-	
-	void *_parameter;
-	bool _flag;
-
-	CCMoveToExtended():_parameter(NULL), _selectorCalled(false){};
-
-	bool initWithDuration(float duration, const CCPoint& position, CCObject *endTarget, SEL_CallFuncO endSelector);
-
-    virtual void update(float time);
-
-};
-
-class CCSetFrameExtended : public CCMoveTo
-{
-
-	CCObject *_endTarget;
-	SEL_CallFuncO _endSelector;
-    bool _selectorCalled;
-
-    CCSize m_endSize;
-    CCSize m_startSize;
-    CCSize m_delta;
-
-public:
-	
-	void *_parameter;
-
-	CCSetFrameExtended():_parameter(NULL), _selectorCalled(false){};
-
-	bool initWithDuration(float duration, const CCSize& endSize, const CCPoint& endPosition, CCObject *endTarget, SEL_CallFuncO endSelector);
-	
-	virtual void startWithTarget(CCNode *pTarget);
-    virtual void update(float time);
-
-};
-
-class CCWaitExtended : public CCActionInterval
-{
-
-	CCObject *_endTarget;
-	SEL_CallFuncO _endSelector;
-    bool _selectorCalled;
-
-public:
-
-	void *_parameter;
-
-	CCWaitExtended():_parameter(NULL), _selectorCalled(false){};
-
-	bool initWithDuration(float duration, CCObject *endTarget, SEL_CallFuncO endSelector);
-
-    virtual void update(float time);
-
-};
 
 class ScreenMenu : public CCScene
 {   

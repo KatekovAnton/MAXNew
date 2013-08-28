@@ -16,6 +16,122 @@ using namespace cocos2d;
 
 #define BUTTON_LABEL_TAG 11
 
+NodeHieraclyOpacity::NodeHieraclyOpacity(CCNode *node)
+{
+    CCArray* nodestack = CCArray::create();
+    nodestack->addObject(node);
+    while (nodestack->count() > 0) {
+        CCNode *parent = reinterpret_cast<CCNode*>(nodestack->lastObject());
+        parent->retain();
+        ProcessNode(parent);
+        nodestack->removeLastObject();
+        nodestack->addObjectsFromArray(parent->getChildren());
+        parent->release();
+    }
+}
+
+void NodeHieraclyOpacity::ProcessNode(CCNode* node)
+{
+    CCRGBAProtocol *rgbaPart = dynamic_cast<CCRGBAProtocol*>(node);
+    if (rgbaPart)
+        baseOpacityData.insert(std::pair<CCNode*, float>(node, rgbaPart->getOpacity()));
+}
+
+bool NodeHieraclyOpacity::NodeHaveOpacity(CCNode *node)
+{
+    return baseOpacityData.count(node) > 0;
+}
+
+float NodeHieraclyOpacity::OpacityForNode(CCNode *node)
+{
+    if (!NodeHaveOpacity(node))
+        return -1;
+    return baseOpacityData[node];
+}
+
+
+//move to extended action
+bool CCMoveToExtended::initWithDuration(float duration, const CCPoint& position, CCObject *endTarget, SEL_CallFuncO endSelector)
+{
+	_endTarget = endTarget;
+	_endSelector = endSelector;
+	return this->CCMoveTo::initWithDuration(duration, position);
+}
+
+void CCMoveToExtended::update(float time)
+{
+	this->CCMoveTo::update(time);
+	if(time >= 0.999)
+		if (_endTarget && _endSelector && !_selectorCalled)
+        {
+			(_endTarget->*_endSelector)(this);
+            _selectorCalled = true;
+        }
+}
+
+//set frame action
+bool CCSetFrameExtended::initWithDuration(float duration, const CCSize& endSize, const CCPoint& endPosition, const float endAlpha, CCObject *endTarget, SEL_CallFuncO endSelector)
+{
+	_endTarget = endTarget;
+	_endSelector = endSelector;
+	m_endSize = endSize;
+    m_endAlpha = endAlpha;
+	return this->CCMoveTo::initWithDuration(duration, endPosition);
+}
+
+void CCSetFrameExtended::update(float time)
+{
+	CCMoveTo::update(time);
+	if (m_pTarget)
+    {
+		m_pTarget->setContentSize(CCSizeMake(m_startSize.width + m_delta.width * time,
+                                             m_startSize.height + m_delta.height * time));
+        if (_changeAlpha)
+        {
+            CCRGBAProtocol *rgbaPart = dynamic_cast<CCRGBAProtocol*>(m_pTarget);
+            rgbaPart->setOpacity(m_startAlpha + m_deltaAlpha * time);
+        }
+    }
+	if(time >= 0.999)
+		if (_endTarget && _endSelector && !_selectorCalled)
+        {
+			(_endTarget->*_endSelector)(this);
+            _selectorCalled = true;
+        }
+}
+
+void CCSetFrameExtended::startWithTarget(CCNode *pTarget)
+{
+    CCMoveTo::startWithTarget(pTarget);
+	m_startSize = pTarget->getContentSize();
+	m_delta = CCSizeMake(m_endSize.width - m_startSize.width, m_endSize.height - m_startSize.height);
+    
+    CCRGBAProtocol *rgbaPart = dynamic_cast<CCRGBAProtocol*>(pTarget);
+    _changeAlpha = rgbaPart != NULL;
+    if (_changeAlpha) {
+        m_startAlpha = rgbaPart->getOpacity();
+        m_deltaAlpha = m_endAlpha - m_startAlpha;
+    }
+}
+
+//wait action
+bool CCWaitExtended::initWithDuration(float duration, CCObject *endTarget, SEL_CallFuncO endSelector)
+{
+	_endTarget = endTarget;
+	_endSelector = endSelector;
+	return this->CCActionInterval::initWithDuration(duration);
+}
+
+void CCWaitExtended::update(float time)
+{
+	if(time >= 0.999)
+		if (_endTarget && _endSelector && !_selectorCalled)
+        {
+			(_endTarget->*_endSelector)(this);
+            _selectorCalled = true;
+        }
+}
+
 CCMenuItemNodes* createMenuItemWithLayers(CCSize size, ccColor4B normalColor, ccColor4B selectedColor, string title, string fontName, int fontSize, ccColor3B titleColor, CCObject* target, SEL_MenuHandler selector)
 {
 	CCLayerColor* layerN = CCLayerColor::create(normalColor, size.width, size.height);

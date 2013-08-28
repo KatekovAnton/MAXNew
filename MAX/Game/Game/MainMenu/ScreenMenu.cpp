@@ -10,80 +10,9 @@
 #include "MAXContentLoader.h"
 #include "ScreenMenu.h"
 #include "MAXMainMenuController.h"
+#include "CocosHelper.h"
 
 #define BUTTON_LABEL_TAG 11
-
-//move to extended action
-bool CCMoveToExtended::initWithDuration(float duration, const CCPoint& position, CCObject *endTarget, SEL_CallFuncO endSelector)
-{
-	_endTarget = endTarget;
-	_endSelector = endSelector;
-	return this->CCMoveTo::initWithDuration(duration, position);
-}
-
-void CCMoveToExtended::update(float time)
-{
-	this->CCMoveTo::update(time);
-	if(time >= 0.999)
-		if (_endTarget && _endSelector && !_selectorCalled)
-        {
-			(_endTarget->*_endSelector)(this);
-            _selectorCalled = true;
-        }
-}
-
-//set frame action
-bool CCSetFrameExtended::initWithDuration(float duration, const CCSize& endSize, const CCPoint& endPosition, CCObject *endTarget, SEL_CallFuncO endSelector)
-{
-	_endTarget = endTarget;
-	_endSelector = endSelector;
-	m_endSize = endSize;
-	return this->CCMoveTo::initWithDuration(duration, endPosition);
-}
-
-void CCSetFrameExtended::update(float time)
-{
-	CCMoveTo::update(time);
-	if (m_pTarget)
-    {
-		m_pTarget->setContentSize(CCSizeMake(m_startSize.width + m_delta.width * time,
-			m_startSize.height + m_delta.height * time));
-    }
-	if(time >= 0.999)
-		if (_endTarget && _endSelector && !_selectorCalled)
-        {
-			(_endTarget->*_endSelector)(this);
-            _selectorCalled = true;
-        }
-}
-
-void CCSetFrameExtended::startWithTarget(CCNode *pTarget)
-{
-    CCMoveTo::startWithTarget(pTarget);
-	m_startSize = pTarget->getContentSize();
-	m_delta = CCSizeMake(m_endSize.width - m_startSize.width, m_endSize.height - m_startSize.height);
-}
-
-//wait action
-bool CCWaitExtended::initWithDuration(float duration, CCObject *endTarget, SEL_CallFuncO endSelector)
-{
-	_endTarget = endTarget;
-	_endSelector = endSelector;
-	return this->CCActionInterval::initWithDuration(duration);
-}
-
-void CCWaitExtended::update(float time)
-{
-	if(time >= 0.999)
-		if (_endTarget && _endSelector && !_selectorCalled)
-        {
-			(_endTarget->*_endSelector)(this);
-            _selectorCalled = true;
-        }
-}
-
-
-
 
 ScreenMenu::ScreenMenu()
 	:_menuController(NULL), _layerButtonsBG(NULL), _layerBg(NULL), _screenStack(NULL), _freezed(false)
@@ -281,7 +210,7 @@ void ScreenMenu::AlignBGForScreen(ScreenMenuElement *screen, float delayForChang
 	wait->autorelease();
 
 	CCSetFrameExtended* move = new CCSetFrameExtended();
-	move->initWithDuration(interfaceAnimationTime, newSize, finalPos, this, callfuncO_selector(ScreenMenu::OnFrameChangeDidFinish));
+	move->initWithDuration(interfaceAnimationTime, newSize, finalPos, _layerButtonsBG->getOpacity(), this, callfuncO_selector(ScreenMenu::OnFrameChangeDidFinish));
 	move->autorelease();
 	move->setTag(0);
 	move->_parameter = screen;

@@ -154,7 +154,12 @@ bool GameMatchPlayerData::UnitCoveredByFog(const GameUnitData *unit, const GameF
     switch (fog->type)
     {
         case FOG_TYPE_SCAN:
-            result = !(unit->GetConfig()->_isStealth || unit->GetIsUnderwater() || unit->GetConfig()->_isBombMine);
+            if (unit->GetIsUnderwater())
+            {
+                EXTENDED_GROUND_TYPE groundType = _delegate_w->GroudTypeAtPoint(unit->_unitCell.x, unit->_unitCell.y);
+                return groundType != EXTENDED_GROUND_TYPE_WATER;
+            }
+            result = !(unit->GetConfig()->_isStealth || unit->GetConfig()->_isBombMine);
             break;
         case FOG_TYPE_RESOURCES:
             result = false;

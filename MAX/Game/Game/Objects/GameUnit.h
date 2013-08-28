@@ -141,6 +141,7 @@ public:
     
     void UpdateConnectors();
     void DetectedByPlayer(unsigned int playerId);
+    void UndetectedByPlayer(unsigned int playerId);
     bool IsDetectedByPlayer(unsigned int playerId);
     
 #pragma mark - Fire methods

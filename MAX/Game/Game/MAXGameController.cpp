@@ -141,8 +141,10 @@ void MAXGameController::StartMatch()
     vector<GameMatchPlayerInfo> infos;
     GameMatchPlayerInfo player1 = {0, 3, "Test player1", {255,0,0,255}};
     GameMatchPlayerInfo player2 = {1, 0, "Test player2", {0,255,0,255}};
+    GameMatchPlayerInfo player3 = {2, 4, "Test player3", {0,0,255,255}};
     infos.push_back(player1);
     infos.push_back(player2);
+    infos.push_back(player3);
     _match = new GameMatch("Green_6.wrl", infos);
 	_match->_gameController = this;
     _currentUnit = NULL;
@@ -294,17 +296,19 @@ void MAXGameController::StartMatch()
         _match->_players[1]->CreateUnit(36, 53, "Inter", 0)->PlaceUnitOnMap();
         for (int i = 61; i < 69; i++)
             _match->_players[1]->CreateUnit(i, 56, "landmine", 0)->PlaceUnitOnMap();
-        _match->_players[0]->CreateUnit(50, 47, "pcan", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(50, 47, "pcan", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(52, 48, "Infil", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(42, 42, "sub", 0)->PlaceUnitOnMap();
 		for (int i = 32; i < 40; i+=2)
 			_match->_players[1]->CreateUnit(i, 31, "seamine", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(43, 41, "pcan", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(46, 38, "pcan", 0)->PlaceUnitOnMap();
+    _match->_players[0]->CreateUnit(46, 41, "scout", 0)->PlaceUnitOnMap();
+    _match->_players[2]->CreateUnit(43, 52, "scout", 0)->PlaceUnitOnMap();
 	}
 	
-    _match->_players[0]->_playerData->cameraPosition = ccp(55, 55);
-    _match->_players[1]->_playerData->cameraPosition = ccp(30, 40);
+    _match->_players[0]->_playerData->cameraPosition = ccp(46, 41);
+    _match->_players[1]->_playerData->cameraPosition = ccp(47, 43);
+    _match->_players[2]->_playerData->cameraPosition = ccp(44, 45);
     
     
     engine->SetCameraCenter(_match->_players[0]->_playerData->cameraPosition);
