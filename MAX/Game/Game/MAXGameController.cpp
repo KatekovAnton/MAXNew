@@ -186,6 +186,8 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(101, 101, "Awac", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(58, 58, "Scout", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(48, 58, "Engineer", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(48, 59, "Conn", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(48, 60, "Conn", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(59, 53, "Asgun", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(56, 54, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(55, 52, "Tank", 0)->PlaceUnitOnMap();

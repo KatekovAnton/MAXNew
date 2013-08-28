@@ -554,7 +554,8 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 						cunit->_unitData->SetIsUniteractable(true);
                     if (cunit->GetConfig()->_isRoad && cunit != unit)
                         cunit->Destroy(true);
-                    
+                    if (cunit->GetConfig()->_isConnector && cunit != unit && unit->_unitData->GetIsConnectored())
+                        cunit->Destroy(true);
 				}
 			}
 		}
