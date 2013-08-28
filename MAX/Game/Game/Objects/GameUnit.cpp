@@ -824,6 +824,20 @@ vector<CCPoint> GameUnit::GetFullNearbyCells()
     return resuplt;
 }
 
+vector<CCPoint> GameUnit::GetUnitCells()
+{
+    vector<CCPoint> allPoints;
+    CCPoint p = GetUnitCell();
+    allPoints.push_back(p);
+    if (_unitData->GetSize() != 1)
+    {
+        allPoints.push_back(ccp(p.x + 1, p.y));
+        allPoints.push_back(ccp(p.x + 1, p.y + 1));
+        allPoints.push_back(ccp(p.x, p.y + 1));
+    }
+    return allPoints;
+}
+
 #pragma mark - Stealth methods
 
 void GameUnit::DetectedByPlayer(unsigned int playerId)

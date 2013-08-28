@@ -123,6 +123,8 @@ public:
     virtual void SelectSecondUnitActionCanceled();
     virtual void SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action);
     
+    virtual bool CanExitToCell(CCPoint cell, vector<CCPoint> lockedCells);
+    
 	virtual GameMatch *GetCurrentMatch();
 
 #pragma mark - MAXEngineDelegate

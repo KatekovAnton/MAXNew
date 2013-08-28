@@ -10,6 +10,7 @@
 #define MAX_MAXGameInputControllerDelegate_h
 
 #include "miniPrefix.h"
+#include <vector>
 
 class MAXObjectConfig;
 class GameMatch;
@@ -22,6 +23,7 @@ public:
     virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig) = 0;
     virtual void SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action) = 0;
     virtual void SelectSecondUnitActionCanceled() = 0;
+    virtual bool CanExitToCell(CCPoint cell, vector<CCPoint> lockedCells) = 0;
 	virtual GameMatch *GetCurrentMatch() = 0;    
 };
 

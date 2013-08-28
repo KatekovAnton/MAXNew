@@ -632,6 +632,11 @@ void MAXGameController::SelectSecondUnitActionCanceled()
     }
 }
 
+bool MAXGameController::CanExitToCell(CCPoint cell, vector<CCPoint> lockedCells)
+{
+    return !_match->IsHiddenUnitInPos(cell.x, cell.y, false, _match->_currentPlayer_w, lockedCells);
+}
+
 GameMatch *MAXGameController::GetCurrentMatch()
 {
 	return _match;

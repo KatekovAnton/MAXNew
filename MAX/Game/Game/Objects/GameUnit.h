@@ -84,6 +84,7 @@ public:
     int GetParameterMaxValue(UNIT_PARAMETER_TYPE parameterType) const;
     vector<CCPoint> GetNerbyCells();
     vector<CCPoint> GetFullNearbyCells();
+    vector<CCPoint> GetUnitCells();
     
     bool ReceiveDamage(GameUnit* unit);
     bool ReceiveDamage(GameUnit* unit, int decrase);

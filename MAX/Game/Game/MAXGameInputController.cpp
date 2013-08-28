@@ -364,10 +364,17 @@ void MAXGameInputController::ProceedTap(float tapx, float tapy)
                 CCPoint cell = suitableCells[i];
                 if (cell.x == p.x && cell.y == p.y)
                 {
+                    GameUnit* createdUnit = _selectedUnit_w->_unitData->GetTaskSecondUnit();
+                    vector<CCPoint> lockedCells;
+                    if (!_delegate_w->CanExitToCell(cell, lockedCells)) {
+                        AbortCurrentAction();
+                        shouldDeselectUnit = true;
+                        return;
+                    }
+                    
                     MAXUnitObject* _unitObject = _selectedUnit_w->GetUnitObject();
                     CCPoint _unitCell = _unitObject->GetObjectCell();
                     
-                    GameUnit* createdUnit = _selectedUnit_w->_unitData->GetTaskSecondUnit();
                     
                     
                     _selectedUnit_w->ClearPath();
