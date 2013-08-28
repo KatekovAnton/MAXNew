@@ -94,23 +94,23 @@ bool MAXGameInputController::StartSelectLargeBuildingConstructionPlaceAction(Gam
     CCPoint newCell = constructor->GetUnitCell();
     do {
         constructor->_currentlyProcesedConstructor = true;
-        bool canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
+        bool canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructBuildingInCell(newCell, _buildingConfig_w, constructor);
         if (canConstrutHere)
             break;
         
         newCell.x -= 1;
-        canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
+        canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructBuildingInCell(newCell, _buildingConfig_w, constructor);
         if (canConstrutHere)
             break;
         
         newCell.x += 1;
         newCell.y -= 1;
-        canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
+        canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructBuildingInCell(newCell, _buildingConfig_w, constructor);
         if (canConstrutHere)
             break;
         
         newCell.x -= 1;
-        canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, constructor);
+        canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructBuildingInCell(newCell, _buildingConfig_w, constructor);
         constructor->_currentlyProcesedConstructor = false;
         if (canConstrutHere)
             break;
@@ -153,7 +153,7 @@ bool MAXGameInputController::StartSelectConstructorExitCell(GameUnit* constructo
     GameMatch* match = _delegate_w->GetCurrentMatch();
     for (int i = 0; i < cells.size(); i++) {
         CCPoint cell = cells[i];
-        if (match->UnitCanBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)constructor->GetConfig()->_bMoveType, constructor->_owner_w)) {
+        if (match->UnitCanBePlacedToCell(cell.x, cell.y, constructor->GetConfig(), constructor->_owner_w)) {
             suitableCells.push_back(cell);
             GameEffect* e = GameEffect::CreateExitPlaceMarker(constructor->GetConfig()->_bLevel);
             e->SetLocation(cell);
@@ -317,7 +317,7 @@ void MAXGameInputController::ProceedPan(int speedx, int speedy)
             
             
             _selectedUnit_w->_currentlyProcesedConstructor = true;
-            bool canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructLargeBuildingInCell(newCell, _buildingConfig_w, _selectedUnit_w);
+            bool canConstrutHere = _delegate_w->GetCurrentMatch()->GetCanConstructBuildingInCell(newCell, _buildingConfig_w, _selectedUnit_w);
             _selectedUnit_w->_currentlyProcesedConstructor = false;
             if (canConstrutHere)
                 _secondaryObject_w->SetLocation(newCell);

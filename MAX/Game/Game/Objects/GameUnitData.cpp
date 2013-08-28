@@ -186,6 +186,15 @@ vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
 		result.push_back(UNIT_MENU_ACTION_STEAL);
 	}
     
+    if ((config->_sGround != 0 && _storedUnits.size() != config->_sGround) ||
+        (config->_sAir != 0 && _storedUnits.size() != config->_sAir) ||
+        (config->_sSea != 0 && _storedUnits.size() != config->_sSea) ||
+        (config->_sInfantry != 0 && _storedUnits.size() != config->_sInfantry))
+	{
+		result.push_back(UNIT_MENU_ACTION_LOAD);
+		result.push_back(UNIT_MENU_ACTION_ACTIVATE);
+	}
+    
 	if (config->_isBuilding)
 	{
 		result.push_back(UNIT_MENU_ACTION_REMOVE);

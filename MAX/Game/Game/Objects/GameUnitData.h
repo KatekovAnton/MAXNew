@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "miniPrefix.h"
+#include <vector>
 
 class MAXObjectConfig;
 class GameUnitParameters;
@@ -25,6 +26,7 @@ class GameUnitData {
     
     //we cant do anything with this unit
     bool _isUniteractable;
+    vector<GameUnit*> _storedUnits;
 
 public:
     

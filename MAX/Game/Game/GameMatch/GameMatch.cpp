@@ -430,7 +430,7 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 			if (cunit->_unitData->_isUnderConstruction)
 				cunit->GetConstructor()->AbortConstructingUnit();
 			//if there are placed any ground unit-destroy it
-			else if (!UnitCanStillBePlacedToCell(cell.x, cell.y, (UNIT_MOVETYPE)cunit->GetConfig()->_bMoveType, cunit->_owner_w, true))
+			else if (!UnitCanStillBePlacedToCell(cell.x, cell.y, cunit->GetConfig(), cunit->_owner_w, true))
 				_gameController->DestroyUnit(cunit);
 			//else-just update frames
 			else
@@ -719,17 +719,19 @@ bool GameMatch::GetIsCellValid(CCPoint cell) const
     return cell.x>=0 && cell.y>=0 && cell.x <_map->_w && cell.y < _map->_h;
 }
 
-bool GameMatch::GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor)
+bool GameMatch::GetCanConstructBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor)
 {
     //TODO:
     vector<CCPoint>cells;
     cells.push_back(cell);
-    cells.push_back(ccp(cell.x+1, cell.y));
-    cells.push_back(ccp(cell.x, cell.y+1));
-    cells.push_back(ccp(cell.x+1, cell.y+1));
+    if (buildingType->_bSize > 1) {
+        cells.push_back(ccp(cell.x+1, cell.y));
+        cells.push_back(ccp(cell.x, cell.y+1));
+        cells.push_back(ccp(cell.x+1, cell.y+1));
+    }
     for (int i = 0; i < cells.size(); i++) {
         CCPoint cell1 = cells[i];
-        if (!UnitCanBePlacedToCell(cell1.x, cell1.y, (UNIT_MOVETYPE)buildingType->_bMoveType, constructor->_owner_w) || constructor->_owner_w->_agregator->IsBombMineInPosition(cell1.x, cell1.y))
+        if (!UnitCanBePlacedToCell(cell1.x, cell1.y, buildingType, constructor->_owner_w) || constructor->_owner_w->_agregator->IsBombMineInPosition(cell1.x, cell1.y))
             return false;
     }
     
@@ -771,13 +773,14 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
 	return result;
 }
 
-bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player)
+bool GameMatch::UnitCanBePlacedToCell(const int x, const int y, MAXObjectConfig *buildingType, GameMatchPlayer* player)
 {
-	return UnitCanStillBePlacedToCell(x, y, unitMoveType, player, false);
+	return UnitCanStillBePlacedToCell(x, y, buildingType, player, false);
 }
 
-bool GameMatch::UnitCanStillBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player, bool alreadyPlaced)
+bool GameMatch::UnitCanStillBePlacedToCell(const int x, const int y, MAXObjectConfig *buildingType, GameMatchPlayer* player, bool alreadyPlaced)
 {
+    UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)buildingType->_bMoveType;
     EXTENDED_GROUND_TYPE groundType = player->_agregator->GroundTypeAtXY(x, y);
     
     switch (unitMoveType)

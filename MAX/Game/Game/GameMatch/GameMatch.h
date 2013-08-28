@@ -61,7 +61,7 @@ public:
     
     bool PlayerIsEnemyToPlayer(GameMatchPlayer *one, GameMatchPlayer *two);
     
-    bool GetCanConstructLargeBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor);
+    bool GetCanConstructBuildingInCell(const CCPoint &cell, MAXObjectConfig *buildingType, GameUnit *constructor);
     
     bool GetIsCurrentPlayer(const unsigned int playerId) const { return _currentPlayer_w != NULL && _currentPlayer_w->_playerData->_playerInfo._playerId == playerId; }
     
@@ -77,8 +77,8 @@ public:
     bool GetIsCellValid(CCPoint cell) const;
     void UpdateConnectorsForUnit(GameUnit* unit);
 	bool IsHiddenUnitInPos(const int x, const int y, const bool checkOnly, GameMatchPlayer *player, vector<CCPoint> lockedCells);
-    bool UnitCanBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player);
-    bool UnitCanStillBePlacedToCell(const int x, const int y, const UNIT_MOVETYPE unitMoveType, GameMatchPlayer* player, bool alreadyPlaced);
+    bool UnitCanBePlacedToCell(const int x, const int y, MAXObjectConfig *buildingType, GameMatchPlayer* player);
+    bool UnitCanStillBePlacedToCell(const int x, const int y, MAXObjectConfig *buildingType, GameMatchPlayer* player, bool alreadyPlaced);
 
     void GameUnitDidDestroy(GameUnit *unit);
 };
