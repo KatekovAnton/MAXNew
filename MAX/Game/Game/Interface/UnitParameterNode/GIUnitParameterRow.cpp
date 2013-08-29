@@ -28,9 +28,9 @@ GIUnitParameterRow::GIUnitParameterRow()
     addChild(_labelValue);
     
     _lineSprite = CCSprite::create("parameterSeparator.png");
-    _lineSprite->setScaleX(12);
+    _lineSprite->setScaleX(23);
     _lineSprite->setScaleY(0.25);
-    _lineSprite->setPosition(ccp(30, 14));
+    _lineSprite->setPosition(ccp(52, 14));
     addChild(_lineSprite);
 }
 
@@ -129,7 +129,7 @@ void GIUnitParameterRow::SetImageForParameterType(UNIT_PARAMETER_TYPE type, int 
         _imageFull = MAXSCL->CreateSpriteFromSimpleImage(name, c);
         _imageFull->setScale(Display::currentDisplay()->GetDisplayScale());
         _imageFull->setAnchorPoint(ccp(0.5, 0.5));
-        _imageFull->setPosition(ccp(12, 8));
+        _imageFull->setPosition(ccp(13, 8));
         addChild(_imageFull);
     }
     
@@ -137,7 +137,7 @@ void GIUnitParameterRow::SetImageForParameterType(UNIT_PARAMETER_TYPE type, int 
     CCPoint labelPos = ccp((10 + 10 + (scale-1)*2), (3+ (scale-2)));
     if (_imageFull)
     {
-        labelPos.x = 11 + _imageFull->getContentSize().width + (scale-1)*2;
+        labelPos.x = 19;// + _imageFull->getContentSize().width + (scale-1)*2;
     }
     _labelValue->setPosition(labelPos);
     

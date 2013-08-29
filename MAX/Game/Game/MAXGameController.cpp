@@ -162,7 +162,7 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(55, 37, "Road", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(55, 37, "Engineer", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(56, 56, "Inter", 0)->PlaceUnitOnMap();
-        _match->_players[0]->CreateUnit(60, 53, "Constructor", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(56, 49, "Constructor", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(45, 47, "Corvette", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(47, 49, "Escort", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0)->PlaceUnitOnMap();
@@ -171,7 +171,6 @@ void MAXGameController::StartMatch()
 		_match->_players[0]->CreateUnit(46, 45, "Seafuel", 0)->PlaceUnitOnMap();
 		_match->_players[0]->CreateUnit(45, 46, "Rokcr", 0)->PlaceUnitOnMap();
 		_match->_players[0]->CreateUnit(44, 42, "seaminelay", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(45, 42, "seamine", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(30, 34, "Scout", 0)->PlaceUnitOnMap();
 
 		_match->_players[0]->CreateUnit(45, 43, "Seatrans", 0)->PlaceUnitOnMap();
