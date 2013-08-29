@@ -31,7 +31,7 @@ using namespace extension;
 
 #define BUTTON_LABEL_TAG 11
 
-float panelW = 90;
+float panelW = 105;
 
 bool GameInterface::ShouldReceiveTouch(int x, int y)
 {

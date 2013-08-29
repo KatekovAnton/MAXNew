@@ -28,7 +28,7 @@ GIUnitParametersNode::GIUnitParametersNode(float baseW)
     
     _labelType = CCLabelTTF::create("", MAX_DEFAULT_FONT, 10);
     _labelType->setAnchorPoint(ccp(0, 0));
-    _labelType->setPosition(ccp(8, _topStart - 10));
+    _labelType->setPosition(ccp(8, _topStart - 9));
     _labelType->setContentSize(ccz(30, 12));
     _labelType->setColor(MAX_COLOR_WHITE);
     addChild(_labelType);

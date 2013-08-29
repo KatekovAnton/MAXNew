@@ -22,7 +22,7 @@ GIUnitParameterRow::GIUnitParameterRow()
     
     CCSize sz = _labelValue->getContentSize();
     float scale = Display::currentDisplay()->GetDisplayScale();
-    _labelValue->setPosition(ccp(19, 3+ (scale-2)));
+    _labelValue->setPosition(ccp(20, 3+ (scale-2)));
     
     _labelValue->setColor(this->colorForLabel());
     addChild(_labelValue);
@@ -137,7 +137,7 @@ void GIUnitParameterRow::SetImageForParameterType(UNIT_PARAMETER_TYPE type, int 
     CCPoint labelPos = ccp((10 + 10 + (scale-1)*2), (3+ (scale-2)));
     if (_imageFull)
     {
-        labelPos.x = 10 + _imageFull->getContentSize().width + (scale-1)*2;
+        labelPos.x = 11 + _imageFull->getContentSize().width + (scale-1)*2;
     }
     _labelValue->setPosition(labelPos);
     
