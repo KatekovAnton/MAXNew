@@ -26,8 +26,10 @@ class GIUnitParametersNode: public CCNode
     vector<GIUnitParameterRow*> _rows;
     CCLayerColor* statsFrame;
     
+    CCLabelTTF *_labelType;
+    
 public:
-    GIUnitParametersNode();
+    GIUnitParametersNode(float baseW);
     virtual  ~GIUnitParametersNode();
 
     
@@ -35,7 +37,7 @@ public:
     void SetUnit(GameUnit* unit);
     void UpdateParameters();
     
-    static GIUnitParametersNode* create();
+    static GIUnitParametersNode* create(float baseW);
 
 };
 

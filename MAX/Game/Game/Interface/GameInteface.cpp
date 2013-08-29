@@ -31,7 +31,7 @@ using namespace extension;
 
 #define BUTTON_LABEL_TAG 11
 
-float panelW = 70;
+float panelW = 90;
 
 bool GameInterface::ShouldReceiveTouch(int x, int y)
 {
@@ -172,7 +172,7 @@ void GameInterface::InitBaseInterface()
     CCMenu *menu = CCMenu::create(_buttonOptions, nullptr);
 	
 	currentElement -= 112;
-    _unitParameters = GIUnitParametersNode::create();
+    _unitParameters = GIUnitParametersNode::create(panelW-1);
     _unitParameters->setPosition(ccp(1, currentElement));
     scroll->addChild(_unitParameters);
     

@@ -22,7 +22,7 @@ GIUnitParameterRow::GIUnitParameterRow()
     
     CCSize sz = _labelValue->getContentSize();
     float scale = Display::currentDisplay()->GetDisplayScale();
-    _labelValue->setPosition(ccp(18, 3+ (scale-2)));
+    _labelValue->setPosition(ccp(19, 3+ (scale-2)));
     
     _labelValue->setColor(this->colorForLabel());
     addChild(_labelValue);
@@ -30,7 +30,7 @@ GIUnitParameterRow::GIUnitParameterRow()
     _lineSprite = CCSprite::create("parameterSeparator.png");
     _lineSprite->setScaleX(12);
     _lineSprite->setScaleY(0.25);
-    _lineSprite->setPosition(ccp(30, 2));
+    _lineSprite->setPosition(ccp(30, 14));
     addChild(_lineSprite);
 }
 

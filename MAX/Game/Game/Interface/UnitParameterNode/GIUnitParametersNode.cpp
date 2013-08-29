@@ -18,12 +18,20 @@
 
 const float _topStart = 100;
 
-GIUnitParametersNode::GIUnitParametersNode()
+GIUnitParametersNode::GIUnitParametersNode(float baseW)
 {
-    statsFrame = CCLayerColor::create(CocosHelper::normalColor(), 66, 109);
+    statsFrame = CCLayerColor::create(CocosHelper::normalColor(), baseW, 109);
     statsFrame->setAnchorPoint(ccp(0, 0));
     statsFrame->setPosition(ccp(0, 0));
     addChild(statsFrame);
+    
+    
+    _labelType = CCLabelTTF::create("", MAX_DEFAULT_FONT, 10);
+    _labelType->setAnchorPoint(ccp(0, 0));
+    _labelType->setPosition(ccp(8, _topStart - 10));
+    _labelType->setContentSize(ccz(30, 12));
+    _labelType->setColor(MAX_COLOR_WHITE);
+    addChild(_labelType);
 }
 
 GIUnitParametersNode::~GIUnitParametersNode()
@@ -35,8 +43,11 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
         _rows[i]->removeFromParentAndCleanup(true);
     }
     _rows.clear();
+    _labelType->setString("");
     if (!unit)
         return;
+    
+    _labelType->setString(unit->GetConfig()->_name.c_str());
     
     MAXObjectConfig* config = unit->GetConfig();
     std::vector<UNIT_PARAMETER_TYPE> parameters = config->GetShortParameterList();
@@ -46,15 +57,15 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
         
         GIUnitParameterRow* row1 = GIUnitParameterRow::create();
         addChild(row1);
-        row1->setPosition(ccp(0, _topStart-GIUnitParameterRow::RowHeight() * (i + 1)));
+        row1->setPosition(ccp(0, _topStart-GIUnitParameterRow::RowHeight() * (i + 2)));
         row1->SetImageForParameterType(param, 0);
         row1->SetMaxValue(unit->GetParameterMaxValue(param));
         row1->SetCurrentValue(unit->GetParameterValue(param));
         _rows.push_back(row1);
     }
-    if (_rows.size() > 0) {
-        _rows[_rows.size()-1]->SetSeparatorVisible(false);
-    }
+//    if (_rows.size() > 0) {
+//        _rows[_rows.size()-1]->SetSeparatorVisible(false);
+//    }
 //    Strached sprite 9 is needed
 //    CCSize s = statsFrame->getContentSize();
 //    s.height = 10 + parameters.size() * GIUnitParameterRow::RowHeight();
@@ -64,9 +75,9 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
 void GIUnitParametersNode::UpdateParameters()
 {}
 
-GIUnitParametersNode* GIUnitParametersNode::create()
+GIUnitParametersNode* GIUnitParametersNode::create(float baseW)
 {
-    GIUnitParametersNode* result = new GIUnitParametersNode();
+    GIUnitParametersNode* result = new GIUnitParametersNode(baseW);
     result->autorelease();
     
     
