@@ -268,6 +268,7 @@ void MAXGameInputController::AbortCurrentAction()
             _buildingConfig_w = NULL;
             _selectedUnit_w = NULL;
             _secondaryObject_w = NULL;
+            _delegate_w->SelectLargeBuildingConstructionPlaceActionCanceled();
         } break;
         case MAXGameInputControllerAction_SelectConstructorExitCell:
         {

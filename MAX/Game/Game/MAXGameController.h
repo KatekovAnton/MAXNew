@@ -118,6 +118,7 @@ public:
     
 #pragma mark - MAXGameInputControllerDelegate
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
+    virtual void SelectLargeBuildingConstructionPlaceActionCanceled();
     virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     
     virtual void SelectSecondUnitActionCanceled();

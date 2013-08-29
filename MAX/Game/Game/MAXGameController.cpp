@@ -616,6 +616,12 @@ void MAXGameController::SelectLargeBuildingConstructionPlaceActionFinished(CCPoi
     _gameInterface->HideUnitMenu();
 }
 
+void MAXGameController::SelectLargeBuildingConstructionPlaceActionCanceled()
+{
+    RecalculateUnitPathMap(_currentUnit);
+    ShowPathMap();
+}
+
 void MAXGameController::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig)
 {
     _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
