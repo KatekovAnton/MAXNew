@@ -269,3 +269,7 @@ void GameMatchPlayerData::CellDidUpdate(const int x, const int y, const GameFog 
         _delegate_w->CellDidUpdate(x, y, fog->type, visibleFlag);
 }
 
+int GameMatchPlayerData::FogValueInCell(FOG_TYPE fogType, const CCPoint &cell)
+{
+    return fogs[(int)fogType]->GetValue(cell);
+}

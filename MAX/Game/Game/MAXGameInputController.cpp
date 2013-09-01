@@ -133,6 +133,14 @@ bool MAXGameInputController::StartSelectLargeBuildingConstructionPlaceAction(Gam
 bool MAXGameInputController::StartSelectSmallBuildingConstructionPathAction(GameUnit* constructor,  MAXObjectConfig *buildingConfig)
 {
     AbortCurrentAction();
+    constructor->_currentlyProcesedConstructor = true;
+    if (!_delegate_w->GetCurrentMatch()->GetCanConstructBuildingInCell(constructor->GetUnitCell(), buildingConfig, constructor))
+    {
+        constructor->_currentlyProcesedConstructor = false;
+        return false;
+    }
+    constructor->_currentlyProcesedConstructor = true;
+    
     _actionType = MAXGameInputControllerAction_SelectSmallBuildingConstructionPath;
     CCPoint newCell = constructor->GetUnitCell();
     constructor->CreateSmallBuildingTape();
@@ -205,7 +213,7 @@ bool MAXGameInputController::StartSelectSecondUnit(GameUnit* selectedUnit, float
     else
         level = OBJECT_LEVEL_OVERAIR;
     
-    engine->SetOptionalZoneLevel((OBJECT_LEVEL)level);
+    engine->SetOptionalZoneLevel((OBJECT_LEVEL)(level));
     for (float i = b.min.y; i <= b.max.y; i += 1.0)
     {
         for (float j = b.min.x; j <= b.max.x; j += 1.0)

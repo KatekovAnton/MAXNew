@@ -65,6 +65,7 @@ public:
     void UnitDidRemoveFromMap(GameUnitData *unit);
     void UnitDidPlaceToMap(GameUnitData *unit);
     
+    int FogValueInCell(FOG_TYPE fogType, const CCPoint &cell);
     
 #pragma mark - GameFogDelegate
     

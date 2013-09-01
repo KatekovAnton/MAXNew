@@ -37,7 +37,7 @@ GIUnitParametersNode::GIUnitParametersNode(float baseW)
 GIUnitParametersNode::~GIUnitParametersNode()
 {}
 
-void GIUnitParametersNode::SetUnit(GameUnit* unit)
+void GIUnitParametersNode::SetUnit(GameUnit* unit, bool isEnemyUnit)
 {
     for (int i = 0; i < _rows.size(); i++) {
         _rows[i]->removeFromParentAndCleanup(true);
@@ -50,7 +50,8 @@ void GIUnitParametersNode::SetUnit(GameUnit* unit)
     _labelType->setString(unit->GetConfig()->_name.c_str());
     
     MAXObjectConfig* config = unit->GetConfig();
-    std::vector<UNIT_PARAMETER_TYPE> parameters = config->GetShortParameterList();
+    std::vector<UNIT_PARAMETER_TYPE> parameters = isEnemyUnit?config->GetEnemyShortParameterList():config->GetShortParameterList();
+
     for (int i = 0; i < parameters.size(); i++)
     {
         UNIT_PARAMETER_TYPE param = parameters[i];

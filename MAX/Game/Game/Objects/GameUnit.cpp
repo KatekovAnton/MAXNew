@@ -315,17 +315,15 @@ void GameUnit::EscapeToLocation(const int x, const int y, const int cost)
 void GameUnit::NewTurn()
 {
     StopCurrentSound();
-    for (int i = 0; i < MAX_PLAYERS; i++)
-        _unitData->_detected[i] = false;
- 
-    GetUnitObject()->StealthActivated();
-    _delegate_w->GameUnitDidUndetected(this);
     
     
     _unitData->StartNewTurn();
     if (_unitData->GetIsTaskFinished())
     {
-        CreateCheckIcon();
+        if (_owner_w->GetIsCurrentPlayer())
+            CreateCheckIcon();
+        else
+            DestroyCheckIcon();
         CheckBuildProcess();
     }
     else
@@ -379,6 +377,32 @@ void GameUnit::SetLocation(const cocos2d::CCPoint &cell)
         _effectUnder->SetLocation(_unitCell);
 }
 
+bool GameUnit::IsDetectedByCurrentPlayerTeam()
+{
+    GameMatch *m = GetMatch();
+    
+    for (int i = 0; i < m->_players.size(); i++)
+    {
+        GameMatchPlayer *player = m->_players[i];
+        if (IsDetectedByPlayer(player->GetPlayerId()) && m->PlayerIsEnemyToPlayer(player, _owner_w) && !m->PlayerIsEnemyToPlayer(player, m->_currentPlayer_w))
+            return true;
+    }
+    return false;
+}
+
+bool GameUnit::IsDetectedByEnemies()
+{
+    GameMatch *m = GetMatch();
+    
+    for (int i = 0; i < m->_players.size(); i++)
+    {
+        GameMatchPlayer *player = m->_players[i];
+        if (IsDetectedByPlayer(player->GetPlayerId()) && m->PlayerIsEnemyToPlayer(player, _owner_w))
+            return true;
+    }
+    return false;
+}
+
 void GameUnit::CheckBodyAndShadow()
 {
     MAXUnitObject* _unitObject = GetUnitObject();
@@ -408,7 +432,12 @@ void GameUnit::CheckBodyAndShadow()
             _unitObject->_currentLevel = OBJECT_LEVEL_ONGROUND;
             if (_unitData->GetConfig()->_isUnderwater)
             {
-				_unitObject->SetBodyOffset(IsDetectedByPlayer(GetMatch()->_currentPlayer_w->GetPlayerId())?8:0);
+                bool onSurface = false;
+                if (_owner_w->GetIsCurrentPlayer())
+                    onSurface = IsDetectedByEnemies();
+                else
+                    onSurface = IsDetectedByCurrentPlayerTeam();
+				_unitObject->SetBodyOffset(onSurface?8:0);
                 _unitObject->_needShadow = false;
                 return;
             }
@@ -842,16 +871,14 @@ vector<CCPoint> GameUnit::GetUnitCells()
 
 void GameUnit::DetectedByPlayer(unsigned int playerId)
 {
-    if (_config_w->_isStealthable && !_unitData->_detected[playerId])
+    if (!_unitData->_detected[playerId])
     {
         _unitData->_detected[playerId] = true;
         _unitData->_detected[_owner_w->GetPlayerId()] = true;
-        if (GetMatch()->GetIsCurrentPlayer(playerId) ||
-            GetMatch()->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
-        {
+        if (GetMatch()->GetIsCurrentPlayer(playerId) &&
+            !GetMatch()->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
             GetUnitObject()->StealthDeactivated();
-            _delegate_w->GameUnitDidDetected(this);
-        }
+        
         if (_owner_w->GetIsCurrentPlayer() && _unitData->GetIsUnderwater() && !_unitData->GetIsAmphibious() && _owner_w->GetPlayerId() != playerId)
             SOUND->PlaySystemSound(SOUND_TYPE_SUBMARINE_DETECTED);
     }
@@ -859,16 +886,14 @@ void GameUnit::DetectedByPlayer(unsigned int playerId)
 
 void GameUnit::UndetectedByPlayer(unsigned int playerId)
 {
-    if (_config_w->_isStealthable && _unitData->_detected[playerId])
+    if (_unitData->_detected[playerId])
     {
         _unitData->_detected[playerId] = false;
-        _unitData->_detected[_owner_w->GetPlayerId()] = false;
+        _unitData->_detected[_owner_w->GetPlayerId()] = false;//todo:change to  IsDetectedByCurrentPlayerTeam and IsDetectedByEnemies
         if (GetMatch()->GetIsCurrentPlayer(playerId) ||
             GetMatch()->GetIsCurrentPlayer(_owner_w->GetPlayerId()))
-        {
             GetUnitObject()->StealthActivated();
-            _delegate_w->GameUnitDidUndetected(this);
-        }
+        
     }
 }
 
@@ -959,7 +984,10 @@ GameEffect* GameUnit::MakeWeaponAnimationEffect(const cocos2d::CCPoint &target, 
 void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
 {
     if (!CanFire(target))
+    {
+        throw "GameUnit::Fire cant fire!";
         return;
+    }
     
     _unitData->MakeShot();
     
@@ -991,25 +1019,7 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
         if (gameObjectDelegate)
             gameObjectDelegate->onUnitFireStop(this);
     }
-    
-    MAXObjectConfig* config = _unitData->GetConfig();
-    if (config->_isStealthable)
-    {
-        bool processed = false;
-        for (int i = 0; i < MAX_PLAYERS; i++)
-        {
-            if (!_unitData->_detected[i])
-            {
-                _unitData->_detected[i] = true;
-                if (!processed)
-                {
-                    processed = true;
-                    GetUnitObject()->StealthDeactivated();
-                    _delegate_w->GameUnitDidDetected(this);
-                }
-            }
-        }
-    }
+
 }
 
 #pragma mark - Build methods

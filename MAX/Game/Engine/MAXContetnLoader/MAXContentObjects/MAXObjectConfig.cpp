@@ -571,6 +571,24 @@ bool MAXObjectConfig::IsValid() const
     _imageName.length()>0;
 }
 
+std::vector<UNIT_PARAMETER_TYPE> MAXObjectConfig::GetEnemyShortParameterList()
+{
+    std::vector<UNIT_PARAMETER_TYPE> result;
+    
+    if (_pHealth > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_HEALTH);
+    if (_pFuel > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_GAS);
+    if (_pAmmo > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_AMMO);
+    if (_pSpeed > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_SPEED);
+    if (_pShots > 0)
+        result.push_back(UNIT_PARAMETER_TYPE_SHOTS);
+    
+    return result;
+}
+
 std::vector<UNIT_PARAMETER_TYPE> MAXObjectConfig::GetShortParameterList()
 {
     std::vector<UNIT_PARAMETER_TYPE> result;

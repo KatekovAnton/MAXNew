@@ -28,8 +28,6 @@ public:
     virtual void GameUnitDidPlaceOnMap(GameUnit *unit) = 0;
     virtual void GameUnitDidRemoveFromMap(GameUnit *unit) = 0;
     
-    virtual void GameUnitDidUndetected(GameUnit *unit) = 0;
-    virtual void GameUnitDidDetected(GameUnit *unit) = 0;
 };
 
 #endif

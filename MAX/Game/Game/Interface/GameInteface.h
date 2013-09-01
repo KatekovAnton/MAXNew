@@ -150,8 +150,8 @@ public:
     
 #pragma mark - Game events
     
-    void OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock);
-    void OnCurrentUnitDataChanged(GameUnit* unit);
+    void OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock, bool isEnemyUnit);
+    void OnCurrentUnitDataChanged(GameUnit* unit, bool isEnemyUnit);
 
 };
 

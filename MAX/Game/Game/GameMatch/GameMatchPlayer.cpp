@@ -87,7 +87,6 @@ CCArray *GameMatchPlayer::CreateTexture2DFromMaterialFirstFrame(string name)
 {
     int index = MAXSCL->FindImage(name);
     void* cashed = _cachedPaletteImages[index];
-    CCArray *array = NULL;
     if(cashed)
     {
         CCArray *result = (CCArray*)cashed;
@@ -214,14 +213,4 @@ void GameMatchPlayer::GameUnitDidRemoveFromMap(GameUnit *unit)
 	    _playerData->UnitDidRemoveFromMap(unit->_unitData);
 	if (_match_w)
 		_match_w->GameUnitWillLeaveCell(unit, unit->GetUnitCell());
-}
-
-void GameMatchPlayer::GameUnitDidUndetected(GameUnit *unit)
-{
-    _match_w->GameUnitDidUndetected(unit, unit->GetUnitCell());
-}
-
-void GameMatchPlayer::GameUnitDidDetected(GameUnit *unit)
-{
-    _match_w->GameUnitDidDetected(unit, unit->GetUnitCell());
 }

@@ -74,9 +74,6 @@ public:
         
     virtual void GameUnitDidPlaceOnMap(GameUnit *unit);
     virtual void GameUnitDidRemoveFromMap(GameUnit *unit);
-    
-    virtual void GameUnitDidUndetected(GameUnit *unit);
-    virtual void GameUnitDidDetected(GameUnit *unit);
 };
 
 #endif /* defined(__MAX__Game_MatchPlayer__) */

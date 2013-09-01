@@ -144,6 +144,8 @@ public:
     void DetectedByPlayer(unsigned int playerId);
     void UndetectedByPlayer(unsigned int playerId);
     bool IsDetectedByPlayer(unsigned int playerId);
+    bool IsDetectedByCurrentPlayerTeam();
+    bool IsDetectedByEnemies();
     
 #pragma mark - Fire methods
     bool CanFire(const cocos2d::CCPoint &target);

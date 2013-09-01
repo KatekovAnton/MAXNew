@@ -68,8 +68,6 @@ public:
     void GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point);
     void GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point);
     
-    void GameUnitDidDetected(GameUnit *unit, const CCPoint &point);
-    void GameUnitDidUndetected(GameUnit *unit, const CCPoint &point);
     
     void CheckAutofire(GameUnit *unit, const CCPoint &point);
     
@@ -81,6 +79,7 @@ public:
     bool UnitCanStillBePlacedToCell(const int x, const int y, MAXObjectConfig *buildingType, GameMatchPlayer* player, bool alreadyPlaced);
 
     void GameUnitDidDestroy(GameUnit *unit);
+    void GameUnitDidInitiateFire(GameUnit *unit);
 };
 
 #endif /* defined(__MAX__Game_atch__) */

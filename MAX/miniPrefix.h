@@ -38,7 +38,8 @@ typedef enum
     OBJECT_LEVEL_UNITS        = 4,
     OBJECT_LEVEL_OVERUNITS    = 5,
     OBJECT_LEVEL_AIR          = 6,
-    OBJECT_LEVEL_OVERAIR      = 7
+    OBJECT_LEVEL_OVERAIR      = 7,
+    OBJECT_LEVEL_SPACE        = 8
 } OBJECT_LEVEL;
 
 typedef enum

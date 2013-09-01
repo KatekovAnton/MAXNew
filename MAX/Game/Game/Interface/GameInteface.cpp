@@ -171,14 +171,14 @@ void GameInterface::InitBaseInterface()
     CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     CCMenu *menu = CCMenu::create(_buttonOptions, nullptr);
     
-    currentElement -= bh + bd + 2;
+    currentElement -= bh + bd;
     _buttonEndTurn = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "End turn", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnEndTurn));
     //createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
     CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     _buttonEndTurn->setPosition(ccp(bx,currentElement));
     menu->addChild(_buttonEndTurn);
 	
-	currentElement -= 112;
+	currentElement -= 111;
     _unitParameters = GIUnitParametersNode::create(panelW-1);
     _unitParameters->setPosition(ccp(1, currentElement));
     scroll->addChild(_unitParameters);
@@ -600,7 +600,7 @@ void GameInterface::RemoveUnitFromLock(GameUnit* object)
     MAXStatusRenderer::SharedStatusRenderer()->RemoveUnitFromLock(object->GetUnitObject());
 }
 
-void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock)
+void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock, bool isEnemyUnit)
 {
     if (unit)
     {
@@ -630,19 +630,19 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock)
     else
         engine->drawResources = _drawResources;
     
-    _unitParameters->SetUnit(_currentUnit);
+    _unitParameters->SetUnit(_currentUnit, isEnemyUnit);
 }
 
-void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit)
+void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit, bool isEnemyUni)
 {
     if (unit == _currentUnit)
     {
         _unitParameters->UpdateParameters();
-        _unitParameters->SetUnit(unit); // TBD: only update data
+        _unitParameters->SetUnit(unit, isEnemyUni); // TBD: only update data
     }
     else
     {
-        _unitParameters->SetUnit(unit);
+        _unitParameters->SetUnit(unit, isEnemyUni);
     }
 }
 

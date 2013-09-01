@@ -102,12 +102,14 @@ bool GameUnitData::GetCanStartBuildProcess() const
 
 bool GameUnitData::IsDetectedByPlayer(unsigned int playerId)
 {
-    bool result = false;
-    if (playerId < MAX_PLAYERS)
-    {
-        result = GetConfig()->_isStealthable && _detected[playerId];
-    }
-    return result;
+    return _detected[playerId];
+    
+//    bool result = false;
+//    if (playerId < MAX_PLAYERS)
+//    {
+//        result = GetConfig()->_isStealthable && _detected[playerId];
+//    }
+//    return result;
 }
 
 vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
