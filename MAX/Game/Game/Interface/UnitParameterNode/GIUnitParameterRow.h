@@ -25,7 +25,7 @@ class GIUnitParameterRow: public CCNode
     CCSprite* _imageFull;
     
     
-    CCSprite* _lineSprite;
+    CCLayerColor* _lineSprite;
     
     int _value;
     int _maxValue;

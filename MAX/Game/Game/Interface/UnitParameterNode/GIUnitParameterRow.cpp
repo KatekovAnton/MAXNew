@@ -27,10 +27,8 @@ GIUnitParameterRow::GIUnitParameterRow()
     _labelValue->setColor(this->colorForLabel());
     addChild(_labelValue);
     
-    _lineSprite = CCSprite::create("parameterSeparator.png");
-    _lineSprite->setScaleX(23);
-    _lineSprite->setScaleY(0.25);
-    _lineSprite->setPosition(ccp(52, 14));
+    _lineSprite = CCLayerColor::create(CocosHelper::selectedColor(), 90, 1);
+    _lineSprite->setPosition(ccp(6, 14));
     addChild(_lineSprite);
 }
 

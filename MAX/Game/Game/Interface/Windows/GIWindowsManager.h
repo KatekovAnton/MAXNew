@@ -15,9 +15,10 @@
 class GIWindow;
 class GIWindowPart;
 
-class GIWindowsManager {
+class GIWindowsManager : public CCObject {
     
     CCNode              *_baseNode;
+    CCMenu              *_menu;
     
     vector<GIWindow*>   _windowQueue;
     GIWindow            *_currentWindow;
@@ -28,10 +29,12 @@ class GIWindowsManager {
 public:
     
     GIWindowsManager(CCNode *parentNode);
-    ~GIWindowsManager();
+    virtual ~GIWindowsManager();
     
     void PresentWindow(GIWindow *window, float h, bool queue);
     void CloseCurrentWindow();
+    
+    void OnCloseFinished(CCObject* sender);
     
 };
 

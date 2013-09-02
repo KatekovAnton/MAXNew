@@ -298,16 +298,15 @@ void GameInterface::InitBaseInterface()
 
 
     
-    CCMenuItem* _buttonTest = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "TOGGLE INTERFACE", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleInterface));
-    //createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
-    CocosHelper::MoveNode(_buttonTest->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 1));
-    _buttonTest->setPosition(ccp(0, 0));
-    
-    CCMenu *menuTurn = CCMenu::create(_buttonTest, nullptr);
-    menuTurn->setPosition(getContentSize().width - 203, getContentSize().height - 19);
-    menuTurn->setContentSize(CCSize(100, 23));
-    menuTurn->setTouchEnabled(true);
-    addChild(menuTurn);
+//    CCMenuItem* _buttonTest = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "TOGGLE INTERFACE", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleInterface));
+//    CocosHelper::MoveNode(_buttonTest->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 1));
+//    _buttonTest->setPosition(ccp(0, 0));
+//    
+//    CCMenu *menuTurn = CCMenu::create(_buttonTest, nullptr);
+//    menuTurn->setPosition(getContentSize().width - 203, getContentSize().height - 19);
+//    menuTurn->setContentSize(CCSize(100, 23));
+//    menuTurn->setTouchEnabled(true);
+//    addChild(menuTurn);
     
     this->OnTogglePanel(_buttonTogglePanel);
     _inited = true;
