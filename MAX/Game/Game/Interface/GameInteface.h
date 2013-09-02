@@ -82,6 +82,8 @@ class GameInterface : public CCScene
     GIUnitSelectionMenu* _unitSelectionMenu;
     
     bool _visible;
+    
+    
  
 public:
 

@@ -52,7 +52,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
 }
 
 GameInterface::GameInterface()
-:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL), _firstTime(true), _visible(true)
+:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL), _firstTime(true), _visible(true), nodeHieraclyOpacity(NULL)
 {
     _lockUnits = false;
     
@@ -325,14 +325,14 @@ void GameInterface::ToggleInterfaceVisibility(float visibleFlag)
     if (_visible == visibleFlag) 
         return;
     
-    CCSetFrameExtended *anim = new CCSetFrameExtended();
-	anim->initWithDuration(interfaceAnimationTime, _panel->getContentSize(), _panel->getPosition(), visibleFlag?CocosHelper::normalColor().a:0, NULL, NULL);
-	anim->autorelease();
-	anim->setTag(0);
-	CCEaseInOut* action = CCEaseInOut::create(anim, 3.0);
-	action->setTag(0);
+    _visible = visibleFlag;
     
-	_panel->runAction(action);
+    if (!_visible && nodeHieraclyOpacity) {
+        delete nodeHieraclyOpacity;
+        nodeHieraclyOpacity = NULL;
+    }
+    
+    nodeHieraclyOpacity = new NodeHieraclyOpacity(
 }
 
 void GameInterface::ClearLockedUnits()

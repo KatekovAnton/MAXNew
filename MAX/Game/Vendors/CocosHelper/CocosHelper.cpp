@@ -34,7 +34,10 @@ void NodeHieraclyOpacity::ProcessNode(CCNode* node)
 {
     CCRGBAProtocol *rgbaPart = dynamic_cast<CCRGBAProtocol*>(node);
     if (rgbaPart)
+    {
         baseOpacityData.insert(std::pair<CCNode*, float>(node, rgbaPart->getOpacity()));
+        allNodes.push_back(node);
+    }
 }
 
 bool NodeHieraclyOpacity::NodeHaveOpacity(CCNode *node)
@@ -47,6 +50,36 @@ float NodeHieraclyOpacity::OpacityForNode(CCNode *node)
     if (!NodeHaveOpacity(node))
         return -1;
     return baseOpacityData[node];
+}
+
+void NodeHieraclyOpacity::AnimateOpacityToZero()
+{
+    for (int i = 0; i < allNodes.size(); i++) {
+        CCNode *node = allNodes[i];
+        CCSetFrameExtended *anim = new CCSetFrameExtended();
+       // float opacity = baseOpacityData[node];
+        anim->initWithDuration(interfaceAnimationTime, node->getContentSize(), node->getPosition(), 0, NULL, NULL);
+        anim->autorelease();
+        anim->setTag(0);
+        CCEaseInOut* action = CCEaseInOut::create(anim, 3.0);
+        action->setTag(0);
+        node->runAction(action);
+    }
+}
+
+void NodeHieraclyOpacity::AnimateOpacityToStartValues()
+{
+    for (int i = 0; i < allNodes.size(); i++) {
+        CCNode *node = allNodes[i];
+        CCSetFrameExtended *anim = new CCSetFrameExtended();
+        float opacity = baseOpacityData[node];
+        anim->initWithDuration(interfaceAnimationTime, node->getContentSize(), node->getPosition(), opacity, NULL, NULL);
+        anim->autorelease();
+        anim->setTag(0);
+        CCEaseInOut* action = CCEaseInOut::create(anim, 3.0);
+        action->setTag(0);
+        node->runAction(action);
+    }
 }
 
 
