@@ -21,7 +21,7 @@ class GIWindowsManager {
     
     vector<GIWindow*>   _windowQueue;
     GIWindow            *_currentWindow;
-    
+    CCLayerColor        *_nodeBase;
     
     void ProcessQueue();
     
@@ -30,7 +30,7 @@ public:
     GIWindowsManager(CCNode *parentNode);
     ~GIWindowsManager();
     
-    void PresentWindow(GIWindow *window);
+    void PresentWindow(GIWindow *window, float h, bool queue);
     void CloseCurrentWindow();
     
 };

@@ -25,7 +25,8 @@ NodeHieraclyOpacity::NodeHieraclyOpacity(CCNode *node)
         parent->retain();
         ProcessNode(parent);
         nodestack->removeLastObject();
-        nodestack->addObjectsFromArray(parent->getChildren());
+        if (parent->getChildren())
+            nodestack->addObjectsFromArray(parent->getChildren());
         parent->release();
     }
 }
@@ -79,6 +80,45 @@ void NodeHieraclyOpacity::AnimateOpacityToStartValues()
         CCEaseInOut* action = CCEaseInOut::create(anim, 3.0);
         action->setTag(0);
         node->runAction(action);
+    }
+}
+
+void NodeHieraclyOpacity::AnimateOpacityToStartValuesWithDelay(float delay)
+{
+    for (int i = 0; i < allNodes.size(); i++) {
+        CCNode *node = allNodes[i];
+        CCSetFrameExtended *anim = new CCSetFrameExtended();
+        CCWaitExtended *wait = new CCWaitExtended();
+        wait->initWithDuration(delay, NULL, NULL);
+        wait->autorelease();
+        
+        float opacity = baseOpacityData[node];
+        anim->initWithDuration(interfaceAnimationTime, node->getContentSize(), node->getPosition(), opacity, NULL, NULL);
+        anim->autorelease();
+        anim->setTag(0);
+        CCEaseInOut* action = CCEaseInOut::create(anim, 3.0);
+        action->setTag(0);
+        CCAction *seq = CCSequence::createWithTwoActions(wait, action);
+        node->runAction(seq);
+    }
+}
+
+void NodeHieraclyOpacity::SetOpacityToZero()
+{
+    for (int i = 0; i < allNodes.size(); i++) {
+        CCNode *node = allNodes[i];
+        CCRGBAProtocol *rgbaPart = dynamic_cast<CCRGBAProtocol*>(node);
+        rgbaPart->setOpacity(0);
+    }
+}
+
+void NodeHieraclyOpacity::SetOpacityToStartValues()
+{
+    for (int i = 0; i < allNodes.size(); i++) {
+        CCNode *node = allNodes[i];
+        GLubyte opacity = baseOpacityData[node];
+        CCRGBAProtocol *rgbaPart = dynamic_cast<CCRGBAProtocol*>(node);
+        rgbaPart->setOpacity(opacity);
     }
 }
 

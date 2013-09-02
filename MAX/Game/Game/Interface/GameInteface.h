@@ -21,6 +21,7 @@ class GIUnitActionMenu;
 class GIUnitActionMenuDelegate;
 class GIUnitSelectionMenu;
 class GIUnitSelectionMenuDelegate;
+class GIWindowsManager;
 
 class MAXGameController;
 class CCMenuItemNodes;
@@ -30,7 +31,7 @@ class GameInterface : public CCScene
 {
     bool _inited;
     bool _firstTime;
-    NodeHieraclyOpacity *nodeHieraclyOpacity;
+    NodeHieraclyOpacity *_nodeHieraclyOpacity;
     
     CCNode* _unitInterfaceBattle;
     
@@ -83,7 +84,7 @@ class GameInterface : public CCScene
     
     bool _visible;
     
-    
+    GIWindowsManager *_windowManager;
  
 public:
 
@@ -149,6 +150,7 @@ public:
     void OnEndTurn(CCMenuItem* sender);
     
     void OnMenuItemButton(CCMenuItem* sender);
+    void OnToggleInterface(CCMenuItem* sender);
     
 #pragma mark - Game events
     

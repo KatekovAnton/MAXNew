@@ -22,6 +22,7 @@
 #include "GIUnitParametersNode.h"
 #include "GIUnitActionMenu.h"
 #include "GIUnitSelectionMenu.h"
+#include "GIWindowsManager.h"
 #include "MAXGame.h"
 #include "MAXObjectConfig.h"
 #include "StringUtils.h"
@@ -52,7 +53,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
 }
 
 GameInterface::GameInterface()
-:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL), _firstTime(true), _visible(true), nodeHieraclyOpacity(NULL)
+:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL), _firstTime(true), _visible(true), _nodeHieraclyOpacity(NULL)
 {
     _lockUnits = false;
     
@@ -83,6 +84,8 @@ GameInterface::GameInterface()
 GameInterface::~GameInterface()
 {
 	ClearLockedUnits();
+    delete _windowManager;
+    delete _nodeHieraclyOpacity;
 }
 
 void GameInterface::InitBaseInterface()
@@ -295,15 +298,21 @@ void GameInterface::InitBaseInterface()
 
 
     
+    CCMenuItem* _buttonTest = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "TOGGLE INTERFACE", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleInterface));
+    //createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
+    CocosHelper::MoveNode(_buttonTest->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 1));
+    _buttonTest->setPosition(ccp(0, 0));
     
-//    CCMenu *menuTurn = CCMenu::create(_buttonEndTurn, nullptr);
-//    menuTurn->setPosition(getContentSize().width - 203, getContentSize().height - 19);
-//    menuTurn->setContentSize(CCSize(100, 23));
-//    menuTurn->setTouchEnabled(true);
-//    addChild(menuTurn);
+    CCMenu *menuTurn = CCMenu::create(_buttonTest, nullptr);
+    menuTurn->setPosition(getContentSize().width - 203, getContentSize().height - 19);
+    menuTurn->setContentSize(CCSize(100, 23));
+    menuTurn->setTouchEnabled(true);
+    addChild(menuTurn);
     
     this->OnTogglePanel(_buttonTogglePanel);
     _inited = true;
+    
+    _windowManager = new GIWindowsManager(this);
 }
 
 void GameInterface::SetNewTurnData(int turnNumber, Color playerColor)
@@ -331,12 +340,22 @@ void GameInterface::ToggleInterfaceVisibility(float visibleFlag)
     
     _visible = visibleFlag;
     
-    if (!_visible && nodeHieraclyOpacity) {
-        delete nodeHieraclyOpacity;
-        nodeHieraclyOpacity = NULL;
+    if (!_visible) {
+        HideUnitMenu();
+        HideUnitSelectionMenu();
     }
     
-    nodeHieraclyOpacity = new NodeHieraclyOpacity(
+    if ((!_visible && _nodeHieraclyOpacity) || !_nodeHieraclyOpacity) {
+        if (_nodeHieraclyOpacity)
+            delete _nodeHieraclyOpacity;
+        _nodeHieraclyOpacity = NULL;
+        _nodeHieraclyOpacity = new NodeHieraclyOpacity(_panel);
+    }
+    
+    if (!_visible)
+        _nodeHieraclyOpacity->AnimateOpacityToZero();
+    else
+        _nodeHieraclyOpacity->AnimateOpacityToStartValuesWithDelay(interfaceAnimationTime);
 }
 
 void GameInterface::ClearLockedUnits()
@@ -521,11 +540,7 @@ void GameInterface::OnTogglePanel(CCMenuItem* sender)
         SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     
     
-//    if (!firstPress) {
-//        ToggleInterfaceVisibility(false);
-//        return;
-//    }
-//    firstPress = false;
+
     const static int moveAnimationTag = 0;
     CCAction* currentAction = _panel->getActionByTag(moveAnimationTag);
     if (currentAction)
@@ -576,6 +591,18 @@ void GameInterface::OnEndTurn(CCMenuItem* sender)
         SOUND->PlaySystemSound(SOUND_TYPE_START_OF_TURN);
 }
 
+void GameInterface::OnToggleInterface(CCMenuItem* sender)
+{
+    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+    
+	ToggleInterfaceVisibility(!_visible);
+    
+    if (_visible)
+        _windowManager->CloseCurrentWindow();
+    else
+        _windowManager->PresentWindow(NULL, 300, false);
+}
+
 #pragma mark - Game events
 
 bool AlreadyExist(GameUnit* object, vector<GameUnit*> *container)
@@ -602,6 +629,9 @@ void GameInterface::RemoveUnitFromLock(GameUnit* object)
 
 void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock, bool isEnemyUnit)
 {
+    if (_nodeHieraclyOpacity && !_visible)
+        _nodeHieraclyOpacity->SetOpacityToStartValues();
+    
     if (unit)
     {
         if (_currentUnit && !_lockUnits)
@@ -631,10 +661,20 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock, bo
         engine->drawResources = _drawResources;
     
     _unitParameters->SetUnit(_currentUnit, isEnemyUnit);
+    
+    
+    if (_nodeHieraclyOpacity && !_visible) {
+        delete _nodeHieraclyOpacity;
+        _nodeHieraclyOpacity = new NodeHieraclyOpacity(_panel);
+        _nodeHieraclyOpacity->SetOpacityToZero();
+    }
 }
 
 void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit, bool isEnemyUni)
 {
+    if (_nodeHieraclyOpacity && !_visible)
+        _nodeHieraclyOpacity->SetOpacityToStartValues();
+    
     if (unit == _currentUnit)
     {
         _unitParameters->UpdateParameters();
@@ -643,6 +683,12 @@ void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit, bool isEnemyUni)
     else
     {
         _unitParameters->SetUnit(unit, isEnemyUni);
+    }
+    
+    if (_nodeHieraclyOpacity && !_visible) {
+        delete _nodeHieraclyOpacity;
+        _nodeHieraclyOpacity = new NodeHieraclyOpacity(_panel);
+        _nodeHieraclyOpacity->SetOpacityToZero();
     }
 }
 

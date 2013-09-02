@@ -20,7 +20,7 @@ using namespace cocos2d;
 
 class NodeHieraclyOpacity
 {
-    map<CCNode*, float> baseOpacityData;
+    map<CCNode*, GLubyte> baseOpacityData;
     vector<CCNode*> allNodes;
     void ProcessNode(CCNode*);
     
@@ -32,6 +32,9 @@ public:
     
     void AnimateOpacityToZero();
     void AnimateOpacityToStartValues();
+    void AnimateOpacityToStartValuesWithDelay(float delay);
+    void SetOpacityToZero();
+    void SetOpacityToStartValues();
     
 };
 
