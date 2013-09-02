@@ -846,15 +846,14 @@ void MAXGameController::ProceedTap(float tapx, float tapy)
                     if ((location1.x == location2.x) && (location1.y == location2.y))
                     {
                         // clear path
-                        newCurrentUnit = NULL;
-                        _unitMoved = true;
                         std::vector<PFWaveCell*> path;
                         _currentUnit->SetPath(path);
                         HideUnitPath();
                         _needToOpenMenuOnNextTapToSameUnit = false;
                     }
                 }
-                // force select another unit
+                
+                SelectNewUnit(newCurrentUnit);
             }
             else if (_currentUnit->_owner_w->GetIsCurrentPlayer() || allowControlEnemyUnits)
             {
@@ -1396,6 +1395,20 @@ void MAXGameController::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
 		HideUnitPath();
         return;
 	}
+    else if (action == UNIT_MENU_ACTION_PLACEMINES)
+    {
+        if (_currentUnit->_unitData->GetIsPlacingMines())
+            _currentUnit->SetPlacingMines(false);
+        else
+            _currentUnit->SetPlacingMines(true);
+    }
+    else if (action == UNIT_MENU_ACTION_REMOVEMINES)
+    {
+        if (_currentUnit->_unitData->GetIsRemovingMines())
+            _currentUnit->SetRemovingMines(false);
+        else
+            _currentUnit->SetRemovingMines(true);
+    }
 	else if (action == UNIT_MENU_ACTION_STOP)
 	{
         if (_currentUnit->GetPath().size() > 0) {
@@ -1497,6 +1510,15 @@ void MAXGameController::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
     //UNIT_MENU_ACTION_WAIT
 }
 
+bool MAXGameController::IsUnitActionSelected(UNIT_MENU_ACTION action)
+{
+    if (action == UNIT_MENU_ACTION_PLACEMINES)
+        return _currentUnit->_unitData->GetIsPlacingMines();
+    if (action == UNIT_MENU_ACTION_REMOVEMINES)
+        return _currentUnit->_unitData->GetIsRemovingMines();
+    
+    return false;
+}
 
 #pragma mark - GIUnitSelectionMenuDelegate
 

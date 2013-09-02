@@ -10,8 +10,8 @@
 #include "GameUnit.h"
 #include "GameMatchPlayer.h"
 
-GUConstructBuildingTask::GUConstructBuildingTask(GameUnit *unit, string buildingType, int pathDirectionn, int pathLenth, CCPoint cell):
-GUTask(unit), _type(buildingType), _pathDirection(pathDirectionn), _pathLength(pathLenth), _cell(cell), _constructionUnit_w(NULL), _turns(0)
+GUConstructBuildingTask::GUConstructBuildingTask(GameUnit *unit, string buildingType, int pathDirectionn, int pathLenth, CCPoint cell)
+:GUTask(unit), _type(buildingType), _pathDirection(pathDirectionn), _pathLength(pathLenth), _cell(cell), _constructionUnit_w(NULL), _turns(0)
 {
 
 }

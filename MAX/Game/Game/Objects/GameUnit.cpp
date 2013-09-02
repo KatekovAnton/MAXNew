@@ -32,6 +32,7 @@
 #include "GUConstructBuildingTask.h"
 #include "GUConstructUnitTask.h"
 #include "GUClearzoneTask.h"
+#include "MatchMapAgregator.h"
 
 using namespace cocos2d;
 
@@ -1022,6 +1023,63 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
 
 }
 
+#pragma mark - Place/remove mines methods
+
+void GameUnit::SetPlacingMines(bool action)
+{
+    _unitData->SetPlacingMines(action);
+//    if (_unitData->GetIsPlacingMines()) 
+//        PerformMineAction();
+}
+
+void GameUnit::SetRemovingMines(bool action)
+{
+    _unitData->SetRemovingMines(action);
+//    if (_unitData->GetIsRemovingMines()) 
+//        PerformMineAction();
+}
+
+void GameUnit::PerformMineAction()
+{
+    bool containMine = _owner_w->_match_w->_fullAgregator->IsBombMineInPosition(_unitCell.x, _unitCell.y, (UNIT_MOVETYPE)GetConfig()->_bMoveType);
+    
+    EXTENDED_GROUND_TYPE gt = _owner_w->_match_w->_fullAgregator->GroundTypeAtXY(_unitCell.x, _unitCell.y);
+    if (gt == EXTENDED_GROUND_TYPE_BRIDGE || gt == EXTENDED_GROUND_TYPE_UNPASSABLE) 
+        return;
+    
+    
+    if (_unitData->GetIsPlacingMines() && !containMine)
+    {
+        string mineName = "landmine";
+        if (GetConfig()->_bMoveType == UNIT_MOVETYPE_SEA)
+            mineName = "seamine";
+        
+        GameUnit* _newMine = _owner_w->CreateUnit(_unitCell.x, _unitCell.y, mineName, 0);
+        _newMine->PlaceUnitOnMap();
+        
+        _unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, _unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) - 1);
+        if (_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) == 0)
+            SetPlacingMines(false);
+        
+    }
+    
+    
+    if (_unitData->GetIsRemovingMines() && containMine)
+    {
+        USimpleContainer<GameUnit*> *units = _owner_w->_match_w->_fullAgregator->UnitsInCell(_unitCell.x, _unitCell.y);
+        for (int i = 0; i < units->GetCount(); i++)
+        {
+            GameUnit *unit = units->objectAtIndex(i);
+            if (unit->GetConfig()->_isBombMine)
+            {
+                unit->Destroy(true);
+                _unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, _unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) + 1);
+                break;
+            }
+        }
+    }
+}
+
 #pragma mark - Build methods
 
 void GameUnit::CreateCheckIcon()
@@ -1169,6 +1227,8 @@ void GameUnit::CheckMovementUpdate()
         _unitData->_unitCell = realCell;
         _delegate_w->GameUnitDidEnterCell(this);
         CheckBodyAndShadow();
+        _unitData->OnCellChanged();
+        PerformMineAction();
     }
 }
 

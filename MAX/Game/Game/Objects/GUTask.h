@@ -26,6 +26,7 @@ public:
     virtual void AbortTask() = 0;
     virtual void StartTask() = 0;
     virtual void FinishTask() = 0;
+    virtual void UnitDidChangeCell();
     
     virtual bool NeedUserInteractionToFinish() = 0;
     

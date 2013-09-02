@@ -309,7 +309,7 @@ string titleForType(UNIT_MENU_ACTION action)
 //    return baseName;
 //}
 
-GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons)
+GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons, vector<bool> activateFlags)
 {
 	_delegate_w = NULL;
     CCArray* arr = CCArray::create();
@@ -321,7 +321,7 @@ GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons)
     setContentSize(ccz(BUTTON_W, fullH));
     for (int i = 0; i < buttons.size(); i++) {
         UNIT_MENU_ACTION bt = buttons[buttons.size() - i - 1];
-        CCMenuItem* item = CreateMenuItemWithType(bt);
+        CCMenuItem* item = CreateMenuItemWithType(bt, activateFlags[buttons.size() - i - 1]);
         item->setPosition(ccp(0, cH));
         addChild(item);
         cH += BUTTON_H;
@@ -334,37 +334,17 @@ GIUnitActionMenu::GIUnitActionMenu(vector<UNIT_MENU_ACTION> buttons)
 GIUnitActionMenu::~GIUnitActionMenu()
 {}
 
-CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type)
+CCMenuItem *GIUnitActionMenu::CreateMenuItemWithType(UNIT_MENU_ACTION type, bool activate)
 {
     //string baseName = imageNameFormType(type);
     string title = titleForType(type);
-    Color transparent;
-    transparent.r = 0;
-    transparent.g = 0;
-    transparent.b = 0;
+
+    CCMenuItemNodes* item = createMenuItemWithLayers(ccz(78, 25), CocosHelper::normalColor(), CocosHelper::selectedColor(), title, MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GIUnitActionMenu::OnButton));
+    CocosHelper::MoveNode(item->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 2));
+    item->setTag(type);
+    item->SetSelected(activate);
     
-//    CCSprite* _onSprite = CCSprite::create("button_test_gr.png");// MAXSCL->CreateSpriteFromSimpleImage(baseName + "_ON", transparent);
-//    CCSprite* _ofSprite = CCSprite::create("button_test.png");//MAXSCL->CreateSpriteFromSimpleImage(baseName + "_OF", transparent);
-    
-    CCLayerColor *_onSprite = CCLayerColor::create(CocosHelper::selectedColor(), 78, 25);
-    CCLayerColor *_ofSprite = CCLayerColor::create(CocosHelper::normalColor(), 78, 25);
-    
-    CCMenuItemSprite* spr = CCMenuItemSprite::create(_ofSprite, _onSprite, this, menu_selector(GIUnitActionMenu::OnButton));
-    spr->setContentSize(CCSize(BUTTON_W, BUTTON_H));
-    spr->setAnchorPoint(ccp(0, 0));
-    spr->setTag(type);
-    spr->setEnabled(true);
-    
-    CCLabelTTF *label = CCLabelTTF::create(title.c_str(), MAX_DEFAULT_FONT, 10);
-    label->setTag(BUTTON_LABEL_TAG);
-    label->setColor(MAX_COLOR_WHITE);
-    spr->addChild(label, 1);
-    label->setContentSize(ccz(BUTTON_W, BUTTON_H));
-    label->setPosition(ccp(13, 5));
-    label->setAnchorPoint(ccp(0, 0));
-   // CocosHelper::ProceedCCNode(spr);
-    
-    return spr;
+    return item;
 }
 
 void GIUnitActionMenu::OnButton(CCObject* sender)

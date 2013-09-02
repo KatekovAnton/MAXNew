@@ -146,6 +146,7 @@ public:
 
 #pragma mark - GIUnitActionMenuDelegate
     virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);
+    virtual bool IsUnitActionSelected(UNIT_MENU_ACTION action);
     
 #pragma mark - GIUnitSelectionMenuDelegate 
     virtual void OnUnitSelected(GameUnit* result, const CCPoint &point);

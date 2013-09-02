@@ -101,8 +101,13 @@ public:
     void StopCurrentSound();
     void UnitDidSelect();
     void UnitDidDeselect();
+    
     void CheckBodyAndShadow();
     void CheckBuildProcess();
+    
+    void SetPlacingMines(bool action);
+    void SetRemovingMines(bool action);
+    void PerformMineAction();
     
     void SetPath(std::vector<PFWaveCell*> path);
 	void ClearPath();
@@ -139,8 +144,8 @@ public:
     bool CanMove() const;
     
     void CheckMovementUpdate();
-    
     void UpdateConnectors();
+    
     void DetectedByPlayer(unsigned int playerId);
     void UndetectedByPlayer(unsigned int playerId);
     bool IsDetectedByPlayer(unsigned int playerId);

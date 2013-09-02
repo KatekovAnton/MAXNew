@@ -356,3 +356,19 @@ bool MatchMapAgregator::IsBombMineInPosition(const int x, const int y)
     }
     return result;
 }
+
+bool MatchMapAgregator::IsBombMineInPosition(const int x, const int y, UNIT_MOVETYPE type)
+{
+    bool result = false;
+    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+    for (int i = 0; i < units->GetCount(); i++)
+    {
+        GameUnit* unit = units->objectAtIndex(i);
+        if (unit->GetConfig()->_isBombMine && unit->GetConfig()->_bMoveType == type)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}

@@ -50,6 +50,7 @@ public:
     bool IsGroundUnitInPosition(const int x, const int y);
     bool IsAirUnitInPosition(const int x, const int y);
     bool IsBombMineInPosition(const int x, const int y);
+    bool IsBombMineInPosition(const int x, const int y, UNIT_MOVETYPE type);
     bool ContainConnectoredBuildingInPosition(const int x, const int y, GameMatchPlayer *_player) const;
     void FindAllConnectoredUnits(const int x, const int y, GameMatchPlayer *_player, USimpleContainer<GameUnit*> *buffer);
 };

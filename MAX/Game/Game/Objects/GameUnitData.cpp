@@ -10,9 +10,10 @@
 #include "GUTask.h"
 #include "GameUnitParameters.h"
 #include "MAXObjectConfig.h"
+#include "Geometry.h"
 
 GameUnitData::GameUnitData(GameUnitParameters* params, int ownerId)
-	:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isUnderConstruction(false), _isUniteractable(false), _ownerId(ownerId)
+	:_unitParameters(params), _landed(false), _isPlacedOnMap(false), _disabledByInfiltrator(false), _currentTask(NULL), _isUnderConstruction(false), _isUniteractable(false), _ownerId(ownerId), _isPlacingMines(false), _isRemovingMines(false)
 {
     _isOn = GetConfig()->_isBuilding && GetConfig()->_isAllwaysOn;
     
@@ -41,6 +42,17 @@ void GameUnitData::SetIsUniteractable(bool value)
 	_isUniteractable = value;
 }
 
+void GameUnitData::SetPlacingMines(bool action)
+{
+    _isRemovingMines = false;
+    _isPlacingMines = GetConfig()->_isBombMinelayer && action;
+}
+
+void GameUnitData::SetRemovingMines(bool action)
+{
+    _isPlacingMines = false;
+    _isRemovingMines = GetConfig()->_isBombMinelayer && action;
+}
 
 bool GameUnitData::GetIsSurvivor() const
 {
@@ -361,31 +373,31 @@ void GameUnitData::SetParameterValue(UNIT_PARAMETER_TYPE parameterType, int newV
     switch (parameterType)
     {
         case UNIT_PARAMETER_TYPE_SPEED:
-            _pSpeed = newValue;
+            _pSpeed = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
         case UNIT_PARAMETER_TYPE_HEALTH:
-            _pHealth = newValue;
+            _pHealth = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
         case UNIT_PARAMETER_TYPE_ARMOR:
-            _pArmor = newValue;
+            _pArmor = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
         case UNIT_PARAMETER_TYPE_SHOTS:
-            _pShots = newValue;
+            _pShots = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
         case UNIT_PARAMETER_TYPE_GAS:
-            _pGas = newValue;
+            _pGas = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
         case UNIT_PARAMETER_TYPE_AMMO:
-            _pAmmo = newValue;
+            _pAmmo = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
         case UNIT_PARAMETER_TYPE_MATERIAL:
-            _pRawMat = newValue;
+            _pRawMat = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
         case UNIT_PARAMETER_TYPE_GOLD:
-            _pGold = newValue;
+            _pGold = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
         case UNIT_PARAMETER_TYPE_FUEL:
-            _pFuel = newValue;
+            _pFuel = ____min(newValue, GetMaxParameterValue(parameterType));
             break;
             
         default:
@@ -652,6 +664,13 @@ bool GameUnitData::ReceiveDamage(GameUnitData* unit, int decrase)
     
     SetParameterValue(UNIT_PARAMETER_TYPE_HEALTH, myHealth);
 	return GetParameterValue(UNIT_PARAMETER_TYPE_HEALTH) > 0;
+}
+
+void GameUnitData::OnCellChanged()
+{
+    if (ContainsCurrentTask()) {
+        _currentTask->UnitDidChangeCell();
+    }
 }
 
 #pragma mark - Raduis and BBs

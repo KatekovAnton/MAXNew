@@ -27,6 +27,9 @@ class GameUnitData {
     //we cant do anything with this unit
     bool _isUniteractable;
     vector<GameUnit*> _storedUnits;
+    
+    bool _isPlacingMines;
+    bool _isRemovingMines;
 
 public:
     
@@ -69,6 +72,10 @@ public:
     GameUnitData(GameUnitParameters* params, int ownerId);
     ~GameUnitData();
     
+    bool GetIsPlacingMines() const {return _isPlacingMines;}
+    bool GetIsRemovingMines() const {return _isRemovingMines;}
+    void SetPlacingMines(bool action);
+    void SetRemovingMines(bool action);
     bool GetIsSurvivor() const;
     bool GetIsBuilding() const;
     int GetSize() const;
@@ -115,6 +122,8 @@ public:
     bool IsCellOfUnit(const CCPoint &p) const;
     
     bool ReceiveDamage(GameUnitData* unit, int decrase);
+    
+    void OnCellChanged();
     
 #pragma mark - Raduis and BBs
     BoundingBox GetBoundingBox(const CCPoint &point, const float radius) const;

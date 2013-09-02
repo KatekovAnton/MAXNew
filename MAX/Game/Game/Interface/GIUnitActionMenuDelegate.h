@@ -14,6 +14,7 @@ class GIUnitActionMenuDelegate {
 public:
     
     virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action) = 0;
+    virtual bool IsUnitActionSelected(UNIT_MENU_ACTION action) = 0;
     
 };
 

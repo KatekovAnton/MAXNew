@@ -579,8 +579,6 @@ std::vector<UNIT_PARAMETER_TYPE> MAXObjectConfig::GetEnemyShortParameterList()
         result.push_back(UNIT_PARAMETER_TYPE_HEALTH);
     if (_pFuel > 0)
         result.push_back(UNIT_PARAMETER_TYPE_GAS);
-    if (_pAmmo > 0)
-        result.push_back(UNIT_PARAMETER_TYPE_AMMO);
     if (_pSpeed > 0)
         result.push_back(UNIT_PARAMETER_TYPE_SPEED);
     if (_pShots > 0)

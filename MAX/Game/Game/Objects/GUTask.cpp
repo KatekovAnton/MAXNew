@@ -15,3 +15,7 @@ _unitWorker_w(unit), _turnsLeft(0)
 
 GUTask::~GUTask()
 {}
+
+void GUTask::UnitDidChangeCell()
+{}
+

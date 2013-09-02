@@ -703,7 +703,11 @@ void GameInterface::ShowMenuForCurrentUni(GIUnitActionMenuDelegate *delegate)
     }
     
     vector<UNIT_MENU_ACTION> actions = _currentUnit->GetActionList();
-    _unitMenu = new GIUnitActionMenu(actions);
+    vector<bool> activateFlags;
+    for (int i = 0; i < actions.size(); i++)
+        activateFlags.push_back(delegate->IsUnitActionSelected(actions[i]));
+    
+    _unitMenu = new GIUnitActionMenu(actions, activateFlags);
     _unitMenu->setScale(1);
     _unitMenu->_delegate_w = delegate;
     

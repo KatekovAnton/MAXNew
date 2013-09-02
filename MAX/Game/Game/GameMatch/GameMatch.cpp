@@ -388,8 +388,12 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
                 break;
                 
             default:
+                delay = 0.01;
                 break;
         }
+        if (unit->GetIsIdleDestroy())
+            delay = 0.01;
+        
         if (blastType != BLAST_TYPE_NONE && !unit->GetIsIdleDestroy())
         {
             GameEffect* blast = GameEffect::CreateBlast(blastType, config->_bLevel + 1);
@@ -578,9 +582,9 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 				for (int i = 0; i < units.size(); i++)
 				{
 					GameUnit *cunit = units[i];
-					if (cunit->GetConfig()->_isPlatform)
+					if (cunit->GetConfig()->_isPlatform && !unit->GetConfig()->_isBombMine)
 						cunit->_unitData->SetIsUniteractable(true);
-                    if (cunit->GetConfig()->_isRoad && cunit != unit)
+                    if (cunit->GetConfig()->_isRoad && cunit != unit && !unit->GetConfig()->_isBombMine)
                         cunit->Destroy(true);
                     if (cunit->GetConfig()->_isConnector && cunit != unit && unit->_unitData->GetIsConnectored())
                         cunit->Destroy(true);
@@ -636,6 +640,14 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
             
             //        if (!cUnit->_unitData->_isOnSentry)
             //            continue;
+            
+            //mines doesnt explode becouse of enemy roads bridges connectors waterplaatforms and etc
+            if (cUnit->GetConfig()->_isBombMine && (unit->GetConfig()->_isConnector || unit->GetConfig()->_isPlatform || unit->GetConfig()->_isRoad || unit->GetConfig()->_isBridge)) 
+                continue;
+            
+            //mines doesnt explode becouse of minelayers who removing mines
+            if (cUnit->GetConfig()->_isBombMine && (unit->GetConfig()->_isBombMinelayer && unit->_unitData->GetIsRemovingMines()))
+                continue;
             
             if (cUnit->_unitData->_disabledByInfiltrator)
                 continue;
