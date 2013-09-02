@@ -206,7 +206,6 @@
 		8B8C0CFC16DA54540077426D /* CocosHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C0CFA16DA54540077426D /* CocosHelper.cpp */; };
 		8B8EAA14168A17F30097CA74 /* MAXGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA12168A17F30097CA74 /* MAXGame.cpp */; };
 		8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */; };
-		8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA28168A27900097CA74 /* LevelObject.cpp */; };
 		8B8EAA2C168A28620097CA74 /* MAXCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */; };
 		8B8EAA41168E5AA30097CA74 /* MAXGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */; };
 		8B90ED4F173864D60032205A /* GIUnitActionMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B90ED4D173864D60032205A /* GIUnitActionMenu.cpp */; };
@@ -917,8 +916,6 @@
 		8B8EAA13168A17F30097CA74 /* MAXGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXGame.h; sourceTree = "<group>"; };
 		8B8EAA1B168A22B00097CA74 /* DisplayPinchDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisplayPinchDelegate.cpp; sourceTree = "<group>"; };
 		8B8EAA1C168A22B00097CA74 /* DisplayPinchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayPinchDelegate.h; sourceTree = "<group>"; };
-		8B8EAA27168A27900097CA74 /* LevelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelObject.h; sourceTree = "<group>"; };
-		8B8EAA28168A27900097CA74 /* LevelObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelObject.cpp; sourceTree = "<group>"; };
 		8B8EAA2A168A28610097CA74 /* MAXCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXCamera.cpp; sourceTree = "<group>"; };
 		8B8EAA2B168A28620097CA74 /* MAXCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXCamera.h; sourceTree = "<group>"; };
 		8B8EAA3F168E5AA30097CA74 /* MAXGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXGrid.cpp; sourceTree = "<group>"; };
@@ -2400,8 +2397,6 @@
 		D18EDC8E1689862A00EE3B4E /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				8B8EAA28168A27900097CA74 /* LevelObject.cpp */,
-				8B8EAA27168A27900097CA74 /* LevelObject.h */,
 				D18EDC931689865A00EE3B4E /* PivotObject.cpp */,
 				D18EDC921689865A00EE3B4E /* PivotObject.h */,
 				D18EDC96168987E600EE3B4E /* RenderObject.cpp */,
@@ -3512,7 +3507,6 @@
 				D18EDCAA168989FD00EE3B4E /* Texture.cpp in Sources */,
 				8B8EAA14168A17F30097CA74 /* MAXGame.cpp in Sources */,
 				8B8EAA1D168A22B00097CA74 /* DisplayPinchDelegate.cpp in Sources */,
-				8B8EAA29168A27910097CA74 /* LevelObject.cpp in Sources */,
 				8B8EAA2C168A28620097CA74 /* MAXCamera.cpp in Sources */,
 				D18EDCE1168B2C4A00EE3B4E /* MAXMapObject.cpp in Sources */,
 				D18EDCE4168B2C5800EE3B4E /* MapRenderObject.cpp in Sources */,
@@ -3701,7 +3695,7 @@
 		D18EDBEA1689770C00EE3B4E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (FGQ88P5YQ6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAX/MAX-Prefix.pch";
@@ -3723,7 +3717,7 @@
 					"\"$(SRCROOT)/MAX/Utils/Network/curl\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194CA289-A6E4-42FB-952A-61CDC089EB15";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3731,7 +3725,7 @@
 		D18EDBEB1689770C00EE3B4E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (FGQ88P5YQ6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAX/MAX-Prefix.pch";
@@ -3753,7 +3747,7 @@
 					"\"$(SRCROOT)/MAX/Utils/Network/curl\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194CA289-A6E4-42FB-952A-61CDC089EB15";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -13,12 +13,14 @@
 #include "GameMatchPlayer.h"
 #include "GameMap.h"
 #include "GameUnitData.h"
+#include "GameObject.h"
 #include "GameEffect.h"
 #include "MAXGameController.h"
 #include "MAXContentLoader.h"
 #include "MAXConfigManager.h"
 #include "MAXEngine.h"
 #include "MAXObject.h"
+#include "MAXUnitObject.h"
 #include "MAXMapObject.h"
 #include "MAXMapMaterial.h"
 #include "GameMapResources.h"
@@ -213,6 +215,8 @@ bool GameMatch::UnitCanAttackUnit(GameUnit *agressor, GameUnit *target)
                         return (agressorConfig->_pFireType == 4 || agressorConfig->_pFireType == 1);
                     if (agressorConfig->_bMoveType == UNIT_MOVETYPE_SEA)
                         return agressorConfig->_pFireType == 2 || agressorConfig->_isBombMine;
+                    
+                    return false;
                 }
             }
             return agressorConfig->_pFireType == 2 || agressorConfig->_pFireType == 1 || agressorConfig->_pFireType == 6 || agressorConfig->_pFireType == 4;
@@ -405,6 +409,27 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
     }
 }
 
+void GameMatch::GameUnitDidInitiateFire(GameUnit *unit)
+{
+    MAXObjectConfig* config = unit->GetConfig();
+    GameUnitData *_unitData = unit->_unitData;
+    CCPoint cell = unit->GetUnitCell();
+    if (config->_isStealthable)
+    {
+        for (int i = 0; i < _players.size(); i++)
+        {
+            GameMatchPlayer* player = _players[i];
+            if (!_unitData->_detected[i] && player->_playerData->FogValueInCell(FOG_TYPE_SCAN, unit->GetUnitCell())>0)
+            {
+                _unitData->_detected[i] = true;
+                player->_agregator->AddUnitToCell(unit, cell.x, cell.y);
+                unit->GetUnitObject()->StealthDeactivated();
+            }
+        }
+        CheckAutofire(unit, unit->GetUnitCell());
+    }
+}
+
 void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 {
     _fullAgregator->RemoveUnitFromCell(unit, point.x, point.y);
@@ -496,20 +521,23 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
     for (int i = 0; i < _players.size(); i++)
     {
         GameMatchPlayer* player = _players[i];
-        if (PlayerIsEnemyToPlayer(player, unit->_owner_w))
+        if (player == unit->_owner_w) 
+            unit->DetectedByPlayer(player->GetPlayerId());
+        else if (PlayerIsEnemyToPlayer(player, unit->_owner_w))
         {
-            if (unit->GetIsStealthable() && player->CanSeeUnit(unit))
+            if (player->CanSeeUnit(unit))
             {
-                if (!unit->IsDetectedByPlayer(player->GetPlayerId()))
-                    unit->DetectedByPlayer(player->GetPlayerId());
+                unit->DetectedByPlayer(player->GetPlayerId());
             }
-            else if (unit->GetIsStealthable())
+            else
             {
                 //TODO: if submarine did fire or stealth unit did detected becouse it was not escape from its cell - stay on sight during this turn if can see with simple scan
-                if (unit->IsDetectedByPlayer(player->GetPlayerId()))
-                    unit->UndetectedByPlayer(player->GetPlayerId());
+                unit->UndetectedByPlayer(player->GetPlayerId());
             }
+            
         }
+        else //friendly
+            unit->DetectedByPlayer(player->GetPlayerId());
     }
     
 	if (unit->_unitData->GetIsBuilding())
@@ -565,38 +593,19 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 	
 }
 
-void GameMatch::GameUnitDidDetected(GameUnit *unit, const CCPoint &point)
-{
-    for (int i = 0; i < _players.size(); i++)
-    {
-        GameMatchPlayer* player = _players[i];
-        if (_currentPlayer_w->CanSeeUnit(unit))
-        {
-            if (player == _currentPlayer_w)
-                unit->Show();
-            player->_agregator->AddUnitToCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
-        }
-    }
-}
-
-void GameMatch::GameUnitDidUndetected(GameUnit *unit, const CCPoint &point)
-{
-    for (int i = 0; i < _players.size(); i++)
-    {
-        GameMatchPlayer* player = _players[i];
-        if (!player->CanSeeUnit(unit))
-        {
-            if (player == _currentPlayer_w)
-                unit->Hide();
-            player->_agregator->RemoveUnitFromCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
-        }
-        else if (unit->_owner_w != player)
-        {
-            unit->DetectedByPlayer(player->GetPlayerId());
-        }
-    }
-    CheckAutofire(unit, point);
-}
+//void GameMatch::GameUnitDidDetected(GameUnit *unit, const CCPoint &point)
+//{
+//    for (int i = 0; i < _players.size(); i++)
+//    {
+//        GameMatchPlayer* player = _players[i];
+//        if (_currentPlayer_w->CanSeeUnit(unit))
+//        {
+//            if (player == _currentPlayer_w)
+//                unit->Show();
+//            player->_agregator->AddUnitToCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
+//        }
+//    }
+//}
 
 void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
 {
@@ -621,6 +630,7 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
         {
             GameUnit* cUnit = potentialAttackers[i];
             
+            //if cunit is hidden
             if ((!cUnit->_unitData->_detected[unit->_owner_w->_playerData->_playerInfo._playerId] && (cUnit->GetConfig()->_isStealthable || cUnit->GetConfig()->_isStealth || cUnit->GetConfig()->_isUnderwater)) && !cUnit->GetConfig()->_isBombMine)
                 continue;
             
@@ -630,13 +640,16 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
             if (cUnit->_unitData->_disabledByInfiltrator)
                 continue;
             
+            if (cUnit->GetConfig()->_isInfiltrator)
+                continue;
+            
             if (cUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_AMMO) == 0 && !cUnit->GetConfig()->_isBombMine)
                 continue;
             
             if (cUnit->_unitData->GetShotBalance() == 0 && !cUnit->GetConfig()->_isBombMine)
                 continue;
             
-            if (!cUnit->_owner_w->CanSeeUnit(unit) && !cUnit->GetConfig()->_isBombMine)
+            if (!unit->IsDetectedByPlayer(cUnit->_owner_w->GetPlayerId()) && !cUnit->GetConfig()->_isBombMine)
                 continue;
             
             //currently this unit is moving
@@ -699,14 +712,20 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
             for (int i = 0; i < units->GetCount(); i++)
             {
                 GameUnit *unit = units->objectAtIndex(i);
-                if (!processedPlayer->CanSeeUnit(unit))
+                if (!processedPlayer->CanSeeUnit(unit) && (!unit->GetConfig()->_isUnderwater || processedPlayer->_playerData->FogValueInCell(FOG_TYPE_SCAN, ccp(x, y)) == 0))
                 {
+                    
+                    
+                    unit->UndetectedByPlayer(processedPlayer->GetPlayerId());
                     processedPlayer->_agregator->RemoveUnitFromCell(unit, x, y);
                     
                     if (processedPlayer->GetIsCurrentPlayer())
-                    {
                         unit->Hide();
-						_gameController->onUnidHided(unit);
+                    
+                    //check if noone ca see this unit - activate stealth
+                    for (int i = 0; i < _players.size(); i++)
+                    {
+                        GameMatchPlayer* processedPlayer = _players[i];
                     }
                 }
             }

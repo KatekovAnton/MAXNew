@@ -34,7 +34,7 @@ public:
 
     
     
-    void SetUnit(GameUnit* unit);
+    void SetUnit(GameUnit* unit, bool isEnemyUnit);
     void UpdateParameters();
     
     static GIUnitParametersNode* create(float baseW);

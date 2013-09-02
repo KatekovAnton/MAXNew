@@ -10,7 +10,6 @@
 #define __MAX__MAXEngine__
 
 #include <iostream>
-#include "RequestDelegate.h"
 #include "miniPrefix.h"
 
 using namespace Utils;
@@ -41,7 +40,7 @@ public:
     virtual void onFrame() = 0;
 };
 
-class MAXEngine : public RequestDelegate  {
+class MAXEngine {
     bool _first;
     
     RenderSystem        *_renderSystem;
@@ -104,16 +103,17 @@ public:
     ~MAXEngine();
     
     void Init();
-    void EngineMain();
     
     void GetAllObjectsInArea(BoundingBox bb, USimpleContainer<MAXObject*> *buffer);
     
     void SelectUnit(MAXObject* unit);
     void AddUnit(PivotObject* newUnit);
     void RemoveUnit(PivotObject* newUnit);
-    void AddResourceCell(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
+    
     void AddFogCell(const int x, const int y, const bool fog);
     void FillFog();
+    
+    void AddResourceCell(const int x, const int y, const RESOURCE_TYPE type, const unsigned char amount);
     void ClearResourceFog();
     
 	void AddPathZoneCell(const int x, const int y);
@@ -138,7 +138,6 @@ public:
     void Update();
 	void DrawStart();
     void Draw();
-    void DrawLine();
     void DrawGround();
     void DrawUnits();
     void DrawResourceMap();
@@ -172,8 +171,6 @@ public:
     GLKVector2 WorldCoordinatesToScreenCocosV(const GLKVector2 &world);
     CCRect ScreenToWorldRect();
     
-#pragma mark - RequestDelegate
-    void RequestDidFinishLoadingWithResponce(Request* request, Response* response);
 };
 
 

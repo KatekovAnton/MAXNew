@@ -26,7 +26,6 @@
 #include "SceneSystem.h"
 #include "MAXCamera.h"
 #include "MAXContentLoader.h"
-#include "LevelObject.h"
 #include "RenderObject.h"
 #include "MAXUnitObject.h"
 #include "MAXMapObject.h"
@@ -511,7 +510,6 @@ void MAXEngine::DrawUnits()
         _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
         _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
         
-        OBJECT_LEVEL level = OBJECT_LEVEL_UNDERWATER;
         
         MAXSCL->unitMesh->Bind();
         for (int i = 0; i < objects->GetCount(); i++)
@@ -540,12 +538,14 @@ void MAXEngine::DrawUnits()
                 MAXSCL->unitMesh->Bind();
                 drawedAttackhZone = true;
             }
-
+//            if (currentLevel <= _optionalZoneRendererLevel && drawedAttackhZone) {
+//                int a = 0;
+//                a++;
+//            }
             
             object->Draw(_shader);
             MAXStatusRenderer::SharedStatusRenderer()->DrawUnitStatus(object);
             
-            level = (OBJECT_LEVEL)object->params_w->_bLevel;
         }
         MAXSCL->unitMesh->Unbind();
     }
@@ -770,11 +770,4 @@ CCRect MAXEngine::ScreenToWorldRect()
     return result;
 }
 
-#pragma mark - RequestDelegate
-void MAXEngine::RequestDidFinishLoadingWithResponce(Request* request, Response* response)
-{
-//    printf("responce: \n");
-//    printf("%s", response->ToString().c_str());
-//    printf("\n");
-}
 

@@ -118,6 +118,7 @@ public:
     
 #pragma mark - MAXGameInputControllerDelegate
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
+    virtual void SelectLargeBuildingConstructionPlaceActionCanceled();
     virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
     
     virtual void SelectSecondUnitActionCanceled();
@@ -141,6 +142,7 @@ public:
 
 	virtual void onUnidHided(GameUnit* unit);
     virtual void onUnitDestroyed(GameUnit* unit);
+    void onUnitFired(GameUnit* unit);
 
 #pragma mark - GIUnitActionMenuDelegate
     virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);

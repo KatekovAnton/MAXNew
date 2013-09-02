@@ -140,11 +140,13 @@ void MAXGameController::StartMatch()
 
     vector<GameMatchPlayerInfo> infos;
     GameMatchPlayerInfo player1 = {0, 3, "Test player1", {255,0,0,255}};
-    GameMatchPlayerInfo player2 = {1, 0, "Test player2", {0,255,0,255}};
-    GameMatchPlayerInfo player3 = {2, 4, "Test player3", {0,0,255,255}};
     infos.push_back(player1);
+    
+    GameMatchPlayerInfo player2 = {1, 0, "Test player2", {0,255,0,255}};
     infos.push_back(player2);
-    infos.push_back(player3);
+    
+//    GameMatchPlayerInfo player3 = {2, 4, "Test player3", {0,0,255,255}};
+//    infos.push_back(player3);
     _match = new GameMatch("Green_6.wrl", infos);
 	_match->_gameController = this;
     _currentUnit = NULL;
@@ -162,7 +164,8 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(55, 37, "Road", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(55, 37, "Engineer", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(56, 56, "Inter", 0)->PlaceUnitOnMap();
-        _match->_players[0]->CreateUnit(60, 53, "Constructor", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(56, 49, "Constructor", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(42, 32, "Constructor", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(45, 47, "Corvette", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(47, 49, "Escort", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0)->PlaceUnitOnMap();
@@ -171,7 +174,6 @@ void MAXGameController::StartMatch()
 		_match->_players[0]->CreateUnit(46, 45, "Seafuel", 0)->PlaceUnitOnMap();
 		_match->_players[0]->CreateUnit(45, 46, "Rokcr", 0)->PlaceUnitOnMap();
 		_match->_players[0]->CreateUnit(44, 42, "seaminelay", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(45, 42, "seamine", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(30, 34, "Scout", 0)->PlaceUnitOnMap();
 
 		_match->_players[0]->CreateUnit(45, 43, "Seatrans", 0)->PlaceUnitOnMap();
@@ -183,7 +185,6 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(55, 51, "Infil", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(57, 57, "Aagunm", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(57, 58, "Awac", 0)->PlaceUnitOnMap();
-        _match->_players[0]->CreateUnit(101, 101, "Awac", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(58, 58, "Scout", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(48, 58, "Engineer", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(48, 59, "Conn", 0)->PlaceUnitOnMap();
@@ -262,8 +263,8 @@ void MAXGameController::StartMatch()
         vector<CCPoint> points = unit1->GetNerbyCells();
         for (int i = 0; i < points.size(); i++) 
             _match->_players[0]->CreateUnit(points[i].x, points[i].y, "Conn", 0)->PlaceUnitOnMap();
-    }
-    {
+    
+        
         _match->_players[0]->CreateUnit(30, 44, "sub", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(31, 43, "sub", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(31, 44, "sub", 0)->PlaceUnitOnMap();
@@ -271,7 +272,7 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(32, 40, "sub", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(25, 58, "Surveyor", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(30, 43, "Gunboat", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(29, 43, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(37, 37, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(30, 45, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(29, 45, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(24, 42, "Corvette", 0)->PlaceUnitOnMap();
@@ -289,11 +290,11 @@ void MAXGameController::StartMatch()
         _match->_players[1]->CreateUnit(22, 42, "Seacargo", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(22, 43, "Rokcr", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(22, 44, "Awac", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(35, 34, "Awac", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(22, 45, "Rokcr", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(22, 46, "Seacargo", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(22, 47, "Gunboat", 0)->PlaceUnitOnMap();
-    }
-    {
+ 
         _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(36, 53, "Inter", 0)->PlaceUnitOnMap();
         for (int i = 61; i < 69; i++)
@@ -303,14 +304,14 @@ void MAXGameController::StartMatch()
         _match->_players[1]->CreateUnit(42, 42, "sub", 0)->PlaceUnitOnMap();
 		for (int i = 32; i < 40; i+=2)
 			_match->_players[1]->CreateUnit(i, 31, "seamine", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(43, 41, "pcan", 0)->PlaceUnitOnMap();
-    _match->_players[0]->CreateUnit(46, 41, "scout", 0)->PlaceUnitOnMap();
-    _match->_players[2]->CreateUnit(43, 52, "scout", 0)->PlaceUnitOnMap();
+        
+        
+   // _match->_players[2]->CreateUnit(43, 52, "scout", 0)->PlaceUnitOnMap();
 	}
 	
     _match->_players[0]->_playerData->cameraPosition = ccp(46, 41);
     _match->_players[1]->_playerData->cameraPosition = ccp(47, 43);
-    _match->_players[2]->_playerData->cameraPosition = ccp(44, 45);
+  //  _match->_players[2]->_playerData->cameraPosition = ccp(44, 45);
     
     
     engine->SetCameraCenter(_match->_players[0]->_playerData->cameraPosition);
@@ -338,6 +339,8 @@ bool MAXGameController::EndTurn()
         return result;
     
     _gameInterface->SetLockUnits(false);
+    _gameInterface->HideUnitMenu();
+    _gameInterface->HideUnitSelectionMenu();
     _gameInterface->ClearLockedUnits();
     
 	DeselectCurrentUnit(true);
@@ -616,6 +619,12 @@ void MAXGameController::SelectLargeBuildingConstructionPlaceActionFinished(CCPoi
     _gameInterface->HideUnitMenu();
 }
 
+void MAXGameController::SelectLargeBuildingConstructionPlaceActionCanceled()
+{
+    RecalculateUnitPathMap(_currentUnit);
+    ShowPathMap();
+}
+
 void MAXGameController::SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig)
 {
     _currentUnit->StartConstructingUnitInPlace(result, buildingConfig);
@@ -665,6 +674,7 @@ void MAXGameController::SelectSecondUnitActionFinished(const vector<GameUnit*> u
 				vector<GameUnit*> units;
 				units.push_back(_currentUnit);
 				StartMultipleAttackSequence(units, NULL, cellPoint, true);
+                _match->GameUnitDidInitiateFire(_currentUnit);
             }
             else
                 _gameInterface->ShowUnitSelectionMenu(this, units, cellPoint);
@@ -681,7 +691,7 @@ void MAXGameController::SelectSecondUnitActionFinished(const vector<GameUnit*> u
                     {
                         SOUND->PlaySystemSound(SOUND_TYPE_RELOADED);
                         SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
-                        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+                        _gameInterface->OnCurrentUnitDataChanged(_currentUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
                         break;
                     }
                 }
@@ -699,7 +709,7 @@ void MAXGameController::SelectSecondUnitActionFinished(const vector<GameUnit*> u
                     {
                         SOUND->PlaySystemSound(SOUND_TYPE_UNIT_REPAIRED);
                         SOUND->PlayGameSound(_currentUnit->GetConfig()->_soundWorkName, NULL, false, 1.0);
-                        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+                        _gameInterface->OnCurrentUnitDataChanged(_currentUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
                         break;
                     }
                 }
@@ -946,7 +956,7 @@ void MAXGameController::SelectNewUnit(GameUnit* unit)
     _gameInterface->HideUnitMenu();
     _currentUnit->UnitDidSelect();
     engine->SelectUnit(_currentUnit->GetUnitObject());
-    _gameInterface->OnCurrentUnitChanged(unit, false);
+    _gameInterface->OnCurrentUnitChanged(unit, false, _match->PlayerIsEnemyToPlayer(unit->_owner_w, _match->_currentPlayer_w));
     
     if (_currentUnit->_owner_w->GetIsCurrentPlayer())
     {
@@ -1011,6 +1021,7 @@ void MAXGameController::ProceedLongTap(float tapx, float tapy)
 					vector<GameUnit*> units;
 					units.push_back(_currentUnit);
 					StartMultipleAttackSequence(units, attackedUnit, p, true);
+                    _match->GameUnitDidInitiateFire(_currentUnit);
 				}
             }
         }
@@ -1031,6 +1042,7 @@ void MAXGameController::StartAttackSequence(GameUnit *agressor, GameUnit *target
 {
     if (agressor == target)
         return;
+    
     
 	if (!_singleFire)
 	{
@@ -1087,7 +1099,7 @@ void MAXGameController::DeselectCurrentUnit(bool _removeFromLock)
         }
         else
         {
-            _gameInterface->OnCurrentUnitChanged(NULL, _removeFromLock);
+            _gameInterface->OnCurrentUnitChanged(NULL, _removeFromLock, false);
             engine->SelectUnit(NULL);
             _currentUnit = NULL;
             HidePathMap();
@@ -1138,7 +1150,7 @@ void MAXGameController::onUnitMovePause(GameUnit* unit)
     DecreaseFreezeCounter();
     if (unit == _currentUnit)
     {
-        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
     }
 }
 
@@ -1146,7 +1158,7 @@ void MAXGameController::onUnitMoveStepBegin(GameUnit* unit)
 {
     if (unit == _currentUnit)
     {
-        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
     }
 }
 
@@ -1165,7 +1177,7 @@ void MAXGameController::onUnitMoveStop(GameUnit* unit)
     DecreaseFreezeCounter();
     if (unit == _currentUnit)
     {
-        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
     }
 
 	// check landing pad
@@ -1190,7 +1202,7 @@ void MAXGameController::onUnitFireStart(GameUnit* unit)
     IncreaseFreezeCounter();
     if (unit == _currentUnit)
     {
-        _gameInterface->OnCurrentUnitDataChanged(_currentUnit);
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
     }
 }
 
@@ -1209,7 +1221,7 @@ void MAXGameController::onUnidHided(GameUnit* unit)
     {
         engine->SelectUnit(NULL);
 		if (_gameInterface)
-	        _gameInterface->OnCurrentUnitChanged(NULL, true);
+	        _gameInterface->OnCurrentUnitChanged(NULL, true, false);
         _currentUnit = NULL;
 		HideUnitPath();
 		HidePathMap();
@@ -1219,6 +1231,8 @@ void MAXGameController::onUnidHided(GameUnit* unit)
 void MAXGameController::onUnitDestroyed(GameUnit* unit)
 {
 	bool search = true;
+    onUnidHided(unit);
+    
 	while (search)
 	{
 		search = false;
@@ -1232,6 +1246,37 @@ void MAXGameController::onUnitDestroyed(GameUnit* unit)
 				_attackSequences.erase(it);
 				break;
 			}
+			vector<GameUnit*> units = newSequence.second;
+			for (int j = 0; j < units.size(); j++)
+			{
+				if (units[j] == unit)
+				{
+					search = true;
+					_attackSequences.erase(it);
+					break;
+				}
+			}
+			if (search)
+				break;
+			it++;
+		}
+	}
+}
+
+void MAXGameController::onUnitFired(GameUnit* unit)
+{
+    if (unit->CanFire(_currentFiringCell)) 
+        return;
+    
+	bool search = true;
+	while (search)
+	{
+		search = false;
+		vector<pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>>>::iterator it = _attackSequences.begin();
+		for (int i = 0; i < _attackSequences.size(); i++)
+		{
+            //trget-agressors
+			pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>> newSequence = _attackSequences[i];
 			vector<GameUnit*> units = newSequence.second;
 			for (int j = 0; j < units.size(); j++)
 			{
@@ -1271,7 +1316,7 @@ void MAXGameController::MakePain()
         else
         {
             if (_currentTargetUnit == _currentUnit)
-                _gameInterface->OnCurrentUnitDataChanged(_currentTargetUnit);
+                _gameInterface->OnCurrentUnitDataChanged(_currentTargetUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
         }
     }
 	if (_currentFiringUnit->_unitData->GetShotBalance() == 0 || _currentFiringUnit->GetConfig()->_isBombMine)
@@ -1283,10 +1328,13 @@ void MAXGameController::MakePain()
 	if (_currentFiringUnits.size() == 0 && _attackSequences.size() == 0)
 	{
 		_currentTargetUnit = NULL;
-		if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0) 
-			EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
-		else if (_currentUnit)
-			ShowPathMap();
+        if (_currentUnit)
+        {
+            if (_startAttackModeAgain && _currentUnit->_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_SHOTS) >0)
+                EnableModeForCurrentUnit(UNIT_MENU_ACTION_ATTACK);
+            else
+                ShowPathMap();
+        }
 		_startAttackModeAgain = false;
 	}
 	else
@@ -1397,7 +1445,6 @@ void MAXGameController::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
         case UNIT_MENU_ACTION_REMOVE:
         {
             _currentUnit->Destroy();
-            this->onUnidHided(_currentUnit);
         }break;
             
 		case UNIT_MENU_ACTION_INFO:
@@ -1459,6 +1506,7 @@ void MAXGameController::OnUnitSelected(GameUnit* result, const CCPoint &point)
 	vector<GameUnit*> units;
 	units.push_back(_currentUnit);
 	StartMultipleAttackSequence(units, result, point, true);
+    _match->GameUnitDidInitiateFire(_currentUnit);
 }
 
 #pragma mark - MAXAnimationDelegate
@@ -1494,7 +1542,27 @@ void MAXGameController::OnAnimationFinish(MAXAnimationBase* animation)
 				return;
 			}
 		}
-		StartAttackSequence(_currentFiringUnits[0], _currentTargetUnit, _currentFiringCell);
+        bool search = true;
+        while (search)
+        {
+            search = false;
+            vector<GameUnit*>::iterator it = _currentFiringUnits.begin();
+            for (int i = 0; i < _currentFiringUnits.size(); i++)
+            {
+                if (!_currentFiringUnits[i]->CanFire(_currentFiringCell)) {
+                    _currentFiringUnits.erase(it);
+                    search = true;
+                    break;
+                }
+                it ++;
+            }
+        }
+        if (_currentFiringUnits.size() != 0)
+            StartAttackSequence(_currentFiringUnits[0], _currentTargetUnit, _currentFiringCell);
+        else
+            _currentTargetUnit = NULL;
+        
+            
 		DecreaseFreezeCounter();
 	}
 }

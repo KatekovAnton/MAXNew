@@ -31,7 +31,7 @@ using namespace extension;
 
 #define BUTTON_LABEL_TAG 11
 
-float panelW = 105;
+float panelW = 115;
 
 bool GameInterface::ShouldReceiveTouch(int x, int y)
 {
@@ -95,10 +95,10 @@ void GameInterface::InitBaseInterface()
 //    turnSprite->setPosition(ccp(getContentSize().width - 209, getContentSize().height + 4));
 //    addChild(turnSprite);
     
-    ccColor4B colorBG; colorBG.a = 200; colorBG.r = 150; colorBG.g = 150; colorBG.b = 150;
-    CCLayerColor *turnLayer = CCLayerColor::create(colorBG, 208, 23);
-    turnLayer->setPosition(ccp(getContentSize().width - 208, getContentSize().height - 23));
-    addChild(turnLayer);
+//    ccColor4B colorBG; colorBG.a = 200; colorBG.r = 150; colorBG.g = 150; colorBG.b = 150;
+//    CCLayerColor *turnLayer = CCLayerColor::create(colorBG, 208, 23);
+//    turnLayer->setPosition(ccp(getContentSize().width - 208, getContentSize().height - 23));
+//    addChild(turnLayer);
     
     CCLayerColor *turnLayer1 = CCLayerColor::create(CocosHelper::normalColor(), 95, 19);
     turnLayer1->setPosition(ccp(getContentSize().width - 100, getContentSize().height - 19));
@@ -140,7 +140,7 @@ void GameInterface::InitBaseInterface()
 //        c->setAnchorPoint(ccp(0, 0));
 //        _panel->addChild(c);
 //    }
-    float top = 280 + 111;
+    float top = 280 + 138;
     float scrolly = 0;
     
     CCSize sz = CCSize(panelW, top);
@@ -170,8 +170,15 @@ void GameInterface::InitBaseInterface()
     _buttonOptions->setPosition(ccp(bx,currentElement));
     CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
     CCMenu *menu = CCMenu::create(_buttonOptions, nullptr);
+    
+    currentElement -= bh + bd;
+    _buttonEndTurn = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "End turn", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnEndTurn));
+    //createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
+    CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));
+    _buttonEndTurn->setPosition(ccp(bx,currentElement));
+    menu->addChild(_buttonEndTurn);
 	
-	currentElement -= 112;
+	currentElement -= 111;
     _unitParameters = GIUnitParametersNode::create(panelW-1);
     _unitParameters->setPosition(ccp(1, currentElement));
     scroll->addChild(_unitParameters);
@@ -287,16 +294,13 @@ void GameInterface::InitBaseInterface()
     UpdateTogglePathZone();
 
 
-    _buttonEndTurn = createMenuItemWithLayers(ccz(panelW, 20), CocosHelper::normalColor(), CocosHelper::selectedColor(), "END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnEndTurn));
-    //createMenuItemFromMaxres("END TURN", MAX_DEFAULT_FONT, 10, MAX_COLOR_BLACK, "ENDTRN_U", "B_ENDT_D", this, menu_selector(GameInterface::OnEndTurn));
-    CocosHelper::MoveNode(_buttonEndTurn->getChildByTag(BUTTON_LABEL_TAG), ccp(-6, 1));
-    _buttonEndTurn->setPosition(ccp(0, 0));
     
-    CCMenu *menuTurn = CCMenu::create(_buttonEndTurn, nullptr);
-    menuTurn->setPosition(getContentSize().width - 203, getContentSize().height - 19);
-    menuTurn->setContentSize(CCSize(100, 23));
-    menuTurn->setTouchEnabled(true);
-    addChild(menuTurn);
+    
+//    CCMenu *menuTurn = CCMenu::create(_buttonEndTurn, nullptr);
+//    menuTurn->setPosition(getContentSize().width - 203, getContentSize().height - 19);
+//    menuTurn->setContentSize(CCSize(100, 23));
+//    menuTurn->setTouchEnabled(true);
+//    addChild(menuTurn);
     
     this->OnTogglePanel(_buttonTogglePanel);
     _inited = true;
@@ -596,7 +600,7 @@ void GameInterface::RemoveUnitFromLock(GameUnit* object)
     MAXStatusRenderer::SharedStatusRenderer()->RemoveUnitFromLock(object->GetUnitObject());
 }
 
-void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock)
+void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock, bool isEnemyUnit)
 {
     if (unit)
     {
@@ -626,19 +630,19 @@ void GameInterface::OnCurrentUnitChanged(GameUnit* unit, bool removeFromLock)
     else
         engine->drawResources = _drawResources;
     
-    _unitParameters->SetUnit(_currentUnit);
+    _unitParameters->SetUnit(_currentUnit, isEnemyUnit);
 }
 
-void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit)
+void GameInterface::OnCurrentUnitDataChanged(GameUnit* unit, bool isEnemyUni)
 {
     if (unit == _currentUnit)
     {
         _unitParameters->UpdateParameters();
-        _unitParameters->SetUnit(unit); // TBD: only update data
+        _unitParameters->SetUnit(unit, isEnemyUni); // TBD: only update data
     }
     else
     {
-        _unitParameters->SetUnit(unit);
+        _unitParameters->SetUnit(unit, isEnemyUni);
     }
 }
 

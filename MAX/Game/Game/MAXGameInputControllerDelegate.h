@@ -20,6 +20,7 @@ class MAXGameInputControllerDelegate {
 public:
     
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig) = 0;
+    virtual void SelectLargeBuildingConstructionPlaceActionCanceled() = 0;
     virtual void SelectSmallBuildingConstructionPathActionFinished(CCPoint result, MAXObjectConfig *buildingConfig) = 0;
     virtual void SelectSecondUnitActionFinished(const vector<GameUnit*> units, const CCPoint &cellPoint, UNIT_MENU_ACTION action) = 0;
     virtual void SelectSecondUnitActionCanceled() = 0;

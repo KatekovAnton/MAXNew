@@ -121,6 +121,9 @@ vector<GameUnit*> MatchFireAggregator::UnitsForAttackingUnitInCell(const int x, 
     for (int i = 0; i < allUnits->GetCount(); i++)
     {
         GameUnit *cUint = allUnits->objectAtIndex(i);
+        if (cUint == unit) 
+            continue;
+        
         if (_match_w->UnitCanAttackUnit(cUint, unit) &&
             _match_w->PlayerIsEnemyToPlayer(unit->_owner_w, cUint->_owner_w)) {
             result.push_back(cUint);
