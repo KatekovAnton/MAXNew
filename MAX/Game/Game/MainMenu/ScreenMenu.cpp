@@ -28,19 +28,43 @@ CCParallaxNodeCustom *createTestBGScreen(CCSize size)
         sprite->setScale(scale);
         sprite->setPosition(ccp(size.width/2, size.height/2));
         
-        result->addChild(sprite, 0);
+        result->addChild(sprite, -0.3);
     }
     
     {
+        CCSprite* sprite = CCSprite::create("cloud_05.png");
+        sprite->setScale(scale * 1.1);
+        sprite->setPosition(ccp(size.width * 0.5, size.height * 0.5));
+        result->addChild(sprite, 0.4);
+    }
+    {
+        CCSprite* sprite = CCSprite::create("s_03.png");
+        sprite->setScale(scale);
+        sprite->setPosition(ccp(size.width * 0.9, size.height * 0.2));
+        result->addChild(sprite, 0.5);
+    }
+    {
+        CCSprite* sprite = CCSprite::create("s_05.png");
+        sprite->setScale(scale);
+        sprite->setPosition(ccp(size.width * 0.2, size.height/2 + 100));
+        result->addChild(sprite, 0.55);
+    }
+    {
+        CCSprite* sprite = CCSprite::create("s_04.png");
+        sprite->setScale(scale);
+        sprite->setPosition(ccp(size.width * 0.8, size.height/2 + 100));
+        result->addChild(sprite, 0.55);
+    }
+    {
         CCSprite* sprite = CCSprite::create("s_02.png");
         sprite->setScale(scale);
-        sprite->setPosition(ccp(sprite->getContentSize().width/2 * scale - 10, size.height/2 - 100));
-        result->addChild(sprite, 0.0);
+        sprite->setPosition(ccp(sprite->getContentSize().width/2 * scale - 20, size.height/2 - 100));
+        result->addChild(sprite, 0.7);
     }
     {
         CCSprite* sprite = CCSprite::create("s_01.png");
         sprite->setScale(scale);
-        sprite->setPosition(ccp(size.width/2, size.height/2));
+        sprite->setPosition(ccp(size.width * 0.4, size.height/2));
         result->addChild(sprite, 1.0);
     }
 

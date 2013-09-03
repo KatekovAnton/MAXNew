@@ -124,3 +124,10 @@ void MAXGame::ProceedLongTap(float tapx, float tapy)
 	if (_gameController)
 		_gameController->ProceedLongTap(tapx, tapy);
 }
+
+void MAXGame::onDeviceMoved(double x, double y)
+{
+    if (_mainMenuController) {
+        _mainMenuController->onDeviceMoved(x,y);
+    }
+}

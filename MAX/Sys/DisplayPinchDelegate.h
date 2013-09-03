@@ -19,6 +19,7 @@ public:
     virtual void ProceedPan(float speedx, float speedy);
     virtual void ProceedTap(float tapx, float tapy);
     virtual void ProceedLongTap(float tapx, float tapy);
+    virtual void onDeviceMoved(double x, double y);
 };
 
 #endif /* defined(__MAX__DisplayPinchDelegate__) */

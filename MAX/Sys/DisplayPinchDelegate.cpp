@@ -24,3 +24,6 @@ void DisplayPinchDelegate::ProceedTap(float tapx, float tapy)
 
 void DisplayPinchDelegate::ProceedLongTap(float tapx, float tapy)
 {}
+
+void DisplayPinchDelegate::onDeviceMoved(double x, double y)
+{}

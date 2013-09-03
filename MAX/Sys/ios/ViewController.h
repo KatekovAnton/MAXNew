@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ios_display.h"
 #import "DisplayPinchDelegate.h"
+#import <CoreMotion/CoreMotion.h>
 
 struct __TouchDelegateAdapter {
     iosDisplay    *_touchDelegate;
@@ -37,6 +38,7 @@ typedef struct __TouchDelegateAdapter TouchDelagteAdapter;
     BOOL _canhandleTap;
     
     NSTimeInterval lastTapTime;
+    CMMotionManager *_motionManager;
 }
 @property (nonatomic, assign) GLuint depthFormat;
 @property (nonatomic, assign) GLuint pixelFormat;

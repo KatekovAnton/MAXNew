@@ -25,6 +25,7 @@ class MAXMainMenuController : public ScreenSelectGameTypeDelegate, public MAXAni
 public:
 
 	ScreenMenu *_sceneMenu;
+    CCPoint totalRotation;
 	ScreenProgressBar *_loadingProgressBar;
 
     MAXMainMenuController();
@@ -38,6 +39,7 @@ public:
 	void StartMatch();
 	void SetLoadingProgress(float zeroToOne);
 	void LoadingScreenDidAppear(ScreenProgressBar *screen);
+    void onDeviceMoved(double x, double y);
     
 #pragma mark - ScreenSelectGameTypeDelegate
 

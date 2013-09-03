@@ -54,7 +54,21 @@ static int const _kTEiOSMaxTouchesCount = 10;
     vc3.minimumPressDuration = 0.5;
     [self.view addGestureRecognizer:vc3];
     
+    _motionManager = [[CMMotionManager alloc] init];
+
+    [_motionManager startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
+                                withHandler:^(CMGyroData *gyroData, NSError *error)
+     {
+         [self handleGyroData:gyroData];
+     }];
+    
     lastTapTime = 0;
+}
+
+- (void)handleGyroData:(CMGyroData *)gyroData
+{
+    CMRotationRate data = gyroData.rotationRate;
+    _pinchDelegate->onDeviceMoved(data.x, data.z);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch

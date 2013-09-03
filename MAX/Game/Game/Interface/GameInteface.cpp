@@ -181,12 +181,12 @@ void GameInterface::InitBaseInterface()
     _buttonEndTurn->setPosition(ccp(bx,currentElement));
     menu->addChild(_buttonEndTurn);
 	
-	currentElement -= 111;
+	currentElement -= 112;
     _unitParameters = GIUnitParametersNode::create(panelW-1);
     _unitParameters->setPosition(ccp(1, currentElement));
     scroll->addChild(_unitParameters);
     
-    currentElement -= bh + bd + 2;
+    currentElement -= bh + bd + 3;
     _toggleLockUnitsButton = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Unit lock", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnToggleLockUnits));
     //createMenuItemFromMaxres("", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "LOCK_OF", "LOCK_ON", this, menu_selector(GameInterface::OnToggleLockUnits));
     _toggleLockUnitsButton->setPosition(ccp(bx,currentElement));

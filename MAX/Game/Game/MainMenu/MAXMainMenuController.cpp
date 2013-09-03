@@ -42,6 +42,7 @@ void MAXMainMenuController::Begin()
 {   
 	if (!_sceneMenu)
 	{
+        totalRotation = ccp(0, 0);
 		_sceneMenu = new ScreenMenu();
 		_sceneMenu->_menuController = this;
 		_sceneMenu->init();
@@ -93,6 +94,19 @@ void MAXMainMenuController::LoadingScreenDidAppear(ScreenProgressBar *screen)
 	wait->_delegate = this;
 	MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
 	_animWaitForStart = wait;
+}
+
+void MAXMainMenuController::onDeviceMoved(double x, double y)
+{
+    //rotating around x axis is x
+    //around y is y
+    totalRotation.x -= x;
+    totalRotation.y += y * 2.0;
+    
+    totalRotation.x *= 0.95;
+    totalRotation.y *= 0.95;
+    
+    _sceneMenu->_parallax->SetDisplacement(ccp(totalRotation.x, totalRotation.y));
 }
 
 #pragma mark - ScreenSelectGameTypeDelegate
