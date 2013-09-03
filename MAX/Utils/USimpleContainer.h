@@ -10,6 +10,7 @@
 #define __TerminalExtraction__USimpleContainer__
 
 #include <iostream>
+#include <vector>
 
 namespace Utils {
     
@@ -26,6 +27,7 @@ namespace Utils {
         
         T *GetArrayPointer() const {return _array;};
         
+        
         USimpleContainer();
         USimpleContainer(int baseSize);
         ~USimpleContainer();
@@ -39,7 +41,17 @@ namespace Utils {
         T objectAtIndex(int index) const;
         void sort(int (* pointer)(const void *, const void *));
         int GetCount() const { return _count; };
+        vector<T> ToSTDVector();
     };
+    
+    template <typename T>
+    vector<T> USimpleContainer<T>::ToSTDVector() {
+		vector<T> result;
+        for (int i = 0; i < _count; i++) {
+            result.push_back(_array[i]);
+        }
+        return result;
+    }
 
     template <typename T>
     USimpleContainer<T>::USimpleContainer() {
