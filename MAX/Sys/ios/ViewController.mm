@@ -56,13 +56,20 @@ static int const _kTEiOSMaxTouchesCount = 10;
     
     _motionManager = [[CMMotionManager alloc] init];
 
-    [_motionManager startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
-                                withHandler:^(CMGyroData *gyroData, NSError *error)
-     {
-         [self handleGyroData:gyroData];
-     }];
-    
+    [_motionManager startGyroUpdates];
+//     startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
+//                                withHandler:^(CMGyroData *gyroData, NSError *error)
+//     {
+//         [self handleGyroData:gyroData];
+//     }];
+//
+    [NSTimer scheduledTimerWithTimeInterval:1.0/60.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
     lastTapTime = 0;
+}
+
+- (void)onTimer:(id)param
+{
+    [self handleGyroData:_motionManager.gyroData];
 }
 
 - (void)handleGyroData:(CMGyroData *)gyroData
