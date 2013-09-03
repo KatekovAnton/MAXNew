@@ -146,12 +146,12 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction, UNIT_
         {
             case UNIT_MOVETYPE_GROUND:
             {
-                if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
-                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                if (groundType == EXTENDED_GROUND_TYPE_ROAD)
                 {
                     result = 5;
                 }
-                else if (groundType == EXTENDED_GROUND_TYPE_GROUND)
+                else if ((groundType == EXTENDED_GROUND_TYPE_GROUND)||
+                         (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
                 {
                     result = 10;
                 }
@@ -159,13 +159,13 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction, UNIT_
             }
             case UNIT_MOVETYPE_GROUNDCOAST:
             {
-                if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
-                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                if (groundType == EXTENDED_GROUND_TYPE_ROAD) 
                 {
                     result = 5;
                 }
                 else if ((groundType == EXTENDED_GROUND_TYPE_GROUND) ||
-                         (groundType == EXTENDED_GROUND_TYPE_COAST))
+                         (groundType == EXTENDED_GROUND_TYPE_COAST)  ||
+                         (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
                 {
                     result = 10;
                 }
@@ -173,14 +173,14 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction, UNIT_
             }
             case UNIT_MOVETYPE_SURVEYOR:
             {
-                if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
-                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                if (groundType == EXTENDED_GROUND_TYPE_ROAD)
                 {
                     result = 5;
                 }
                 else if ((groundType == EXTENDED_GROUND_TYPE_GROUND) ||
-                         (groundType == EXTENDED_GROUND_TYPE_COAST) ||
-                         (groundType == EXTENDED_GROUND_TYPE_WATER))
+                         (groundType == EXTENDED_GROUND_TYPE_COAST)  ||
+                         (groundType == EXTENDED_GROUND_TYPE_WATER)  ||
+                         (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
                 {
                     result = 10;
                 }
@@ -188,13 +188,13 @@ int Pathfinder::GetCost(const int x, const int y, unsigned char direction, UNIT_
             }
             case UNIT_MOVETYPE_AMHIB:
             {
-                if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
-                    (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
+                if (groundType == EXTENDED_GROUND_TYPE_ROAD) 
                 {
                     result = 5;
                 }
                 else if ((groundType == EXTENDED_GROUND_TYPE_GROUND) ||
-                         (groundType == EXTENDED_GROUND_TYPE_COAST))
+                         (groundType == EXTENDED_GROUND_TYPE_COAST)  ||
+                         (groundType == EXTENDED_GROUND_TYPE_BRIDGE))
                 {
                     result = 10;
                 }

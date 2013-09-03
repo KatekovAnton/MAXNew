@@ -173,7 +173,7 @@ void MatchMapAgregator::AddUnitToCell(GameUnit *unit, const int x, const int y)
 
 	if (config->_isRoad || config->_isPlatform)
 	{
-		_mapBuffer[idx] = EXTENDED_GROUND_TYPE_ROAD;
+		_mapBuffer[idx] = EXTENDED_GROUND_TYPE_GROUND;
 	}
 	else if (config->_isBridge)
 	{
@@ -339,6 +339,22 @@ void MatchMapAgregator::FindAllConnectoredUnits(const int x, const int y, GameMa
         if (unit->_unitData->GetIsConnectored() && unit->_owner_w == _player && buffer->indexOf(unit) == -1)
             buffer->addObject(unit);
     }
+}
+
+bool MatchMapAgregator::IsWaterPlatformInPosition(const int x, const int y)
+{
+    bool result = false;
+    USimpleContainer<GameUnit*> *units = UnitsInCell(x, y);
+    for (int i = 0; i < units->GetCount(); i++)
+    {
+        GameUnit* unit = units->objectAtIndex(i);
+        if (unit->GetConfig()->_isPlatform)
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
 }
 
 bool MatchMapAgregator::IsBombMineInPosition(const int x, const int y)

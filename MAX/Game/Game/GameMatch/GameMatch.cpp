@@ -813,6 +813,13 @@ bool GameMatch::UnitCanStillBePlacedToCell(const int x, const int y, MAXObjectCo
 {
     UNIT_MOVETYPE unitMoveType = (UNIT_MOVETYPE)buildingType->_bMoveType;
     EXTENDED_GROUND_TYPE groundType = player->_agregator->GroundTypeAtXY(x, y);
+    GROUND_TYPE mapGroundType = _map->GroundTypeAtXY(x, y);
+    bool waterPlatformFlag = true;
+    if (buildingType->_isBuilding                           &&
+        buildingType->_bMoveType == UNIT_MOVETYPE_GROUND    &&
+        mapGroundType != GROUND_TYPE_GROUND)
+        waterPlatformFlag = _fullAgregator->IsWaterPlatformInPosition(x, y);
+    
     
     switch (unitMoveType)
     {
@@ -821,7 +828,7 @@ bool GameMatch::UnitCanStillBePlacedToCell(const int x, const int y, MAXObjectCo
             if ((groundType == EXTENDED_GROUND_TYPE_ROAD) ||
                 (groundType == EXTENDED_GROUND_TYPE_BRIDGE) ||
                 (groundType == EXTENDED_GROUND_TYPE_GROUND))
-				return !player->_agregator->IsGroundUnitInPosition(x, y) || alreadyPlaced;
+				return waterPlatformFlag && (!player->_agregator->IsGroundUnitInPosition(x, y) || alreadyPlaced);
             break;
         }
         case UNIT_MOVETYPE_GROUNDCOAST:

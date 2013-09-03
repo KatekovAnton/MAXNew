@@ -49,6 +49,7 @@ public:
     GameUnit* GetUnitInPosition(const int x, const int y, GameMatchPlayer *_player, GameUnit* selectedUnit, bool forceAnyone);
     bool IsGroundUnitInPosition(const int x, const int y);
     bool IsAirUnitInPosition(const int x, const int y);
+    bool IsWaterPlatformInPosition(const int x, const int y);
     bool IsBombMineInPosition(const int x, const int y);
     bool IsBombMineInPosition(const int x, const int y, UNIT_MOVETYPE type);
     bool ContainConnectoredBuildingInPosition(const int x, const int y, GameMatchPlayer *_player) const;
