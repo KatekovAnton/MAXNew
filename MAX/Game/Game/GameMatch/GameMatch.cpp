@@ -468,7 +468,7 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 	}
 	else if (unit->_unitData->GetIsBuilding() && !unit->_unitData->_isUnderConstruction)
 	{
-		//else - if building has been destroyed - make platforms interactable
+		//else - if building has been destroyed - destroy platforms
 		//or destroy them
 		vector<CCPoint>cells;
 		cells.push_back(point);
@@ -481,13 +481,22 @@ void GameMatch::GameUnitWillLeaveCell(GameUnit *unit, const CCPoint &point)
 		for (int i = 0; i < cells.size(); i++)
 		{
 			CCPoint cell = cells[i];
-			USimpleContainer<GameUnit*> *units_ = _fullAgregator->UnitsInCell(cell.x, cell.y);
-			for (int j = 0; j < units_->GetCount(); j++)
-			{
-				GameUnit *cunit = units_->objectAtIndex(j);
-				if (cunit->GetConfig()->_isPlatform)
-					cunit->_unitData->SetIsUniteractable(false);
-			}
+            bool find = true;
+            while (find) {
+                find = false;
+                USimpleContainer<GameUnit*> *units_ = _fullAgregator->UnitsInCell(cell.x, cell.y);
+                for (int j = 0; j < units_->GetCount(); j++)
+                {
+                    GameUnit *cunit = units_->objectAtIndex(j);
+                    if (cunit->GetConfig()->_isPlatform)
+                    {
+                        cunit->Destroy(true);
+                        find = true;
+                        break;
+                    }
+                }
+            }
+			
 		}
 	}
 }

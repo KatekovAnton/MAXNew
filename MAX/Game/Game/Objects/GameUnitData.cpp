@@ -130,6 +130,9 @@ vector<UNIT_MENU_ACTION> GameUnitData::GetActionList(bool havePath) const
     vector<UNIT_MENU_ACTION> result;
     
 	result.push_back(UNIT_MENU_ACTION_INFO);
+    if (config->_rFuel > 0 || config->_rMaterial > 0 || config->_rGold > 0) {
+        result.push_back(UNIT_MENU_ACTION_XFER);
+    }
 	if (havePath)
 	{
 		result.push_back(UNIT_MENU_ACTION_DONE);

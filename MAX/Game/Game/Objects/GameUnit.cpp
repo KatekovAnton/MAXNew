@@ -77,7 +77,7 @@ void GameUnit::Init()
     CheckBodyAndShadow();
     
     if(_unitData->GetIsBuilding() && _unitData->GetConfig()->_isNeedUndercover)
-        _effectUnder = GameEffect::CreateBuildingBase(_unitData->GetSize() == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, OBJECT_LEVEL_ONGROUND);
+        _effectUnder = GameEffect::CreateBuildingBase(_unitData->GetSize() == 2?BUILDING_BASE_TYPE_LARGE:BUILDING_BASE_TYPE_SMALL, GetConfig()->_bLevel - 1);
     
     CheckForAnimanteBody();
 }
@@ -1110,7 +1110,7 @@ void GameUnit::CreateSmallBuildingTape()
     
     CCPoint p = GetUnitCell();
     EXTENDED_GROUND_TYPE gt = _owner_w->_agregator->GroundTypeAtXY(p.x, p.y);
-    _effectUnder = GameEffect::CreateBuildingBase(gt != EXTENDED_GROUND_TYPE_WATER?BUILDING_BASE_TYPE_PROGRESS_SMALL:BUILDING_BASE_TYPE_PROGRESS_SEA_SMALL, GetObject()->_currentLevel);
+    _effectUnder = GameEffect::CreateBuildingBase(gt != EXTENDED_GROUND_TYPE_WATER?BUILDING_BASE_TYPE_PROGRESS_SMALL:BUILDING_BASE_TYPE_PROGRESS_SEA_SMALL, GetConfig()->_bLevel);
     _effectUnder->SetLocation(GetUnitCell());
     _effectUnder->Show();
 }
@@ -1122,7 +1122,7 @@ void GameUnit::CreateLargeBuildingTape()
     
     CCPoint p = GetUnitCell();
     EXTENDED_GROUND_TYPE gt = _owner_w->_agregator->GroundTypeAtXY(p.x, p.y);
-    _effectUnder = GameEffect::CreateBuildingBase(gt != EXTENDED_GROUND_TYPE_WATER?BUILDING_BASE_TYPE_PROGRESS_LARGE:BUILDING_BASE_TYPE_PROGRESS_SEA_LARGE, GetObject()->_currentLevel);
+    _effectUnder = GameEffect::CreateBuildingBase(gt != EXTENDED_GROUND_TYPE_WATER?BUILDING_BASE_TYPE_PROGRESS_LARGE:BUILDING_BASE_TYPE_PROGRESS_SEA_LARGE, GetConfig()->_bLevel);
     _effectUnder->SetLocation(GetUnitCell());
     _effectUnder->Show();
 }
@@ -1294,7 +1294,8 @@ void GameUnit::OnAnimationUpdate(MAXAnimationBase* animation)
 
 void GameUnit::OnAnimationFinish(MAXAnimationBase* animation)
 {
-    CheckMovementUpdate();
+    if (!GetConfig()->_isBuilding)
+        CheckMovementUpdate();
     
     if (animation == _currentTopAnimation)
     {
