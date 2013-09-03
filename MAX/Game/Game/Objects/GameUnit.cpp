@@ -1028,15 +1028,15 @@ void GameUnit::Fire(const cocos2d::CCPoint &target, const int level)
 void GameUnit::SetPlacingMines(bool action)
 {
     _unitData->SetPlacingMines(action);
-//    if (_unitData->GetIsPlacingMines()) 
-//        PerformMineAction();
+    if (_unitData->GetIsPlacingMines()) 
+        PerformMineAction();
 }
 
 void GameUnit::SetRemovingMines(bool action)
 {
     _unitData->SetRemovingMines(action);
-//    if (_unitData->GetIsRemovingMines()) 
-//        PerformMineAction();
+    if (_unitData->GetIsRemovingMines()) 
+        PerformMineAction();
 }
 
 void GameUnit::PerformMineAction()
@@ -1058,6 +1058,7 @@ void GameUnit::PerformMineAction()
         _newMine->PlaceUnitOnMap();
         
         _unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, _unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) - 1);
+        SOUND->PlayExplodeSound(GetConfig()->_bMoveType == UNIT_MOVETYPE_SEA?EXPLODE_SOUND_TYPE_SEAMINE_PLACE:EXPLODE_SOUND_TYPE_LANDMINE_PLACE);
         if (_unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) == 0)
             SetPlacingMines(false);
         
@@ -1074,6 +1075,7 @@ void GameUnit::PerformMineAction()
             {
                 unit->Destroy(true);
                 _unitData->SetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL, _unitData->GetParameterValue(UNIT_PARAMETER_TYPE_MATERIAL) + 1);
+                SOUND->PlayExplodeSound(GetConfig()->_bMoveType == UNIT_MOVETYPE_SEA?EXPLODE_SOUND_TYPE_SEAMINE_REMOVE:EXPLODE_SOUND_TYPE_LANDMINE_REMOVE);
                 break;
             }
         }
