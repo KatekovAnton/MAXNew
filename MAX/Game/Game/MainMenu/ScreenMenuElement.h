@@ -42,8 +42,8 @@ public:
 	CCArray *nodesArray();
 
 	CCNode *CreateSimpleItem(string text, CCObject *target, SEL_MenuHandler selector);
-	ccColor4B normalColor() const { ccColor4B normal; normal.a = 150; normal.r = 30; normal.g = 30; normal.b = 30; return normal; };
-	ccColor4B selectedColor() const { ccColor4B selected; selected.a = 150; selected.r = 130; selected.g = 130; selected.b = 130; return selected; };
+	ccColor4B normalColor() const { ccColor4B normal; normal.a = 180; normal.r = 10; normal.g = 10; normal.b = 10; return normal; };
+	ccColor4B selectedColor() const { ccColor4B selected; selected.a = 200; selected.r = 130; selected.g = 130; selected.b = 130; return selected; };
 
 };
 

@@ -123,6 +123,58 @@ void NodeHieraclyOpacity::SetOpacityToStartValues()
 }
 
 
+
+
+CCParallaxNodeCustom::CCParallaxNodeCustom()
+{
+    
+}
+
+CCParallaxNodeCustom::~CCParallaxNodeCustom()
+{}
+
+void CCParallaxNodeCustom::addChild(CCNode * child, float displacement)
+{
+    cocos2d::CCNode::addChild(child);
+    _nodeDisplacement.insert(pair<CCNode*, float>(child, displacement));
+    _nodeBasePositions.insert(pair<CCNode*, CCPoint>(child, child->getPosition()));
+}
+
+void CCParallaxNodeCustom::removeChild(CCNode* child, bool cleanup)
+{
+    cocos2d::CCNode::removeChild(child, cleanup);
+    _nodeDisplacement.erase(child);
+    _nodeBasePositions.erase(child);
+}
+
+void CCParallaxNodeCustom::PrepareToParallax()
+{
+    if (!getChildren())
+        return;
+    
+    for (int i = 0; i < getChildren()->count(); i++) {
+        CCNode* node = (CCNode*)getChildren()->objectAtIndex(i);
+        _nodeBasePositions.erase(node);
+        _nodeBasePositions.insert(pair<CCNode*, CCPoint>(node, node->getPosition()));
+    }
+}
+
+void CCParallaxNodeCustom::SetDisplacement(CCPoint displacement)
+{
+    if (!getChildren())
+        return;
+    
+    for (int i = 0; i < getChildren()->count(); i++) {
+        CCNode* node = (CCNode*)getChildren()->objectAtIndex(i);
+        CCPoint basePos = _nodeBasePositions[node];
+        float disp = _nodeDisplacement[node];
+        CCPoint pos = ccp(basePos.x + disp * displacement.x, basePos.y + disp * displacement.y);
+        node->setPosition(pos);
+    }
+}
+
+
+
 //move to extended action
 bool CCMoveToExtended::initWithDuration(float duration, const CCPoint& position, CCObject *endTarget, SEL_CallFuncO endSelector)
 {

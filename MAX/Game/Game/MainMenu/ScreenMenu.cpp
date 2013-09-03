@@ -14,13 +14,47 @@
 
 #define BUTTON_LABEL_TAG 11
 
+CCParallaxNodeCustom *createTestBGScreen(CCSize size)
+{
+    CCParallaxNodeCustom* result = new CCParallaxNodeCustom();
+    result->autorelease();
+    result->setContentSize(size);
+    float scale = 1.0;
+    {
+        CCSprite* sprite = CCSprite::create("s_bg.jpg");
+        float scaleX = size.width/sprite->getContentSize().width;
+        float scaleY = size.height/sprite->getContentSize().height;
+        scale = ____max(scaleX, scaleY);
+        sprite->setScale(scale);
+        sprite->setPosition(ccp(size.width/2, size.height/2));
+        
+        result->addChild(sprite, 0);
+    }
+    
+    {
+        CCSprite* sprite = CCSprite::create("s_02.png");
+        sprite->setScale(scale);
+        sprite->setPosition(ccp(sprite->getContentSize().width/2 * scale - 10, size.height/2 - 100));
+        result->addChild(sprite, 0.0);
+    }
+    {
+        CCSprite* sprite = CCSprite::create("s_01.png");
+        sprite->setScale(scale);
+        sprite->setPosition(ccp(size.width/2, size.height/2));
+        result->addChild(sprite, 1.0);
+    }
+
+    result->PrepareToParallax();
+    return result;
+}
+
 ScreenMenu::ScreenMenu()
 	:_menuController(NULL), _layerButtonsBG(NULL), _layerBg(NULL), _screenStack(NULL), _freezed(false)
 {
-	_colorBG.r = 130;
-	_colorBG.g = 115;
-	_colorBG.b = 87;
-	_colorBG.a = 255;
+	_colorBG.r = 0;
+	_colorBG.g = 0;
+	_colorBG.b = 0;
+	_colorBG.a = 0;
 }
 
 ScreenMenu::~ScreenMenu()
@@ -58,6 +92,14 @@ void ScreenMenu::InitBaseInterface()
 //
 //
 	
+    _nodeBackgroundBase = CCNode::create();
+    _nodeBackgroundBase->setContentSize(getContentSize());
+    addChild(_nodeBackgroundBase);
+    _parallax = createTestBGScreen(getContentSize());
+    _nodeBackgroundBase->addChild(_parallax);
+    _parallax->PrepareToParallax();
+   // _parallax->SetDisplacement(ccp(100, 100));
+    
 	if (!_layerBg)
 	{
 		_layerBg = CCLayerColor::create(_colorBG, getContentSize().width, getContentSize().height);
@@ -117,7 +159,6 @@ void ScreenMenu::PushScreen(ScreenMenuElement *screen)
 	}
 
 	{//align new screen
-		CCArray* nodes = screen->nodesArray();
 		float y = getContentSize().height/2 - screen->getContentSize().height/2;
 		if (y < 0)
 			y = 0;

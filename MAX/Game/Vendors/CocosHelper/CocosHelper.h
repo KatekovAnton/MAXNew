@@ -38,6 +38,29 @@ public:
     
 };
 
+class CCNumber : public CCObject {
+    float value;
+};
+
+class CCParallaxNodeCustom : public CCNode
+{
+    map<CCNode*, CCPoint> _nodeBasePositions;
+    map<CCNode*, float> _nodeDisplacement;
+    
+public:
+    
+    CCParallaxNodeCustom();
+    virtual ~CCParallaxNodeCustom();
+    
+    void addChild(CCNode * child, float displacement);
+    virtual void removeChild(CCNode* child, bool cleanup);
+    
+    void PrepareToParallax();
+    
+    void SetDisplacement(CCPoint displacement);
+    
+};
+
 class CCMoveToExtended : public CCMoveTo
 {
     

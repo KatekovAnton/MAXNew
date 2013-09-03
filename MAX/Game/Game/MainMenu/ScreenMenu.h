@@ -17,7 +17,7 @@ using namespace cocos2d;
 
 class MAXMainMenuController;
 class ScreenSelectGameType;
-
+class CCParallaxNodeCustom;
 
 
 class ScreenMenu : public CCScene
@@ -26,6 +26,9 @@ class ScreenMenu : public CCScene
 	bool _freezed;
 
 public:
+    CCNode *_nodeBackgroundBase;
+    CCParallaxNodeCustom* _parallax;
+    
 
 	MAXMainMenuController	*_menuController;
 	
