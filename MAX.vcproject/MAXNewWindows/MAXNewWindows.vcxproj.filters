@@ -477,6 +477,9 @@
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\MatchGarbageMap.cpp">
       <Filter>Game\Game\GameMatch</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\Windows\GIMessageWindow.cpp">
+      <Filter>Game\Game\Interface\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MAX\Utils\BinaryReader.h">
@@ -928,6 +931,15 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\MatchGarbageMap.h">
       <Filter>Game\Game\GameMatch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIMessageWindow.h">
+      <Filter>Game\Game\Interface\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIMessageWindowDelegate.h">
+      <Filter>Game\Game\Interface\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIWindowsManagerDelegate.h">
+      <Filter>Game\Game\Interface\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
