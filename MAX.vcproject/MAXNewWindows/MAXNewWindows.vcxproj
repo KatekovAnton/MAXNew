@@ -104,7 +104,6 @@
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Meshes\EngineMesh.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Meshes\EngineTiledDynamicMesh.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\ObjectComponents\Textures\Texture.cpp" />
-    <ClCompile Include="..\..\MAX\Game\Engine\Objects\LevelObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\MapRenderObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXEffectObject.cpp" />
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\MAXMapObject.cpp" />
@@ -134,6 +133,7 @@
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GamePathVisualizer.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\GameSettings.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\MatchFireAggregator.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\MatchGarbageMap.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\MatchMapAgregator.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\Pathfinder\Pathfinder.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\GameMatch\Pathfinder\PFWave.cpp" />
@@ -253,6 +253,7 @@
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GamePathVisualizer.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\GameSettings.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\MatchFireAggregator.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\MatchGarbageMap.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\MatchMapAgregator.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\Pathfinder\Pathfinder.h" />
     <ClInclude Include="..\..\MAX\Game\Game\GameMatch\Pathfinder\PFWave.h" />

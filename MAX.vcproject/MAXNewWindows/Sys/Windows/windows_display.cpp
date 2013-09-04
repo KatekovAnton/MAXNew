@@ -196,6 +196,7 @@ void windows_display::ProceedMessage(MSG msg)
 			float ys[1] = {position.y};
 			this->handleTouchesMove(1, ids, xs, ys); 
 		}
+		_delegateC->onDeviceMoved(-(position.x / m_obScreenSize.width - 0.5) * 0.7f, (position.y / m_obScreenSize.height - 0.5) * 0.7f);
 	}
 	if (msg.message == WM_RBUTTONUP && _delegateC->CanStartPinch(position.x,position.y))
 	{
