@@ -12,10 +12,12 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "MAXEngine.h"
+#include "GIWindowsManagerDelegate.h"
 
 using namespace cocos2d;
 
 class GameUnit;
+class GIWindow;
 class GIUnitParametersNode;
 class GIUnitActionMenu;
 class GIUnitActionMenuDelegate;
@@ -27,7 +29,7 @@ class MAXGameController;
 class CCMenuItemNodes;
 class NodeHieraclyOpacity;
 
-class GameInterface : public CCScene
+class GameInterface : public CCScene, public GIWindowsManagerDelegate
 {
     bool _inited;
     bool _firstTime;
@@ -131,6 +133,12 @@ public:
     void ShowUnitSpottedMessage(GameUnit* unit);
 
     void ToggleInterfaceVisibility(float visibleFlag);
+    void PresentWindow(GIWindow* window);
+    void DisappearWindow(GIWindow* window);
+
+#pragma mark - GIWindowManagerDelegate
+    
+    virtual void WindowManagerDidCloseLastWindow();
     
 #pragma mark - Button events
     

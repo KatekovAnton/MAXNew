@@ -632,6 +632,7 @@
 		D1BC8DFC17316A0D005184BB /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D1BC8DFB17316A0C005184BB /* Default-Landscape@2x~ipad.png */; };
 		D1BC8DFD17316A34005184BB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D1BC8DEF17316942005184BB /* Default.png */; };
 		D1D50F4017D639C600089275 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1D50F3F17D639C600089275 /* CoreMotion.framework */; };
+		D1D50FB117D796FF00089275 /* GIMessageWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1D50FAE17D796FF00089275 /* GIMessageWindow.cpp */; };
 		D1DBC46116C3EAED0096034A /* UnitListOriginal.txt in Resources */ = {isa = PBXBuildFile; fileRef = D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */; };
 		D1DBC4A716C67DCA0096034A /* MAXObjectConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4A516C67DCA0096034A /* MAXObjectConfig.cpp */; };
 		D1DBC4B216C923410096034A /* MAXDrawPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1DBC4B016C923410096034A /* MAXDrawPrimitives.cpp */; };
@@ -1456,6 +1457,10 @@
 		D1BC8DFB17316A0C005184BB /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		D1D4CBA617294A57001C0FB0 /* GameEffectDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameEffectDelegate.h; sourceTree = "<group>"; };
 		D1D50F3F17D639C600089275 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		D1D50FAE17D796FF00089275 /* GIMessageWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIMessageWindow.cpp; sourceTree = "<group>"; };
+		D1D50FAF17D796FF00089275 /* GIMessageWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIMessageWindow.h; sourceTree = "<group>"; };
+		D1D50FB017D796FF00089275 /* GIMessageWindowDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIMessageWindowDelegate.h; sourceTree = "<group>"; };
+		D1D50FB217D7AF0F00089275 /* GIWindowsManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GIWindowsManagerDelegate.h; sourceTree = "<group>"; };
 		D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnitListOriginal.txt; sourceTree = "<group>"; };
 		D1DBC4A516C67DCA0096034A /* MAXObjectConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObjectConfig.cpp; sourceTree = "<group>"; };
 		D1DBC4A616C67DCA0096034A /* MAXObjectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXObjectConfig.h; sourceTree = "<group>"; };
@@ -1883,8 +1888,10 @@
 		8B9B9CA317403D28004345E1 /* Windows */ = {
 			isa = PBXGroup;
 			children = (
+				D1D50FA917D78E9A00089275 /* Message */,
 				8B44BBB51752BCD700A9D382 /* GIWindowsManager.cpp */,
 				8B44BBB61752BCD700A9D382 /* GIWindowsManager.h */,
+				D1D50FB217D7AF0F00089275 /* GIWindowsManagerDelegate.h */,
 				8BFA4F0B1763C061001A7D00 /* GIWindow.cpp */,
 				8BFA4F0C1763C062001A7D00 /* GIWindow.h */,
 			);
@@ -2795,6 +2802,16 @@
 			path = Effects;
 			sourceTree = "<group>";
 		};
+		D1D50FA917D78E9A00089275 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				D1D50FAE17D796FF00089275 /* GIMessageWindow.cpp */,
+				D1D50FAF17D796FF00089275 /* GIMessageWindow.h */,
+				D1D50FB017D796FF00089275 /* GIMessageWindowDelegate.h */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
 		D1DBC4C316CA50C20096034A /* PlayerInformation */ = {
 			isa = PBXGroup;
 			children = (
@@ -3618,6 +3635,7 @@
 				8BAA7CC31792A9CD0022F98B /* ScreenSelectGameType.cpp in Sources */,
 				8B0D87F517C80E4B00751BA9 /* GameEditorSuperPlayerData.cpp in Sources */,
 				8BFAA37417D5AEB900CCC5E3 /* MatchGarbageMap.cpp in Sources */,
+				D1D50FB117D796FF00089275 /* GIMessageWindow.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

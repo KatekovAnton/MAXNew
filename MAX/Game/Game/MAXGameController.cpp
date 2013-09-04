@@ -37,6 +37,8 @@
 #include "Pathfinder.h"
 #include "PFWaveCell.h"
 
+#include "GIMessageWindow.h"
+
 static bool allowControlEnemyUnits = false;
 
 MAXGameController::MAXGameController()
@@ -81,6 +83,19 @@ void MAXGameController::EndMatch()
 	_endDelayAnim = wait;
 	MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
 
+}
+
+void MAXGameController::OnOptionsPressed()
+{
+	if (_freezeCounter1 != 0)
+		return;
+    
+    vector<string> buttons;
+    buttons.push_back("Yes");
+    buttons.push_back("No");
+    GIMessageWindow *window = new GIMessageWindow("", "Do you really want to exit?", buttons);
+    window->_delegate_w = this;
+    _gameInterface->PresentWindow(window);
 }
 
 void MAXGameController::DeletionProgressDidChange(float zeroToOne)
@@ -1591,3 +1606,12 @@ void MAXGameController::OnAnimationFinish(MAXAnimationBase* animation)
 	}
 }
 
+#pragma mark - GIMessageWindowDelegate 
+
+void MAXGameController::OnMessageWindowButtonClicked(int buttonNumber, GIMessageWindow *sender)
+{
+    if (buttonNumber == 0)
+        EndMatch();
+    else
+        _gameInterface->DisappearWindow(sender);
+}

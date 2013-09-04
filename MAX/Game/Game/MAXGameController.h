@@ -19,6 +19,8 @@
 #include "MAXAnimationDelegate.h"
 #include "MAXGameInputControllerDelegate.h"
 
+#include "GIMessageWindowDelegate.h"
+
 class MAXGameInputController;
 class GameMap;
 class GameUnit;
@@ -28,9 +30,10 @@ class GameMatchPlayer;
 class GameEffect;
 class GameInterface;
 class GamePathVisualizer;
+class GIMessageWindow;
 class PFWaveCell;
 
-class MAXGameController : public MAXEngineDelegate, public GameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameInputControllerDelegate, public GIUnitSelectionMenuDelegate
+class MAXGameController : public MAXEngineDelegate, public GameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameInputControllerDelegate, public GIUnitSelectionMenuDelegate, public GIMessageWindowDelegate
 {
     MAXAnimationBase* _fireDelayAnim;
 	MAXAnimationBase* _endDelayAnim;
@@ -84,6 +87,7 @@ public:
     void Init();
     void StartMatch();
 	void EndMatch();
+    bool EndTurn();
 	void DeletionProgressDidChange(float zeroToOne);
 
     int CurrentPlayerId() const;
@@ -102,7 +106,6 @@ public:
 	void HideUnitPath();
     
 
-    bool EndTurn();
     
 
 #pragma mark - Interaction	
@@ -115,6 +118,7 @@ public:
 #pragma mark - Interface
 #pragma mark Messages
     void ShowUnitSpottedMessage(GameUnit* unit);
+    void OnOptionsPressed();
     
 #pragma mark - MAXGameInputControllerDelegate
     virtual void SelectLargeBuildingConstructionPlaceActionFinished(CCPoint result, MAXObjectConfig *buildingConfig);
@@ -155,7 +159,9 @@ public:
     virtual void OnAnimationStart(MAXAnimationBase* animation);
     virtual void OnAnimationUpdate(MAXAnimationBase* animation);
     virtual void OnAnimationFinish(MAXAnimationBase* animation);
-
+    
+#pragma mark - GIMessageWindowDelegate
+    virtual void OnMessageWindowButtonClicked(int buttonNumber, GIMessageWindow *sender);
 };
 
 #endif /* defined(__MAX__MAXGameController__) */

@@ -7,10 +7,27 @@
 //
 
 #include "GIWindow.h"
+#include "GIWindowsManager.h"
 
-GIWindowPart::GIWindowPart()
-:_isLeft(true), _startAlignment(0), _finishAlignment(0)
+GIWindow::GIWindow()
 {}
 
-GIWindowPart::~GIWindowPart()
+GIWindow::~GIWindow()
 {}
+
+void GIWindow::WindowWillAppear()
+{}
+
+void GIWindow::WindowWillDisapper()
+{}
+
+void GIWindow::WindowDidAppear()
+{}
+
+void GIWindow::WindowDidDisapper()
+{}
+
+CCSize GIWindow::GetMaximumSize()
+{
+    return GIWindowsManager::MaximumSize();
+}

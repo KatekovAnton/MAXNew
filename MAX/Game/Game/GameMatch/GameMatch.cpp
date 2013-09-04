@@ -759,14 +759,13 @@ void GameMatch::CellDidUpdate(const int x, const int y, const FOG_TYPE type, con
                 GameUnit *unit = units->objectAtIndex(i);
                 if (!processedPlayer->CanSeeUnit(unit) && (!unit->GetConfig()->_isUnderwater || processedPlayer->_playerData->FogValueInCell(FOG_TYPE_SCAN, ccp(x, y)) == 0))
                 {
-                    
-                    
                     unit->UndetectedByPlayer(processedPlayer->GetPlayerId());
                     processedPlayer->_agregator->RemoveUnitFromCell(unit, x, y);
                     
                     if (processedPlayer->GetIsCurrentPlayer())
                         unit->Hide();
                     
+                    //TODO
                     //check if noone ca see this unit - activate stealth
                     for (int i = 0; i < _players.size(); i++)
                     {
