@@ -244,6 +244,12 @@ SOUND_TYPE GameUnitData::GetOnSelectSoundType() const
         return SOUND_TYPE_AMMO_LOW;
     if (GetParameterValue(UNIT_PARAMETER_TYPE_SPEED)/10 == 0)
         return SOUND_TYPE_MOVEMENT_EXHAUSTED;
+    if (GetConfig()->_isSurvivor)
+        return SOUND_TYPE_SURVEYING;
+    if (GetIsPlacingMines())
+        return SOUND_TYPE_LAYING_MINES;
+    if (GetIsRemovingMines())
+        return SOUND_TYPE_REMOVING_MINES;
     
     return SOUND_TYPE_READY;
 }

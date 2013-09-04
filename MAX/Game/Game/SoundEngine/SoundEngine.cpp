@@ -169,6 +169,29 @@ SoundEngine::SoundEngine()
         names.push_back("f251.wav");
         _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_UNIT_FIRING, names));
     }
+    {
+        vector<string> names;
+        names.push_back("f181.wav");
+        names.push_back("f182.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_LAYING_MINES, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f186.wav");
+        names.push_back("f187.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_REMOVING_MINES, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("f191.wav");
+        names.push_back("f192.wav");
+        _systemSoundNames.insert(std::pair<SOUND_TYPE, vector<string>>(SOUND_TYPE_SURVEYING, names));
+    }
+    
+    //    SOUND_TYPE_LAYING_MINES,//f181.wav f182.wav
+    //    SOUND_TYPE_REMOVING_MINES,// f186.wav f187.wav
+    //    SOUND_TYPE_SURVEYING,//f191.wav f192.wav
+    
 //    SOUND_TYPE_INFILTRATOR_FAIL,
 //    SOUND_TYPE_GAME_SAVED,
 //    SOUND_TYPE_FUEL_STORAGE_FULL,//f057.wav
@@ -182,9 +205,6 @@ SoundEngine::SoundEngine()
 //    SOUND_TYPE_COMPLETE_AND_READY,//f164.wav
 //    SOUND_TYPE_CLEARING_AREA,//f171.wav
 //    SOUND_TYPE_STARTGAME_SELECT_SIDE,//f176.wav f177.wav
-//    SOUND_TYPE_LAYING_MINES,//f181.wav f182.wav
-//    SOUND_TYPE_REMOVING_MINES,// f186.wav f187.wav
-//    SOUND_TYPE_SURVEYING,//f191.wav f192.wav
 //    SOUND_TYPE_ATTACKING,//f196.wav f198.wav
 //    SOUND_TYPE_NEW_UNITS_AVAILABLE_THIS_TURN,//f206.wav f207.wav f215.wav
 //    SOUND_TYPE_TRANSFER_COMPLETED,//f224.wav
@@ -270,6 +290,26 @@ SoundEngine::SoundEngine()
         names.push_back("infil15.wav");
         names.push_back("infil15.wav");
         _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_INFILTRATOR, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("mlayer17.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_LANDMINE_PLACE, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("mlayer18.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_LANDMINE_REMOVE, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("smine17.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_SEAMINE_PLACE, names));
+    }
+    {
+        vector<string> names;
+        names.push_back("smine18.wav");
+        _explodeSoundNames.insert(std::pair<EXPLODE_SOUND_TYPE, vector<string>>(EXPLODE_SOUND_TYPE_SEAMINE_REMOVE, names));
     }
 
 	//blocks
