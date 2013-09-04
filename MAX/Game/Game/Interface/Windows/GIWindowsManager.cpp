@@ -17,7 +17,6 @@ CCSize maximumSize;
 GIWindowsManager::GIWindowsManager(CCNode *parentNode)
 :_baseNode(parentNode)
 {
-    _baseNode->retain();
     
     {
         CCMenuItem *bigButton = CCMenuItem::create();
@@ -45,7 +44,11 @@ GIWindowsManager::GIWindowsManager(CCNode *parentNode)
 
 GIWindowsManager::~GIWindowsManager()
 {
-    _baseNode->release();
+    for (int i = 0; i < _windowStack.size(); i++) 
+        _windowStack[i]->release();
+    for (int i = 0; i < _windowQueue.size(); i++)
+        _windowQueue[i]->release();
+    
 }
 
 void GIWindowsManager::ProcessQueue()
@@ -151,6 +154,7 @@ void GIWindowsManager::OnWindowDisapperarAnimationFinished(CCObject *sender)
     GIWindow *window = _windowStack[_windowStack.size()-1];
     _windowBlockMenu->removeFromParentAndCleanup(true);
     window->removeFromParentAndCleanup(true);
+    window->WindowDidDisapper();
     window->release();
     _windowStack.pop_back();
     CloseBlackBase();
@@ -190,6 +194,7 @@ void GIWindowsManager::DisappearWindow(GIWindow* window)
         {
             if (*element == window)
             {
+                window->release();
                 _windowStack.erase(element);
                 break;
             }

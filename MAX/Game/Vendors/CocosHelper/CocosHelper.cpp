@@ -22,12 +22,12 @@ NodeHieraclyOpacity::NodeHieraclyOpacity(CCNode *node)
     nodestack->addObject(node);
     while (nodestack->count() > 0) {
         CCNode *parent = reinterpret_cast<CCNode*>(nodestack->lastObject());
-        parent->retain();
+     
         ProcessNode(parent);
         nodestack->removeLastObject();
         if (parent->getChildren())
             nodestack->addObjectsFromArray(parent->getChildren());
-        parent->release();
+        
     }
 }
 

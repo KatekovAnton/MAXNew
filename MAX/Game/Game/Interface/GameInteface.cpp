@@ -96,16 +96,6 @@ void GameInterface::InitBaseInterface()
 {
     _inited = false;
     setContentSize(CCDirector::sharedDirector()->getVisibleSize());
-	//end turn place
-//	CCSprite* turnSprite = CCSprite::create("3blocks.png");
-//    turnSprite->setAnchorPoint(ccp(0, 1));
-//    turnSprite->setPosition(ccp(getContentSize().width - 209, getContentSize().height + 4));
-//    addChild(turnSprite);
-    
-//    ccColor4B colorBG; colorBG.a = 200; colorBG.r = 150; colorBG.g = 150; colorBG.b = 150;
-//    CCLayerColor *turnLayer = CCLayerColor::create(colorBG, 208, 23);
-//    turnLayer->setPosition(ccp(getContentSize().width - 208, getContentSize().height - 23));
-//    addChild(turnLayer);
     
     CCLayerColor *turnLayer1 = CCLayerColor::create(CocosHelper::normalColor(), 95, 19);
     turnLayer1->setPosition(ccp(getContentSize().width - 100, getContentSize().height - 19));
@@ -173,7 +163,7 @@ void GameInterface::InitBaseInterface()
     float currentElement = top;
     
     currentElement -= bh + bd;
-	_buttonOptions = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnOptions));
+	_buttonOptions = createMenuItemWithLayers(ccz(panelW, bh), CocosHelper::normalColor(), CocosHelper::selectedColor(), "EXIT", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, this, menu_selector(GameInterface::OnOptions));
     // createMenuItemFromMaxres("Options", MAX_DEFAULT_FONT, 10, MAX_COLOR_WHITE, "AMMO_OF", "AMMO_ON", this, menu_selector(GameInterface::OnOptions));
     _buttonOptions->setPosition(ccp(bx,currentElement));
     CocosHelper::MoveNode(_buttonOptions->getChildByTag(BUTTON_LABEL_TAG), ccp(0, 5));

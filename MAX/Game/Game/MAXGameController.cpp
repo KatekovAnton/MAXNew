@@ -94,6 +94,7 @@ void MAXGameController::OnOptionsPressed()
     buttons.push_back("Yes");
     buttons.push_back("No");
     GIMessageWindow *window = new GIMessageWindow("", "Do you really want to exit?", buttons);
+    window->autorelease();
     window->_delegate_w = this;
     _gameInterface->PresentWindow(window);
 }
