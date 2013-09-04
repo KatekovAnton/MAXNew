@@ -126,6 +126,7 @@ void NodeHieraclyOpacity::SetOpacityToStartValues()
 
 
 CCParallaxNodeCustom::CCParallaxNodeCustom()
+:_background(NULL)
 {
     
 }
@@ -138,6 +139,12 @@ void CCParallaxNodeCustom::addChild(CCNode * child, float displacement)
     cocos2d::CCNode::addChild(child);
     _nodeDisplacement.insert(pair<CCNode*, float>(child, displacement));
     _nodeBasePositions.insert(pair<CCNode*, CCPoint>(child, child->getPosition()));
+}
+
+void CCParallaxNodeCustom::addBackgroundChild(CCNode * child, float displacement)
+{
+    addChild(child, displacement);
+    _background = child;
 }
 
 void CCParallaxNodeCustom::removeChild(CCNode* child, bool cleanup)
@@ -170,6 +177,8 @@ void CCParallaxNodeCustom::SetDisplacement(CCPoint displacement)
         float disp = _nodeDisplacement[node];
         CCPoint pos = ccp(basePos.x + disp * displacement.x, basePos.y + disp * displacement.y);
         node->setPosition(pos);
+        
+        
     }
 }
 

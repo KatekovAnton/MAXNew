@@ -28,7 +28,7 @@ CCParallaxNodeCustom *createTestBGScreen(CCSize size)
         sprite->setScale(scale * 1.2);
         sprite->setPosition(ccp(size.width/2, size.height/2));
         
-        result->addChild(sprite, 1.0-0.0);
+        result->addBackgroundChild(sprite, 1.0-0.0);
     }
     
     {

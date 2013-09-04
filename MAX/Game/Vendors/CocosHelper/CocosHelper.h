@@ -46,13 +46,14 @@ class CCParallaxNodeCustom : public CCNode
 {
     map<CCNode*, CCPoint> _nodeBasePositions;
     map<CCNode*, float> _nodeDisplacement;
-    
+    CCNode *_background;
 public:
     
     CCParallaxNodeCustom();
     virtual ~CCParallaxNodeCustom();
     
     void addChild(CCNode * child, float displacement);
+    void addBackgroundChild(CCNode * child, float displacement);
     virtual void removeChild(CCNode* child, bool cleanup);
     
     void PrepareToParallax();

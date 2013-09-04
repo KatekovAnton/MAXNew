@@ -739,11 +739,12 @@ bool GameUnit::ReceiveDamage(GameUnit* unit, int decrase)
 
 void GameUnit::UpdateConnectors()
 {
-    if (_destroyed) 
-        return;
     
     MAXUnitObject *object = GetUnitObject();
     object->RemoveConnectors();
+    if (_destroyed) 
+        return;
+    
     if (_unitData->GetSize() == 1)
     {
         CCPoint cell = ccp(GetUnitCell().x-1, GetUnitCell().y);
