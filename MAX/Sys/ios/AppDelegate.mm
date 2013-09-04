@@ -20,27 +20,6 @@
 
 @end
 
-class MyClass {
-    
-    
-public:
-    int a;
-    
-    MyClass();
-    ~MyClass();
-};
-
-MyClass::MyClass()
-{
-    cout << "I born" << endl;
-}
-
-MyClass::~MyClass()
-{
-    cout << "I die" << endl;
-}
-
-
 @implementation AppDelegate
 
 - (void)initEnviroment {
