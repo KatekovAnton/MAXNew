@@ -149,6 +149,7 @@
     <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParameterRow.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParametersNode.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Interface\UnitSelectionMenu\GIUnitSelectionMenu.cpp" />
+    <ClCompile Include="..\..\MAX\Game\Game\Interface\Windows\GIMessageWindow.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Interface\Windows\GIWindow.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\Interface\Windows\GIWindowsManager.cpp" />
     <ClCompile Include="..\..\MAX\Game\Game\MainMenu\MAXMainMenuController.cpp" />
@@ -272,8 +273,11 @@
     <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitParameterNode\GIUnitParametersNode.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitSelectionMenu\GIUnitSelectionMenu.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Interface\UnitSelectionMenu\GIUnitSelectionMenuDelegate.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIMessageWindow.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIMessageWindowDelegate.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIWindow.h" />
     <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIWindowsManager.h" />
+    <ClInclude Include="..\..\MAX\Game\Game\Interface\Windows\GIWindowsManagerDelegate.h" />
     <ClInclude Include="..\..\MAX\Game\Game\MainMenu\MAXMainMenuController.h" />
     <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ResultData\MainMenuResultData.h" />
     <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenEditorOptions.h" />
