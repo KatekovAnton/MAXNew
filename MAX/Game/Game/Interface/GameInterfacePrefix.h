@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 
 using namespace cocos2d;
+#define BUTTON_LABEL_TAG 11
 
 #define MAX_DEFAULT_FONT "HelveticaNeue-Bold"
 #define MAX_COLOR_BLACK ccc3(0,0,0)

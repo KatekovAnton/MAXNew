@@ -19,7 +19,6 @@
 
 using namespace extension;
 
-#define BUTTON_LABEL_TAG 11
 
 ScreenSelectGameType::ScreenSelectGameType()
 	:_delegete_w(NULL), ScreenMenuElement()

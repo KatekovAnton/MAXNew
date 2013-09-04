@@ -12,30 +12,21 @@
 #include <iostream>
 #include "miniPrefix.h"
 
-class GIWindowPart : public CCNode {
+class GIWindow : public CCNode {
     
 public:
-    
-    bool _isLeft;
-    float _startAlignment;
-    float _finishAlignment;
-    
-    GIWindowPart();
-    ~GIWindowPart();
-    
-};
-
-class GIWindow {
-    
-public:
-    
-    vector<GIWindowPart*> _parts;
     
     GIWindow();
-    ~GIWindow();
+    virtual ~GIWindow();
     
-    virtual vector<float> RailAltitudes() = 0;
     
+    virtual void WindowWillAppear();
+    virtual void WindowWillDisapper();
+    
+    virtual void WindowDidAppear();
+    virtual void WindowDidDisapper();
+    
+    static CCSize GetMaximumSize();
     
 };
 

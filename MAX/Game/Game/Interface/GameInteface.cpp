@@ -27,6 +27,7 @@
 #include "MAXObjectConfig.h"
 #include "StringUtils.h"
 #include "SoundEngine.h"
+#include "GIWindow.h"
 
 using namespace extension;
 
@@ -36,6 +37,9 @@ float panelW = 115;
 
 bool GameInterface::ShouldReceiveTouch(int x, int y)
 {
+    if (_windowManager->IsWindowOpened()) 
+        return true;
+    
     float currentPanelW = _panel->getPosition().x + panelW + 20;
     CCRect r = CCRect(0, 0, currentPanelW, this->getContentSize().height);
     bool result = r.containsPoint(CCPoint(x, y));
@@ -313,6 +317,7 @@ void GameInterface::InitBaseInterface()
     _inited = true;
     
     _windowManager = new GIWindowsManager(this);
+    _windowManager->_delegate_w = this;
 }
 
 void GameInterface::SetNewTurnData(int turnNumber, Color playerColor)
@@ -454,7 +459,7 @@ void GameInterface::UpdateTogglePathZone()
 void GameInterface::OnOptions(CCMenuItem* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
-	_gameController->EndMatch();
+	_gameController->OnOptionsPressed();
 }
 
 void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
@@ -593,14 +598,32 @@ void GameInterface::OnEndTurn(CCMenuItem* sender)
 
 void GameInterface::OnToggleInterface(CCMenuItem* sender)
 {
-    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
-    
-	ToggleInterfaceVisibility(!_visible);
-    
-    if (_visible)
-        _windowManager->CloseCurrentWindow();
-    else
-        _windowManager->PresentWindow(NULL, 300, false);
+//    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
+//    
+//	ToggleInterfaceVisibility(!_visible);
+//    
+//    if (_visible)
+//        _windowManager->CloseCurrentWindow();
+//    else
+//        _windowManager->PresentWindow(NULL, 300, false);
+}
+
+void GameInterface::PresentWindow(GIWindow* window)
+{
+	ToggleInterfaceVisibility(false);
+    _windowManager->PresentWindow(window, window->getContentSize().width, false, interfaceAnimationTime);
+}
+
+void GameInterface::DisappearWindow(GIWindow* window)
+{
+    _windowManager->DisappearWindow(window);
+}
+
+#pragma mark - GIWindowManagerDelegate
+
+void GameInterface::WindowManagerDidCloseLastWindow()
+{
+    ToggleInterfaceVisibility(true);
 }
 
 #pragma mark - Game events

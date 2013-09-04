@@ -11,30 +11,49 @@
 
 #include <iostream>
 #include "miniPrefix.h"
+#include "CocosHelper.h"
 
 class GIWindow;
 class GIWindowPart;
+class CCWaitExtended;
+class CCSetFrameExtended;
+class GIWindowsManagerDelegate;
 
 class GIWindowsManager : public CCObject {
     
     CCNode              *_baseNode;
     CCMenu              *_menu;
     
+    
     vector<GIWindow*>   _windowQueue;
-    GIWindow            *_currentWindow;
-    CCLayerColor        *_nodeBase;
+    vector<GIWindow*>   _windowStack;
+    
+    CCLayerColor        *_nodeBlackBase;         //black background
+    CCMenu              *_windowBlockMenu;  //for animation
+    
     
     void ProcessQueue();
+    void CloseBlackBase();
+    
+#pragma mark - animations and delays callbacks
+    void OnBlackThingEnlaged(CCObject *sender);
+    void OnWindowApperarAnimationFinished(CCObject *sender);
+    void OnWindowDisapperarAnimationFinished(CCObject *sender);
+    void OnCloseFinished(CCObject* sender);
     
 public:
+    
+    GIWindowsManagerDelegate *_delegate_w;
     
     GIWindowsManager(CCNode *parentNode);
     virtual ~GIWindowsManager();
     
-    void PresentWindow(GIWindow *window, float h, bool queue);
-    void CloseCurrentWindow();
+    void PresentWindow(GIWindow *window, float w, bool queue, float animDelay);
+    void DisappearWindow(GIWindow* window);
     
-    void OnCloseFinished(CCObject* sender);
+    bool IsWindowOpened();
+    
+    static CCSize MaximumSize();
     
 };
 
