@@ -185,6 +185,8 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(45, 47, "Corvette", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(47, 49, "Escort", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(44, 49, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(43, 41, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[0]->CreateUnit(43, 45, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[0]->CreateUnit(44, 44, "sub", 0)->PlaceUnitOnMap();
     	_match->_players[0]->CreateUnit(45, 45, "Seacargo", 0)->PlaceUnitOnMap();
 		_match->_players[0]->CreateUnit(46, 45, "Seafuel", 0)->PlaceUnitOnMap();
@@ -255,7 +257,7 @@ void MAXGameController::StartMatch()
 		for (int i = 59; i < 71; i++)
 			_match->_players[0]->CreateUnit(i, 52, "landmine", 0)->PlaceUnitOnMap();
 		for (int i = 30; i < 46; i+=2)
-			_match->_players[0]->CreateUnit(i, 36 + ((i / 2) % 2), "seamine", 0)->PlaceUnitOnMap();
+			_match->_players[0]->CreateUnit(36 + ((i / 2) % 2), i + 3, "seamine", 0)->PlaceUnitOnMap();
 		for (int i = 55; i <= 62; i++)
             _match->_players[0]->CreateUnit(i, 43, "Road", 0)->PlaceUnitOnMap();
         for (int i = 28; i <= 34; i++)
@@ -288,7 +290,7 @@ void MAXGameController::StartMatch()
         _match->_players[0]->CreateUnit(32, 40, "sub", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(25, 58, "Surveyor", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(30, 43, "Gunboat", 0)->PlaceUnitOnMap();
-        _match->_players[1]->CreateUnit(37, 37, "Gunboat", 0)->PlaceUnitOnMap();
+        _match->_players[1]->CreateUnit(36, 37, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(30, 45, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(29, 45, "Gunboat", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(24, 42, "Corvette", 0)->PlaceUnitOnMap();
@@ -313,8 +315,8 @@ void MAXGameController::StartMatch()
  
         _match->_players[1]->CreateUnit(39, 55, "Inter", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(36, 53, "Inter", 0)->PlaceUnitOnMap();
-        for (int i = 61; i < 69; i++)
-            _match->_players[1]->CreateUnit(i, 56, "landmine", 0)->PlaceUnitOnMap();
+//        for (int i = 61; i < 69; i++)
+//            _match->_players[1]->CreateUnit(i, 56, "landmine", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(50, 47, "pcan", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(52, 48, "Infil", 0)->PlaceUnitOnMap();
         _match->_players[1]->CreateUnit(42, 42, "sub", 0)->PlaceUnitOnMap();

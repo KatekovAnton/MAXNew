@@ -158,6 +158,10 @@ void GIWindowsManager::OnWindowDisapperarAnimationFinished(CCObject *sender)
     window->release();
     _windowStack.pop_back();
     CloseBlackBase();
+    
+    //faster close
+    if (_delegate_w)
+        _delegate_w->WindowManagerDidCloseLastWindow();
 }
 
 void GIWindowsManager::DisappearWindow(GIWindow* window)
