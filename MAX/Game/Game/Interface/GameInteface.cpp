@@ -456,13 +456,13 @@ void GameInterface::UpdateTogglePathZone()
 
 #pragma mark - Button events
 
-void GameInterface::OnOptions(CCMenuItem* sender)
+void GameInterface::OnOptions(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
 	_gameController->OnOptionsPressed();
 }
 
-void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
+void GameInterface::OnToggleLockUnits(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _lockUnits = !_lockUnits;
@@ -479,14 +479,14 @@ void GameInterface::OnToggleLockUnits(CCMenuItem* sender)
     UpdateToggleLockUnitsButton();
 }
 
-void GameInterface::OnToggleGrid(CCMenuItem* sender)
+void GameInterface::OnToggleGrid(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawGrid = !_drawGrid;
     UpdateToggleGridButton();
 }
 
-void GameInterface::OnToggleScan(CCMenuItem* sender)
+void GameInterface::OnToggleScan(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawScan = !_drawScan;
@@ -494,7 +494,7 @@ void GameInterface::OnToggleScan(CCMenuItem* sender)
     UpdateToggleScanButton();
 }
 
-void GameInterface::OnToggleRange(CCMenuItem* sender)
+void GameInterface::OnToggleRange(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawRange = !_drawRange;
@@ -502,7 +502,7 @@ void GameInterface::OnToggleRange(CCMenuItem* sender)
     UpdateToggleRangeButton();
 }
 
-void GameInterface::OnToggleShots(CCMenuItem* sender)
+void GameInterface::OnToggleShots(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawShots = !_drawShots;
@@ -510,7 +510,7 @@ void GameInterface::OnToggleShots(CCMenuItem* sender)
     UpdateToggleShotsButton();
 }
 
-void GameInterface::OnToggleStatus(CCMenuItem* sender)
+void GameInterface::OnToggleStatus(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawStatus = !_drawStatus;
@@ -518,7 +518,7 @@ void GameInterface::OnToggleStatus(CCMenuItem* sender)
     UpdateToggleStatusButton();
 }
 
-void GameInterface::OnToggleResources(CCMenuItem* sender)
+void GameInterface::OnToggleResources(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawResources = !_drawResources;
@@ -529,7 +529,7 @@ void GameInterface::OnToggleResources(CCMenuItem* sender)
     UpdateToggleResourcesButton();
 }
 
-void GameInterface::OnTogglePathZone(CCMenuItem* sender)
+void GameInterface::OnTogglePathZone(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     _drawPathZone = !_drawPathZone;
@@ -539,7 +539,7 @@ void GameInterface::OnTogglePathZone(CCMenuItem* sender)
 
 bool firstPress = true;
 
-void GameInterface::OnTogglePanel(CCMenuItem* sender)
+void GameInterface::OnTogglePanel(CCObject* sender)
 {
     if(_inited)
         SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
@@ -588,7 +588,7 @@ void GameInterface::SetCurrentTurnNumber(int number)
 void GameInterface::SetCurrentPlayerColor(Color color)
 {}
 
-void GameInterface::OnEndTurn(CCMenuItem* sender)
+void GameInterface::OnEndTurn(CCObject* sender)
 {
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     
@@ -596,7 +596,7 @@ void GameInterface::OnEndTurn(CCMenuItem* sender)
         SOUND->PlaySystemSound(SOUND_TYPE_START_OF_TURN);
 }
 
-void GameInterface::OnToggleInterface(CCMenuItem* sender)
+void GameInterface::OnToggleInterface(CCObject* sender)
 {
 //    SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
 //    
