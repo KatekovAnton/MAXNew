@@ -210,9 +210,6 @@
     <ClCompile Include="..\..\MAX\Game\Engine\Objects\UnAnimRenderObject.cpp">
       <Filter>Game\Engine\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MAX\Game\Engine\Objects\LevelObject.cpp">
-      <Filter>Game\Engine\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Engine\Renderer\MAXGrid.cpp">
       <Filter>Game\Engine\Renderer</Filter>
     </ClCompile>
@@ -476,6 +473,9 @@
     </ClCompile>
     <ClCompile Include="..\..\MAX\Game\Game\MainMenu\ScreenProgressBar.cpp">
       <Filter>Game\Game\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MAX\Game\Game\GameMatch\MatchGarbageMap.cpp">
+      <Filter>Game\Game\GameMatch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -925,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="..\..\MAX\Game\Game\MainMenu\ScreenProgressBar.h">
       <Filter>Game\Game\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MAX\Game\Game\GameMatch\MatchGarbageMap.h">
+      <Filter>Game\Game\GameMatch</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
