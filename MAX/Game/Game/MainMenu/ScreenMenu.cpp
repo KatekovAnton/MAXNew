@@ -25,47 +25,47 @@ CCParallaxNodeCustom *createTestBGScreen(CCSize size)
         float scaleX = size.width/sprite->getContentSize().width;
         float scaleY = size.height/sprite->getContentSize().height;
         scale = ____max(scaleX, scaleY);
-        sprite->setScale(scale);
+        sprite->setScale(scale * 1.2);
         sprite->setPosition(ccp(size.width/2, size.height/2));
         
-        result->addChild(sprite, -0.3);
+        result->addChild(sprite, 1.0-0.0);
     }
     
     {
         CCSprite* sprite = CCSprite::create("cloud_05.png");
         sprite->setScale(scale * 1.1);
         sprite->setPosition(ccp(size.width * 0.5, size.height * 0.5));
-        result->addChild(sprite, 0.4);
+        result->addChild(sprite, 1.0-0.4);
     }
     {
         CCSprite* sprite = CCSprite::create("s_03.png");
         sprite->setScale(scale);
         sprite->setPosition(ccp(size.width * 0.9, size.height * 0.2));
-        result->addChild(sprite, 0.5);
+        result->addChild(sprite, 1.0-0.45);
     }
     {
         CCSprite* sprite = CCSprite::create("s_05.png");
         sprite->setScale(scale);
         sprite->setPosition(ccp(size.width * 0.2, size.height/2 + 100));
-        result->addChild(sprite, 0.55);
+        result->addChild(sprite, 1.0-0.5);
     }
     {
         CCSprite* sprite = CCSprite::create("s_04.png");
         sprite->setScale(scale);
         sprite->setPosition(ccp(size.width * 0.8, size.height/2 + 100));
-        result->addChild(sprite, 0.55);
+        result->addChild(sprite, 1.0-0.55);
     }
     {
         CCSprite* sprite = CCSprite::create("s_02.png");
         sprite->setScale(scale);
         sprite->setPosition(ccp(sprite->getContentSize().width/2 * scale - 20, size.height/2 - 100));
-        result->addChild(sprite, 0.7);
+        result->addChild(sprite, 1.0-0.7);
     }
     {
         CCSprite* sprite = CCSprite::create("s_01.png");
         sprite->setScale(scale);
         sprite->setPosition(ccp(size.width * 0.4, size.height/2));
-        result->addChild(sprite, 1.0);
+        result->addChild(sprite, 1.0-0.8);
     }
 
     result->PrepareToParallax();

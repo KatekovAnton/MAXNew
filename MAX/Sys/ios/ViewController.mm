@@ -75,7 +75,13 @@ static int const _kTEiOSMaxTouchesCount = 10;
 - (void)handleGyroData:(CMGyroData *)gyroData
 {
     CMRotationRate data = gyroData.rotationRate;
-    _pinchDelegate->onDeviceMoved(data.x, data.z);
+    UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (statusBarOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        data.x = -data.x;
+        data.y = -data.y;
+    }
+    _pinchDelegate->onDeviceMoved(data.x, data.y);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
