@@ -1508,7 +1508,8 @@ void MAXGameController::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
     //UNIT_MENU_ACTION_FOLLOW
     //UNIT_MENU_ACTION_PLACE
     //UNIT_MENU_ACTION_WAIT
-     _gameInterface->OnCurrentUnitDataChanged(_currentUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
+    if (_currentUnit)
+        _gameInterface->OnCurrentUnitDataChanged(_currentUnit, _match->PlayerIsEnemyToPlayer(_currentUnit->_owner_w, _match->_currentPlayer_w));
 }
 
 bool MAXGameController::IsUnitActionSelected(UNIT_MENU_ACTION action)
