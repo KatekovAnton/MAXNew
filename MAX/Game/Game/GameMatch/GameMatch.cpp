@@ -32,6 +32,7 @@
 #include "PFWaveCell.h"
 #include "MAXAnimationPrefix.h"
 #include "SoundEngine.h"
+#include "MatchGarbageMap.h"
 
 void GameMatch::DebugLandPlayer(GameMatchPlayer* player, const int i)
 {
@@ -64,6 +65,7 @@ GameMatch::GameMatch(const string& mapName, const vector<GameMatchPlayerInfo>& p
     
     _fullAgregator = new MatchMapAgregator(_map);
     _fireAgregator = new MatchFireAggregator(_map, this);
+    _garbageMap = new MatchGarbageMap(_map);
 }
 
 GameMatch::~GameMatch()
@@ -83,11 +85,20 @@ GameMatch::~GameMatch()
         delete player_;
 		_gameController->DeletionProgressDidChange((float) i / ((float)_players.size() - 1.0) * 0.7 + 0.1);
     }
+    delete _garbageMap;
     delete _fullAgregator;
 	_gameController->DeletionProgressDidChange(0.9);
     delete _fireAgregator;
 	_gameController->DeletionProgressDidChange(1.0);
+    
+    
 }
+
+void CreateGarbage(const int x, const int y, int size)
+{}
+
+void DestroyGarbage(GarbageElement *garbage)
+{}
 
 bool GameMatch::EndTurn()
 {

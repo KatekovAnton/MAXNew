@@ -23,12 +23,14 @@ class MatchFireAggregator;
 class Pathfinder;
 class MAXObjectConfig;
 class MAXGameController;
+class MatchGarbageMap;
+class GarbageElement;
 
 class GameMatch {
 
     void DebugLandPlayer(GameMatchPlayer* player, const int i);
     
-    
+    MatchGarbageMap *_garbageMap;
     
 public:
 
@@ -50,6 +52,9 @@ public:
 
     GameMatch(const string& mapName, const vector<GameMatchPlayerInfo>& players);
     ~GameMatch();
+    
+    void CreateGarbage(const int x, const int y, int size);
+    void DestroyGarbage(GarbageElement *garbage);
     
     bool EndTurn();
     void UnfillFogOnStartTurn();
