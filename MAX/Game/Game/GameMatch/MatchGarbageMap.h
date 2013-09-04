@@ -13,6 +13,7 @@
 #include "miniPrefix.h"
 
 class GameMap;
+class MatchMapAgregator;
 class GameEffect;
 
 class GarbageElement {
@@ -31,6 +32,7 @@ public:
 class MatchGarbageMap {
     
     GameMap *_map_w;
+    MatchMapAgregator *_map_agregator;
     
     int size;
     USimpleContainer<GameEffect*> *_effects;
@@ -40,7 +42,7 @@ public:
     
     int GetIndexForCoordinates(const int x, const int y) const;
     
-    MatchGarbageMap(GameMap *map);
+    MatchGarbageMap(GameMap *map, MatchMapAgregator *agregator);
     ~MatchGarbageMap();
     
     vector<GameEffect*> EffectsInCell(const int x, const int y);

@@ -65,7 +65,7 @@ GameMatch::GameMatch(const string& mapName, const vector<GameMatchPlayerInfo>& p
     
     _fullAgregator = new MatchMapAgregator(_map);
     _fireAgregator = new MatchFireAggregator(_map, this);
-    _garbageMap = new MatchGarbageMap(_map);
+    _garbageMap = new MatchGarbageMap(_map, _fullAgregator);
 }
 
 GameMatch::~GameMatch()
@@ -94,10 +94,13 @@ GameMatch::~GameMatch()
     
 }
 
-void CreateGarbage(const int x, const int y, int size)
-{}
+void GameMatch::CreateGarbage(const int x, const int y, int size)
+{
+    _garbageMap->AddGarbageToCell(x, y, size, 10);
+    
+}
 
-void DestroyGarbage(GarbageElement *garbage)
+void GameMatch::DestroyGarbage(GarbageElement *garbage)
 {}
 
 bool GameMatch::EndTurn()
@@ -422,6 +425,28 @@ void GameMatch::GameUnitDidDestroy(GameUnit *unit)
         
         unit->RemoveWithDelay(delay);
     }
+    
+    //remove bridge and waterplatform on this cell
+    {
+        if (!unit->_unitData->GetIsBuilding())
+        {
+            bool founded = true;
+            while (founded)
+            {
+                founded = false;
+                USimpleContainer<GameUnit*> *units = _fullAgregator->UnitsInCell(unit->GetUnitCell().x, unit->GetUnitCell().y);
+                for (int i = 0; i < units->GetCount(); i++)
+                {
+                    GameUnit *cUnit = units->objectAtIndex(i);
+                    if (cUnit->GetConfig()->_isBridge || cUnit->GetConfig()->_isPlatform || cUnit->GetConfig()->_isRoad) {
+                        cUnit->Destroy(true);
+                        founded = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void GameMatch::GameUnitDidInitiateFire(GameUnit *unit)
@@ -617,20 +642,6 @@ void GameMatch::GameUnitDidEnterCell(GameUnit *unit, const CCPoint &point)
 	
 }
 
-//void GameMatch::GameUnitDidDetected(GameUnit *unit, const CCPoint &point)
-//{
-//    for (int i = 0; i < _players.size(); i++)
-//    {
-//        GameMatchPlayer* player = _players[i];
-//        if (_currentPlayer_w->CanSeeUnit(unit))
-//        {
-//            if (player == _currentPlayer_w)
-//                unit->Show();
-//            player->_agregator->AddUnitToCell(unit, unit->GetUnitCell().x, unit->GetUnitCell().y);
-//        }
-//    }
-//}
-
 void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
 {
     if (_holdAutofire) 
@@ -659,6 +670,8 @@ void GameMatch::CheckAutofire(GameUnit *unit, const CCPoint &point)
                 continue;
             
             //        if (!cUnit->_unitData->_isOnSentry)
+            //            continue;
+            //        if (!cUnit->_unitData->_isDisabledByInfiltrator)
             //            continue;
             
             //mines doesnt explode becouse of enemy roads bridges connectors waterplaatforms and etc
@@ -819,7 +832,6 @@ bool GameMatch::IsHiddenUnitInPos(const int x, const int y, const bool checkOnly
                 }
             }
         }
-		
 	}
 	return result;
 }

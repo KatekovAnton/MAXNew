@@ -125,7 +125,8 @@ void GameInterface::InitBaseInterface()
     //CCLayerColor *_layerPlayerColor;
     
 	//left panel
-    _panel = CCLayerColor::create(CocosHelper::normalColor(), panelW, getContentSize().height);
+    ccColor4B backgroundColor; backgroundColor.a = 190; backgroundColor.r = 30; backgroundColor.g = 30; backgroundColor.b = 30;
+    _panel = CCLayerColor::create(backgroundColor, panelW, getContentSize().height);
     _panel->setPosition(ccp(- panelW + 3, 0));
     _panel->setAnchorPoint(ccp(0, 0));
     //_panel->setContentSize(CCSize(panelW, getContentSize().height));

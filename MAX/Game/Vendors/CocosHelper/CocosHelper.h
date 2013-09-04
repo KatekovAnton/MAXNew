@@ -152,7 +152,7 @@ public:
     
     static CCSize GetContentSize(CCNode* node);
     
-    static ccColor4B normalColor() { ccColor4B normal; normal.a = 190; normal.r = 30; normal.g = 30; normal.b = 30; return normal; };
+    static ccColor4B normalColor() { ccColor4B normal; normal.a = 190; normal.r = 10; normal.g = 10; normal.b = 10; return normal; };
 	static ccColor4B selectedColor() { ccColor4B selected; selected.a = 150; selected.r = 130; selected.g = 130; selected.b = 130; return selected; };
 
 };
