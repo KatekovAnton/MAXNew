@@ -27,6 +27,7 @@ public:
 	virtual void onUnidHided(GameUnit* unit) = 0;
     virtual void onUnitDestroyed(GameUnit* unit) = 0;
     
+    virtual bool IsUnitSelected(GameUnit* unit) = 0;
 };
 
 #endif /* defined(__MAX__GameObjectDelegate__) */

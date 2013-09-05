@@ -20,6 +20,7 @@
 #include "Sys.h"
 #include "cocos2d.h"
 #include "clist.h"
+#include "DebugStackTrace.h"
 
 using namespace cocos2d;
 using namespace std;

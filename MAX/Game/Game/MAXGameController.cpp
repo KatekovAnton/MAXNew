@@ -962,11 +962,7 @@ void MAXGameController::SelectNewUnit(GameUnit* unit)
         _currentUnit->UnitDidDeselect();
         HideUnitPath();
         HidePathMap();
-        
-        if (_currentUnit->GetPath().size() > 0)
-        {
-            _currentUnit->ClearTempPath();
-        }
+        _iputController->AbortCurrentAction();
     }
     _currentUnit = unit;
     _needToOpenMenuOnNextTapToSameUnit = _currentUnit && _currentUnit->_owner_w->GetIsCurrentPlayer();
@@ -1280,36 +1276,40 @@ void MAXGameController::onUnitDestroyed(GameUnit* unit)
 	}
 }
 
-void MAXGameController::onUnitFired(GameUnit* unit)
+bool MAXGameController::IsUnitSelected(GameUnit* unit)
 {
-    if (unit->CanFire(_currentFiringCell)) 
-        return;
-    
-	bool search = true;
-	while (search)
-	{
-		search = false;
-		vector<pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>>>::iterator it = _attackSequences.begin();
-		for (int i = 0; i < _attackSequences.size(); i++)
-		{
-            //trget-agressors
-			pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>> newSequence = _attackSequences[i];
-			vector<GameUnit*> units = newSequence.second;
-			for (int j = 0; j < units.size(); j++)
-			{
-				if (units[j] == unit)
-				{
-					search = true;
-					_attackSequences.erase(it);
-					break;
-				}
-			}
-			if (search)
-				break;
-			it++;
-		}
-	}
+    return unit == _currentUnit;
 }
+//void MAXGameController::onUnitFired(GameUnit* unit)
+//{
+//    if (unit->CanFire(_currentFiringCell)) 
+//        return;
+//    
+//	bool search = true;
+//	while (search)
+//	{
+//		search = false;
+//		vector<pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>>>::iterator it = _attackSequences.begin();
+//		for (int i = 0; i < _attackSequences.size(); i++)
+//		{
+//            //trget-agressors
+//			pair<pair<GameUnit*, CCPoint>, vector<GameUnit*>> newSequence = _attackSequences[i];
+//			vector<GameUnit*> units = newSequence.second;
+//			for (int j = 0; j < units.size(); j++)
+//			{
+//				if (units[j] == unit)
+//				{
+//					search = true;
+//					_attackSequences.erase(it);
+//					break;
+//				}
+//			}
+//			if (search)
+//				break;
+//			it++;
+//		}
+//	}
+//}
 
 void MAXGameController::MakePain()
 {

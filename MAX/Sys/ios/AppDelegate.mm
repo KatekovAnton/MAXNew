@@ -13,6 +13,7 @@
 #include "PivotObject.h"
 #include "cocos2d.h"
 #import <QuartzCore/QuartzCore.h>
+#include "DebugStackTrace.h"
 
 @interface AppDelegate ()
 
@@ -23,26 +24,39 @@
 @implementation AppDelegate
 
 - (void)initEnviroment {
-    
+    DEBUG_FUNCTION_MESSAGE;
     CADisplayLink *link = [CADisplayLink displayLinkWithTarget:self selector:@selector(frameCallback:)];
     [link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+ 
     
     lastTime = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
     engine->Init();
     game->Init();
+    DEBUG_FUNCTION_EXIT;
 }
 
 - (void)frameCallback:(CADisplayLink *)link {
+    DEBUG_FUNCTION_MESSAGE;
     UIApplicationState s = [UIApplication sharedApplication].applicationState;
     if (s != UIApplicationStateActive) {
+        DEBUG_FUNCTION_EXIT;
         return;
     }
     NSTimeInterval time = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
     NSTimeInterval delta = time - lastTime;
     lastTime = time;
     engine->RunLoop(delta);
+    DEBUG_FUNCTION_EXIT;
 }
 
+void uncaughtExceptionHandler(NSException *exception) {
+   
+    NSString* str = [NSString stringWithCString:DEBUG_UTILS->fullStackTrace().c_str() encoding:[NSString defaultCStringEncoding]];
+    
+    
+    NSLog(@"Stack Trace: \n%@", str);
+    // Internal error reporting
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 //    {
@@ -66,6 +80,7 @@
 //        
 //    }
     
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     srand([[NSDate date] timeIntervalSince1970]);
     [self initEnviroment];
     
@@ -75,7 +90,9 @@
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        
+        int result = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        return result;
     }
 }
 

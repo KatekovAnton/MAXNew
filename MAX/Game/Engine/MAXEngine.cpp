@@ -75,6 +75,9 @@ MAXEngine::~MAXEngine()
 
 void MAXEngine::Init() {
     
+    DEBUG_FUNCTION_MESSAGE;
+    string str =  string(__FILE__) + " " + string(__FUNCTION__) + " " + std::to_string(__LINE__);
+    cout<<str.c_str();
     SysInit();
     drawGrid = false;
     drawResources = false;
@@ -130,6 +133,7 @@ void MAXEngine::Init() {
 
     _pathZoneRendererLevel = OBJECT_LEVEL_UNDERWATER;
     _optionalZoneRendererLevel = OBJECT_LEVEL_OVERAIR;
+    DEBUG_FUNCTION_EXIT;
 }
 
 void MAXEngine::SetCameraCenter(const CCPoint &cell)
@@ -321,7 +325,7 @@ Shader * MAXEngine::GetShader()
 
 void MAXEngine::RunLoop(double delta)
 {
-    
+    DEBUG_FUNCTION_MESSAGE;
     displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
     displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
     
@@ -337,6 +341,7 @@ void MAXEngine::RunLoop(double delta)
     
     
     this->EndFrame();
+    DEBUG_FUNCTION_EXIT;
 }
 
 void MAXEngine::FinishLoading()
@@ -348,13 +353,14 @@ void MAXEngine::FinishLoading()
 
 void MAXEngine::Update()
 {
-    
+    DEBUG_FUNCTION_MESSAGE;
     RequestManager::SharedRequestManager()->Flush();
 	
 	if (!_scene)
 	{
 		if (!_freezeAnimationManager)
 			_animationManager->Update();
+        DEBUG_FUNCTION_EXIT;
 		return;
 	}
     _scene->BeginFrame();
@@ -373,7 +379,10 @@ void MAXEngine::Update()
 	if (!_freezeAnimationManager)
 		_animationManager->Update();
 	if (!_scene)
+    {
+        DEBUG_FUNCTION_EXIT;
 		return;
+    }
 
     if(updategrid)
     {
@@ -394,6 +403,7 @@ void MAXEngine::Update()
     }
     _scene->LastUpdate(lowRender);
     _unitSelection->Update();
+    DEBUG_FUNCTION_EXIT;
 }
 
 void MAXEngine::SelectUnit(MAXObject* unit)
@@ -403,12 +413,15 @@ void MAXEngine::SelectUnit(MAXObject* unit)
 
 void MAXEngine::DrawStart()
 {
+    DEBUG_FUNCTION_MESSAGE;
     glClearColor(0, 0, 0, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    DEBUG_FUNCTION_EXIT;
 }
 
 void MAXEngine::Draw()
 {
+    DEBUG_FUNCTION_MESSAGE;
 	DrawStart();
 	if (_scene)
 	{
@@ -430,6 +443,7 @@ void MAXEngine::Draw()
 		glUseProgram(prog);
     }
     DrawInterface();
+    DEBUG_FUNCTION_EXIT;
 }
 
 void MAXEngine::DrawGrid()
@@ -440,16 +454,19 @@ void MAXEngine::DrawGrid()
 
 void MAXEngine::DrawGround()
 {
+    DEBUG_FUNCTION_MESSAGE;
     _shader = _mapShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
     _shader->SetMatrixValue(UNIFORM_PROJECTION_MATRIX, _camera->projection.m);
 	_map->Draw(_shader);
     glActiveTexture(GL_TEXTURE0);
+    DEBUG_FUNCTION_EXIT;
 }
 
 void MAXEngine::DrawUnits()
 {
+    DEBUG_FUNCTION_MESSAGE;
     _applyedPaletteIndex = -100;
     _applyedPaletteCount = 0;
     const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();
@@ -558,7 +575,8 @@ void MAXEngine::DrawUnits()
         DrawOptionalZone();
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
-   // printf("%d\n",_applyedPaletteCount);
+    // printf("%d\n",_applyedPaletteCount);
+    DEBUG_FUNCTION_EXIT;
 }
 
 void MAXEngine::DrawResourceMap()

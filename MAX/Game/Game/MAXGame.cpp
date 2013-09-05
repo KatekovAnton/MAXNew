@@ -39,6 +39,7 @@ MAXGame::~MAXGame()
 
 void MAXGame::Init()
 {
+    DEBUG_FUNCTION_MESSAGE;
     Display::currentDisplay()->SetPinchDelegate(this);
 
 	_mainMenuController = new MAXMainMenuController();
@@ -46,6 +47,7 @@ void MAXGame::Init()
 	//_gameController = new MAXGameController();
 	//_gameController->Init();
 	_currentState = MAXGAMESTATE_MAINMENU;
+    DEBUG_FUNCTION_EXIT;
 }
 
 void MAXGame::FlushEffectsWithNew(GameEffect *effect)

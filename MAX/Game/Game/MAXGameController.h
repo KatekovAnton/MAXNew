@@ -146,7 +146,7 @@ public:
 
 	virtual void onUnidHided(GameUnit* unit);
     virtual void onUnitDestroyed(GameUnit* unit);
-    void onUnitFired(GameUnit* unit);
+    virtual bool IsUnitSelected(GameUnit* unit);
 
 #pragma mark - GIUnitActionMenuDelegate
     virtual void OnUnitMenuItemSelected(UNIT_MENU_ACTION action);
