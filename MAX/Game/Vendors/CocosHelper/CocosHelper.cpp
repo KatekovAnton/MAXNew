@@ -177,8 +177,28 @@ void CCParallaxNodeCustom::SetDisplacement(CCPoint displacement)
         float disp = _nodeDisplacement[node];
         CCPoint pos = ccp(basePos.x + disp * displacement.x, basePos.y + disp * displacement.y);
         node->setPosition(pos);
+    }
+    
+    if (_background)
+    {
+        CCPoint lb = _background->getPosition();
+        lb.x = lb.x - (_background->getContentSize().width/2) * _background->getScale();
+        lb.y = lb.y - (_background->getContentSize().height/2) * _background->getScale();
+        CCPoint rt;
+        rt.x = lb.x + _background->getContentSize().width * _background->getScale();
+        rt.y = lb.y + _background->getContentSize().height * _background->getScale();
         
+        CCPoint delta = ccp(0, 0);
+        if (lb.x > 0)
+            delta.x = -lb.x;
+        if (lb.y > 0)
+            delta.y = -lb.y;
         
+        if (rt.x < getContentSize().width)
+            delta.x = getContentSize().width-rt.x;
+        if (rt.y < getContentSize().height)
+            delta.y = getContentSize().height-rt.y;
+        CocosHelper::MoveNode(_background, delta);
     }
 }
 
