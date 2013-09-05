@@ -46,7 +46,11 @@
     NSTimeInterval time = [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970];
     NSTimeInterval delta = time - lastTime;
     lastTime = time;
-    engine->RunLoop(delta);
+    try {
+        engine->RunLoop(delta);
+    } catch (...) {
+        @throw @"exception";
+    }
     DEBUG_FUNCTION_EXIT;
 }
 

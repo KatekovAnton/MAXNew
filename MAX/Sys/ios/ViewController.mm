@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "GLSurface.h"
+#import "DebugStackTrace.h"
 
 ViewController      *_g_Controller = nil;
 
@@ -192,6 +193,7 @@ static int const _kTEiOSMaxTouchesCount = 10;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    DEBUG_FUNCTION_ENTER(false);
     _touches = touches;
     _event = event;
     _canhandleTap = YES;
@@ -206,10 +208,16 @@ static int const _kTEiOSMaxTouchesCount = 10;
         ys[i] = [touch locationInView: [touch view]].y * self.view.contentScaleFactor;;
         ++i;
     }
-    _touchApdater._touchDelegate->handleTouchesBegin(i, ids, xs, ys);
+    try {
+        _touchApdater._touchDelegate->handleTouchesBegin(i, ids, xs, ys);
+    } catch (...) {
+        @throw @"exception";
+    }
+    DEBUG_FUNCTION_EXIT;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    DEBUG_FUNCTION_ENTER(false);
     int ids[_kTEiOSMaxTouchesCount] = {0};
     float xs[_kTEiOSMaxTouchesCount] = {0.0f};
     float ys[_kTEiOSMaxTouchesCount] = {0.0f};
@@ -221,10 +229,16 @@ static int const _kTEiOSMaxTouchesCount = 10;
         ys[i] = [touch locationInView: [touch view]].y * self.view.contentScaleFactor;;
         ++i;
     }
-    _touchApdater._touchDelegate->handleTouchesCancel(i, ids, xs, ys);
+    try {
+        _touchApdater._touchDelegate->handleTouchesCancel(i, ids, xs, ys);
+    } catch (...) {
+        @throw @"exception";
+    }
+    DEBUG_FUNCTION_EXIT;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    DEBUG_FUNCTION_ENTER(false);
     int ids[_kTEiOSMaxTouchesCount] = {0};
     float xs[_kTEiOSMaxTouchesCount] = {0.0f};
     float ys[_kTEiOSMaxTouchesCount] = {0.0f};
@@ -236,10 +250,16 @@ static int const _kTEiOSMaxTouchesCount = 10;
         ys[i] = [touch locationInView: [touch view]].y * self.view.contentScaleFactor;;
         ++i;
     }
-    _touchApdater._touchDelegate->handleTouchesEnd(i, ids, xs, ys);
+    try {
+        _touchApdater._touchDelegate->handleTouchesEnd(i, ids, xs, ys);
+    } catch (...) {
+        @throw @"exception";
+    }
+    DEBUG_FUNCTION_EXIT;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    DEBUG_FUNCTION_ENTER(false);
     int ids[_kTEiOSMaxTouchesCount] = {0};
     float xs[_kTEiOSMaxTouchesCount] = {0.0f};
     float ys[_kTEiOSMaxTouchesCount] = {0.0f};
@@ -251,7 +271,12 @@ static int const _kTEiOSMaxTouchesCount = 10;
         ys[i] = [touch locationInView: [touch view]].y * self.view.contentScaleFactor;;
         ++i;
     }
-    _touchApdater._touchDelegate->handleTouchesMove(i, ids, xs, ys);
+    try {
+        _touchApdater._touchDelegate->handleTouchesMove(i, ids, xs, ys);
+    } catch (...) {
+        @throw @"exception";
+    }
+    DEBUG_FUNCTION_EXIT;
 }
 
 @end
