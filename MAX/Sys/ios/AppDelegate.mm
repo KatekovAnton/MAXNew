@@ -14,6 +14,7 @@
 #include "cocos2d.h"
 #import <QuartzCore/QuartzCore.h>
 #include "DebugStackTrace.h"
+#include <execinfo.h>
 
 @interface AppDelegate ()
 
@@ -24,7 +25,7 @@
 @implementation AppDelegate
 
 - (void)initEnviroment {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(false);
     CADisplayLink *link = [CADisplayLink displayLinkWithTarget:self selector:@selector(frameCallback:)];
     [link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
  
@@ -36,7 +37,7 @@
 }
 
 - (void)frameCallback:(CADisplayLink *)link {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(false);
     UIApplicationState s = [UIApplication sharedApplication].applicationState;
     if (s != UIApplicationStateActive) {
         DEBUG_FUNCTION_EXIT;
@@ -54,7 +55,21 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSString* str = [NSString stringWithCString:DEBUG_UTILS->fullStackTrace().c_str() encoding:[NSString defaultCStringEncoding]];
     
     
+    
     NSLog(@"Stack Trace: \n%@", str);
+    
+  
+    {
+        void* callstack[128];
+        int i, frames = backtrace(callstack, 128);
+        char** strs = backtrace_symbols(callstack, frames);
+        for (i = 1; i < frames; ++i)
+        {
+            NSLog(@"%s", strs[i]);
+        } 
+        free(strs);
+    }
+    
     // Internal error reporting
 }
 

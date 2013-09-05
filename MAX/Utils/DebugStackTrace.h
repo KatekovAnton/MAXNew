@@ -18,23 +18,36 @@ using namespace std;
 #define DEBUG_UTILS DebugStackTrace::DebugStackTraceInstance()
 
 #ifdef DEBUG
-#define DEBUG_FUNCTION_MESSAGE DEBUG_UTILS->enterFunction(__FILE__, __FUNCTION__, __LINE__)
+#define DEBUG_FUNCTION_ENTER(isNullPointer) DEBUG_UTILS->enterFunction(__FILE__, __FUNCTION__, __LINE__, isNullPointer)
 #define DEBUG_FUNCTION_EXIT DEBUG_UTILS->exitFunction()
 #else
-#define DEBUG_FUNCTION_MESSAGE
+#define DEBUG_FUNCTION_ENTER(isNullPointer)
+#endif
+
+#ifdef DEBUG
+#define DEBUG_LOG(message) DEBUG_UTILS->log(__FILE__, __FUNCTION__, __LINE__, message)
+#else
+#define DEBUG_LOG(message)
 #endif
 
 class DebugStackTrace {
     
     vector<string> _stackTrace;
     
+    
+    vector<string> _log;
+    
 public:
     
     static DebugStackTrace *DebugStackTraceInstance();
     
-    void enterFunction(string file, string function, int line);
+    void enterFunction(string file, string function, int line, bool isNullPointer);
     void exitFunction();
     string fullStackTrace();
+    
+    
+    void log(string file, string function, int line, string message);
+    string fullLog();
     
     
 };

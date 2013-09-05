@@ -39,7 +39,7 @@ MAXGame::~MAXGame()
 
 void MAXGame::Init()
 {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(this);
     Display::currentDisplay()->SetPinchDelegate(this);
 
 	_mainMenuController = new MAXMainMenuController();

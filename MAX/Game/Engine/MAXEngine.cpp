@@ -75,7 +75,7 @@ MAXEngine::~MAXEngine()
 
 void MAXEngine::Init() {
     
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(this);
     string str =  string(__FILE__) + " " + string(__FUNCTION__) + " " + std::to_string(__LINE__);
     cout<<str.c_str();
     SysInit();
@@ -325,7 +325,7 @@ Shader * MAXEngine::GetShader()
 
 void MAXEngine::RunLoop(double delta)
 {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(this);
     displayw = Display::currentDisplay()->GetDisplayWidth()/Display::currentDisplay()->GetDisplayScale();
     displayh = Display::currentDisplay()->GetDisplayHeight()/Display::currentDisplay()->GetDisplayScale();
     
@@ -353,7 +353,7 @@ void MAXEngine::FinishLoading()
 
 void MAXEngine::Update()
 {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(this);
     RequestManager::SharedRequestManager()->Flush();
 	
 	if (!_scene)
@@ -413,7 +413,7 @@ void MAXEngine::SelectUnit(MAXObject* unit)
 
 void MAXEngine::DrawStart()
 {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(this);
     glClearColor(0, 0, 0, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     DEBUG_FUNCTION_EXIT;
@@ -421,7 +421,7 @@ void MAXEngine::DrawStart()
 
 void MAXEngine::Draw()
 {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(this);
 	DrawStart();
 	if (_scene)
 	{
@@ -454,7 +454,7 @@ void MAXEngine::DrawGrid()
 
 void MAXEngine::DrawGround()
 {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(this);
     _shader = _mapShader;
     glUseProgram(_shader->GetProgram());
     _shader->SetMatrixValue(UNIFORM_VIEW_MATRIX, _camera->view.m);
@@ -466,7 +466,7 @@ void MAXEngine::DrawGround()
 
 void MAXEngine::DrawUnits()
 {
-    DEBUG_FUNCTION_MESSAGE;
+    DEBUG_FUNCTION_ENTER(this);
     _applyedPaletteIndex = -100;
     _applyedPaletteCount = 0;
     const USimpleContainer<PivotObject*>* objects = _scene->GetVisibleObjects();

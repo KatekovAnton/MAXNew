@@ -1198,12 +1198,14 @@ void GameUnit::EscapeConstructedUnit(const CCPoint &cell)
 
 void GameUnit::AbortConstructingUnit()
 {
+    DEBUG_FUNCTION_ENTER(this);
     _unitData->AbortTask();
     DestroyBuildingTape();
 	DestroyCheckIcon();
     CheckBodyAndShadow();
     StopCurrentSound();
     _currentSound = PlayUnitSound(UNIT_SOUND_ENGINE);
+    DEBUG_FUNCTION_EXIT;
 }
 
 vector<UNIT_MENU_ACTION> GameUnit::GetActionList() const

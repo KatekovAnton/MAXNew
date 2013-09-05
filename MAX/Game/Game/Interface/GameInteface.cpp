@@ -580,6 +580,8 @@ void GameInterface::SetCurrentPlayerColor(Color color)
 
 void GameInterface::OnEndTurn(CCObject* sender)
 {
+    GameUnit *ttt = NULL;
+    ttt->AbortConstructingUnit();
     SOUND->PlaySystemSound(SOUND_TYPE_BUTTON_AVERAGE);
     
 	if (_gameController->EndTurn())
