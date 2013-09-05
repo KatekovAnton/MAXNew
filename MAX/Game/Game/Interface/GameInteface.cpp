@@ -57,7 +57,7 @@ bool GameInterface::ShouldReceiveTouch(int x, int y)
 }
 
 GameInterface::GameInterface()
-:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL), _firstTime(true), _visible(true), _nodeHieraclyOpacity(NULL)
+:_currentUnit(NULL), _unitParameters(NULL), _unitMenu(NULL), _unitSelectionMenu(NULL), _firstTime(true), _visible(true), _nodeHieraclyOpacity(NULL), _gameFinished(false)
 {
     _lockUnits = false;
     
@@ -614,6 +614,11 @@ void GameInterface::DisappearWindow(GIWindow* window)
 void GameInterface::WindowManagerDidCloseLastWindow()
 {
     ToggleInterfaceVisibility(true);
+}
+
+bool GameInterface::WindowManagerShouldMoveToFinishState()
+{
+    return _gameFinished;
 }
 
 #pragma mark - Game events

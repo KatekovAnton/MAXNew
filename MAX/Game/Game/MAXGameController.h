@@ -32,11 +32,13 @@ class GameInterface;
 class GamePathVisualizer;
 class GIMessageWindow;
 class PFWaveCell;
+class GIWindow;
 
 class MAXGameController : public MAXEngineDelegate, public GameObjectDelegate, public GIUnitActionMenuDelegate, public MAXAnimationDelegate, public MAXGameInputControllerDelegate, public GIUnitSelectionMenuDelegate, public GIMessageWindowDelegate
 {
     MAXAnimationBase* _fireDelayAnim;
 	MAXAnimationBase* _endDelayAnim;
+    GIWindow *_windowCloseQuestion;
 public:
 
 

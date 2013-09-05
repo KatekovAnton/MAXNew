@@ -89,6 +89,8 @@ class GameInterface : public CCScene, public GIWindowsManagerDelegate
     GIWindowsManager *_windowManager;
  
 public:
+    
+    bool _gameFinished;
 
 	MAXGameController *_gameController;
     
@@ -139,6 +141,7 @@ public:
 #pragma mark - GIWindowManagerDelegate
     
     virtual void WindowManagerDidCloseLastWindow();
+    virtual bool WindowManagerShouldMoveToFinishState();
     
 #pragma mark - Button events
     

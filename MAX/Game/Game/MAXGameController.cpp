@@ -42,7 +42,7 @@
 static bool allowControlEnemyUnits = false;
 
 MAXGameController::MAXGameController()
-	:_pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _endDelayAnim(NULL), _iputController(new MAXGameInputController()), _currentTargetUnit(NULL), _startAttackModeAgain(false)
+	:_pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _endDelayAnim(NULL), _iputController(new MAXGameInputController()), _currentTargetUnit(NULL), _startAttackModeAgain(false), _windowCloseQuestion(NULL)
 {
 	_iputController->_delegate_w = this;
     _pathVisualizer = new GamePathVisualizer();
@@ -78,7 +78,7 @@ void MAXGameController::EndMatch()
 	if (_freezeCounter1 != 0)
 		return;
 
-	MAXAnimationWait *wait = new MAXAnimationWait(0);
+	MAXAnimationWait *wait = new MAXAnimationWait(interfaceAnimationTime * 3);
 	wait->_delegate = this;
 	_endDelayAnim = wait;
 	MAXAnimationManager::SharedAnimationManager()->AddAnimatedObject(wait);
@@ -97,6 +97,7 @@ void MAXGameController::OnOptionsPressed()
     window->autorelease();
     window->_delegate_w = this;
     _gameInterface->PresentWindow(window);
+    _windowCloseQuestion = window;
 }
 
 void MAXGameController::DeletionProgressDidChange(float zeroToOne)
@@ -1613,8 +1614,15 @@ void MAXGameController::OnAnimationFinish(MAXAnimationBase* animation)
 
 void MAXGameController::OnMessageWindowButtonClicked(int buttonNumber, GIMessageWindow *sender)
 {
-    if (buttonNumber == 0)
-        EndMatch();
-    else
-        _gameInterface->DisappearWindow(sender);
+    if (sender == _windowCloseQuestion) {
+        _windowCloseQuestion = NULL;
+        if (buttonNumber == 0)
+        {
+            EndMatch();
+            _gameInterface->_gameFinished = true;
+            _gameInterface->DisappearWindow(sender);
+        }
+        else
+            _gameInterface->DisappearWindow(sender);
+    }
 }

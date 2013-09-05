@@ -40,6 +40,7 @@ class GIWindowsManager : public CCObject {
     void OnWindowApperarAnimationFinished(CCObject *sender);
     void OnWindowDisapperarAnimationFinished(CCObject *sender);
     void OnCloseFinished(CCObject* sender);
+    void OnReadyToShowProgressBar(CCObject* sender);
     
 public:
     

@@ -11,6 +11,7 @@
 #include "GIWindow.h"
 #include "CocosHelper.h"
 #include "GIWindowsManagerDelegate.h"
+#include "GICloseWindow.h"
 
 CCSize maximumSize;
 
@@ -74,8 +75,12 @@ void GIWindowsManager::PresentWindow(GIWindow *window, float w, bool queue, floa
         //present black background
         _baseNode->addChild(_menu);
         _baseNode->addChild(_nodeBlackBase);
-        _nodeBlackBase->setContentSize(ccz(0, _baseNode->getContentSize().height));
-        _nodeBlackBase->setPosition(ccp((_baseNode->getContentSize().width + w) / 2.0 , 0));
+        
+        if (!_delegate_w->WindowManagerShouldMoveToFinishState())
+        {
+            _nodeBlackBase->setContentSize(ccz(0, _baseNode->getContentSize().height));
+            _nodeBlackBase->setPosition(ccp((_baseNode->getContentSize().width + w) / 2.0 , 0));
+        }
         
         //wait while game menu is fading out
         CCWaitExtended *wait = new CCWaitExtended();
@@ -83,7 +88,10 @@ void GIWindowsManager::PresentWindow(GIWindow *window, float w, bool queue, floa
         wait->autorelease();
         //enlarge black background
         CCSetFrameExtended *action = new CCSetFrameExtended();
-        action->initWithDuration(interfaceAnimationTime, ccz(w, _baseNode->getContentSize().height), ccp((_baseNode->getContentSize().width - w) / 2.0, 0), _nodeBlackBase->getOpacity(), this, callfuncO_selector(GIWindowsManager::OnBlackThingEnlaged));
+        if (_delegate_w->WindowManagerShouldMoveToFinishState())
+            action->initWithDuration(interfaceAnimationTime, ccz(320, _baseNode->getContentSize().height), ccp(_baseNode->getContentSize().width - 35 - 320, 0), _nodeBlackBase->getOpacity(), this, callfuncO_selector(GIWindowsManager::OnBlackThingEnlaged));
+        else
+            action->initWithDuration(interfaceAnimationTime, ccz(w, _baseNode->getContentSize().height), ccp((_baseNode->getContentSize().width - w) / 2.0, 0), _nodeBlackBase->getOpacity(), this, callfuncO_selector(GIWindowsManager::OnBlackThingEnlaged));
         action->autorelease();
         action->setTag(0);
         CCEaseInOut* action1 = CCEaseInOut::create(action, 3.0);
@@ -100,8 +108,15 @@ void GIWindowsManager::OnCloseFinished(CCObject* sender)
 {
     _menu->removeFromParentAndCleanup(true);
     _nodeBlackBase->removeFromParentAndCleanup(true);
-    if (_delegate_w) 
-        _delegate_w->WindowManagerDidCloseLastWindow();
+}
+
+void GIWindowsManager::OnReadyToShowProgressBar(CCObject* sender)
+{
+    _menu->removeFromParentAndCleanup(true);
+    _nodeBlackBase->removeFromParentAndCleanup(true);
+    GICloseWindow *close = new GICloseWindow();
+    close->autorelease();
+    PresentWindow(close, close->getContentSize().width, false, 0);
 }
 
 CCSize GIWindowsManager::MaximumSize()
@@ -160,7 +175,7 @@ void GIWindowsManager::OnWindowDisapperarAnimationFinished(CCObject *sender)
     CloseBlackBase();
     
     //faster close
-    if (_delegate_w)
+    if (_delegate_w && !_delegate_w->WindowManagerShouldMoveToFinishState())
         _delegate_w->WindowManagerDidCloseLastWindow();
 }
 
@@ -209,13 +224,24 @@ void GIWindowsManager::DisappearWindow(GIWindow* window)
 
 void GIWindowsManager::CloseBlackBase()
 {
-    CCSetFrameExtended *action = new CCSetFrameExtended();
-	action->initWithDuration(interfaceAnimationTime, ccz(0, _baseNode->getContentSize().height), ccp(_nodeBlackBase->getPosition().x + _nodeBlackBase->getContentSize().width, 0), _nodeBlackBase->getOpacity(), this, callfuncO_selector(GIWindowsManager::OnCloseFinished));
-	action->autorelease();
-	action->setTag(0);
-    CCEaseInOut* action1 = CCEaseInOut::create(action, 3.0);
-	action1->setTag(0);
-    _nodeBlackBase->runAction(action1);
+    // action->initWithDuration(interfaceAnimationTime, ccz(320, _baseNode->getContentSize().height), ccp(_baseNode->getContentSize().width - 35 - 320, 0), _nodeBlackBase->getOpacity(), this, callfuncO_selector(GIWindowsManager::OnReadyToShowProgressBar));
+    if (_delegate_w->WindowManagerShouldMoveToFinishState()) {
+        _menu->removeFromParentAndCleanup(true);
+        _nodeBlackBase->removeFromParentAndCleanup(true);
+        GICloseWindow *close = new GICloseWindow();
+        close->autorelease();
+        PresentWindow(close, close->getContentSize().width, false, 0);
+    }
+    else
+    {
+        CCSetFrameExtended *action = new CCSetFrameExtended();
+        action->initWithDuration(interfaceAnimationTime, ccz(0, _baseNode->getContentSize().height), ccp(_nodeBlackBase->getPosition().x + _nodeBlackBase->getContentSize().width, 0), _nodeBlackBase->getOpacity(), this, callfuncO_selector(GIWindowsManager::OnCloseFinished));
+        action->autorelease();
+        action->setTag(0);
+        CCEaseInOut* action1 = CCEaseInOut::create(action, 3.0);
+        action1->setTag(0);
+        _nodeBlackBase->runAction(action1);
+    }
 }
 
 

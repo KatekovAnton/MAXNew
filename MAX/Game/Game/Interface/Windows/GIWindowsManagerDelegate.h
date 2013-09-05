@@ -13,6 +13,7 @@ class GIWindowsManagerDelegate {
     
 public:
     virtual void WindowManagerDidCloseLastWindow() = 0;
+    virtual bool WindowManagerShouldMoveToFinishState() = 0;
 };
 
 #endif
