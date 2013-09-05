@@ -1488,6 +1488,11 @@
 		D1D50FD117D8F18F00089275 /* GIUnitAccommodateWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIUnitAccommodateWindow.h; sourceTree = "<group>"; };
 		D1D50FD617D8F27C00089275 /* GIBuildUnitWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GIBuildUnitWindow.cpp; sourceTree = "<group>"; };
 		D1D50FD717D8F27C00089275 /* GIBuildUnitWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIBuildUnitWindow.h; sourceTree = "<group>"; };
+		D1D50FD917D8F30200089275 /* GIUnitAccommodateWindowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GIUnitAccommodateWindowDelegate.h; sourceTree = "<group>"; };
+		D1D50FDA17D8F31E00089275 /* GIXFerWindowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GIXFerWindowDelegate.h; sourceTree = "<group>"; };
+		D1D50FDB17D8F33C00089275 /* GINewTurnWindowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GINewTurnWindowDelegate.h; sourceTree = "<group>"; };
+		D1D50FDC17D8F34A00089275 /* GIBuildConstructionWindowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GIBuildConstructionWindowDelegate.h; sourceTree = "<group>"; };
+		D1D50FDD17D8F35800089275 /* GIBuildUnitWindowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GIBuildUnitWindowDelegate.h; sourceTree = "<group>"; };
 		D1DBC46016C3EAEC0096034A /* UnitListOriginal.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnitListOriginal.txt; sourceTree = "<group>"; };
 		D1DBC4A516C67DCA0096034A /* MAXObjectConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXObjectConfig.cpp; sourceTree = "<group>"; };
 		D1DBC4A616C67DCA0096034A /* MAXObjectConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXObjectConfig.h; sourceTree = "<group>"; };
@@ -2864,6 +2869,7 @@
 			children = (
 				D1D50FC317D8F0C000089275 /* GIXFerWindow.cpp */,
 				D1D50FC417D8F0C000089275 /* GIXFerWindow.h */,
+				D1D50FDA17D8F31E00089275 /* GIXFerWindowDelegate.h */,
 			);
 			name = XFer;
 			sourceTree = "<group>";
@@ -2873,6 +2879,7 @@
 			children = (
 				D1D50FC917D8F0EB00089275 /* GINewTurnWindow.cpp */,
 				D1D50FCA17D8F0EB00089275 /* GINewTurnWindow.h */,
+				D1D50FDB17D8F33C00089275 /* GINewTurnWindowDelegate.h */,
 			);
 			name = NextTurnHotSeat;
 			sourceTree = "<group>";
@@ -2882,6 +2889,7 @@
 			children = (
 				D1D50FCC17D8F12600089275 /* GIBuildConstructionWindow.cpp */,
 				D1D50FCD17D8F12600089275 /* GIBuildConstructionWindow.h */,
+				D1D50FDC17D8F34A00089275 /* GIBuildConstructionWindowDelegate.h */,
 			);
 			name = BuildConstruction;
 			sourceTree = "<group>";
@@ -2891,6 +2899,7 @@
 			children = (
 				D1D50FD617D8F27C00089275 /* GIBuildUnitWindow.cpp */,
 				D1D50FD717D8F27C00089275 /* GIBuildUnitWindow.h */,
+				D1D50FDD17D8F35800089275 /* GIBuildUnitWindowDelegate.h */,
 			);
 			name = BuildUnit;
 			sourceTree = "<group>";
@@ -2909,6 +2918,7 @@
 			children = (
 				D1D50FD017D8F18F00089275 /* GIUnitAccommodateWindow.cpp */,
 				D1D50FD117D8F18F00089275 /* GIUnitAccommodateWindow.h */,
+				D1D50FD917D8F30200089275 /* GIUnitAccommodateWindowDelegate.h */,
 			);
 			name = UnitAccommodate;
 			sourceTree = "<group>";
