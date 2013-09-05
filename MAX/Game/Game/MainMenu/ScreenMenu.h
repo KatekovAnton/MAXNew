@@ -56,7 +56,8 @@ public:
 	void MoveNodeAtIndex(CCNode *node, int index, int fullNumber, bool outOfScreen, bool down, ScreenMenuElement *screen);
     
     void InitBaseInterface();
-
+    
+    void OnSlider(CCObject* object);
 };
 
 #endif /* defined(__MAX__ScreenMenu__) */

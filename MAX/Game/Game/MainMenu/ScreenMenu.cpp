@@ -11,6 +11,7 @@
 #include "ScreenMenu.h"
 #include "MAXMainMenuController.h"
 #include "CocosHelper.h"
+#include "CCSlider.h"
 
 #define BUTTON_LABEL_TAG 11
 
@@ -156,7 +157,23 @@ void ScreenMenu::InitBaseInterface()
 	
 	_screenStack = CCArray::create();
 	_screenStack->retain();
+    
+//    CCSlider *slider = CCSlider::SliderWithFiles("track.png", "knopka.png", this, menu_selector(ScreenMenu::OnSlider));
+//    slider->setPosition(ccp(200, 100));
+//    slider->setRotation(0);
+//    slider->SetHeight(100);
+//    slider->SetHorizontalPadding(50);
+//    slider->SetTrackTouchOutsideContent(true);
+//    slider->SetEvaluateFirstTouch(false);
+//    slider->SetMinValue(0.5f);
+//    slider->SetMaxValue(1.0f);
+//    slider->SetValue(0.5f);
+//    slider->SetEnabled(true);
+//    addChild(slider);
 }
+
+void ScreenMenu::OnSlider(CCObject* object)
+{}
 
 void ScreenMenu::PushScreen(ScreenMenuElement *screen)
 {

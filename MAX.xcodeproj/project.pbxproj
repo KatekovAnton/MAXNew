@@ -228,6 +228,7 @@
 		8BFA4EEE176259D6001A7D00 /* GameMatchPlayerData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BFA4EEC176259D5001A7D00 /* GameMatchPlayerData.cpp */; };
 		8BFA4F0D1763C062001A7D00 /* GIWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BFA4F0B1763C061001A7D00 /* GIWindow.cpp */; };
 		8BFAA37417D5AEB900CCC5E3 /* MatchGarbageMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BFAA37217D5AEB900CCC5E3 /* MatchGarbageMap.cpp */; };
+		8BFAA37A17D84A3300CCC5E3 /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BFAA37817D84A3300CCC5E3 /* CCSlider.cpp */; };
 		D100A842170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */; };
 		D10B8C161721750A00536547 /* arrow_down_png_2.png in Resources */ = {isa = PBXBuildFile; fileRef = D10B8C061721750A00536547 /* arrow_down_png_2.png */; };
 		D10B8C171721750A00536547 /* arrow_down_png.png in Resources */ = {isa = PBXBuildFile; fileRef = D10B8C071721750A00536547 /* arrow_down_png.png */; };
@@ -969,6 +970,8 @@
 		8BFA4F0C1763C062001A7D00 /* GIWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GIWindow.h; sourceTree = "<group>"; };
 		8BFAA37217D5AEB900CCC5E3 /* MatchGarbageMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatchGarbageMap.cpp; sourceTree = "<group>"; };
 		8BFAA37317D5AEB900CCC5E3 /* MatchGarbageMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchGarbageMap.h; sourceTree = "<group>"; };
+		8BFAA37817D84A3300CCC5E3 /* CCSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlider.cpp; sourceTree = "<group>"; };
+		8BFAA37917D84A3300CCC5E3 /* CCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSlider.h; sourceTree = "<group>"; };
 		D100A840170607E6002ED2D7 /* MAXREsourceMapMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MAXREsourceMapMaterial.cpp; sourceTree = "<group>"; };
 		D100A841170607E6002ED2D7 /* MAXREsourceMapMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAXREsourceMapMaterial.h; sourceTree = "<group>"; };
 		D10B8C061721750A00536547 /* arrow_down_png_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down_png_2.png; sourceTree = "<group>"; };
@@ -1849,6 +1852,8 @@
 		8B8C0CF916DA54080077426D /* CocosHelper */ = {
 			isa = PBXGroup;
 			children = (
+				8BFAA37817D84A3300CCC5E3 /* CCSlider.cpp */,
+				8BFAA37917D84A3300CCC5E3 /* CCSlider.h */,
 				8B8C0CFA16DA54540077426D /* CocosHelper.cpp */,
 				8B8C0CFB16DA54540077426D /* CocosHelper.h */,
 			);
@@ -3636,6 +3641,7 @@
 				8B0D87F517C80E4B00751BA9 /* GameEditorSuperPlayerData.cpp in Sources */,
 				8BFAA37417D5AEB900CCC5E3 /* MatchGarbageMap.cpp in Sources */,
 				D1D50FB117D796FF00089275 /* GIMessageWindow.cpp in Sources */,
+				8BFAA37A17D84A3300CCC5E3 /* CCSlider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3723,7 +3729,7 @@
 		D18EDBEA1689770C00EE3B4E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (FGQ88P5YQ6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAX/MAX-Prefix.pch";
@@ -3745,7 +3751,7 @@
 					"\"$(SRCROOT)/MAX/Utils/Network/curl\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194CA289-A6E4-42FB-952A-61CDC089EB15";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3753,7 +3759,7 @@
 		D18EDBEB1689770C00EE3B4E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anton Katekov (FGQ88P5YQ6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MAX/MAX-Prefix.pch";
@@ -3775,7 +3781,7 @@
 					"\"$(SRCROOT)/MAX/Utils/Network/curl\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "194CA289-A6E4-42FB-952A-61CDC089EB15";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
