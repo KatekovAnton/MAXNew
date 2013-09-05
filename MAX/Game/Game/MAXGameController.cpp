@@ -42,7 +42,7 @@
 static bool allowControlEnemyUnits = false;
 
 MAXGameController::MAXGameController()
-	:_pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _endDelayAnim(NULL), _iputController(new MAXGameInputController()), _currentTargetUnit(NULL), _startAttackModeAgain(false), _windowCloseQuestion(NULL)
+	:_pathVisualizer(NULL), _freezeCounter1(0), _fireDelayAnim(NULL), _endDelayAnim(NULL), _iputController(new MAXGameInputController()), _currentTargetUnit(NULL), _startAttackModeAgain(false), _windowCloseQuestion(NULL), _windowRemoveBuildingQuestion(NULL)
 {
 	_iputController->_delegate_w = this;
     _pathVisualizer = new GamePathVisualizer();
@@ -1476,7 +1476,14 @@ void MAXGameController::OnUnitMenuItemSelected(UNIT_MENU_ACTION action)
             
         case UNIT_MENU_ACTION_REMOVE:
         {
-            _currentUnit->Destroy();
+            vector<string> buttons;
+            buttons.push_back("Yes");
+            buttons.push_back("No");
+            GIMessageWindow *window = new GIMessageWindow("", "Do you really want to remove this building?", buttons);
+            window->autorelease();
+            window->_delegate_w = this;
+            _gameInterface->PresentWindow(window);
+            _windowRemoveBuildingQuestion = window;
         }break;
             
 		case UNIT_MENU_ACTION_INFO:
@@ -1624,5 +1631,12 @@ void MAXGameController::OnMessageWindowButtonClicked(int buttonNumber, GIMessage
         }
         else
             _gameInterface->DisappearWindow(sender);
+    }
+    if (sender == _windowRemoveBuildingQuestion) {
+        _windowRemoveBuildingQuestion = NULL;
+        if (buttonNumber == 0)
+            _currentUnit->Destroy();
+        
+        _gameInterface->DisappearWindow(sender);
     }
 }

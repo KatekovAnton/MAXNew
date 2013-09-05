@@ -39,6 +39,7 @@ class MAXGameController : public MAXEngineDelegate, public GameObjectDelegate, p
     MAXAnimationBase* _fireDelayAnim;
 	MAXAnimationBase* _endDelayAnim;
     GIWindow *_windowCloseQuestion;
+    GIWindow *_windowRemoveBuildingQuestion;
 public:
 
 
